@@ -1,0 +1,3 @@
+[submodule "submodules/iOS-SDK"]
+	path = submodules/iOS-SDK
+	url = git@github.com:ooyala/iOS-SDK.git
