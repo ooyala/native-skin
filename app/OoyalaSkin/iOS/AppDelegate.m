@@ -8,43 +8,25 @@
  */
 
 #import "AppDelegate.h"
-
-#import "RCTRootView.h"
+#import "OOSkinViewController.h"
+#import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOPlayerDomain.h>
 
 @implementation AppDelegate
 
+NSString * const TEST_VIDEO = @"http://clips.vorwaerts-gmbh.de/VfE_html5.mp4";
+NSString * const PCODE = @"R2d3I6s06RyB712DN0_2GsQS-R-Y";
+NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
+NSString * const EMBEDCODE = @"Y1ZHB1ZDqfhCPjYYRbCEOz0GR8IsVRm1";
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  NSURL *jsCodeLocation;
-
-  // Loading JavaScript code - uncomment the one you want.
-
-  // OPTION 1
-  // Load from development server. Start the server from the repository root:
-  //
-  // $ npm start
-  //
-  // To run on device, change `localhost` to the IP address of your computer, and make sure your computer and
-  // iOS device are on the same Wi-Fi network.
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
-
-  // OPTION 2
-  // Load from pre-bundled file on disk. To re-generate the static bundle, run
-  //
-  // $ curl 'http://localhost:8081/index.ios.bundle?dev=false&minify=true' -o iOS/main.jsbundle
-  //
-  // and uncomment the next following line
-  // jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-
-  RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"OoyalaSkin"
-                                                   launchOptions:launchOptions];
-
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  UIViewController *rootViewController = [[UIViewController alloc] init];
-  rootViewController.view = rootView;
+  OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN]];
+  UIViewController *rootViewController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer rect:self.window.frame launchOptions:launchOptions];
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  [ooyalaPlayer setEmbedCode:EMBEDCODE];
   return YES;
 }
 
