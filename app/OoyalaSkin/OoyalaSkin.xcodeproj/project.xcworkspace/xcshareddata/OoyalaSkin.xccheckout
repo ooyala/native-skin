@@ -20,7 +20,7 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>24D541CC8CB56A307AC4F1F29F233C9C62F98CB7</key>
-		<string>../../../../ios-sdk/</string>
+		<string>../../../../ios-sdk</string>
 		<key>4264B5E3C0FAF3A8F8A226161DDF14603CD95740</key>
 		<string>../../../..</string>
 	</dict>

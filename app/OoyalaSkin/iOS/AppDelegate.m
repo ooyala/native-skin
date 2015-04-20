@@ -14,10 +14,9 @@
 
 @implementation AppDelegate
 
-NSString * const TEST_VIDEO = @"http://clips.vorwaerts-gmbh.de/VfE_html5.mp4";
-NSString * const PCODE = @"R2d3I6s06RyB712DN0_2GsQS-R-Y";
+NSString * const PCODE = @"f34784cb010846369c31af0bdd0ec83e";
 NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
-NSString * const EMBEDCODE = @"Y1ZHB1ZDqfhCPjYYRbCEOz0GR8IsVRm1";
+NSString * const EMBEDCODE = @"JyanIxdDoj9MhKbVEmTJEG8O4QF5xExb";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

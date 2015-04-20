@@ -24,7 +24,7 @@ var OoyalaSkin = React.createClass({
   },
 
   handlePress() { 
-   eventBridge.onPress('play');
+    eventBridge.onPress();
   }, 
 
   handleScrub: function(value) {
@@ -32,8 +32,8 @@ var OoyalaSkin = React.createClass({
   },
 
   update(e) {
-    console.log("update received");
-    this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate});
+    console.log("update received, new state is %o", e);
+    this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate, title:e.title});
   },
 
   getPercentage: function() {

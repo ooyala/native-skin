@@ -16,4 +16,6 @@
 
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 
++ (instancetype)getInstance;
+
 @end
