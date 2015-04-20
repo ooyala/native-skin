@@ -1,0 +1,33 @@
+/**
+ * Copyright (c) 2015-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ */
+
+#import "AppDelegate.h"
+#import "OOSkinViewController.h"
+#import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOPlayerDomain.h>
+
+@implementation AppDelegate
+
+NSString * const TEST_VIDEO = @"http://clips.vorwaerts-gmbh.de/VfE_html5.mp4";
+NSString * const PCODE = @"R2d3I6s06RyB712DN0_2GsQS-R-Y";
+NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
+NSString * const EMBEDCODE = @"Y1ZHB1ZDqfhCPjYYRbCEOz0GR8IsVRm1";
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+  OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN]];
+  UIViewController *rootViewController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer rect:self.window.frame launchOptions:launchOptions];
+  self.window.rootViewController = rootViewController;
+  [self.window makeKeyAndVisible];
+  [ooyalaPlayer setEmbedCode:EMBEDCODE];
+  return YES;
+}
+
+@end
