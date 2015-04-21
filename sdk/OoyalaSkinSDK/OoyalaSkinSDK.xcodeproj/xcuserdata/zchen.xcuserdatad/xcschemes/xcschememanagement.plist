@@ -4,15 +4,20 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>React.xcscheme</key>
+		<key>OoyalaSkinSDK.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>1</integer>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>83CBBA2D1A601D0E00E9B192</key>
+		<key>972ED84A1AE6EEEB005043DC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>972ED8551AE6EEEB005043DC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
