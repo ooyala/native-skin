@@ -13,6 +13,7 @@
 #import "RCTEventDispatcher.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOVideo.h>
 
 @implementation OOReactBridge
 
@@ -22,6 +23,13 @@ RCT_EXPORT_MODULE();
 
 static OOReactBridge *sharedInstance = nil;
 
+/**
+// !!!Warning: this object MUST be created by the react view
+// otherwise it won't be properly initialized.
+// ooyala code should ALWAYS call getInstance to access
+// the singleton instant
+//
+*/
 + (id)allocWithZone:(NSZone *)zone
 {
   if (sharedInstance != nil) {
@@ -35,7 +43,11 @@ static OOReactBridge *sharedInstance = nil;
   return sharedInstance;
 }
 
-RCT_EXPORT_METHOD(onPress:(NSString *)name) {
++ (instancetype)getInstance {
+  return sharedInstance;
+}
+
+RCT_EXPORT_METHOD(onPress) {
   dispatch_async(dispatch_get_main_queue(), ^{
     if (_player.state == OOOoyalaPlayerStatePlaying) {
       [_player pause];
@@ -56,11 +68,13 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
+  NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
 
   NSDictionary * eventBody =
     @{@"duration":durationNumber,
       @"playhead":playheadNumber,
-      @"rate":rateNumber};
+      @"rate":rateNumber,
+      @"title":title};
   [_bridge.eventDispatcher sendDeviceEventWithName:@"playerState" body:eventBody];
 }
 

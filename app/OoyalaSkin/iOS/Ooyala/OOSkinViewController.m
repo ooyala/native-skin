@@ -22,8 +22,6 @@
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
     _player = player;
-    OOReactBridge *bridge = [OOReactBridge new];
-    bridge.player = _player;
     NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
@@ -36,6 +34,7 @@
 
     [self.view addSubview:_player.view];
     [self.view addSubview:_reactView];
+    [OOReactBridge getInstance].player = _player;
   }
   return self;
 }
