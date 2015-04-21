@@ -8,7 +8,6 @@
  */
 
 #import "OOReactBridge.h"
-#import "AppDelegate.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
 

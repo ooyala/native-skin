@@ -8,7 +8,7 @@
  */
 
 #import "AppDelegate.h"
-#import "OOSkinViewController.h"
+#import <OoyalaSkinSDK/OOSkinViewController.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOPlayerDomain.h>
 
