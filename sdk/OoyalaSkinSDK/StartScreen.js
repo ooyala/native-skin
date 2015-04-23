@@ -1,4 +1,18 @@
 
+var React = require('react-native');
+
+var {
+  ActivityIndicatorIOS,
+  AppRegistry,
+  DeviceEventEmitter,
+  SliderIOS,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableHighlight,
+} = React;
+
 var StartScreen = React.createClass({
   getInitialState: function() {
     var subscription = DeviceEventEmitter.addListener(
@@ -30,9 +44,7 @@ var StartScreen = React.createClass({
           <View style={styles.startScreenTextContainer}>
             <Text style={styles.startScreentitle}>{this.state.title}</Text> 
             <Text style={styles.startScreentitle}>description goes here</Text> 
-           </View>
-           <View style={styles.startScreenPlayButtonContainer}>
-              <TouchableHighlight
+            <TouchableHighlight
                   onPress={this.handleClick}
                   underlayColor="transparent"
                   activeOpacity={0.5}>
@@ -54,12 +66,10 @@ var StartScreen = React.createClass({
 
 var styles = StyleSheet.create({
   startScreenTextContainer: {
-    paddingBottom: 0,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: 'green'
+    backgroundColor: 'transparent'
   },
   startScreentitle: {
     padding: 0,
@@ -67,13 +77,6 @@ var styles = StyleSheet.create({
     fontSize: 20,
     backgroundColor: 'transparent',
     color: 'white'
-  },
-  startScreenPlayButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: 'black'
   },
 
   startScreenPlayButton: {
@@ -85,21 +88,15 @@ var styles = StyleSheet.create({
   },
   promoImageContainer: {
     flex: 1,
-    alignItems: 'stretch',
-    borderWidth: 1,
-    borderColor: 'white'
+    alignItems: 'stretch'
   },
   promoImage: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: 'yellow',
+    flex: 1
   },
   logoImageContainer: {
     position: 'absolute',
     bottom: 0,
-    right: 0,
-    borderWidth: 1,
-    borderColor: 'red'
+    right: 0
   },
   logoImage: {
     width:200,
@@ -107,3 +104,5 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent'
   }
 });
+
+module.exports = StartScreen;

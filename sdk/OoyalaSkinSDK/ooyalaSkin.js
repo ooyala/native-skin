@@ -4,8 +4,6 @@
  */
 'use strict';
 var React = require('react-native');
-var eventBridge = require('NativeModules').OOReactBridge;
-
 var {
   ActivityIndicatorIOS,
   AppRegistry,
@@ -18,6 +16,8 @@ var {
   TouchableHighlight,
 } = React;
 
+var eventBridge = require('NativeModules').OOReactBridge;
+var StartScreen = require('./StartScreen');
 
 var OoyalaSkin = React.createClass({
   getInitialState() {
@@ -153,9 +153,4 @@ var styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
-
-
-/********************************************************************
-  START SCREEN
-*********************************************************************/
 
