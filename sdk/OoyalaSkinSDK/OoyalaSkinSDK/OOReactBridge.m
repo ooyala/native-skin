@@ -64,18 +64,27 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
 }
 
 - (void)onEvent:(NSNotification *)notification {
-  NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
-  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
-  NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
-  NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
+  NSString *notificationName = notification.name;
+  if ([notificationName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
+    NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
+    NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
+    NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
+    NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
 
-  NSDictionary * eventBody =
+    NSDictionary * eventBody =
     @{@"duration":durationNumber,
       @"playhead":playheadNumber,
       @"rate":rateNumber,
       @"title":title};
-  [_bridge.eventDispatcher sendDeviceEventWithName:@"playerState" body:eventBody];
+    [_bridge.eventDispatcher sendDeviceEventWithName:@"playerState" body:eventBody];
+  }
+  else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
+    NSDictionary *userinfo = notification.userInfo;
+    [_bridge.eventDispatcher sendDeviceEventWithName:@"currentItemInfo" body:userinfo];
+
+  }
 }
+
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];

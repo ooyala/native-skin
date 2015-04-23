@@ -4,6 +4,8 @@
  */
 'use strict';
 var React = require('react-native');
+var eventBridge = require('NativeModules').OOReactBridge;
+
 var {
   ActivityIndicatorIOS,
   AppRegistry,
@@ -16,7 +18,6 @@ var {
   TouchableHighlight,
 } = React;
 
-var eventBridge = require('NativeModules').OOReactBridge;
 
 var OoyalaSkin = React.createClass({
   getInitialState() {
@@ -61,6 +62,9 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
+    if (this.state.rate == 0) {
+      return <StartScreen />
+    } else {
     console.log("render gets called");
     var percent = this.getPercentage();
     var playIcon = '\uf04c';
@@ -69,30 +73,31 @@ var OoyalaSkin = React.createClass({
     var isSpin = this.state.rate > 0 ? false : true;
 
     return (
-      <View ref='this' style={styles.container}>
-        
-        <Text style={styles.title}>Title:{this.state.title}</Text>
-        <Text style={styles.label}>{this.state.playhead}</Text>
-        <ActivityIndicatorIOS
-          animating={isSpin}
-          size="large"
-        />
-        
-        <View style={styles.bottomBar}>
-          <TouchableHighlight
-            onPress={this.handlePress}
-            underlayColor="transparent"
-            activeOpacity={0.5}>
-            <Text style={styles.icon}>{iconString}</Text>
-          </TouchableHighlight>
-          <SliderIOS
-            style={styles.slider}
-            value={percent}
-            onValueChange={(value) => this.handleScrub({value: value})} />
-          <Text style={styles.label}>{this.state.duration}</Text>
+        <View ref='this' style={styles.container}>
+          
+          <Text style={styles.title}>Title:{this.state.title}</Text>
+          <Text style={styles.label}>{this.state.playhead}</Text>
+          <ActivityIndicatorIOS
+            animating={isSpin}
+            size="large"
+          />
+          
+          <View style={styles.bottomBar}>
+            <TouchableHighlight
+              onPress={this.handlePress}
+              underlayColor="transparent"
+              activeOpacity={0.5}>
+              <Text style={styles.icon}>{iconString}</Text>
+            </TouchableHighlight>
+            <SliderIOS
+              style={styles.slider}
+              value={percent}
+              onValueChange={(value) => this.handleScrub({value: value})} />
+            <Text style={styles.label}>{this.state.duration}</Text>
+          </View>
         </View>
-      </View>
-    );
+      );
+  }
   }
 });
 
@@ -148,3 +153,9 @@ var styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
+
+
+/********************************************************************
+  START SCREEN
+*********************************************************************/
+
