@@ -16,4 +16,6 @@
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options;
 
+- (void)loadStartScreenConfigureFile;
+
 @end

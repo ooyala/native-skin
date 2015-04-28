@@ -33,7 +33,7 @@ var OoyalaSkin = React.createClass({
   },
 
   update(e) {
-    console.log("update received, new state is %o", e);
+    console.log("update received, new state is " + e);
     this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate, title:e.title});
   },
 
@@ -65,7 +65,6 @@ var OoyalaSkin = React.createClass({
     if (this.state.rate == 0) {
       return <StartScreen />
     } else {
-    console.log("render gets called");
     var percent = this.getPercentage();
     var playIcon = '\uf04c';
     var pauseIcon = '\uf04b';
