@@ -18,6 +18,8 @@ var {
 
 var eventBridge = require('NativeModules').OOReactBridge;
 
+var ICONS = require('./constants').ICONS;
+
 var OoyalaSkin = React.createClass({
   getInitialState() {
     return {title:"Bunny", playhead:0, duration:0, rate:0};
@@ -63,9 +65,7 @@ var OoyalaSkin = React.createClass({
   render: function() {
     console.log("render gets called");
     var percent = this.getPercentage();
-    var playIcon = '\uf04c';
-    var pauseIcon = '\uf04b';
-    var iconString = this.state.rate > 0 ? playIcon : pauseIcon;
+    var iconString = this.state.rate > 0 ? ICONS.PLAY : ICONS.PAUSE;
     var isSpin = this.state.rate > 0 ? false : true;
 
     return (
