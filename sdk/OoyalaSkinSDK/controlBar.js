@@ -6,10 +6,11 @@
 
 var React = require('react-native');
 var {
+  DeviceEventEmitter,
   StyleSheet,
   Text,
-  View,
   TouchableHighlight,
+  View
 } = React;
 
 var eventBridge = require('NativeModules').OOReactBridge;
@@ -31,15 +32,15 @@ var ControlBar = React.createClass({
 
   onVolumePress: function() {
     eventBridge.onPress('Volume');
-  }
+  },
 
   onFullscreenPress: function() {
     eventBridge.onPress('FullScreen');
-  }
+  },
 
   onMorePress: function() {
     eventBridge.onPress('More');
-  }
+  },
   
   componentWillMount: function() {
     var subscription = DeviceEventEmitter.addListener(
@@ -71,15 +72,15 @@ var ControlBar = React.createClass({
       mm = "0" + mm;
     }
     var t = mm + ":" + ss;
-    if (h > 0) {
-      t = h + ":" + t;
+    if (hh > 0) {
+      t = hh + ":" + t;
     }
     return minus + t;
-  }
+  },
 
-  render: function(): ReactElement {
-    var playPauseIcon = this.state.rate > 0 ? ICONS.PLAY : ICONS:PAUSE;
-    var volumeIcon = ICONS.VOLUMNDOWN;
+  render: function() {
+    var playPauseIcon = this.state.rate > 0 ? ICONS.PLAY : ICONS.PAUSE;
+    var volumeIcon = ICONS.VOLUMEUP;
     var fullscreenIcon = ICONS.EXPAND;
     var menuIcon = ICONS.ELLIPSIS;
     var durationString = this.secondsToString(this.state.duration);
@@ -87,24 +88,21 @@ var ControlBar = React.createClass({
 
     return (
       <View style={styles.container}>
-        <View style={styles.playControls}>
           <TouchableHighlight onPress={this.onPlayPausePress}>
-            <Text>{playPauseIcon}</Text>
+            <Text style={styles.icon}>{playPauseIcon}</Text>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onVolumePress}>
-            <Text>{volumeIcon}</Text>
+            <Text style={styles.icon}>{volumeIcon}</Text>
           </TouchableHighlight>
-          <Text>{playheadString}/{durationString}</Text>
-        </View>
+           
+          <Text style={styles.label}>{playheadString}/{durationString}</Text>
         
-        <View stype={styles.screenControls}>
           <TouchableHighlight onPress={this.onFullscreenPress}>
-            <Text>{fullscreenIcon}</Text>
+            <Text style={styles.icon}>{fullscreenIcon}</Text>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onMorePress}>
-            <Text>{menuIcon}</Text>
+            <Text style={styles.icon}>{menuIcon}</Text>
           </TouchableHighlight>
-        </View>
       </View>
     );
   }
@@ -112,17 +110,30 @@ var ControlBar = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 0.5,
     flexDirection: 'row',
-    justifyContent: 'stretch',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(255,0,0,0.5)',
   },
   playControls: {
-    justifyContent: 'flex-start'
+    flexDirection: 'row',
+    // justifyContent: 'flex-start'
   },
   screenControls: {
-    justifyContent: 'flext-end'
-  }
+    justifyContent: 'flex-end'
+  },
+  label: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+    fontFamily: 'AvenirNext-DemiBold',
+  },
+  icon: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'green',
+    fontFamily: 'fontawesome',
+  },
 });
 
 module.exports = ControlBar;

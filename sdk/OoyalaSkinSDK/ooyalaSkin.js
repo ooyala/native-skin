@@ -20,6 +20,9 @@ var eventBridge = require('NativeModules').OOReactBridge;
 
 var ICONS = require('./constants').ICONS;
 
+// var videoView = require('./videoView');
+var VideoView = require('./videoView');
+
 var OoyalaSkin = React.createClass({
   getInitialState() {
     return {title:"Bunny", playhead:0, duration:0, rate:0};
@@ -64,33 +67,13 @@ var OoyalaSkin = React.createClass({
 
   render: function() {
     console.log("render gets called");
-    var percent = this.getPercentage();
-    var iconString = this.state.rate > 0 ? ICONS.PLAY : ICONS.PAUSE;
-    var isSpin = this.state.rate > 0 ? false : true;
+    // var percent = this.getPercentage();
+    // var iconString = this.state.rate > 0 ? ICONS.PLAY : ICONS.PAUSE;
+    // var isSpin = this.state.rate > 0 ? false : true;
 
     return (
-      <View ref='this' style={styles.container}>
-        
-        <Text style={styles.title}>Title:{this.state.title}</Text>
-        <Text style={styles.label}>{this.state.playhead}</Text>
-        <ActivityIndicatorIOS
-          animating={isSpin}
-          size="large"
-        />
-        
-        <View style={styles.bottomBar}>
-          <TouchableHighlight
-            onPress={this.handlePress}
-            underlayColor="transparent"
-            activeOpacity={0.5}>
-            <Text style={styles.icon}>{iconString}</Text>
-          </TouchableHighlight>
-          <SliderIOS
-            style={styles.slider}
-            value={percent}
-            onValueChange={(value) => this.handleScrub({value: value})} />
-          <Text style={styles.label}>{this.state.duration}</Text>
-        </View>
+      <View style={styles.container}>
+        <VideoView />
       </View>
     );
   }
@@ -98,9 +81,9 @@ var OoyalaSkin = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 0.5,
+    justifyContent: 'space-around',
+    flexDirection: 'column',
     backgroundColor: 'transparent'
   },
   bottomBar: {
