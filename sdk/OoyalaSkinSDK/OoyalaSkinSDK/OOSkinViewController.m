@@ -16,13 +16,15 @@
   RCTRootView *_reactView;
 }
 
+@property (nonatomic, retain) OOOoyalaPlayer *player;
+
 @end
 
 @implementation OOSkinViewController
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
-    self.player = player;
+    [self setPlayer:player];
     NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/ooyalaSkin.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
@@ -32,6 +34,7 @@
     [_reactView setFrame:rect];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
+    _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
     [self.view addSubview:_player.view];
     [self.view addSubview:_reactView];
@@ -44,7 +47,6 @@
   [super viewDidLoad];
 
 }
-
 
 - (void)setPlayer:(OOOoyalaPlayer *)player {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -103,7 +105,6 @@
   }];
 }
 
-
 - (NSDictionary *)getDictionaryFromJSONFile {
   NSString * filePath =[[NSBundle mainBundle] pathForResource:@"StartScreen" ofType:@"json"];
   NSError * error;
@@ -123,14 +124,8 @@
   return nil;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)loadStartScreenConfigureFile {
+  // TODO: implement this.
 }
-*/
 
 @end

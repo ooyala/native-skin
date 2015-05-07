@@ -12,8 +12,6 @@
 
 @interface OOSkinViewController : UIViewController
 
-@property (nonatomic, retain) OOOoyalaPlayer *player;
-
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options;
 
 - (void)loadStartScreenConfigureFile;

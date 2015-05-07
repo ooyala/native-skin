@@ -46,7 +46,7 @@ static OOReactBridge *sharedInstance = nil;
   return sharedInstance;
 }
 
-RCT_EXPORT_METHOD(onPress) {
+RCT_EXPORT_METHOD(onPress:(NSDictionary *)name) {
   dispatch_async(dispatch_get_main_queue(), ^{
     if (_player.state == OOOoyalaPlayerStatePlaying) {
       [_player pause];
@@ -66,8 +66,6 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
   [[OOReactBridge getInstance].bridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
-
-
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
