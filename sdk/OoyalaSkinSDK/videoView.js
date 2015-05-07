@@ -6,6 +6,7 @@
 var React = require('react-native');
 var {
   View,
+  TouchableHighlight,
   StyleSheet
 } = React;
 
@@ -13,16 +14,30 @@ var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 
 var VideoView = React.createClass({
+  propTypes: {
+    showPlay: React.PropTypes.bool,
+    playhead: React.PropTypes.number,
+    buffered: React.PropTypes.number,
+    duration: React.PropTypes.number,
+    onPress: React.PropTypes.func,
+  },
+
+  handlePress: function(name) {
+    this.props.onPress(name);
+  },
+
+  getDefaultProps: function() {
+    return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
+  },
 
   render: function() {
-    var played = 0.4;
-    var buffered = 0.1;
-
     return (
       <View style={styles.container}>
-        <ProgressBar played={played} buffered={buffered}>
-        </ProgressBar>
-        <ControlBar />
+        <TouchableHighlight onPress={this.handlePress}>
+            <View style={{height:200, backgroundColor:'green'}}/>
+          </TouchableHighlight>
+        <ProgressBar playhead={this.props.playhead} duration={this.props.duration} />
+        <ControlBar showPlay={this.props.showPlay} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
       </View>
     );
   }
@@ -31,7 +46,6 @@ var VideoView = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    justifyContent: 'flex-end',
     backgroundColor: 'transparent',
   },
 });

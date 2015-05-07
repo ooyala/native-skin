@@ -46,7 +46,7 @@ static OOReactBridge *sharedInstance = nil;
   return sharedInstance;
 }
 
-RCT_EXPORT_METHOD(onPress:(NSString *)name) {
+RCT_EXPORT_METHOD(onPress:(NSDictionary *)name) {
   dispatch_async(dispatch_get_main_queue(), ^{
     if (_player.state == OOOoyalaPlayerStatePlaying) {
       [_player pause];

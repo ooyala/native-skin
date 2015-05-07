@@ -1,6 +1,6 @@
 var ICONS = {
-  PLAY: '\uf04c',
-  PAUSE: '\uf04b',
+  PLAY: '\uf04b',
+  PAUSE: '\uf04c',
   VOLUMEDOWN: '\uf027',
   VOLUMEOFF: '\uf026',
   VOLUMEUP: '\uf028',

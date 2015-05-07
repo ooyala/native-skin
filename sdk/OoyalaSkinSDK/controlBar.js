@@ -6,8 +6,8 @@
 
 var React = require('react-native');
 var {
-  DeviceEventEmitter,
   StyleSheet,
+  SliderIOS,
   Text,
   TouchableHighlight,
   View
@@ -18,39 +18,35 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var ICONS = require('./constants').ICONS;
 
 var ControlBar = React.createClass({
-  getInitialState() {
-    return {playhead:0, duration:0, rate:0};
+  getInitialState: function() {
+    return {showVolume:false};
   },
 
-  update(e) {
-    this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate});
+  propTypes: {
+    showPlay: React.PropTypes.bool,
+    playhead: React.PropTypes.number,
+    duration: React.PropTypes.number,
+    onPress: React.PropTypes.func,
+  },
+
+  getDefaultProps: function() {
+    return {showPlay: true, playhead: 0, duration: 0};
   },
 
   onPlayPausePress: function() { 
-    eventBridge.onPress('PlayPause');
+    this.props.onPress('PlayPause');
   }, 
 
   onVolumePress: function() {
-    eventBridge.onPress('Volume');
+    this.setState({showVolume:!this.state.showVolume});
   },
 
   onFullscreenPress: function() {
-    eventBridge.onPress('FullScreen');
+    this.props.onPress && this.props.onPress('Fullscreen');
   },
 
   onMorePress: function() {
-    eventBridge.onPress('More');
-  },
-  
-  componentWillMount: function() {
-    var subscription = DeviceEventEmitter.addListener(
-      'playerState', 
-      (reminder) => this.update(reminder)
-    );
-  },
-
-  componentWillUnmount: function() {
-    subscription.remove;
+    this.props.onPress && this.props.onPress('More');
   },
 
   secondsToString: function(seconds) {
@@ -79,12 +75,16 @@ var ControlBar = React.createClass({
   },
 
   render: function() {
-    var playPauseIcon = this.state.rate > 0 ? ICONS.PLAY : ICONS.PAUSE;
-    var volumeIcon = ICONS.VOLUMEUP;
+    var playPauseIcon = this.props.showPlay ? ICONS.PLAY : ICONS.PAUSE;
+    var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
     var fullscreenIcon = ICONS.EXPAND;
     var menuIcon = ICONS.ELLIPSIS;
-    var durationString = this.secondsToString(this.state.duration);
-    var playheadString = this.secondsToString(this.state.playhead);
+    var durationString = this.secondsToString(this.props.duration);
+    var playheadString = this.secondsToString(this.props.playhead);
+    var volumeScrubber;
+    if (this.state.showVolume) {
+      volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
+    } 
 
     return (
       <View style={styles.container}>
@@ -92,16 +92,18 @@ var ControlBar = React.createClass({
             <Text style={styles.icon}>{playPauseIcon}</Text>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onVolumePress}>
-            <Text style={styles.icon}>{volumeIcon}</Text>
+            <Text style={this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon}>
+              {volumeIcon}
+            </Text>
           </TouchableHighlight>
-           
-          <Text style={styles.label}>{playheadString}/{durationString}</Text>
+          {volumeScrubber}
+          <Text style={[styles.icon, styles.label]}>{playheadString}/{durationString}</Text>
         
           <TouchableHighlight onPress={this.onFullscreenPress}>
-            <Text style={styles.icon}>{fullscreenIcon}</Text>
+            <Text style={[styles.icon, styles.iconRight]}>{fullscreenIcon}</Text>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onMorePress}>
-            <Text style={styles.icon}>{menuIcon}</Text>
+            <Text style={[styles.icon, styles.iconRight]}>{menuIcon}</Text>
           </TouchableHighlight>
       </View>
     );
@@ -112,28 +114,31 @@ var styles = StyleSheet.create({
   container: {
     flex: 0.5,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: 'rgba(255,0,0,0.5)',
-  },
-  playControls: {
-    flexDirection: 'row',
-    // justifyContent: 'flex-start'
-  },
-  screenControls: {
-    justifyContent: 'flex-end'
-  },
-  label: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'center',
-    fontFamily: 'AvenirNext-DemiBold',
+    alignItems: 'flex-start',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   icon: {
     fontSize: 20,
     textAlign: 'center',
-    color: 'green',
+    color: '#8E8E8E',
     fontFamily: 'fontawesome',
+    margin: 10,
+    padding: 2,
   },
+  label: {
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'AvenirNext-DemiBold',
+  },
+  iconHighlighted: {
+    color: '#E6E6E6',
+  },
+  volumeSlider: {
+    height: 20,
+    width: 100,
+    marginLeft: 10,
+    alignSelf: 'center',
+  }
 });
 
 module.exports = ControlBar;
