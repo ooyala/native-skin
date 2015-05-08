@@ -97,24 +97,23 @@ var ControlBar = React.createClass({
             </Text>
           </TouchableHighlight>
           {volumeScrubber}
-          <Text style={[styles.icon, styles.label]}>{playheadString}/{durationString}</Text>
-        
+          <Text style={styles.label}>{playheadString}/{durationString}</Text>
+          <View style={styles.placeholder} />
           <TouchableHighlight onPress={this.onFullscreenPress}>
-            <Text style={[styles.icon, styles.iconRight]}>{fullscreenIcon}</Text>
+            <Text style={styles.icon}>{fullscreenIcon}</Text>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onMorePress}>
-            <Text style={[styles.icon, styles.iconRight]}>{menuIcon}</Text>
+            <Text style={styles.icon}>{menuIcon}</Text>
           </TouchableHighlight>
-      </View>
+        </View>
     );
   }
 });
 
 var styles = StyleSheet.create({
   container: {
-    flex: 0.5,
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   icon: {
@@ -126,8 +125,11 @@ var styles = StyleSheet.create({
     padding: 2,
   },
   label: {
+    textAlign: 'center',
     color: 'white',
     fontSize: 16,
+    margin: 10,
+    padding: 2,
     fontFamily: 'AvenirNext-DemiBold',
   },
   iconHighlighted: {
@@ -138,6 +140,9 @@ var styles = StyleSheet.create({
     width: 100,
     marginLeft: 10,
     alignSelf: 'center',
+  },
+  placeholder: {
+    flex: 1,
   }
 });
 

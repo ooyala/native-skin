@@ -109,7 +109,8 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignSelf: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
 
   playButtonSE: {
