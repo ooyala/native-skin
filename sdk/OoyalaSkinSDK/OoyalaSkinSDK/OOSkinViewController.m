@@ -60,27 +60,29 @@
 
 - (void)onEvent:(NSNotification *)notification {
   NSString *notificationName = notification.name;
+  NSDictionary *eventBody;
+
   if ([notificationName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
     NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
     NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
     NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
-    NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
 
-    NSDictionary * eventBody =
+    eventBody =
     @{@"duration":durationNumber,
       @"playhead":playheadNumber,
-      @"rate":rateNumber,
-      @"title":title};
+      @"rate":rateNumber};
+  } else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
+    NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
+    NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+    NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
 
-    [OOReactBridge sendDeviceEventWithName:@"playerState" body:eventBody];
+    eventBody =
+    @{@"title":title,
+      @"promoUrl":promoUrl,
+      @"duration":durationNumber};
   }
-  else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
-    NSDictionary *userinfo = notification.userInfo;
 
-    [OOReactBridge sendDeviceEventWithName:@"currentItemInfo" body:userinfo];
-
-    [OOReactBridge sendDeviceEventWithName:@"startScreenConfig" body:[self getDictionaryFromJSONFile]];
-  }
+  [OOReactBridge sendDeviceEventWithName:notificationName body:eventBody];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator

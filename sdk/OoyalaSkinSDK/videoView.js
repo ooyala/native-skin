@@ -33,9 +33,7 @@ var VideoView = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={this.handlePress}>
-            <View style={{height:200, backgroundColor:'green'}}/>
-          </TouchableHighlight>
+        <View style={styles.placeholder} />
         <ProgressBar playhead={this.props.playhead} duration={this.props.duration} />
         <ControlBar showPlay={this.props.showPlay} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
       </View>
@@ -45,7 +43,12 @@ var VideoView = React.createClass({
 
 var styles = StyleSheet.create({
   container: {
+    flex: 1,
     flexDirection: 'column',
+    backgroundColor: 'transparent',
+  },
+  placeholder : {
+    flex: 1,
     backgroundColor: 'transparent',
   },
 });

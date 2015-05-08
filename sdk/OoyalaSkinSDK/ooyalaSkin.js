@@ -25,7 +25,14 @@ var VideoView = require('./videoView');
 
 var OoyalaSkin = React.createClass({
   getInitialState() {
-    return {screenType: 'start', title: 'sample title', description: 'sample description', playhead:0, duration:1, rate:0};
+    return {
+      screenType: 'start', 
+      title: 'video title', 
+      description: 'this is the detail of the video', 
+      promoUrl: '', 
+      playhead:0, 
+      duration:1, 
+      rate:0};
   },
 
   handlePress: function(name) {
@@ -36,34 +43,44 @@ var OoyalaSkin = React.createClass({
     eventBridge.onScrub(value);
   },
 
-  update(e) {
-    console.log("update received, new state is " + e);
+  onTimeChange: function(e) {
     if (e.rate > 0) {
-      this.setState(screenType: 'video');
+      this.setState({screenType: 'video'});
     }
     this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate, title:e.title});
   },
 
+  onCurrentItemChange: function(e) {
+    console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+    this.setState({screenType: 'start', title:e.title, duration:e.duration, promoUrl:e.promoUrl});
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
-    var subscription = DeviceEventEmitter.addListener(
-      'playerState', 
-      (reminder) => this.update(reminder)
+    var timeChangeListener = DeviceEventEmitter.addListener(
+      'timeChanged', 
+      (reminder) => this.onTimeChange(reminder)
+    );
+    var itemChangeListener = DeviceEventEmitter.addListener(
+      'currentItemChanged', 
+      (reminder) => this.onCurrentItemChange(reminder)
     );
   },
 
   componentWillUnmount: function() {
-    subscription.remove;
+    timeChangeListener.remove;
+    itemChangeListener.remove;
   },
 
   render: function() {
-    if (this.state.screeType == 'start') {
-      var startScreenConfig = {mode:'defalut', infoPanel:{visible:true}};
+    if (this.state.screenType == 'start') {
+      var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
       return (
         <StartScreen 
           config={startScreenConfig}
           title={this.state.title}
           description={this.state.description}
+          promoUrl={this.state.promoUrl}
           onPress={(name) => this.handlePress(name)} >
         </StartScreen>
       );
