@@ -25,15 +25,15 @@ var StartScreen = React.createClass({
   },
 
   render: function() {
-    var playButtonLocation = this.props.config.mode == 'default' ? styles.playButtonCenter : styles.playButtonSW;
-    
+    var fullscreenPromoImage = (this.props.config.mode == 'default');
+    var playButtonLocation = styles.playButtonCenter;
     var playButton = (
-      <TouchableHighlight
-        onPress={this.handleClick}
-        underlayColor="transparent"
-        activeOpacity={0.5}>
-        <Text style={[styles.playButton, playButtonLocation]}>{ICONS.PLAY}</Text>
-      </TouchableHighlight>
+        <TouchableHighlight
+          onPress={this.handleClick}
+          underlayColor="transparent"
+          activeOpacity={0.5}>
+          <Text style={styles.playButton}>{ICONS.PLAY}</Text>
+        </TouchableHighlight>
       );
 
     var infoPanel;
@@ -46,22 +46,46 @@ var StartScreen = React.createClass({
       );
     }
 
-    var watermarkImage = (
-      <Image style={[styles.waterMarkImage, styles.waterMarkImageSE]}
+    var waterMarkImageLocation = styles.waterMarkImageSE;
+    var waterMarkImage = (
+      <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
         source={{uri: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'}} 
         resizeMode={Image.resizeMode.contain}>
-      </Image>);
+      </Image>
+      );
 
-    //default: use the promo image as the background        
-    return (
-      <Image 
-        source={{uri: this.props.promoUrl}}
-        style={styles.container}
-        resizeMode={Image.resizeMode.contain}>
-        {infoPanel}
-        {playButton}
-        {watermarkImage}
-      </Image>);
+    
+    if (fullscreenPromoImage) {   
+      return (
+        <Image 
+          source={{uri: this.props.promoUrl}}
+          style={styles.container}
+          resizeMode={Image.resizeMode.contain}>
+          {infoPanel}
+          <View style={playButtonLocation}>
+            {playButton}
+          </View>
+          {waterMarkImage}
+        </Image>);
+    } else {
+      var promoImage = (
+        <Image 
+          source={{uri: this.props.promoUrl}}
+          style={styles.promoImageSmall}
+          resizeMode={Image.resizeMode.contain}>
+        </Image>
+      );
+      return (
+        <View style={styles.container}>
+          <View style={playButtonLocation}>
+            {playButton}
+          </View>
+          {promoImage}
+          {infoPanel}
+          {waterMarkImage}
+        </View>
+      );
+    }
   }
 });
 
@@ -69,13 +93,13 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    alignItems: 'flex-start'
   },
 
   promoImageSmall: {
-    position: 'absolute',
     width: 180,
     height: 90,
-    bottom: 50
+    margin: 20,
   },
 
   infoPanelNW: {
@@ -94,7 +118,8 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Arial-BoldMT',
     color: 'white',
-    margin: 10
+    marginTop: 20,
+    marginLeft: 10
   },
 
   infoPanelDescription: {
@@ -135,8 +160,8 @@ var styles = StyleSheet.create({
 
   waterMarkImageSW: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
+    bottom: 20,
+    left: 20,
   },
 
   waterMarkImageSE: {
@@ -148,6 +173,7 @@ var styles = StyleSheet.create({
   waterMarkImage: {
     width:160,
     height: 24,
+    alignItems: 'center',
     backgroundColor: 'transparent',
     margin: 10
   }

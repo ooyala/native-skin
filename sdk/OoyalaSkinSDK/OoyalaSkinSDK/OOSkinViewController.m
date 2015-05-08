@@ -73,11 +73,13 @@
       @"rate":rateNumber};
   } else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
     NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
+    NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
     NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
     NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
 
     eventBody =
     @{@"title":title,
+      @"description":itemDescription,
       @"promoUrl":promoUrl,
       @"duration":durationNumber};
   }

@@ -52,7 +52,7 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-    this.setState({screenType: 'start', title:e.title, duration:e.duration, promoUrl:e.promoUrl});
+    this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl});
   },
 
   componentWillMount: function() {
