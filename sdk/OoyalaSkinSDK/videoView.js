@@ -14,6 +14,10 @@ var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 
 var VideoView = React.createClass({
+  getInitialState: function() {
+    return {showControls:true};
+  },
+
   propTypes: {
     showPlay: React.PropTypes.bool,
     playhead: React.PropTypes.number,
@@ -30,12 +34,30 @@ var VideoView = React.createClass({
     return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
+  toggleControlBar: function() {
+    console.log("toggleControlBar pressed")
+    var showControls = !this.state.showControls;
+    this.setState({showControls:showControls});
+  },
+
   render: function() {
+    var progressBar;
+    var controlBar;
+    if (this.state.showControls) {
+      progressBar = (<ProgressBar playhead={this.props.playhead} duration={this.props.duration} />);
+      controlBar = (
+        <ControlBar showPlay={this.props.showPlay} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
+        );
+    }
     return (
       <View style={styles.container}>
-        <View style={styles.placeholder} />
-        <ProgressBar playhead={this.props.playhead} duration={this.props.duration} />
-        <ControlBar showPlay={this.props.showPlay} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
+        <View style={styles.placeholder}>
+          <TouchableHighlight style={styles.placeholder} onPress={this.toggleControlBar}>
+            <View />
+          </TouchableHighlight>
+        </View>
+        {progressBar}
+        {controlBar}
       </View>
     );
   }
@@ -49,6 +71,7 @@ var styles = StyleSheet.create({
   },
   placeholder : {
     flex: 1,
+    alignItems: 'stretch',
     backgroundColor: 'transparent',
   },
 });
