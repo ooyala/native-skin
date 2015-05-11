@@ -16,6 +16,7 @@
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
 		972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */; };
 		972ED88E1AE6F07B005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */; };
+		FF1290651AEABD5100664374 /* StartScreen.json in Resources */ = {isa = PBXBuildFile; fileRef = FF1290641AEABD5100664374 /* StartScreen.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
+		FF1290641AEABD5100664374 /* StartScreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StartScreen.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +52,7 @@
 		13B07FAE1A68108700A75B9A /* OoyalaSkin */ = {
 			isa = PBXGroup;
 			children = (
+				FF1290641AEABD5100664374 /* StartScreen.json */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -152,6 +155,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF1290651AEABD5100664374 /* StartScreen.json in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
 				972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,

@@ -101,10 +101,7 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
-				972ED8CB1AE70631005043DC /* libz.dylib */,
-				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
-				972ED8AA1AE7011D005043DC /* MediaPlayer.framework */,
-				972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */,
+				FF12905E1AEABA9B00664374 /* framework */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
 				972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */,
 				972ED85A1AE6EEEB005043DC /* OoyalaSkinSDKTests */,
@@ -191,6 +188,17 @@
 				972ED8D21AE70760005043DC /* libRCTText.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FF12905E1AEABA9B00664374 /* framework */ = {
+			isa = PBXGroup;
+			children = (
+				972ED8CB1AE70631005043DC /* libz.dylib */,
+				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
+				972ED8AA1AE7011D005043DC /* MediaPlayer.framework */,
+				972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */,
+			);
+			name = framework;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

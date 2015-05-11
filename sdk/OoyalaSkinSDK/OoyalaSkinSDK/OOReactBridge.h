@@ -18,4 +18,6 @@
 
 + (instancetype)getInstance;
 
++ (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body;
+
 @end

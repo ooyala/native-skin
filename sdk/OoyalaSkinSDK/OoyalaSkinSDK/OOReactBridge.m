@@ -46,7 +46,7 @@ static OOReactBridge *sharedInstance = nil;
   return sharedInstance;
 }
 
-RCT_EXPORT_METHOD(onPress) {
+RCT_EXPORT_METHOD(onPress:(NSDictionary *)name) {
   dispatch_async(dispatch_get_main_queue(), ^{
     if (_player.state == OOOoyalaPlayerStatePlaying) {
       [_player pause];
@@ -63,32 +63,13 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   });
 }
 
-- (void)onEvent:(NSNotification *)notification {
-  NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
-  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
-  NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
-  NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
-
-  NSDictionary * eventBody =
-    @{@"duration":durationNumber,
-      @"playhead":playheadNumber,
-      @"rate":rateNumber,
-      @"title":title};
-  [_bridge.eventDispatcher sendDeviceEventWithName:@"playerState" body:eventBody];
++ (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
+  [[OOReactBridge getInstance].bridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setPlayer:(OOOoyalaPlayer *)player {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  _player = player;
-  if (_player != nil) {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerStateChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
-  }
-}
 
 @end
