@@ -35,8 +35,8 @@ var OoyalaSkin = React.createClass({
       rate:0};
   },
 
-  handlePress: function(name) {
-    eventBridge.onPress({name:name});
+  handlePress: function(n) {
+    eventBridge.onPress({name:n});
   },
 
   handleScrub: function(value) {

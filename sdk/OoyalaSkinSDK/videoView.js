@@ -6,12 +6,12 @@
 var React = require('react-native');
 var {
   View,
-  TouchableHighlight,
   StyleSheet
 } = React;
 
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
+var AnimationExperimental = require('AnimationExperimental');
 
 var VideoView = React.createClass({
   getInitialState: function() {
@@ -35,26 +35,40 @@ var VideoView = React.createClass({
   },
 
   toggleControlBar: function() {
-    console.log("toggleControlBar pressed")
-    var showControls = !this.state.showControls;
-    this.setState({showControls:showControls});
+    for (var ref in this.refs) {
+      console.log("ref is",ref);
+    AnimationExperimental.startAnimation({
+      node: this.refs[ref],
+      duration: 500,
+      property: 'opacity',
+      easing: 'easingInOutExpo',
+      toValue: this.state.showControls ? 0 : 1,
+    });
+    }
+    this.setState({showControls:!this.state.showControls});
+  },
+
+  handleTouchEnd: function(event) {
+    this.toggleControlBar();
   },
 
   render: function() {
     var progressBar;
     var controlBar;
-    if (this.state.showControls) {
-      progressBar = (<ProgressBar playhead={this.props.playhead} duration={this.props.duration} />);
-      controlBar = (
-        <ControlBar showPlay={this.props.showPlay} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
-        );
-    }
+
+    progressBar = (<ProgressBar ref='progressBar' playhead={this.props.playhead} duration={this.props.duration} />);
+    controlBar = (<ControlBar 
+      ref='controlBar' 
+      showPlay={this.props.showPlay} 
+      playhead={this.props.playhead} 
+      duration={this.props.duration} 
+      onPress={(name) => this.handlePress(name)} />);
+    
     return (
       <View style={styles.container}>
-        <View style={styles.placeholder}>
-          <TouchableHighlight style={styles.placeholder} onPress={this.toggleControlBar}>
-            <View />
-          </TouchableHighlight>
+        <View 
+          style={styles.placeholder}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}>  
         </View>
         {progressBar}
         {controlBar}
