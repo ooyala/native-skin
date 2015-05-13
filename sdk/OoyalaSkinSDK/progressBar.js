@@ -24,7 +24,7 @@ var ProgressBar = React.createClass({
   },
 
   getInitialState: function() {
-    return {showSlider:false, sliderX: 0, touchX: 0};
+    return {showSlider:false, sliderX: 0};
   },
 
   getDefaultProps: function() {
@@ -32,25 +32,17 @@ var ProgressBar = React.createClass({
   },
 
   handleTouchStart: function(event) {
-    var x = this.positionToPercent(this.props.playhead) * this.props.width;
-    this.setState({showSlider:true, sliderX:x, touchX:event.nativeEvent.pageX});
+    this.setState({showSlider:true, sliderX:event.nativeEvent.pageX});
   },
 
   handleTouchMove: function(event) {
-    var newX = this.state.sliderX + (event.nativeEvent.pageX - this.state.touchX) ;
-    if (newX < 0) {
-      newX = 0;
-    } else if (newX > this.props.width) {
-      newX = this.props.width;
-    }
-    this.setState({sliderX:newX, touchX: event.nativeEvent.pageX});
-    console.log("touchMove newX is "+ newX);
-    if (this.props.onScrub) {
-      this.props.onScrub(newX / this.props.width);
-    }
+    this.setState({sliderX:event.nativeEvent.pageX});   
   },
 
   handleTouchEnd: function(event) {
+    if (this.props.onScrub) {
+      this.props.onScrub(event.nativeEvent.pageX / this.props.width);
+    }
     this.setState({showSlider:false});
   },
 
