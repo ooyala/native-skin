@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
 		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		972ED85E1AE6EEEB005043DC /* OoyalaSkinSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED85D1AE6EEEB005043DC /* OoyalaSkinSDKTests.m */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -23,6 +24,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		9724B8D11B0185DB00C1623F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTAnimationExperimental;
+		};
 		972ED8581AE6EEEB005043DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 972ED8421AE6EEEB005043DC /* Project object */;
@@ -54,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimationExperimental.xcodeproj; path = "react-native/Libraries/Animation/RCTAnimationExperimental.xcodeproj"; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -77,6 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */,
 				972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */,
 				972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */,
 				972ED8CC1AE70631005043DC /* libz.dylib in Frameworks */,
@@ -98,6 +108,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9724B8CE1B0185DB00C1623F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +176,7 @@
 		972ED88F1AE6F6A5005043DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */,
 				972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */,
 				972ED8B41AE70307005043DC /* RCTImage.xcodeproj */,
 				972ED8A11AE6FC3E005043DC /* React.xcodeproj */,
@@ -281,6 +300,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 9724B8CE1B0185DB00C1623F /* Products */;
+					ProjectRef = 9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */;
+				},
+				{
 					ProductGroup = 972ED8B51AE70307005043DC /* Products */;
 					ProjectRef = 972ED8B41AE70307005043DC /* RCTImage.xcodeproj */;
 				},
@@ -302,6 +325,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimationExperimental.a;
+			remoteRef = 9724B8D11B0185DB00C1623F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		972ED8A61AE6FC3E005043DC /* libReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;

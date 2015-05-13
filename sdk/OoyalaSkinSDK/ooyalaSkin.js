@@ -18,7 +18,6 @@ var {
 
 var eventBridge = require('NativeModules').OOReactBridge;
 var StartScreen = require('./StartScreen');
-var EndScreen = require('./EndScreen');
 
 var ICONS = require('./constants').ICONS;
 
@@ -27,7 +26,7 @@ var VideoView = require('./videoView');
 var OoyalaSkin = React.createClass({
   getInitialState() {
     return {
-      screenType: 'end', 
+      screenType: 'start', 
       title: 'video title', 
       description: 'this is the detail of the video', 
       promoUrl: '', 
@@ -36,19 +35,15 @@ var OoyalaSkin = React.createClass({
       rate:0};
   },
 
-  handlePress: function(name) {
-    eventBridge.onPress({name:name});
+  handlePress: function(n) {
+    eventBridge.onPress({name:n});
   },
 
   handleScrub: function(value) {
-    eventBridge.onScrub(value);
+    eventBridge.onScrub({percentage:value});
   },
 
   onTimeChange: function(e) {
-    if (e.rate == 0 && e.playhead == 0 && e.duration != 0) {
-      this.setState({screenType: 'end'});
-    }
-
     if (e.rate > 0) {
       this.setState({screenType: 'video'});
     }
@@ -57,6 +52,12 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+    this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
+  },
+
+  onFrameChange: function(e) {
+    console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
+    this.setState({width:e.width});
   },
 
   componentWillMount: function() {
@@ -69,11 +70,16 @@ var OoyalaSkin = React.createClass({
       'currentItemChanged', 
       (reminder) => this.onCurrentItemChange(reminder)
     );
+    var frameChangeListener = DeviceEventEmitter.addListener(
+      'frameChanged', 
+      (reminder) => this.onFrameChange(reminder)
+    );
   },
 
   componentWillUnmount: function() {
     timeChangeListener.remove;
     itemChangeListener.remove;
+    frameChangeListener.remove;
   },
 
   render: function() {
@@ -88,16 +94,6 @@ var OoyalaSkin = React.createClass({
           onPress={(name) => this.handlePress(name)} >
         </StartScreen>
       );
-    } else if (this.state.screenType == 'end'){
-      var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
-      return (
-        <EndScreen
-          config={EndScreenConfig}
-          title={"Intersteller"}
-          description={"This is the Intersteller"}
-          promoUrl={"http://cdn.zmescience.com/wp-content/uploads/2015/02/maxresdefault.jpg"} >
-        </EndScreen>
-      );
     } else {
       var showPlayButton = this.state.rate > 0 ? false : true;
       return (
@@ -105,7 +101,9 @@ var OoyalaSkin = React.createClass({
           showPlay={showPlayButton} 
           playhead={this.state.playhead} 
           duration={this.state.duration} 
-          onPress={(name) => this.handlePress(name)}>
+          width={this.state.width}
+          onPress={(value) => this.handlePress(value)}
+          onScrub={(value) => this.handleScrub(value)}>
         </VideoView>
       );
     }

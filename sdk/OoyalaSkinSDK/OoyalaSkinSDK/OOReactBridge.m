@@ -58,7 +58,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)name) {
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    NSNumber *position = [parameters objectForKey:@"value"];
+    NSNumber *position = [parameters objectForKey:@"percentage"];
     [_player seek:_player.duration * [position doubleValue]];
   });
 }
