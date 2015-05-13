@@ -22,6 +22,9 @@
 
 @implementation OOSkinViewController
 
+static const NSString *kFrameChangeContext = @"frameChanged";
+static const NSString *kViewChangeKey = @"frame";
+
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
     [self setPlayer:player];
@@ -38,6 +41,7 @@
 
     [self.view addSubview:_player.view];
     [self.view addSubview:_reactView];
+    [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
     [OOReactBridge getInstance].player = _player;
   }
   return self;
@@ -76,37 +80,17 @@
     NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
     NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
     NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
+    NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
 
     eventBody =
     @{@"title":title,
       @"description":itemDescription,
       @"promoUrl":promoUrl,
-      @"duration":durationNumber};
+      @"duration":durationNumber,
+      @"width":frameWidth};
   }
 
   [OOReactBridge sendDeviceEventWithName:notificationName body:eventBody];
-}
-
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
-{
-  [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-
-  // Code here will execute before the rotation begins.
-  // Equivalent to placing it in the deprecated method -[willRotateToInterfaceOrientation:duration:]
-
-  [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-
-    // Place code here to perform animations during the rotation.
-    // You can pass nil or leave this block empty if not necessary.
-
-  } completion:^(id<UIViewControllerTransitionCoordinatorContext> context) {
-
-    // Code here will execute after the rotation has finished.
-    // Equivalent to placing it in the deprecated method -[didRotateFromInterfaceOrientation:]
-
-    [_reactView setFrame:_player.view.frame];
-
-  }];
 }
 
 - (NSDictionary *)getDictionaryFromJSONFile {
@@ -130,6 +114,25 @@
 
 - (void)loadStartScreenConfigureFile {
   // TODO: implement this.
+}
+
+// KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                        change:(NSDictionary *)change context:(void *)context
+{
+  if (context == &kFrameChangeContext) {
+    NSNumber *width = [NSNumber numberWithFloat:self.view.frame.size.width];
+    NSNumber *height = [NSNumber numberWithFloat:self.view.frame.size.height];
+
+    NSDictionary *eventBody = @{@"width":width,@"height":height};
+    [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
+  } else {
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+  }
+}
+
+- (void)dealloc {
+  [self.view removeObserver:self forKeyPath:kViewChangeKey];
 }
 
 @end

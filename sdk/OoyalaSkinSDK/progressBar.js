@@ -4,8 +4,6 @@
  */
 'use strict';
 
-var WIDTH_RATIO = 375;
-
 var React = require('react-native');
 var {
   View,
@@ -21,6 +19,7 @@ var ProgressBar = React.createClass({
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
+    width: React.PropTypes.number,
     onScrub: React.PropTypes.func,
   },
 
@@ -33,20 +32,21 @@ var ProgressBar = React.createClass({
   },
 
   handleTouchStart: function(event) {
-    var x = this.positionToPercent(this.props.playhead) * WIDTH_RATIO;
-    this.setState({showSlider:true, sliderX:x, touchX:event.nativeEvent.locationX});
+    var x = this.positionToPercent(this.props.playhead) * this.props.width;
+    this.setState({showSlider:true, sliderX:x, touchX:event.nativeEvent.pageX});
   },
 
   handleTouchMove: function(event) {
-    var newX = this.state.sliderX + (event.nativeEvent.locationX - this.state.touchX) ;
+    var newX = this.state.sliderX + (event.nativeEvent.pageX - this.state.touchX) ;
     if (newX < 0) {
       newX = 0;
-    } else if (newX > WIDTH_RATIO) {
-      newX = WIDTH_RATIO;
+    } else if (newX > this.props.width) {
+      newX = this.props.width;
     }
-    this.setState({sliderX:newX, touchX: event.nativeEvent.locationX});
+    this.setState({sliderX:newX, touchX: event.nativeEvent.pageX});
+    console.log("touchMove newX is "+ newX);
     if (this.props.onScrub) {
-      this.props.onScrub(newX / WIDTH_RATIO);
+      this.props.onScrub(newX / this.props.width);
     }
   },
 
