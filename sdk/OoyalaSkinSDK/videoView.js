@@ -46,7 +46,7 @@ var VideoView = React.createClass({
     if (this.state.showControls) {
       progressBar = (<ProgressBar playhead={this.props.playhead} duration={this.props.duration} />);
       controlBar = (
-        <ControlBar showPlay={this.props.showPlay} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
+        <ControlBar showPlay={this.props.showPlay} isPlayEnd={false} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
         );
     }
     return (

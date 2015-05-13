@@ -24,6 +24,7 @@ var ControlBar = React.createClass({
 
   propTypes: {
     showPlay: React.PropTypes.bool,
+    isPlayEnd: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
@@ -86,6 +87,10 @@ var ControlBar = React.createClass({
       volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
     } 
 
+    if (this.props.isPlayEnd) {
+      playPauseIcon = ICONS.REPLAY;
+    }
+    
     return (
       <View style={styles.container}>
           <TouchableHighlight onPress={this.onPlayPausePress}>
@@ -96,7 +101,7 @@ var ControlBar = React.createClass({
               {volumeIcon}
             </Text>
           </TouchableHighlight>
-          {volumeScrubber}
+            {volumeScrubber}
           <Text style={styles.label}>{playheadString}/{durationString}</Text>
           <View style={styles.placeholder} />
           <TouchableHighlight onPress={this.onFullscreenPress}>
@@ -105,8 +110,8 @@ var ControlBar = React.createClass({
           <TouchableHighlight onPress={this.onMorePress}>
             <Text style={styles.icon}>{menuIcon}</Text>
           </TouchableHighlight>
-        </View>
-    );
+      </View>
+      );
   }
 });
 
