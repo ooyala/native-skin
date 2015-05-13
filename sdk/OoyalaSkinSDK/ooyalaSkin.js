@@ -35,12 +35,12 @@ var OoyalaSkin = React.createClass({
       rate:0};
   },
 
-  handlePress: function(name) {
-    eventBridge.onPress({name:name});
+  handlePress: function(n) {
+    eventBridge.onPress({name:n});
   },
 
   handleScrub: function(value) {
-    eventBridge.onScrub(value);
+    eventBridge.onScrub({percentage:value});
   },
 
   onTimeChange: function(e) {
@@ -52,7 +52,12 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-    this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl});
+    this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
+  },
+
+  onFrameChange: function(e) {
+    console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
+    this.setState({width:e.width});
   },
 
   componentWillMount: function() {
@@ -65,11 +70,16 @@ var OoyalaSkin = React.createClass({
       'currentItemChanged', 
       (reminder) => this.onCurrentItemChange(reminder)
     );
+    var frameChangeListener = DeviceEventEmitter.addListener(
+      'frameChanged', 
+      (reminder) => this.onFrameChange(reminder)
+    );
   },
 
   componentWillUnmount: function() {
     timeChangeListener.remove;
     itemChangeListener.remove;
+    frameChangeListener.remove;
   },
 
   render: function() {
@@ -91,7 +101,9 @@ var OoyalaSkin = React.createClass({
           showPlay={showPlayButton} 
           playhead={this.state.playhead} 
           duration={this.state.duration} 
-          onPress={(name) => this.handlePress(name)}>
+          width={this.state.width}
+          onPress={(value) => this.handlePress(value)}
+          onScrub={(value) => this.handleScrub(value)}>
         </VideoView>
       );
     }
