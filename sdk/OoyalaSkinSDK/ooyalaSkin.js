@@ -40,7 +40,7 @@ var OoyalaSkin = React.createClass({
   },
 
   handleScrub: function(value) {
-    eventBridge.onScrub(value);
+    eventBridge.onScrub({percentage:value});
   },
 
   onTimeChange: function(e) {
@@ -91,7 +91,8 @@ var OoyalaSkin = React.createClass({
           showPlay={showPlayButton} 
           playhead={this.state.playhead} 
           duration={this.state.duration} 
-          onPress={(name) => this.handlePress(name)}>
+          onPress={(value) => this.handlePress(value)}
+          onScrub={(value) => this.handleScrub(value)}>
         </VideoView>
       );
     }

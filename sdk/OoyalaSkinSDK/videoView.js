@@ -24,10 +24,15 @@ var VideoView = React.createClass({
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
+    onScrub: React.PropTypes.func,
   },
 
   handlePress: function(name) {
     this.props.onPress(name);
+  },
+
+  handleScrub: function(value) {
+    this.props.onScrub(value);
   },
 
   getDefaultProps: function() {
@@ -56,7 +61,11 @@ var VideoView = React.createClass({
     var progressBar;
     var controlBar;
 
-    progressBar = (<ProgressBar ref='progressBar' playhead={this.props.playhead} duration={this.props.duration} />);
+    progressBar = (<ProgressBar ref='progressBar' 
+      playhead={this.props.playhead} 
+      duration={this.props.duration} 
+      onScrub={(value)=>this.handleScrub(value)} />);
+
     controlBar = (<ControlBar 
       ref='controlBar' 
       showPlay={this.props.showPlay} 
