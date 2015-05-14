@@ -46,12 +46,17 @@ static OOReactBridge *sharedInstance = nil;
   return sharedInstance;
 }
 
-RCT_EXPORT_METHOD(onPress:(NSDictionary *)name) {
+RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
+  NSString *buttonName = [parameters objectForKey:@"name"];
   dispatch_async(dispatch_get_main_queue(), ^{
-    if (_player.state == OOOoyalaPlayerStatePlaying) {
-      [_player pause];
+    if ([buttonName isEqualToString:@"PlayPause"]) {
+      if (_player.state == OOOoyalaPlayerStatePlaying) {
+        [_player pause];
+      } else {
+        [_player play];
+      }
     } else {
-      [_player play];
+      // process other keys.
     }
   });
 }
