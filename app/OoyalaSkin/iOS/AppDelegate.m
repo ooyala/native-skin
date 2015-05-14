@@ -14,9 +14,9 @@
 
 @implementation AppDelegate
 
-NSString * const PCODE = @"f34784cb010846369c31af0bdd0ec83e";
+NSString * const PCODE = @"3dff4c81919e43c98c6c4a45b7b7b8c3";
 NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
-NSString * const EMBEDCODE = @"JyanIxdDoj9MhKbVEmTJEG8O4QF5xExb";
+NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
