@@ -11,6 +11,7 @@ var {
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var WaterMark = require('./waterMark');
+var InfoPanel = require('./infoPanel');
 
 var ICONS = require('./constants').ICONS;
 
@@ -22,24 +23,18 @@ var EndScreen = React.createClass({
 	propTypes: {
 	    config: React.PropTypes.object,
 	    title: React.PropTypes.string,
+      duration: React.PropTypes.number,
 	    description: React.PropTypes.string,
 	    promoUrl: React.PropTypes.string,
 	    onPress: React.PropTypes.func,
 	},
 
-	handlePress: function(name) {
-    	this.props.onPress(name);
-  	},
-
-  	toggleControlBar: function() {
-	    console.log("toggleControlBar pressed")
-	    var showControls = !this.state.showControls;
-	    this.setState({showControls:showControls});
-	},
+	handleClick: function() {
+    this.props.onPress('PlayPause');
+  },
 
 	render: function() {
 	    var fullscreenPromoImage = (this.props.config.mode == 'default');
-
 	    var replaybuttonLocation = styles.replaybuttonCenter;
 	    var replaybutton = (
 	        <TouchableHighlight
@@ -52,12 +47,7 @@ var EndScreen = React.createClass({
 
 	    var infoPanel;
 	    if (this.props.config.infoPanel) {
-	      infoPanel = (
-	        <View style={styles.infoPanelNW}>
-	          <Text style={styles.infoPanelTitle}>{this.props.title}</Text>
-	          <Text style={styles.infoPanelDescription}>{this.props.description}</Text>
-	        </View>
-	      );
+	      infoPanel = (<InfoPanel title={this.props.title} description={this.props.description} />);
 	    }
 
 	    var progressBar;
@@ -65,12 +55,12 @@ var EndScreen = React.createClass({
     	if (this.state.showControls) {
     		progressBar = (<ProgressBar playhead={this.props.duration} duration={this.props.duration} />);
       		controlBar = (
-        		<ControlBar showPlay={this.props.showPlay} isPlayEnd={true} playhead={this.props.playhead} duration={this.props.duration} onPress={(name) => this.handlePress(name)} />
+            // pass button name
+        		<ControlBar showPlay={this.props.showPlay} isPlayEnd={true} playhead={this.props.duration} duration={this.props.duration} onPress={(name) => this.handleClick(name)} />
         	);
         }
 
-        var waterMark = (<WaterMark />);
-
+      var waterMark = (<WaterMark />);
 	    
 	    if (fullscreenPromoImage) {   
 	      return (
@@ -78,11 +68,6 @@ var EndScreen = React.createClass({
 	          source={{uri: this.props.promoUrl}}
 	          style={styles.fullscreenContainer}
 	          resizeMode={Image.resizeMode.contain}>
-	          <View style={styles.placeholder}>
-          		<TouchableHighlight style={styles.placeholder} onPress={this.toggleControlBar}>
-              	  <View />
-          		</TouchableHighlight>
-        	  </View>
 	          {infoPanel}
 	          <View style={replaybuttonLocation}>
 	            {replaybutton}
@@ -91,8 +76,9 @@ var EndScreen = React.createClass({
 	          
         	  {waterMark}
 	          {progressBar}
-		      {controlBar}
+		        {controlBar}
 		     </Image>
+
 	        );
 	    } else {
 	      var promoImage = (
@@ -133,34 +119,6 @@ var styles = StyleSheet.create({
     width: 180,
     height: 90,
     margin: 20,
-  },
-
-  infoPanelNW: {
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-
-  infoPanelSW: {
-    position: 'absolute',    
-    bottom: 0,
-    left: 0
-  },
-
-  infoPanelTitle: {
-    textAlign: 'left',
-    fontSize: 20,
-    fontFamily: 'Arial-BoldMT',
-    color: 'white',
-    marginTop: 20,
-    marginLeft: 10
-  },
-
-  infoPanelDescription: {
-    textAlign: 'left',
-    fontSize: 16,
-    fontFamily: 'ArialMT',
-    color: 'white',
-    margin: 10
   },
 
   replaybuttonCenter: {

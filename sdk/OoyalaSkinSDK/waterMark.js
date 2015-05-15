@@ -7,8 +7,6 @@ var {
   View
 } = React;
 
-var eventBridge = require('NativeModules').OOReactBridge;
-
 var ICONS = require('./constants').ICONS;
 
 var WaterMark = React.createClass ({

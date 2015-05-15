@@ -70,26 +70,29 @@ static const NSString *kViewChangeKey = @"frame";
     NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
     NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
     NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
+    NSNumber *playerState = [NSNumber numberWithInt:_player.state];
 
     eventBody =
     @{@"duration":durationNumber,
       @"playhead":playheadNumber,
-      @"rate":rateNumber};
+      @"rate":rateNumber,
+      @"state":playerState};
   } else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
     NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
     NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
     NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
     NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
     NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
+    NSNumber *playerState = [NSNumber numberWithInt:_player.state];
 
     eventBody =
     @{@"title":title,
       @"description":itemDescription,
       @"promoUrl":promoUrl,
       @"duration":durationNumber,
-      @"width":frameWidth};
+      @"width":frameWidth,
+      @"state":playerState};
   }
-
   [OOReactBridge sendDeviceEventWithName:notificationName body:eventBody];
 }
 

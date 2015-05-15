@@ -18,6 +18,7 @@ var {
 
 var eventBridge = require('NativeModules').OOReactBridge;
 var StartScreen = require('./StartScreen');
+var EndScreen = require('./EndScreen');
 
 var ICONS = require('./constants').ICONS;
 
@@ -32,7 +33,9 @@ var OoyalaSkin = React.createClass({
       promoUrl: '', 
       playhead:0, 
       duration:1, 
-      rate:0};
+      rate:0,
+      state:0,
+    };
   },
 
   handlePress: function(n) {
@@ -44,14 +47,21 @@ var OoyalaSkin = React.createClass({
   },
 
   onTimeChange: function(e) {
+    // put 5 as a end constant, should listen to playcompleted
+    var playCompleted = 5; 
+    if(e.state == playCompleted){
+      this.setState({screenType: 'end'});
+    }
+
     if (e.rate > 0) {
       this.setState({screenType: 'video'});
     }
-    this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate, title:e.title});
+    this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate});
   },
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+
     this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
   },
 
@@ -94,6 +104,18 @@ var OoyalaSkin = React.createClass({
           onPress={(name) => this.handlePress(name)} >
         </StartScreen>
       );
+    } else if (this.state.screenType == 'end'){
+        var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
+        return (
+          <EndScreen 
+            config={EndScreenConfig}
+            title={this.state.title}
+            description={this.state.description}
+            promoUrl={this.state.promoUrl}
+            duration={this.state.duration} 
+            onPress={(name) => this.handlePress(name)}>
+          </EndScreen>
+        );
     } else {
       var showPlayButton = this.state.rate > 0 ? false : true;
       return (
