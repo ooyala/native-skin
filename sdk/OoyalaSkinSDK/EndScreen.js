@@ -13,6 +13,8 @@ var ControlBar = require('./controlBar');
 var WaterMark = require('./waterMark');
 var InfoPanel = require('./infoPanel');
 
+var AnimationExperimental = require('AnimationExperimental');
+
 var ICONS = require('./constants').ICONS;
 
 var EndScreen = React.createClass({
@@ -29,8 +31,26 @@ var EndScreen = React.createClass({
 	    onPress: React.PropTypes.func,
 	},
 
+  toggleControlBar: function() {
+    for (var ref in this.refs) {
+      console.log("ref is",ref);
+      AnimationExperimental.startAnimation({
+      node: this.refs[ref],
+      duration: 500,
+      property: 'opacity',
+      easing: 'easingInOutExpo',
+      toValue: this.state.showControls ? 0 : 1,
+    });
+    }
+    this.setState({showControls:!this.state.showControls});
+  },
+
 	handleClick: function() {
     this.props.onPress('PlayPause');
+  },
+
+  handleTouchEnd: function(event) {
+    this.toggleControlBar();
   },
 
 	render: function() {
@@ -52,13 +72,17 @@ var EndScreen = React.createClass({
 
 	    var progressBar;
     	var controlBar;
-    	if (this.state.showControls) {
-    		progressBar = (<ProgressBar playhead={this.props.duration} duration={this.props.duration} />);
-      		controlBar = (
-            // pass button name
-        		<ControlBar showPlay={this.props.showPlay} isPlayEnd={true} playhead={this.props.duration} duration={this.props.duration} onPress={(name) => this.handleClick(name)} />
-        	);
-        }
+    	progressBar = (<ProgressBar ref='progressBar' 
+        playhead={this.props.duration} 
+        duration={this.props.duration}  />);
+
+      controlBar = (<ControlBar 
+        ref='controlBar' 
+        showPlay={this.props.showPlay} 
+        playhead={this.props.duration} 
+        duration={this.props.duration} 
+        playButton={"replay"}
+        onPress={(name) => this.handleClick(name)} />);
 
       var waterMark = (<WaterMark />);
 	    
@@ -67,13 +91,14 @@ var EndScreen = React.createClass({
 	        <Image 
 	          source={{uri: this.props.promoUrl}}
 	          style={styles.fullscreenContainer}
-	          resizeMode={Image.resizeMode.contain}>
+	          resizeMode={Image.resizeMode.contain}
+            onTouchEnd={(event) => this.handleTouchEnd(event)}>
 	          {infoPanel}
+
 	          <View style={replaybuttonLocation}>
 	            {replaybutton}
 	          </View>
 
-	          
         	  {waterMark}
 	          {progressBar}
 		        {controlBar}

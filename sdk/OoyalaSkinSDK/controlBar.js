@@ -24,7 +24,7 @@ var ControlBar = React.createClass({
 
   propTypes: {
     showPlay: React.PropTypes.bool,
-    isPlayEnd: React.PropTypes.bool,
+    playButton: React.PropTypes.string,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
@@ -76,7 +76,7 @@ var ControlBar = React.createClass({
   },
 
   render: function() {
-    var playPauseIcon = this.props.showPlay ? ICONS.PLAY : ICONS.PAUSE;
+    var playPauseIcon;
     var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
     var fullscreenIcon = ICONS.EXPAND;
     var menuIcon = ICONS.ELLIPSIS;
@@ -86,8 +86,11 @@ var ControlBar = React.createClass({
     if (this.state.showVolume) {
       volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
     } 
+    if (this.props.playButton == "playPause"){
+      playPauseIcon = this.props.showPlay ? ICONS.PLAY : ICONS.PAUSE;
+    }
 
-    if (this.props.isPlayEnd) {
+    if (this.props.playButton == "replay") {
       playPauseIcon = ICONS.REPLAY;
     }
     

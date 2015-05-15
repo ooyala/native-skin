@@ -73,6 +73,7 @@ var VideoView = React.createClass({
       showPlay={this.props.showPlay} 
       playhead={this.props.playhead} 
       duration={this.props.duration} 
+      playButton = {"playPause"}
       onPress={(name) => this.handlePress(name)} />);
     
     return (

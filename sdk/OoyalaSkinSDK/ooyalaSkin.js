@@ -21,8 +21,9 @@ var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 
 var ICONS = require('./constants').ICONS;
-
 var VideoView = require('./videoView');
+
+var playCompleted = 5;
 
 var OoyalaSkin = React.createClass({
   getInitialState() {
@@ -47,12 +48,6 @@ var OoyalaSkin = React.createClass({
   },
 
   onTimeChange: function(e) {
-    // put 5 as a end constant, should listen to playcompleted
-    var playCompleted = 5; 
-    if(e.state == playCompleted){
-      this.setState({screenType: 'end'});
-    }
-
     if (e.rate > 0) {
       this.setState({screenType: 'video'});
     }
@@ -70,6 +65,10 @@ var OoyalaSkin = React.createClass({
     this.setState({width:e.width});
   },
 
+  onPlayComplete: function(e) {
+    this.setState({screenType: 'end'});
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
     var timeChangeListener = DeviceEventEmitter.addListener(
@@ -84,12 +83,17 @@ var OoyalaSkin = React.createClass({
       'frameChanged', 
       (reminder) => this.onFrameChange(reminder)
     );
+    var playCompleteListener = DeviceEventEmitter.addListener(
+      'playCompleted',
+      (reminder) => this.onPlayComplete(reminder)
+    );
   },
 
   componentWillUnmount: function() {
     timeChangeListener.remove;
     itemChangeListener.remove;
     frameChangeListener.remove;
+    playCompleteListener.remove;
   },
 
   render: function() {
