@@ -19,113 +19,113 @@ var ICONS = require('./constants').ICONS;
 
 var EndScreen = React.createClass({
 	getInitialState: function() {
-    	return {showControls:true};
-  	},
+    return {showControls:true};
+  },
 
-	propTypes: {
-	    config: React.PropTypes.object,
-	    title: React.PropTypes.string,
-      duration: React.PropTypes.number,
-	    description: React.PropTypes.string,
-	    promoUrl: React.PropTypes.string,
-	    onPress: React.PropTypes.func,
-	},
+  propTypes: {
+   config: React.PropTypes.object,
+   title: React.PropTypes.string,
+   duration: React.PropTypes.number,
+   description: React.PropTypes.string,
+   promoUrl: React.PropTypes.string,
+   onPress: React.PropTypes.func,
+  },
 
-  toggleControlBar: function() {
-    for (var ref in this.refs) {
-      console.log("ref is",ref);
-      AnimationExperimental.startAnimation({
+ toggleControlBar: function() {
+  for (var ref in this.refs) {
+    console.log("ref is",ref);
+    AnimationExperimental.startAnimation({
       node: this.refs[ref],
       duration: 500,
       property: 'opacity',
       easing: 'easingInOutExpo',
       toValue: this.state.showControls ? 0 : 1,
     });
-    }
-    this.setState({showControls:!this.state.showControls});
-  },
+  }
+  this.setState({showControls:!this.state.showControls});
+},
 
-	handleClick: function() {
-    this.props.onPress('PlayPause');
-  },
+handleClick: function() {
+  this.props.onPress('PlayPause');
+},
 
-  handleTouchEnd: function(event) {
-    this.toggleControlBar();
-  },
+handleTouchEnd: function(event) {
+  this.toggleControlBar();
+},
 
-	render: function() {
-	    var fullscreenPromoImage = (this.props.config.mode == 'default');
-	    var replaybuttonLocation = styles.replaybuttonCenter;
-	    var replaybutton = (
-	        <TouchableHighlight
-	          onPress={this.handleClick}
-	          underlayColor="transparent"
-	          activeOpacity={0.5}>
-	          <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
-	        </TouchableHighlight>
-	    );
+render: function() {
+ var fullscreenPromoImage = (this.props.config.mode == 'default');
+ var replaybuttonLocation = styles.replaybuttonCenter;
+ var replaybutton = (
+   <TouchableHighlight
+    onPress={this.handleClick}
+    underlayColor="transparent"
+    activeOpacity={0.5}>
+    <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
+   </TouchableHighlight>
+   );
 
-	    var infoPanel;
-	    if (this.props.config.infoPanel) {
-	      infoPanel = (<InfoPanel title={this.props.title} description={this.props.description} />);
-	    }
+ var infoPanel;
+ if (this.props.config.infoPanel) {
+   infoPanel = (<InfoPanel title={this.props.title} description={this.props.description} />);
+ }
 
-	    var progressBar;
-    	var controlBar;
-    	progressBar = (<ProgressBar ref='progressBar' 
-        playhead={this.props.duration} 
-        duration={this.props.duration}  />);
+ var progressBar;
+ var controlBar;
+ progressBar = (<ProgressBar ref='progressBar' 
+  playhead={this.props.duration} 
+  duration={this.props.duration}  />);
 
-      controlBar = (<ControlBar 
-        ref='controlBar' 
-        showPlay={this.props.showPlay} 
-        playhead={this.props.duration} 
-        duration={this.props.duration} 
-        playButton={"replay"}
-        onPress={(name) => this.handleClick(name)} />);
+ controlBar = (<ControlBar 
+  ref='controlBar' 
+  showPlay={this.props.showPlay} 
+  playhead={this.props.duration} 
+  duration={this.props.duration} 
+  playButton={"replay"}
+  onPress={(name) => this.handleClick(name)} />);
 
-      var waterMark = (<WaterMark />);
-	    
-	    if (fullscreenPromoImage) {   
-	      return (
-	        <Image 
-	          source={{uri: this.props.promoUrl}}
-	          style={styles.fullscreenContainer}
-	          resizeMode={Image.resizeMode.contain}
-            onTouchEnd={(event) => this.handleTouchEnd(event)}>
-	          {infoPanel}
+ var waterMark = (<WaterMark />);
 
-	          <View style={replaybuttonLocation}>
-	            {replaybutton}
-	          </View>
+ if (fullscreenPromoImage) {   
+   return (
+     <Image 
+     source={{uri: this.props.promoUrl}}
+     style={styles.fullscreenContainer}
+     resizeMode={Image.resizeMode.contain}
+     onTouchEnd={(event) => this.handleTouchEnd(event)}>
+     {infoPanel}
 
-        	  {waterMark}
-	          {progressBar}
-		        {controlBar}
-		     </Image>
+     <View style={replaybuttonLocation}>
+     {replaybutton}
+     </View>
 
-	        );
-	    } else {
-	      var promoImage = (
-	        <Image 
-	          source={{uri: this.props.promoUrl}}
-	          style={styles.promoImageSmall}
-	          resizeMode={Image.resizeMode.contain}>
-	        </Image>
-	      );
+     {waterMark}
+     {progressBar}
+     {controlBar}
+     </Image>
 
-	      return (
-	        <View style={styles.container}>
-	          <View style={replaybuttonLocation}>
-	            {replaybutton}
-	          </View>
-	          {promoImage}
-	          {infoPanel}
-	        </View>
-	      );
-	    }
-	  }
-	});
+     );
+ } else {
+   var promoImage = (
+     <Image 
+     source={{uri: this.props.promoUrl}}
+     style={styles.promoImageSmall}
+     resizeMode={Image.resizeMode.contain}>
+     </Image>
+     );
+
+   return (
+     <View style={styles.container}>
+     <View style={replaybuttonLocation}>
+     {replaybutton}
+     </View>
+     {promoImage}
+     {infoPanel}
+     </View>
+     );
+ }
+}
+});
 
 var styles = StyleSheet.create({
   container: {

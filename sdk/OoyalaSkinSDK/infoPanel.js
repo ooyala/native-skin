@@ -9,27 +9,27 @@ var ICONS = require('./constants').ICONS;
 
 var InfoPanel = React.createClass ({
 	propTypes: {
-	    title: React.PropTypes.string,
-	    description: React.PropTypes.string,
-	},
+   title: React.PropTypes.string,
+   description: React.PropTypes.string,
+ },
 
-	render: function() {
-		var infoPanel;
-		    
-	    infoPanel = (
-	    	<View style={styles.infoPanelNW}>
-	          <Text style={styles.infoPanelTitle}>{this.props.title}</Text>
-	          <Text style={styles.infoPanelDescription}>{this.props.description}</Text>
-	        </View>
-	    );
+ render: function() {
+  var infoPanel;
 
-	    return (
-	    	<View style={styles.container}>
-	      		{infoPanel}
-	      	</View>
-	    )
-		    
-	}
+  infoPanel = (
+    <View style={styles.infoPanelNW}>
+      <Text style={styles.infoPanelTitle}>{this.props.title}</Text>
+      <Text style={styles.infoPanelDescription}>{this.props.description}</Text>
+    </View>
+    );
+
+  return (
+    <View style={styles.container}>
+      {infoPanel}
+    </View>
+    )
+
+}
 });
 
 var styles = StyleSheet.create({
