@@ -3,8 +3,8 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-var {
+ var React = require('react-native');
+ var {
   View,
   StyleSheet
 } = React;
@@ -12,6 +12,8 @@ var {
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var AnimationExperimental = require('AnimationExperimental');
+
+var ICONS = require('./constants').ICONS;
 
 var VideoView = React.createClass({
   getInitialState: function() {
@@ -43,13 +45,13 @@ var VideoView = React.createClass({
   toggleControlBar: function() {
     for (var ref in this.refs) {
       console.log("ref is",ref);
-    AnimationExperimental.startAnimation({
-      node: this.refs[ref],
-      duration: 500,
-      property: 'opacity',
-      easing: 'easingInOutExpo',
-      toValue: this.state.showControls ? 0 : 1,
-    });
+      AnimationExperimental.startAnimation({
+        node: this.refs[ref],
+        duration: 500,
+        property: 'opacity',
+        easing: 'easingInOutExpo',
+        toValue: this.state.showControls ? 0 : 1,
+      });
     }
     this.setState({showControls:!this.state.showControls});
   },
@@ -73,19 +75,19 @@ var VideoView = React.createClass({
       showPlay={this.props.showPlay} 
       playhead={this.props.playhead} 
       duration={this.props.duration} 
-      playButton = {"playPause"}
+      primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       onPress={(name) => this.handlePress(name)} />);
     
     return (
       <View style={styles.container}>
-        <View 
-          style={styles.placeholder}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}>  
-        </View>
-        {progressBar}
-        {controlBar}
+      <View 
+      style={styles.placeholder}
+      onTouchEnd={(event) => this.handleTouchEnd(event)}>  
       </View>
-    );
+      {progressBar}
+      {controlBar}
+      </View>
+      );
   }
 });
 

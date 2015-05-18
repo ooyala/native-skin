@@ -81,7 +81,7 @@ render: function() {
   showPlay={this.props.showPlay} 
   playhead={this.props.duration} 
   duration={this.props.duration} 
-  playButton={"replay"}
+  primaryActionButton={ICONS.REPLAY}
   onPress={(name) => this.handleClick(name)} />);
 
  var waterMark = (<WaterMark />);

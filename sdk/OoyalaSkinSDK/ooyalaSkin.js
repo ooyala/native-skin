@@ -23,8 +23,6 @@ var EndScreen = require('./EndScreen');
 var ICONS = require('./constants').ICONS;
 var VideoView = require('./videoView');
 
-var playCompleted = 5;
-
 var OoyalaSkin = React.createClass({
   getInitialState() {
     return {
@@ -35,7 +33,6 @@ var OoyalaSkin = React.createClass({
       playhead:0, 
       duration:1, 
       rate:0,
-      state:0,
     };
   },
 
