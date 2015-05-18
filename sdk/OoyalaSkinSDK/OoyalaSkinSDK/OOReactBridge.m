@@ -21,6 +21,10 @@ RCT_EXPORT_MODULE();
 @synthesize bridge = _bridge;
 
 static OOReactBridge *sharedInstance = nil;
+static const NSString *nameKey = @"name";
+static const NSString *percentageKey = @"percentage";
+static const NSString *playPauseButtonName = @"PlayPause";
+static const NSString *playButtonName = @"Play";
 
 /**
 // !!!Warning: this object MUST be created by the react view
@@ -47,28 +51,37 @@ static OOReactBridge *sharedInstance = nil;
 }
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
-  NSString *buttonName = [parameters objectForKey:@"name"];
+  NSString *buttonName = [parameters objectForKey:nameKey];
   dispatch_async(dispatch_get_main_queue(), ^{
-    if ([buttonName isEqualToString:@"PlayPause"]) {
-      if (_player.state == OOOoyalaPlayerStatePlaying) {
-        [_player pause];
-      } else {
-        [_player play];
-      }
-    } else {
-      // process other keys.
+    if ([buttonName isEqualToString:playPauseButtonName]) {
+      [self handlePlayPause];
+    } else if([buttonName isEqualToString:playButtonName]) {
+      [self handlePlay];
     }
   });
 }
 
+-(void) handlePlayPause {
+  if (_player.state == OOOoyalaPlayerStatePlaying) {
+    [_player pause];
+  } else {
+    [_player play];
+  }
+}
+
+-(void) handlePlay {
+  [_player play];
+}
+
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    NSNumber *position = [parameters objectForKey:@"percentage"];
+    NSNumber *position = [parameters objectForKey:percentageKey];
     [_player seek:_player.duration * [position doubleValue]];
   });
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
+  NSLog(@"sendDeviceEventWithName: %@", eventName);
   [[OOReactBridge getInstance].bridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
 
