@@ -59,6 +59,8 @@ static const NSString *kViewChangeKey = @"frame";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerStateChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
+
   }
 }
 
@@ -89,7 +91,6 @@ static const NSString *kViewChangeKey = @"frame";
       @"duration":durationNumber,
       @"width":frameWidth};
   }
-
   [OOReactBridge sendDeviceEventWithName:notificationName body:eventBody];
 }
 
