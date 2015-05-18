@@ -18,7 +18,6 @@ var PauseScreen = React.createClass({
    title: React.PropTypes.string,
    duration: React.PropTypes.number,
    description: React.PropTypes.string,
-   promoUrl: React.PropTypes.string,
    onPress: React.PropTypes.func,
   },
 
@@ -35,29 +34,19 @@ var PauseScreen = React.createClass({
   },
 
   render: function() {
-   var playButtonLocation = styles.playButtonCenter;
-   var promoImage = this._renderPromoImage();
+   var playButtonLocation = styles.playButtonCenter; // assuming 'default' presentation.
    var playButton = this._renderPlayButton();
    var infoPanel = <Text>Info</Text>;
+   var waterMarkImage = this._renderWaterMarkImage();
    return (
      <View style={styles.container}>
        <View style={playButtonLocation}>
         {playButton}
        </View>
-       {promoImage}
        {infoPanel}
+       {waterMarkImage}
      </View>
      );
-  },
-
-  _renderPromoImage: function() {
-    return (
-      <Image
-      source={{uri: this.props.promoUrl}}
-      style={styles.promoImageSmall}
-      resizeMode={Image.resizeMode.contain}>
-      </Image>
-    );
   },
 
   _renderPlayButton: function() {
@@ -68,6 +57,16 @@ var PauseScreen = React.createClass({
         activeOpacity={0.5}>
         <Text style={styles.playButton}>{ICONS.PLAY}</Text>
       </TouchableHighlight>
+    );
+  },
+
+  _renderWaterMarkImage: function() {
+    var waterMarkImageLocation = styles.waterMarkImageSE;
+    return (
+      <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
+        source={{uri: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'}}
+        resizeMode={Image.resizeMode.contain}>
+      </Image>
     );
   }
 
