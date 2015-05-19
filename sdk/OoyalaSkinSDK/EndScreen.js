@@ -12,6 +12,7 @@ var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var WaterMark = require('./waterMark');
 var InfoPanel = require('./infoPanel');
+var SharePanel = require('./sharePanel');
 
 var AnimationExperimental = require('AnimationExperimental');
 
@@ -19,7 +20,7 @@ var ICONS = require('./constants').ICONS;
 
 var EndScreen = React.createClass({
 	getInitialState: function() {
-    return {showControls:true};
+    return {showControls:true, showSharePanel:false};
   },
 
   propTypes: {
@@ -29,11 +30,15 @@ var EndScreen = React.createClass({
    description: React.PropTypes.string,
    promoUrl: React.PropTypes.string,
    onPress: React.PropTypes.func,
-  },
+ },
 
  toggleControlBar: function() {
   for (var ref in this.refs) {
     console.log("ref is",ref);
+    if(ref === "sharePanel"){
+      continue;
+    }
+
     AnimationExperimental.startAnimation({
       node: this.refs[ref],
       duration: 500,
@@ -45,8 +50,13 @@ var EndScreen = React.createClass({
   this.setState({showControls:!this.state.showControls});
 },
 
-handleClick: function() {
-  this.props.onPress('PlayPause');
+handleClick: function(name) {
+  console.log("now the name is",name);
+  if(name === "SocialShare"){
+    this.setState({showSharePanel:!this.state.showSharePanel});
+  } else {
+    this.props.onPress(name);
+  } 
 },
 
 handleTouchEnd: function(event) {
@@ -58,10 +68,10 @@ render: function() {
  var replaybuttonLocation = styles.replaybuttonCenter;
  var replaybutton = (
    <TouchableHighlight
-    onPress={this.handleClick}
-    underlayColor="transparent"
-    activeOpacity={0.5}>
-    <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
+   onPress={(name) => this.handleClick('PlayPause')}
+   underlayColor="transparent"
+   activeOpacity={0.5}>
+   <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
    </TouchableHighlight>
    );
 
@@ -70,12 +80,17 @@ render: function() {
    infoPanel = (<InfoPanel title={this.props.title} description={this.props.description} />);
  }
 
+ var sharePanel;
+ sharePanel = (<SharePanel 
+  ref='sharePanel' 
+  isShow= {this.state.showSharePanel}/>);
+
  var progressBar;
- var controlBar;
  progressBar = (<ProgressBar ref='progressBar' 
   playhead={this.props.duration} 
   duration={this.props.duration}  />);
 
+ var controlBar;
  controlBar = (<ControlBar 
   ref='controlBar' 
   showPlay={this.props.showPlay} 
@@ -88,22 +103,29 @@ render: function() {
 
  if (fullscreenPromoImage) {   
    return (
+
      <Image 
      source={{uri: this.props.promoUrl}}
      style={styles.fullscreenContainer}
      resizeMode={Image.resizeMode.contain}
-     onTouchEnd={(event) => this.handleTouchEnd(event)}>
-     {infoPanel}
+     >
+      <View 
+        style={styles.fullscreenContainer}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}>
 
-     <View style={replaybuttonLocation}>
-     {replaybutton}
-     </View>
+       {infoPanel}
+       {sharePanel}
 
-     {waterMark}
-     {progressBar}
-     {controlBar}
+       <View style={replaybuttonLocation}>
+        {replaybutton}
+       </View>
+
+       {waterMark}
+       </View>
+       {progressBar}
+       {controlBar}
      </Image>
-
+      
      );
  } else {
    var promoImage = (
