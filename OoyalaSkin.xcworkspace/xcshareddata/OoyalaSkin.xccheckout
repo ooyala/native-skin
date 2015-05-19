@@ -14,6 +14,8 @@
 		<string>github.services.ooyala.net:playback-app/ios-sdk</string>
 		<key>4264B5E3C0FAF3A8F8A226161DDF14603CD95740</key>
 		<string>github.com:ooyala/ios-skin.git</string>
+		<key>62AA0CF502A80EBB7BE2D9BC4065CA0D3BCB46E4</key>
+		<string>ssh://git.corp.ooyala.com/vendor.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>OoyalaSkin.xcworkspace</string>
@@ -23,6 +25,8 @@
 		<string>../ios-sdk</string>
 		<key>4264B5E3C0FAF3A8F8A226161DDF14603CD95740</key>
 		<string>..</string>
+		<key>62AA0CF502A80EBB7BE2D9BC4065CA0D3BCB46E4</key>
+		<string>../../vendor</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>github.com:ooyala/ios-skin.git</string>
@@ -47,6 +51,14 @@
 			<string>4264B5E3C0FAF3A8F8A226161DDF14603CD95740</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ios-skin</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>62AA0CF502A80EBB7BE2D9BC4065CA0D3BCB46E4</string>
+			<key>IDESourceControlWCCName</key>
+			<string>vendor</string>
 		</dict>
 	</array>
 </dict>
