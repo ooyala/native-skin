@@ -10,7 +10,9 @@
  * @flow
  */
 'use strict';
+
 var ErrorUtils = require('ErrorUtils');
+var ReactUpdates = require('ReactUpdates');
 
 var invariant = require('invariant');
 var warning = require('warning');
@@ -18,6 +20,9 @@ var warning = require('warning');
 var JSTimersExecution = require('JSTimersExecution');
 
 var INTERNAL_ERROR = 'Error in MessageQueue implementation';
+
+// Prints all bridge traffic to console.log
+var DEBUG_SPY_MODE = false;
 
 type ModulesConfig = {
   [key:string]: {
@@ -76,6 +81,14 @@ var REQUEST_PARAMSS = 2;
 var RESPONSE_CBIDS = 3;
 var RESPONSE_RETURN_VALUES = 4;
 
+var applyWithErrorReporter = function(fun: Function, context: ?any, args: ?any) {
+  try {
+    return fun.apply(context, args);
+  } catch (e) {
+    ErrorUtils.reportFatalError(e);
+  }
+};
+
 /**
  * Utility to catch errors and prevent having to bind, or execute a bound
  * function, while catching errors in a process and returning a resulting
@@ -92,10 +105,10 @@ var RESPONSE_RETURN_VALUES = 4;
  */
 var guardReturn = function(operation, operationArguments, getReturnValue, context) {
   if (operation) {
-    ErrorUtils.applyWithGuard(operation, context, operationArguments);
+    applyWithErrorReporter(operation, context, operationArguments);
   }
   if (getReturnValue) {
-    return ErrorUtils.applyWithGuard(getReturnValue, context, null);
+    return applyWithErrorReporter(getReturnValue, context, null);
   }
   return null;
 };
@@ -261,6 +274,9 @@ var MessageQueueMixin = {
         'both the success callback and the error callback.',
          cbID
       );
+      if (DEBUG_SPY_MODE) {
+        console.log('N->JS: Callback#' + cbID + '(' + JSON.stringify(args) + ')');
+      }
       cb.apply(scope, args);
     } catch(ie_requires_catch) {
       throw ie_requires_catch;
@@ -290,6 +306,11 @@ var MessageQueueMixin = {
     var moduleName = this._localModuleIDToModuleName[moduleID];
 
     var methodName = this._localModuleNameToMethodIDToName[moduleName][methodID];
+    if (DEBUG_SPY_MODE) {
+      console.log(
+        'N->JS: ' + moduleName + '.' + methodName +
+        '(' + JSON.stringify(params) + ')');
+    }
     var ret = jsCall(this._requireFunc(moduleName), methodName, params);
 
     return ret;
@@ -305,6 +326,28 @@ var MessageQueueMixin = {
       this._flushedQueueUnguarded,
       this
     );
+  },
+
+  processBatch: function(batch) {
+    var self = this;
+    return guardReturn(function () {
+      ReactUpdates.batchedUpdates(function() {
+        batch.forEach(function(call) {
+          invariant(
+            call.module === 'BatchedBridge',
+            'All the calls should pass through the BatchedBridge module'
+          );
+          if (call.method === 'callFunctionReturnFlushedQueue') {
+            self._callFunction.apply(self, call.args);
+          } else if (call.method === 'invokeCallbackAndReturnFlushedQueue') {
+            self._invokeCallback.apply(self, call.args);
+          } else {
+            throw new Error(
+              'Unrecognized method called on BatchedBridge: ' + call.method);
+          }
+        });
+      });
+    }, null, this._flushedQueueUnguarded, this);
   },
 
   setLoggingEnabled: function(enabled) {
@@ -436,6 +479,17 @@ var MessageQueueMixin = {
     this._swapAndReinitializeBuffer();
     var ret = currentOutgoingItems[REQUEST_MODULE_IDS].length ||
       currentOutgoingItems[RESPONSE_RETURN_VALUES].length ? currentOutgoingItems : null;
+
+    if (DEBUG_SPY_MODE && ret) {
+      for (var i = 0; i < currentOutgoingItems[0].length; i++) {
+        var moduleName = this._remoteModuleIDToModuleName[currentOutgoingItems[0][i]];
+        var methodName =
+          this._remoteModuleNameToMethodIDToName[moduleName][currentOutgoingItems[1][i]];
+        console.log(
+          'JS->N: ' + moduleName + '.' + methodName +
+          '(' + JSON.stringify(currentOutgoingItems[2][i]) + ')');
+      }
+    }
 
     return ret;
   },

@@ -45,8 +45,9 @@ RCT_EXPORT_SHADOW_PROPERTY(fontSize, CGFloat)
 RCT_EXPORT_SHADOW_PROPERTY(fontWeight, NSString)
 RCT_EXPORT_SHADOW_PROPERTY(fontStyle, NSString)
 RCT_EXPORT_SHADOW_PROPERTY(isHighlighted, BOOL)
+RCT_EXPORT_SHADOW_PROPERTY(letterSpacing, CGFloat)
 RCT_EXPORT_SHADOW_PROPERTY(lineHeight, CGFloat)
-RCT_EXPORT_SHADOW_PROPERTY(maxNumberOfLines, NSInteger)
+RCT_EXPORT_SHADOW_PROPERTY(maximumNumberOfLines, NSInteger)
 RCT_EXPORT_SHADOW_PROPERTY(shadowOffset, CGSize)
 RCT_EXPORT_SHADOW_PROPERTY(textAlign, NSTextAlignment)
 RCT_REMAP_SHADOW_PROPERTY(backgroundColor, textBackgroundColor, UIColor)
@@ -123,7 +124,7 @@ RCT_CUSTOM_SHADOW_PROPERTY(numberOfLines, NSInteger, RCTShadowText)
   UIEdgeInsets padding = shadowView.paddingAsInsets;
 
   return ^(RCTUIManager *uiManager, RCTSparseArray *viewRegistry) {
-    RCTText *text = (RCTText *)viewRegistry[reactTag];
+    RCTText *text = viewRegistry[reactTag];
     text.contentInset = padding;
     text.layoutManager = shadowView.layoutManager;
     text.textContainer = shadowView.textContainer;

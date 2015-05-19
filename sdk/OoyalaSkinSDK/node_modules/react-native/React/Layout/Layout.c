@@ -1,5 +1,4 @@
 /**
- * @generated SignedSource<<ebd198356f7097798f4891c0fff583cf>>
  *
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * !! This file is a check-in from github!                       !!
@@ -514,6 +513,7 @@ static void layoutNodeImpl(css_node_t *node, float parentMaxWidth) {
       if (isFlexWrap(node) &&
           !isUndefined(node->layout.dimensions[dim[mainAxis]]) &&
           mainContentDim + nextContentDim > definedMainDim) {
+        nonFlexibleChildrenCount--;
         nextLine = i + 1;
         break;
       }
@@ -640,19 +640,6 @@ static void layoutNodeImpl(css_node_t *node, float parentMaxWidth) {
         // can only be one element in that cross dimension.
         crossDim = fmaxf(crossDim, getDimWithMargin(child, crossAxis));
       }
-    }
-
-    float containerMainAxis = node->layout.dimensions[dim[mainAxis]];
-    // If the user didn't specify a width or height, and it has not been set
-    // by the container, then we set it via the children.
-    if (isUndefined(node->layout.dimensions[dim[mainAxis]])) {
-      containerMainAxis = fmaxf(
-        // We're missing the last padding at this point to get the final
-        // dimension
-        mainDim + getPaddingAndBorder(node, trailing[mainAxis]),
-        // We can never assign a width smaller than the padding and borders
-        getPaddingAndBorderAxis(node, mainAxis)
-      );
     }
 
     float containerCrossAxis = node->layout.dimensions[dim[crossAxis]];
