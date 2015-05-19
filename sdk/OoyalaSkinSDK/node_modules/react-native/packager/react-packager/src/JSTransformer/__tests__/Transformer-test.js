@@ -10,8 +10,10 @@
 
 jest
   .dontMock('worker-farm')
-  .dontMock('os')
+  .dontMock('../../lib/ModuleTransport')
   .dontMock('../index');
+
+jest.mock('fs');
 
 var OPTIONS = {
   transformModulePath: '/foo/bar'
@@ -37,7 +39,7 @@ describe('Transformer', function() {
 
   pit('should loadFileAndTransform', function() {
     workers.mockImpl(function(data, callback) {
-      callback(null, { code: 'transformed' });
+      callback(null, { code: 'transformed', map: 'sourceMap' });
     });
     require('fs').readFile.mockImpl(function(file, callback) {
       callback(null, 'content');
@@ -47,6 +49,7 @@ describe('Transformer', function() {
       .then(function(data) {
         expect(data).toEqual({
           code: 'transformed',
+          map: 'sourceMap',
           sourcePath: 'file',
           sourceCode: 'content'
         });

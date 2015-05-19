@@ -17,8 +17,7 @@ var PointPropType = require('PointPropType');
 var RCTScrollView = require('NativeModules').UIManager.RCTScrollView;
 var RCTScrollViewConsts = RCTScrollView.Constants;
 var React = require('React');
-var ReactIOSTagHandles = require('ReactIOSTagHandles');
-var ReactIOSViewAttributes = require('ReactIOSViewAttributes');
+var ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 var RCTUIManager = require('NativeModules').UIManager;
 var ScrollResponder = require('ScrollResponder');
 var StyleSheet = require('StyleSheet');
@@ -26,12 +25,13 @@ var StyleSheetPropType = require('StyleSheetPropType');
 var View = require('View');
 var ViewStylePropTypes = require('ViewStylePropTypes');
 
-var createReactIOSNativeComponentClass = require('createReactIOSNativeComponentClass');
+var createReactNativeComponentClass = require('createReactNativeComponentClass');
 var deepDiffer = require('deepDiffer');
 var flattenStyle = require('flattenStyle');
 var insetsDiffer = require('insetsDiffer');
 var invariant = require('invariant');
 var pointsDiffer = require('pointsDiffer');
+var requireNativeComponent = require('requireNativeComponent');
 
 var PropTypes = React.PropTypes;
 
@@ -73,6 +73,12 @@ var ScrollView = React.createClass({
      * the `alwaysBounce*` props are true. The default value is true.
      */
     bounces: PropTypes.bool,
+    /**
+     * When true, gestures can drive zoom past min/max and the zoom will animate
+     * to the min/max value at gesture end, otherwise the zoom will not exceed
+     * the limits.
+     */
+    bouncesZoom: PropTypes.bool,
     /**
      * When true, the scroll view bounces horizontally when it reaches the end
      * even if the content is smaller than the scroll view itself. The default
@@ -120,6 +126,16 @@ var ScrollView = React.createClass({
      * instead of vertically in a column. The default value is false.
      */
     horizontal: PropTypes.bool,
+    /**
+     * When true, the ScrollView will try to lock to only vertical or horizontal
+     * scrolling while dragging.  The default value is false.
+     */
+    directionalLockEnabled: PropTypes.bool,
+    /**
+     * When false, once tracking starts, won't try to drag if the touch moves.
+     * The default value is true.
+     */
+    canCancelContentTouches: PropTypes.bool,
     /**
      * Determines whether the keyboard gets dismissed in response to a drag.
      *   - 'none' (the default), drags do not dismiss the keyboard.
@@ -170,7 +186,7 @@ var ScrollView = React.createClass({
     /**
      * Experimental: When true, offscreen child views (whose `overflow` value is
      * `hidden`) are removed from their native backing superview when offscreen.
-     * This canimprove scrolling performance on long lists. The default value is
+     * This can improve scrolling performance on long lists. The default value is
      * false.
      */
     removeClippedSubviews: PropTypes.bool,
@@ -191,20 +207,28 @@ var ScrollView = React.createClass({
   },
 
   getInnerViewNode: function(): any {
-    return this.refs[INNERVIEW].getNodeHandle();
+    return React.findNodeHandle(this.refs[INNERVIEW]);
   },
 
   scrollTo: function(destY?: number, destX?: number) {
-    RCTUIManager.scrollTo(
-      this.getNodeHandle(),
-      destX || 0,
-      destY || 0
-    );
+    if (Platform.OS === 'android') {
+      RCTUIManager.dispatchViewManagerCommand(
+        React.findNodeHandle(this),
+        RCTUIManager.RCTScrollView.Commands.scrollTo,
+        [destX || 0, destY || 0]
+      );
+    } else {
+      RCTUIManager.scrollTo(
+        React.findNodeHandle(this),
+        destX || 0,
+        destY || 0
+      );
+    }
   },
 
   scrollWithoutAnimationTo: function(destY?: number, destX?: number) {
     RCTUIManager.scrollWithoutAnimationTo(
-      this.getNodeHandle(),
+      React.findNodeHandle(this),
       destX || 0,
       destY || 0
     );
@@ -319,7 +343,7 @@ var styles = StyleSheet.create({
 });
 
 var validAttributes = {
-  ...ReactIOSViewAttributes.UIView,
+  ...ReactNativeViewAttributes.UIView,
   alwaysBounceHorizontal: true,
   alwaysBounceVertical: true,
   automaticallyAdjustContentInsets: true,
@@ -346,19 +370,16 @@ var validAttributes = {
 };
 
 if (Platform.OS === 'android') {
-  var AndroidScrollView = createReactIOSNativeComponentClass({
+  var AndroidScrollView = createReactNativeComponentClass({
     validAttributes: validAttributes,
-    uiViewClassName: 'AndroidScrollView',
+    uiViewClassName: 'RCTScrollView',
   });
-  var AndroidHorizontalScrollView = createReactIOSNativeComponentClass({
+  var AndroidHorizontalScrollView = createReactNativeComponentClass({
     validAttributes: validAttributes,
     uiViewClassName: 'AndroidHorizontalScrollView',
   });
 } else if (Platform.OS === 'ios') {
-  var RCTScrollView = createReactIOSNativeComponentClass({
-    validAttributes: validAttributes,
-    uiViewClassName: 'RCTScrollView',
-  });
+  var RCTScrollView = requireNativeComponent('RCTScrollView', ScrollView);
 }
 
 module.exports = ScrollView;

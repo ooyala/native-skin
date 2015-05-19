@@ -13,13 +13,6 @@
 
 #import "RCTPointerEvents.h"
 
-typedef NS_ENUM(NSInteger, RCTBorderSide) {
-  RCTBorderSideTop,
-  RCTBorderSideRight,
-  RCTBorderSideBottom,
-  RCTBorderSideLeft
-};
-
 @protocol RCTAutoInsetsProtocol;
 
 @interface RCTView : UIView
@@ -54,6 +47,15 @@ typedef NS_ENUM(NSInteger, RCTBorderSide) {
  * removeClippedSubviews set to YES
  */
 - (void)updateClippedSubviews;
+
+/**
+ * Border radii.
+ */
+@property (nonatomic, assign) CGFloat borderRadius;
+@property (nonatomic, assign) CGFloat borderTopLeftRadius;
+@property (nonatomic, assign) CGFloat borderTopRightRadius;
+@property (nonatomic, assign) CGFloat borderBottomLeftRadius;
+@property (nonatomic, assign) CGFloat borderBottomRightRadius;
 
 /**
  * Border colors.

@@ -6,7 +6,11 @@
 
 var spawn = require('child_process').spawn;
 var path = require('path');
+
+var init = require('./init.js');
 var install = require('./install.js');
+var bundle = require('./bundle.js');
+var newLibrary = require('./new-library.js');
 
 function printUsage() {
   console.log([
@@ -14,7 +18,17 @@ function printUsage() {
     '',
     'Commands:',
     '  start: starts the webserver',
-    '  install: installs npm react components'
+    '  install: installs npm react components',
+    '  bundle: builds the javascript bundle for offline use',
+    '  new-library: generates a native library bridge'
+  ].join('\n'));
+  process.exit(1);
+}
+
+function printInitWarning() {
+  console.log([
+    'Looks like React Native project already exists in the current',
+    'folder. Run this command from a different folder or remove node_modules/react-native'
   ].join('\n'));
   process.exit(1);
 }
@@ -36,15 +50,20 @@ function run() {
   case 'install':
     install.init();
     break;
+  case 'bundle':
+    bundle.init(args);
+    break;
+  case 'new-library':
+    newLibrary.init(args);
+    break;
+  case 'init':
+    printInitWarning();
+    break;
   default:
     console.error('Command `%s` unrecognized', args[0]);
     printUsage();
   }
   // Here goes any cli commands we need to
-}
-
-function init(root, projectName) {
-  spawn(path.resolve(__dirname, '../init.sh'), [projectName], {stdio:'inherit'});
 }
 
 if (require.main === module) {
