@@ -11,6 +11,9 @@
 #import "RCTRootView.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
+#import <OoyalaSDK/OOModule.h>
+#import <OoyalaSDK/OOEmbeddedSecureURLGenerator.h>
+#import <OoyalaSDK/OODiscoveryManager.h>
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
@@ -60,7 +63,7 @@ static const NSString *kViewChangeKey = @"frame";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OODiscoveryResultsReceivedNotification object:_player];
   }
 }
 
@@ -90,6 +93,9 @@ static const NSString *kViewChangeKey = @"frame";
       @"promoUrl":promoUrl,
       @"duration":durationNumber,
       @"width":frameWidth};
+  } else if ([notificationName isEqualToString:OODiscoveryResultsReceivedNotification]) {
+    NSArray *results = [notification.userInfo objectForKey:@"results"];
+    NSLog(@"discovery results %@", results.description);
   }
   [OOReactBridge sendDeviceEventWithName:notificationName body:eventBody];
 }
