@@ -27,6 +27,7 @@
 
 static const NSString *kFrameChangeContext = @"frameChanged";
 static const NSString *kViewChangeKey = @"frame";
+static const NSString *onPauseBridgeEventName = @"onPause";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
@@ -69,8 +70,6 @@ static const NSString *kViewChangeKey = @"frame";
 
 - (void)onEvent:(NSNotification *)notification {
   NSString *notificationName = notification.name;
-  NSDictionary *eventBody;
-
   if ([notificationName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
     NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
     NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
@@ -95,9 +94,51 @@ static const NSString *kViewChangeKey = @"frame";
       @"width":frameWidth};
   } else if ([notificationName isEqualToString:OODiscoveryResultsReceivedNotification]) {
     NSArray *results = [notification.userInfo objectForKey:@"results"];
-    NSLog(@"discovery results %@", results.description);
+
+    [self bridgeTimeChangedNotification:notification];
   }
-  [OOReactBridge sendDeviceEventWithName:notificationName body:eventBody];
+  else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
+    [self bridgeCurrentItemChangedNotification:notification];
+  }
+  else if ([notificationName isEqualToString:OOOoyalaPlayerStateChangedNotification]) {
+    [self bridgeStateChangedNotification:notification];
+  }
+}
+
+-(void)bridgeTimeChangedNotification:(NSNotification *)notification {
+  NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
+  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
+  NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
+  NSDictionary *eventBody =
+  @{@"duration":durationNumber,
+    @"playhead":playheadNumber,
+    @"rate":rateNumber};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+-(void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {
+  NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
+  NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
+  NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
+  NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
+  NSDictionary *eventBody =
+  @{@"title":title,
+    @"description":itemDescription,
+    @"promoUrl":promoUrl,
+    @"duration":durationNumber,
+    @"width":frameWidth};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+-(void) bridgeStateChangedNotification:(NSNotification *)notification {
+  NSString *name = notification.name;
+  NSDictionary *eventBody;
+  if( _player.state == OOOoyalaPlayerStatePaused ) {
+    name = onPauseBridgeEventName;
+>>>>>>> master
+  }
+  [OOReactBridge sendDeviceEventWithName:name body:nil];
 }
 
 - (NSDictionary *)getDictionaryFromJSONFile {

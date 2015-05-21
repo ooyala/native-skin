@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
 		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
-		972ED85E1AE6EEEB005043DC /* OoyalaSkinSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED85D1AE6EEEB005043DC /* OoyalaSkinSDKTests.m */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8861AE6F008005043DC /* OOReactBridge.m */; };
 		972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8871AE6F008005043DC /* OOSkinViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -66,8 +65,6 @@
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		972ED85C1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		972ED85D1AE6EEEB005043DC /* OoyalaSkinSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OoyalaSkinSDKTests.m; sourceTree = "<group>"; };
 		972ED8851AE6F008005043DC /* OOReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactBridge.h; sourceTree = "<group>"; };
 		972ED8861AE6F008005043DC /* OOReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactBridge.m; sourceTree = "<group>"; };
 		972ED8871AE6F008005043DC /* OOSkinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinViewController.h; sourceTree = "<group>"; };
@@ -122,7 +119,6 @@
 				FF12905E1AEABA9B00664374 /* framework */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
 				972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */,
-				972ED85A1AE6EEEB005043DC /* OoyalaSkinSDKTests */,
 				972ED84C1AE6EEEB005043DC /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,23 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				972ED84F1AE6EEEB005043DC /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		972ED85A1AE6EEEB005043DC /* OoyalaSkinSDKTests */ = {
-			isa = PBXGroup;
-			children = (
-				972ED85D1AE6EEEB005043DC /* OoyalaSkinSDKTests.m */,
-				972ED85B1AE6EEEB005043DC /* Supporting Files */,
-			);
-			path = OoyalaSkinSDKTests;
-			sourceTree = "<group>";
-		};
-		972ED85B1AE6EEEB005043DC /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				972ED85C1AE6EEEB005043DC /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -386,7 +365,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				972ED85E1AE6EEEB005043DC /* OoyalaSkinSDKTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

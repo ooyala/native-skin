@@ -19,6 +19,7 @@ var {
 var eventBridge = require('NativeModules').OOReactBridge;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
+var PauseScreen = require('./PauseScreen');
 
 var ICONS = require('./constants').ICONS;
 var VideoView = require('./videoView');
@@ -45,7 +46,9 @@ var OoyalaSkin = React.createClass({
   },
 
   onTimeChange: function(e) {
+    console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
     if (e.rate > 0) {
+      console.log( "onTimeChange: -> video" );
       this.setState({screenType: 'video'});
     }
     this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate});
@@ -66,71 +69,107 @@ var OoyalaSkin = React.createClass({
     this.setState({screenType: 'end'});
   },
 
+  onPause: function(e) {
+    console.log("onPause");
+    this.setState({screenType: 'pause'});
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
-    var timeChangeListener = DeviceEventEmitter.addListener(
+    this.listeners = [];
+    this.listeners.push( DeviceEventEmitter.addListener(
       'timeChanged', 
-      (reminder) => this.onTimeChange(reminder)
-    );
-    var itemChangeListener = DeviceEventEmitter.addListener(
-      'currentItemChanged', 
-      (reminder) => this.onCurrentItemChange(reminder)
-    );
-    var frameChangeListener = DeviceEventEmitter.addListener(
-      'frameChanged', 
-      (reminder) => this.onFrameChange(reminder)
-    );
-    var playCompleteListener = DeviceEventEmitter.addListener(
+      (event) => this.onTimeChange(event)
+    ) );
+    this.listeners.push( DeviceEventEmitter.addListener(
+      'currentItemChanged',
+      (event) => this.onCurrentItemChange(event)
+    ) );
+    this.listeners.push( DeviceEventEmitter.addListener(
+      'frameChanged',
+      (event) => this.onFrameChange(event)
+    ) );
+    this.listeners.push( DeviceEventEmitter.addListener(
       'playCompleted',
-      (reminder) => this.onPlayComplete(reminder)
-    );
+      (event) => this.onPlayComplete(event)
+    ) );
+    this.listeners.push( DeviceEventEmitter.addListener(
+      'onPause',
+      (event) => this.onPause(event)
+    ) );
   },
 
   componentWillUnmount: function() {
-    timeChangeListener.remove;
-    itemChangeListener.remove;
-    frameChangeListener.remove;
-    playCompleteListener.remove;
+    for( var l of this.listeners ) {
+      l.remove;
+    }
+    this.listeners = [];
   },
 
   render: function() {
-    if (this.state.screenType == 'start') {
-      var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
-      return (
-        <StartScreen 
-          config={startScreenConfig}
-          title={this.state.title}
-          description={this.state.description}
-          promoUrl={this.state.promoUrl}
-          onPress={(name) => this.handlePress(name)} >
-        </StartScreen>
-      );
-    } else if (this.state.screenType == 'end'){
-        var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
-        return (
-          <EndScreen 
-            config={EndScreenConfig}
-            title={this.state.title}
-            description={this.state.description}
-            promoUrl={this.state.promoUrl}
-            duration={this.state.duration} 
-            onPress={(name) => this.handlePress(name)}>
-          </EndScreen>
-        );
-    } else {
-      var showPlayButton = this.state.rate > 0 ? false : true;
-      return (
-        <VideoView 
-          showPlay={showPlayButton} 
-          playhead={this.state.playhead} 
-          duration={this.state.duration} 
-          width={this.state.width}
-          onPress={(value) => this.handlePress(value)}
-          onScrub={(value) => this.handleScrub(value)}>
-        </VideoView>
-      );
+    console.log("render: " + this.state.screenType);
+    switch (this.state.screenType) {
+      case 'start': return this._renderStartScreen(); break;
+      case 'end':   return this._renderEndScreen();   break;
+      case 'pause': return this._renderPauseScreen(); break;
+      default:      return this._renderVideoView();   break;
     }
-  }
+  },
+
+  _renderStartScreen: function() {
+    var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    return (
+      <StartScreen
+        config={startScreenConfig}
+        title={this.state.title}
+        description={this.state.description}
+        promoUrl={this.state.promoUrl}
+        onPress={(name) => this.handlePress(name)} >
+      </StartScreen>
+    );
+  },
+
+  _renderEndScreen: function() {
+    var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    return (
+      <EndScreen
+        config={EndScreenConfig}
+        title={this.state.title}
+        description={this.state.description}
+        promoUrl={this.state.promoUrl}
+        duration={this.state.duration}
+        onPress={(name) => this.handlePress(name)}>
+      </EndScreen>
+    );
+  },
+
+  _renderPauseScreen: function() {
+    var PauseScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    return (
+      <PauseScreen
+        config={PauseScreenConfig}
+        title={this.state.title}
+        duration={this.state.duration}
+        description={this.state.description}
+        promoUrl={this.state.promoUrl}
+        onPress={(name) => this.handlePress(name)}>
+      </PauseScreen>
+    );
+  },
+
+   _renderVideoView: function() {
+     var showPlayButton = this.state.rate > 0 ? false : true;
+     return (
+       <VideoView
+         showPlay={showPlayButton}
+         playhead={this.state.playhead}
+         duration={this.state.duration}
+         width={this.state.width}
+         onPress={(value) => this.handlePress(value)}
+         onScrub={(value) => this.handleScrub(value)}>
+       </VideoView>
+     );
+   }
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
