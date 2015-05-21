@@ -9,6 +9,7 @@
 
 #import "RCTExceptionsManager.h"
 
+#import "RCTDefines.h"
 #import "RCTLog.h"
 #import "RCTRedBox.h"
 #import "RCTRootView.h"
@@ -18,10 +19,6 @@
   __weak id<RCTExceptionsManagerDelegate> _delegate;
   NSUInteger _reloadRetries;
 }
-
-#ifndef DEBUG
-static NSUInteger RCTReloadRetries = 0;
-#endif
 
 RCT_EXPORT_MODULE()
 
@@ -39,51 +36,71 @@ RCT_EXPORT_MODULE()
   return [self initWithDelegate:nil];
 }
 
-RCT_EXPORT_METHOD(reportUnhandledException:(NSString *)message
+RCT_EXPORT_METHOD(reportSoftException:(NSString *)message
                   stack:(NSArray *)stack)
 {
+  // TODO(#7070533): report a soft error to the server
   if (_delegate) {
-    [_delegate unhandledJSExceptionWithMessage:message stack:stack];
+    [_delegate handleSoftJSExceptionWithMessage:message stack:stack];
     return;
   }
 
-#ifdef DEBUG
-    [[RCTRedBox sharedInstance] showErrorMessage:message withStack:stack];
-#else
-  if (RCTReloadRetries < _maxReloadAttempts) {
-    RCTReloadRetries++;
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [[NSNotificationCenter defaultCenter] postNotificationName:RCTReloadNotification object:nil];
-    });
-  } else {
-    NSError *error;
-    const NSUInteger MAX_SANITIZED_LENGTH = 75;
-    // Filter out numbers so the same base errors are mapped to the same categories independent of incorrect values.
-    NSString *pattern = @"[+-]?\\d+[,.]?\\d*";
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:&error];
-    RCTAssert(error == nil, @"Bad regex pattern: %@", pattern);
-    NSString *sanitizedMessage = [regex stringByReplacingMatchesInString:message
-                                                                 options:0
-                                                                   range:NSMakeRange(0, message.length)
-                                                            withTemplate:@"<num>"];
-    if (sanitizedMessage.length > MAX_SANITIZED_LENGTH) {
-      sanitizedMessage = [[sanitizedMessage substringToIndex:MAX_SANITIZED_LENGTH] stringByAppendingString:@"..."];
-    }
-    NSMutableString *prettyStack = [@"\n" mutableCopy];
-    for (NSDictionary *frame in stack) {
-      [prettyStack appendFormat:@"%@@%@:%@\n", frame[@"methodName"], frame[@"lineNumber"], frame[@"column"]];
-    }
+  [[RCTRedBox sharedInstance] showErrorMessage:message withStack:stack];
+}
 
-    NSString *name = [@"Unhandled JS Exception: " stringByAppendingString:sanitizedMessage];
-    [NSException raise:name format:@"Message: %@, stack: %@", message, prettyStack];
+RCT_EXPORT_METHOD(reportFatalException:(NSString *)message
+                  stack:(NSArray *)stack)
+{
+  if (_delegate) {
+    [_delegate handleFatalJSExceptionWithMessage:message stack:stack];
+    return;
   }
-#endif
+
+  [[RCTRedBox sharedInstance] showErrorMessage:message withStack:stack];
+
+  if (!RCT_DEBUG) {
+
+    static NSUInteger reloadRetries = 0;
+    const NSUInteger maxMessageLength = 75;
+
+    if (reloadRetries < _maxReloadAttempts) {
+
+      reloadRetries++;
+      [[NSNotificationCenter defaultCenter] postNotificationName:RCTReloadNotification
+                                                          object:nil];
+
+    } else {
+
+      if (message.length > maxMessageLength) {
+        message = [[message substringToIndex:maxMessageLength] stringByAppendingString:@"..."];
+      }
+
+      NSMutableString *prettyStack = [NSMutableString stringWithString:@"\n"];
+      for (NSDictionary *frame in stack) {
+        [prettyStack appendFormat:@"%@@%@:%@\n", frame[@"methodName"], frame[@"lineNumber"], frame[@"column"]];
+      }
+
+      NSString *name = [@"Unhandled JS Exception: " stringByAppendingString:message];
+      [NSException raise:name format:@"Message: %@, stack: %@", message, prettyStack];
+    }
+  }
 }
 
 RCT_EXPORT_METHOD(updateExceptionMessage:(NSString *)message
                   stack:(NSArray *)stack)
 {
+  if (_delegate) {
+    [_delegate updateJSExceptionWithMessage:message stack:stack];
+    return;
+  }
+
   [[RCTRedBox sharedInstance] updateErrorMessage:message withStack:stack];
 }
 
+// Deprecated.  Use reportFatalException directly instead.
+RCT_EXPORT_METHOD(reportUnhandledException:(NSString *)message
+                  stack:(NSArray *)stack)
+{
+  [self reportFatalException:message stack:stack];
+}
 @end

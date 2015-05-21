@@ -12,11 +12,11 @@
 
 var EdgeInsetsPropType = require('EdgeInsetsPropType');
 var React = require('React');
-var ReactIOSViewAttributes = require('ReactIOSViewAttributes');
+var ReactNativeViewAttributes = require('ReactNativeViewAttributes');
 var StyleSheet = require('StyleSheet');
 var View = require('View');
 
-var createReactIOSNativeComponentClass = require('createReactIOSNativeComponentClass');
+var createReactNativeComponentClass = require('createReactNativeComponentClass');
 var keyMirror = require('keyMirror');
 var merge = require('merge');
 
@@ -42,6 +42,7 @@ var WebView = React.createClass({
     onNavigationStateChange: PropTypes.func,
     startInLoadingState: PropTypes.bool, // force WebView to show loadingView on first load
     style: View.propTypes.style,
+    javaScriptEnabledAndroid: PropTypes.bool,
     /**
      * Used to locate this view in end-to-end tests.
      */
@@ -90,6 +91,7 @@ var WebView = React.createClass({
         key="webViewKey"
         style={webViewStyles}
         url={this.props.url}
+        javaScriptEnabledAndroid={this.props.javaScriptEnabledAndroid}
         contentInset={this.props.contentInset}
         automaticallyAdjustContentInsets={this.props.automaticallyAdjustContentInsets}
         onLoadingStart={this.onLoadingStart}
@@ -107,15 +109,27 @@ var WebView = React.createClass({
   },
 
   goForward: function() {
-    RCTUIManager.webViewGoForward(this.getWebWiewHandle());
+    RCTUIManager.dispatchViewManagerCommand(
+      this.getWebWiewHandle(),
+      RCTUIManager.RCTWebView.Commands.goForward,
+      null
+    );
   },
 
   goBack: function() {
-    RCTUIManager.webViewGoBack(this.getWebWiewHandle());
+    RCTUIManager.dispatchViewManagerCommand(
+      this.getWebWiewHandle(),
+      RCTUIManager.RCTWebView.Commands.goBack,
+      null
+    );
   },
 
   reload: function() {
-    RCTUIManager.webViewReload(this.getWebWiewHandle());
+    RCTUIManager.dispatchViewManagerCommand(
+      this.getWebWiewHandle(),
+      RCTUIManager.RCTWebView.Commands.reload,
+      null
+    );
   },
 
   /**
@@ -129,7 +143,7 @@ var WebView = React.createClass({
   },
 
   getWebWiewHandle: function() {
-    return this.refs[RCT_WEBVIEW_REF].getNodeHandle();
+    return React.findNodeHandle(this.refs[RCT_WEBVIEW_REF]);
   },
 
   onLoadingStart: function(event) {
@@ -154,9 +168,10 @@ var WebView = React.createClass({
   },
 });
 
-var RCTWebView = createReactIOSNativeComponentClass({
-  validAttributes: merge(ReactIOSViewAttributes.UIView, {
+var RCTWebView = createReactNativeComponentClass({
+  validAttributes: merge(ReactNativeViewAttributes.UIView, {
     url: true,
+    javaScriptEnabledAndroid: true,
   }),
   uiViewClassName: 'RCTWebView',
 });

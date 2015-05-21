@@ -14,6 +14,7 @@ var Cache = require('./Cache');
 var workerFarm = require('worker-farm');
 var declareOpts = require('../lib/declareOpts');
 var util = require('util');
+var ModuleTransport = require('../lib/ModuleTransport');
 
 var readFile = Promise.promisify(fs.readFile);
 
@@ -59,6 +60,7 @@ function Transformer(options) {
       resetCache: options.resetCache,
       cacheVersion: options.cacheVersion,
       projectRoots: options.projectRoots,
+      transformModulePath: options.transformModulePath,
     });
 
   if (options.transformModulePath != null) {
@@ -100,11 +102,12 @@ Transformer.prototype.loadFileAndTransform = function(filePath) {
               throw formatError(res.error, filePath, sourceCode);
             }
 
-            return {
+            return new ModuleTransport({
               code: res.code,
+              map: res.map,
               sourcePath: filePath,
-              sourceCode: sourceCode
-            };
+              sourceCode: sourceCode,
+            });
           }
         );
       });

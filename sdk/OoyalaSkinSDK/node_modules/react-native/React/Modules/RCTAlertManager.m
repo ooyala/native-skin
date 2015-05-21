@@ -35,6 +35,11 @@ RCT_EXPORT_MODULE()
   return self;
 }
 
+- (dispatch_queue_t)methodQueue
+{
+  return dispatch_get_main_queue();
+}
+
 /**
  * @param {NSDictionary} args Dictionary of the form
  *
@@ -54,6 +59,7 @@ RCT_EXPORT_METHOD(alertWithArgs:(NSDictionary *)args
 {
   NSString *title = args[@"title"];
   NSString *message = args[@"message"];
+  NSString *type = args[@"type"];
   NSArray *buttons = args[@"buttons"];
 
   if (!title && !message) {
@@ -64,37 +70,41 @@ RCT_EXPORT_METHOD(alertWithArgs:(NSDictionary *)args
     return;
   }
 
-  dispatch_async(dispatch_get_main_queue(), ^{
+  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                      message:nil
+                                                     delegate:self
+                                            cancelButtonTitle:nil
+                                            otherButtonTitles:nil];
 
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
-                                                        message:message
-                                                       delegate:self
-                                              cancelButtonTitle:nil
-                                              otherButtonTitles:nil];
+  NSMutableArray *buttonKeys = [[NSMutableArray alloc] initWithCapacity:buttons.count];
 
-    NSMutableArray *buttonKeys = [[NSMutableArray alloc] initWithCapacity:buttons.count];
+  if ([type isEqualToString:@"plain-text"]) {
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView textFieldAtIndex:0].text = message;
+  } else {
+    alertView.message = message;
+  }
 
-    NSInteger index = 0;
-    for (NSDictionary *button in buttons) {
-      if (button.count != 1) {
-        RCTLogError(@"Button definitions should have exactly one key.");
-      }
-      NSString *buttonKey = [button.allKeys firstObject];
-      NSString *buttonTitle = [button[buttonKey] description];
-      [alertView addButtonWithTitle:buttonTitle];
-      if ([buttonKey isEqualToString: @"cancel"]) {
-        alertView.cancelButtonIndex = index;
-      }
-      [buttonKeys addObject:buttonKey];
-      index ++;
+  NSInteger index = 0;
+  for (NSDictionary *button in buttons) {
+    if (button.count != 1) {
+      RCTLogError(@"Button definitions should have exactly one key.");
     }
+    NSString *buttonKey = [button.allKeys firstObject];
+    NSString *buttonTitle = [button[buttonKey] description];
+    [alertView addButtonWithTitle:buttonTitle];
+    if ([buttonKey isEqualToString: @"cancel"]) {
+      alertView.cancelButtonIndex = index;
+    }
+    [buttonKeys addObject:buttonKey];
+    index ++;
+  }
 
-    [_alerts addObject:alertView];
-    [_alertCallbacks addObject:callback ?: ^(id unused) {}];
-    [_alertButtonKeys addObject:buttonKeys];
+  [_alerts addObject:alertView];
+  [_alertCallbacks addObject:callback ?: ^(id unused) {}];
+  [_alertButtonKeys addObject:buttonKeys];
 
-    [alertView show];
-  });
+  [alertView show];
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -106,7 +116,15 @@ RCT_EXPORT_METHOD(alertWithArgs:(NSDictionary *)args
 
   RCTResponseSenderBlock callback = _alertCallbacks[index];
   NSArray *buttonKeys = _alertButtonKeys[index];
-  callback(@[buttonKeys[buttonIndex]]);
+  NSArray *args;
+
+  if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput) {
+    args = @[buttonKeys[buttonIndex], [alertView textFieldAtIndex:0].text];
+  } else {
+    args = @[buttonKeys[buttonIndex]];
+  }
+
+  callback(args);
 
   [_alerts removeObjectAtIndex:index];
   [_alertCallbacks removeObjectAtIndex:index];
