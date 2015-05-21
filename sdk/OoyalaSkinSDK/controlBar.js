@@ -23,7 +23,6 @@ var ControlBar = React.createClass({
   },
 
   propTypes: {
-    showPlay: React.PropTypes.bool,
     primaryActionButton: React.PropTypes.string,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
@@ -31,7 +30,7 @@ var ControlBar = React.createClass({
   },
 
   getDefaultProps: function() {
-    return {showPlay: true, playhead: 0, duration: 0};
+    return {playhead: 0, duration: 0};
   },
 
   onPlayPausePress: function() { 
@@ -40,6 +39,10 @@ var ControlBar = React.createClass({
 
   onVolumePress: function() {
     this.setState({showVolume:!this.state.showVolume});
+  },
+
+  onSocialSharePress: function() {
+    this.props.onPress && this.props.onPress('SocialShare');
   },
 
   onFullscreenPress: function() {
@@ -77,6 +80,7 @@ var ControlBar = React.createClass({
 
   render: function() {
     var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
+    var shareIcon = ICONS.SHARE;
     var fullscreenIcon = ICONS.EXPAND;
     var menuIcon = ICONS.ELLIPSIS;
     var durationString = this.secondsToString(this.props.duration);
@@ -99,6 +103,9 @@ var ControlBar = React.createClass({
             {volumeScrubber}
           <Text style={styles.label}>{playheadString}/{durationString}</Text>
           <View style={styles.placeholder} />
+          <TouchableHighlight onPress={this.onSocialSharePress}>
+            <Text style={styles.icon}>{shareIcon}</Text>
+          </TouchableHighlight>
           <TouchableHighlight onPress={this.onFullscreenPress}>
             <Text style={styles.icon}>{fullscreenIcon}</Text>
           </TouchableHighlight>

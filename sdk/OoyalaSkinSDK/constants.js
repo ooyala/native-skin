@@ -8,6 +8,7 @@ var ICONS = {
   COMPRESS: '\uf066',
   ELLIPSIS: '\uf142',
   REPLAY:'\uf01e',
+  SHARE:'\uf045',
 };
 
 module.exports = {ICONS};
