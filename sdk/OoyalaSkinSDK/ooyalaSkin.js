@@ -181,10 +181,11 @@ var OoyalaSkin = React.createClass({
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
-         discovery={discovery}
+         discovery={discovery} 
          width={this.state.width}
          onPress={(value) => this.handlePress(value)}
-         onScrub={(value) => this.handleScrub(value)}>
+         onScrub={(value) => this.handleScrub(value)}
+         onDiscoveryRow={(code) => this.handleEmbedCode(code)}>
        </VideoView>
      );
    }

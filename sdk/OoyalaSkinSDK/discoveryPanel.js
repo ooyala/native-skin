@@ -10,6 +10,7 @@ var {
   ListView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } = React;
 
@@ -19,77 +20,100 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.embedCode !== r2
 var DiscoveryPanel = React.createClass({
   propTypes: {
     dataSource: React.PropTypes.array,
-    onPress: React.PropTypes.func,
+    onRowSelected: React.PropTypes.func,
   },
 
   getInitialState: function() {
     return {dataSource:ds.cloneWithRows(this.props.dataSource)};
   },
 
+  onRowSelected: function(embedCode) {
+  	console.log("selectDiscovery embedCode", embedCode);
+  	if (this.props.onRowSelected) {
+  	  this.props.onRowSelected(embedCode);
+  	}
+  },
+
   render: function() {
     return (
-      <View style={styles.panel}>
-      	<Text style={styles.panelTitle}>Discovery</Text>
       	<ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderMovie}
-          style={styles.listView}
-        />
-      </View>
+          renderRow={this.renderRow}
+          renderHeader={this.renderHeader}
+          style={styles.listView}>
+        </ListView>
     );
   },
 
-  renderMovie: function(movie) {
+  renderRow: function(row: object, sectionID: number, rowID: number) {
+  	var duration = Utils.secondsToString(row.duration);
     return (
+    <TouchableHighlight
+      underlayColor='#37455B'
+      onPress={() => this.onRowSelected(row.embedCode)}>
       <View style={styles.container}>
         <Image
-          source={{uri: movie.imageUrl}}
-          style={styles.thumbnail}
-        />
+          source={{uri: row.imageUrl}}
+          style={styles.thumbnail} >
+        </Image>
+        
         <View style={styles.rightContainer}>
-          <Text style={styles.title}>{movie.name}</Text>
-          <Text style={styles.year}>{movie.embedCode}</Text>
+          <Text style={styles.title}>{row.name}</Text>
+          <Text style={styles.description}>{duration}</Text>
         </View>
       </View>
+     </TouchableHighlight>
     );
+  },
+
+  renderHeader: function() {
+  	return (
+  	  <Text style={styles.panelTitle}>Discovery</Text>);
   },
 });
 
 var styles = StyleSheet.create({
-  panel: {
-  	flex: 1,
-  	flexDirection: 'column',
-  },
   panelTitle: {
+  	flex: 1,
   	fontSize: 40,
   	textAlign: 'left',
-  	backgroundColor: 'black',
   	color: 'white',
+  	padding: 20
   },
   container: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'transparent',
+    marginBottom: 6,
+    marginTop: 6,
+    marginLeft: 12,
   },
   rightContainer: {
     flex: 1,
+    marginLeft: 8
   },
   title: {
     fontSize: 20,
     marginBottom: 8,
-    textAlign: 'center',
+    fontFamily: 'Arial-BoldMT',
+    textAlign: 'left',
+    color: 'white',
   },
-  year: {
-    textAlign: 'center',
+  description: {
+  	fontSize: 16,
+    marginBottom: 8,
+    fontFamily: 'Arial',
+    textAlign: 'left',
+    color: '#ADADAD',
   },
   thumbnail: {
-    width: 53,
-    height: 81,
+    width: 112,
+    height: 63,
   },
   listView: {
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#333333',
   },
 });
 

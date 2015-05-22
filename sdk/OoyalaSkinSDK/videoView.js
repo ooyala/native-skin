@@ -30,6 +30,7 @@ var VideoView = React.createClass({
     width: React.PropTypes.number,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
+    onDiscoveryRow: React.PropTypes.func,
   },
 
   handlePress: function(name) {
@@ -70,7 +71,8 @@ var VideoView = React.createClass({
     if (this.props.discovery) {
       placeHolder = (
         <DiscoveryPanel
-          dataSource={this.props.discovery}>
+          dataSource={this.props.discovery}
+          onRowSelected={(embedCode) => this.props.onDiscoveryRow(embedCode)}>
         </DiscoveryPanel>);
     } else {
       placeHolder = (
