@@ -12,6 +12,7 @@
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var AnimationExperimental = require('AnimationExperimental');
+var DiscoveryPanel = require('./discoveryPanel');
 
 var ICONS = require('./constants').ICONS;
 
@@ -25,6 +26,7 @@ var VideoView = React.createClass({
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
+    discovery: React.PropTypes.array,
     width: React.PropTypes.number,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
@@ -61,8 +63,22 @@ var VideoView = React.createClass({
   },
 
   render: function() {
+    var placeHolder;
     var progressBar;
     var controlBar;
+
+    if (this.props.discovery) {
+      placeHolder = (
+        <DiscoveryPanel
+          dataSource={this.props.discovery}>
+        </DiscoveryPanel>);
+    } else {
+      placeHolder = (
+        <View 
+          style={styles.placeholder}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}>  
+        </View>);
+    }
     
     progressBar = (<ProgressBar ref='progressBar' 
       playhead={this.props.playhead} 
@@ -80,10 +96,7 @@ var VideoView = React.createClass({
     
     return (
       <View style={styles.container}>
-      <View 
-      style={styles.placeholder}
-      onTouchEnd={(event) => this.handleTouchEnd(event)}>  
-      </View>
+      {placeHolder}
       {progressBar}
       {controlBar}
       </View>

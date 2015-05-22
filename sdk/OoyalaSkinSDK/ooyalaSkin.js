@@ -20,6 +20,7 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var PauseScreen = require('./PauseScreen');
+var DiscoveryPanel = require('./discoveryPanel');
 
 var ICONS = require('./constants').ICONS;
 var VideoView = require('./videoView');
@@ -45,6 +46,10 @@ var OoyalaSkin = React.createClass({
     eventBridge.onScrub({percentage:value});
   },
 
+  handleEmbedCode: function(code) {
+    eventBridge.setEmbedCode({embedCode:code});
+  },
+
   onTimeChange: function(e) {
     console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
     if (e.rate > 0) {
@@ -57,7 +62,7 @@ var OoyalaSkin = React.createClass({
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
 
-    this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
+    this.setState({screenType:"start", title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
   },
 
   onFrameChange: function(e) {
@@ -69,9 +74,12 @@ var OoyalaSkin = React.createClass({
     this.setState({screenType: 'end'});
   },
 
-  onPause: function(e) {
-    console.log("onPause");
-    this.setState({screenType: 'pause'});
+  onStateChange: function(e) {
+  },
+
+  onDiscoveryResult: function(e) {
+    console.log("onDiscoveryResult results are:", e.results);
+    this.setState({discovery:e.results});
   },
 
   componentWillMount: function() {
@@ -94,8 +102,12 @@ var OoyalaSkin = React.createClass({
       (event) => this.onPlayComplete(event)
     ) );
     this.listeners.push( DeviceEventEmitter.addListener(
-      'onPause',
-      (event) => this.onPause(event)
+      'stateChanged',
+      (event) => this.onStateChange(event)
+    ) );
+    this.listeners.push( DeviceEventEmitter.addListener(
+      'discoveryResultsReceived',
+      (event) => this.onDiscoveryResult(event)
     ) );
   },
 
@@ -145,6 +157,7 @@ var OoyalaSkin = React.createClass({
 
   _renderPauseScreen: function() {
     var PauseScreenConfig = {mode:'default', infoPanel:{visible:true}};
+
     return (
       <PauseScreen
         config={PauseScreenConfig}
@@ -159,11 +172,16 @@ var OoyalaSkin = React.createClass({
 
    _renderVideoView: function() {
      var showPlayButton = this.state.rate > 0 ? false : true;
+     var discovery;
+     if (this.state.rate == 0) {
+      discovery = this.state.discovery;
+     }
      return (
        <VideoView
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
+         discovery={discovery}
          width={this.state.width}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}>
