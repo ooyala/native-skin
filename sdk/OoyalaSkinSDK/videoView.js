@@ -11,8 +11,8 @@
 
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
+var ClosedCaptionsView = require('./closedCaptionsView');
 var AnimationExperimental = require('AnimationExperimental');
-
 var ICONS = require('./constants').ICONS;
 
 var VideoView = React.createClass({
@@ -84,6 +84,7 @@ var VideoView = React.createClass({
       style={styles.placeholder}
       onTouchEnd={(event) => this.handleTouchEnd(event)}>  
       </View>
+            <ClosedCaptionsView style={styles.cc}></ClosedCaptionsView>
       {progressBar}
       {controlBar}
       </View>
@@ -92,15 +93,16 @@ var VideoView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+                               cc : { width:100, height:50 },
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(255,0,0,0.25);',
   },
   placeholder : {
     flex: 1,
     alignItems: 'stretch',
-    backgroundColor: 'transparent',
+    backgroundColor: 'rgba(0,255,0,0.25);',
   },
 });
 
