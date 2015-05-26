@@ -81,7 +81,7 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
-  NSLog(@"sendDeviceEventWithName: %@", eventName);
+//  NSLog(@"sendDeviceEventWithName: %@", eventName);
   [[OOReactBridge getInstance].bridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
 

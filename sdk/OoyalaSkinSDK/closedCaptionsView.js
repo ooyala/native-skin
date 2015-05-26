@@ -8,14 +8,14 @@ var {
 
 class ClosedCaptionsView extends React.Component {
   render() {
-    return <OOSkinClosedCaptionsView {...this.props}/>;
+    return <OOClosedCaptionsView {...this.props}/>;
   }
 }
 
 ClosedCaptionsView.propTypes = {
 };
 
-var OOSkinClosedCaptionsView = requireNativeComponent('OOSkinClosedCaptionsView', ClosedCaptionsView);
+var OOClosedCaptionsView = requireNativeComponent('OOClosedCaptionsView', ClosedCaptionsView);
 
 module.exports = ClosedCaptionsView;
 

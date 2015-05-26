@@ -46,9 +46,7 @@ var OoyalaSkin = React.createClass({
   },
 
   onTimeChange: function(e) {
-    console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
     if (e.rate > 0) {
-      console.log( "onTimeChange: -> video" );
       this.setState({screenType: 'video'});
     }
     this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate});
@@ -107,7 +105,6 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    console.log("render: " + this.state.screenType);
     switch (this.state.screenType) {
       case 'start': return this._renderStartScreen(); break;
       case 'end':   return this._renderEndScreen();   break;
