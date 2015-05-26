@@ -63,7 +63,8 @@ var VideoView = React.createClass({
   render: function() {
     var progressBar;
     var controlBar;
-    
+    var placeholder;
+
     progressBar = (<ProgressBar ref='progressBar' 
       playhead={this.props.playhead} 
       duration={this.props.duration}
@@ -77,23 +78,23 @@ var VideoView = React.createClass({
       duration={this.props.duration} 
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       onPress={(name) => this.handlePress(name)} />);
-    
+
+    placeholder = ( <View
+                    style={styles.placeholder}
+                    onTouchEnd={(event) => this.handleTouchEnd(event)}>
+                    </View> );
     return (
       <View style={styles.container}>
-      <View 
-      style={styles.placeholder}
-      onTouchEnd={(event) => this.handleTouchEnd(event)}>  
+        {placeholder}
+          <ClosedCaptionsView style={styles.cc}></ClosedCaptionsView>
+        {progressBar}
+        {controlBar}
       </View>
-            <ClosedCaptionsView style={styles.cc}></ClosedCaptionsView>
-      {progressBar}
-      {controlBar}
-      </View>
-      );
+    );
   }
 });
 
 var styles = StyleSheet.create({
-                               cc : { width:100, height:50 },
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -103,6 +104,11 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: 'stretch',
     backgroundColor: 'rgba(0,255,0,0.25);',
+  },
+  cc : {
+    alignSelf: 'center',
+    width: 100,
+    height: 100,
   },
 });
 
