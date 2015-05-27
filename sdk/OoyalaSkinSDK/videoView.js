@@ -99,6 +99,8 @@ var VideoView = React.createClass({
                     onTouchEnd={(event) => this.handleTouchEnd(event)}>
                     </View> );
     var ccOverlayHeight = windowSize.height - this.state.ccOverlayBottomMargin;
+    // todo: what are the rules for this?
+    var ccWidth = windowSize.width * 0.8;
 
     return (
       <View style={styles.container}>
@@ -108,10 +110,7 @@ var VideoView = React.createClass({
         <View
           style={[{flexDirection:'column', justifyContent:'flex-end', position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight}]}
           onTouchEnd={(event) => this.handleTouchEnd(event)}>
-          <Text style={[{alignSelf:'center'}]}>FOO1</Text>
-          <Text style={[{alignSelf:'center'}]}>FOO2</Text>
-          <Text style={[{alignSelf:'center'}]}>FOO3</Text>
-          <Text style={[{alignSelf:'center'}]}>FOO4</Text>
+          <ClosedCaptionsView style={[{alignSelf:'center', width:ccWidth, height:100}]}></ClosedCaptionsView>
         </View>
       </View>
     );
@@ -128,11 +127,6 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: 'stretch',
     backgroundColor: 'rgba(0,255,0,0.25);',
-  },
-  cc : {
-    alignSelf: 'center',
-    width: 100,
-    height: 100,
   },
 });
 
