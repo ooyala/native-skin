@@ -5,9 +5,13 @@
 'use strict';
  var React = require('react-native');
  var {
+  Text,
   View,
   StyleSheet
 } = React;
+
+var Dimensions = require('Dimensions');
+var windowSize = Dimensions.get('window');
 
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
@@ -61,17 +65,13 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-    var progressBar;
-    var controlBar;
-    var placeholder;
-
-    progressBar = (<ProgressBar ref='progressBar' 
+    var progressBar = (<ProgressBar ref='progressBar'
       playhead={this.props.playhead} 
       duration={this.props.duration}
       width={this.props.width} 
       onScrub={(value)=>this.handleScrub(value)} />);
 
-    controlBar = (<ControlBar 
+    var controlBar = (<ControlBar
       ref='controlBar' 
       showPlay={this.props.showPlay} 
       playhead={this.props.playhead} 
@@ -79,16 +79,26 @@ var VideoView = React.createClass({
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       onPress={(name) => this.handlePress(name)} />);
 
-    placeholder = ( <View
+    var placeholder = ( <View
                     style={styles.placeholder}
                     onTouchEnd={(event) => this.handleTouchEnd(event)}>
                     </View> );
+
+    var ccOverlayHeight = windowSize.height - (this.state.showControls ? 60 : 10);
+
     return (
       <View style={styles.container}>
         {placeholder}
-          <ClosedCaptionsView style={styles.cc}></ClosedCaptionsView>
         {progressBar}
         {controlBar}
+        <View
+          style={[{flexDirection:'column', justifyContent:'flex-end', position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight}]}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}>
+          <Text style={[{alignSelf:'center'}]}>FOO1</Text>
+          <Text style={[{alignSelf:'center'}]}>FOO2</Text>
+          <Text style={[{alignSelf:'center'}]}>FOO3</Text>
+          <Text style={[{alignSelf:'center'}]}>FOO4</Text>
+        </View>
       </View>
     );
   }
