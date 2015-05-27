@@ -3,16 +3,91 @@ var {
   StyleSheet,
   Text,
   View,
-  Image
+  Image,
+  TouchableHighlight,
 } = React;
 
 var SharePanel = React.createClass ({
 	propTypes: {
 		isShow: React.PropTypes.boolean,
+		onPress: React.PropTypes.func,
+	},
+
+	onTwitterPress: function(){
+		console.log("Hello Twitter");
+		this.props.onPress('TwitterShare');
+	},
+
+	onFacebookPress: function(){
+		this.props.onPress('FacebookShare');
+	},
+
+	onGooglePlusPress: function(){
+		this.props.onPress('GooglePlusShare');
+	},
+
+	onEmailPress: function(){
+		this.props.onPress('EmailShare');
 	},
 
 	render: function() {
 		var sharePanel;
+
+		var twitterBtn = (
+			<TouchableHighlight
+				onPress={this.onTwitterPress}
+   				underlayColor="transparent"
+   				activeOpacity={0.5}>
+
+   				<Image style={styles.socialButton}
+			       	source={{uri: 'https://g.twimg.com/ios_homescreen_icon.png'}}
+			       	resizeMode={Image.resizeMode.contain}>
+			   	</Image>
+
+   			</TouchableHighlight>
+		);
+
+		var facebookBtn = (
+			<TouchableHighlight
+				onPress={this.onFacebookPress}
+   				underlayColor="transparent"
+   				activeOpacity={0.5}>
+
+   				<Image style={styles.socialButton}
+			       	source={{uri: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png'}}
+			       	resizeMode={Image.resizeMode.contain}>
+			   	</Image>
+
+   			</TouchableHighlight>
+		);
+
+		var googlePlusBtn = (
+			<TouchableHighlight
+				onPress={this.onGooglePlusPress}
+   				underlayColor="transparent"
+   				activeOpacity={0.5}>
+
+				<Image style={styles.socialButton}
+			       	source={{uri: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300'}}
+			       	resizeMode={Image.resizeMode.contain}>
+				</Image>
+			   	
+   			</TouchableHighlight>
+		);
+
+		var emailBtn = (
+			<TouchableHighlight
+				onPress={this.onEmailPress}
+   				underlayColor="transparent"
+   				activeOpacity={0.5}>
+
+				<Image style={styles.socialButton}
+			        source={{uri: 'http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png'}}
+			        resizeMode={Image.resizeMode.contain}>
+			    </Image>
+			   	
+   			</TouchableHighlight>
+		);
 
 		if(this.props.isShow){
 			sharePanel = (
@@ -20,20 +95,10 @@ var SharePanel = React.createClass ({
 					<Text style={styles.sharePanelTitle}>{"Invest In Social Change"}</Text>
 
 					<View style={styles.sharePanelButtonRow}>
-						<Image style={styles.socialButton}
-			        		source={{uri: 'https://g.twimg.com/ios_homescreen_icon.png'}}
-			        		resizeMode={Image.resizeMode.contain}>
-			    		</Image>
-
-			    		<Image style={styles.socialButton}
-			        		source={{uri: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png'}}
-			        		resizeMode={Image.resizeMode.contain}>
-			    		</Image>
-
-			    		<Image style={styles.socialButton}
-			        		source={{uri: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300'}}
-			        		resizeMode={Image.resizeMode.contain}>
-			    		</Image>
+						{twitterBtn}
+						{facebookBtn}
+						{googlePlusBtn}
+						{emailBtn}
 					</View>
 				</View>
 			);

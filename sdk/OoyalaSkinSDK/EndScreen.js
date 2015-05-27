@@ -83,7 +83,8 @@ render: function() {
  var sharePanel;
  sharePanel = (<SharePanel 
   ref='sharePanel' 
-  isShow= {this.state.showSharePanel}/>);
+  isShow= {this.state.showSharePanel}
+  onPress={(name) => this.handleClick(name)} />);
 
  var progressBar;
  progressBar = (<ProgressBar ref='progressBar' 
@@ -110,8 +111,7 @@ render: function() {
      resizeMode={Image.resizeMode.contain}
      >
       <View 
-        style={styles.fullscreenContainer}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+        style={styles.fullscreenContainer}>
 
        {infoPanel}
        {sharePanel}
