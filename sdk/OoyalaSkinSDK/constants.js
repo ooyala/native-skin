@@ -9,6 +9,15 @@ var ICONS = {
   ELLIPSIS: '\uf142',
   REPLAY:'\uf01e',
   SHARE:'\uf045',
+  CC: '\uf20a',
 };
 
-module.exports = {ICONS};
+var BUTTON_NAMES = { // must match Objective-C code expectations.
+  PLAY_PAUSE: 'PlayPause',
+  SOCIAL_SHARE: 'SocialShare',
+  CLOSED_CAPTIONS: 'ClosedCaptions',
+  FULLSCREEN: 'Fullscreen',
+  MORE: 'More',
+};
+
+module.exports = {ICONS, BUTTON_NAMES};

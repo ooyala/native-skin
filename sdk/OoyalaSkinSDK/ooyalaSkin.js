@@ -21,7 +21,11 @@ var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var PauseScreen = require('./PauseScreen');
 
-var ICONS = require('./constants').ICONS;
+var Constants = require('./constants');
+var {
+  ICONS,
+  BUTTON_NAMES
+} = Constants;
 var VideoView = require('./videoView');
 
 var OoyalaSkin = React.createClass({
@@ -31,13 +35,19 @@ var OoyalaSkin = React.createClass({
       title: 'video title', 
       description: 'this is the detail of the video', 
       promoUrl: '', 
-      playhead:0, 
-      duration:1, 
-      rate:0,
+      playhead: 0,
+      duration: 1,
+      rate: 0,
+      closedCaptionsLanguage: null,
+      availableClosedCaptionsLanguages: null,
     };
   },
 
   handlePress: function(n) {
+    if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
+      this.state.closedCaptionsLanguage = (this.state.closedCaptionsLanguage ? null : 'en');
+      console.log( "closedCaptionsLanguage = " + this.state.closedCaptionsLanguage );
+    }
     eventBridge.onPress({name:n});
   },
 
@@ -54,7 +64,6 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-
     this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
   },
 
@@ -121,8 +130,7 @@ var OoyalaSkin = React.createClass({
         title={this.state.title}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
-        onPress={(name) => this.handlePress(name)} >
-      </StartScreen>
+        onPress={(name) => this.handlePress(name)}/>
     );
   },
 
@@ -135,8 +143,7 @@ var OoyalaSkin = React.createClass({
         description={this.state.description}
         promoUrl={this.state.promoUrl}
         duration={this.state.duration}
-        onPress={(name) => this.handlePress(name)}>
-      </EndScreen>
+        onPress={(name) => this.handlePress(name)}/>
     );
   },
 
@@ -149,8 +156,7 @@ var OoyalaSkin = React.createClass({
         duration={this.state.duration}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
-        onPress={(name) => this.handlePress(name)}>
-      </PauseScreen>
+        onPress={(name) => this.handlePress(name)}/>
     );
   },
 
@@ -163,8 +169,9 @@ var OoyalaSkin = React.createClass({
          duration={this.state.duration}
          width={this.state.width}
          onPress={(value) => this.handlePress(value)}
-         onScrub={(value) => this.handleScrub(value)}>
-       </VideoView>
+         onScrub={(value) => this.handleScrub(value)}
+         closedCaptionsLanguage={this.state.closedCaptionsLanguage}
+         availableClosedCaptionsLanguage={this.state.availableClosedCaptionsLanguages}/>
      );
    }
 });
