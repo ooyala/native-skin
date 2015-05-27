@@ -22,9 +22,9 @@
 
 @implementation OOSkinViewController
 
-static const NSString *kFrameChangeContext = @"frameChanged";
-static const NSString *kViewChangeKey = @"frame";
-static const NSString *onPauseBridgeEventName = @"onPause";
+static NSString *kFrameChangeContext = @"frameChanged";
+static NSString *kViewChangeKey = @"frame";
+static NSString *kOnPauseBridgeEventName = @"onPause";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
@@ -85,7 +85,9 @@ static const NSString *onPauseBridgeEventName = @"onPause";
   NSDictionary *eventBody =
   @{@"duration":durationNumber,
     @"playhead":playheadNumber,
-    @"rate":rateNumber};
+    @"rate":rateNumber,
+    @"closedCaptionsLanguage":@"en",
+    @"availableClosedCaptionsLanguages":@[@"en"]};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
@@ -106,9 +108,8 @@ static const NSString *onPauseBridgeEventName = @"onPause";
 
 -(void) bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *name = notification.name;
-  NSDictionary *eventBody;
   if( _player.state == OOOoyalaPlayerStatePaused ) {
-    name = onPauseBridgeEventName;
+    name = kOnPauseBridgeEventName;
   }
   [OOReactBridge sendDeviceEventWithName:name body:nil];
 }

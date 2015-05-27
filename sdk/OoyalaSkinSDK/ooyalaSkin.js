@@ -43,11 +43,19 @@ var OoyalaSkin = React.createClass({
     };
   },
 
-  handlePress: function(n) {
+  cchack: function(n) {
+    // todo: remove this testing hack and do it right...
     if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
-      this.state.closedCaptionsLanguage = (this.state.closedCaptionsLanguage ? null : 'en');
-      console.log( "closedCaptionsLanguage = " + this.state.closedCaptionsLanguage );
+      if( this.state.availableClosedCaptionsLanguages ) {
+        this.setState({closedCaptionsLanguage: (this.state.closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0])});
+      }
+      console.log( "closedCaptionsLanguage -> " + this.state.closedCaptionsLanguage );
     }
+    // todo: ...remove this testing hack and do it right.
+  },
+
+  handlePress: function(n) {
+    this.cchack(n); // todo: remove this testing hack and do it right.
     eventBridge.onPress({name:n});
   },
 
@@ -59,7 +67,13 @@ var OoyalaSkin = React.createClass({
     if (e.rate > 0) {
       this.setState({screenType: 'video'});
     }
-    this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate});
+    this.setState({
+      playhead:e.playhead,
+      duration:e.duration,
+      rate:e.rate,
+      closedCaptionsLanguage:e.closedCaptionsLanguage,
+      availableClosedCaptionsLanguages:e.availableClosedCaptionsLanguages
+    });
   },
 
   onCurrentItemChange: function(e) {
@@ -161,6 +175,8 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderVideoView: function() {
+     console.log( "closedCaptionsLanguage={"+this.state.closedCaptionsLanguage+"}");
+     console.log( "availableClosedCaptionsLanguages={"+this.state.availableClosedCaptionsLanguages+"}");
      var showPlayButton = this.state.rate > 0 ? false : true;
      return (
        <VideoView
@@ -171,7 +187,7 @@ var OoyalaSkin = React.createClass({
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
          closedCaptionsLanguage={this.state.closedCaptionsLanguage}
-         availableClosedCaptionsLanguage={this.state.availableClosedCaptionsLanguages}/>
+         availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}/>
      );
    }
 });

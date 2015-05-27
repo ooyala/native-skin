@@ -91,7 +91,7 @@ var VideoView = React.createClass({
       width={this.props.width}
       onScrub={(value)=>this.handleScrub(value)} />);
 
-    var shouldShowClosedCaptionsButton = true; // this.props.availableClosedCaptionsLanguages ? true : false;
+    var shouldShowClosedCaptionsButton = this.props.availableClosedCaptionsLanguages ? true : false;
     var controlBar = (<ControlBar
       ref='controlBar' 
       showPlay={this.props.showPlay} 
@@ -106,7 +106,8 @@ var VideoView = React.createClass({
       onTouchEnd={(event) => this.handleTouchEnd(event)} />);
 
     var ccOverlayHeight = windowSize.height - this.state.ccOverlayBottomMargin;
-    var ccOpacity = this.props.closedCaptionsLanguage ? 0 : 1;
+    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
+    console.log( "ccOpacity = " + ccOpacity + " <- closedCaptionsLanguage = " + this.props.closedCaptionsLanguage );
     var ccOverlay = ( <ClosedCaptionsView
           style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity}]}
           onTouchEnd={(event) => this.handleTouchEnd(event)} /> );
