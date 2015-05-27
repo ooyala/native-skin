@@ -21,7 +21,11 @@ var ICONS = require('./constants').ICONS;
 
 var VideoView = React.createClass({
   getInitialState: function() {
-    return {showControls:true, ccOverlayBottomMargin:60};
+    return {
+      showControls: true,
+      showClosedCaptions: true,
+      ccOverlayBottomMargin: 60,
+    };
   },
 
   propTypes: {
@@ -94,24 +98,25 @@ var VideoView = React.createClass({
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       onPress={(name) => this.handlePress(name)} />);
 
-    var placeholder = ( <View
-                    style={styles.placeholder}
-                    onTouchEnd={(event) => this.handleTouchEnd(event)}>
-                    </View> );
+    var placeholder = (<View
+      style={styles.placeholder}
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />);
+
     var ccOverlayHeight = windowSize.height - this.state.ccOverlayBottomMargin;
-    // todo: what are the rules for this?
-    var ccWidth = windowSize.width * 0.8;
+    var ccOverlay;
+    if( this.state.showClosedCaptions ) {
+      ccOverlay = (
+          <ClosedCaptionsView
+          style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight}]}
+          onTouchEnd={(event) => this.handleTouchEnd(event)} /> );
+    }
 
     return (
       <View style={styles.container}>
         {placeholder}
         {progressBar}
         {controlBar}
-        <View
-          style={[{flexDirection:'column', justifyContent:'flex-end', position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight}]}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}>
-          <ClosedCaptionsView style={[{alignSelf:'center', width:ccWidth, height:100}]}></ClosedCaptionsView>
-        </View>
+        {ccOverlay}
       </View>
     );
   }
