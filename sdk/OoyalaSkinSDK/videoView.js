@@ -21,7 +21,7 @@ var ICONS = require('./constants').ICONS;
 
 var VideoView = React.createClass({
   getInitialState: function() {
-    return {showControls:true};
+    return {showControls:true, ccOverlayBottomMargin:60};
   },
 
   propTypes: {
@@ -46,6 +46,19 @@ var VideoView = React.createClass({
     return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
+  onToggleControlBarAnimationProgress: function( finished ) {
+    console.log( "onControlBarVisibilityAnimationDone: " + finished );
+    if( finished ) {
+      this.setState( {
+        ccOverlayBottomMargin:
+          this.state.showControls ?
+            60 :
+            10
+        }
+      );
+    }
+  },
+
   toggleControlBar: function() {
     for (var ref in this.refs) {
       console.log("ref is",ref);
@@ -55,7 +68,8 @@ var VideoView = React.createClass({
         property: 'opacity',
         easing: 'easingInOutExpo',
         toValue: this.state.showControls ? 0 : 1,
-      });
+      },
+      this.onToggleControlBarAnimationProgress);
     }
     this.setState({showControls:!this.state.showControls});
   },
@@ -65,17 +79,18 @@ var VideoView = React.createClass({
   },
 
   render: function() {
+
     var progressBar = (<ProgressBar ref='progressBar'
       playhead={this.props.playhead} 
       duration={this.props.duration}
-      width={this.props.width} 
+      width={this.props.width}
       onScrub={(value)=>this.handleScrub(value)} />);
 
     var controlBar = (<ControlBar
       ref='controlBar' 
       showPlay={this.props.showPlay} 
       playhead={this.props.playhead} 
-      duration={this.props.duration} 
+      duration={this.props.duration}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       onPress={(name) => this.handlePress(name)} />);
 
@@ -83,8 +98,7 @@ var VideoView = React.createClass({
                     style={styles.placeholder}
                     onTouchEnd={(event) => this.handleTouchEnd(event)}>
                     </View> );
-
-    var ccOverlayHeight = windowSize.height - (this.state.showControls ? 60 : 10);
+    var ccOverlayHeight = windowSize.height - this.state.ccOverlayBottomMargin;
 
     return (
       <View style={styles.container}>
