@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var {
-  Text,
   requireNativeComponent
 } = React;
 
@@ -11,11 +10,10 @@ class ClosedCaptionsView extends React.Component {
     return <OOClosedCaptionsView {...this.props}/>;
   }
 }
-
 ClosedCaptionsView.propTypes = {
+  caption: React.PropTypes.string,
 };
 
 var OOClosedCaptionsView = requireNativeComponent('OOClosedCaptionsView', ClosedCaptionsView);
-
 module.exports = ClosedCaptionsView;
 

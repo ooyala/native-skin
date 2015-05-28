@@ -108,9 +108,10 @@ var VideoView = React.createClass({
     var ccOverlayHeight = windowSize.height - this.state.ccOverlayBottomMargin;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
     console.log( "ccOpacity = " + ccOpacity + " <- closedCaptionsLanguage = " + this.props.closedCaptionsLanguage );
-    var ccOverlay = ( <ClosedCaptionsView
+    var ccOverlay = (<ClosedCaptionsView
           style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity}]}
-          onTouchEnd={(event) => this.handleTouchEnd(event)} /> );
+          caption={"testy"}
+          onTouchEnd={(event) => this.handleTouchEnd(event)} />);
 
     return (
       <View style={styles.container}>

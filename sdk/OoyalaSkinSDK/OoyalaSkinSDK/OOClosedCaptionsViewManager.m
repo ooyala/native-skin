@@ -29,4 +29,10 @@ RCT_EXPORT_MODULE()
 
   return v;
 }
+
+RCT_CUSTOM_VIEW_PROPERTY(caption, NSString, OOClosedCaptionsView) {
+  OOCaption *c = [[OOCaption alloc] initWithBegin:0 end:MAXFLOAT text:json];
+  view.caption = c;
+}
+
 @end
