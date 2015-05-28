@@ -86,8 +86,7 @@ static NSString *kOnPauseBridgeEventName = @"onPause";
   @{@"duration":durationNumber,
     @"playhead":playheadNumber,
     @"rate":rateNumber,
-    @"closedCaptionsLanguage":@"en",
-    @"availableClosedCaptionsLanguages":@[@"en"]};
+    @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 

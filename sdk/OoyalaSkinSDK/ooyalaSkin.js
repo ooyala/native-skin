@@ -29,6 +29,9 @@ var {
 var VideoView = require('./videoView');
 
 var OoyalaSkin = React.createClass({
+
+  // note/todo: some of these are more like props, expected to be over-ridden/updated
+  // by the native bridge, and others are used purely on the non-native side.
   getInitialState() {
     return {
       screenType: 'start', 
@@ -47,9 +50,10 @@ var OoyalaSkin = React.createClass({
     // todo: remove this testing hack and do it right...
     if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
       if( this.state.availableClosedCaptionsLanguages ) {
-        this.setState({closedCaptionsLanguage: (this.state.closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0])});
+        var ccl = (this.state.closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
+        this.setState({closedCaptionsLanguage: ccl});
+        console.log( "closedCaptionsLanguage -> " + ccl );
       }
-      console.log( "closedCaptionsLanguage -> " + this.state.closedCaptionsLanguage );
     }
     // todo: ...remove this testing hack and do it right.
   },
@@ -71,7 +75,6 @@ var OoyalaSkin = React.createClass({
       playhead:e.playhead,
       duration:e.duration,
       rate:e.rate,
-      closedCaptionsLanguage:e.closedCaptionsLanguage,
       availableClosedCaptionsLanguages:e.availableClosedCaptionsLanguages
     });
   },
