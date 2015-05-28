@@ -32,6 +32,7 @@ var OoyalaSkin = React.createClass({
 
   // note/todo: some of these are more like props, expected to be over-ridden/updated
   // by the native bridge, and others are used purely on the non-native side.
+  // consider using a leading underscore, or something?
   getInitialState() {
     return {
       screenType: 'start', 
@@ -41,8 +42,9 @@ var OoyalaSkin = React.createClass({
       playhead: 0,
       duration: 1,
       rate: 0,
-      closedCaptionsLanguage: null,
+      _closedCaptionsLanguage: null,
       availableClosedCaptionsLanguages: null,
+      captionJSON: null,
     };
   },
 
@@ -50,9 +52,8 @@ var OoyalaSkin = React.createClass({
     // todo: remove this testing hack and do it right...
     if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
       if( this.state.availableClosedCaptionsLanguages ) {
-        var ccl = (this.state.closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
-        this.setState({closedCaptionsLanguage: ccl});
-        console.log( "closedCaptionsLanguage -> " + ccl );
+        var ccl = (this.state._closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
+        this.setState({_closedCaptionsLanguage: ccl});
       }
     }
     // todo: ...remove this testing hack and do it right.
@@ -67,16 +68,25 @@ var OoyalaSkin = React.createClass({
     eventBridge.onScrub({percentage:value});
   },
 
+  _updateClosedCaptions: function() {
+    eventBridge.onClosedCaptionUpdateRequested( {language:this.state._closedCaptionsLanguage} );
+  },
+
+  onClosedCaptionUpdate: function(e) {
+    this.setState( {captionJSON: e} );
+  },
+
   onTimeChange: function(e) {
     if (e.rate > 0) {
       this.setState({screenType: 'video'});
     }
     this.setState({
-      playhead:e.playhead,
-      duration:e.duration,
-      rate:e.rate,
-      availableClosedCaptionsLanguages:e.availableClosedCaptionsLanguages
+      playhead: e.playhead,
+      duration: e.duration,
+      rate: e.rate,
+      availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
     });
+    this._updateClosedCaptions();
   },
 
   onCurrentItemChange: function(e) {
@@ -94,7 +104,6 @@ var OoyalaSkin = React.createClass({
   },
 
   onPause: function(e) {
-    console.log("onPause");
     this.setState({screenType: 'pause'});
   },
 
@@ -120,6 +129,10 @@ var OoyalaSkin = React.createClass({
     this.listeners.push( DeviceEventEmitter.addListener(
       'onPause',
       (event) => this.onPause(event)
+    ) );
+    this.listeners.push( DeviceEventEmitter.addListener(
+      'onClosedCaptionUpdate',
+      (event) => this.onClosedCaptionUpdate(event)
     ) );
   },
 
@@ -178,8 +191,6 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderVideoView: function() {
-     console.log( "closedCaptionsLanguage={"+this.state.closedCaptionsLanguage+"}");
-     console.log( "availableClosedCaptionsLanguages={"+this.state.availableClosedCaptionsLanguages+"}");
      var showPlayButton = this.state.rate > 0 ? false : true;
      return (
        <VideoView
@@ -189,8 +200,9 @@ var OoyalaSkin = React.createClass({
          width={this.state.width}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
-         closedCaptionsLanguage={this.state.closedCaptionsLanguage}
-         availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}/>
+         closedCaptionsLanguage={this.state._closedCaptionsLanguage}
+         availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
+         captionJSON={this.state.captionJSON}/>
      );
    }
 });

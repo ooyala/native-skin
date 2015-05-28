@@ -16,23 +16,19 @@ RCT_EXPORT_MODULE()
 - (UIView *)view
 {
   OOClosedCaptionsView *v = [OOClosedCaptionsView new];
-
-  // just for testing...
-  // it doesn't show up w/out setting a style.
-  OOClosedCaptionsStyle *s = [OOClosedCaptionsStyle new];
-  v.style = s;
-  OOCaption *c = [[OOCaption alloc] initWithBegin:0 end:MAXFLOAT text:@"TESTING"];
-  v.caption = c;
-  v.layer.borderWidth = 3;
-  v.layer.borderColor = [UIColor greenColor].CGColor;
-  // ...just for testing.
-
+  v.style = [OOClosedCaptionsStyle new];
   return v;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(caption, NSString, OOClosedCaptionsView) {
-  OOCaption *c = [[OOCaption alloc] initWithBegin:0 end:MAXFLOAT text:json];
-  view.caption = c;
+RCT_CUSTOM_VIEW_PROPERTY(captionJSON, NSString, OOClosedCaptionsView) {
+  if( json ) { // apparently, empirically, an NSCFDictionary.
+    NSString *text = [json objectForKey:@"text"];
+    // assumes that Float64 really == double, and that the json will use "." not e.g. "," for decimals.
+    Float64 begin = [[json objectForKey:@"begin"] doubleValue];
+    Float64 end = [[json objectForKey:@"end"] doubleValue];
+    OOCaption *c = [[OOCaption alloc] initWithBegin:begin end:end text:text];
+    view.caption = c;
+  }
 }
 
 @end

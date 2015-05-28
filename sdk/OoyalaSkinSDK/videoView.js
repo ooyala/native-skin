@@ -37,6 +37,7 @@ var VideoView = React.createClass({
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
+    captionJSON: React.PropTypes.object,
   },
 
   handlePress: function(name) {
@@ -51,8 +52,8 @@ var VideoView = React.createClass({
     return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
+  // this is not called the way I expect w.r.t. animation timing, but this seems to work nevertheless.
   onToggleControlBarAnimationProgress: function( finished ) {
-    console.log( "onControlBarVisibilityAnimationDone: " + finished );
     if( finished ) {
       this.setState( {
         ccOverlayBottomMargin:
@@ -107,10 +108,9 @@ var VideoView = React.createClass({
 
     var ccOverlayHeight = windowSize.height - this.state.ccOverlayBottomMargin;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    console.log( "ccOpacity = " + ccOpacity + " <- closedCaptionsLanguage = " + this.props.closedCaptionsLanguage );
     var ccOverlay = (<ClosedCaptionsView
-          style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity}]}
-          caption={"testy"}
+          style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
+          captionJSON={this.props.captionJSON}
           onTouchEnd={(event) => this.handleTouchEnd(event)} />);
 
     return (
@@ -128,12 +128,12 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'rgba(255,0,0,0.25);',
+    backgroundColor: 'transparent',
   },
   placeholder : {
     flex: 1,
     alignItems: 'stretch',
-    backgroundColor: 'rgba(0,255,0,0.25);',
+    backgroundColor: 'transparent',
   },
 });
 

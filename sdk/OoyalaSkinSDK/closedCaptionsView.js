@@ -11,7 +11,7 @@ class ClosedCaptionsView extends React.Component {
   }
 }
 ClosedCaptionsView.propTypes = {
-  caption: React.PropTypes.string,
+  captionJSON: React.PropTypes.object,
 };
 
 var OOClosedCaptionsView = requireNativeComponent('OOClosedCaptionsView', ClosedCaptionsView);
