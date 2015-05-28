@@ -67,17 +67,17 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
   NSString *language = [parameters objectForKey:languageKey];
   dispatch_async(dispatch_get_main_queue(), ^{
+    NSString *eventName = @"onClosedCaptionUpdate";
+    NSDictionary *body = nil;
     if (self.player.currentItem.hasClosedCaptions) {
       OOCaption *pc = [self.player.currentItem.closedCaptions captionForLanguage:language time:self.player.playheadTime];
       if( pc != nil ) {
-        NSString *eventName = @"onClosedCaptionUpdate";
-        NSDictionary *body =
-        @{ @"text":  pc.text,
-           @"begin": [NSString stringWithFormat:@"%lf", pc.begin],
-           @"end":   [NSString stringWithFormat:@"%lf", pc.end] };
-        [OOReactBridge sendDeviceEventWithName:eventName body:body];
+        body = @{ @"text":  pc.text,
+                  @"begin": [NSString stringWithFormat:@"%lf", pc.begin],
+                  @"end":   [NSString stringWithFormat:@"%lf", pc.end] };
       }
     }
+    [OOReactBridge sendDeviceEventWithName:eventName body:body];
   });
 }
 

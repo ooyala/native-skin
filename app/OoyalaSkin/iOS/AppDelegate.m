@@ -18,7 +18,7 @@ NSString * const PCODE = @"3dff4c81919e43c98c6c4a45b7b7b8c3";
 NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
 NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48"; // big buck bunny.
 //NSString * const EMBEDCODE = @"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww"; // vod with closed captions.
-//NSString * const EMBEDCODE = @"ozNTJ2ZDqvPWyXTriQF_Ovcd1VuKHGdH"; // channel.
+//NSString * const EMBEDCODE = @"ZwNThkdTrSfttI2N_-MH3MRIdJQ3Ox8I"; // vod to no-vod channel.
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
