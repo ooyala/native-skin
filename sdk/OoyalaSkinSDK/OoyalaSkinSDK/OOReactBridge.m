@@ -13,6 +13,7 @@
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
+#import <Social/Social.h>
 
 @implementation OOReactBridge
 
@@ -48,6 +49,13 @@ static OOReactBridge *sharedInstance = nil;
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:@"name"];
+  if([buttonName isEqualToString:@"TwitterShare"]) {
+    SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+    [tweetSheet setInitialText:@"Tweeting from ReactNative :)"];
+    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    [ctrl presentViewController:tweetSheet animated:YES completion:nil];
+  }
+  
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([buttonName isEqualToString:@"PlayPause"]) {
       if (_player.state == OOOoyalaPlayerStatePlaying) {
@@ -55,9 +63,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       } else {
         [_player play];
       }
-    } else {
-      // process other keys.
     }
+  
   });
 }
 

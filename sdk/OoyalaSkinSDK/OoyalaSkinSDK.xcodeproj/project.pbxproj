@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BC963FA1B168AFF00FDC04B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BC963F91B168AFF00FDC04B /* Social.framework */; };
 		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
 		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		972ED85E1AE6EEEB005043DC /* OoyalaSkinSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED85D1AE6EEEB005043DC /* OoyalaSkinSDKTests.m */; };
@@ -62,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0BC963F91B168AFF00FDC04B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimationExperimental.xcodeproj; path = "react-native/Libraries/Animation/RCTAnimationExperimental.xcodeproj"; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BC963FA1B168AFF00FDC04B /* Social.framework in Frameworks */,
 				9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */,
 				972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */,
 				972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */,
@@ -119,6 +122,7 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
+				0BC963F91B168AFF00FDC04B /* Social.framework */,
 				FF12905E1AEABA9B00664374 /* framework */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
 				972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */,

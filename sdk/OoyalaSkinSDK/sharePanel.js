@@ -14,7 +14,6 @@ var SharePanel = React.createClass ({
 	},
 
 	onTwitterPress: function(){
-		console.log("Hello Twitter");
 		this.props.onPress('TwitterShare');
 	},
 
