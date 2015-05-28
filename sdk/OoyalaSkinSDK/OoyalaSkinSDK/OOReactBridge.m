@@ -49,10 +49,17 @@ static OOReactBridge *sharedInstance = nil;
   return sharedInstance;
 }
 
-RCT_EXPORT_METHOD(twitterShare:(NSDictionary *)options
-                  callback: (RCTResponseSenderBlock)callback){
-  if([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
-    NSString *serviceType = SLServiceTypeTwitter;
+RCT_EXPORT_METHOD(socialShare:(NSDictionary *)options
+                  callback: (RCTResponseSenderBlock)callback)
+{
+  NSString *serviceType = @"";
+  if([options[@"socialType"] isEqualToString:@"Twitter"]){
+    serviceType = SLServiceTypeTwitter;
+  }else{
+    serviceType = SLServiceTypeFacebook;
+  }
+  
+  if([SLComposeViewController isAvailableForServiceType:serviceType]) {
     SLComposeViewController *composeCtl = [SLComposeViewController composeViewControllerForServiceType:serviceType];
     
     if (options[@"link"]){
@@ -86,20 +93,12 @@ RCT_EXPORT_METHOD(twitterShare:(NSDictionary *)options
     [ctrl presentViewController:composeCtl animated:YES completion: nil];
   }
   else{
-    callback(@[@"Twitter not available"]);
+    callback(@[@"not_available"]);
   }
 }
 
-
-
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:@"name"];
-  if([buttonName isEqualToString:@"TwitterShare"]) {
-    SLComposeViewController *tweetSheet = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-    [tweetSheet setInitialText:@"Tweeting from ReactNative :)"];
-    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-    [ctrl presentViewController:tweetSheet animated:YES completion:nil];
-  }
   
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([buttonName isEqualToString:@"PlayPause"]) {
