@@ -10,11 +10,12 @@ var {
 var SharePanel = React.createClass ({
 	propTypes: {
 		isShow: React.PropTypes.boolean,
-		onPress: React.PropTypes.func,
+		twitterShare: React.PropTypes.func,
+		onPress:React.PropTypes.func,
 	},
 
 	onTwitterPress: function(){
-		this.props.onPress('TwitterShare');
+		this.props.twitterShare();
 	},
 
 	onFacebookPress: function(){

@@ -36,6 +36,18 @@ var OoyalaSkin = React.createClass({
     };
   },
 
+  twitterShare: function() {
+    eventBridge.twitterShare({
+        'text':this.state.title,
+        'link':'https://www.ooyala.com',
+
+      },
+      (results) => {
+        console.log(results);
+      }
+    );
+  },
+
   handlePress: function(n) {
     eventBridge.onPress({name:n});
   },
@@ -114,7 +126,8 @@ var OoyalaSkin = React.createClass({
             description={this.state.description}
             promoUrl={this.state.promoUrl}
             duration={this.state.duration} 
-            onPress={(name) => this.handlePress(name)}>
+            onPress={(name) => this.handlePress(name)}
+            twitterShare={this.twitterShare}>
           </EndScreen>
         );
     } else {

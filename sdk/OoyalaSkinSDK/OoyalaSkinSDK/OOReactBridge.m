@@ -10,6 +10,8 @@
 #import "OOReactBridge.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
+#import "RCTConvert.h"
+
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
@@ -46,6 +48,49 @@ static OOReactBridge *sharedInstance = nil;
 + (instancetype)getInstance {
   return sharedInstance;
 }
+
+RCT_EXPORT_METHOD(twitterShare:(NSDictionary *)options
+                  callback: (RCTResponseSenderBlock)callback){
+  if([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter]) {
+    NSString *serviceType = SLServiceTypeTwitter;
+    SLComposeViewController *composeCtl = [SLComposeViewController composeViewControllerForServiceType:serviceType];
+    
+    if (options[@"link"]){
+      NSString *link = [RCTConvert NSString:options[@"link"]];
+      [composeCtl addURL:[NSURL URLWithString:link]];
+    }
+    
+    if (options[@"imagelink"]){
+      NSString *imagelink = [RCTConvert NSString:options[@"imagelink"]];
+      UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagelink]]];
+      [composeCtl addImage:image];
+    }
+    
+    if (options[@"text"]){
+      NSString *text = [RCTConvert NSString:options[@"text"]];
+      [composeCtl setInitialText:text];
+    }
+    
+    [composeCtl setCompletionHandler:^(SLComposeViewControllerResult result) {
+      if (result == SLComposeViewControllerResultDone) {
+        // Sent
+        callback(@[@"success"]);
+      }
+      else if (result == SLComposeViewControllerResultCancelled){
+        // Cancelled
+        callback(@[@"cancelled"]);
+      }
+    }];
+    
+    UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+    [ctrl presentViewController:composeCtl animated:YES completion: nil];
+  }
+  else{
+    callback(@[@"Twitter not available"]);
+  }
+}
+
+
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:@"name"];

@@ -30,6 +30,7 @@ var EndScreen = React.createClass({
    description: React.PropTypes.string,
    promoUrl: React.PropTypes.string,
    onPress: React.PropTypes.func,
+   twitterShare: React.PropTypes.func,
  },
 
  toggleControlBar: function() {
@@ -51,12 +52,15 @@ var EndScreen = React.createClass({
 },
 
 handleClick: function(name) {
-  console.log("now the name is",name);
   if(name === "SocialShare"){
     this.setState({showSharePanel:!this.state.showSharePanel});
   } else {
     this.props.onPress(name);
   } 
+},
+
+twitterShare: function(){
+  this.props.twitterShare();
 },
 
 handleTouchEnd: function(event) {
@@ -84,10 +88,12 @@ render: function() {
  sharePanel = (<SharePanel 
   ref='sharePanel' 
   isShow= {this.state.showSharePanel}
+  twitterShare={this.twitterShare}
   onPress={(name) => this.handleClick(name)} />);
 
  var progressBar;
- progressBar = (<ProgressBar ref='progressBar' 
+ progressBar = (<ProgressBar 
+  ref='progressBar' 
   playhead={this.props.duration} 
   duration={this.props.duration}  />);
 
