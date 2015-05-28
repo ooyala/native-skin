@@ -11,6 +11,9 @@
 #import "RCTRootView.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
+#import <OoyalaSDK/OOModule.h>
+#import <OoyalaSDK/OOEmbeddedSecureURLGenerator.h>
+#import <OoyalaSDK/OODiscoveryManager.h>
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
@@ -24,7 +27,6 @@
 
 static const NSString *kFrameChangeContext = @"frameChanged";
 static const NSString *kViewChangeKey = @"frame";
-static const NSString *onPauseBridgeEventName = @"onPause";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
@@ -61,7 +63,7 @@ static const NSString *onPauseBridgeEventName = @"onPause";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OODiscoveryResultsReceivedNotification object:_player];
   }
 }
 
@@ -69,16 +71,34 @@ static const NSString *onPauseBridgeEventName = @"onPause";
   NSString *notificationName = notification.name;
   if ([notificationName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
     [self bridgeTimeChangedNotification:notification];
-  }
-  else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
+  } else if ([notificationName isEqualToString:OODiscoveryResultsReceivedNotification]) {
+    [self bridgeDiscoveryChangeNotification:notification];
+  } else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
     [self bridgeCurrentItemChangedNotification:notification];
-  }
-  else if ([notificationName isEqualToString:OOOoyalaPlayerStateChangedNotification]) {
+  } else if ([notificationName isEqualToString:OOOoyalaPlayerStateChangedNotification]) {
     [self bridgeStateChangedNotification:notification];
   }
 }
 
--(void)bridgeTimeChangedNotification:(NSNotification *)notification {
+- (void)bridgeDiscoveryChangeNotification:(NSNotification *)notification {
+  NSArray *results = [notification.userInfo objectForKey:@"results"];
+  NSMutableArray *discoveryArray = [NSMutableArray new];
+  for (NSDictionary *dict in results) {
+    NSString *name = [dict objectForKey:@"name" ];
+    if (name == nil) {
+
+    }
+    NSString *embedCode = [dict objectForKey:@"embed_code"];
+    NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
+    NSNumber *duration = [dict objectForKey:@"duration"];
+    NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration};
+    [discoveryArray addObject:discoveryItem];
+  }
+  NSDictionary *eventBody = @{@"results":discoveryArray};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgeTimeChangedNotification:(NSNotification *)notification {
   NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
@@ -89,7 +109,7 @@ static const NSString *onPauseBridgeEventName = @"onPause";
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
--(void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {
+- (void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {
   NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
   NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
   NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
@@ -105,12 +125,9 @@ static const NSString *onPauseBridgeEventName = @"onPause";
 }
 
 -(void) bridgeStateChangedNotification:(NSNotification *)notification {
-  NSString *name = notification.name;
-  NSDictionary *eventBody;
-  if( _player.state == OOOoyalaPlayerStatePaused ) {
-    name = onPauseBridgeEventName;
-  }
-  [OOReactBridge sendDeviceEventWithName:name body:nil];
+  NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
+  NSDictionary *eventBody = @{@"state":stateString};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
 - (NSDictionary *)getDictionaryFromJSONFile {
