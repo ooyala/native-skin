@@ -92,7 +92,9 @@ var VideoView = React.createClass({
       width={this.props.width}
       onScrub={(value)=>this.handleScrub(value)} />);
 
-    var shouldShowClosedCaptionsButton = this.props.availableClosedCaptionsLanguages ? true : false;
+    var shouldShowClosedCaptionsButton =
+      this.props.availableClosedCaptionsLanguages &&
+      this.props.availableClosedCaptionsLanguages.length > 0;
     var controlBar = (<ControlBar
       ref='controlBar' 
       showPlay={this.props.showPlay} 
