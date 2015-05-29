@@ -21,6 +21,8 @@ var {
   BUTTON_NAMES
 } = Constants;
 
+var Utils = require('./utils');
+
 var ControlBar = React.createClass({
   getInitialState: function() {
     return {
@@ -64,39 +66,14 @@ var ControlBar = React.createClass({
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   },
 
-  secondsToString: function(seconds) {
-    var  minus = '';
-    if (seconds < 0) {
-      minus = "-";
-      seconds = -seconds;
-    }
-    var date = new Date(seconds * 1000);
-    var hh = date.getUTCHours();
-    var mm = date.getUTCMinutes();
-    var ss = date.getSeconds();
-    if (ss < 10) {
-      ss = "0" + ss;
-    }
-    if (mm == 0) {
-      mm = "00";
-    } else if (mm < 10) {
-      mm = "0" + mm;
-    }
-    var t = mm + ":" + ss;
-    if (hh > 0) {
-      t = hh + ":" + t;
-    }
-    return minus + t;
-  },
-
   render: function() {
     var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
     var shareIcon = ICONS.SHARE;
     var fullscreenIcon = ICONS.EXPAND;
     var menuIcon = ICONS.ELLIPSIS;
     var closedCaptionsIcon = ICONS.CC;
-    var durationString = this.secondsToString(this.props.duration);
-    var playheadString = this.secondsToString(this.props.playhead);
+    var durationString = Utils.secondsToString(this.props.duration);
+    var playheadString = Utils.secondsToString(this.props.playhead);
     var volumeScrubber;
     if (this.state.showVolume) {
       volumeScrubber = <SliderIOS style={styles.volumeSlider} />;

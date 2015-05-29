@@ -24,6 +24,7 @@ RCT_EXPORT_MODULE();
 
 static OOReactBridge *sharedInstance = nil;
 static NSString *nameKey = @"name";
+static NSString *embedCodeKey = @"embedCode";
 static NSString *percentageKey = @"percentage";
 static NSString *playPauseButtonName = @"PlayPause";
 static NSString *playButtonName = @"Play";
@@ -97,6 +98,14 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
     NSNumber *position = [parameters objectForKey:percentageKey];
     [_player seek:_player.duration * [position doubleValue]];
+  });
+}
+
+RCT_EXPORT_METHOD(setEmbedCode:(NSDictionary *)parameters) {
+  NSString *embedCode = [parameters objectForKey:embedCodeKey];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [_player setEmbedCode:embedCode];
+    [_player play];
   });
 }
 

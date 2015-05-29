@@ -17,6 +17,8 @@ var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var AnimationExperimental = require('AnimationExperimental');
+var DiscoveryPanel = require('./discoveryPanel');
+
 var ICONS = require('./constants').ICONS;
 
 var VideoView = React.createClass({
@@ -31,12 +33,14 @@ var VideoView = React.createClass({
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
+    discovery: React.PropTypes.array,
     width: React.PropTypes.number,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
+    onDiscoveryRow: React.PropTypes.func,
   },
 
   handlePress: function(name) {
@@ -70,8 +74,23 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-
-    var progressBar = (<ProgressBar ref='progressBar'
+    var placeHolder;
+    
+    if (this.props.discovery) {
+      placeHolder = (
+        <DiscoveryPanel
+          dataSource={this.props.discovery}
+          onRowSelected={(embedCode) => this.props.onDiscoveryRow(embedCode)}>
+        </DiscoveryPanel>);
+    } else {
+      placeHolder = (
+        <View 
+          style={styles.placeholder}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}>  
+        </View>);
+    }
+    
+    var progressBar = (<ProgressBar ref='progressBar' 
       playhead={this.props.playhead} 
       duration={this.props.duration}
       width={this.props.width}
@@ -88,10 +107,6 @@ var VideoView = React.createClass({
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton} />);
-
-    var placeholder = (<View
-      style={styles.placeholder}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />);
 
     var ccOverlayHeight = windowSize.height - 60;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;

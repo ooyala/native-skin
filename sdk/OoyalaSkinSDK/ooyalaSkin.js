@@ -20,6 +20,7 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var PauseScreen = require('./PauseScreen');
+var DiscoveryPanel = require('./discoveryPanel');
 
 var Constants = require('./constants');
 var {
@@ -77,7 +78,12 @@ var OoyalaSkin = React.createClass({
     this.setState( {captionJSON: e} );
   },
 
+  handleEmbedCode: function(code) {
+    eventBridge.setEmbedCode({embedCode:code});
+  },
+
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
+    console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
     if (e.rate > 0) {
       this.setState({screenType: 'video'});
     }
@@ -92,7 +98,7 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-    this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
+    this.setState({screenType:"start", title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
   },
 
   onFrameChange: function(e) {
@@ -104,8 +110,12 @@ var OoyalaSkin = React.createClass({
     this.setState({screenType: 'end'});
   },
 
-  onPause: function(e) {
-    this.setState({screenType: 'pause'});
+  onStateChange: function(e) {
+  },
+
+  onDiscoveryResult: function(e) {
+    console.log("onDiscoveryResult results are:", e.results);
+    this.setState({discovery:e.results});
   },
 
   componentWillMount: function() {
@@ -128,8 +138,12 @@ var OoyalaSkin = React.createClass({
       (event) => this.onPlayComplete(event)
     ) );
     this.listeners.push( DeviceEventEmitter.addListener(
-      'onPause',
-      (event) => this.onPause(event)
+      'stateChanged',
+      (event) => this.onStateChange(event)
+    ) );
+    this.listeners.push( DeviceEventEmitter.addListener(
+      'discoveryResultsReceived',
+      (event) => this.onDiscoveryResult(event)
     ) );
     this.listeners.push( DeviceEventEmitter.addListener(
       'onClosedCaptionUpdate',
@@ -180,6 +194,7 @@ var OoyalaSkin = React.createClass({
 
   _renderPauseScreen: function() {
     var PauseScreenConfig = {mode:'default', infoPanel:{visible:true}};
+
     return (
       <PauseScreen
         config={PauseScreenConfig}
@@ -193,18 +208,26 @@ var OoyalaSkin = React.createClass({
 
    _renderVideoView: function() {
      var showPlayButton = this.state.rate > 0 ? false : true;
+     var discovery;
+     if (this.state.rate == 0) {
+      discovery = this.state.discovery;
+     }
+     // todo: presumably, do not show CC when Discovery is on.
      return (
        <VideoView
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
+         discovery={discovery} 
          width={this.state.width}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
          closedCaptionsLanguage={this.state.rct_closedCaptionsLanguage}
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
-         captionJSON={this.state.captionJSON}/>
+         captionJSON={this.state.captionJSON}
+         onDiscoveryRow={(code) => this.handleEmbedCode(code)}>
+       </VideoView>
      );
    }
 });
