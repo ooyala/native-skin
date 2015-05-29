@@ -73,9 +73,9 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
       OOCaption *pc = [self.player.currentItem.closedCaptions captionForLanguage:language time:self.player.playheadTime];
       if( pc != nil ) {
         body = @{ @"text":  pc.text,
-                  @"begin": [NSString stringWithFormat:@"%lf", pc.begin],
-                  @"end":   [NSString stringWithFormat:@"%lf", pc.end] };
-      }
+                  @"begin": [NSNumber numberWithDouble:pc.begin],
+                  @"end":   [NSNumber numberWithDouble:pc.end] };
+     }
     }
     [OOReactBridge sendDeviceEventWithName:eventName body:body];
   });

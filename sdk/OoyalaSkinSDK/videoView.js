@@ -23,7 +23,6 @@ var VideoView = React.createClass({
   getInitialState: function() {
     return {
       showControls: true,
-      ccOverlayBottomMargin: 60,
     };
   },
 
@@ -52,19 +51,6 @@ var VideoView = React.createClass({
     return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
-  // this is not called the way I expect w.r.t. animation timing, but this seems to work nevertheless.
-  onToggleControlBarAnimationProgress: function( finished ) {
-    if( finished ) {
-      this.setState( {
-        ccOverlayBottomMargin:
-          this.state.showControls ?
-            60 :
-            10
-        }
-      );
-    }
-  },
-
   toggleControlBar: function() {
     for (var ref in this.refs) {
       console.log("ref is",ref);
@@ -74,8 +60,7 @@ var VideoView = React.createClass({
         property: 'opacity',
         easing: 'easingInOutExpo',
         toValue: this.state.showControls ? 0 : 1,
-      },
-      this.onToggleControlBarAnimationProgress);
+      });
     }
     this.setState({showControls:!this.state.showControls});
   },
@@ -108,7 +93,7 @@ var VideoView = React.createClass({
       style={styles.placeholder}
       onTouchEnd={(event) => this.handleTouchEnd(event)} />);
 
-    var ccOverlayHeight = windowSize.height - this.state.ccOverlayBottomMargin;
+    var ccOverlayHeight = windowSize.height - 60;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
     var ccOverlay = (<ClosedCaptionsView
           style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}

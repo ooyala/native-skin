@@ -42,9 +42,10 @@ var OoyalaSkin = React.createClass({
       playhead: 0,
       duration: 1,
       rate: 0,
-      _closedCaptionsLanguage: null,
-      availableClosedCaptionsLanguages: null,
-      captionJSON: null,
+      // things which default to null and thus don't have to be stated:
+      // rct_closedCaptionsLanguage: null,
+      // availableClosedCaptionsLanguages: null,
+      // captionJSON: null,
     };
   },
 
@@ -52,8 +53,8 @@ var OoyalaSkin = React.createClass({
     // todo: remove this testing hack and do it right...
     if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
       if( this.state.availableClosedCaptionsLanguages ) {
-        var ccl = (this.state._closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
-        this.setState({_closedCaptionsLanguage: ccl});
+        var ccl = (this.state.rct_closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
+        this.setState({rct_closedCaptionsLanguage: ccl});
       }
     }
     // todo: ...remove this testing hack and do it right.
@@ -68,15 +69,15 @@ var OoyalaSkin = React.createClass({
     eventBridge.onScrub({percentage:value});
   },
 
-  _updateClosedCaptions: function() {
-    eventBridge.onClosedCaptionUpdateRequested( {language:this.state._closedCaptionsLanguage} );
+  updateClosedCaptions: function() {
+    eventBridge.onClosedCaptionUpdateRequested( {language:this.state.rct_closedCaptionsLanguage} );
   },
 
   onClosedCaptionUpdate: function(e) {
     this.setState( {captionJSON: e} );
   },
 
-  onTimeChange: function(e) {
+  onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
     if (e.rate > 0) {
       this.setState({screenType: 'video'});
     }
@@ -86,7 +87,7 @@ var OoyalaSkin = React.createClass({
       rate: e.rate,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
     });
-    this._updateClosedCaptions();
+    this.updateClosedCaptions();
   },
 
   onCurrentItemChange: function(e) {
@@ -200,7 +201,8 @@ var OoyalaSkin = React.createClass({
          width={this.state.width}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
-         closedCaptionsLanguage={this.state._closedCaptionsLanguage}
+         closedCaptionsLanguage={this.state.rct_closedCaptionsLanguage}
+             // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}/>
      );
