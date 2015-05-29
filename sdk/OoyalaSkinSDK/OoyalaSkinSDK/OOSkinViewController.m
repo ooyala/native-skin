@@ -27,7 +27,6 @@
 
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
-static NSString *kOnPauseBridgeEventName = @"onPause";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
