@@ -25,7 +25,9 @@ var DiscoveryPanel = require('./discoveryPanel');
 var Constants = require('./constants');
 var {
   ICONS,
-  BUTTON_NAMES
+  BUTTON_NAMES,
+  SCREEN_TYPES,
+  OOSTATES,
 } = Constants;
 var VideoView = require('./videoView');
 
@@ -36,7 +38,7 @@ var OoyalaSkin = React.createClass({
   // consider using a leading underscore, or something?
   getInitialState() {
     return {
-      screenType: 'start', 
+      screenType: SCREEN_TYPES.START_SCREEN,
       title: 'video title', 
       description: 'this is the detail of the video', 
       promoUrl: '', 
@@ -85,7 +87,7 @@ var OoyalaSkin = React.createClass({
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
     console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
     if (e.rate > 0) {
-      this.setState({screenType: 'video'});
+      this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
     }
     this.setState({
       playhead: e.playhead,
@@ -98,7 +100,7 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-    this.setState({screenType:"start", title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
+    this.setState({screenType:SCREEN_TYPES.START_SCREEN, title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
   },
 
   onFrameChange: function(e) {
@@ -107,10 +109,13 @@ var OoyalaSkin = React.createClass({
   },
 
   onPlayComplete: function(e) {
-    this.setState({screenType: 'end'});
+    this.setState({screenType: SCREEN_TYPES.END_SCREEN});
   },
 
   onStateChange: function(e) {
+    if(e.state == OOSTATES.PAUSED) {
+      this.setState({screenType:SCREEN_TYPES.PAUSE_SCREEN});
+    }
   },
 
   onDiscoveryResult: function(e) {
@@ -121,34 +126,18 @@ var OoyalaSkin = React.createClass({
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
-    this.listeners.push( DeviceEventEmitter.addListener(
-      'timeChanged', 
-      (event) => this.onTimeChange(event)
-    ) );
-    this.listeners.push( DeviceEventEmitter.addListener(
-      'currentItemChanged',
-      (event) => this.onCurrentItemChange(event)
-    ) );
-    this.listeners.push( DeviceEventEmitter.addListener(
-      'frameChanged',
-      (event) => this.onFrameChange(event)
-    ) );
-    this.listeners.push( DeviceEventEmitter.addListener(
-      'playCompleted',
-      (event) => this.onPlayComplete(event)
-    ) );
-    this.listeners.push( DeviceEventEmitter.addListener(
-      'stateChanged',
-      (event) => this.onStateChange(event)
-    ) );
-    this.listeners.push( DeviceEventEmitter.addListener(
-      'discoveryResultsReceived',
-      (event) => this.onDiscoveryResult(event)
-    ) );
-    this.listeners.push( DeviceEventEmitter.addListener(
-      'onClosedCaptionUpdate',
-      (event) => this.onClosedCaptionUpdate(event)
-    ) );
+    var listenerDefinitions = [
+      [ 'timeChanged',              (event) => this.onTimeChange(event) ],
+      [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
+      [ 'frameChanged',             (event) => this.onFrameChange(event) ],
+      [ 'playCompleted',            (event) => this.onPlayComplete(event) ],
+      [ 'stateChanged',             (event) => this.onStateChange(event) ],
+      [ 'discoveryResultsReceived', (event) => this.onDiscoveryResult(event) ],
+      [ 'onClosedCaptionUpdate',    (event) => this.onClosedCaptionUpdate(event) ],
+    ];
+    for( var d of listenerDefinitions ) {
+      this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );
+    }
   },
 
   componentWillUnmount: function() {
@@ -160,9 +149,9 @@ var OoyalaSkin = React.createClass({
 
   render: function() {
     switch (this.state.screenType) {
-      case 'start': return this._renderStartScreen(); break;
-      case 'end':   return this._renderEndScreen();   break;
-      case 'pause': return this._renderPauseScreen(); break;
+      case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
+      case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
+      case SCREEN_TYPES.PAUSE_SCREEN: return this._renderPauseScreen(); break;
       default:      return this._renderVideoView();   break;
     }
   },

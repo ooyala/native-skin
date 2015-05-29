@@ -74,16 +74,16 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-    var placeHolder;
+    var placeholder;
     
     if (this.props.discovery) {
-      placeHolder = (
+      placeholder = (
         <DiscoveryPanel
           dataSource={this.props.discovery}
           onRowSelected={(embedCode) => this.props.onDiscoveryRow(embedCode)}>
         </DiscoveryPanel>);
     } else {
-      placeHolder = (
+      placeholder = (
         <View 
           style={styles.placeholder}
           onTouchEnd={(event) => this.handleTouchEnd(event)}>  

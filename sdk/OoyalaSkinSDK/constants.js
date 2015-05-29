@@ -20,4 +20,15 @@ var BUTTON_NAMES = { // must match Objective-C code expectations.
   MORE: 'More',
 };
 
-module.exports = {ICONS, BUTTON_NAMES};
+var SCREEN_TYPES = {
+  VIDEO_SCREEN: 'video',
+  START_SCREEN: 'start',
+  END_SCREEN: 'end',
+  PAUSE_SCREEN: 'pause',
+};
+
+var OOSTATES = {
+  PAUSED: 'paused',
+};
+
+module.exports = {ICONS, BUTTON_NAMES, SCREEN_TYPES, OOSTATES};
