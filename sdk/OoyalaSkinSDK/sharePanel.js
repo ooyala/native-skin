@@ -14,20 +14,8 @@ var SharePanel = React.createClass ({
 		onPress:React.PropTypes.func,
 	},
 
-	onTwitterPress: function(){
-		this.props.socialShare("Twitter");
-	},
-
-	onFacebookPress: function(){
-		this.props.socialShare('FacebookShare');
-	},
-
-	onGooglePlusPress: function(){
-		this.props.onPress('GooglePlusShare');
-	},
-
-	onEmailPress: function(){
-		this.props.onPress('EmailShare');
+	onSocialButtonPress: function(serviceType){
+		this.props.socialShare(serviceType);
 	},
 
 	render: function() {
@@ -35,7 +23,7 @@ var SharePanel = React.createClass ({
 
 		var twitterBtn = (
 			<TouchableHighlight
-				onPress={this.onTwitterPress}
+				onPress={(serviceType) => this.onSocialButtonPress("Twitter")}
    				underlayColor="transparent"
    				activeOpacity={0.5}>
 
@@ -49,7 +37,7 @@ var SharePanel = React.createClass ({
 
 		var facebookBtn = (
 			<TouchableHighlight
-				onPress={this.onFacebookPress}
+				onPress={(serviceType) => this.onSocialButtonPress("Facebook")}
    				underlayColor="transparent"
    				activeOpacity={0.5}>
 
@@ -63,7 +51,7 @@ var SharePanel = React.createClass ({
 
 		var googlePlusBtn = (
 			<TouchableHighlight
-				onPress={this.onGooglePlusPress}
+				onPress={(serviceType) => this.onSocialButtonPress("GooglePlus")}
    				underlayColor="transparent"
    				activeOpacity={0.5}>
 
@@ -77,7 +65,7 @@ var SharePanel = React.createClass ({
 
 		var emailBtn = (
 			<TouchableHighlight
-				onPress={this.onEmailPress}
+				onPress={(serviceType) => this.onSocialButtonPress("Email")}
    				underlayColor="transparent"
    				activeOpacity={0.5}>
 
