@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E10A8881B1CFCA500736A50 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E10A8871B1CFCA500736A50 /* OoyalaSDK.framework */; };
+		5E10A8971B1CFF0400736A50 /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
+		5E10A8981B1CFF0400736A50 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8B91AE70307005043DC /* libRCTImage.a */; };
+		5E10A8991B1CFF0400736A50 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8D21AE70760005043DC /* libRCTText.a */; };
+		5E10A89A1B1CFF0400736A50 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E10A8811B1CF89200736A50 /* libReact.a */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
 		5EEDC9D01B0E7B9000A3AD27 /* constants.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C41B0E7B9000A3AD27 /* constants.js */; };
@@ -22,29 +27,22 @@
 		5EEDC9DA1B0E7B9000A3AD27 /* videoView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */; };
 		5EEDC9DB1B0E7B9000A3AD27 /* waterMark.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */; };
 		5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */; };
-		5EEDCA001B0E80DE00A3AD27 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EEDC9FF1B0E80C900A3AD27 /* libRCTWebSocket.a */; };
-		5EEDCAAB1B0EA7AB00A3AD27 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */; };
-		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
-		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8861AE6F008005043DC /* OOReactBridge.m */; };
 		972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8871AE6F008005043DC /* OOSkinViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8881AE6F008005043DC /* OOSkinViewController.m */; };
-		972ED8A71AE6FCAB005043DC /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8A61AE6FC3E005043DC /* libReact.a */; };
 		972ED8AB1AE7011D005043DC /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8AA1AE7011D005043DC /* MediaPlayer.framework */; };
 		972ED8AD1AE7016A005043DC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */; };
 		972ED8CC1AE70631005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8CB1AE70631005043DC /* libz.dylib */; };
-		972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8B91AE70307005043DC /* libRCTImage.a */; };
-		972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8D21AE70760005043DC /* libRCTText.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5EEDC9FE1B0E80C900A3AD27 /* PBXContainerItemProxy */ = {
+		5E10A8801B1CF89200736A50 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */;
+			containerPortal = 5E10A87C1B1CF89200736A50 /* React.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
-			remoteInfo = RCTWebSocket;
+			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
+			remoteInfo = React;
 		};
 		9724B8D11B0185DB00C1623F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,20 +50,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTAnimationExperimental;
-		};
-		972ED8581AE6EEEB005043DC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 972ED8421AE6EEEB005043DC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 972ED84A1AE6EEEB005043DC;
-			remoteInfo = OoyalaSkinSDK;
-		};
-		972ED8A51AE6FC3E005043DC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 83CBBA2E1A601D0E00E9B192;
-			remoteInfo = React;
 		};
 		972ED8B81AE70307005043DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -84,6 +68,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5E10A87C1B1CF89200736A50 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		5E10A8871B1CFCA500736A50 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
 		5EEDC9C41B0E7B9000A3AD27 /* constants.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = constants.js; sourceTree = "<group>"; };
@@ -99,18 +85,13 @@
 		5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = videoView.js; sourceTree = "<group>"; };
 		5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = waterMark.js; sourceTree = "<group>"; };
 		5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = closedCaptionsView.js; sourceTree = "<group>"; };
-		5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../../../../../react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimationExperimental.xcodeproj; path = "react-native/Libraries/Animation/RCTAnimationExperimental.xcodeproj"; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED8851AE6F008005043DC /* OOReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactBridge.h; sourceTree = "<group>"; };
 		972ED8861AE6F008005043DC /* OOReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactBridge.m; sourceTree = "<group>"; };
 		972ED8871AE6F008005043DC /* OOSkinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinViewController.h; sourceTree = "<group>"; };
 		972ED8881AE6F008005043DC /* OOSkinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinViewController.m; sourceTree = "<group>"; };
-		972ED8A11AE6FC3E005043DC /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		972ED8AA1AE7011D005043DC /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		972ED8B41AE70307005043DC /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
@@ -123,29 +104,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EEDCAAB1B0EA7AB00A3AD27 /* OoyalaSDK.framework in Frameworks */,
-				9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */,
-				972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */,
-				972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */,
+				5E10A8971B1CFF0400736A50 /* libRCTAnimationExperimental.a in Frameworks */,
+				5E10A8981B1CFF0400736A50 /* libRCTImage.a in Frameworks */,
+				5E10A8991B1CFF0400736A50 /* libRCTText.a in Frameworks */,
+				5E10A89A1B1CFF0400736A50 /* libReact.a in Frameworks */,
+				5E10A8881B1CFCA500736A50 /* OoyalaSDK.framework in Frameworks */,
 				972ED8CC1AE70631005043DC /* libz.dylib in Frameworks */,
 				972ED8AD1AE7016A005043DC /* SystemConfiguration.framework in Frameworks */,
 				972ED8AB1AE7011D005043DC /* MediaPlayer.framework in Frameworks */,
-				972ED8A71AE6FCAB005043DC /* libReact.a in Frameworks */,
-				5EEDCA001B0E80DE00A3AD27 /* libRCTWebSocket.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		972ED8531AE6EEEB005043DC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E10A87D1B1CF89200736A50 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5E10A8811B1CF89200736A50 /* libReact.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5EEDC9C31B0E7B8100A3AD27 /* JSX */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,14 +146,6 @@
 			name = JSX;
 			sourceTree = "<group>";
 		};
-		5EEDC9FB1B0E80C900A3AD27 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5EEDC9FF1B0E80C900A3AD27 /* libRCTWebSocket.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		9724B8CE1B0185DB00C1623F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,7 +157,7 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
-				5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */,
+				5E10A8871B1CFCA500736A50 /* OoyalaSDK.framework */,
 				5EEDC9C31B0E7B8100A3AD27 /* JSX */,
 				FF12905E1AEABA9B00664374 /* framework */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
@@ -198,7 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */,
-				972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -228,22 +199,13 @@
 		972ED88F1AE6F6A5005043DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */,
+				5E10A87C1B1CF89200736A50 /* React.xcodeproj */,
 				9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */,
 				972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */,
 				972ED8B41AE70307005043DC /* RCTImage.xcodeproj */,
-				972ED8A11AE6FC3E005043DC /* React.xcodeproj */,
 			);
 			name = Libraries;
 			path = node_modules;
-			sourceTree = "<group>";
-		};
-		972ED8A21AE6FC3E005043DC /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				972ED8A61AE6FC3E005043DC /* libReact.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		972ED8B51AE70307005043DC /* Products */ = {
@@ -268,7 +230,6 @@
 				972ED8CB1AE70631005043DC /* libz.dylib */,
 				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
 				972ED8AA1AE7011D005043DC /* MediaPlayer.framework */,
-				972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */,
 			);
 			name = framework;
 			sourceTree = "<group>";
@@ -307,24 +268,6 @@
 			productReference = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		972ED8551AE6EEEB005043DC /* OoyalaSkinSDKTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 972ED8641AE6EEEB005043DC /* Build configuration list for PBXNativeTarget "OoyalaSkinSDKTests" */;
-			buildPhases = (
-				972ED8521AE6EEEB005043DC /* Sources */,
-				972ED8531AE6EEEB005043DC /* Frameworks */,
-				972ED8541AE6EEEB005043DC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				972ED8591AE6EEEB005043DC /* PBXTargetDependency */,
-			);
-			name = OoyalaSkinSDKTests;
-			productName = OoyalaSkinSDKTests;
-			productReference = 972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -335,9 +278,6 @@
 				ORGANIZATIONNAME = ooyala;
 				TargetAttributes = {
 					972ED84A1AE6EEEB005043DC = {
-						CreatedOnToolsVersion = 6.2;
-					};
-					972ED8551AE6EEEB005043DC = {
 						CreatedOnToolsVersion = 6.2;
 					};
 				};
@@ -366,28 +306,23 @@
 					ProjectRef = 972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */;
 				},
 				{
-					ProductGroup = 5EEDC9FB1B0E80C900A3AD27 /* Products */;
-					ProjectRef = 5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */;
-				},
-				{
-					ProductGroup = 972ED8A21AE6FC3E005043DC /* Products */;
-					ProjectRef = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
+					ProductGroup = 5E10A87D1B1CF89200736A50 /* Products */;
+					ProjectRef = 5E10A87C1B1CF89200736A50 /* React.xcodeproj */;
 				},
 			);
 			projectRoot = "";
 			targets = (
 				972ED84A1AE6EEEB005043DC /* OoyalaSkinSDK */,
-				972ED8551AE6EEEB005043DC /* OoyalaSkinSDKTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		5EEDC9FF1B0E80C900A3AD27 /* libRCTWebSocket.a */ = {
+		5E10A8811B1CF89200736A50 /* libReact.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libRCTWebSocket.a;
-			remoteRef = 5EEDC9FE1B0E80C900A3AD27 /* PBXContainerItemProxy */;
+			path = libReact.a;
+			remoteRef = 5E10A8801B1CF89200736A50 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */ = {
@@ -395,13 +330,6 @@
 			fileType = archive.ar;
 			path = libRCTAnimationExperimental.a;
 			remoteRef = 9724B8D11B0185DB00C1623F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		972ED8A61AE6FC3E005043DC /* libReact.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libReact.a;
-			remoteRef = 972ED8A51AE6FC3E005043DC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		972ED8B91AE70307005043DC /* libRCTImage.a */ = {
@@ -441,13 +369,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		972ED8541AE6EEEB005043DC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -461,22 +382,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		972ED8521AE6EEEB005043DC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		972ED8591AE6EEEB005043DC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 972ED84A1AE6EEEB005043DC /* OoyalaSkinSDK */;
-			targetProxy = 972ED8581AE6EEEB005043DC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		972ED85F1AE6EEEB005043DC /* Debug */ = {
@@ -566,6 +472,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -582,11 +489,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
-					"/Users/jonslenk/Dev/repos/ios-sdk/sdk/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -602,46 +505,12 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
-					"/Users/jonslenk/Dev/repos/ios-sdk/sdk/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		972ED8651AE6EEEB005043DC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = OoyalaSkinSDKTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		972ED8661AE6EEEB005043DC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = OoyalaSkinSDKTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -662,15 +531,6 @@
 			buildConfigurations = (
 				972ED8621AE6EEEB005043DC /* Debug */,
 				972ED8631AE6EEEB005043DC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		972ED8641AE6EEEB005043DC /* Build configuration list for PBXNativeTarget "OoyalaSkinSDKTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				972ED8651AE6EEEB005043DC /* Debug */,
-				972ED8661AE6EEEB005043DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
