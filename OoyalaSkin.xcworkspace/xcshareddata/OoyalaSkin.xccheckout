@@ -10,6 +10,8 @@
 	<string>OoyalaSkin</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>16CE14A2D81CCE323D476004724594AEF6B38C0A</key>
+		<string>https://github.com/facebook/react-native.git</string>
 		<key>24D541CC8CB56A307AC4F1F29F233C9C62F98CB7</key>
 		<string>github.services.ooyala.net:playback-app/ios-sdk</string>
 		<key>4264B5E3C0FAF3A8F8A226161DDF14603CD95740</key>
@@ -21,6 +23,8 @@
 	<string>OoyalaSkin.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>16CE14A2D81CCE323D476004724594AEF6B38C0A</key>
+		<string>../../react-native</string>
 		<key>24D541CC8CB56A307AC4F1F29F233C9C62F98CB7</key>
 		<string>../ios-sdk</string>
 		<key>4264B5E3C0FAF3A8F8A226161DDF14603CD95740</key>
@@ -51,6 +55,14 @@
 			<string>4264B5E3C0FAF3A8F8A226161DDF14603CD95740</string>
 			<key>IDESourceControlWCCName</key>
 			<string>ios-skin</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>16CE14A2D81CCE323D476004724594AEF6B38C0A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>react-native</string>
 		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
