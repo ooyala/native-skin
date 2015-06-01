@@ -11,44 +11,26 @@
 #import <OoyalaSkinSDK/OOSkinViewController.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOPlayerDomain.h>
-#import <OoyalaSDK/OODiscoverySignatureProtocol.h>
-#import <OoyalaSDK/OOEmbeddedSecureURLGenerator.h>
 #import <OoyalaSDK/OOOptions.h>
-
-@interface AppDelegate() <OODiscoverySignatureProtocol>
-
-@property OOEmbeddedSecureURLGenerator *urlGenerator;
-
-@end
 
 @implementation AppDelegate
 
-NSString * const PCODE = @"3dff4c81919e43c98c6c4a45b7b7b8c3";
+NSString * const PCODE = @"5zb2wxOlZcNCe_HVT3a6cawW298X";
 NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
-NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48"; // big buck bunny.
+NSString * const EMBEDCODE = @"dvdm4zcDrDDrt60-lIcLnMo_SRAGxYTw";
 //NSString * const EMBEDCODE = @"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww"; // vod with closed captions.
 //NSString * const EMBEDCODE = @"ZwNThkdTrSfttI2N_-MH3MRIdJQ3Ox8I"; // vod to no-vod channel.
-
-NSString *const APIKEY = @"APIKEY";
-NSString *const SECRET = @"SECRET";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   OOOptions *options = [OOOptions new];
-  options.discoveryType = OODiscoveryTypePopular;
+  options.discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypeSimilarAssets timeout:60.0];
   OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN] options:options];
-  ooyalaPlayer.discoverySignatureProvider = self;
-  _urlGenerator = [[OOEmbeddedSecureURLGenerator alloc] initWithAPIKey:APIKEY secret:SECRET];
   UIViewController *rootViewController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer rect:self.window.frame launchOptions:launchOptions];
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
   [ooyalaPlayer setEmbedCode:EMBEDCODE];
   return YES;
-}
-
-- (void)signedUrlForHost:(NSString *)host uri:(NSString *)uri parameters:(NSDictionary *)parameters callback:(OODiscoverySignatureCallback)callback {
-  NSURL *url = [self.urlGenerator secureURL:host uri:uri params:parameters];
-  callback(url);
 }
 
 @end
