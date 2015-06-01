@@ -15,13 +15,19 @@ var {
 
 var eventBridge = require('NativeModules').OOReactBridge;
 
-var ICONS = require('./constants').ICONS;
+var Constants = require('./constants');
+var {
+  ICONS,
+  BUTTON_NAMES
+} = Constants;
 
 var Utils = require('./utils');
 
 var ControlBar = React.createClass({
   getInitialState: function() {
-    return {showVolume:false};
+    return {
+      showVolume: false,
+    };
   },
 
   propTypes: {
@@ -29,6 +35,7 @@ var ControlBar = React.createClass({
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
+    showClosedCaptionsButton: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
@@ -36,7 +43,7 @@ var ControlBar = React.createClass({
   },
 
   onPlayPausePress: function() { 
-    this.props.onPress('PlayPause');
+    this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
   }, 
 
   onVolumePress: function() {
@@ -44,15 +51,19 @@ var ControlBar = React.createClass({
   },
 
   onSocialSharePress: function() {
-    this.props.onPress && this.props.onPress('SocialShare');
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.SOCIAL_SHARE);
+  },
+
+  onClosedCaptionsPress: function() {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.CLOSED_CAPTIONS);
   },
 
   onFullscreenPress: function() {
-    this.props.onPress && this.props.onPress('Fullscreen');
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
   },
 
   onMorePress: function() {
-    this.props.onPress && this.props.onPress('More');
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   },
 
   render: function() {
@@ -60,12 +71,20 @@ var ControlBar = React.createClass({
     var shareIcon = ICONS.SHARE;
     var fullscreenIcon = ICONS.EXPAND;
     var menuIcon = ICONS.ELLIPSIS;
+    var closedCaptionsIcon = ICONS.CC;
     var durationString = Utils.secondsToString(this.props.duration);
     var playheadString = Utils.secondsToString(this.props.playhead);
     var volumeScrubber;
     if (this.state.showVolume) {
       volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
-    } 
+    }
+
+    var ccButton;
+    if( this.props.showClosedCaptionsButton ) {
+      ccButton = (<TouchableHighlight onPress={this.onClosedCaptionsPress}>
+                    <Text style={styles.icon}>{closedCaptionsIcon}</Text>
+                  </TouchableHighlight>);
+    }
     
     return (
       <View style={styles.container}>
@@ -83,6 +102,7 @@ var ControlBar = React.createClass({
           <TouchableHighlight onPress={this.onSocialSharePress}>
             <Text style={styles.icon}>{shareIcon}</Text>
           </TouchableHighlight>
+          {ccButton}
           <TouchableHighlight onPress={this.onFullscreenPress}>
             <Text style={styles.icon}>{fullscreenIcon}</Text>
           </TouchableHighlight>

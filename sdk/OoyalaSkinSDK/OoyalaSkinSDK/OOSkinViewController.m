@@ -25,8 +25,8 @@
 
 @implementation OOSkinViewController
 
-static const NSString *kFrameChangeContext = @"frameChanged";
-static const NSString *kViewChangeKey = @"frame";
+static NSString *kFrameChangeContext = @"frameChanged";
+static NSString *kViewChangeKey = @"frame";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
@@ -105,7 +105,8 @@ static const NSString *kViewChangeKey = @"frame";
   NSDictionary *eventBody =
   @{@"duration":durationNumber,
     @"playhead":playheadNumber,
-    @"rate":rateNumber};
+    @"rate":rateNumber,
+    @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 

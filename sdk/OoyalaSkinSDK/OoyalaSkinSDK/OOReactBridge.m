@@ -13,6 +13,8 @@
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
+#import <OoyalaSDK/OOCaption.h>
+#import <OoyalaSDK/OOClosedCaptions.h>
 
 @implementation OOReactBridge
 
@@ -21,11 +23,12 @@ RCT_EXPORT_MODULE();
 @synthesize bridge = _bridge;
 
 static OOReactBridge *sharedInstance = nil;
-static const NSString *nameKey = @"name";
-static const NSString *embedCodeKey = @"embedCode";
-static const NSString *percentageKey = @"percentage";
-static const NSString *playPauseButtonName = @"PlayPause";
-static const NSString *playButtonName = @"Play";
+static NSString *nameKey = @"name";
+static NSString *embedCodeKey = @"embedCode";
+static NSString *percentageKey = @"percentage";
+static NSString *playPauseButtonName = @"PlayPause";
+static NSString *playButtonName = @"Play";
+static NSString *languageKey = @"language";
 
 /**
 // !!!Warning: this object MUST be created by the react view
@@ -59,6 +62,23 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if([buttonName isEqualToString:playButtonName]) {
       [self handlePlay];
     }
+  });
+}
+
+RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
+  NSString *language = [parameters objectForKey:languageKey];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSString *eventName = @"onClosedCaptionUpdate";
+    NSDictionary *body = nil;
+    if (self.player.currentItem.hasClosedCaptions) {
+      OOCaption *pc = [self.player.currentItem.closedCaptions captionForLanguage:language time:self.player.playheadTime];
+      if( pc != nil ) {
+        body = @{ @"text":  pc.text,
+                  @"begin": [NSNumber numberWithDouble:pc.begin],
+                  @"end":   [NSNumber numberWithDouble:pc.end] };
+     }
+    }
+    [OOReactBridge sendDeviceEventWithName:eventName body:body];
   });
 }
 
