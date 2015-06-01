@@ -17,6 +17,7 @@ var {
 } = React;
 
 var eventBridge = require('NativeModules').OOReactBridge;
+var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 
@@ -37,7 +38,7 @@ var OoyalaSkin = React.createClass({
   },
 
   socialShare: function(socialType) {
-    eventBridge.socialShare({
+    OOSocialShare.socialShare({
         'socialType': socialType,
         'text':this.state.title,
         'link':'https://www.ooyala.com',

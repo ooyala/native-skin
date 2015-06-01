@@ -10,6 +10,7 @@ var {
 var SharePanel = React.createClass ({
 	propTypes: {
 		isShow: React.PropTypes.boolean,
+		socialButtons: React.PropTypes.array,
 		socialShare: React.PropTypes.func,
 		onPress:React.PropTypes.func,
 	},
@@ -20,76 +21,88 @@ var SharePanel = React.createClass ({
 
 	render: function() {
 		var sharePanel;
+		var twitterBtn;
+		var facebookBtn;
+		var googlePlusBtn;
+		var emailBtn;
 
-		var twitterBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("Twitter")}
-   				underlayColor="transparent"
-   				activeOpacity={0.5}>
+		if(this.props.socialButtons.indexOf("Twitter") != -1){
+			twitterBtn = (
+				<TouchableHighlight
+					onPress={(serviceType) => this.onSocialButtonPress("Twitter")}
+	   				underlayColor="transparent"
+	   				activeOpacity={0.5}>
 
-   				<Image style={styles.socialButton}
-			       	source={{uri: 'https://g.twimg.com/ios_homescreen_icon.png'}}
-			       	resizeMode={Image.resizeMode.contain}>
-			   	</Image>
+	   				<Image style={styles.socialButton}
+				       	source={{uri: 'https://g.twimg.com/ios_homescreen_icon.png'}}
+				       	resizeMode={Image.resizeMode.contain}>
+				   	</Image>
 
-   			</TouchableHighlight>
-		);
+	   			</TouchableHighlight>
+			);
+		}
 
-		var facebookBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("Facebook")}
-   				underlayColor="transparent"
-   				activeOpacity={0.5}>
+		if(this.props.socialButtons.indexOf("Facebook") != -1){
+			facebookBtn = (
+				<TouchableHighlight
+					onPress={(serviceType) => this.onSocialButtonPress("Facebook")}
+	   				underlayColor="transparent"
+	   				activeOpacity={0.5}>
 
-   				<Image style={styles.socialButton}
-			       	source={{uri: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png'}}
-			       	resizeMode={Image.resizeMode.contain}>
-			   	</Image>
+	   				<Image style={styles.socialButton}
+				       	source={{uri: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png'}}
+				       	resizeMode={Image.resizeMode.contain}>
+				   	</Image>
 
-   			</TouchableHighlight>
-		);
+	   			</TouchableHighlight>
+			);
+		}
 
-		var googlePlusBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("GooglePlus")}
-   				underlayColor="transparent"
-   				activeOpacity={0.5}>
+		if(this.props.socialButtons.indexOf("GooglePlus") != -1){
+			googlePlusBtn = (
+				<TouchableHighlight
+					onPress={(serviceType) => this.onSocialButtonPress("GooglePlus")}
+	   				underlayColor="transparent"
+	   				activeOpacity={0.5}>
 
-				<Image style={styles.socialButton}
-			       	source={{uri: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300'}}
-			       	resizeMode={Image.resizeMode.contain}>
-				</Image>
-			   	
-   			</TouchableHighlight>
-		);
+					<Image style={styles.socialButton}
+				       	source={{uri: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300'}}
+				       	resizeMode={Image.resizeMode.contain}>
+					</Image>
+				   	
+	   			</TouchableHighlight>
+			);
+		}
 
-		var emailBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("Email")}
-   				underlayColor="transparent"
-   				activeOpacity={0.5}>
+		if(this.props.socialButtons.indexOf("Email") != -1){
+			emailBtn = (
+				<TouchableHighlight
+					onPress={(serviceType) => this.onSocialButtonPress("Email")}
+	   				underlayColor="transparent"
+	   				activeOpacity={0.5}>
 
-				<Image style={styles.socialButton}
-			        source={{uri: 'http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png'}}
-			        resizeMode={Image.resizeMode.contain}>
-			    </Image>
-			   	
-   			</TouchableHighlight>
-		);
+					<Image style={styles.socialButton}
+				        source={{uri: 'http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png'}}
+				        resizeMode={Image.resizeMode.contain}>
+				    </Image>
+				   	
+	   			</TouchableHighlight>
+			);
+		}
 
 		if(this.props.isShow){
-			sharePanel = (
-				<View style={styles.sharePanelNW}>
-					<Text style={styles.sharePanelTitle}>{"Invest In Social Change"}</Text>
+				sharePanel = (
+					<View style={styles.sharePanelNW}>
+						<Text style={styles.sharePanelTitle}>{"Share this video"}</Text>
 
-					<View style={styles.sharePanelButtonRow}>
-						{twitterBtn}
-						{facebookBtn}
-						{googlePlusBtn}
-						{emailBtn}
+						<View style={styles.sharePanelButtonRow}>
+								{twitterBtn}
+								{facebookBtn}
+								{googlePlusBtn}
+								{emailBtn}
+						</View>
 					</View>
-				</View>
-			);
+				);
 		}
 
 		return (
@@ -122,6 +135,7 @@ var styles = StyleSheet.create({
   	sharePanelButtonRow: {
   		flexDirection:'row',
   		alignItems: 'center',
+  		alignSelf: 'center',
   		backgroundColor: 'transparent',
   		margin: 20
   	},

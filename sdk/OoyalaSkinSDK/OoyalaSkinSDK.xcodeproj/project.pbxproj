@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B41EF381B1CCB720085D324 /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B41EF361B1CCB720085D324 /* OOReactSocialShare.h */; };
+		0B41EF391B1CCB720085D324 /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B41EF371B1CCB720085D324 /* OOReactSocialShare.m */; };
 		0BC963FA1B168AFF00FDC04B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BC963F91B168AFF00FDC04B /* Social.framework */; };
 		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
 		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
@@ -63,6 +65,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B41EF361B1CCB720085D324 /* OOReactSocialShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSocialShare.h; sourceTree = "<group>"; };
+		0B41EF371B1CCB720085D324 /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
 		0BC963F91B168AFF00FDC04B /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimationExperimental.xcodeproj; path = "react-native/Libraries/Animation/RCTAnimationExperimental.xcodeproj"; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +149,8 @@
 			children = (
 				972ED8851AE6F008005043DC /* OOReactBridge.h */,
 				972ED8861AE6F008005043DC /* OOReactBridge.m */,
+				0B41EF361B1CCB720085D324 /* OOReactSocialShare.h */,
+				0B41EF371B1CCB720085D324 /* OOReactSocialShare.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
@@ -233,6 +239,7 @@
 			files = (
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
+				0B41EF381B1CCB720085D324 /* OOReactSocialShare.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +388,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B41EF391B1CCB720085D324 /* OOReactSocialShare.m in Sources */,
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 			);

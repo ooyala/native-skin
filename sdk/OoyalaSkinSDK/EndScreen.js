@@ -88,6 +88,7 @@ render: function() {
  sharePanel = (<SharePanel 
   ref='sharePanel' 
   isShow= {this.state.showSharePanel}
+  socialButtons={["Twitter", "Facebook"]}
   socialShare={(socialType) => this.socialShare(socialType)}
   onPress={(name) => this.handleClick(name)} />);
 
