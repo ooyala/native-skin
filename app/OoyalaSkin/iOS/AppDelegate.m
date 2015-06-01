@@ -15,14 +15,14 @@
 
 @implementation AppDelegate
 
-NSString * const PCODE = @"5zb2wxOlZcNCe_HVT3a6cawW298X";
+NSString * const PCODE = @"c0cTkxOqALQviQIGAHWY5hP0q9gU";
 NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
-NSString * const EMBEDCODE = @"dvdm4zcDrDDrt60-lIcLnMo_SRAGxYTw";
+NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   OOOptions *options = [OOOptions new];
-  options.discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypeSimilarAssets timeout:60.0];
+  options.discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypePopular timeout:60.0];
   OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN] options:options];
   UIViewController *rootViewController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer rect:self.window.frame launchOptions:launchOptions];
   self.window.rootViewController = rootViewController;
