@@ -20,22 +20,39 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
+var PauseScreen = require('./PauseScreen');
+var DiscoveryPanel = require('./discoveryPanel');
 
-var ICONS = require('./constants').ICONS;
+var Constants = require('./constants');
+var {
+  ICONS,
+  BUTTON_NAMES,
+  SCREEN_TYPES,
+  OOSTATES,
+} = Constants;
 var VideoView = require('./videoView');
 
 var OoyalaSkin = React.createClass({
+
+  // note/todo: some of these are more like props, expected to be over-ridden/updated
+  // by the native bridge, and others are used purely on the non-native side.
+  // consider using a leading underscore, or something?
   getInitialState() {
     return {
-      screenType: 'start', 
+      screenType: SCREEN_TYPES.START_SCREEN,
       title: 'video title', 
       description: 'this is the detail of the video', 
       promoUrl: '', 
-      playhead:0, 
-      duration:1, 
-      rate:0,
+      playhead: 0,
+      duration: 1,
+      rate: 0,
+      // things which default to null and thus don't have to be stated:
+      // rct_closedCaptionsLanguage: null,
+      // availableClosedCaptionsLanguages: null,
+      // captionJSON: null,
     };
   },
+
 
   onSocialButtonPress: function(socialType) {
     OOSocialShare.onSocialButtonPress({
@@ -48,9 +65,21 @@ var OoyalaSkin = React.createClass({
         console.log(results);
       }
     );
+
+  cchack: function(n) {
+    // todo: remove this testing hack and do it right...
+    if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
+      if( this.state.availableClosedCaptionsLanguages ) {
+        var ccl = (this.state.rct_closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
+        this.setState({rct_closedCaptionsLanguage: ccl});
+      }
+    }
+    // todo: ...remove this testing hack and do it right.
+
   },
 
   handlePress: function(n) {
+    this.cchack(n); // todo: remove this testing hack and do it right.
     eventBridge.onPress({name:n});
   },
 
@@ -58,17 +87,35 @@ var OoyalaSkin = React.createClass({
     eventBridge.onScrub({percentage:value});
   },
 
-  onTimeChange: function(e) {
+  updateClosedCaptions: function() {
+    eventBridge.onClosedCaptionUpdateRequested( {language:this.state.rct_closedCaptionsLanguage} );
+  },
+
+  onClosedCaptionUpdate: function(e) {
+    this.setState( {captionJSON: e} );
+  },
+
+  handleEmbedCode: function(code) {
+    eventBridge.setEmbedCode({embedCode:code});
+  },
+
+  onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
+    console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
     if (e.rate > 0) {
-      this.setState({screenType: 'video'});
+      this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
     }
-    this.setState({playhead:e.playhead, duration:e.duration, rate:e.rate});
+    this.setState({
+      playhead: e.playhead,
+      duration: e.duration,
+      rate: e.rate,
+      availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
+    });
+    this.updateClosedCaptions();
   },
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-
-    this.setState({screenType: 'start', title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
+    this.setState({screenType:SCREEN_TYPES.START_SCREEN, title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
   },
 
   onFrameChange: function(e) {
@@ -77,75 +124,117 @@ var OoyalaSkin = React.createClass({
   },
 
   onPlayComplete: function(e) {
-    this.setState({screenType: 'end'});
+    this.setState({screenType: SCREEN_TYPES.END_SCREEN});
+  },
+
+  onStateChange: function(e) {
+    if(e.state == OOSTATES.PAUSED) {
+      this.setState({screenType:SCREEN_TYPES.PAUSE_SCREEN});
+    }
+  },
+
+  onDiscoveryResult: function(e) {
+    console.log("onDiscoveryResult results are:", e.results);
+    this.setState({discovery:e.results});
   },
 
   componentWillMount: function() {
     console.log("componentWillMount");
-    var timeChangeListener = DeviceEventEmitter.addListener(
-      'timeChanged', 
-      (reminder) => this.onTimeChange(reminder)
-    );
-    var itemChangeListener = DeviceEventEmitter.addListener(
-      'currentItemChanged', 
-      (reminder) => this.onCurrentItemChange(reminder)
-    );
-    var frameChangeListener = DeviceEventEmitter.addListener(
-      'frameChanged', 
-      (reminder) => this.onFrameChange(reminder)
-    );
-    var playCompleteListener = DeviceEventEmitter.addListener(
-      'playCompleted',
-      (reminder) => this.onPlayComplete(reminder)
-    );
+    this.listeners = [];
+    var listenerDefinitions = [
+      [ 'timeChanged',              (event) => this.onTimeChange(event) ],
+      [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
+      [ 'frameChanged',             (event) => this.onFrameChange(event) ],
+      [ 'playCompleted',            (event) => this.onPlayComplete(event) ],
+      [ 'stateChanged',             (event) => this.onStateChange(event) ],
+      [ 'discoveryResultsReceived', (event) => this.onDiscoveryResult(event) ],
+      [ 'onClosedCaptionUpdate',    (event) => this.onClosedCaptionUpdate(event) ],
+    ];
+    for( var d of listenerDefinitions ) {
+      this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );
+    }
   },
 
   componentWillUnmount: function() {
-    timeChangeListener.remove;
-    itemChangeListener.remove;
-    frameChangeListener.remove;
-    playCompleteListener.remove;
+    for( var l of this.listeners ) {
+      l.remove;
+    }
+    this.listeners = [];
   },
 
   render: function() {
-    if (this.state.screenType == 'start') {
-      var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
-      return (
-        <StartScreen 
-          config={startScreenConfig}
-          title={this.state.title}
-          description={this.state.description}
-          promoUrl={this.state.promoUrl}
-          onPress={(name) => this.handlePress(name)} >
-        </StartScreen>
-      );
-    } else if (this.state.screenType == 'end'){
-        var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
-        return (
-          <EndScreen 
-            config={EndScreenConfig}
-            title={this.state.title}
-            description={this.state.description}
-            promoUrl={this.state.promoUrl}
-            duration={this.state.duration} 
-            onPress={(name) => this.handlePress(name)}
-            onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}>
-          </EndScreen>
-        );
-    } else {
-      var showPlayButton = this.state.rate > 0 ? false : true;
-      return (
-        <VideoView 
-          showPlay={showPlayButton} 
-          playhead={this.state.playhead} 
-          duration={this.state.duration} 
-          width={this.state.width}
-          onPress={(value) => this.handlePress(value)}
-          onScrub={(value) => this.handleScrub(value)}>
-        </VideoView>
-      );
+
+    switch (this.state.screenType) {
+      case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
+      case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
+      // case SCREEN_TYPES.PAUSE_SCREEN: return this._renderPauseScreen(); break;
+      default:      return this._renderVideoView();   break;
     }
-  }
+  },
+
+  _renderStartScreen: function() {
+    var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    return (
+      <StartScreen
+        config={startScreenConfig}
+        title={this.state.title}
+        description={this.state.description}
+        promoUrl={this.state.promoUrl}
+        onPress={(name) => this.handlePress(name)}/>
+    );
+  },
+
+  _renderEndScreen: function() {
+    var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    return (
+      <EndScreen
+        config={EndScreenConfig}
+        title={this.state.title}
+        description={this.state.description}
+        promoUrl={this.state.promoUrl}
+        duration={this.state.duration}
+        onPress={(name) => this.handlePress(name)}/>
+    );
+  },
+
+  _renderPauseScreen: function() {
+    var PauseScreenConfig = {mode:'default', infoPanel:{visible:true}};
+
+    return (
+      <PauseScreen
+        config={PauseScreenConfig}
+        title={this.state.title}
+        duration={this.state.duration}
+        description={this.state.description}
+        promoUrl={this.state.promoUrl}
+        onPress={(name) => this.handlePress(name)}/>
+    );
+  },
+
+   _renderVideoView: function() {
+     var showPlayButton = this.state.rate > 0 ? false : true;
+     var discovery;
+     if (this.state.rate == 0) {
+      discovery = this.state.discovery;
+     }
+     // todo: presumably, do not show CC when Discovery is on.
+     return (
+       <VideoView
+         showPlay={showPlayButton}
+         playhead={this.state.playhead}
+         duration={this.state.duration}
+         discovery={discovery} 
+         width={this.state.width}
+         onPress={(value) => this.handlePress(value)}
+         onScrub={(value) => this.handleScrub(value)}
+         closedCaptionsLanguage={this.state.rct_closedCaptionsLanguage}
+             // todo: change to boolean showCCButton.
+         availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
+         captionJSON={this.state.captionJSON}
+         onDiscoveryRow={(code) => this.handleEmbedCode(code)}>
+       </VideoView>
+     );
+   }
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

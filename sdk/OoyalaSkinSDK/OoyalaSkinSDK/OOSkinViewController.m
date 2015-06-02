@@ -11,6 +11,9 @@
 #import "RCTRootView.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
+#import <OoyalaSDK/OOModule.h>
+#import <OoyalaSDK/OOEmbeddedSecureURLGenerator.h>
+#import <OoyalaSDK/OODiscoveryManager.h>
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
@@ -22,8 +25,8 @@
 
 @implementation OOSkinViewController
 
-static const NSString *kFrameChangeContext = @"frameChanged";
-static const NSString *kViewChangeKey = @"frame";
+static NSString *kFrameChangeContext = @"frameChanged";
+static NSString *kViewChangeKey = @"frame";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
@@ -60,38 +63,72 @@ static const NSString *kViewChangeKey = @"frame";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
-
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OODiscoveryResultsReceivedNotification object:_player];
   }
 }
 
 - (void)onEvent:(NSNotification *)notification {
   NSString *notificationName = notification.name;
-  NSDictionary *eventBody;
-
   if ([notificationName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
-    NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
-    NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
-    NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
-
-    eventBody =
-    @{@"duration":durationNumber,
-      @"playhead":playheadNumber,
-      @"rate":rateNumber};
+    [self bridgeTimeChangedNotification:notification];
+  } else if ([notificationName isEqualToString:OODiscoveryResultsReceivedNotification]) {
+    [self bridgeDiscoveryChangeNotification:notification];
   } else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
-    NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
-    NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
-    NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
-    NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
-    NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
-
-    eventBody =
-    @{@"title":title,
-      @"description":itemDescription,
-      @"promoUrl":promoUrl,
-      @"duration":durationNumber,
-      @"width":frameWidth};
+    [self bridgeCurrentItemChangedNotification:notification];
+  } else if ([notificationName isEqualToString:OOOoyalaPlayerStateChangedNotification]) {
+    [self bridgeStateChangedNotification:notification];
   }
-  [OOReactBridge sendDeviceEventWithName:notificationName body:eventBody];
+}
+
+- (void)bridgeDiscoveryChangeNotification:(NSNotification *)notification {
+  NSArray *results = [notification.userInfo objectForKey:@"results"];
+  NSMutableArray *discoveryArray = [NSMutableArray new];
+  for (NSDictionary *dict in results) {
+    NSString *name = [dict objectForKey:@"name" ];
+    if (name == nil) {
+
+    }
+    NSString *embedCode = [dict objectForKey:@"embed_code"];
+    NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
+    NSNumber *duration = [NSNumber numberWithDouble:[[dict objectForKey:@"duration"] doubleValue] / 1000];
+    NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration};
+    [discoveryArray addObject:discoveryItem];
+  }
+  NSDictionary *eventBody = @{@"results":discoveryArray};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgeTimeChangedNotification:(NSNotification *)notification {
+  NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
+  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
+  NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
+  NSDictionary *eventBody =
+  @{@"duration":durationNumber,
+    @"playhead":playheadNumber,
+    @"rate":rateNumber,
+    @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {
+  NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
+  NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
+  NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
+  NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
+  NSDictionary *eventBody =
+  @{@"title":title,
+    @"description":itemDescription,
+    @"promoUrl":promoUrl,
+    @"duration":durationNumber,
+    @"width":frameWidth};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+-(void) bridgeStateChangedNotification:(NSNotification *)notification {
+  NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
+  NSDictionary *eventBody = @{@"state":stateString};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
 - (NSDictionary *)getDictionaryFromJSONFile {
