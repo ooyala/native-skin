@@ -11,22 +11,31 @@ var SharePanel = React.createClass ({
 	propTypes: {
 		isShow: React.PropTypes.boolean,
 		socialButtons: React.PropTypes.array,
-		socialShare: React.PropTypes.func,
-		onPress:React.PropTypes.func,
+		onSocialButtonPress: React.PropTypes.func,
 	},
 
 	onSocialButtonPress: function(serviceType){
-		this.props.socialShare(serviceType);
+		this.props.onSocialButtonPress(serviceType);
 	},
 
 	render: function() {
+		var buttonNames = [];
+		var imgUrls = [];
+
 		var sharePanel;
 		var twitterBtn;
 		var facebookBtn;
 		var googlePlusBtn;
 		var emailBtn;
 
-		if(this.props.socialButtons.indexOf("Twitter") != -1){
+		// handle socialButtons array
+		for (var i = 0; i < this.props.socialButtons.length; i++){
+			console.log("social buttons are", this.props.socialButtons[i]);
+			buttonNames.push(this.props.socialButtons[i].buttonName);
+			imgUrls.push(this.props.socialButtons[i].imgUrl);
+		}
+
+		if(buttonNames.indexOf("Twitter") != -1){
 			twitterBtn = (
 				<TouchableHighlight
 					onPress={(serviceType) => this.onSocialButtonPress("Twitter")}
@@ -34,7 +43,7 @@ var SharePanel = React.createClass ({
 	   				activeOpacity={0.5}>
 
 	   				<Image style={styles.socialButton}
-				       	source={{uri: 'https://g.twimg.com/ios_homescreen_icon.png'}}
+				       	source={{uri: imgUrls[buttonNames.indexOf("Twitter")]}}
 				       	resizeMode={Image.resizeMode.contain}>
 				   	</Image>
 
@@ -42,7 +51,7 @@ var SharePanel = React.createClass ({
 			);
 		}
 
-		if(this.props.socialButtons.indexOf("Facebook") != -1){
+		if(buttonNames.indexOf("Facebook") != -1){
 			facebookBtn = (
 				<TouchableHighlight
 					onPress={(serviceType) => this.onSocialButtonPress("Facebook")}
@@ -50,7 +59,7 @@ var SharePanel = React.createClass ({
 	   				activeOpacity={0.5}>
 
 	   				<Image style={styles.socialButton}
-				       	source={{uri: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png'}}
+				       	source={{uri: imgUrls[buttonNames.indexOf("Facebook")]}}
 				       	resizeMode={Image.resizeMode.contain}>
 				   	</Image>
 
@@ -58,7 +67,7 @@ var SharePanel = React.createClass ({
 			);
 		}
 
-		if(this.props.socialButtons.indexOf("GooglePlus") != -1){
+		if(buttonNames.indexOf("GooglePlus") != -1){
 			googlePlusBtn = (
 				<TouchableHighlight
 					onPress={(serviceType) => this.onSocialButtonPress("GooglePlus")}
@@ -66,7 +75,7 @@ var SharePanel = React.createClass ({
 	   				activeOpacity={0.5}>
 
 					<Image style={styles.socialButton}
-				       	source={{uri: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300'}}
+				       	source={{uri: imgUrls[buttonNames.indexOf("GooglePlus")]}}
 				       	resizeMode={Image.resizeMode.contain}>
 					</Image>
 				   	
@@ -74,7 +83,7 @@ var SharePanel = React.createClass ({
 			);
 		}
 
-		if(this.props.socialButtons.indexOf("Email") != -1){
+		if(buttonNames.indexOf("Email") != -1){
 			emailBtn = (
 				<TouchableHighlight
 					onPress={(serviceType) => this.onSocialButtonPress("Email")}
@@ -82,7 +91,7 @@ var SharePanel = React.createClass ({
 	   				activeOpacity={0.5}>
 
 					<Image style={styles.socialButton}
-				        source={{uri: 'http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png'}}
+				        source={{uri: imgUrls[buttonNames.indexOf("Email")]}}
 				        resizeMode={Image.resizeMode.contain}>
 				    </Image>
 				   	

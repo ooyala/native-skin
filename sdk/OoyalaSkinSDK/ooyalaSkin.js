@@ -37,8 +37,8 @@ var OoyalaSkin = React.createClass({
     };
   },
 
-  socialShare: function(socialType) {
-    OOSocialShare.socialShare({
+  onSocialButtonPress: function(socialType) {
+    OOSocialShare.onSocialButtonPress({
         'socialType': socialType,
         'text':this.state.title,
         'link':'https://www.ooyala.com',
@@ -129,7 +129,7 @@ var OoyalaSkin = React.createClass({
             promoUrl={this.state.promoUrl}
             duration={this.state.duration} 
             onPress={(name) => this.handlePress(name)}
-            socialShare={(socialType) => this.socialShare(socialType)}>
+            onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}>
           </EndScreen>
         );
     } else {
