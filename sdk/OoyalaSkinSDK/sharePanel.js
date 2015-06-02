@@ -39,16 +39,18 @@ var SharePanel = React.createClass ({
 
 			socialButtons.push(socialButton);
 		}
-	
-		sharePanel = (
-			<View style={styles.sharePanelNW}>
-				<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
+		
+		if(this.props.isShow){
+			sharePanel = (
+				<View style={styles.sharePanelNW}>
+					<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
 
-				<View style={styles.sharePanelButtonRow}>
-					{socialButtons}
+					<View style={styles.sharePanelButtonRow}>
+						{socialButtons}
+					</View>
 				</View>
-			</View>
-		);
+			);
+		}
 
 		return (
 			<View style={styles.container}>
