@@ -19,80 +19,33 @@ var SharePanel = React.createClass ({
 	},
 
 	render: function() {
-		var buttonNames = [];
-		var imgUrls = [];
-
 		var sharePanel;
-		var twitterBtn;
-		var facebookBtn;
-		var googlePlusBtn;
-		var emailBtn;
+		var socialButtons = [];
 
-		// handle socialButtons array
 		for (var i = 0; i < this.props.socialButtons.length; i++){
-			console.log("social buttons are", this.props.socialButtons[i]);
-			buttonNames.push(this.props.socialButtons[i].buttonName);
-			imgUrls.push(this.props.socialButtons[i].imgUrl);
+			var socialButton;
+
+			socialButton = (
+				<TouchableHighlight
+					onPress={(serviceType) => this.onSocialButtonPress(this.props.socialButtons[i].buttonName)}
+	   				underlayColor="transparent"
+	   				activeOpacity={0.5}>
+	   			<Image style={styles.socialButton}
+			       	source={{uri: this.props.socialButtons[i].imgUrl}}
+			       	resizeMode={Image.resizeMode.contain}>
+			   	</Image>
+	   			</TouchableHighlight>
+			);
+
+			socialButtons.push(socialButton);
 		}
-
-		twitterBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("Twitter")}
-	   			underlayColor="transparent"
-	   			activeOpacity={0.5}>
-	   			<Image style={styles.socialButton}
-			       	source={{uri: imgUrls[buttonNames.indexOf("Twitter")]}}
-			       	resizeMode={Image.resizeMode.contain}>
-			   	</Image>
-	   		</TouchableHighlight>
-		);
-
-
-		facebookBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("Facebook")}
-	   			underlayColor="transparent"
-	   			activeOpacity={0.5}>
-	   			<Image style={styles.socialButton}
-			       	source={{uri: imgUrls[buttonNames.indexOf("Facebook")]}}
-			       	resizeMode={Image.resizeMode.contain}>
-			   	</Image>
-	   		</TouchableHighlight>
-		);
-
-		googlePlusBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("GooglePlus")}
-	   			underlayColor="transparent"
-	   			activeOpacity={0.5}>
-				<Image style={styles.socialButton}
-			       	source={{uri: imgUrls[buttonNames.indexOf("GooglePlus")]}}
-			       	resizeMode={Image.resizeMode.contain}>
-				</Image>		   	
-	   		</TouchableHighlight>
-		);
-
-		emailBtn = (
-			<TouchableHighlight
-				onPress={(serviceType) => this.onSocialButtonPress("Email")}
-	   			underlayColor="transparent"
-	   			activeOpacity={0.5}>
-				<Image style={styles.socialButton}
-				    source={{uri: imgUrls[buttonNames.indexOf("Email")]}}
-				    resizeMode={Image.resizeMode.contain}>
-				</Image>
-	   		</TouchableHighlight>
-		);
-
+	
 		sharePanel = (
 			<View style={styles.sharePanelNW}>
 				<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
 
 				<View style={styles.sharePanelButtonRow}>
-					{twitterBtn}
-					{facebookBtn}
-					{googlePlusBtn}
-					{emailBtn}
+					{socialButtons}
 				</View>
 			</View>
 		);
