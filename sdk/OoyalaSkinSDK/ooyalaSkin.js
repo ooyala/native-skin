@@ -151,7 +151,7 @@ var OoyalaSkin = React.createClass({
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
-      case SCREEN_TYPES.PAUSE_SCREEN: return this._renderPauseScreen(); break;
+      // case SCREEN_TYPES.PAUSE_SCREEN: return this._renderPauseScreen(); break;
       default:      return this._renderVideoView();   break;
     }
   },
