@@ -71,9 +71,9 @@ render: function() {
  var fullscreenPromoImage = (this.props.config.mode == 'default');
  var replaybuttonLocation = styles.replaybuttonCenter;
  var socialButtonsArray = [{buttonName: "Twitter", imgUrl: "https://g.twimg.com/ios_homescreen_icon.png"},
-                           {buttonName: "Facebook", imgUrl: "http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png"},
-                           {buttonName: "GooglePlus", imgUrl: "https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300"},
-                           {buttonName: "Email", imgUrl: "http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png"}];
+                           {buttonName: "Facebook", imgUrl: "http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png"}];
+                           // {buttonName: "GooglePlus", imgUrl: "https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300"},
+                           // {buttonName: "Email", imgUrl: "http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png"}];
 
  var replaybutton = (
    <TouchableHighlight
