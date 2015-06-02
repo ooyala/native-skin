@@ -22,7 +22,6 @@
 		5EEDC9DA1B0E7B9000A3AD27 /* videoView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */; };
 		5EEDC9DB1B0E7B9000A3AD27 /* waterMark.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */; };
 		5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */; };
-		5EEDCA001B0E80DE00A3AD27 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EEDC9FF1B0E80C900A3AD27 /* libRCTWebSocket.a */; };
 		5EEDCAAB1B0EA7AB00A3AD27 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */; };
 		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
 		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
@@ -39,13 +38,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		5EEDC9FE1B0E80C900A3AD27 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3C86DF461ADF2C930047B81A;
-			remoteInfo = RCTWebSocket;
-		};
 		9724B8D11B0185DB00C1623F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */;
@@ -99,7 +91,6 @@
 		5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = videoView.js; sourceTree = "<group>"; };
 		5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = waterMark.js; sourceTree = "<group>"; };
 		5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = closedCaptionsView.js; sourceTree = "<group>"; };
-		5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../../../../../react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimationExperimental.xcodeproj; path = "react-native/Libraries/Animation/RCTAnimationExperimental.xcodeproj"; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,7 +122,6 @@
 				972ED8AD1AE7016A005043DC /* SystemConfiguration.framework in Frameworks */,
 				972ED8AB1AE7011D005043DC /* MediaPlayer.framework in Frameworks */,
 				972ED8A71AE6FCAB005043DC /* libReact.a in Frameworks */,
-				5EEDCA001B0E80DE00A3AD27 /* libRCTWebSocket.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,14 +154,6 @@
 				5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */,
 			);
 			name = JSX;
-			sourceTree = "<group>";
-		};
-		5EEDC9FB1B0E80C900A3AD27 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				5EEDC9FF1B0E80C900A3AD27 /* libRCTWebSocket.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		9724B8CE1B0185DB00C1623F /* Products */ = {
@@ -228,7 +210,6 @@
 		972ED88F1AE6F6A5005043DC /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */,
 				9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */,
 				972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */,
 				972ED8B41AE70307005043DC /* RCTImage.xcodeproj */,
@@ -366,10 +347,6 @@
 					ProjectRef = 972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */;
 				},
 				{
-					ProductGroup = 5EEDC9FB1B0E80C900A3AD27 /* Products */;
-					ProjectRef = 5EEDC9FA1B0E80C900A3AD27 /* RCTWebSocket.xcodeproj */;
-				},
-				{
 					ProductGroup = 972ED8A21AE6FC3E005043DC /* Products */;
 					ProjectRef = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
 				},
@@ -383,13 +360,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		5EEDC9FF1B0E80C900A3AD27 /* libRCTWebSocket.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libRCTWebSocket.a;
-			remoteRef = 5EEDC9FE1B0E80C900A3AD27 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -582,11 +552,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
-					"/Users/jonslenk/Dev/repos/ios-sdk/sdk/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -602,11 +568,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
-					"/Users/jonslenk/Dev/repos/ios-sdk/sdk/build/Debug-iphoneos",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

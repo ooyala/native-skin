@@ -90,7 +90,7 @@ static NSString *kViewChangeKey = @"frame";
     }
     NSString *embedCode = [dict objectForKey:@"embed_code"];
     NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
-    NSNumber *duration = [dict objectForKey:@"duration"];
+    NSNumber *duration = [NSNumber numberWithDouble:[[dict objectForKey:@"duration"] doubleValue] / 1000];
     NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration};
     [discoveryArray addObject:discoveryItem];
   }
