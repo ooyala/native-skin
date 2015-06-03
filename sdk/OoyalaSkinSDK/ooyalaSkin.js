@@ -65,6 +65,7 @@ var OoyalaSkin = React.createClass({
         console.log(results);
       }
     );
+  },
 
   cchack: function(n) {
     // todo: remove this testing hack and do it right...
@@ -129,7 +130,7 @@ var OoyalaSkin = React.createClass({
 
   onStateChange: function(e) {
     if(e.state == OOSTATES.PAUSED) {
-      this.setState({screenType:SCREEN_TYPES.PAUSE_SCREEN});
+      // this.setState({screenType:SCREEN_TYPES.PAUSE_SCREEN});
     }
   },
 
@@ -192,8 +193,9 @@ var OoyalaSkin = React.createClass({
         title={this.state.title}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
-        duration={this.state.duration}
-        onPress={(name) => this.handlePress(name)}/>
+        duration={this.state.duration} 
+        onPress={(name) => this.handlePress(name)}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>
     );
   },
 
