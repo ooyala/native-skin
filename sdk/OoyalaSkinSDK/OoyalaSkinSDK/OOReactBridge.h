@@ -11,10 +11,12 @@
 #import "RCTBridgeModule.h"
 
 @class OOOoyalaPlayer;
+@class OODiscoveryOptions;
 
 @interface OOReactBridge : NSObject<RCTBridgeModule>
 
 @property (nonatomic, weak) OOOoyalaPlayer *player;
+@property (nonatomic) OODiscoveryOptions *discoveryOptions;
 
 + (instancetype)getInstance;
 

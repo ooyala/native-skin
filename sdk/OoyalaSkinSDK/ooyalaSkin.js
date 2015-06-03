@@ -80,8 +80,8 @@ var OoyalaSkin = React.createClass({
     this.setState( {captionJSON: e} );
   },
 
-  handleEmbedCode: function(code) {
-    eventBridge.setEmbedCode({embedCode:code});
+  onDiscoveryRow: function(info) {
+    eventBridge.onDiscoveryRow(info);
   },
 
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
@@ -215,7 +215,7 @@ var OoyalaSkin = React.createClass({
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
-         onDiscoveryRow={(code) => this.handleEmbedCode(code)}>
+         onDiscoveryRow={(info) => this.onDiscoveryRow(info)}>
        </VideoView>
      );
    }

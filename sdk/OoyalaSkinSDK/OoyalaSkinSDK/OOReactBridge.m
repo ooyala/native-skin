@@ -15,6 +15,7 @@
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
+#import <OoyalaSDK/OODiscoveryManager.h>
 
 @implementation OOReactBridge
 
@@ -29,6 +30,8 @@ static NSString *percentageKey = @"percentage";
 static NSString *playPauseButtonName = @"PlayPause";
 static NSString *playButtonName = @"Play";
 static NSString *languageKey = @"language";
+static NSString *bucketInfoKey = @"bucketInfo";
+static NSString *actionKey = @"action";
 
 /**
 // !!!Warning: this object MUST be created by the react view
@@ -107,6 +110,23 @@ RCT_EXPORT_METHOD(setEmbedCode:(NSDictionary *)parameters) {
     [_player setEmbedCode:embedCode];
     [_player play];
   });
+}
+
+RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
+  NSString *action = [parameters objectForKey:actionKey];
+  NSString *bucketInfo = [parameters objectForKey:bucketInfoKey];
+  if ([action isEqualToString:@"click"]) {
+    NSString *embedCode = [parameters objectForKey:embedCodeKey];
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [OODiscoveryManager sendClick:_discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
+      [_player setEmbedCode:embedCode];
+      [_player play];
+    });
+  } else if ([action isEqualToString:@"impress"]) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+      [OODiscoveryManager sendImpression:_discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
+    });
+  }
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
