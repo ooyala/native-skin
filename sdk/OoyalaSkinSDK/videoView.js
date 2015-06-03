@@ -80,7 +80,7 @@ var VideoView = React.createClass({
       placeholder = (
         <DiscoveryPanel
           dataSource={this.props.discovery}
-          onRowSelected={(embedCode) => this.props.onDiscoveryRow(embedCode)}>
+          onRowAction={(info) => this.props.onDiscoveryRow(info)}>
         </DiscoveryPanel>);
     } else {
       placeholder = (

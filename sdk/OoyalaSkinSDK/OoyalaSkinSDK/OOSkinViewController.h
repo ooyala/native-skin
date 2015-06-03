@@ -9,11 +9,18 @@
 #import <UIKit/UIKit.h>
 
 @class OOOoyalaPlayer;
+@class OODiscoveryOptions;
 
 @interface OOSkinViewController : UIViewController
 
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options;
+@property OODiscoveryOptions *discoveryOptions;
+
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                          rect:(CGRect)rect
+              discoveryOptions:(OODiscoveryOptions *)discoveryOptions
+                 launchOptions:(NSDictionary *)options;
 
 - (void)loadStartScreenConfigureFile;
+- (void)loadDiscovery;
 
 @end
