@@ -118,13 +118,13 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   if ([action isEqualToString:@"click"]) {
     NSString *embedCode = [parameters objectForKey:embedCodeKey];
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendClick:bucketInfo options:_discoveryOptions];
+      [OODiscoveryManager sendClick:_discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
       [_player setEmbedCode:embedCode];
       [_player play];
     });
   } else if ([action isEqualToString:@"impress"]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendImpression:bucketInfo options:_discoveryOptions];
+      [OODiscoveryManager sendImpression:_discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
     });
   }
 }
