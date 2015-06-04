@@ -7,6 +7,7 @@
 //
 
 #import "OOClosedCaptionsViewManager.h"
+#import "OOSkinAutoUpdatingClosedCaptionsStyle.h"
 #import <OoyalaSDK/OOClosedCaptionsView.h>
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
 #import <OoyalaSDK/OOCaption.h>
@@ -17,8 +18,7 @@ RCT_EXPORT_MODULE();
 
 -(UIView *)view {
   OOClosedCaptionsView *v = [OOClosedCaptionsView new];
-  OOClosedCaptionsStyle *s = [OOClosedCaptionsStyle new];
-  [s updateStyle];
+  OOClosedCaptionsStyle *s = [[OOSkinAutoUpdatingClosedCaptionsStyle alloc] initWithClosedCaptionsView:v];
   v.style = s;
   return v;
 }
