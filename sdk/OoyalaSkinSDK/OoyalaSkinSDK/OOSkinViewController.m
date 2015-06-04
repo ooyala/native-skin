@@ -17,6 +17,7 @@
 #import <OoyalaSDK/OODebugMode.h>
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
+#define FULLSCREEN_ANIMATION_DURATION 0.5
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
@@ -194,6 +195,8 @@ static NSString *kViewChangeKey = @"frame";
 
 - (void)toggleFullscreen {
   [_player pause];
+  [UIView beginAnimations:@"animateAddContentView" context:nil];
+  [UIView setAnimationDuration:FULLSCREEN_ANIMATION_DURATION];
   [self.view removeFromSuperview];
   _isFullscreen = !_isFullscreen;
   if (_isFullscreen) {
@@ -212,6 +215,7 @@ static NSString *kViewChangeKey = @"frame";
       _parentViewController = nil;
     }
   }
+  [UIView commitAnimations];
   [_player play];
 }
 
