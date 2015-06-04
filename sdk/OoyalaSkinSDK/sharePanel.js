@@ -1,39 +1,62 @@
 var React = require('react-native');
 var {
-  StyleSheet,
-  Text,
-  View,
-  Image
+	StyleSheet,
+  	Text,
+  	View,
+  	Image,
+  	TouchableHighlight,
 } = React;
 
 var SharePanel = React.createClass ({
 	propTypes: {
 		isShow: React.PropTypes.boolean,
+		socialButtons: React.PropTypes.array,
+		onSocialButtonPress: React.PropTypes.func,
+	},
+
+	onSocialButtonPress: function(serviceType){
+		this.props.onSocialButtonPress(serviceType);
 	},
 
 	render: function() {
 		var sharePanel;
+		var socialButtons = [];
 
 		if(this.props.isShow){
+			for (var i = 0; i < this.props.socialButtons.length; i++){
+
+				var socialButton;
+				var buttonName = this.props.socialButtons[i].buttonName;
+				var buttonImgUrl = this.props.socialButtons[i].imgUrl;
+
+				// handle javascript reference issue
+				var onPressButton = function(buttonName, f){
+					return function(){
+						f(buttonName);
+					};
+				}(buttonName, this.onSocialButtonPress);
+
+				socialButton = (
+					<TouchableHighlight
+						onPress = {onPressButton}
+		   				underlayColor="transparent"
+		   				activeOpacity={0.5}>
+		   				<Image style={styles.socialButton}
+				       		source={{uri: buttonImgUrl}}
+				       		resizeMode={Image.resizeMode.contain}>
+				   		</Image>
+		   			</TouchableHighlight>
+				);
+
+				socialButtons.push(socialButton);
+			}
+			
 			sharePanel = (
 				<View style={styles.sharePanelNW}>
-					<Text style={styles.sharePanelTitle}>{"Invest In Social Change"}</Text>
+					<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
 
 					<View style={styles.sharePanelButtonRow}>
-						<Image style={styles.socialButton}
-			        		source={{uri: 'https://g.twimg.com/ios_homescreen_icon.png'}}
-			        		resizeMode={Image.resizeMode.contain}>
-			    		</Image>
-
-			    		<Image style={styles.socialButton}
-			        		source={{uri: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png'}}
-			        		resizeMode={Image.resizeMode.contain}>
-			    		</Image>
-
-			    		<Image style={styles.socialButton}
-			        		source={{uri: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300'}}
-			        		resizeMode={Image.resizeMode.contain}>
-			    		</Image>
+						{socialButtons}
 					</View>
 				</View>
 			);
@@ -69,6 +92,7 @@ var styles = StyleSheet.create({
   	sharePanelButtonRow: {
   		flexDirection:'row',
   		alignItems: 'center',
+  		alignSelf: 'center',
   		backgroundColor: 'transparent',
   		margin: 20
   	},

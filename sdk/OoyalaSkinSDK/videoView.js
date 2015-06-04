@@ -3,7 +3,8 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
- var React = require('react-native');
+
+var React = require('react-native');
  var {
   Text,
   View,
@@ -18,13 +19,22 @@ var ControlBar = require('./controlBar');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var AnimationExperimental = require('AnimationExperimental');
 var DiscoveryPanel = require('./discoveryPanel');
+var SharePanel = require('./sharePanel');
 
-var ICONS = require('./constants').ICONS;
+var Constants = require('./constants');
+
+var {
+  ICONS,
+  BUTTON_NAMES,
+  IMG_URLS,
+} = Constants;
 
 var VideoView = React.createClass({
   getInitialState: function() {
     return {
       showControls: true,
+      showSharePanel: false,
+      showDiscoveryPanel: false, 
     };
   },
 
@@ -41,10 +51,35 @@ var VideoView = React.createClass({
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
     onDiscoveryRow: React.PropTypes.func,
+    onSocialButtonPress: React.PropTypes.func,
+  },
+
+  onSocialButtonPress: function(socialType){
+    this.props.onSocialButtonPress(socialType);
   },
 
   handlePress: function(name) {
+    switch (name) {
+      case BUTTON_NAMES.SOCIAL_SHARE: this._renderSocialShare(); break;
+      case BUTTON_NAMES.PLAY_PAUSE:   this._renderPlayPause();   break;
+      default:                     this._renderGeneralPress();   break;
+    }
     this.props.onPress(name);
+  },
+
+  _renderSocialShare: function() {
+    this.setState({showSharePanel:!this.state.showSharePanel});
+    this.setState({showDiscoveryPanel:false});
+  },
+
+  _renderPlayPause: function() {
+    this.setState({showSharePanel:false});
+    this.setState({showDiscoveryPanel: true});
+  },
+
+  _renderGeneralPress: function() {
+    this.setState({showSharePanel:false});
+    this.setState({showDiscoveryPanel: false});
   },
 
   handleScrub: function(value) {
@@ -75,10 +110,23 @@ var VideoView = React.createClass({
 
   render: function() {
     var placeholder;
-    
-    if (this.props.discovery) {
+    var socialButtonsArray = [{buttonName: BUTTON_NAMES.TWITTER, imgUrl: IMG_URLS.TWITTER},
+                              {buttonName: BUTTON_NAMES.FACEBOOK, imgUrl: IMG_URLS.FACEBOOK}];
+
+    if(this.state.showSharePanel){
+      placeholder = (
+        <View 
+          style={styles.fullscreenContainer}>
+          <SharePanel 
+            isShow= {this.state.showSharePanel}
+            socialButtons={socialButtonsArray}
+            onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
+        </View>
+      );
+    }else if (this.state.showDiscoveryPanel && this.props.discovery) {
       placeholder = (
         <DiscoveryPanel
+          isShow={this.state.showDiscoveryPanel}
           dataSource={this.props.discovery}
           onRowAction={(info) => this.props.onDiscoveryRow(info)}>
         </DiscoveryPanel>);
@@ -127,6 +175,11 @@ var VideoView = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  fullscreenContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     flexDirection: 'column',

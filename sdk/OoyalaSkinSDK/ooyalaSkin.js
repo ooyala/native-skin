@@ -17,6 +17,7 @@ var {
 } = React;
 
 var eventBridge = require('NativeModules').OOReactBridge;
+var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var PauseScreen = require('./PauseScreen');
@@ -52,6 +53,20 @@ var OoyalaSkin = React.createClass({
     };
   },
 
+
+  onSocialButtonPress: function(socialType) {
+    OOSocialShare.onSocialButtonPress({
+        'socialType': socialType,
+        'text':this.state.title,
+        'link':'https://www.ooyala.com',
+
+      },
+      (results) => {
+        console.log(results);
+      }
+    );
+  },
+
   cchack: function(n) {
     // todo: remove this testing hack and do it right...
     if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
@@ -61,6 +76,7 @@ var OoyalaSkin = React.createClass({
       }
     }
     // todo: ...remove this testing hack and do it right.
+
   },
 
   handlePress: function(n) {
@@ -114,7 +130,7 @@ var OoyalaSkin = React.createClass({
 
   onStateChange: function(e) {
     if(e.state == OOSTATES.PAUSED) {
-      this.setState({screenType:SCREEN_TYPES.PAUSE_SCREEN});
+      // this.setState({screenType:SCREEN_TYPES.PAUSE_SCREEN});
     }
   },
 
@@ -148,6 +164,7 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
+
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
@@ -176,8 +193,9 @@ var OoyalaSkin = React.createClass({
         title={this.state.title}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
-        duration={this.state.duration}
-        onPress={(name) => this.handlePress(name)}/>
+        duration={this.state.duration} 
+        onPress={(name) => this.handlePress(name)}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>
     );
   },
 
@@ -215,8 +233,12 @@ var OoyalaSkin = React.createClass({
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
-         onDiscoveryRow={(info) => this.onDiscoveryRow(info)}>
+
+         onDiscoveryRow={(info) => this.onDiscoveryRow(info)}
+         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} >
+  
        </VideoView>
+
      );
    }
 });

@@ -16,11 +16,20 @@ var SharePanel = require('./sharePanel');
 
 var AnimationExperimental = require('AnimationExperimental');
 
-var ICONS = require('./constants').ICONS;
+var Constants = require('./constants');
+
+var {
+  ICONS,
+  BUTTON_NAMES,
+  IMG_URLS,
+} = Constants;
 
 var EndScreen = React.createClass({
 	getInitialState: function() {
-    return {showControls:true, showSharePanel:false};
+    return {
+      showControls:true, 
+      showSharePanel:false,
+    };
   },
 
   propTypes: {
@@ -30,6 +39,7 @@ var EndScreen = React.createClass({
    description: React.PropTypes.string,
    promoUrl: React.PropTypes.string,
    onPress: React.PropTypes.func,
+   onSocialButtonPress: React.PropTypes.func,
  },
 
  toggleControlBar: function() {
@@ -51,12 +61,15 @@ var EndScreen = React.createClass({
 },
 
 handleClick: function(name) {
-  console.log("now the name is",name);
   if(name === "SocialShare"){
     this.setState({showSharePanel:!this.state.showSharePanel});
   } else {
     this.props.onPress(name);
   } 
+},
+
+onSocialButtonPress: function(socialType){
+  this.props.onSocialButtonPress(socialType);
 },
 
 handleTouchEnd: function(event) {
@@ -66,6 +79,11 @@ handleTouchEnd: function(event) {
 render: function() {
  var fullscreenPromoImage = (this.props.config.mode == 'default');
  var replaybuttonLocation = styles.replaybuttonCenter;
+ var socialButtonsArray = [{buttonName: BUTTON_NAMES.TWITTER, imgUrl: IMG_URLS.TWITTER},
+                           {buttonName: BUTTON_NAMES.FACEBOOK, imgUrl: IMG_URLS.FACEBOOK}];
+                           // {buttonName: BUTTON_NAMES.GOOGLEPLUS, imgUrl: IMG_URLS.GOOGLEPLUS},
+                           // {buttonName: BUTTON_NAMES.EMAIL, imgUrl: IMG_URLS.EMAIL}];
+
  var replaybutton = (
    <TouchableHighlight
    onPress={(name) => this.handleClick('PlayPause')}
@@ -83,10 +101,13 @@ render: function() {
  var sharePanel;
  sharePanel = (<SharePanel 
   ref='sharePanel' 
-  isShow= {this.state.showSharePanel}/>);
+  isShow= {this.state.showSharePanel}
+  socialButtons={socialButtonsArray}
+  onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />);
 
  var progressBar;
- progressBar = (<ProgressBar ref='progressBar' 
+ progressBar = (<ProgressBar 
+  ref='progressBar' 
   playhead={this.props.duration} 
   duration={this.props.duration}  />);
 
@@ -110,8 +131,7 @@ render: function() {
      resizeMode={Image.resizeMode.contain}
      >
       <View 
-        style={styles.fullscreenContainer}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+        style={styles.fullscreenContainer}>
 
        {infoPanel}
        {sharePanel}
@@ -153,7 +173,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
 
   fullscreenContainer: {

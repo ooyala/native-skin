@@ -40,7 +40,7 @@ static NSString *kViewChangeKey = @"frame";
                  launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
     [self setPlayer:player];
-    NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/ooyalaSkin.bundle"];
+    NSURL *jsCodeLocation = [NSURL URLWithString:@"http:/localhost:8081/ooyalaSkin.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
@@ -89,6 +89,8 @@ static NSString *kViewChangeKey = @"frame";
     [self bridgeCurrentItemChangedNotification:notification];
   } else if ([notificationName isEqualToString:OOOoyalaPlayerStateChangedNotification]) {
     [self bridgeStateChangedNotification:notification];
+  } else if([notificationName isEqualToString:OOOoyalaPlayerPlayCompletedNotification]) {
+    [self bridgePlayCompletedNotification:notification];
   }
 }
 
@@ -126,6 +128,21 @@ static NSString *kViewChangeKey = @"frame";
   NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
   NSDictionary *eventBody = @{@"state":stateString};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+-(void) bridgePlayCompletedNotification:(NSNotification *)notification {
+  NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
+  NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
+  NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
+  
+  NSDictionary *eventBody =
+  @{@"title":title,
+    @"description":itemDescription,
+    @"promoUrl":promoUrl,
+    @"duration":durationNumber};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+
 }
 
 - (NSDictionary *)getDictionaryFromJSONFile {
