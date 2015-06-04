@@ -21,6 +21,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations.
 };
 
 var SCREEN_TYPES = {
+  LOADING_SCREEN: 'loading',
   VIDEO_SCREEN: 'video',
   START_SCREEN: 'start',
   END_SCREEN: 'end',

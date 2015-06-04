@@ -38,9 +38,9 @@ var OoyalaSkin = React.createClass({
   // consider using a leading underscore, or something?
   getInitialState() {
     return {
-      screenType: SCREEN_TYPES.START_SCREEN,
-      title: 'video title', 
-      description: 'this is the detail of the video', 
+      screenType: SCREEN_TYPES.LOADING_SCREEN,
+      title: '',
+      description: '',
       promoUrl: '', 
       playhead: 0,
       duration: 1,
@@ -151,6 +151,7 @@ var OoyalaSkin = React.createClass({
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
+      case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
       // case SCREEN_TYPES.PAUSE_SCREEN: return this._renderPauseScreen(); break;
       default:      return this._renderVideoView();   break;
     }
@@ -218,7 +219,25 @@ var OoyalaSkin = React.createClass({
          onDiscoveryRow={(info) => this.onDiscoveryRow(info)}>
        </VideoView>
      );
+   },
+
+   _renderLoadingScreen: function() {
+    return (
+      <ActivityIndicatorIOS
+        animating={true}
+        style={styles.loading}
+        size="large">
+      </ActivityIndicatorIOS>)
    }
+});
+
+var styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 200
+  },
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
