@@ -128,7 +128,7 @@ var VideoView = React.createClass({
         <DiscoveryPanel
           isShow={this.state.showDiscoveryPanel}
           dataSource={this.props.discovery}
-          onRowSelected={(embedCode) => this.props.onDiscoveryRow(embedCode)}>
+          onRowAction={(info) => this.props.onDiscoveryRow(info)}>
         </DiscoveryPanel>);
     } else {
       placeholder = (

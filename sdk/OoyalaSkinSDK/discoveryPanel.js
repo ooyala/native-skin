@@ -21,18 +21,23 @@ var DiscoveryPanel = React.createClass({
   propTypes: {
     isShow: React.PropTypes.bool,
     dataSource: React.PropTypes.array,
-    onRowSelected: React.PropTypes.func,
+    onRowAction: React.PropTypes.func,
   },
 
   getInitialState: function() {
     return {dataSource:ds.cloneWithRows(this.props.dataSource)};
   },
 
-  onRowSelected: function(embedCode) {
-  	console.log("selectDiscovery embedCode", embedCode);
-  	if (this.props.onRowSelected) {
-  	  this.props.onRowSelected(embedCode);
+  onRowSelected: function(row) {
+  	if (this.props.onRowAction) {
+  	  this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
   	}
+  },
+
+  onRowImpressed: function(row) {
+    if (this.props.onRowAction) {
+      this.props.onRowAction({action:"impress", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+    }
   },
 
   render: function() {
@@ -57,10 +62,12 @@ var DiscoveryPanel = React.createClass({
 
   renderRow: function(row: object, sectionID: number, rowID: number) {
   	var duration = Utils.secondsToString(row.duration);
+    this.onRowImpressed(row);
+
     return (
     <TouchableHighlight
       underlayColor='#37455B'
-      onPress={() => this.onRowSelected(row.embedCode)}>
+      onPress={() => this.onRowSelected(row)}>
       <View style={styles.container}>
         <Image
           source={{uri: row.imageUrl}}

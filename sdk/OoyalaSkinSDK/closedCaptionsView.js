@@ -7,7 +7,9 @@ var {
 
 class ClosedCaptionsView extends React.Component {
   render() {
-    return <OOClosedCaptionsView {...this.props}/>;
+    return <OOClosedCaptionsView
+              {...this.props}
+              pointerEvents='none'/>;
   }
 }
 ClosedCaptionsView.propTypes = {

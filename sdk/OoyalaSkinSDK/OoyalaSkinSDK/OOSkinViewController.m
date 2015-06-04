@@ -14,9 +14,15 @@
 #import <OoyalaSDK/OOModule.h>
 #import <OoyalaSDK/OOEmbeddedSecureURLGenerator.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
+#import <OoyalaSDK/OODebugMode.h>
+
+#define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
+  UIViewController *_parentViewController;
+  UIView *_parentView;
+  BOOL _isFullscreen;
 }
 
 @property (nonatomic, retain) OOOoyalaPlayer *player;
@@ -28,16 +34,20 @@
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player rect:(CGRect)rect launchOptions:(NSDictionary *)options{
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                        parent:(UIView *)parentView
+              discoveryOptions:(OODiscoveryOptions *)discoveryOptions
+                 launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
     [self setPlayer:player];
     NSURL *jsCodeLocation = [NSURL URLWithString:@"http:/localhost:8081/ooyalaSkin.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
-    [self.view setFrame:rect];
-    [_player.view setFrame:rect];
-    [_reactView setFrame:rect];
+    _parentView = parentView;
+    [self.view setFrame:_parentView.frame];
+    [_player.view setFrame:_parentView.frame];
+    [_reactView setFrame:_parentView.frame];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
     _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -45,7 +55,12 @@ static NSString *kViewChangeKey = @"frame";
     [self.view addSubview:_player.view];
     [self.view addSubview:_reactView];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
+
     [OOReactBridge getInstance].player = _player;
+    [OOReactBridge getInstance].skinController = self;
+    [_parentView addSubview:self.view];
+    _isFullscreen = NO;
+    _discoveryOptions = discoveryOptions;
   }
   return self;
 }
@@ -63,7 +78,6 @@ static NSString *kViewChangeKey = @"frame";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OODiscoveryResultsReceivedNotification object:_player];
   }
 }
 
@@ -71,8 +85,6 @@ static NSString *kViewChangeKey = @"frame";
   NSString *notificationName = notification.name;
   if ([notificationName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
     [self bridgeTimeChangedNotification:notification];
-  } else if ([notificationName isEqualToString:OODiscoveryResultsReceivedNotification]) {
-    [self bridgeDiscoveryChangeNotification:notification];
   } else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
     [self bridgeCurrentItemChangedNotification:notification];
   } else if ([notificationName isEqualToString:OOOoyalaPlayerStateChangedNotification]) {
@@ -80,24 +92,6 @@ static NSString *kViewChangeKey = @"frame";
   } else if([notificationName isEqualToString:OOOoyalaPlayerPlayCompletedNotification]) {
     [self bridgePlayCompletedNotification:notification];
   }
-}
-
-- (void)bridgeDiscoveryChangeNotification:(NSNotification *)notification {
-  NSArray *results = [notification.userInfo objectForKey:@"results"];
-  NSMutableArray *discoveryArray = [NSMutableArray new];
-  for (NSDictionary *dict in results) {
-    NSString *name = [dict objectForKey:@"name" ];
-    if (name == nil) {
-
-    }
-    NSString *embedCode = [dict objectForKey:@"embed_code"];
-    NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
-    NSNumber *duration = [NSNumber numberWithDouble:[[dict objectForKey:@"duration"] doubleValue] / 1000];
-    NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration};
-    [discoveryArray addObject:discoveryItem];
-  }
-  NSDictionary *eventBody = @{@"results":discoveryArray};
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
@@ -125,6 +119,9 @@ static NSString *kViewChangeKey = @"frame";
     @"duration":durationNumber,
     @"width":frameWidth};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  if (_player.currentItem.embedCode && _discoveryOptions) {
+    [self loadDiscovery:_player.currentItem.embedCode];
+  }
 }
 
 -(void) bridgeStateChangedNotification:(NSNotification *)notification {
@@ -167,8 +164,35 @@ static NSString *kViewChangeKey = @"frame";
   return nil;
 }
 
+#pragma mark Discovery UI
+
 - (void)loadStartScreenConfigureFile {
   // TODO: implement this.
+}
+
+- (void)loadDiscovery:(NSString *)embedCode {
+  [OODiscoveryManager getResults:_discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
+    if (error) {
+      LOG(@"discovery request failed, error is %@", error.description);
+    } else {
+      [self handleDiscoveryResults:results];
+    }
+  }];
+}
+
+- (void)handleDiscoveryResults:(NSArray *)results {
+  NSMutableArray *discoveryArray = [NSMutableArray new];
+  for (NSDictionary *dict in results) {
+    NSString *name = [dict objectForKey:@"name" ];
+    NSString *embedCode = [dict objectForKey:@"embed_code"];
+    NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
+    NSNumber *duration = [NSNumber numberWithDouble:[[dict objectForKey:@"duration"] doubleValue] / 1000];
+    NSString *bucketInfo = [dict objectForKey:@"bucket_info"];
+    NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration, @"bucketInfo":bucketInfo};
+    [discoveryArray addObject:discoveryItem];
+  }
+  NSDictionary *eventBody = @{@"results":discoveryArray};
+  [OOReactBridge sendDeviceEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];
 }
 
 // KVO
@@ -184,6 +208,29 @@ static NSString *kViewChangeKey = @"frame";
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
+}
+
+- (void)toggleFullscreen {
+  [_player pause];
+  [self.view removeFromSuperview];
+  if (!_isFullscreen) {
+    if (self.parentViewController) {
+      _parentViewController = self.parentViewController;
+      [self removeFromParentViewController];
+    }
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    [window addSubview:self.view];
+    [self.view setFrame:window.frame];
+  } else {
+    [_parentView addSubview:self.view];
+    [self.view setFrame:_parentView.frame];
+    if (_parentViewController) {
+      [_parentViewController addChildViewController:self];
+      _parentViewController = nil;
+    }
+  }
+  _isFullscreen = !_isFullscreen;
+  [_player play];
 }
 
 - (void)dealloc {

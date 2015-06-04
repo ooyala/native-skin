@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B773E301B20D3810056588E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B773E2F1B20D3810056588E /* MessageUI.framework */; };
-		0BA0287E1B1E5EDC00AC5F1C /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BA0287C1B1E5EDC00AC5F1C /* OOReactSocialShare.h */; };
-		0BA0287F1B1E5EDC00AC5F1C /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0287D1B1E5EDC00AC5F1C /* OOReactSocialShare.m */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
+		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
+		5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */; };
 		5EEDC9D01B0E7B9000A3AD27 /* constants.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C41B0E7B9000A3AD27 /* constants.js */; };
 		5EEDC9D11B0E7B9000A3AD27 /* controlBar.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C51B0E7B9000A3AD27 /* controlBar.js */; };
 		5EEDC9D21B0E7B9000A3AD27 /* EndScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */; };
@@ -25,7 +24,6 @@
 		5EEDC9DA1B0E7B9000A3AD27 /* videoView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */; };
 		5EEDC9DB1B0E7B9000A3AD27 /* waterMark.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */; };
 		5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */; };
-		5EEDCAAB1B0EA7AB00A3AD27 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */; };
 		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
 		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -38,6 +36,7 @@
 		972ED8CC1AE70631005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8CB1AE70631005043DC /* libz.dylib */; };
 		972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8B91AE70307005043DC /* libRCTImage.a */; };
 		972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8D21AE70760005043DC /* libRCTText.a */; };
+		97637E2C1B1E700900501427 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97637E2B1B1E700900501427 /* OoyalaSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,11 +78,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0B773E2F1B20D3810056588E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		0BA0287C1B1E5EDC00AC5F1C /* OOReactSocialShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSocialShare.h; sourceTree = "<group>"; };
-		0BA0287D1B1E5EDC00AC5F1C /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
+		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
+		5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinAutoUpdatingClosedCaptionsStyle.m; sourceTree = "<group>"; };
 		5EEDC9C41B0E7B9000A3AD27 /* constants.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = constants.js; sourceTree = "<group>"; };
 		5EEDC9C51B0E7B9000A3AD27 /* controlBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = controlBar.js; sourceTree = "<group>"; };
 		5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = EndScreen.js; sourceTree = "<group>"; };
@@ -113,6 +111,7 @@
 		972ED8B41AE70307005043DC /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		972ED8CB1AE70631005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		97637E2B1B1E700900501427 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,8 +119,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B773E301B20D3810056588E /* MessageUI.framework in Frameworks */,
-				5EEDCAAB1B0EA7AB00A3AD27 /* OoyalaSDK.framework in Frameworks */,
+				97637E2C1B1E700900501427 /* OoyalaSDK.framework in Frameworks */,
 				9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */,
 				972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */,
 				972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */,
@@ -174,7 +172,7 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
-				0B773E2F1B20D3810056588E /* MessageUI.framework */,
+				97637E2B1B1E700900501427 /* OoyalaSDK.framework */,
 				5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */,
 				5EEDC9C31B0E7B8100A3AD27 /* JSX */,
 				FF12905E1AEABA9B00664374 /* framework */,
@@ -200,8 +198,8 @@
 				972ED8861AE6F008005043DC /* OOReactBridge.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
-				0BA0287C1B1E5EDC00AC5F1C /* OOReactSocialShare.h */,
-				0BA0287D1B1E5EDC00AC5F1C /* OOReactSocialShare.m */,
+				5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */,
+				5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */,
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
@@ -272,7 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
-				0BA0287E1B1E5EDC00AC5F1C /* OOReactSocialShare.h in Headers */,
+				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
 			);
@@ -438,7 +436,7 @@
 			files = (
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
-				0BA0287F1B1E5EDC00AC5F1C /* OOReactSocialShare.m in Sources */,
+				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -564,7 +562,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -580,7 +581,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
