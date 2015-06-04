@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import "RCTBridgeModule.h"
+#import "OOSkinViewController.h"
 
 @class OOOoyalaPlayer;
 @class OODiscoveryOptions;
@@ -16,7 +17,7 @@
 @interface OOReactBridge : NSObject<RCTBridgeModule>
 
 @property (nonatomic, weak) OOOoyalaPlayer *player;
-@property (nonatomic) OODiscoveryOptions *discoveryOptions;
+@property (nonatomic, weak) OOSkinViewController *skinController;
 
 + (instancetype)getInstance;
 
