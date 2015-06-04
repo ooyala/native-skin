@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
+		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
+		5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */; };
 		5EEDC9D01B0E7B9000A3AD27 /* constants.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C41B0E7B9000A3AD27 /* constants.js */; };
 		5EEDC9D11B0E7B9000A3AD27 /* controlBar.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C51B0E7B9000A3AD27 /* controlBar.js */; };
 		5EEDC9D21B0E7B9000A3AD27 /* EndScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */; };
@@ -78,6 +80,8 @@
 /* Begin PBXFileReference section */
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
+		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
+		5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinAutoUpdatingClosedCaptionsStyle.m; sourceTree = "<group>"; };
 		5EEDC9C41B0E7B9000A3AD27 /* constants.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = constants.js; sourceTree = "<group>"; };
 		5EEDC9C51B0E7B9000A3AD27 /* controlBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = controlBar.js; sourceTree = "<group>"; };
 		5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = EndScreen.js; sourceTree = "<group>"; };
@@ -194,6 +198,8 @@
 				972ED8861AE6F008005043DC /* OOReactBridge.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
+				5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */,
+				5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */,
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
@@ -264,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
+				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
 			);
@@ -429,6 +436,7 @@
 			files = (
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
+				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
