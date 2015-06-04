@@ -35,6 +35,7 @@ var VideoView = React.createClass({
     duration: React.PropTypes.number,
     discovery: React.PropTypes.array,
     width: React.PropTypes.number,
+    fullscreen: React.PropTypes.bool,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
@@ -105,6 +106,7 @@ var VideoView = React.createClass({
       playhead={this.props.playhead} 
       duration={this.props.duration}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
+      fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton} />);
 

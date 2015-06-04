@@ -32,6 +32,7 @@ var ControlBar = React.createClass({
 
   propTypes: {
     primaryActionButton: React.PropTypes.string,
+    fullscreenButton: React.PropTypes.string,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
@@ -69,7 +70,6 @@ var ControlBar = React.createClass({
   render: function() {
     var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
     var shareIcon = ICONS.SHARE;
-    var fullscreenIcon = ICONS.EXPAND;
     var menuIcon = ICONS.ELLIPSIS;
     var closedCaptionsIcon = ICONS.CC;
     var durationString = Utils.secondsToString(this.props.duration);
@@ -104,7 +104,7 @@ var ControlBar = React.createClass({
           </TouchableHighlight>
           {ccButton}
           <TouchableHighlight onPress={this.onFullscreenPress}>
-            <Text style={styles.icon}>{fullscreenIcon}</Text>
+            <Text style={styles.icon}>{this.props.fullscreenButton}</Text>
           </TouchableHighlight>
           <TouchableHighlight onPress={this.onMorePress}>
             <Text style={styles.icon}>{menuIcon}</Text>

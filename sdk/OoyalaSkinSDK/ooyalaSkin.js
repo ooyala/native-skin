@@ -45,6 +45,7 @@ var OoyalaSkin = React.createClass({
       playhead: 0,
       duration: 1,
       rate: 0,
+      fullscreen: false,
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -105,7 +106,7 @@ var OoyalaSkin = React.createClass({
 
   onFrameChange: function(e) {
     console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
-    this.setState({width:e.width});
+    this.setState({width:e.width, fullscreen:e.fullscreen});
   },
 
   onPlayComplete: function(e) {
@@ -210,6 +211,7 @@ var OoyalaSkin = React.createClass({
          duration={this.state.duration}
          discovery={discovery} 
          width={this.state.width}
+         fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
          closedCaptionsLanguage={this.state.rct_closedCaptionsLanguage}
