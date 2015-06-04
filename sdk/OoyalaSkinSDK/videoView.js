@@ -34,7 +34,7 @@ var VideoView = React.createClass({
     return {
       showControls: true,
       showSharePanel: false,
-      showDiscoveryPanel: true, 
+      showDiscoveryPanel: false, 
     };
   },
 
@@ -59,14 +59,27 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
-    if(name === BUTTON_NAMES.SOCIAL_SHARE){
-      this.setState({showSharePanel:!this.state.showSharePanel});
-      this.setState({showDiscoveryPanel:false});
-    }else{
-      this.setState({showSharePanel:false});
-      this.setState({showDiscoveryPanel:true});
-    }   
+    switch (name) {
+      case BUTTON_NAMES.SOCIAL_SHARE: this._renderSocialShare(); break;
+      case BUTTON_NAMES.PLAY_PAUSE:   this._renderPlayPause();   break;
+      default:                     this._renderGeneralPress();   break;
+    }
     this.props.onPress(name);
+  },
+
+  _renderSocialShare: function() {
+    this.setState({showSharePanel:!this.state.showSharePanel});
+    this.setState({showDiscoveryPanel:false});
+  },
+
+  _renderPlayPause: function() {
+    this.setState({showSharePanel:false});
+    this.setState({showDiscoveryPanel: true});
+  },
+
+  _renderGeneralPress: function() {
+    this.setState({showSharePanel:false});
+    this.setState({showDiscoveryPanel: false});
   },
 
   handleScrub: function(value) {

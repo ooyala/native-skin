@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B773E301B20D3810056588E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B773E2F1B20D3810056588E /* MessageUI.framework */; };
 		0BA0287E1B1E5EDC00AC5F1C /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BA0287C1B1E5EDC00AC5F1C /* OOReactSocialShare.h */; };
 		0BA0287F1B1E5EDC00AC5F1C /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA0287D1B1E5EDC00AC5F1C /* OOReactSocialShare.m */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
@@ -78,6 +79,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0B773E2F1B20D3810056588E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		0BA0287C1B1E5EDC00AC5F1C /* OOReactSocialShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSocialShare.h; sourceTree = "<group>"; };
 		0BA0287D1B1E5EDC00AC5F1C /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B773E301B20D3810056588E /* MessageUI.framework in Frameworks */,
 				5EEDCAAB1B0EA7AB00A3AD27 /* OoyalaSDK.framework in Frameworks */,
 				9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */,
 				972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */,
@@ -171,6 +174,7 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
+				0B773E2F1B20D3810056588E /* MessageUI.framework */,
 				5EEDCAAA1B0EA7AB00A3AD27 /* OoyalaSDK.framework */,
 				5EEDC9C31B0E7B8100A3AD27 /* JSX */,
 				FF12905E1AEABA9B00664374 /* framework */,
