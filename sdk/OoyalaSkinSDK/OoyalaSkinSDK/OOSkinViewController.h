@@ -16,11 +16,10 @@
 @property OODiscoveryOptions *discoveryOptions;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
-                          rect:(CGRect)rect
+                          view:(UIView *)view
               discoveryOptions:(OODiscoveryOptions *)discoveryOptions
                  launchOptions:(NSDictionary *)options;
 
 - (void)loadStartScreenConfigureFile;
-- (void)loadDiscovery;
 
 @end

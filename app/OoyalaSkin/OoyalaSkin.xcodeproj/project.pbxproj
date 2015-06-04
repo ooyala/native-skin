@@ -16,6 +16,8 @@
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
 		972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */; };
 		972ED88E1AE6F07B005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */; };
+		97637E431B1FBD8100501427 /* MasterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97637E421B1FBD8100501427 /* MasterView.xib */; };
+		97637E461B1FBE2900501427 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97637E451B1FBE2900501427 /* MasterViewController.m */; };
 		FF1290651AEABD5100664374 /* StartScreen.json in Resources */ = {isa = PBXBuildFile; fileRef = FF1290641AEABD5100664374 /* StartScreen.json */; };
 /* End PBXBuildFile section */
 
@@ -32,6 +34,9 @@
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
+		97637E421B1FBD8100501427 /* MasterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterView.xib; sourceTree = "<group>"; };
+		97637E441B1FBE2900501427 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MasterViewController.h; path = iOS/MasterViewController.h; sourceTree = "<group>"; };
+		97637E451B1FBE2900501427 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MasterViewController.m; path = iOS/MasterViewController.m; sourceTree = "<group>"; };
 		FF1290641AEABD5100664374 /* StartScreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StartScreen.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,6 +57,7 @@
 		13B07FAE1A68108700A75B9A /* OoyalaSkin */ = {
 			isa = PBXGroup;
 			children = (
+				97637E421B1FBD8100501427 /* MasterView.xib */,
 				FF1290641AEABD5100664374 /* StartScreen.json */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -60,6 +66,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				97637E441B1FBE2900501427 /* MasterViewController.h */,
+				97637E451B1FBE2900501427 /* MasterViewController.m */,
 			);
 			name = OoyalaSkin;
 			sourceTree = "<group>";
@@ -157,6 +165,7 @@
 			files = (
 				FF1290651AEABD5100664374 /* StartScreen.json in Resources */,
 				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
+				97637E431B1FBD8100501427 /* MasterView.xib in Resources */,
 				972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
@@ -171,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				97637E461B1FBE2900501427 /* MasterViewController.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

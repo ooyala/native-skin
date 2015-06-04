@@ -8,29 +8,17 @@
  */
 
 #import "AppDelegate.h"
-#import <OoyalaSkinSDK/OOSkinViewController.h>
-#import <OoyalaSDK/OOOoyalaPlayer.h>
-#import <OoyalaSDK/OOPlayerDomain.h>
-#import <OoyalaSDK/OOOptions.h>
-#import <OoyalaSDK/OODiscoveryOptions.h>
+#import "MasterViewController.h"
 
 @implementation AppDelegate
 
-NSString * const PCODE = @"c0cTkxOqALQviQIGAHWY5hP0q9gU";
-NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
-NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48";
-//NSString * const EMBEDCODE = @"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww"; // vod with closed captions.
-//NSString * const EMBEDCODE = @"ZwNThkdTrSfttI2N_-MH3MRIdJQ3Ox8I"; // vod to no-vod channel.
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  OOOptions *options = [OOOptions new];
-  OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN] options:options];
-  OODiscoveryOptions *discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypePopular limit:10 timeout:60];
-  UIViewController *rootViewController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer rect:self.window.frame discoveryOptions:discoveryOptions launchOptions:launchOptions];
-  self.window.rootViewController = rootViewController;
+
+  MasterViewController *viewController = [[MasterViewController alloc] initWithNibName:@"MasterView" bundle:nil];
+  self.window.rootViewController = viewController;
   [self.window makeKeyAndVisible];
-  [ooyalaPlayer setEmbedCode:EMBEDCODE];
+
   return YES;
 }
 
