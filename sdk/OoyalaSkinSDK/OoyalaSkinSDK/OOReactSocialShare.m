@@ -14,9 +14,9 @@
 
 RCT_EXPORT_MODULE();
 
-static const NSString *Link = @"link";
-static const NSString *ImgLink = @"imagelink";
-static const NSString *Text = @"text";
+static const NSString *LINK = @"link";
+static const NSString *IMG_LINK = @"imagelink";
+static const NSString *TEXT = @"text";
 
 RCT_EXPORT_METHOD(onSocialButtonPress:(NSDictionary *)options
                   callback: (RCTResponseSenderBlock)callback)
@@ -31,19 +31,19 @@ RCT_EXPORT_METHOD(onSocialButtonPress:(NSDictionary *)options
     if([SLComposeViewController isAvailableForServiceType:serviceType]) {
         SLComposeViewController *composeCtl = [SLComposeViewController composeViewControllerForServiceType:serviceType];
         
-        if (options[Link]){
-            NSString *link = [RCTConvert NSString:options[@"link"]];
+        if (options[LINK]){
+            NSString *link = [RCTConvert NSString:options[LINK]];
             [composeCtl addURL:[NSURL URLWithString:link]];
         }
         
-        if (options[ImgLink]){
-            NSString *imagelink = [RCTConvert NSString:options[@"imagelink"]];
+        if (options[IMG_LINK]){
+            NSString *imagelink = [RCTConvert NSString:options[IMG_LINK]];
             UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:imagelink]]];
             [composeCtl addImage:image];
         }
         
-        if (options[Text]){
-            NSString *text = [RCTConvert NSString:options[@"text"]];
+        if (options[TEXT]){
+            NSString *text = [RCTConvert NSString:options[TEXT]];
             [composeCtl setInitialText:text];
         }
         

@@ -16,11 +16,20 @@ var SharePanel = require('./sharePanel');
 
 var AnimationExperimental = require('AnimationExperimental');
 
-var ICONS = require('./constants').ICONS;
+var Constants = require('./constants');
+
+var {
+  ICONS,
+  BUTTON_NAMES,
+  IMG_URLS,
+} = Constants;
 
 var EndScreen = React.createClass({
 	getInitialState: function() {
-    return {showControls:true, showSharePanel:false};
+    return {
+      showControls:true, 
+      showSharePanel:false,
+    };
   },
 
   propTypes: {
@@ -70,10 +79,10 @@ handleTouchEnd: function(event) {
 render: function() {
  var fullscreenPromoImage = (this.props.config.mode == 'default');
  var replaybuttonLocation = styles.replaybuttonCenter;
- var socialButtonsArray = [{buttonName: "Twitter", imgUrl: "https://g.twimg.com/ios_homescreen_icon.png"},
-                           {buttonName: "Facebook", imgUrl: "http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png"}];
-                           // {buttonName: "GooglePlus", imgUrl: "https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300"},
-                           // {buttonName: "Email", imgUrl: "http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png"}];
+ var socialButtonsArray = [{buttonName: BUTTON_NAMES.TWITTER, imgUrl: IMG_URLS.TWITTER},
+                           {buttonName: BUTTON_NAMES.FACEBOOK, imgUrl: IMG_URLS.FACEBOOK}];
+                           // {buttonName: BUTTON_NAMES.GOOGLEPLUS, imgUrl: IMG_URLS.GOOGLEPLUS},
+                           // {buttonName: BUTTON_NAMES.EMAIL, imgUrl: IMG_URLS.EMAIL}];
 
  var replaybutton = (
    <TouchableHighlight
@@ -164,7 +173,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
   },
 
   fullscreenContainer: {

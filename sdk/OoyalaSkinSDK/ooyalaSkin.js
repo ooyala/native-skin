@@ -233,8 +233,8 @@ var OoyalaSkin = React.createClass({
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
-         onDiscoveryRow={(code) => this.handleEmbedCode(code)}>
-       </VideoView>
+         onDiscoveryRow={(code) => this.handleEmbedCode(code)}
+         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
      );
    }
 });

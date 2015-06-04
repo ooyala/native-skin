@@ -28,6 +28,7 @@ static NSString *embedCodeKey = @"embedCode";
 static NSString *percentageKey = @"percentage";
 static NSString *playPauseButtonName = @"PlayPause";
 static NSString *playButtonName = @"Play";
+static NSString *socialShareButtonName = @"SocialShare";
 static NSString *languageKey = @"language";
 
 /**
@@ -61,6 +62,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [self handlePlayPause];
     } else if([buttonName isEqualToString:playButtonName]) {
       [self handlePlay];
+    } else if([buttonName isEqualToString:socialShareButtonName]) {
+      [self handleSocialShare];
     }
   });
 }
@@ -92,6 +95,10 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 
 -(void) handlePlay {
   [_player play];
+}
+
+-(void) handleSocialShare {
+  [_player pause];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {

@@ -19,6 +19,7 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.embedCode !== r2
 
 var DiscoveryPanel = React.createClass({
   propTypes: {
+    isShow: React.PropTypes.bool,
     dataSource: React.PropTypes.array,
     onRowSelected: React.PropTypes.func,
   },
@@ -35,13 +36,22 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    return (
-      	<ListView
+    var discoveryPanel;
+    if(this.props.isShow){
+      discoveryPanel=(
+        <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
           renderHeader={this.renderHeader}
           style={styles.listView}>
         </ListView>
+      );
+    }
+
+    return (
+      <View style={styles.fullscreenContainer}>
+        {discoveryPanel}
+      </View>
     );
   },
 
@@ -73,6 +83,10 @@ var DiscoveryPanel = React.createClass({
 });
 
 var styles = StyleSheet.create({
+  fullscreenContainer: {
+    flex: 1,
+    alignItems: 'stretch',
+  },
   panelTitle: {
   	flex: 1,
   	fontSize: 40,
