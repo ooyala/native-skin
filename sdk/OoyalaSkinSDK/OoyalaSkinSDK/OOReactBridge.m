@@ -29,6 +29,7 @@ static NSString *embedCodeKey = @"embedCode";
 static NSString *percentageKey = @"percentage";
 static NSString *playPauseButtonName = @"PlayPause";
 static NSString *playButtonName = @"Play";
+static NSString *fullscreenButtonName = @"Fullscreen";
 static NSString *languageKey = @"language";
 static NSString *bucketInfoKey = @"bucketInfo";
 static NSString *actionKey = @"action";
@@ -62,8 +63,10 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([buttonName isEqualToString:playPauseButtonName]) {
       [self handlePlayPause];
-    } else if([buttonName isEqualToString:playButtonName]) {
+    } else if ([buttonName isEqualToString:playButtonName]) {
       [self handlePlay];
+    } else if ([buttonName isEqualToString:fullscreenButtonName]) {
+      [_skinController toggleFullscreen];
     }
   });
 }
@@ -118,13 +121,13 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   if ([action isEqualToString:@"click"]) {
     NSString *embedCode = [parameters objectForKey:embedCodeKey];
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendClick:_discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
+      [OODiscoveryManager sendClick:_skinController.discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
       [_player setEmbedCode:embedCode];
       [_player play];
     });
   } else if ([action isEqualToString:@"impress"]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendImpression:_discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
+      [OODiscoveryManager sendImpression:_skinController.discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
     });
   }
 }

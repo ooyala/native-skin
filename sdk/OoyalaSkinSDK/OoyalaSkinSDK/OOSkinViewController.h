@@ -16,10 +16,11 @@
 @property OODiscoveryOptions *discoveryOptions;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
-                          view:(UIView *)view
+                        parent:(UIView *)parentView
               discoveryOptions:(OODiscoveryOptions *)discoveryOptions
                  launchOptions:(NSDictionary *)options;
 
 - (void)loadStartScreenConfigureFile;
+- (void)toggleFullscreen;
 
 @end

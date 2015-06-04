@@ -20,6 +20,9 @@
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
+  UIViewController *_parentViewController;
+  UIView *_parentView;
+  BOOL _isFullscreen;
 }
 
 @property (nonatomic, retain) OOOoyalaPlayer *player;
@@ -31,16 +34,20 @@
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player view:(UIView *)v discoveryOptions:(OODiscoveryOptions *)discoveryOptions launchOptions:(NSDictionary *)options{
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                        parent:(UIView *)parentView
+              discoveryOptions:(OODiscoveryOptions *)discoveryOptions
+                 launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
     [self setPlayer:player];
     NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/ooyalaSkin.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
-    [self setView:v];
-    [_player.view setFrame:v.frame];
-    [_reactView setFrame:v.frame];
+    _parentView = parentView;
+    [self.view setFrame:_parentView.frame];
+    [_player.view setFrame:_parentView.frame];
+    [_reactView setFrame:_parentView.frame];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
     _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -48,10 +55,12 @@ static NSString *kViewChangeKey = @"frame";
     [self.view addSubview:_player.view];
     [self.view addSubview:_reactView];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
-    [OOReactBridge getInstance].player = _player;
 
+    [OOReactBridge getInstance].player = _player;
+    [OOReactBridge getInstance].skinController = self;
+    [_parentView addSubview:self.view];
+    _isFullscreen = NO;
     _discoveryOptions = discoveryOptions;
-    [OOReactBridge getInstance].discoveryOptions = _discoveryOptions;
   }
   return self;
 }
@@ -182,6 +191,29 @@ static NSString *kViewChangeKey = @"frame";
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
+}
+
+- (void)toggleFullscreen {
+  [_player pause];
+  [self.view removeFromSuperview];
+  if (!_isFullscreen) {
+    if (self.parentViewController) {
+      _parentViewController = self.parentViewController;
+      [self removeFromParentViewController];
+    }
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    [window addSubview:self.view];
+    [self.view setFrame:window.frame];
+  } else {
+    [_parentView addSubview:self.view];
+    [self.view setFrame:_parentView.frame];
+    if (_parentViewController) {
+      [_parentViewController addChildViewController:self];
+      _parentViewController = nil;
+    }
+  }
+  _isFullscreen = !_isFullscreen;
+  [_player play];
 }
 
 - (void)dealloc {

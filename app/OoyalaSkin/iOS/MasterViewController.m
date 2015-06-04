@@ -21,6 +21,7 @@ NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48";
 
 @interface MasterViewController ()
 
+@property (nonatomic, retain) OOSkinViewController *skinController;
 @end
 
 @implementation MasterViewController
@@ -31,8 +32,8 @@ NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48";
   OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN] options:options];
   OODiscoveryOptions *discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypePopular limit:10 timeout:60];
 
-  OOSkinViewController *skinViewController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer view:_videoView discoveryOptions:discoveryOptions launchOptions:nil];
-  [self addChildViewController:skinViewController];
+  _skinController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer parent:_videoView discoveryOptions:discoveryOptions launchOptions:nil];
+  [self addChildViewController:_skinController];
   [ooyalaPlayer setEmbedCode:EMBEDCODE];
 }
 
