@@ -12,11 +12,14 @@
 #import <OoyalaSDK/OOCaption.h>
 
 @implementation OOClosedCaptionsViewManager
-RCT_EXPORT_MODULE()
-- (UIView *)view
-{
+
+RCT_EXPORT_MODULE();
+
+-(UIView *)view {
   OOClosedCaptionsView *v = [OOClosedCaptionsView new];
-  v.style = [OOClosedCaptionsStyle new];
+  OOClosedCaptionsStyle *s = [OOClosedCaptionsStyle new];
+  [s updateStyle];
+  v.style = s;
   return v;
 }
 
