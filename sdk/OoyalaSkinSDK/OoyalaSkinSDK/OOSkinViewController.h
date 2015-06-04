@@ -14,6 +14,7 @@
 @interface OOSkinViewController : UIViewController
 
 @property OODiscoveryOptions *discoveryOptions;
+@property BOOL isFullscreen;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView

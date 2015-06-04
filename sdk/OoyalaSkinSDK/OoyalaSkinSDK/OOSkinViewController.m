@@ -17,12 +17,12 @@
 #import <OoyalaSDK/OODebugMode.h>
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
+#define FULLSCREEN_ANIMATION_DURATION 0.5
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
   UIViewController *_parentViewController;
   UIView *_parentView;
-  BOOL _isFullscreen;
 }
 
 @property (nonatomic, retain) OOOoyalaPlayer *player;
@@ -203,7 +203,7 @@ static NSString *kViewChangeKey = @"frame";
     NSNumber *width = [NSNumber numberWithFloat:self.view.frame.size.width];
     NSNumber *height = [NSNumber numberWithFloat:self.view.frame.size.height];
 
-    NSDictionary *eventBody = @{@"width":width,@"height":height};
+    NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
     [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -212,8 +212,11 @@ static NSString *kViewChangeKey = @"frame";
 
 - (void)toggleFullscreen {
   [_player pause];
+  [UIView beginAnimations:@"animateAddContentView" context:nil];
+  [UIView setAnimationDuration:FULLSCREEN_ANIMATION_DURATION];
   [self.view removeFromSuperview];
-  if (!_isFullscreen) {
+  _isFullscreen = !_isFullscreen;
+  if (_isFullscreen) {
     if (self.parentViewController) {
       _parentViewController = self.parentViewController;
       [self removeFromParentViewController];
@@ -229,7 +232,7 @@ static NSString *kViewChangeKey = @"frame";
       _parentViewController = nil;
     }
   }
-  _isFullscreen = !_isFullscreen;
+  [UIView commitAnimations];
   [_player play];
 }
 

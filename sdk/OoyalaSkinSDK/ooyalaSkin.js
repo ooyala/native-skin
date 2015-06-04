@@ -39,13 +39,14 @@ var OoyalaSkin = React.createClass({
   // consider using a leading underscore, or something?
   getInitialState() {
     return {
-      screenType: SCREEN_TYPES.START_SCREEN,
-      title: 'video title', 
-      description: 'this is the detail of the video', 
+      screenType: SCREEN_TYPES.LOADING_SCREEN,
+      title: '',
+      description: '',
       promoUrl: '', 
       playhead: 0,
       duration: 1,
       rate: 0,
+      fullscreen: false,
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -121,7 +122,7 @@ var OoyalaSkin = React.createClass({
 
   onFrameChange: function(e) {
     console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
-    this.setState({width:e.width});
+    this.setState({width:e.width, fullscreen:e.fullscreen});
   },
 
   onPlayComplete: function(e) {
@@ -168,6 +169,7 @@ var OoyalaSkin = React.createClass({
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
+      case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
       // case SCREEN_TYPES.PAUSE_SCREEN: return this._renderPauseScreen(); break;
       default:      return this._renderVideoView();   break;
     }
@@ -227,6 +229,7 @@ var OoyalaSkin = React.createClass({
          duration={this.state.duration}
          discovery={discovery} 
          width={this.state.width}
+         fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
          closedCaptionsLanguage={this.state.rct_closedCaptionsLanguage}
@@ -240,7 +243,25 @@ var OoyalaSkin = React.createClass({
        </VideoView>
 
      );
+   },
+
+   _renderLoadingScreen: function() {
+    return (
+      <ActivityIndicatorIOS
+        animating={true}
+        style={styles.loading}
+        size="large">
+      </ActivityIndicatorIOS>)
    }
+});
+
+var styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 200
+  },
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
