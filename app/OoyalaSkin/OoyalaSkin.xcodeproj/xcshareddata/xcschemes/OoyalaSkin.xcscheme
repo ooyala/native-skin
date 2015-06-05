@@ -14,6 +14,34 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "972ED84A1AE6EEEB005043DC"
+               BuildableName = "OoyalaSkinSDK.framework"
+               BlueprintName = "OoyalaSkinSDK"
+               ReferencedContainer = "container:../../sdk/OoyalaSkinSDK/OoyalaSkinSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "0B0D803E1AB7F8D300CDD091"
+               BuildableName = "OoyalaSDK.framework"
+               BlueprintName = "OoyalaSDK"
+               ReferencedContainer = "container:../../ios-sdk/sdk/OoyalaSDK.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "OoyalaSkin.app"
                BlueprintName = "OoyalaSkin"

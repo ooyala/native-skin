@@ -18,6 +18,9 @@
 		972ED88E1AE6F07B005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */; };
 		97637E431B1FBD8100501427 /* MasterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97637E421B1FBD8100501427 /* MasterView.xib */; };
 		97637E461B1FBE2900501427 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97637E451B1FBE2900501427 /* MasterViewController.m */; };
+		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
+		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
+		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
 		FF1290651AEABD5100664374 /* StartScreen.json in Resources */ = {isa = PBXBuildFile; fileRef = FF1290641AEABD5100664374 /* StartScreen.json */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,11 @@
 		97637E421B1FBD8100501427 /* MasterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterView.xib; sourceTree = "<group>"; };
 		97637E441B1FBE2900501427 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MasterViewController.h; path = iOS/MasterViewController.h; sourceTree = "<group>"; };
 		97637E451B1FBE2900501427 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MasterViewController.m; path = iOS/MasterViewController.m; sourceTree = "<group>"; };
+		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
+		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		97DE27B91B212D610071DBFE /* OoyalaSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = OoyalaSDK.framework; path = "/Users/zchen/Library/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<absolute>"; };
+		97DE27BD1B212D690071DBFE /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "/Users/zchen/Library/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<absolute>"; };
 		FF1290641AEABD5100664374 /* StartScreen.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StartScreen.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -45,6 +53,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */,
+				97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */,
+				97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */,
 				972ED88E1AE6F07B005043DC /* OoyalaSkinSDK.framework in Frameworks */,
 				972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */,
 				972ED77C1AE18443005043DC /* OoyalaSDK.framework in Frameworks */,
@@ -75,6 +86,11 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				97DE27BD1B212D690071DBFE /* OoyalaSkinSDK.framework */,
+				97DE27B91B212D610071DBFE /* OoyalaSDK.framework */,
+				97DE27B31B212BD90071DBFE /* libxml2.dylib */,
+				97DE27B11B212BCD0071DBFE /* libc++.dylib */,
+				97DE27AF1B212BC00071DBFE /* libc++abi.dylib */,
 				972ED78C1AE187C8005043DC /* Fonts */,
 				972ED7581AE1827B005043DC /* frameworks */,
 				13B07FAE1A68108700A75B9A /* OoyalaSkin */,
@@ -208,6 +224,7 @@
 					"$(inherited)",
 					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
 					"/Users/zchen/repos/ios-skin/sdk/OoyalaSkinSDK/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -231,6 +248,7 @@
 					"$(inherited)",
 					"/Users/zchen/repos/ios-skin/ios-sdk/sdk/build/Debug-iphoneos",
 					"/Users/zchen/repos/ios-skin/sdk/OoyalaSkinSDK/build/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
