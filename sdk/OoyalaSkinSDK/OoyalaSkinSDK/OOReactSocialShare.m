@@ -43,7 +43,7 @@ RCT_EXPORT_METHOD(onSocialButtonPress:(NSDictionary *)options
   
   if (options[TEXT]){
     text = [RCTConvert NSString:options[TEXT]];
-
+    
   }
   
   // current view
@@ -95,7 +95,12 @@ RCT_EXPORT_METHOD(onSocialButtonPress:(NSDictionary *)options
       [ctrl presentViewController:composeCtl animated:YES completion: nil];
     }
     else{
-      callback(@[@"not_available"]);
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Social share not available"
+                                                      message:@"You may need to sign in your account in setting"
+                                                     delegate:ctrl
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      [alert show];
     }
   }
 }
@@ -105,7 +110,7 @@ RCT_EXPORT_METHOD(onSocialButtonPress:(NSDictionary *)options
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
   UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
-
+  
   [ctrl dismissViewControllerAnimated:YES completion:nil];
 }
 
