@@ -7,17 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		0B7824201B2B7D5F00D718AB /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B78241E1B2B7D5F00D718AB /* OoyalaSDK.framework */; };
 		0B7824211B2B7D5F00D718AB /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B78241F1B2B7D5F00D718AB /* OoyalaSkinSDK.framework */; };
-		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
-		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		0B78242F1B2B7EB600D718AB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7824241B2B7EB600D718AB /* AppDelegate.m */; };
+		0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824251B2B7EB600D718AB /* LaunchScreen.xib */; };
+		0B7824311B2B7EB600D718AB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */; };
+		0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824291B2B7EB600D718AB /* Images.xcassets */; };
+		0B7824331B2B7EB600D718AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242A1B2B7EB600D718AB /* Info.plist */; };
+		0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242B1B2B7EB600D718AB /* main.jsbundle */; };
+		0B7824351B2B7EB600D718AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78242C1B2B7EB600D718AB /* main.m */; };
+		0B7824361B2B7EB600D718AB /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78242E1B2B7EB600D718AB /* MasterViewController.m */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
 		972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */; };
 		97637E431B1FBD8100501427 /* MasterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97637E421B1FBD8100501427 /* MasterView.xib */; };
-		97637E461B1FBE2900501427 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97637E451B1FBE2900501427 /* MasterViewController.m */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -38,23 +40,24 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = iOS/main.jsbundle; sourceTree = "<group>"; };
 		0B78241E1B2B7D5F00D718AB /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/OoyalaSkin-buoxruhdqgqbnthkovxdltvccgey/Build/Products/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		0B78241F1B2B7D5F00D718AB /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../../../Library/Developer/Xcode/DerivedData/OoyalaSkin-buoxruhdqgqbnthkovxdltvccgey/Build/Products/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* OoyalaSkin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkin.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = iOS/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = iOS/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = iOS/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = iOS/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = iOS/main.m; sourceTree = "<group>"; };
+		0B7824231B2B7EB600D718AB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		0B7824241B2B7EB600D718AB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		0B7824261B2B7EB600D718AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
+		0B7824291B2B7EB600D718AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0B78242A1B2B7EB600D718AB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B78242B1B2B7EB600D718AB /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
+		0B78242C1B2B7EB600D718AB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0B78242D1B2B7EB600D718AB /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		0B78242E1B2B7EB600D718AB /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED77B1AE18443005043DC /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
 		97637E421B1FBD8100501427 /* MasterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterView.xib; sourceTree = "<group>"; };
-		97637E441B1FBE2900501427 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MasterViewController.h; path = iOS/MasterViewController.h; sourceTree = "<group>"; };
-		97637E451B1FBE2900501427 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MasterViewController.m; path = iOS/MasterViewController.m; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -78,22 +81,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		13B07FAE1A68108700A75B9A /* OoyalaSkin */ = {
+		0B7824221B2B7EB600D718AB /* OoyalaSkinSampleApp */ = {
 			isa = PBXGroup;
 			children = (
-				97637E421B1FBD8100501427 /* MasterView.xib */,
-				FF1290641AEABD5100664374 /* StartScreen.json */,
-				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
-				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
-				13B07FB01A68108700A75B9A /* AppDelegate.m */,
-				13B07FB51A68108700A75B9A /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
-				13B07FB71A68108700A75B9A /* main.m */,
-				97637E441B1FBE2900501427 /* MasterViewController.h */,
-				97637E451B1FBE2900501427 /* MasterViewController.m */,
+				0B7824231B2B7EB600D718AB /* AppDelegate.h */,
+				0B7824241B2B7EB600D718AB /* AppDelegate.m */,
+				0B7824251B2B7EB600D718AB /* LaunchScreen.xib */,
+				0B7824271B2B7EB600D718AB /* Fonts */,
+				0B7824291B2B7EB600D718AB /* Images.xcassets */,
+				0B78242A1B2B7EB600D718AB /* Info.plist */,
+				0B78242B1B2B7EB600D718AB /* main.jsbundle */,
+				0B78242C1B2B7EB600D718AB /* main.m */,
+				0B78242D1B2B7EB600D718AB /* MasterViewController.h */,
+				0B78242E1B2B7EB600D718AB /* MasterViewController.m */,
 			);
-			name = OoyalaSkin;
+			path = OoyalaSkinSampleApp;
+			sourceTree = "<group>";
+		};
+		0B7824271B2B7EB600D718AB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		83CBB9F61A601CBA00E9B192 = {
@@ -104,9 +114,11 @@
 				97DE27B31B212BD90071DBFE /* libxml2.dylib */,
 				97DE27B11B212BCD0071DBFE /* libc++.dylib */,
 				97DE27AF1B212BC00071DBFE /* libc++abi.dylib */,
+				97637E421B1FBD8100501427 /* MasterView.xib */,
+				FF1290641AEABD5100664374 /* StartScreen.json */,
 				972ED78C1AE187C8005043DC /* Fonts */,
 				972ED7581AE1827B005043DC /* frameworks */,
-				13B07FAE1A68108700A75B9A /* OoyalaSkin */,
+				0B7824221B2B7EB600D718AB /* OoyalaSkinSampleApp */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 			);
 			indentWidth = 2;
@@ -116,7 +128,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* OoyalaSkin.app */,
+				13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -143,9 +155,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		13B07F861A680F5B00A75B9A /* OoyalaSkin */ = {
+		13B07F861A680F5B00A75B9A /* OoyalaSkinSampleApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "OoyalaSkin" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "OoyalaSkinSampleApp" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -156,9 +168,9 @@
 			);
 			dependencies = (
 			);
-			name = OoyalaSkin;
+			name = OoyalaSkinSampleApp;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* OoyalaSkin.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -170,7 +182,7 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = Facebook;
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "OoyalaSkin" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "OoyalaSkinSampleApp" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -183,7 +195,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* OoyalaSkin */,
+				13B07F861A680F5B00A75B9A /* OoyalaSkinSampleApp */,
 			);
 		};
 /* End PBXProject section */
@@ -193,12 +205,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */,
 				FF1290651AEABD5100664374 /* StartScreen.json in Resources */,
-				008F07F31AC5B25A0029DE68 /* main.jsbundle in Resources */,
 				97637E431B1FBD8100501427 /* MasterView.xib in Resources */,
+				0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */,
 				972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */,
-				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				0B7824311B2B7EB600D718AB /* fontawesome-webfont.ttf in Resources */,
+				0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */,
+				0B7824331B2B7EB600D718AB /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,22 +223,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				97637E461B1FBE2900501427 /* MasterViewController.m in Sources */,
-				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				0B7824351B2B7EB600D718AB /* main.m in Sources */,
+				0B78242F1B2B7EB600D718AB /* AppDelegate.m in Sources */,
+				0B7824361B2B7EB600D718AB /* MasterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
+		0B7824251B2B7EB600D718AB /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				13B07FB21A68108700A75B9A /* Base */,
+				0B7824261B2B7EB600D718AB /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = iOS;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -248,7 +261,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = OoyalaSkin;
+				PRODUCT_NAME = OoyalaSkinSampleApp;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -271,7 +284,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = OoyalaSkin;
+				PRODUCT_NAME = OoyalaSkinSampleApp;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -365,7 +378,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "OoyalaSkin" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "OoyalaSkinSampleApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -374,7 +387,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "OoyalaSkin" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "OoyalaSkinSampleApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
