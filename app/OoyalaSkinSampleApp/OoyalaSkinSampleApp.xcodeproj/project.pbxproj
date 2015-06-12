@@ -11,14 +11,13 @@
 		0B7824211B2B7D5F00D718AB /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B78241F1B2B7D5F00D718AB /* OoyalaSkinSDK.framework */; };
 		0B78242F1B2B7EB600D718AB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7824241B2B7EB600D718AB /* AppDelegate.m */; };
 		0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824251B2B7EB600D718AB /* LaunchScreen.xib */; };
-		0B7824311B2B7EB600D718AB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */; };
 		0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824291B2B7EB600D718AB /* Images.xcassets */; };
 		0B7824331B2B7EB600D718AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242A1B2B7EB600D718AB /* Info.plist */; };
 		0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242B1B2B7EB600D718AB /* main.jsbundle */; };
 		0B7824351B2B7EB600D718AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78242C1B2B7EB600D718AB /* main.m */; };
 		0B7824361B2B7EB600D718AB /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78242E1B2B7EB600D718AB /* MasterViewController.m */; };
+		0B78243D1B2B819800D718AB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B78243C1B2B819800D718AB /* fontawesome-webfont.ttf */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
-		972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */; };
 		97637E431B1FBD8100501427 /* MasterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97637E421B1FBD8100501427 /* MasterView.xib */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
@@ -52,10 +51,10 @@
 		0B78242C1B2B7EB600D718AB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0B78242D1B2B7EB600D718AB /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		0B78242E1B2B7EB600D718AB /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		0B78243C1B2B819800D718AB /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED77B1AE18443005043DC /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
 		972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
 		97637E421B1FBD8100501427 /* MasterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterView.xib; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
@@ -106,6 +105,15 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		0B78243B1B2B819800D718AB /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0B78243C1B2B819800D718AB /* fontawesome-webfont.ttf */,
+			);
+			name = Fonts;
+			path = OoyalaSkinSampleApp/Fonts;
+			sourceTree = "<group>";
+		};
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
@@ -116,7 +124,7 @@
 				97DE27AF1B212BC00071DBFE /* libc++abi.dylib */,
 				97637E421B1FBD8100501427 /* MasterView.xib */,
 				FF1290641AEABD5100664374 /* StartScreen.json */,
-				972ED78C1AE187C8005043DC /* Fonts */,
+				0B78243B1B2B819800D718AB /* Fonts */,
 				972ED7581AE1827B005043DC /* frameworks */,
 				0B7824221B2B7EB600D718AB /* OoyalaSkinSampleApp */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -141,15 +149,6 @@
 				972ED77B1AE18443005043DC /* OoyalaSDK.framework */,
 			);
 			name = frameworks;
-			sourceTree = "<group>";
-		};
-		972ED78C1AE187C8005043DC /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				972ED78D1AE187EB005043DC /* fontawesome-webfont.ttf */,
-			);
-			name = Fonts;
-			path = iOS/Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,8 +208,7 @@
 				FF1290651AEABD5100664374 /* StartScreen.json in Resources */,
 				97637E431B1FBD8100501427 /* MasterView.xib in Resources */,
 				0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */,
-				972ED78E1AE187EB005043DC /* fontawesome-webfont.ttf in Resources */,
-				0B7824311B2B7EB600D718AB /* fontawesome-webfont.ttf in Resources */,
+				0B78243D1B2B819800D718AB /* fontawesome-webfont.ttf in Resources */,
 				0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */,
 				0B7824331B2B7EB600D718AB /* Info.plist in Resources */,
 			);
