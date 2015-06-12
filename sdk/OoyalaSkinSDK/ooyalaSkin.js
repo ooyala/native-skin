@@ -60,7 +60,6 @@ var OoyalaSkin = React.createClass({
         'socialType': socialType,
         'text':this.state.title,
         'link':'https://www.ooyala.com',
-
       },
       (results) => {
         console.log(results);
@@ -115,6 +114,17 @@ var OoyalaSkin = React.createClass({
     this.updateClosedCaptions();
   },
 
+  onAdStarted: function(e) {
+    console.log( "onAdStarted clickUrl is " + e.url);
+    var adInfo = {clickUrl: e.url};
+    this.setState({ad:adInfo});
+  },
+
+  onAdCompleted: function(e) {
+    console.log( "onAdCompleted ");
+    this.setState({ad: null});
+  },
+
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
     this.setState({screenType:SCREEN_TYPES.START_SCREEN, title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
@@ -151,6 +161,8 @@ var OoyalaSkin = React.createClass({
       [ 'stateChanged',             (event) => this.onStateChange(event) ],
       [ 'discoveryResultsReceived', (event) => this.onDiscoveryResult(event) ],
       [ 'onClosedCaptionUpdate',    (event) => this.onClosedCaptionUpdate(event) ],
+      [ 'adStarted',                (event) => this.onAdStarted(event) ],
+      [ 'adCompleted',              (event) => this.onAdCompleted(event) ],
     ];
     for( var d of listenerDefinitions ) {
       this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );
@@ -221,13 +233,15 @@ var OoyalaSkin = React.createClass({
      if (this.state.rate == 0) {
       discovery = this.state.discovery;
      }
+
      // todo: presumably, do not show CC when Discovery is on.
      return (
        <VideoView
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
-         discovery={discovery} 
+         discovery={discovery}
+         ad ={this.state.ad}
          width={this.state.width}
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}

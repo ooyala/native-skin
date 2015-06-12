@@ -13,8 +13,6 @@ var {
   View
 } = React;
 
-var eventBridge = require('NativeModules').OOReactBridge;
-
 var Constants = require('./constants');
 var {
   ICONS,
