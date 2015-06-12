@@ -115,9 +115,8 @@ var OoyalaSkin = React.createClass({
   },
 
   onAdStarted: function(e) {
-    console.log( "onAdStarted clickUrl is " + e.url);
-    var adInfo = {clickUrl: e.url};
-    this.setState({ad:adInfo});
+    console.log( "onAdStarted");
+    this.setState({ad:e});
   },
 
   onAdCompleted: function(e) {

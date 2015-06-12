@@ -135,8 +135,7 @@ static NSString *kViewChangeKey = @"frame";
 }
 
 - (void) bridgeAdStartNotification:(NSNotification *)notification {
-  NSString *clickUrl = [notification.userInfo objectForKey:@"click_url"];
-  NSDictionary *eventBody = @{@"url": clickUrl ? clickUrl : @""};
+  NSDictionary *eventBody = notification.userInfo;
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
