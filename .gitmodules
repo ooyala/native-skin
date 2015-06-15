@@ -1,3 +1,6 @@
 [submodule "ios-sdk"]
 	path = ios-sdk
 	url = git@github.services.ooyala.net:playback-app/ios-sdk
+[submodule "sdk/OoyalaSkinSDK/skin-config"]
+	path = sdk/OoyalaSkinSDK/skin-config
+	url = git@github.com:ooyala/skin-config.git

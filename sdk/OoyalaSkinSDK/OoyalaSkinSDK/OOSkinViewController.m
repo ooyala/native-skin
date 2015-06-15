@@ -40,7 +40,7 @@ static NSString *kViewChangeKey = @"frame";
                  launchOptions:(NSDictionary *)options{
   if (self = [super init]) {
     [self setPlayer:player];
-    NSURL *jsCodeLocation = [NSURL URLWithString:@"http:/localhost:8081/ooyalaSkin.bundle"];
+    NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/ooyalaSkin.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
@@ -74,23 +74,12 @@ static NSString *kViewChangeKey = @"frame";
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   _player = player;
   if (_player != nil) {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerStateChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onEvent:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
-  }
-}
-
-- (void)onEvent:(NSNotification *)notification {
-  NSString *notificationName = notification.name;
-  if ([notificationName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
-    [self bridgeTimeChangedNotification:notification];
-  } else if ([notificationName isEqualToString:OOOoyalaPlayerCurrentItemChangedNotification]) {
-    [self bridgeCurrentItemChangedNotification:notification];
-  } else if ([notificationName isEqualToString:OOOoyalaPlayerStateChangedNotification]) {
-    [self bridgeStateChangedNotification:notification];
-  } else if([notificationName isEqualToString:OOOoyalaPlayerPlayCompletedNotification]) {
-    [self bridgePlayCompletedNotification:notification];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeStateChangedNotification:) name:OOOoyalaPlayerStateChangedNotification object:_player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeCurrentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdCompleteNotification:) name:OOOoyalaPlayerAdCompletedNotification object:self.player];
   }
 }
 
@@ -124,13 +113,13 @@ static NSString *kViewChangeKey = @"frame";
   }
 }
 
--(void) bridgeStateChangedNotification:(NSNotification *)notification {
+- (void) bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
   NSDictionary *eventBody = @{@"state":stateString};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
--(void) bridgePlayCompletedNotification:(NSNotification *)notification {
+- (void) bridgePlayCompletedNotification:(NSNotification *)notification {
   NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
   NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
   NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
@@ -143,6 +132,15 @@ static NSString *kViewChangeKey = @"frame";
     @"duration":durationNumber};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 
+}
+
+- (void) bridgeAdStartNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = notification.userInfo;
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeAdCompleteNotification:(NSNotification *)notification {
+  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
 }
 
 - (NSDictionary *)getDictionaryFromJSONFile {
