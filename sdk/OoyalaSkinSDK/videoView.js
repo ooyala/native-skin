@@ -5,7 +5,7 @@
 'use strict';
 
 var React = require('react-native');
- var {
+var {
   Text,
   View,
   StyleSheet
@@ -20,7 +20,7 @@ var ClosedCaptionsView = require('./closedCaptionsView');
 var AnimationExperimental = require('AnimationExperimental');
 var DiscoveryPanel = require('./discoveryPanel');
 var SharePanel = require('./sharePanel');
-
+var AdBar = require('./adBar');
 var Constants = require('./constants');
 
 var {
@@ -44,6 +44,7 @@ var VideoView = React.createClass({
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
     discovery: React.PropTypes.array,
+    ad: React.PropTypes.object,
     width: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     onPress: React.PropTypes.func,
@@ -63,9 +64,56 @@ var VideoView = React.createClass({
     switch (name) {
       case BUTTON_NAMES.SOCIAL_SHARE: this._renderSocialShare(); break;
       case BUTTON_NAMES.PLAY_PAUSE:   this._renderPlayPause();   break;
+      case BUTTON_NAMES.LEARNMORE: this.props.onPress(BUTTON_NAMES.LEARNMORE); break;
       default:                     this._renderGeneralPress();   break;
     }
     this.props.onPress(name);
+  },
+
+  _renderProgressBar: function() {
+    if (this.props.ad) {
+      return null;
+    }
+    return (<ProgressBar ref='progressBar' 
+      playhead={this.props.playhead} 
+      duration={this.props.duration}
+      width={this.props.width}
+      onScrub={(value)=>this.handleScrub(value)} />);
+  },
+
+  _renderControlBar: function() {
+    if (this.props.ad) {
+      return null;
+    }
+    var shouldShowClosedCaptionsButton =
+      this.props.availableClosedCaptionsLanguages &&
+      this.props.availableClosedCaptionsLanguages.length > 0;
+
+    return (<ControlBar
+      ref='controlBar' 
+      showPlay={this.props.showPlay} 
+      playhead={this.props.playhead} 
+      duration={this.props.duration}
+      primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
+      fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
+      onPress={(name) => this.handlePress(name)}
+      showClosedCaptionsButton={shouldShowClosedCaptionsButton} />);
+  },
+
+  _renderAdBar: function() {
+    if (this.props.ad) {
+      var adTitle = this.props.ad.title ? this.props.ad.title : "";
+      var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
+      console.log("adbar title" + adTitle + "clickUrl " + this.props.ad.clickUrl);
+      return (<AdBar
+        title={adTitle}
+        playhead={this.props.playhead} 
+        duration={this.props.duration}
+        onPress={this.handlePress}
+        showLearnMore={showLearnMore} />
+      );
+    }
+    return null;
   },
 
   _renderSocialShare: function() {
@@ -110,6 +158,7 @@ var VideoView = React.createClass({
   },
 
   render: function() {
+    var adBar = this._renderAdBar();
     var placeholder;
     var socialButtonsArray = [{buttonName: BUTTON_NAMES.TWITTER, imgUrl: IMG_URLS.TWITTER},
                               {buttonName: BUTTON_NAMES.FACEBOOK, imgUrl: IMG_URLS.FACEBOOK}];
@@ -124,7 +173,7 @@ var VideoView = React.createClass({
             onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
         </View>
       );
-    }else if (this.state.showDiscoveryPanel && this.props.discovery) {
+    } else if (this.state.showDiscoveryPanel && this.props.discovery) {
       placeholder = (
         <DiscoveryPanel
           isShow={this.state.showDiscoveryPanel}
@@ -139,24 +188,8 @@ var VideoView = React.createClass({
         </View>);
     }
     
-    var progressBar = (<ProgressBar ref='progressBar' 
-      playhead={this.props.playhead} 
-      duration={this.props.duration}
-      width={this.props.width}
-      onScrub={(value)=>this.handleScrub(value)} />);
-
-    var shouldShowClosedCaptionsButton =
-      this.props.availableClosedCaptionsLanguages &&
-      this.props.availableClosedCaptionsLanguages.length > 0;
-    var controlBar = (<ControlBar
-      ref='controlBar' 
-      showPlay={this.props.showPlay} 
-      playhead={this.props.playhead} 
-      duration={this.props.duration}
-      primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
-      fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
-      onPress={(name) => this.handlePress(name)}
-      showClosedCaptionsButton={shouldShowClosedCaptionsButton} />);
+    var progressBar = this._renderProgressBar();
+    var controlBar = this._renderControlBar();  
 
     var ccOverlayHeight = windowSize.height - 60;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
@@ -167,6 +200,7 @@ var VideoView = React.createClass({
 
     return (
       <View style={styles.container}>
+        {adBar}
         {placeholder}
         {progressBar}
         {controlBar}

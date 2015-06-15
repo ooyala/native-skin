@@ -31,6 +31,7 @@ static NSString *playPauseButtonName = @"PlayPause";
 static NSString *playButtonName = @"Play";
 static NSString *socialShareButtonName = @"SocialShare";
 static NSString *fullscreenButtonName = @"Fullscreen";
+static NSString *learnMoreButtonName = @"LearnMore";
 static NSString *languageKey = @"language";
 static NSString *bucketInfoKey = @"bucketInfo";
 static NSString *actionKey = @"action";
@@ -70,6 +71,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [self handleSocialShare];
     } else if ([buttonName isEqualToString:fullscreenButtonName]) {
       [_skinController toggleFullscreen];
+    } else if ([buttonName isEqualToString:learnMoreButtonName]) {
+      [self handleLearnMore];
     }
   });
 }
@@ -105,6 +108,10 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 
 -(void) handleSocialShare {
   [_player pause];
+}
+
+- (void)handleLearnMore {
+  [_player clickAd];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {

@@ -22,6 +22,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations.
   FACEBOOK: 'Facebook',
   GOOGLEPLUS: 'GooglePlus',
   EMAIL: 'Email',
+  LEARNMORE: 'LearnMore',
 };
 
 var IMG_URLS = {
@@ -37,10 +38,16 @@ var SCREEN_TYPES = {
   START_SCREEN: 'start',
   END_SCREEN: 'end',
   PAUSE_SCREEN: 'pause',
+  AD_SCREEN: 'ad'
 };
 
 var OOSTATES = {
   PAUSED: 'paused',
 };
 
-module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES};
+var UI_TEXT = {
+  LEARNMORE : 'Learn More',
+  AD_PLAYING: 'Ad Playing',
+};
+
+module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT};
