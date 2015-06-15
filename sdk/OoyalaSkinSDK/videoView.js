@@ -57,6 +57,10 @@ var VideoView = React.createClass({
     onSocialButtonPress: React.PropTypes.func,
   },
 
+  shouldShowDiscovery: function() {
+    return this.state.showDiscoveryPanel && this.props.discovery;
+  },
+
   onSocialButtonPress: function(socialType){
     this.props.onSocialButtonPress(socialType);
   },
@@ -181,7 +185,7 @@ var VideoView = React.createClass({
             onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
         </View>
       );
-    } else if (this.state.showDiscoveryPanel && this.props.discovery) {
+    } else if (this.shouldShowDiscovery()) {
       placeholder = (
         <DiscoveryPanel
           isShow={this.state.showDiscoveryPanel}
@@ -201,10 +205,12 @@ var VideoView = React.createClass({
 
     var ccOverlayHeight = windowSize.height - 60;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    var ccOverlay = (<ClosedCaptionsView
-          style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
-          captionJSON={this.props.captionJSON}
-          onTouchEnd={(event) => this.handleTouchEnd(event)} />);
+    var ccOverlay = this.shouldShowDiscovery() ?
+      null :
+      <ClosedCaptionsView
+      style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
+      captionJSON={this.props.captionJSON}
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
 
     return (
       <View style={styles.container}>
