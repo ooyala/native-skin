@@ -6,37 +6,52 @@
 //  Copyright (c) 2015 Facebook. All rights reserved.
 //
 
-#import "MasterViewController.h"
+#import "DefaultSkinPlayerViewController.h"
 #import <OoyalaSkinSDK/OOSkinViewController.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOPlayerDomain.h>
 #import <OoyalaSDK/OOOptions.h>
 #import <OoyalaSDK/OODiscoveryOptions.h>
 
-NSString * const PCODE = @"c0cTkxOqALQviQIGAHWY5hP0q9gU";
-//NSString * const PCODE = @"BidTQxOqebpNk1rVsjs2sUJSTOZc";
-NSString * const PLAYERDOMAIN = @"http://www.ooyala.com";
-NSString * const EMBEDCODE = @"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48";
-//NSString * const EMBEDCODE = @"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww"; // vod with closed captions.
-//NSString * const EMBEDCODE = @"ZwNThkdTrSfttI2N_-MH3MRIdJQ3Ox8I"; // vod to no-vod channel.
-
-@interface MasterViewController ()
+@interface DefaultSkinPlayerViewController ()
 
 @property (nonatomic, retain) OOSkinViewController *skinController;
+
+@property NSString *embedCode;
+@property NSString *nib;
+@property NSString *pcode;
+@property NSString *playerDomain;
 @end
 
-@implementation MasterViewController
+@implementation DefaultSkinPlayerViewController
+
+- (id)initWithPlayerSelectionOption:(PlayerSelectionOption *)playerSelectionOption {
+  self = [super initWithPlayerSelectionOption: playerSelectionOption];
+  self.nib = @"DefaultSkinPlayerView";
+  self.pcode = @"c0cTkxOqALQviQIGAHWY5hP0q9gU";
+  self.playerDomain = @"http://www.ooyala.com";
+
+  if (self.playerSelectionOption) {
+    self.embedCode = self.playerSelectionOption.embedCode;
+    self.title = self.playerSelectionOption.title;
+  }
+  return self;
+}
+
+- (void) loadView {
+  [super loadView];
+  [[NSBundle mainBundle] loadNibNamed:self.nib owner:self options:nil];
+}
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   OOOptions *options = [OOOptions new];
-  options.showAdsControls = NO;
-  OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:PCODE domain:[[OOPlayerDomain alloc] initWithString:PLAYERDOMAIN] options:options];
+  OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:self.pcode domain:[[OOPlayerDomain alloc] initWithString:self.playerDomain] options:options];
   OODiscoveryOptions *discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypePopular limit:10 timeout:60];
 
   _skinController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer parent:_videoView discoveryOptions:discoveryOptions launchOptions:nil];
   [self addChildViewController:_skinController];
-  [ooyalaPlayer setEmbedCode:EMBEDCODE];
+  [ooyalaPlayer setEmbedCode:self.embedCode];
 }
 
 - (void)didReceiveMemoryWarning {

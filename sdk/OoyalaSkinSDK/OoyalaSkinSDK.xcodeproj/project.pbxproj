@@ -27,7 +27,6 @@
 		5EEDC9DB1B0E7B9000A3AD27 /* waterMark.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */; };
 		5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */; };
 		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
-		972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8861AE6F008005043DC /* OOReactBridge.m */; };
 		972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8871AE6F008005043DC /* OOSkinViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -51,13 +50,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RCTAnimationExperimental;
-		};
-		972ED8581AE6EEEB005043DC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 972ED8421AE6EEEB005043DC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 972ED84A1AE6EEEB005043DC;
-			remoteInfo = OoyalaSkinSDK;
 		};
 		972ED8A51AE6FC3E005043DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -105,7 +97,6 @@
 		9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimationExperimental.xcodeproj; path = "react-native/Libraries/Animation/RCTAnimationExperimental.xcodeproj"; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED8851AE6F008005043DC /* OOReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactBridge.h; sourceTree = "<group>"; };
 		972ED8861AE6F008005043DC /* OOReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactBridge.m; sourceTree = "<group>"; };
 		972ED8871AE6F008005043DC /* OOSkinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinViewController.h; sourceTree = "<group>"; };
@@ -139,14 +130,6 @@
 				972ED8AD1AE7016A005043DC /* SystemConfiguration.framework in Frameworks */,
 				972ED8AB1AE7011D005043DC /* MediaPlayer.framework in Frameworks */,
 				972ED8A71AE6FCAB005043DC /* libReact.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		972ED8531AE6EEEB005043DC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				972ED8571AE6EEEB005043DC /* OoyalaSkinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,7 +183,6 @@
 			isa = PBXGroup;
 			children = (
 				972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */,
-				972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -314,24 +296,6 @@
 			productReference = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		972ED8551AE6EEEB005043DC /* OoyalaSkinSDKTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 972ED8641AE6EEEB005043DC /* Build configuration list for PBXNativeTarget "OoyalaSkinSDKTests" */;
-			buildPhases = (
-				972ED8521AE6EEEB005043DC /* Sources */,
-				972ED8531AE6EEEB005043DC /* Frameworks */,
-				972ED8541AE6EEEB005043DC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				972ED8591AE6EEEB005043DC /* PBXTargetDependency */,
-			);
-			name = OoyalaSkinSDKTests;
-			productName = OoyalaSkinSDKTests;
-			productReference = 972ED8561AE6EEEB005043DC /* OoyalaSkinSDKTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -342,9 +306,6 @@
 				ORGANIZATIONNAME = ooyala;
 				TargetAttributes = {
 					972ED84A1AE6EEEB005043DC = {
-						CreatedOnToolsVersion = 6.2;
-					};
-					972ED8551AE6EEEB005043DC = {
 						CreatedOnToolsVersion = 6.2;
 					};
 				};
@@ -380,7 +341,6 @@
 			projectRoot = "";
 			targets = (
 				972ED84A1AE6EEEB005043DC /* OoyalaSkinSDK */,
-				972ED8551AE6EEEB005043DC /* OoyalaSkinSDKTests */,
 			);
 		};
 /* End PBXProject section */
@@ -437,13 +397,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		972ED8541AE6EEEB005043DC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -459,22 +412,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		972ED8521AE6EEEB005043DC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		972ED8591AE6EEEB005043DC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 972ED84A1AE6EEEB005043DC /* OoyalaSkinSDK */;
-			targetProxy = 972ED8581AE6EEEB005043DC /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		972ED85F1AE6EEEB005043DC /* Debug */ = {
@@ -611,36 +549,6 @@
 			};
 			name = Release;
 		};
-		972ED8651AE6EEEB005043DC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = OoyalaSkinSDKTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		972ED8661AE6EEEB005043DC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = OoyalaSkinSDKTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -658,15 +566,6 @@
 			buildConfigurations = (
 				972ED8621AE6EEEB005043DC /* Debug */,
 				972ED8631AE6EEEB005043DC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		972ED8641AE6EEEB005043DC /* Build configuration list for PBXNativeTarget "OoyalaSkinSDKTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				972ED8651AE6EEEB005043DC /* Debug */,
-				972ED8661AE6EEEB005043DC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
