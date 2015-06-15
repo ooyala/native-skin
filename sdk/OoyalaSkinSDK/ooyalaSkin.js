@@ -228,18 +228,15 @@ var OoyalaSkin = React.createClass({
 
    _renderVideoView: function() {
      var showPlayButton = this.state.rate > 0 ? false : true;
-     var discovery;
-     if (this.state.rate == 0) {
-      discovery = this.state.discovery;
-     }
 
      // todo: presumably, do not show CC when Discovery is on.
      return (
        <VideoView
+         rate={this.state.rate}
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
-         discovery={discovery}
+         discovery={this.state.discovery}
          ad ={this.state.ad}
          width={this.state.width}
          fullscreen={this.state.fullscreen}

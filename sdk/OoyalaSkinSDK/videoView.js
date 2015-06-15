@@ -39,6 +39,7 @@ var VideoView = React.createClass({
   },
 
   propTypes: {
+    rate: React.PropTypes.number,
     showPlay: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
@@ -62,10 +63,10 @@ var VideoView = React.createClass({
 
   handlePress: function(name) {
     switch (name) {
-      case BUTTON_NAMES.SOCIAL_SHARE: this._renderSocialShare(); break;
-      case BUTTON_NAMES.PLAY_PAUSE:   this._renderPlayPause();   break;
+      case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare(); break;
+      case BUTTON_NAMES.PLAY_PAUSE:   this._handlePlayPause();   break;
       case BUTTON_NAMES.LEARNMORE: this.props.onPress(BUTTON_NAMES.LEARNMORE); break;
-      default:                     this._renderGeneralPress();   break;
+      default:                     this._handleGeneralPress();   break;
     }
     this.props.onPress(name);
   },
@@ -117,17 +118,23 @@ var VideoView = React.createClass({
     return null;
   },
 
-  _renderSocialShare: function() {
+  _handleSocialShare: function() {
     this.setState({showSharePanel:!this.state.showSharePanel});
     this.setState({showDiscoveryPanel:false});
   },
 
-  _renderPlayPause: function() {
-    this.setState({showSharePanel:false});
-    this.setState({showDiscoveryPanel: true});
+  _handlePlayPause: function() {
+    if( this.props.rate > 0 ) { // were playing, now go to pause.
+      this.setState({showSharePanel:false});
+      this.setState({showDiscoveryPanel: true});
+    }
+    else {
+      this.setState({showSharePanel:false});
+      this.setState({showDiscoveryPanel: false});
+    }
   },
 
-  _renderGeneralPress: function() {
+  _handleGeneralPress: function() {
     this.setState({showSharePanel:false});
     this.setState({showDiscoveryPanel: false});
   },
