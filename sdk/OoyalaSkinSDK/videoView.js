@@ -97,7 +97,8 @@ var VideoView = React.createClass({
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
-      showClosedCaptionsButton={shouldShowClosedCaptionsButton} />);
+      showClosedCaptionsButton={shouldShowClosedCaptionsButton}
+      isShow = {this.state.showControls} />);
   },
 
   _renderAdBar: function() {

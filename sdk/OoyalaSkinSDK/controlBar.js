@@ -35,6 +35,7 @@ var ControlBar = React.createClass({
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
+    isShow: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
@@ -73,6 +74,7 @@ var ControlBar = React.createClass({
     var durationString = Utils.secondsToString(this.props.duration);
     var playheadString = Utils.secondsToString(this.props.playhead);
     var volumeScrubber;
+    var controlBarView;
     if (this.state.showVolume) {
       volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
     }
@@ -83,9 +85,10 @@ var ControlBar = React.createClass({
                     <Text style={styles.icon}>{closedCaptionsIcon}</Text>
                   </TouchableHighlight>);
     }
-    
-    return (
-      <View style={styles.container}>
+
+    if (this.props.isShow){
+      controlBarView = (
+        <View style={styles.container}>
           <TouchableHighlight onPress={this.onPlayPausePress}>
             <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
           </TouchableHighlight>
@@ -109,6 +112,13 @@ var ControlBar = React.createClass({
           </TouchableHighlight>
       </View>
       );
+    }
+    
+    return (
+      <View>
+        {controlBarView}
+      </View>
+    );
   }
 });
 
