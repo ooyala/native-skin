@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SampleAppPlayerViewController.h"
 
-@interface MasterViewController : UIViewController
+@interface DefaultSkinPlayerViewController : SampleAppPlayerViewController
+
 
 @property (nonatomic, retain) IBOutlet UIView *videoView;
 
