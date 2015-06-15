@@ -15,10 +15,15 @@
 		0B7824331B2B7EB600D718AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242A1B2B7EB600D718AB /* Info.plist */; };
 		0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242B1B2B7EB600D718AB /* main.jsbundle */; };
 		0B7824351B2B7EB600D718AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78242C1B2B7EB600D718AB /* main.m */; };
-		0B7824361B2B7EB600D718AB /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78242E1B2B7EB600D718AB /* MasterViewController.m */; };
-		0B78243D1B2B819800D718AB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B78243C1B2B819800D718AB /* fontawesome-webfont.ttf */; };
+		0B7824461B2B82C000D718AB /* OoyalaSkinListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7824451B2B82C000D718AB /* OoyalaSkinListViewController.m */; };
+		0B78244C1B2B834F00D718AB /* PlayerSelectionOption.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7824491B2B834F00D718AB /* PlayerSelectionOption.m */; };
+		0B78244D1B2B834F00D718AB /* SampleAppPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78244B1B2B834F00D718AB /* SampleAppPlayerViewController.m */; };
+		0B7824541B2B83AB00D718AB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824521B2B83AB00D718AB /* Main.storyboard */; };
+		0B7824571B2B841800D718AB /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824561B2B841800D718AB /* TableCell.xib */; };
+		0B78245B1B2B855500D718AB /* DefaultSkinPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78245A1B2B855500D718AB /* DefaultSkinPlayerViewController.m */; };
+		0B78245D1B2B86F800D718AB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
-		97637E431B1FBD8100501427 /* MasterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97637E421B1FBD8100501427 /* MasterView.xib */; };
+		97637E431B1FBD8100501427 /* DefaultSkinPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97637E421B1FBD8100501427 /* DefaultSkinPlayerView.xib */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -49,14 +54,19 @@
 		0B78242A1B2B7EB600D718AB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B78242B1B2B7EB600D718AB /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		0B78242C1B2B7EB600D718AB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		0B78242D1B2B7EB600D718AB /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		0B78242E1B2B7EB600D718AB /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		0B78243C1B2B819800D718AB /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
+		0B7824441B2B82C000D718AB /* OoyalaSkinListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OoyalaSkinListViewController.h; sourceTree = "<group>"; };
+		0B7824451B2B82C000D718AB /* OoyalaSkinListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OoyalaSkinListViewController.m; sourceTree = "<group>"; };
+		0B7824481B2B834F00D718AB /* PlayerSelectionOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerSelectionOption.h; sourceTree = "<group>"; };
+		0B7824491B2B834F00D718AB /* PlayerSelectionOption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerSelectionOption.m; sourceTree = "<group>"; };
+		0B78244A1B2B834F00D718AB /* SampleAppPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleAppPlayerViewController.h; sourceTree = "<group>"; };
+		0B78244B1B2B834F00D718AB /* SampleAppPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleAppPlayerViewController.m; sourceTree = "<group>"; };
+		0B7824531B2B83AB00D718AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = OoyalaSkinSampleApp/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		0B7824561B2B841800D718AB /* TableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableCell.xib; sourceTree = "<group>"; };
+		0B7824591B2B855500D718AB /* DefaultSkinPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSkinPlayerViewController.h; sourceTree = "<group>"; };
+		0B78245A1B2B855500D718AB /* DefaultSkinPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSkinPlayerViewController.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		972ED77B1AE18443005043DC /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
-		97637E421B1FBD8100501427 /* MasterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterView.xib; sourceTree = "<group>"; };
+		97637E421B1FBD8100501427 /* DefaultSkinPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DefaultSkinPlayerView.xib; path = ../../DefaultSkinPlayerView.xib; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -85,14 +95,13 @@
 			children = (
 				0B7824231B2B7EB600D718AB /* AppDelegate.h */,
 				0B7824241B2B7EB600D718AB /* AppDelegate.m */,
+				0B7824521B2B83AB00D718AB /* Main.storyboard */,
 				0B7824251B2B7EB600D718AB /* LaunchScreen.xib */,
 				0B7824271B2B7EB600D718AB /* Fonts */,
 				0B7824291B2B7EB600D718AB /* Images.xcassets */,
 				0B78242A1B2B7EB600D718AB /* Info.plist */,
 				0B78242B1B2B7EB600D718AB /* main.jsbundle */,
 				0B78242C1B2B7EB600D718AB /* main.m */,
-				0B78242D1B2B7EB600D718AB /* MasterViewController.h */,
-				0B78242E1B2B7EB600D718AB /* MasterViewController.m */,
 			);
 			path = OoyalaSkinSampleApp;
 			sourceTree = "<group>";
@@ -105,29 +114,59 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		0B78243B1B2B819800D718AB /* Fonts */ = {
+		0B7824431B2B82C000D718AB /* Lists */ = {
 			isa = PBXGroup;
 			children = (
-				0B78243C1B2B819800D718AB /* fontawesome-webfont.ttf */,
+				0B7824441B2B82C000D718AB /* OoyalaSkinListViewController.h */,
+				0B7824451B2B82C000D718AB /* OoyalaSkinListViewController.m */,
 			);
-			name = Fonts;
-			path = OoyalaSkinSampleApp/Fonts;
+			name = Lists;
+			path = OoyalaSkinSampleApp/Lists;
+			sourceTree = "<group>";
+		};
+		0B7824471B2B834F00D718AB /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0B7824481B2B834F00D718AB /* PlayerSelectionOption.h */,
+				0B7824491B2B834F00D718AB /* PlayerSelectionOption.m */,
+				0B78244A1B2B834F00D718AB /* SampleAppPlayerViewController.h */,
+				0B78244B1B2B834F00D718AB /* SampleAppPlayerViewController.m */,
+			);
+			name = Utils;
+			path = OoyalaSkinSampleApp/Utils;
+			sourceTree = "<group>";
+		};
+		0B7824551B2B841800D718AB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				97637E421B1FBD8100501427 /* DefaultSkinPlayerView.xib */,
+				0B7824561B2B841800D718AB /* TableCell.xib */,
+			);
+			name = Views;
+			path = OoyalaSkinSampleApp/Views;
+			sourceTree = "<group>";
+		};
+		0B7824581B2B855500D718AB /* Players */ = {
+			isa = PBXGroup;
+			children = (
+				0B7824591B2B855500D718AB /* DefaultSkinPlayerViewController.h */,
+				0B78245A1B2B855500D718AB /* DefaultSkinPlayerViewController.m */,
+			);
+			name = Players;
+			path = OoyalaSkinSampleApp/Players;
 			sourceTree = "<group>";
 		};
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				0B78241E1B2B7D5F00D718AB /* OoyalaSDK.framework */,
-				0B78241F1B2B7D5F00D718AB /* OoyalaSkinSDK.framework */,
-				97DE27B31B212BD90071DBFE /* libxml2.dylib */,
-				97DE27B11B212BCD0071DBFE /* libc++.dylib */,
-				97DE27AF1B212BC00071DBFE /* libc++abi.dylib */,
-				97637E421B1FBD8100501427 /* MasterView.xib */,
 				FF1290641AEABD5100664374 /* StartScreen.json */,
-				0B78243B1B2B819800D718AB /* Fonts */,
 				972ED7581AE1827B005043DC /* frameworks */,
 				0B7824221B2B7EB600D718AB /* OoyalaSkinSampleApp */,
+				0B7824581B2B855500D718AB /* Players */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				0B7824431B2B82C000D718AB /* Lists */,
+				0B7824471B2B834F00D718AB /* Utils */,
+				0B7824551B2B841800D718AB /* Views */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -144,9 +183,12 @@
 		972ED7581AE1827B005043DC /* frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				972ED88D1AE6F07B005043DC /* OoyalaSkinSDK.framework */,
 				972ED77D1AE184CE005043DC /* libz.dylib */,
-				972ED77B1AE18443005043DC /* OoyalaSDK.framework */,
+				97DE27B11B212BCD0071DBFE /* libc++.dylib */,
+				97DE27AF1B212BC00071DBFE /* libc++abi.dylib */,
+				97DE27B31B212BD90071DBFE /* libxml2.dylib */,
+				0B78241E1B2B7D5F00D718AB /* OoyalaSDK.framework */,
+				0B78241F1B2B7D5F00D718AB /* OoyalaSkinSDK.framework */,
 			);
 			name = frameworks;
 			sourceTree = "<group>";
@@ -204,11 +246,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B78245D1B2B86F800D718AB /* fontawesome-webfont.ttf in Resources */,
 				0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */,
 				FF1290651AEABD5100664374 /* StartScreen.json in Resources */,
-				97637E431B1FBD8100501427 /* MasterView.xib in Resources */,
+				97637E431B1FBD8100501427 /* DefaultSkinPlayerView.xib in Resources */,
+				0B7824541B2B83AB00D718AB /* Main.storyboard in Resources */,
+				0B7824571B2B841800D718AB /* TableCell.xib in Resources */,
 				0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */,
-				0B78243D1B2B819800D718AB /* fontawesome-webfont.ttf in Resources */,
 				0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */,
 				0B7824331B2B7EB600D718AB /* Info.plist in Resources */,
 			);
@@ -221,9 +265,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B7824461B2B82C000D718AB /* OoyalaSkinListViewController.m in Sources */,
 				0B7824351B2B7EB600D718AB /* main.m in Sources */,
 				0B78242F1B2B7EB600D718AB /* AppDelegate.m in Sources */,
-				0B7824361B2B7EB600D718AB /* MasterViewController.m in Sources */,
+				0B78244C1B2B834F00D718AB /* PlayerSelectionOption.m in Sources */,
+				0B78244D1B2B834F00D718AB /* SampleAppPlayerViewController.m in Sources */,
+				0B78245B1B2B855500D718AB /* DefaultSkinPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +283,15 @@
 				0B7824261B2B7EB600D718AB /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		0B7824521B2B83AB00D718AB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0B7824531B2B83AB00D718AB /* Base */,
+			);
+			name = Main.storyboard;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
