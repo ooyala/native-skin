@@ -144,7 +144,7 @@ var OoyalaSkin = React.createClass({
     }
   },
 
-  shouldShowLandscape: function(e) {
+  shouldShowLandscape: function() {
     return this.state.width > this.state.height;
   }
 
