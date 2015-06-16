@@ -11,8 +11,6 @@ var {
 
 var Constants = require('./constants');
 var {
-  ICONS,
-  BUTTON_NAMES,
   IMG_URLS
 } = Constants;
 
