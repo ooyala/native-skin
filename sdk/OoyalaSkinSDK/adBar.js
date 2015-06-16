@@ -25,12 +25,14 @@ var AdBar = React.createClass({
     title: React.PropTypes.string,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
+    count: React.PropTypes.number,
+    index: React.PropTypes.number,
     onPress: React.PropTypes.func,
     showLearnMore: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
-    return {playhead: 0, duration: 0, title:''};
+    return {playhead: 0, duration: 0, title:'', count: 1, index: 0};
   },
 
   onLearnMore: function() { 
@@ -44,6 +46,8 @@ var AdBar = React.createClass({
     var titleString = 
       this.props.title.length > 0 ? UI_TEXT.AD_PLAYING + ": " + this.props.title : UI_TEXT.AD_PLAYING;
 
+    var countString = "(" + this.props.index + "/" + this.props.count + ")";
+
     var learnMoreButton;
     if (this.props.showLearnMore) {
       learnMoreButton = (
@@ -56,7 +60,7 @@ var AdBar = React.createClass({
     }
     return (
       <View style={styles.container}>
-          <Text style={styles.label}>{titleString + ' | ' + remainingString}</Text>
+          <Text style={styles.label}>{titleString + countString + ' | ' + remainingString}</Text>
           <View style={styles.placeholder} />
           {learnMoreButton}
       </View>
