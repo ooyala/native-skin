@@ -146,12 +146,12 @@ var OoyalaSkin = React.createClass({
 
   shouldShowLandscape: function() {
     return this.state.width > this.state.height;
-  }
+  },
 
   onDiscoveryResult: function(e) {
     console.log("onDiscoveryResult results are:", e.results);
     this.setState({discovery:e.results});
-  }
+  },
 
   componentWillMount: function() {
     console.log("componentWillMount");
