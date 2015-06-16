@@ -9,18 +9,13 @@
 
 #import <Foundation/Foundation.h>
 #import "RCTBridgeModule.h"
-#import "OOSkinViewController.h"
 
-@class OOOoyalaPlayer;
-@class OODiscoveryOptions;
+@class OOSkinViewController;
 
 @interface OOReactBridge : NSObject<RCTBridgeModule>
 
-@property (nonatomic, weak) OOOoyalaPlayer *player;
-@property (nonatomic, weak) OOSkinViewController *skinController;
-
-+ (instancetype)getInstance;
-
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body;
++ (void)registerController:(OOSkinViewController *)controller;
++ (void)deregisterController:(OOSkinViewController *)controller;
 
 @end
