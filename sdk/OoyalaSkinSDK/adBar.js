@@ -42,7 +42,7 @@ var AdBar = React.createClass({
       Utils.secondsToString(this.props.duration - this.props.playhead);
     
     var titleString = 
-      this.props.title.length > 0 ? UI_TEXT.AD_PLAYING + ": " + title : UI_TEXT.AD_PLAYING;
+      this.props.title.length > 0 ? UI_TEXT.AD_PLAYING + ": " + this.props.title : UI_TEXT.AD_PLAYING;
 
     var learnMoreButton;
     if (this.props.showLearnMore) {
