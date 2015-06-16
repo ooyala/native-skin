@@ -64,11 +64,15 @@ var StartScreen = React.createClass({
       </Image>
       );
 
+    var promoUrl = this.props.promoUrl;
+    if(!this.props.config.showPromo) {
+      promoUrl = null;
+    }
     
     if (fullscreenPromoImage) {   
       return (
         <Image 
-          source={{uri: this.props.promoUrl}}
+          source={{uri: promoUrl}}
           style={styles.container}
           resizeMode={Image.resizeMode.contain}>
           {infoPanel}
@@ -80,7 +84,7 @@ var StartScreen = React.createClass({
     } else {
       var promoImage = (
         <Image 
-          source={{uri: this.props.promoUrl}}
+          source={{uri: promoUrl}}
           style={styles.promoImageSmall}
           resizeMode={Image.resizeMode.contain}>
         </Image>
