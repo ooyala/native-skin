@@ -85,6 +85,7 @@ var VideoView = React.createClass({
     if (this.props.ad) {
       return null;
     }
+
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -98,7 +99,8 @@ var VideoView = React.createClass({
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
-      isShow = {this.state.showControls} />);
+      isShow = {this.state.showControls} 
+      isLandscape = {this.props.landscape}/>);
   },
 
   _renderAdBar: function() {
