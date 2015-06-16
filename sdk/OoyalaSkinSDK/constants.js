@@ -30,6 +30,7 @@ var IMG_URLS = {
   TWITTER: 'https://g.twimg.com/ios_homescreen_icon.png',
   GOOGLEPLUS: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300',
   EMAIL: 'http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png',
+  OOYALA_LOGO: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'
 };
 
 var SCREEN_TYPES = {

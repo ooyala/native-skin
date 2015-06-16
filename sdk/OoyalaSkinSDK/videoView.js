@@ -39,6 +39,7 @@ var VideoView = React.createClass({
   },
 
   propTypes: {
+    rate: React.PropTypes.number,
     showPlay: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
@@ -56,16 +57,20 @@ var VideoView = React.createClass({
     onSocialButtonPress: React.PropTypes.func,
   },
 
+  shouldShowDiscovery: function() {
+    return this.state.showDiscoveryPanel && this.props.discovery;
+  },
+
   onSocialButtonPress: function(socialType){
     this.props.onSocialButtonPress(socialType);
   },
 
   handlePress: function(name) {
     switch (name) {
-      case BUTTON_NAMES.SOCIAL_SHARE: this._renderSocialShare(); break;
-      case BUTTON_NAMES.PLAY_PAUSE:   this._renderPlayPause();   break;
+      case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare(); break;
+      case BUTTON_NAMES.PLAY_PAUSE:   this._handlePlayPause();   break;
       case BUTTON_NAMES.LEARNMORE: this.props.onPress(BUTTON_NAMES.LEARNMORE); break;
-      default:                     this._renderGeneralPress();   break;
+      default:                     this._handleGeneralPress();   break;
     }
     this.props.onPress(name);
   },
@@ -85,6 +90,7 @@ var VideoView = React.createClass({
     if (this.props.ad) {
       return null;
     }
+
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -97,7 +103,8 @@ var VideoView = React.createClass({
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
-      showClosedCaptionsButton={shouldShowClosedCaptionsButton} />);
+      showClosedCaptionsButton={shouldShowClosedCaptionsButton}
+      isShow = {this.state.showControls}/>);
   },
 
   _renderAdBar: function() {
@@ -116,17 +123,23 @@ var VideoView = React.createClass({
     return null;
   },
 
-  _renderSocialShare: function() {
+  _handleSocialShare: function() {
     this.setState({showSharePanel:!this.state.showSharePanel});
     this.setState({showDiscoveryPanel:false});
   },
 
-  _renderPlayPause: function() {
-    this.setState({showSharePanel:false});
-    this.setState({showDiscoveryPanel: true});
+  _handlePlayPause: function() {
+    if( this.props.rate > 0 ) { // were playing, now go to pause.
+      this.setState({showSharePanel:false});
+      this.setState({showDiscoveryPanel: true});
+    }
+    else {
+      this.setState({showSharePanel:false});
+      this.setState({showDiscoveryPanel: false});
+    }
   },
 
-  _renderGeneralPress: function() {
+  _handleGeneralPress: function() {
     this.setState({showSharePanel:false});
     this.setState({showDiscoveryPanel: false});
   },
@@ -173,7 +186,7 @@ var VideoView = React.createClass({
             onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
         </View>
       );
-    } else if (this.state.showDiscoveryPanel && this.props.discovery) {
+    } else if (this.shouldShowDiscovery()) {
       placeholder = (
         <DiscoveryPanel
           isShow={this.state.showDiscoveryPanel}
@@ -193,10 +206,12 @@ var VideoView = React.createClass({
 
     var ccOverlayHeight = windowSize.height - 60;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    var ccOverlay = (<ClosedCaptionsView
-          style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
-          captionJSON={this.props.captionJSON}
-          onTouchEnd={(event) => this.handleTouchEnd(event)} />);
+    var ccOverlay = this.shouldShowDiscovery() ?
+      null :
+      <ClosedCaptionsView
+      style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
+      captionJSON={this.props.captionJSON}
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
 
     return (
       <View style={styles.container}>

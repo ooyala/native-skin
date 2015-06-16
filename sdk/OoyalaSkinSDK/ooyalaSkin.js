@@ -131,7 +131,7 @@ var OoyalaSkin = React.createClass({
 
   onFrameChange: function(e) {
     console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
-    this.setState({width:e.width, fullscreen:e.fullscreen});
+    this.setState({width:e.width, height:e.height, fullscreen:e.fullscreen});
   },
 
   onPlayComplete: function(e) {
@@ -144,10 +144,14 @@ var OoyalaSkin = React.createClass({
     }
   },
 
+  shouldShowLandscape: function() {
+    return this.state.width > this.state.height;
+  }
+
   onDiscoveryResult: function(e) {
     console.log("onDiscoveryResult results are:", e.results);
     this.setState({discovery:e.results});
-  },
+  }
 
   componentWillMount: function() {
     console.log("componentWillMount");
@@ -228,20 +232,18 @@ var OoyalaSkin = React.createClass({
 
    _renderVideoView: function() {
      var showPlayButton = this.state.rate > 0 ? false : true;
-     var discovery;
-     if (this.state.rate == 0) {
-      discovery = this.state.discovery;
-     }
 
-     // todo: presumably, do not show CC when Discovery is on.
      return (
        <VideoView
+         rate={this.state.rate}
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
-         discovery={discovery}
+         discovery={this.state.discovery}
          ad ={this.state.ad}
          width={this.state.width}
+         height={this.state.height}
+         showWatermark={this.shouldShowLandscape()}
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
@@ -278,4 +280,3 @@ var styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
-
