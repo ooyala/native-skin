@@ -9,7 +9,6 @@ var {
   StyleSheet,
   SliderIOS,
   Text,
-  Image,
   TouchableHighlight,
   View
 } = React;
@@ -17,8 +16,7 @@ var {
 var Constants = require('./constants');
 var {
   ICONS,
-  BUTTON_NAMES,
-  IMG_URLS
+  BUTTON_NAMES
 } = Constants;
 
 var Utils = require('./utils');
@@ -38,7 +36,6 @@ var ControlBar = React.createClass({
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
-    isLandscape: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
@@ -82,16 +79,6 @@ var ControlBar = React.createClass({
       volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
     }
 
-    var watermark;
-    // If is landscape
-    if(this.props.isLandscape) {
-      watermark = (
-        <Image style={styles.waterMarkImage}
-          source={{uri: IMG_URLS.OOYALA_LOGO}}
-          resizeMode={Image.resizeMode.contain}>
-        </Image>);
-    }
-
     var ccButton;
     if( this.props.showClosedCaptionsButton ) {
       ccButton = (<TouchableHighlight onPress={this.onClosedCaptionsPress}>
@@ -123,7 +110,6 @@ var ControlBar = React.createClass({
           <TouchableHighlight onPress={this.onMorePress}>
             <Text style={styles.icon}>{menuIcon}</Text>
           </TouchableHighlight>
-          {watermark}
       </View>
       );
     }
@@ -169,14 +155,6 @@ var styles = StyleSheet.create({
   },
   placeholder: {
     flex: 1,
-  },
-
-  waterMarkImage: {
-    width: 120,
-    height: 18,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    margin: 10
   }
 });
 

@@ -131,7 +131,7 @@ var OoyalaSkin = React.createClass({
 
   onFrameChange: function(e) {
     console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
-    this.setState({width:e.width, height:e.height, landscape:e.width>e.height, fullscreen:e.fullscreen});
+    this.setState({width:e.width, fullscreen:e.fullscreen});
   },
 
   onPlayComplete: function(e) {
@@ -242,8 +242,6 @@ var OoyalaSkin = React.createClass({
          discovery={discovery}
          ad ={this.state.ad}
          width={this.state.width}
-         height={this.state.height}
-         landscape={this.state.landscape}
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
