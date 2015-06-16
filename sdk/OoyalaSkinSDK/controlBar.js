@@ -21,9 +21,13 @@ var {
   IMG_URLS
 } = Constants;
 
+var ReportMeasureMixin = require('./reportMeasureMixin');
+
 var Utils = require('./utils');
 
 var ControlBar = React.createClass({
+  mixins: [ReportMeasureMixin],
+
   getInitialState: function() {
     return {
       showVolume: false,
@@ -101,7 +105,10 @@ var ControlBar = React.createClass({
 
     if (this.props.isShow){
       controlBarView = (
-        <View style={styles.container}>
+        <View
+          ref='myself' // required by ReportMeasureMixin.
+          onLayout={this.onViewLayout}
+          style={styles.container}>
           <TouchableHighlight onPress={this.onPlayPausePress}>
             <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
           </TouchableHighlight>
