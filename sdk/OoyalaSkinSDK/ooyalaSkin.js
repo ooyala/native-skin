@@ -126,7 +126,8 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-    this.setState({screenType:SCREEN_TYPES.START_SCREEN, title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width});
+    this.setState({screenType:SCREEN_TYPES.START_SCREEN, title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width, height:e.height, 
+      showWatermark: this.shouldShowLandscape()});
   },
 
   onFrameChange: function(e) {
@@ -144,14 +145,14 @@ var OoyalaSkin = React.createClass({
     }
   },
 
-  shouldShowLandscape: function() {
-    return this.state.width > this.state.height;
-  }
-
   onDiscoveryResult: function(e) {
     console.log("onDiscoveryResult results are:", e.results);
     this.setState({discovery:e.results});
-  }
+  },
+
+  shouldShowLandscape: function() {
+    return this.state.width > this.state.height;
+  },
 
   componentWillMount: function() {
     console.log("componentWillMount");
