@@ -38,7 +38,7 @@ var ControlBar = React.createClass({
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
-    isLandscape: React.PropTypes.bool,
+    showWatermark: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
@@ -84,7 +84,7 @@ var ControlBar = React.createClass({
 
     var watermark;
     // If is landscape
-    if(this.props.isLandscape) {
+    if(this.props.showWatermark) {
       watermark = (
         <Image style={styles.waterMarkImage}
           source={{uri: IMG_URLS.OOYALA_LOGO}}
