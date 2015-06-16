@@ -25,8 +25,6 @@
   UIView *_parentView;
 }
 
-@property (nonatomic, retain) OOOoyalaPlayer *player;
-
 @end
 
 @implementation OOSkinViewController
@@ -56,8 +54,7 @@ static NSString *kViewChangeKey = @"frame";
     [self.view addSubview:_reactView];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
 
-    [OOReactBridge getInstance].player = _player;
-    [OOReactBridge getInstance].skinController = self;
+    [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     _discoveryOptions = discoveryOptions;
@@ -236,6 +233,7 @@ static NSString *kViewChangeKey = @"frame";
 
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
+  [OOReactBridge deregisterController:self];
 }
 
 @end
