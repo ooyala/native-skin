@@ -16,6 +16,31 @@ var {
   TouchableHighlight,
 } = React;
 
+
+// Load customizations
+try {
+  var config = require('./skin-config/skin.json');
+}
+// In case there is no skin file, load a set of defaults
+catch(err) {
+  var config = {
+    "accentColor": "white",
+    "startScreen": {
+      "mode": "default",
+      "playButtonPosition": "center",
+      "showMetadata": true
+    },
+    "endScreen": {
+      "mode": "default"
+    },
+    "controlBar": {
+      "autoHide": true,
+      "items": ["playPause", "volume", "timeDuration", "discovery"]
+    }
+  }
+}
+
+
 var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
@@ -146,12 +171,12 @@ var OoyalaSkin = React.createClass({
 
   shouldShowLandscape: function() {
     return this.state.width > this.state.height;
-  }
+  },
 
   onDiscoveryResult: function(e) {
     console.log("onDiscoveryResult results are:", e.results);
     this.setState({discovery:e.results});
-  }
+  },
 
   componentWillMount: function() {
     console.log("componentWillMount");
@@ -191,7 +216,8 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderStartScreen: function() {
-    var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    //var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    var startScreenConfig = config.startScreen;
     return (
       <StartScreen
         config={startScreenConfig}

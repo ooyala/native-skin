@@ -37,7 +37,7 @@ var StartScreen = React.createClass({
       );
 
     var infoPanel;
-    if (this.props.config.infoPanel) {
+    if (this.props.config.showMetadata) {
       infoPanel = (
         <View style={styles.infoPanelNW}>
           <Text style={styles.infoPanelTitle}>{this.props.title}</Text>
