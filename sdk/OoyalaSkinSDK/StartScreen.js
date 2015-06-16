@@ -10,6 +10,7 @@ var {
 } = React;
 
 var ICONS = require('./constants').ICONS;
+var IMG_URLS = require('./constants').IMG_URLS;
 
 var StartScreen = React.createClass({
   propTypes: {
@@ -49,7 +50,7 @@ var StartScreen = React.createClass({
     var waterMarkImageLocation = styles.waterMarkImageSE;
     var waterMarkImage = (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-        source={{uri: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'}} 
+        source={{uri: IMG_URLS.OOYALA_LOGO}}
         resizeMode={Image.resizeMode.contain}>
       </Image>
       );
