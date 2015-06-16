@@ -17,30 +17,6 @@ var {
 } = React;
 
 
-// Load customizations
-try {
-  var config = require('./skin-config/skin.json');
-}
-// In case there is no skin file, load a set of defaults
-catch(err) {
-  var config = {
-    "accentColor": "white",
-    "startScreen": {
-      "mode": "default",
-      "playButtonPosition": "center",
-      "showMetadata": true
-    },
-    "endScreen": {
-      "mode": "default"
-    },
-    "controlBar": {
-      "autoHide": true,
-      "items": ["playPause", "volume", "timeDuration", "discovery"]
-    }
-  }
-}
-
-
 var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
@@ -56,6 +32,38 @@ var {
   OOSTATES,
 } = Constants;
 var VideoView = require('./videoView');
+var Utils = require('./utils');
+
+
+// Load default settings
+var config = {
+  "accentColor": "white",
+  "startScreen": {
+    "mode": "default",
+    "showPlayButton": true,
+    "playButtonPosition": "center",
+    "showMetadata": true
+  },
+  "endScreen": {
+    "mode": "default"
+  },
+  "controlBar": {
+    "autoHide": true,
+    "items": ["playPause", "volume", "timeDuration", "discovery"]
+  }
+};
+
+// Add customizations
+try {
+  var loadconfig = require('./skin-config/skin.json');
+  config = Utils.MergeRecursive(config, loadconfig);
+  console.log("CONFIG" + JSON.stringify(config));
+}
+catch(err) {
+  // No provided
+}
+
+
 
 var OoyalaSkin = React.createClass({
 

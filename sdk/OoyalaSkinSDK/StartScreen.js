@@ -27,7 +27,16 @@ var StartScreen = React.createClass({
   render: function() {
     var fullscreenPromoImage = (this.props.config.mode == 'default');
     var playButtonLocation = styles.playButtonCenter;
-    var playButton = (
+    if (this.props.config.playButtonPosition == "center") {
+      playButtonLocation = styles.playButtonCenter;
+    }
+    else if (this.props.config.playButtonPosition == "bottomLeft") {
+      playButtonLocation = styles.playButtonSW;
+    }
+    
+    var playButton;
+    if(this.props.config.showPlayButton) {
+      playButton = (
         <TouchableHighlight
           onPress={this.handleClick}
           underlayColor="transparent"
@@ -35,6 +44,7 @@ var StartScreen = React.createClass({
           <Text style={styles.playButton}>{ICONS.PLAY}</Text>
         </TouchableHighlight>
       );
+    }
 
     var infoPanel;
     if (this.props.config.showMetadata) {
