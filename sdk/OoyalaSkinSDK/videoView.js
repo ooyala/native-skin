@@ -203,14 +203,25 @@ var VideoView = React.createClass({
     var progressBar = this._renderProgressBar();
     var controlBar = this._renderControlBar();  
 
-    var ccOverlayHeight = windowSize.height - 60;
-    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    var ccOverlay = this.shouldShowDiscovery() ?
-      null :
-      <ClosedCaptionsView
-      style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
-      captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+    var ccOverlay = null;
+    if( this.props.captionJSON && ! this.shouldShowDiscovery() ) {
+      var ccLeft = this.props.captionJSON.frameX;
+      var ccTop = this.props.captionJSON.frameY;
+      var ccWidth = this.props.captionJSON.frameWidth;
+      var ccHeight = this.props.captionJSON.frameHeight;
+      var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
+      ccOverlay = <ClosedCaptionsView
+                    style={[{position:'absolute',
+                            left:ccLeft,
+                            top:ccTop,
+                            width:ccWidth,
+                            height:ccHeight,
+                            opacity:ccOpacity,
+                            backgroundColor:'transparent'}]}
+                    captionJSON={this.props.captionJSON}
+                    onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+      console.log( ccOverlay );
+    }
 
     return (
       <View style={styles.container}>
