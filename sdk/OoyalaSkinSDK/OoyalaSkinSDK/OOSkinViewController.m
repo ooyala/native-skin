@@ -43,9 +43,10 @@ static NSString *kViewChangeKey = @"frame";
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
     _parentView = parentView;
-    [self.view setFrame:_parentView.frame];
-    [_player.view setFrame:_parentView.frame];
-    [_reactView setFrame:_parentView.frame];
+    CGRect rect = _parentView.bounds;
+    [self.view setFrame:rect];
+    [_player.view setFrame:rect];
+    [_reactView setFrame:rect];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
     _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
