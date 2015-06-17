@@ -98,12 +98,14 @@ static NSString *kViewChangeKey = @"frame";
   NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
   NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
+  NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
   NSDictionary *eventBody =
   @{@"title":title,
     @"description":itemDescription,
     @"promoUrl":promoUrl,
     @"duration":durationNumber,
-    @"width":frameWidth};
+    @"width":frameWidth,
+    @"height":frameHeight};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   if (_player.currentItem.embedCode && _discoveryOptions) {
     [self loadDiscovery:_player.currentItem.embedCode];
