@@ -42,7 +42,8 @@ var config = {
     "mode": "default",
     "showPlayButton": true,
     "playButtonPosition": "center",
-    "showMetadata": true,
+    "showTitle": true,
+    "showDescription": true,
     "showPromo": true
   },
   "endScreen": {
