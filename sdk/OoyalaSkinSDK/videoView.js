@@ -195,43 +195,22 @@ var VideoView = React.createClass({
    * assumes (1) that the bars are horizontal, not vertical; (2) the bars are together.
    */
   _calculateClosedCaptionsViewLayout: function() {
-    // y values are adjusted.
-    var ccTop = this.props.captionJSON.frameY;
-    var ccHeight = this.props.captionJSON.frameHeight;
-
+    // y values are to be adjusted, x values remain fixed.
+    var ccTop = this.props.captionJSON.frameY; var ccHeight = this.props.captionJSON.frameHeight;
     // if we don't have any caption, nothing to be done.
     // if the bars don't overlap the video rect, cc y values shouldn't change.
-    if( this.props.captionJSON &&
-        this.state.showControls &&
-        (this.state.controlBarMeasure || this.state.progressBarMeasure) ) {
-        var minControlY = Number.MAX_VALUE;
-        var maxControlY = 0;
-        var updateFn = function( measure ) {
-          if( measure ) {
-            minControlY = Math.min( minControlY, measure.py );
-            maxControlY = Math.max( maxControlY, minControlY + measure.height );
-          }
-        };
-        updateFn( this.state.controlBarMeasure );
-        updateFn( this.state.progressBarMeasure );
-        if( minControlY < this.props.captionJSON.frameY + this.props.captionJSON.frameHeight &&
-            maxControlY >= this.props.captionJSON.frameY ) {
-            var roomAbove = Math.max( 0, minControlY - ccTop );
-            var roomBelow = Math.max( 0, ccTop+ccHeight - maxControlY );
-            if( roomAbove > roomBelow ) {
-              ccHeight = minControlY - ccTop;
-            }
-            else {
-              ccHeight = ccTop+ccHeight - maxControlY;
-              ccTop = maxControlY;
-            }
+    if( this.props.captionJSON && this.state.showControls && (this.state.controlBarMeasure || this.state.progressBarMeasure) ) {
+        var minControlY = Number.MAX_VALUE; var maxControlY = 0;
+        [this.state.controlBarMeasure, this.state.progressBarMeasure].forEach( measure => {
+          if( measure ) { minControlY = Math.min( minControlY, measure.py ); maxControlY = Math.max( maxControlY, minControlY + measure.height ); }
+        } );
+        if( minControlY < this.props.captionJSON.frameY + this.props.captionJSON.frameHeight && maxControlY >= this.props.captionJSON.frameY ) {
+            var roomAbove = Math.max( 0, minControlY - ccTop ); var roomBelow = Math.max( 0, ccTop+ccHeight - maxControlY );
+            if( roomAbove > roomBelow ) { ccHeight = minControlY - ccTop; }
+            else { ccHeight = ccTop+ccHeight - maxControlY; ccTop = maxControlY; }
         }
     }
-
-    // x values remain fixed.
-    var ccLeft = this.props.captionJSON.frameX;
-    var ccWidth = this.props.captionJSON.frameWidth;
-    var layout = {ccLeft:ccLeft, ccTop:ccTop, ccWidth:ccWidth, ccHeight:ccHeight};
+    var layout = {ccLeft:this.props.captionJSON.frameX, ccTop:ccTop, ccWidth:this.props.captionJSON.frameWidth, ccHeight:ccHeight};
     return layout;
   },
 
