@@ -46,15 +46,21 @@ var StartScreen = React.createClass({
       );
     }
 
-    var infoPanel;
-    if (this.props.config.showMetadata) {
-      infoPanel = (
-        <View style={styles.infoPanelNW}>
-          <Text style={styles.infoPanelTitle}>{this.props.title}</Text>
-          <Text style={styles.infoPanelDescription}>{this.props.description}</Text>
-        </View>
-      );
+    var infoPanelTitle;
+    if(this.props.config.showTitle) {
+      infoPanelTitle = (<Text style={styles.infoPanelTitle}>{this.props.title}</Text>);
     }
+    var infoPanelDescription;
+    if(this.props.config.showDescription) {
+      infoPanelDescription = (<Text style={styles.infoPanelDescription}>{this.props.description}</Text>);
+    }
+
+    var infoPanel = (
+      <View style={styles.infoPanelNW}>
+        {infoPanelTitle}
+        {infoPanelDescription}
+      </View>
+    );
 
     var waterMarkImageLocation = styles.waterMarkImageSE;
     var waterMarkImage = (
