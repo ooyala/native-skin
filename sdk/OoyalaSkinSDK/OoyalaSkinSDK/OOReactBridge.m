@@ -16,14 +16,14 @@
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
+#import "OOSkinViewController.h"
 
 @implementation OOReactBridge
 
 RCT_EXPORT_MODULE();
 
-@synthesize bridge = _bridge;
-
-static OOReactBridge *sharedInstance = nil;
+static __weak RCTBridge *sharedBridge;
+static __weak OOSkinViewController *sharedController = nil;
 static NSString *nameKey = @"name";
 static NSString *embedCodeKey = @"embedCode";
 static NSString *percentageKey = @"percentage";
@@ -36,30 +36,6 @@ static NSString *languageKey = @"language";
 static NSString *bucketInfoKey = @"bucketInfo";
 static NSString *actionKey = @"action";
 
-/**
-// !!!Warning: this object MUST be created by the react view
-// otherwise it won't be properly initialized.
-// ooyala code should ALWAYS call getInstance to access
-// the singleton instant
-//
-*/
-+ (id)allocWithZone:(NSZone *)zone
-{
-  if (sharedInstance != nil) {
-    return nil;
-  }
-
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    sharedInstance = [super allocWithZone:zone];
-  });
-  return sharedInstance;
-}
-
-+ (instancetype)getInstance {
-  return sharedInstance;
-}
-
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -70,7 +46,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if([buttonName isEqualToString:socialShareButtonName]) {
       [self handleSocialShare];
     } else if ([buttonName isEqualToString:fullscreenButtonName]) {
-      [_skinController toggleFullscreen];
+      [sharedController toggleFullscreen];
     } else if ([buttonName isEqualToString:learnMoreButtonName]) {
       [self handleLearnMore];
     }
@@ -82,8 +58,9 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
     NSString *eventName = @"onClosedCaptionUpdate";
     NSDictionary *body = nil;
-    if (self.player.currentItem.hasClosedCaptions) {
-      OOCaption *pc = [self.player.currentItem.closedCaptions captionForLanguage:language time:self.player.playheadTime];
+    OOOoyalaPlayer *player = sharedController.player;
+    if (player.currentItem.hasClosedCaptions) {
+      OOCaption *pc = [player.currentItem.closedCaptions captionForLanguage:language time:player.playheadTime];
       if( pc != nil ) {
         body = @{ @"text":  pc.text,
                   @"begin": [NSNumber numberWithDouble:pc.begin],
@@ -95,61 +72,84 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 }
 
 -(void) handlePlayPause {
-  if (_player.state == OOOoyalaPlayerStatePlaying) {
-    [_player pause];
+  OOOoyalaPlayer *player = sharedController.player;
+  if (player.state == OOOoyalaPlayerStatePlaying) {
+    [player pause];
   } else {
-    [_player play];
+    [player play];
   }
 }
 
 -(void) handlePlay {
-  [_player play];
+  [sharedController.player play];
 }
 
 -(void) handleSocialShare {
-  [_player pause];
+  [sharedController.player pause];
 }
 
 - (void)handleLearnMore {
-  [_player clickAd];
+  [sharedController.player clickAd];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
+    OOOoyalaPlayer *player = sharedController.player;
     NSNumber *position = [parameters objectForKey:percentageKey];
-    [_player seek:_player.duration * [position doubleValue]];
+    [player seek:player.duration * [position doubleValue]];
   });
 }
 
 RCT_EXPORT_METHOD(setEmbedCode:(NSDictionary *)parameters) {
   NSString *embedCode = [parameters objectForKey:embedCodeKey];
   dispatch_async(dispatch_get_main_queue(), ^{
-    [_player setEmbedCode:embedCode];
-    [_player play];
+    OOOoyalaPlayer *player = sharedController.player;
+    [player setEmbedCode:embedCode];
+    [player play];
   });
 }
 
 RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   NSString *action = [parameters objectForKey:actionKey];
   NSString *bucketInfo = [parameters objectForKey:bucketInfoKey];
+  OOOoyalaPlayer *player = sharedController.player;
   if ([action isEqualToString:@"click"]) {
     NSString *embedCode = [parameters objectForKey:embedCodeKey];
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendClick:_skinController.discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
-      [_player setEmbedCode:embedCode];
-      [_player play];
+      [OODiscoveryManager sendClick:sharedController.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+      [player setEmbedCode:embedCode];
+      [player play];
     });
   } else if ([action isEqualToString:@"impress"]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendImpression:_skinController.discoveryOptions bucketInfo:bucketInfo pcode:_player.pcode parameters:nil];
+      [OODiscoveryManager sendImpression:sharedController.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
     });
   }
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
   NSLog(@"sendDeviceEventWithName: %@", eventName);
-  [[OOReactBridge getInstance].bridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
+  [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
+
+- (RCTBridge *)bridge {
+  return  sharedBridge;
+}
+
+- (void)setBridge:(RCTBridge *)bridge {
+  sharedBridge = bridge;
+}
+
++ (void)registerController:(OOSkinViewController *)controller {
+  sharedController = controller;
+}
+
++ (void)deregisterController:(OOSkinViewController *)controller {
+  if (sharedController == controller) {
+    sharedController = nil;
+  };
+}
+
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];

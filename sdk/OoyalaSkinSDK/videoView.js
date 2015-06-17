@@ -55,6 +55,7 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onDiscoveryRow: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
+    showWatermark: React.PropTypes.bool,
   },
 
   shouldShowDiscovery: function() {
@@ -104,18 +105,23 @@ var VideoView = React.createClass({
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
+      showWatermark={this.props.showWatermark}
       isShow = {this.state.showControls}/>);
   },
 
   _renderAdBar: function() {
     if (this.props.ad) {
       var adTitle = this.props.ad.title ? this.props.ad.title : "";
+      var count = this.props.ad.count ? this.props.ad.count : 1;
+      var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
       var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
       console.log("adbar title" + adTitle + "clickUrl " + this.props.ad.clickUrl);
       return (<AdBar
         title={adTitle}
         playhead={this.props.playhead} 
         duration={this.props.duration}
+        count={count}
+        index={count - unplayed}
         onPress={this.handlePress}
         showLearnMore={showLearnMore} />
       );

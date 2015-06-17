@@ -9,6 +9,11 @@ var {
   TouchableHighlight,
 } = React;
 
+var Constants = require('./constants');
+var {
+  IMG_URLS
+} = Constants;
+
 var ICONS = require('./constants').ICONS;
 
 var StartScreen = React.createClass({
@@ -65,7 +70,7 @@ var StartScreen = React.createClass({
     var waterMarkImageLocation = styles.waterMarkImageSE;
     var waterMarkImage = (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-        source={{uri: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'}} 
+        source={{uri: IMG_URLS.OOYALA_LOGO}} 
         resizeMode={Image.resizeMode.contain}>
       </Image>
       );

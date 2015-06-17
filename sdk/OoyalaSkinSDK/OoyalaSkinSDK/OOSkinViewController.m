@@ -25,8 +25,6 @@
   UIView *_parentView;
 }
 
-@property (nonatomic, retain) OOOoyalaPlayer *player;
-
 @end
 
 @implementation OOSkinViewController
@@ -45,9 +43,10 @@ static NSString *kViewChangeKey = @"frame";
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
     _parentView = parentView;
-    [self.view setFrame:_parentView.frame];
-    [_player.view setFrame:_parentView.frame];
-    [_reactView setFrame:_parentView.frame];
+    CGRect rect = _parentView.bounds;
+    [self.view setFrame:rect];
+    [_player.view setFrame:rect];
+    [_reactView setFrame:rect];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
     _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -56,8 +55,7 @@ static NSString *kViewChangeKey = @"frame";
     [self.view addSubview:_reactView];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
 
-    [OOReactBridge getInstance].player = _player;
-    [OOReactBridge getInstance].skinController = self;
+    [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     _discoveryOptions = discoveryOptions;
@@ -101,12 +99,14 @@ static NSString *kViewChangeKey = @"frame";
   NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
   NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
+  NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
   NSDictionary *eventBody =
   @{@"title":title,
     @"description":itemDescription,
     @"promoUrl":promoUrl,
     @"duration":durationNumber,
-    @"width":frameWidth};
+    @"width":frameWidth,
+    @"height":frameHeight};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   if (_player.currentItem.embedCode && _discoveryOptions) {
     [self loadDiscovery:_player.currentItem.embedCode];
@@ -236,6 +236,7 @@ static NSString *kViewChangeKey = @"frame";
 
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
+  [OOReactBridge deregisterController:self];
 }
 
 @end
