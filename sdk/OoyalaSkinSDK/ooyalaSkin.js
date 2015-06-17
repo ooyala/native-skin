@@ -76,7 +76,6 @@ var OoyalaSkin = React.createClass({
       }
     }
     // todo: ...remove this testing hack and do it right.
-
   },
 
   handlePress: function(n) {

@@ -34,7 +34,9 @@ var VideoView = React.createClass({
     return {
       showControls: true,
       showSharePanel: false,
-      showDiscoveryPanel: false, 
+      showDiscoveryPanel: false,
+      progressBarMeasure: null,
+      controlBarMeasure: null,
     };
   },
 
@@ -56,6 +58,16 @@ var VideoView = React.createClass({
     onDiscoveryRow: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
+  },
+
+  onProgressBarMeasure: function( ox, oy, width, height, px, py ) {
+    console.log( "onProgressBarMeasure: " + [ox, oy, width, height, px, py] );
+    this.setState( {progressBarMeasure: {ox:ox, oy:oy, width:width, height:height, px:px, py:py} } );
+  },
+
+  onControlBarMeasure: function( ox, oy, width, height, px, py ) {
+    console.log( "onControlBarMeasure: " + [ox, oy, width, height, px, py] );
+    this.setState( {controlBarMeasure: {ox:ox, oy:oy, width:width, height:height, px:px, py:py} } );
   },
 
   shouldShowDiscovery: function() {
@@ -80,8 +92,10 @@ var VideoView = React.createClass({
     if (this.props.ad) {
       return null;
     }
-    return (<ProgressBar ref='progressBar' 
-      playhead={this.props.playhead} 
+    return (<ProgressBar
+      ref='progressBar'
+      onMeasure={this.onProgressBarMeasure}
+      playhead={this.props.playhead}
       duration={this.props.duration}
       width={this.props.width}
       onScrub={(value)=>this.handleScrub(value)} />);
@@ -97,7 +111,8 @@ var VideoView = React.createClass({
       this.props.availableClosedCaptionsLanguages.length > 0;
 
     return (<ControlBar
-      ref='controlBar' 
+      ref='controlBar'
+      onMeasure={this.onControlBarMeasure}
       showPlay={this.props.showPlay} 
       playhead={this.props.playhead} 
       duration={this.props.duration}
@@ -176,6 +191,29 @@ var VideoView = React.createClass({
     this.toggleControlBar();
   },
 
+  /**
+   * assumes (1) that the bars are horizontal, not vertical; (2) the bars are together.
+   */
+  _calculateClosedCaptionsViewLayout: function() {
+    // y values are to be adjusted, x values remain fixed.
+    var ccTop = this.props.captionJSON.frameY; var ccHeight = this.props.captionJSON.frameHeight;
+    // if we don't have any caption, nothing to be done.
+    // if the bars don't overlap the video rect, cc y values shouldn't change.
+    if( this.props.captionJSON && this.state.showControls && (this.state.controlBarMeasure || this.state.progressBarMeasure) ) {
+        var minControlY = Number.MAX_VALUE; var maxControlY = 0;
+        [this.state.controlBarMeasure, this.state.progressBarMeasure].forEach( measure => {
+          if( measure ) { minControlY = Math.min( minControlY, measure.py ); maxControlY = Math.max( maxControlY, minControlY + measure.height ); }
+        } );
+        if( minControlY < this.props.captionJSON.frameY + this.props.captionJSON.frameHeight && maxControlY >= this.props.captionJSON.frameY ) {
+            var roomAbove = Math.max( 0, minControlY - ccTop ); var roomBelow = Math.max( 0, ccTop+ccHeight - maxControlY );
+            if( roomAbove > roomBelow ) { ccHeight = minControlY - ccTop; }
+            else { ccHeight = ccTop+ccHeight - maxControlY; ccTop = maxControlY; }
+        }
+    }
+    var layout = {ccLeft:this.props.captionJSON.frameX, ccTop:ccTop, ccWidth:this.props.captionJSON.frameWidth, ccHeight:ccHeight};
+    return layout;
+  },
+
   render: function() {
     var adBar = this._renderAdBar();
     var placeholder;
@@ -210,14 +248,22 @@ var VideoView = React.createClass({
     var progressBar = this._renderProgressBar();
     var controlBar = this._renderControlBar();  
 
-    var ccOverlayHeight = windowSize.height - 60;
-    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    var ccOverlay = this.shouldShowDiscovery() ?
-      null :
-      <ClosedCaptionsView
-      style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
-      captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+    var ccOverlay = null;
+    if( this.props.captionJSON && ! this.shouldShowDiscovery() ) {
+      var {ccLeft, ccTop, ccWidth, ccHeight} = this._calculateClosedCaptionsViewLayout();
+      var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
+      ccOverlay = <ClosedCaptionsView
+                    style={[{position:'absolute',
+                            left:ccLeft,
+                            top:ccTop,
+                            width:ccWidth,
+                            height:ccHeight,
+                            opacity:ccOpacity,
+                            backgroundColor:'transparent'}]}
+                    captionJSON={this.props.captionJSON}
+                    onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+      console.log( ccOverlay );
+    }
 
     return (
       <View style={styles.container}>

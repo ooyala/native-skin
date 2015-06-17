@@ -12,9 +12,13 @@ var {
 
 var eventBridge = require('NativeModules').OOReactBridge;
 
+var ReportMeasureMixin = require('./reportMeasureMixin');
+
 var ICONS = require('./constants').ICONS;
 
 var ProgressBar = React.createClass({
+  mixins: [ReportMeasureMixin],
+
   propTypes: {
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
@@ -73,7 +77,8 @@ var ProgressBar = React.createClass({
     }
 
     return (
-      <View 
+      <View
+        ref='myself' // required by ReportMeasureMixin.
         style={styles.container} 
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
