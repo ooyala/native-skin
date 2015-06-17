@@ -60,8 +60,16 @@ var StartScreen = React.createClass({
       infoPanelDescription = (<Text style={styles.infoPanelDescription}>{this.props.description}</Text>);
     }
 
+    var infoPanelLocation = styles.infoPanelNW;
+    if (this.props.config.infoPanelPosition == "NW") {
+      infoPanelLocation = styles.infoPanelNW;
+    }
+    else if (this.props.config.infoPanelPosition == "SW") {
+      infoPanelLocation = styles.infoPanelSW;
+    }
+
     var infoPanel = (
-      <View style={styles.infoPanelNW}>
+      <View style={infoPanelLocation}>
         {infoPanelTitle}
         {infoPanelDescription}
       </View>
@@ -75,9 +83,9 @@ var StartScreen = React.createClass({
       </Image>
       );
 
-    var promoUrl = this.props.promoUrl;
-    if(!this.props.config.showPromo) {
-      promoUrl = null;
+    var promoUrl;
+    if(this.props.config.showPromo) {
+      promoUrl = this.props.promoUrl;
     }
     
     if (fullscreenPromoImage) {   

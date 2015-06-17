@@ -16,7 +16,6 @@ var {
   TouchableHighlight,
 } = React;
 
-
 var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
@@ -32,40 +31,9 @@ var {
   OOSTATES,
 } = Constants;
 var VideoView = require('./videoView');
-var Utils = require('./utils');
-
-
-// Load default settings
-var config = {
-  "accentColor": "white",
-  "startScreen": {
-    "mode": "default",
-    "showPlayButton": true,
-    "playButtonPosition": "center",
-    "showTitle": true,
-    "showDescription": true,
-    "showPromo": true
-  },
-  "endScreen": {
-    "mode": "default"
-  },
-  "controlBar": {
-    "autoHide": true,
-    "items": ["playPause", "volume", "timeDuration", "discovery"]
-  }
-};
 
 // Add customizations
-try {
-  var loadconfig = require('./skin-config/skin.json');
-  config = Utils.MergeRecursive(config, loadconfig);
-  console.log("CONFIG" + JSON.stringify(config));
-}
-catch(err) {
-  // No provided
-}
-
-
+var config = require('./skin-config/skin.json');
 
 var OoyalaSkin = React.createClass({
 
@@ -227,7 +195,6 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderStartScreen: function() {
-    //var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
     var startScreenConfig = config.startScreen;
     return (
       <StartScreen
