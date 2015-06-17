@@ -77,6 +77,7 @@ static NSString *kViewChangeKey = @"frame";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdSwitchNotification:) name:OOOoyalaPlayerAdSwitchedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdCompleteNotification:) name:OOOoyalaPlayerAdCompletedNotification object:self.player];
   }
 }
@@ -131,10 +132,14 @@ static NSString *kViewChangeKey = @"frame";
     @"promoUrl":promoUrl,
     @"duration":durationNumber};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
-
 }
 
 - (void) bridgeAdStartNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = notification.userInfo;
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeAdSwitchNotification:(NSNotification *)notification {
   NSDictionary *eventBody = notification.userInfo;
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }

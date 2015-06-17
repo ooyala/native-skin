@@ -119,6 +119,11 @@ var OoyalaSkin = React.createClass({
     this.setState({ad:e});
   },
 
+  onAdSwitched: function(e) {
+    console.log( "onAdSwitched");
+    this.setState({ad:e});
+  },
+
   onAdCompleted: function(e) {
     console.log( "onAdCompleted ");
     this.setState({ad: null});
@@ -166,6 +171,7 @@ var OoyalaSkin = React.createClass({
       [ 'discoveryResultsReceived', (event) => this.onDiscoveryResult(event) ],
       [ 'onClosedCaptionUpdate',    (event) => this.onClosedCaptionUpdate(event) ],
       [ 'adStarted',                (event) => this.onAdStarted(event) ],
+      [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
       [ 'adCompleted',              (event) => this.onAdCompleted(event) ],
     ];
     for( var d of listenerDefinitions ) {
