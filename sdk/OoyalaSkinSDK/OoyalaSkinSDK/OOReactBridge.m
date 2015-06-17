@@ -66,10 +66,10 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
                   @"begin": [NSNumber numberWithDouble:pc.begin],
                   @"end":   [NSNumber numberWithDouble:pc.end],
                   // todo: I haven't yet found anything in React Native to do this for me.
-                  @"frameX": [NSNumber numberWithFloat:self.player.videoRect.origin.x],
-                  @"frameY": [NSNumber numberWithFloat:self.player.videoRect.origin.y],
-                  @"frameWidth": [NSNumber numberWithFloat:self.player.videoRect.size.width],
-                  @"frameHeight": [NSNumber numberWithFloat:self.player.videoRect.size.height] };
+                  @"frameX": [NSNumber numberWithFloat:player.videoRect.origin.x],
+                  @"frameY": [NSNumber numberWithFloat:player.videoRect.origin.y],
+                  @"frameWidth": [NSNumber numberWithFloat:player.videoRect.size.width],
+                  @"frameHeight": [NSNumber numberWithFloat:player.videoRect.size.height] };
      }
     }
     [OOReactBridge sendDeviceEventWithName:eventName body:body];
