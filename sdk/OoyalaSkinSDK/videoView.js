@@ -47,6 +47,7 @@ var VideoView = React.createClass({
     discovery: React.PropTypes.array,
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
+    height: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
@@ -159,14 +160,18 @@ var VideoView = React.createClass({
   },
 
   toggleControlBar: function() {
+    var offset = this.state.showControls ? this.props.height - 5 : this.props.height - 50;
+
     for (var ref in this.refs) {
-      console.log("ref is",ref);
+      if(ref == 'controlBar') {
+        offset = offset + 27;
+      }
       AnimationExperimental.startAnimation({
         node: this.refs[ref],
         duration: 500,
-        property: 'opacity',
+        property: 'positionY',
         easing: 'easingInOutExpo',
-        toValue: this.state.showControls ? 0 : 1,
+        toValue: offset,
       });
     }
     this.setState({showControls:!this.state.showControls});
