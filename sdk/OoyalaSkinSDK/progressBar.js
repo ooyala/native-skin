@@ -16,6 +16,7 @@ var ICONS = require('./constants').ICONS;
 
 var ProgressBar = React.createClass({
   propTypes: {
+    isShow: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
@@ -61,30 +62,48 @@ var ProgressBar = React.createClass({
     var bufferedPercent = this.positionToPercent(this.props.buffered - this.props.playhead);
     var unbufferedPercent = 1 - playedPercent - bufferedPercent;
     
-    var containerStyle = {flexDirection: 'row', height: 10};
     var playedStyle = {backgroundColor: '#488DFB', flex: playedPercent};
     var bufferedStyle = {backgroundColor: '#808080', flex: bufferedPercent};
     var unbufferedStyle = {backgroundColor: '#B0B0B0', flex: unbufferedPercent};
     
-    var styles = StyleSheet.create({container:containerStyle, played:playedStyle, buffered:bufferedStyle, unbuffered:unbufferedStyle});
+    var progressStyles = StyleSheet.create({played:playedStyle, buffered:bufferedStyle, unbuffered:unbufferedStyle});
     var slider;
-    if (this.state.showSlider) {
+    if (this.props.showSlider) {
       slider = (<View style={{backgroundColor: 'white', position: 'absolute', left: this.state.sliderX, width: 10, height:10}} />);
     }
 
+    var displayStyle;
+    if(this.props.isShow) {
+      displayStyle = styles.container;
+    }
+    else {
+      displayStyle = styles.containerHidden;
+    }
     return (
       <View 
-        style={styles.container} 
+        style={displayStyle} 
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
         onTouchEnd={(event) => this.handleTouchEnd(event)}>
-        <View style={styles.played} />
-        <View style={styles.buffered} />
-        <View style={styles.unbuffered} />
+        <View style={progressStyles.played} />
+        <View style={progressStyles.buffered} />
+        <View style={progressStyles.unbuffered} />
         {slider}
       </View>
     );
   }
+});
+
+var styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row', 
+    height: 10
+  },
+  containerHidden: {
+    flexDirection: 'row', 
+    height: 10,
+    top: 46
+  },
 });
 
 module.exports = ProgressBar;

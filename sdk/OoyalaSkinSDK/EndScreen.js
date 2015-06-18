@@ -42,7 +42,7 @@ var EndScreen = React.createClass({
    onSocialButtonPress: React.PropTypes.func,
  },
 
- toggleControlBar: function() {
+ /*toggleControlBar: function() {
   for (var ref in this.refs) {
     console.log("ref is",ref);
     if(ref === "sharePanel"){
@@ -58,7 +58,7 @@ var EndScreen = React.createClass({
     });
   }
   this.setState({showControls:!this.state.showControls});
-},
+},*/
 
 handleClick: function(name) {
   if(name === "SocialShare"){
@@ -109,11 +109,13 @@ render: function() {
  progressBar = (<ProgressBar 
   ref='progressBar' 
   playhead={this.props.duration} 
-  duration={this.props.duration}  />);
+  duration={this.props.duration} 
+  isShow={this.state.showControls} />);
 
  var controlBar;
  controlBar = (<ControlBar 
   ref='controlBar' 
+  isShow={this.state.showControls}
   showPlay={this.props.showPlay} 
   playhead={this.props.duration} 
   duration={this.props.duration} 

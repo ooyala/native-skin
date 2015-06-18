@@ -85,7 +85,8 @@ var VideoView = React.createClass({
       playhead={this.props.playhead} 
       duration={this.props.duration}
       width={this.props.width}
-      onScrub={(value)=>this.handleScrub(value)} />);
+      onScrub={(value)=>this.handleScrub(value)}
+      isShow={this.state.showControls} />);
   },
 
   _renderControlBar: function() {
@@ -107,7 +108,7 @@ var VideoView = React.createClass({
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow = {this.state.showControls}/>);
+      isShow={this.state.showControls} />);
   },
 
   _renderAdBar: function() {
@@ -160,15 +161,19 @@ var VideoView = React.createClass({
   },
 
   toggleControlBar: function() {
+
+    // TODO fix magic number
     var offset = this.state.showControls ? this.props.height - 5 : this.props.height - 50;
 
     for (var ref in this.refs) {
+
+      // TODO fix magic number
       if(ref == 'controlBar') {
         offset = offset + 27;
       }
       AnimationExperimental.startAnimation({
         node: this.refs[ref],
-        duration: 500,
+        duration: 400,
         property: 'positionY',
         easing: 'easingInOutExpo',
         toValue: offset,
