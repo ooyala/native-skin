@@ -163,22 +163,25 @@ var VideoView = React.createClass({
   toggleControlBar: function() {
 
     // TODO fix magic number
+    // Must +27 for controlbar
     var offset = this.state.showControls ? this.props.height - 5 : this.props.height - 50;
 
-    for (var ref in this.refs) {
+    AnimationExperimental.startAnimation({
+      node: this.refs['controlBar'],
+      duration: 400,
+      property: 'opacity',
+      easing: 'easingInOutExpo',
+      toValue: this.state.showControls ? 0 : 1,
+    });
 
-      // TODO fix magic number
-      if(ref == 'controlBar') {
-        offset = offset + 27;
-      }
-      AnimationExperimental.startAnimation({
-        node: this.refs[ref],
-        duration: 400,
-        property: 'positionY',
-        easing: 'easingInOutExpo',
-        toValue: offset,
-      });
-    }
+    AnimationExperimental.startAnimation({
+      node: this.refs['progressBar'],
+      duration: 400,
+      property: 'positionY',
+      easing: 'easingInOutExpo',
+      toValue: offset,
+    });
+
     this.setState({showControls:!this.state.showControls});
   },
 
