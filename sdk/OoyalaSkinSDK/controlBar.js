@@ -19,7 +19,6 @@ var {
   ICONS,
   BUTTON_NAMES,
   IMG_URLS,
-  UI_TEXT,
 } = Constants;
 
 var Utils = require('./utils');
@@ -40,7 +39,7 @@ var ControlBar = React.createClass({
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
     showWatermark: React.PropTypes.bool,
-    showLive: React.PropTypes.bool
+    live: React.PropTypes.string
   },
 
   getDefaultProps: function() {
@@ -49,7 +48,7 @@ var ControlBar = React.createClass({
 
   getDurationString: function() {
     if (this.props.live) {
-      return Constants.UI_TEXT.LIVE;
+      return this.props.live
     } else {
       return Utils.secondsToString(this.props.playhead) + Constants.UI_TEXT.SEPERATOR + Utils.secondsToString(this.props.duration);
     }

@@ -27,6 +27,7 @@ var {
   ICONS,
   BUTTON_NAMES,
   IMG_URLS,
+  UI_TEXT
 } = Constants;
 
 var VideoView = React.createClass({
@@ -61,6 +62,12 @@ var VideoView = React.createClass({
 
   shouldShowDiscovery: function() {
     return this.state.showDiscoveryPanel && this.props.discovery;
+  },
+
+  generateLiveLabel: function() {
+    if (this.props.live) {
+      return this.props.showPlay? UI_TEXT.GO_LIVE: UI_TEXT.LIVE;
+    }
   },
 
   onSocialButtonPress: function(socialType){
@@ -102,7 +109,7 @@ var VideoView = React.createClass({
       showPlay={this.props.showPlay} 
       playhead={this.props.playhead} 
       duration={this.props.duration}
-      live={this.props.live}
+      live={this.generateLiveLabel()}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
