@@ -84,19 +84,23 @@ render: function() {
                            // {buttonName: BUTTON_NAMES.GOOGLEPLUS, imgUrl: IMG_URLS.GOOGLEPLUS},
                            // {buttonName: BUTTON_NAMES.EMAIL, imgUrl: IMG_URLS.EMAIL}];
 
- var replaybutton = (
-   <TouchableHighlight
-   onPress={(name) => this.handleClick('PlayPause')}
-   underlayColor="transparent"
-   activeOpacity={0.5}>
-   <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
-   </TouchableHighlight>
-   );
+  var replaybutton;
+  if(this.props.config.showReplay) {
+    replaybutton = (
+      <TouchableHighlight
+      onPress={(name) => this.handleClick('PlayPause')}
+      underlayColor="transparent"
+      activeOpacity={0.5}>
+      <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
+      </TouchableHighlight>
+    );
+  }
 
- var infoPanel;
- if (this.props.config.infoPanel) {
-   infoPanel = (<InfoPanel title={this.props.title} description={this.props.description} />);
- }
+  var title = this.props.config.showTitle ? this.props.title : null;
+  var description = this.props.config.showDescription ? this.props.description : null;
+
+  var infoPanel;
+  infoPanel = (<InfoPanel title={title} description={description} />);
 
  var sharePanel;
  sharePanel = (<SharePanel 

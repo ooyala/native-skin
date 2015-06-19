@@ -213,7 +213,7 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderEndScreen: function() {
-    var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    var EndScreenConfig = config.endScreen;
     return (
       <EndScreen
         config={EndScreenConfig}
