@@ -203,6 +203,8 @@ var OoyalaSkin = React.createClass({
         title={this.state.title}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
+        width={this.state.width}
+        height={this.state.height}
         onPress={(name) => this.handlePress(name)}/>
     );
   },
