@@ -44,6 +44,7 @@ var VideoView = React.createClass({
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
+    live: React.PropTypes.bool,
     discovery: React.PropTypes.array,
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
@@ -101,6 +102,7 @@ var VideoView = React.createClass({
       showPlay={this.props.showPlay} 
       playhead={this.props.playhead} 
       duration={this.props.duration}
+      live={this.props.live}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}

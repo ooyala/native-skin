@@ -49,6 +49,8 @@ var OOSTATES = {
 var UI_TEXT = {
   LEARNMORE : 'Learn More',
   AD_PLAYING: 'Ad Playing',
+  LIVE: 'LIVE',
+  SEPERATOR: '/',
 };
 
 module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT};

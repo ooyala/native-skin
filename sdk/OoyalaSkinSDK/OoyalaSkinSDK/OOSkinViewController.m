@@ -100,11 +100,14 @@ static NSString *kViewChangeKey = @"frame";
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
   NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
+  NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
+
   NSDictionary *eventBody =
   @{@"title":title,
     @"description":itemDescription,
     @"promoUrl":promoUrl,
     @"duration":durationNumber,
+    @"live":live,
     @"width":frameWidth,
     @"height":frameHeight};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
