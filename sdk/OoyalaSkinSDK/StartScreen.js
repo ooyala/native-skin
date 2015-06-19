@@ -31,7 +31,6 @@ var StartScreen = React.createClass({
 
   // Gets the play button based on the current config settings
   getPlayButton: function() {
-    var playButton;
 
     var playButtonLocation;
     switch (this.props.config.playButtonPosition) {
@@ -45,21 +44,16 @@ var StartScreen = React.createClass({
         throw("Invalid play button location " + this.props.config.playButtonPosition);
     }
     
-    var playButton;
-    if(this.props.config.showPlayButton) {
-      playButton = (
-        <View style={playButtonLocation}>
-          <TouchableHighlight
-            onPress={this.handleClick}
-            underlayColor="transparent"
-            activeOpacity={0.5}>
-            <Text style={styles.playButton}>{ICONS.PLAY}</Text>
-          </TouchableHighlight>
-        </View>
-      );
-    }
-
-    return playButton;
+    return (
+      <View style={playButtonLocation}>
+        <TouchableHighlight
+          onPress={this.handleClick}
+          underlayColor="transparent"
+          activeOpacity={0.5}>
+          <Text style={styles.playButton}>{ICONS.PLAY}</Text>
+        </TouchableHighlight>
+      </View>
+    );
   },
 
   // Gets the infoPanel based on the current config settings
@@ -96,8 +90,10 @@ var StartScreen = React.createClass({
   render: function() {
     var fullscreenPromoImage = (this.props.config.mode == 'default');
     
-    var playButton = this.getPlayButton();
-
+    var playButton;
+    if(this.props.config.showPlayButton) {
+      playButton = this.getPlayButton();
+    }
     var infoPanel = this.getInfoPanel();
 
     var waterMarkImageLocation = styles.waterMarkImageSE;
