@@ -61,7 +61,6 @@ var VideoView = React.createClass({
   handlePress: function(name) {
     switch (name) {
       case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare(); break;
-      case BUTTON_NAMES.PLAY_PAUSE:   /*nothing to do*/;   break;
       case BUTTON_NAMES.LEARNMORE: this.props.onPress(BUTTON_NAMES.LEARNMORE); break;
       default:                     this._handleGeneralPress();   break;
     }
