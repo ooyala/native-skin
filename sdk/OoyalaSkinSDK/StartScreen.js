@@ -29,28 +29,41 @@ var StartScreen = React.createClass({
     this.props.onPress('PlayPause');
   },
 
-  render: function() {
-    var fullscreenPromoImage = (this.props.config.mode == 'default');
-    var playButtonLocation = styles.playButtonCenter;
-    if (this.props.config.playButtonPosition == "center") {
-      playButtonLocation = styles.playButtonCenter;
-    }
-    else if (this.props.config.playButtonPosition == "bottomLeft") {
-      playButtonLocation = styles.playButtonSW;
+  // Gets the play button based on the current config settings
+  getPlayButton: function() {
+    var playButton;
+
+    var playButtonLocation;
+    switch (this.props.config.playButtonPosition) {
+      case "center":
+        playButtonLocation = styles.playButtonCenter;
+        break;
+      case "bottomLeft":
+        playButtonLocation = styles.playButtonSW;
+        break;
+      default:
+        throw("Invalid play button location " + this.props.config.playButtonPosition);
     }
     
     var playButton;
     if(this.props.config.showPlayButton) {
       playButton = (
-        <TouchableHighlight
-          onPress={this.handleClick}
-          underlayColor="transparent"
-          activeOpacity={0.5}>
-          <Text style={styles.playButton}>{ICONS.PLAY}</Text>
-        </TouchableHighlight>
+        <View style={playButtonLocation}>
+          <TouchableHighlight
+            onPress={this.handleClick}
+            underlayColor="transparent"
+            activeOpacity={0.5}>
+            <Text style={styles.playButton}>{ICONS.PLAY}</Text>
+          </TouchableHighlight>
+        </View>
       );
     }
 
+    return playButton;
+  },
+
+  // Gets the infoPanel based on the current config settings
+  getInfoPanel: function() {
     var infoPanelTitle;
     if(this.props.config.showTitle) {
       infoPanelTitle = (<Text style={styles.infoPanelTitle}>{this.props.title}</Text>);
@@ -60,20 +73,32 @@ var StartScreen = React.createClass({
       infoPanelDescription = (<Text style={styles.infoPanelDescription}>{this.props.description}</Text>);
     }
 
-    var infoPanelLocation = styles.infoPanelNW;
-    if (this.props.config.infoPanelPosition == "NW") {
-      infoPanelLocation = styles.infoPanelNW;
-    }
-    else if (this.props.config.infoPanelPosition == "SW") {
-      infoPanelLocation = styles.infoPanelSW;
+    var infoPanelLocation;
+    switch (this.props.config.infoPanelPosition) {
+      case "NW":
+        infoPanelLocation = styles.infoPanelNW;
+        break;
+      case "SW":
+        infoPanelLocation = styles.infoPanelSW;
+        break;
+      default:
+        throw("Invalid infoPanel location " + this.props.config.infoPanelPosition);
     }
 
-    var infoPanel = (
+    return (
       <View style={infoPanelLocation}>
         {infoPanelTitle}
         {infoPanelDescription}
       </View>
     );
+  },
+
+  render: function() {
+    var fullscreenPromoImage = (this.props.config.mode == 'default');
+    
+    var playButton = this.getPlayButton();
+
+    var infoPanel = this.getInfoPanel();
 
     var waterMarkImageLocation = styles.waterMarkImageSE;
     var waterMarkImage = (
@@ -95,9 +120,7 @@ var StartScreen = React.createClass({
           style={styles.container}
           resizeMode={Image.resizeMode.contain}>
           {infoPanel}
-          <View style={playButtonLocation}>
-            {playButton}
-          </View>
+          {playButton}
           {waterMarkImage}
         </Image>);
     } else {
@@ -110,9 +133,7 @@ var StartScreen = React.createClass({
       );
       return (
         <View style={styles.container}>
-          <View style={playButtonLocation}>
-            {playButton}
-          </View>
+          {playButton}
           {promoImage}
           {infoPanel}
           {waterMarkImage}
