@@ -32,6 +32,9 @@ var {
 } = Constants;
 var VideoView = require('./videoView');
 
+// Add customizations
+var config = require('./skin-config/skin.json');
+
 var OoyalaSkin = React.createClass({
 
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -198,7 +201,7 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderStartScreen: function() {
-    var startScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    var startScreenConfig = config.startScreen;
     return (
       <StartScreen
         config={startScreenConfig}
