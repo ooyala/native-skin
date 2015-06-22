@@ -249,6 +249,7 @@ var OoyalaSkin = React.createClass({
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
+         discoveryConfig={config.discoveryPanel}
          discovery={this.state.discovery}
          ad ={this.state.ad}
          width={this.state.width}

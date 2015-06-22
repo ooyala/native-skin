@@ -45,6 +45,7 @@ var VideoView = React.createClass({
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
     discovery: React.PropTypes.array,
+    discoveryConfig: React.PropTypes.object,
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
@@ -137,7 +138,7 @@ var VideoView = React.createClass({
   _handlePlayPause: function() {
     if( this.props.rate > 0 ) { // were playing, now go to pause.
       this.setState({showSharePanel:false});
-      this.setState({showDiscoveryPanel: true});
+      this.setState({showDiscoveryPanel: this.props.discoveryConfig.showInPause});
     }
     else {
       this.setState({showSharePanel:false});
