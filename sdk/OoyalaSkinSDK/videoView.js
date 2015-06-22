@@ -11,6 +11,7 @@ var {
   StyleSheet
 } = React;
 
+var styles = require('./style/videoViewStyles.js');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var ProgressBar = require('./progressBar');
@@ -213,24 +214,6 @@ var VideoView = React.createClass({
       </View>
     );
   }
-});
-
-var styles = StyleSheet.create({
-  fullscreenContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-  placeholder : {
-    flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: 'transparent',
-  },
 });
 
 module.exports = VideoView
