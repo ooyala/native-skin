@@ -26,25 +26,101 @@
 }
 
 - (void)addAllBasicPlayerSelectionOptions {
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Original Alice Test Asset" embedCode:@"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"HLS Video" embedCode:@"Y1ZHB1ZDqfhCPjYYRbCEOz0GR8IsVRm1" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"MP4 Video" embedCode:@"h4aHB1ZDqV7hbmLEv4xSOx3FdUUuephx" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VOD with CCs" embedCode:@"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"CC to no-CC Channel" embedCode:@"ZwNThkdTrSfttI2N_-MH3MRIdJQ3Ox8I" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"4:3 Aspect Ratio" embedCode:@"FwaXZjcjrkydIftLal2cq9ymQMuvjvD8" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Pre-roll" embedCode:@"Zlcmp0ZDrpHlAFWFsOBsgEXFepeSXY4c" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Mid-roll" embedCode:@"pncmp0ZDp7OKlwTPJlMZzrI59j8Imefa" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Post-roll" embedCode:@"Zpcmp0ZDpaB-90xK8MIV9QF973r1ZdUf" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Wrapper" embedCode:@"pqaWp0ZDqo17Z-Dn_5YiVhjcbQYs5lhq" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Ooyala Ad Pre-roll" embedCode:@"M4cmp0ZDpYdy8kiL4UD910Rw_DWwaSnU" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Ooyala Ad Mid-roll" embedCode:@"xhcmp0ZDpnDB2-hXvH7TsYVQKEk_89di" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Ooyala Ad Post-roll" embedCode:@"Rjcmp0ZDr5yFbZPEfLZKUveR_2JzZjMO" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Multi Ad combination" embedCode:@"Ftcmp0ZDoz8tALmhPcN2vMzCdg7YU9lc" viewController: [DefaultSkinPlayerViewController class]]];
-  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Vast multi-ads" embedCode:@"trNnFwdTogG_HxAgEV01zWLg3o8umVEJ" viewController: [DefaultSkinPlayerViewController class]]];
-  PlayerSelectionOption *option = [[PlayerSelectionOption alloc] initWithTitle:@"BYU Live" embedCode:@"Rva245YTpHWP-9bchhJL25BMl1shI2fG" viewController: [DefaultSkinPlayerViewController class]];
-  option.playerDomain = @"http://www.byu.edu";
-  option.pcode = @"Vpd3E6BNabnn09G72IWye5O2RzN1";
-  [self insertNewObject: option];
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Original Alice Test Asset"
+                                                            embedCode:@"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"HLS Video"
+                                                            embedCode:@"Y1ZHB1ZDqfhCPjYYRbCEOz0GR8IsVRm1"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"MP4 Video"
+                                                            embedCode:@"h4aHB1ZDqV7hbmLEv4xSOx3FdUUuephx"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VOD with CCs"
+                                                            embedCode:@"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"CC to no-CC Channel"
+                                                            embedCode:@"ZwNThkdTrSfttI2N_-MH3MRIdJQ3Ox8I"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"4:3 Aspect Ratio"
+                                                            embedCode:@"FwaXZjcjrkydIftLal2cq9ymQMuvjvD8"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Pre-roll"
+                                                            embedCode:@"Zlcmp0ZDrpHlAFWFsOBsgEXFepeSXY4c"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Mid-roll"
+                                                            embedCode:@"pncmp0ZDp7OKlwTPJlMZzrI59j8Imefa"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Post-roll"
+                                                            embedCode:@"Zpcmp0ZDpaB-90xK8MIV9QF973r1ZdUf"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"VAST Ad Wrapper"
+                                                            embedCode:@"pqaWp0ZDqo17Z-Dn_5YiVhjcbQYs5lhq"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Ooyala Ad Pre-roll"
+                                                            embedCode:@"M4cmp0ZDpYdy8kiL4UD910Rw_DWwaSnU"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Ooyala Ad Mid-roll"
+                                                            embedCode:@"xhcmp0ZDpnDB2-hXvH7TsYVQKEk_89di"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Ooyala Ad Post-roll"
+                                                            embedCode:@"Rjcmp0ZDr5yFbZPEfLZKUveR_2JzZjMO"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Multi Ad combination"
+                                                            embedCode:@"Ftcmp0ZDoz8tALmhPcN2vMzCdg7YU9lc"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Vast multi-ads"
+                                                            embedCode:@"trNnFwdTogG_HxAgEV01zWLg3o8umVEJ"
+                                                                pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController: [DefaultSkinPlayerViewController class]]];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"BYU Live"
+                                                            embedCode:@"Rva245YTpHWP-9bchhJL25BMl1shI2fG"
+                                                                pcode:@"Vpd3E6BNabnn09G72IWye5O2RzN1"
+                                                         playerDomain:@"http://www.byu.edu"
+                                                       viewController:[DefaultSkinPlayerViewController class]]];
 }
 
 - (void)viewDidLoad {
