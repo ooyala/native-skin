@@ -41,6 +41,10 @@
   [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Ooyala Ad Post-roll" embedCode:@"Rjcmp0ZDr5yFbZPEfLZKUveR_2JzZjMO" viewController: [DefaultSkinPlayerViewController class]]];
   [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Multi Ad combination" embedCode:@"Ftcmp0ZDoz8tALmhPcN2vMzCdg7YU9lc" viewController: [DefaultSkinPlayerViewController class]]];
   [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Vast multi-ads" embedCode:@"trNnFwdTogG_HxAgEV01zWLg3o8umVEJ" viewController: [DefaultSkinPlayerViewController class]]];
+  PlayerSelectionOption *option = [[PlayerSelectionOption alloc] initWithTitle:@"BYU Live" embedCode:@"Rva245YTpHWP-9bchhJL25BMl1shI2fG" viewController: [DefaultSkinPlayerViewController class]];
+  option.playerDomain = @"http://www.byu.edu";
+  option.pcode = @"Vpd3E6BNabnn09G72IWye5O2RzN1";
+  [self insertNewObject: option];
 }
 
 - (void)viewDidLoad {
