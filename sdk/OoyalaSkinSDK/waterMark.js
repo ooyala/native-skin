@@ -12,18 +12,18 @@ var ICONS = require('./constants').ICONS;
 var WaterMark = React.createClass ({
 	render: function() {
 		var waterMarkImageLocation = styles.waterMarkImageSE;
-    	var waterMarkImage = (
-      		<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-		        source={{uri: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'}} 
-		        resizeMode={Image.resizeMode.contain}>
-		    </Image>
-      	);
+  	var waterMarkImage = (
+    		<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
+	        source={{uri: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'}} 
+	        resizeMode={Image.resizeMode.contain}>
+	    </Image>
+  	);
 
-    	return (
-	      	<View style={styles.container}>
-	      		{waterMarkImage}
-	      	</View>
-      	);
+  	return (
+    	<View style={styles.container}>
+    		{waterMarkImage}
+    	</View>
+  	);
 	}
 });
 

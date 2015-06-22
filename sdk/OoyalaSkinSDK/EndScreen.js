@@ -8,7 +8,9 @@ var {
   TouchableHighlight,
 } = React;
 
-var styles = require('./style/endScreenStyles');
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/endScreenStyles.json'));
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var WaterMark = require('./waterMark');

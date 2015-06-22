@@ -1,6 +1,4 @@
-var React = require('react-native');
-
-var styles = React.StyleSheet.create({
+{
   fullscreenContainer: {
     flex: 1,
     alignItems: 'stretch',
@@ -47,7 +45,4 @@ var styles = React.StyleSheet.create({
   listView: {
     backgroundColor: '#333333',
   },
-});
-
-module.exports = styles;
-
+}

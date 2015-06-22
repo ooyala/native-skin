@@ -11,7 +11,6 @@ var {
   StyleSheet
 } = React;
 
-var styles = require('./style/videoViewStyles.js');
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var ProgressBar = require('./progressBar');
@@ -22,6 +21,8 @@ var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
 var Constants = require('./constants');
 var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 
 var {
   ICONS,

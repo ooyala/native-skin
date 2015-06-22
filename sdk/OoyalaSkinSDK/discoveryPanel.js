@@ -14,7 +14,9 @@ var {
   View,
 } = React;
 
-var styles = require('./style/discoverPanelStyles.js');
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 var Utils = require('./utils');
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.embedCode !== r2.embedCode})
 

@@ -12,7 +12,9 @@ var {
   View
 } = React;
 
-var styles = require('./style/adBarStyles');
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/adBarStyles.json'));
 var Constants = require('./constants');
 var {
   BUTTON_NAMES,

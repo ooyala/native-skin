@@ -21,8 +21,9 @@ var {
   IMG_URLS,
 } = Constants;
 
-var styles = require('./style/controlBarStyles');
 var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
 
 var ControlBar = React.createClass({
   getInitialState: function() {

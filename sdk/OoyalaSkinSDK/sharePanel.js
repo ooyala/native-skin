@@ -7,7 +7,9 @@ var {
   	TouchableHighlight,
 } = React;
 
-var styles = require('./style/sharePanelStyles');
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/sharePanelStyles.json'));
 
 var SharePanel = React.createClass ({
 	propTypes: {

@@ -1,6 +1,4 @@
-var React = require('react-native');
-
-var styles = React.StyleSheet.create({
+{
   container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -42,7 +40,4 @@ var styles = React.StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 10
   }
-});
-
-module.exports = styles;
-
+}

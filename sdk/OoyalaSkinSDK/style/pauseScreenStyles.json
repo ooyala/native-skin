@@ -1,14 +1,12 @@
-var React = require('react-native');
-
-var styles = React.StyleSheet.create({
+{
   container: {
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'flex-start'
   },
 
   fullscreenContainer: {
-    flex: 1,
+  	flex: 1,
     flexDirection: 'column',
     backgroundColor: 'transparent',
   },
@@ -19,7 +17,7 @@ var styles = React.StyleSheet.create({
     margin: 20,
   },
 
-  replaybuttonCenter: {
+  playButtonCenter: {
     flex: 1,
     flexDirection: 'row',
     alignSelf: 'center',
@@ -27,26 +25,23 @@ var styles = React.StyleSheet.create({
     backgroundColor: 'transparent',
   },
 
-  replaybuttonSE: {
+  playButtonSE: {
     position: 'absolute',    
     bottom: 0,
     right: 0
   },
 
-  replaybuttonSW: {
+  playButtonSW: {
     position: 'absolute',    
     bottom: 0,
     left: 0
   },
 
-  replaybutton: {
+  playButton: {
     fontSize: 40,
     textAlign: 'center',
     color: 'white',
     fontFamily: 'fontawesome',
     margin: 10
   },
-});
-
-module.exports = styles;
-
+}

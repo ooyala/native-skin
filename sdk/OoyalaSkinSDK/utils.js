@@ -4,7 +4,24 @@
  */
 'use strict';
 
+var React = require('react-native');
+var {
+  StyleSheet
+} = React;
+
+
 var Utils = {
+  getStyles: function(specificStyles) {
+    var globalStyles = require('./style/styles.json');
+
+    var styles = {};
+    for (var attrname in globalStyles) { styles[attrname] = globalStyles[attrname]; }
+    for (var attrname in specificStyles) { styles[attrname] = specificStyles[attrname]; }
+    return styles;
+
+    return React.StyleSheet.create(styles);
+  },
+
   isPlaying: function( rate ) {
     return rate > 0;
   },

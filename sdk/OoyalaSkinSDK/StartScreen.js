@@ -9,7 +9,9 @@ var {
   TouchableHighlight,
 } = React;
 
-var styles = require('./style/startScreenStyles.js');
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 var Constants = require('./constants');
 var {
   IMG_URLS

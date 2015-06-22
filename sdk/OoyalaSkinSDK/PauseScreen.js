@@ -7,7 +7,9 @@ var {
   TouchableHighlight,
 } = React;
 
-var styles = require('./style/pauseScreenStyles');
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/pauseScreenStyles.json'));
 var WaterMark = require('./waterMark');
 var InfoPanel = require('./infoPanel');
 var ICONS = require('./constants').ICONS;

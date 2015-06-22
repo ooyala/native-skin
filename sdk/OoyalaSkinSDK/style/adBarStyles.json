@@ -1,6 +1,4 @@
-var React = require('react-native');
-
-var styles = React.StyleSheet.create({
+{
   container: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -29,7 +27,4 @@ var styles = React.StyleSheet.create({
     fontSize: 16,
     fontFamily: 'AvenirNext-DemiBold',
   },
-});
-
-module.exports = styles;
-
+}
