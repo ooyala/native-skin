@@ -211,7 +211,10 @@ static NSString *kViewChangeKey = @"frame";
 }
 
 - (void)toggleFullscreen {
-  [_player pause];
+  BOOL wasPlaying = self.player.isPlaying;
+  if( wasPlaying ) {
+    [_player pause];
+  }
   [UIView beginAnimations:@"animateAddContentView" context:nil];
   [UIView setAnimationDuration:FULLSCREEN_ANIMATION_DURATION];
   [self.view removeFromSuperview];
@@ -233,7 +236,9 @@ static NSString *kViewChangeKey = @"frame";
     }
   }
   [UIView commitAnimations];
-  [_player play];
+  if( wasPlaying ) {
+    [self.player play];
+  }
 }
 
 - (void)dealloc {

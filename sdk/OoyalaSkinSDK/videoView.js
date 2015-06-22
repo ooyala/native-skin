@@ -13,15 +13,14 @@ var {
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
-
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var AnimationExperimental = require('AnimationExperimental');
-var DiscoveryPanel = require('./discoveryPanel');
 var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
 var Constants = require('./constants');
+var Utils = require('./utils');
 
 var {
   ICONS,
@@ -35,7 +34,6 @@ var VideoView = React.createClass({
     return {
       showControls: true,
       showSharePanel: false,
-      showDiscoveryPanel: false, 
     };
   },
 
@@ -46,7 +44,6 @@ var VideoView = React.createClass({
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
     live: React.PropTypes.bool,
-    discovery: React.PropTypes.array,
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
@@ -55,7 +52,6 @@ var VideoView = React.createClass({
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
-    onDiscoveryRow: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
   },
@@ -76,12 +72,14 @@ var VideoView = React.createClass({
 
   handlePress: function(name) {
     switch (name) {
-      case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare(); break;
-      case BUTTON_NAMES.PLAY_PAUSE:   this._handlePlayPause();   break;
-      case BUTTON_NAMES.LEARNMORE: this.props.onPress(BUTTON_NAMES.LEARNMORE); break;
-      default:                     this._handleGeneralPress();   break;
+      case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare();    break;
+      default:                        this._handleGeneralPress();   break;
     }
     this.props.onPress(name);
+  },
+
+  _handleGeneralPress: function() {
+    this.setState({showSharePanel:false});
   },
 
   _renderProgressBar: function() {
@@ -138,25 +136,32 @@ var VideoView = React.createClass({
     return null;
   },
 
+  _renderPlaceholder: function() {
+    var placeholder;
+    if(this.state.showSharePanel){
+      var socialButtonsArray = [{buttonName: BUTTON_NAMES.TWITTER, imgUrl: IMG_URLS.TWITTER},
+      {buttonName: BUTTON_NAMES.FACEBOOK, imgUrl: IMG_URLS.FACEBOOK}];
+      placeholder = (
+        <View
+        style={styles.fullscreenContainer}>
+        <SharePanel
+        isShow= {this.state.showSharePanel}
+        socialButtons={socialButtonsArray}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
+        </View>
+      );
+    } else {
+      placeholder = (
+        <View
+        style={styles.placeholder}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+        </View>);
+    }
+    return placeholder;
+  },
+
   _handleSocialShare: function() {
     this.setState({showSharePanel:!this.state.showSharePanel});
-    this.setState({showDiscoveryPanel:false});
-  },
-
-  _handlePlayPause: function() {
-    if( this.props.rate > 0 ) { // were playing, now go to pause.
-      this.setState({showSharePanel:false});
-      this.setState({showDiscoveryPanel: true});
-    }
-    else {
-      this.setState({showSharePanel:false});
-      this.setState({showDiscoveryPanel: false});
-    }
-  },
-
-  _handleGeneralPress: function() {
-    this.setState({showSharePanel:false});
-    this.setState({showDiscoveryPanel: false});
   },
 
   handleScrub: function(value) {
@@ -187,43 +192,13 @@ var VideoView = React.createClass({
 
   render: function() {
     var adBar = this._renderAdBar();
-    var placeholder;
-    var socialButtonsArray = [{buttonName: BUTTON_NAMES.TWITTER, imgUrl: IMG_URLS.TWITTER},
-                              {buttonName: BUTTON_NAMES.FACEBOOK, imgUrl: IMG_URLS.FACEBOOK}];
-
-    if(this.state.showSharePanel){
-      placeholder = (
-        <View 
-          style={styles.fullscreenContainer}>
-          <SharePanel 
-            isShow= {this.state.showSharePanel}
-            socialButtons={socialButtonsArray}
-            onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
-        </View>
-      );
-    } else if (this.shouldShowDiscovery()) {
-      placeholder = (
-        <DiscoveryPanel
-          isShow={this.state.showDiscoveryPanel}
-          dataSource={this.props.discovery}
-          onRowAction={(info) => this.props.onDiscoveryRow(info)}>
-        </DiscoveryPanel>);
-    } else {
-      placeholder = (
-        <View 
-          style={styles.placeholder}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}>  
-        </View>);
-    }
-    
+    var placeholder = this._renderPlaceholder();
     var progressBar = this._renderProgressBar();
     var controlBar = this._renderControlBar();  
 
     var ccOverlayHeight = windowSize.height - 60;
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    var ccOverlay = this.shouldShowDiscovery() ?
-      null :
-      <ClosedCaptionsView
+    var ccOverlay = <ClosedCaptionsView
       style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
       captionJSON={this.props.captionJSON}
       onTouchEnd={(event) => this.handleTouchEnd(event)} />;
