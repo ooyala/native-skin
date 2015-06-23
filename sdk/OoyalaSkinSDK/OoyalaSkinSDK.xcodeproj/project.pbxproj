@@ -102,7 +102,6 @@
 		972ED8871AE6F008005043DC /* OOSkinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinViewController.h; sourceTree = "<group>"; };
 		972ED8881AE6F008005043DC /* OOSkinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinViewController.m; sourceTree = "<group>"; };
 		972ED8A11AE6FC3E005043DC /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		972ED8AA1AE7011D005043DC /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		972ED8B41AE70307005043DC /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
@@ -255,7 +254,6 @@
 				972ED8CB1AE70631005043DC /* libz.dylib */,
 				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
 				972ED8AA1AE7011D005043DC /* MediaPlayer.framework */,
-				972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */,
 			);
 			name = framework;
 			sourceTree = "<group>";

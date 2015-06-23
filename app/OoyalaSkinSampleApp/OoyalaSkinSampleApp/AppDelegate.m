@@ -11,12 +11,6 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-//  self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-
-//  MasterViewController *viewController = [[MasterViewController alloc] initWithNibName:@"MasterView" bundle:nil];
-//  self.window.rootViewController = viewController;
-//  [self.window makeKeyAndVisible];
-
   return YES;
 }
 
