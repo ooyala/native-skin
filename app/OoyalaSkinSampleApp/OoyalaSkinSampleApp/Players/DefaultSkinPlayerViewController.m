@@ -28,8 +28,8 @@
 - (id)initWithPlayerSelectionOption:(PlayerSelectionOption *)playerSelectionOption {
   self = [super initWithPlayerSelectionOption: playerSelectionOption];
   self.nib = @"DefaultSkinPlayerView";
-  self.pcode = @"c0cTkxOqALQviQIGAHWY5hP0q9gU";
-  self.playerDomain = @"http://www.ooyala.com";
+  self.playerDomain = playerSelectionOption.playerDomain;
+  self.pcode = playerSelectionOption.pcode;
 
   if (self.playerSelectionOption) {
     self.embedCode = self.playerSelectionOption.embedCode;

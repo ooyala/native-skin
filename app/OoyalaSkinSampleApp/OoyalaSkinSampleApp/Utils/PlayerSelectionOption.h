@@ -13,7 +13,13 @@
 @property NSString *embedCode;
 @property NSString *title;
 @property NSString *nib;
+@property NSString *playerDomain;
+@property NSString *pcode;
 @property Class viewController;
 
-- (id)initWithTitle:(NSString *)title embedCode:(NSString *)embedCode viewController:(Class)viewController;
+- (id)initWithTitle:(NSString *)title
+          embedCode:(NSString *)embedCode
+              pcode:(NSString *)pcode
+       playerDomain:(NSString *)playerDomain
+     viewController:(Class)viewController;
 @end

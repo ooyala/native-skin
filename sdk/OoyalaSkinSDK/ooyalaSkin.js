@@ -20,8 +20,6 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
-var PauseScreen = require('./PauseScreen');
-var DiscoveryPanel = require('./discoveryPanel');
 
 var Constants = require('./constants');
 var {
@@ -134,8 +132,15 @@ var OoyalaSkin = React.createClass({
 
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-    this.setState({screenType:SCREEN_TYPES.START_SCREEN, title:e.title, description:e.description, duration:e.duration, promoUrl:e.promoUrl, width:e.width, height:e.height, 
-      showWatermark: this.shouldShowLandscape()});
+    this.setState({
+      screenType:SCREEN_TYPES.START_SCREEN, 
+      title:e.title, 
+      description:e.description, 
+      duration:e.duration, 
+      live:e.live,
+      promoUrl:e.promoUrl, 
+      width:e.width, 
+      height:e.height});
   },
 
   onFrameChange: function(e) {
@@ -147,15 +152,13 @@ var OoyalaSkin = React.createClass({
     this.setState({screenType: SCREEN_TYPES.END_SCREEN});
   },
 
-  onStateChange: function(e) {
-    if(e.state == OOSTATES.PAUSED) {
-      // this.setState({screenType:SCREEN_TYPES.PAUSE_SCREEN});
-    }
-  },
-
   onDiscoveryResult: function(e) {
     console.log("onDiscoveryResult results are:", e.results);
-    this.setState({discovery:e.results});
+    this.setState({discoveryResults:e.results});
+  },
+
+  onStateChange: function(e) {
+    // nothing to do yet.
   },
 
   shouldShowLandscape: function() {
@@ -195,7 +198,6 @@ var OoyalaSkin = React.createClass({
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
       case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
-      // case SCREEN_TYPES.PAUSE_SCREEN: return this._renderPauseScreen(); break;
       default:      return this._renderVideoView();   break;
     }
   },
@@ -226,20 +228,6 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-  _renderPauseScreen: function() {
-    var PauseScreenConfig = {mode:'default', infoPanel:{visible:true}};
-
-    return (
-      <PauseScreen
-        config={PauseScreenConfig}
-        title={this.state.title}
-        duration={this.state.duration}
-        description={this.state.description}
-        promoUrl={this.state.promoUrl}
-        onPress={(name) => this.handlePress(name)}/>
-    );
-  },
-
    _renderVideoView: function() {
      var showPlayButton = this.state.rate > 0 ? false : true;
 
@@ -249,9 +237,8 @@ var OoyalaSkin = React.createClass({
          showPlay={showPlayButton}
          playhead={this.state.playhead}
          duration={this.state.duration}
-         discoveryConfig={config.discoveryPanel}
-         discovery={this.state.discovery}
          ad ={this.state.ad}
+         live ={this.state.live}
          width={this.state.width}
          height={this.state.height}
          showWatermark={this.shouldShowLandscape()}
@@ -262,10 +249,7 @@ var OoyalaSkin = React.createClass({
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
-
-         onDiscoveryRow={(info) => this.onDiscoveryRow(info)}
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} >
-  
        </VideoView>
 
      );
