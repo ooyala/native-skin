@@ -30,11 +30,20 @@
                                                             embedCode:embedCode
                                                                 pcode:@"c0cTkxOqALQviQIGAHWY5hP0q9gU"
                                                          playerDomain:@"http://www.ooyala.com"
-                                                       viewController: [DefaultSkinPlayerViewController class]]];
+                                                       viewController: [DefaultSkinPlayerViewController class]
+                                                                  nib:@"DefaultSkinPlayerView"]];
 }
 
 - (void)addAllBasicPlayerSelectionOptions {
+
   [self addCommonWithTitle:@"Original Alice Test Asset" embedCode:@"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48"];
+
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"(Small Skin) Original Alice Test Asset"
+                                                            embedCode:@"ZhMmkycjr4jlHIjvpIIimQSf_CjaQs48"
+                                                                pcode:@"Vpd3E6BNabnn09G72IWye5O2RzN1"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController:[DefaultSkinPlayerViewController class] nib: @"SmallSkinPlayerViewTwo"]];
+
   [self addCommonWithTitle:@"HLS Video" embedCode:@"Y1ZHB1ZDqfhCPjYYRbCEOz0GR8IsVRm1"];
   [self addCommonWithTitle:@"MP4 Video" embedCode:@"h4aHB1ZDqV7hbmLEv4xSOx3FdUUuephx"];
   [self addCommonWithTitle:@"VOD with CCs" embedCode:@"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww"];
@@ -53,7 +62,9 @@
                                                             embedCode:@"Rva245YTpHWP-9bchhJL25BMl1shI2fG"
                                                                 pcode:@"Vpd3E6BNabnn09G72IWye5O2RzN1"
                                                          playerDomain:@"http://www.byu.edu"
-                                                       viewController:[DefaultSkinPlayerViewController class]]];
+                                                       viewController:[DefaultSkinPlayerViewController class]
+                                                                  nib: @"DefaultSkinPlayerView"]];
+
 }
 
 - (void)viewDidLoad {
