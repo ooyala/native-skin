@@ -85,7 +85,7 @@ render: function() {
                            // {buttonName: BUTTON_NAMES.EMAIL, imgUrl: IMG_URLS.EMAIL}];
 
   var replaybutton;
-  if(this.props.config.showReplay) {
+  if(this.props.config.showReplayButton) {
     replaybutton = (
       <TouchableHighlight
       onPress={(name) => this.handleClick('PlayPause')}
