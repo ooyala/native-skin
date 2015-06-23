@@ -20,6 +20,7 @@ var ClosedCaptionsView = require('./closedCaptionsView');
 var AnimationExperimental = require('AnimationExperimental');
 var DiscoveryPanel = require('./discoveryPanel');
 var SharePanel = require('./sharePanel');
+var MoreOptionScreen = require('./MoreOptionScreen');
 var AdBar = require('./adBar');
 var Constants = require('./constants');
 
@@ -35,6 +36,7 @@ var VideoView = React.createClass({
       showControls: true,
       showSharePanel: false,
       showDiscoveryPanel: false, 
+      showMoreOptionScreen: false,
     };
   },
 
@@ -68,10 +70,11 @@ var VideoView = React.createClass({
 
   handlePress: function(name) {
     switch (name) {
-      case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare(); break;
-      case BUTTON_NAMES.PLAY_PAUSE:   this._handlePlayPause();   break;
-      case BUTTON_NAMES.LEARNMORE: this.props.onPress(BUTTON_NAMES.LEARNMORE); break;
-      default:                     this._handleGeneralPress();   break;
+      case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare();  break;
+      case BUTTON_NAMES.PLAY_PAUSE:   this._handlePlayPause();    break;
+      case BUTTON_NAMES.LEARNMORE:                                break;
+      case BUTTON_NAMES.MORE:         this._handleMoreOption();   break; 
+      default:                        this._handleGeneralPress(); break;
     }
     this.props.onPress(name);
   },
@@ -136,18 +139,25 @@ var VideoView = React.createClass({
 
   _handlePlayPause: function() {
     if( this.props.rate > 0 ) { // were playing, now go to pause.
-      this.setState({showSharePanel:false});
       this.setState({showDiscoveryPanel: true});
     }
     else {
-      this.setState({showSharePanel:false});
       this.setState({showDiscoveryPanel: false});
     }
+    this.setState({showSharePanel:false});
+    this.setState({showMoreOptionScreen: false});
+  },
+
+  _handleMoreOption: function() {
+    this.setState({showSharePanel:false});
+    this.setState({showDiscoveryPanel: false});
+    this.setState({showMoreOptionScreen:!this.state.showMoreOptionScreen});  
   },
 
   _handleGeneralPress: function() {
     this.setState({showSharePanel:false});
     this.setState({showDiscoveryPanel: false});
+    this.setState({showMoreOptionScreen: false});
   },
 
   handleScrub: function(value) {
@@ -199,6 +209,13 @@ var VideoView = React.createClass({
           dataSource={this.props.discovery}
           onRowAction={(info) => this.props.onDiscoveryRow(info)}>
         </DiscoveryPanel>);
+    } else if (this.state.showMoreOptionScreen){
+      placeholder = (
+        <MoreOptionScreen
+          isShow={this.state.showMoreOptionScreen}
+          onPress={(name) => this.handlePress(name)}>
+        </MoreOptionScreen>
+      );
     } else {
       placeholder = (
         <View 
@@ -218,6 +235,12 @@ var VideoView = React.createClass({
       style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
       captionJSON={this.props.captionJSON}
       onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+
+    if(this.state.showMoreOptionScreen){
+      progressBar = null;
+      controlBar = null;
+      ccOverlay = null;
+    }
 
     return (
       <View style={styles.container}>
