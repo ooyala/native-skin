@@ -69,10 +69,10 @@ var StartScreen = React.createClass({
 
     var infoPanelLocation;
     switch (this.props.config.infoPanelPosition) {
-      case "NW":
+      case "topLeft":
         infoPanelLocation = styles.infoPanelNW;
         break;
-      case "SW":
+      case "bottomLeft":
         infoPanelLocation = styles.infoPanelSW;
         break;
       default:
