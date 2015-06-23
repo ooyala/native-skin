@@ -14,10 +14,13 @@ var Utils = {
   getStyles: function(specificStyles) {
     var globalStyles = require('./style/styles.json');
 
+    if(specificStyles == undefined) {
+      specificStyles = {};
+    }
+
     var styles = {};
     for (var attrname in globalStyles) { styles[attrname] = globalStyles[attrname]; }
     for (var attrname in specificStyles) { styles[attrname] = specificStyles[attrname]; }
-    return styles;
 
     return React.StyleSheet.create(styles);
   },

@@ -1,7 +1,26 @@
 {
-  global: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+  waterMArkContainer: {
+    flexDirection: 'row', 
+    height: 8
   },
+
+  waterMarkImageSW: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+  },
+
+  waterMarkImageSE: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
+
+  waterMarkImage: {
+    width:160,
+    height: 24,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 10
+  }
 }

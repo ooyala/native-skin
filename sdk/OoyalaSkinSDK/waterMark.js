@@ -7,6 +7,9 @@ var {
   View
 } = React;
 
+var Utils = require('./utils');
+var styles = Utils.getStyles();
+
 var ICONS = require('./constants').ICONS;
 
 var WaterMark = React.createClass ({
@@ -20,38 +23,11 @@ var WaterMark = React.createClass ({
   	);
 
   	return (
-    	<View style={styles.container}>
+    	<View style={styles.waterMarkContainer}>
     		{waterMarkImage}
     	</View>
   	);
 	}
-});
-
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row', 
-    height: 8
-  },
-
-  waterMarkImageSW: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-  },
-
-  waterMarkImageSE: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-  },
-
-  waterMarkImage: {
-    width:160,
-    height: 24,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    margin: 10
-  }
 });
 
 module.exports = WaterMark
