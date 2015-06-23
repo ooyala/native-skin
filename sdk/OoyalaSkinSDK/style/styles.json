@@ -1,5 +1,5 @@
 {
-  waterMArkContainer: {
+  waterMarkContainer: {
     flexDirection: 'row', 
     height: 8
   },
