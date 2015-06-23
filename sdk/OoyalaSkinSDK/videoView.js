@@ -160,6 +160,14 @@ var VideoView = React.createClass({
     return placeholder;
   },
 
+  _renderClosedCaptions: function() {
+    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
+    return <ClosedCaptionsView
+      style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
+      captionJSON={this.props.captionJSON}
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />;    
+  },
+
   _handleSocialShare: function() {
     this.setState({showSharePanel:!this.state.showSharePanel});
   },
@@ -193,23 +201,17 @@ var VideoView = React.createClass({
   render: function() {
     var adBar = this._renderAdBar();
     var placeholder = this._renderPlaceholder();
+    var closedCaptions = this._renderClosedCaptions();
     var progressBar = this._renderProgressBar();
-    var controlBar = this._renderControlBar();  
-
-    var ccOverlayHeight = windowSize.height - 60;
-    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    var ccOverlay = <ClosedCaptionsView
-      style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
-      captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+    var controlBar = this._renderControlBar();
 
     return (
       <View style={styles.container}>
         {adBar}
         {placeholder}
+        {closedCaptions}
         {progressBar}
         {controlBar}
-        {ccOverlay}
       </View>
     );
   }
@@ -229,6 +231,11 @@ var styles = StyleSheet.create({
   placeholder : {
     flex: 1,
     alignItems: 'stretch',
+    backgroundColor: 'transparent',
+  },
+  closedCaptionStyle: {
+    flex: 1,
+    alignItems: 'flex-end',
     backgroundColor: 'transparent',
   },
 });
