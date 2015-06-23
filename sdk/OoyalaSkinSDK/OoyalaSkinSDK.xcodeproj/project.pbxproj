@@ -166,12 +166,8 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
-				97DE27AD1B212B670071DBFE /* libxml2.dylib */,
-				97DE27AB1B212B520071DBFE /* libc++abi.dylib */,
-				97DE27A51B212B4A0071DBFE /* libc++.dylib */,
-				97637E2B1B1E700900501427 /* OoyalaSDK.framework */,
+				FF12905E1AEABA9B00664374 /* Frameworks */,
 				5EEDC9C31B0E7B8100A3AD27 /* JSX */,
-				FF12905E1AEABA9B00664374 /* framework */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
 				972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */,
 				972ED84C1AE6EEEB005043DC /* Products */,
@@ -248,14 +244,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FF12905E1AEABA9B00664374 /* framework */ = {
+		FF12905E1AEABA9B00664374 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				97DE27A51B212B4A0071DBFE /* libc++.dylib */,
+				97DE27AB1B212B520071DBFE /* libc++abi.dylib */,
+				97DE27AD1B212B670071DBFE /* libxml2.dylib */,
 				972ED8CB1AE70631005043DC /* libz.dylib */,
-				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
 				972ED8AA1AE7011D005043DC /* MediaPlayer.framework */,
+				97637E2B1B1E700900501427 /* OoyalaSDK.framework */,
+				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
 			);
-			name = framework;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
