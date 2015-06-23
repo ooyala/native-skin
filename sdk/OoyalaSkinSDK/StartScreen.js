@@ -99,7 +99,7 @@ var StartScreen = React.createClass({
     }
     var infoPanel = this.getInfoPanel();
 
-    var waterMarkImageLocation = styles.waterMarkImageSE;
+    var waterMarkImageLocation = styles.waterMarkImageNE;
     var waterMarkImage = (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
         source={{uri: IMG_URLS.OOYALA_LOGO}} 

@@ -10,6 +10,12 @@
     left: 20,
   },
 
+  waterMarkImageNE: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+
   waterMarkImageSE: {
     position: 'absolute',
     bottom: 20,
