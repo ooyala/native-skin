@@ -5,6 +5,14 @@
 'use strict';
 
 var Utils = {
+  isPlaying: function( rate ) {
+    return rate > 0;
+  },
+
+  isPaused: function( rate ) {
+    return rate == 0;
+  },
+
   secondsToString: function(seconds) {
     var  minus = '';
     if (seconds < 0) {
