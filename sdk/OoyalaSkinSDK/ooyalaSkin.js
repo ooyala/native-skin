@@ -300,7 +300,7 @@ var OoyalaSkin = React.createClass({
    _renderCCOptions: function() {
     return (
       <LanguageSelectionPanel
-        dataSource={this.state.availableClosedCaptionsLanguages}
+        languages={this.state.availableClosedCaptionsLanguages}
         selectedLanguage={this.state.selectedLanguage}
         onSelect={(value)=>this.onLanguageSelected(value)}
         onDismiss={this.onOverlayDismissed}>

@@ -31,7 +31,7 @@ var ToggleSwitch = React.createClass({
   onSwitchToggled: function() {
     var nextState = !this.state.switchOn;
     this.setState({switchOn: nextState});
-    this.props.onValueChanged(this.state.switchOn);
+    this.props.onValueChanged(nextState);
   },
 
   render: function() {
@@ -72,7 +72,7 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: '#FFFFFF',
+    color: 'green',
     fontSize: 16,
     fontFamily: 'fontawesome',
     margin: 10,

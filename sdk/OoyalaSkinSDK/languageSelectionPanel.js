@@ -24,15 +24,10 @@ var ToggleSwitch = require('./toggleSwitch');
 
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
-    dataSource: React.PropTypes.array,
+    languages: React.PropTypes.array,
     selectedLanguage: React.PropTypes.string,
     onSelect: React.PropTypes.func,
     onDismiss: React.PropTypes.func,
-  },
-
-  rowHasChanged(r1, r2) {
-    console.log('rowHasChanged');
-    return r1.left !== r2.left || r1.right !== r2.right || r1.selected !== r2.selected;
   },
 
   isSelected: function(name) {
@@ -42,21 +37,16 @@ var LanguageSelectionPanel = React.createClass({
   generateRows() {
     console.log('generateRows:'+this.props.selectedLanguage);
     var rows = [];
-    for (var i = 0; i < this.props.dataSource.length;) {
-      var left = this.props.dataSource[i++];
+    for (var i = 0; i < this.props.languages.length;) {
+      var left = this.props.languages[i++];
       var right = "";
-      if (i < this.props.dataSource.length) {
-        right = this.props.dataSource[i++];
+      if (i < this.props.languages.length) {
+        right = this.props.languages[i++];
       }
       rows.push({left:left, right:right, selected:this.props.selectedLanguage});
       i = i + 2;
     }
     return rows;
-  },
-
-  getInitialState: function() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => this.rowHasChanged(r1, r2)});
-    return {dataSource:ds.cloneWithRows(this.generateRows())};
   },
 
   onSelected: function(name) {
@@ -67,7 +57,7 @@ var LanguageSelectionPanel = React.createClass({
 
   onSwitchToggled: function(switchOn) {
     if (switchOn) {
-      this.onSelected(this.props.selectedLanguage);
+      this.onSelected(this.props.languages[0]);
     } else {
       this.onSelected('');
     }
@@ -84,7 +74,12 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   render: function() {
-    var hasCC = this.props.selectedLanguage && this.props.selectedLanguage !== '';
+    console.log("languageselectionpanel render");
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var hasCC = false;
+    if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
+      hasCC = true;
+    }
     return (
       <View style={styles.fullscreenContainer}>
         <View style={styles.panelTitleRow}>
@@ -97,7 +92,7 @@ var LanguageSelectionPanel = React.createClass({
           onValueChanged={(value)=>this.onSwitchToggled(value)}>
         </ToggleSwitch>
         <ListView
-          dataSource={this.state.dataSource}
+          dataSource={ds.cloneWithRows(this.generateRows())}
           renderRow={this.renderRow}
           style={styles.listView}>
         </ListView>
