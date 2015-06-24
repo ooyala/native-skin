@@ -9,8 +9,7 @@ class ClosedCaptionsView extends React.Component {
   render() {
     if( this.props.captionJSON ) {
       return <OOClosedCaptionsView
-                {...this.props}
-                pointerEvents='none'/>;
+                {...this.props} />;
     }
     else {
       return null;
