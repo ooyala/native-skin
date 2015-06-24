@@ -22,8 +22,12 @@
 		0B7824571B2B841800D718AB /* TableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824561B2B841800D718AB /* TableCell.xib */; };
 		0B78245B1B2B855500D718AB /* DefaultSkinPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78245A1B2B855500D718AB /* DefaultSkinPlayerViewController.m */; };
 		0B78245D1B2B86F800D718AB /* fontawesome-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */; };
+		0B7824671B2FA0BD00D718AB /* DefaultSkinPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824661B2FA0BD00D718AB /* DefaultSkinPlayerView.xib */; };
+		0B78246B1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B78246A1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib */; };
+		0BFFF7B21B3A201A00D72444 /* TallPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B11B3A201A00D72444 /* TallPlayerView.xib */; };
+		0BFFF7B41B3A213800D72444 /* SmallSkinPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B31B3A213800D72444 /* SmallSkinPlayerView.xib */; };
+		0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
-		97637E431B1FBD8100501427 /* DefaultSkinPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97637E421B1FBD8100501427 /* DefaultSkinPlayerView.xib */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -64,9 +68,13 @@
 		0B7824561B2B841800D718AB /* TableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableCell.xib; sourceTree = "<group>"; };
 		0B7824591B2B855500D718AB /* DefaultSkinPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSkinPlayerViewController.h; sourceTree = "<group>"; };
 		0B78245A1B2B855500D718AB /* DefaultSkinPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSkinPlayerViewController.m; sourceTree = "<group>"; };
+		0B7824661B2FA0BD00D718AB /* DefaultSkinPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DefaultSkinPlayerView.xib; sourceTree = "<group>"; };
+		0B78246A1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmallSkinPlayerViewTwo.xib; sourceTree = "<group>"; };
+		0BFFF7B11B3A201A00D72444 /* TallPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TallPlayerView.xib; sourceTree = "<group>"; };
+		0BFFF7B31B3A213800D72444 /* SmallSkinPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmallSkinPlayerView.xib; sourceTree = "<group>"; };
+		0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WidePlayerView.xib; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		97637E421B1FBD8100501427 /* DefaultSkinPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DefaultSkinPlayerView.xib; path = ../../DefaultSkinPlayerView.xib; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -141,7 +149,11 @@
 		0B7824551B2B841800D718AB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				97637E421B1FBD8100501427 /* DefaultSkinPlayerView.xib */,
+				0BFFF7B31B3A213800D72444 /* SmallSkinPlayerView.xib */,
+				0BFFF7B11B3A201A00D72444 /* TallPlayerView.xib */,
+				0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */,
+				0B78246A1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib */,
+				0B7824661B2FA0BD00D718AB /* DefaultSkinPlayerView.xib */,
 				0B7824561B2B841800D718AB /* TableCell.xib */,
 			);
 			path = Views;
@@ -245,12 +257,16 @@
 			files = (
 				0B78245D1B2B86F800D718AB /* fontawesome-webfont.ttf in Resources */,
 				0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */,
+				0BFFF7B41B3A213800D72444 /* SmallSkinPlayerView.xib in Resources */,
+				0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */,
 				FF1290651AEABD5100664374 /* StartScreen.json in Resources */,
-				97637E431B1FBD8100501427 /* DefaultSkinPlayerView.xib in Resources */,
 				0B7824541B2B83AB00D718AB /* Main.storyboard in Resources */,
 				0B7824571B2B841800D718AB /* TableCell.xib in Resources */,
 				0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */,
+				0B78246B1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib in Resources */,
 				0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */,
+				0BFFF7B21B3A201A00D72444 /* TallPlayerView.xib in Resources */,
+				0B7824671B2FA0BD00D718AB /* DefaultSkinPlayerView.xib in Resources */,
 				0B7824331B2B7EB600D718AB /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -27,13 +27,14 @@
 
 - (id)initWithPlayerSelectionOption:(PlayerSelectionOption *)playerSelectionOption {
   self = [super initWithPlayerSelectionOption: playerSelectionOption];
-  self.nib = @"DefaultSkinPlayerView";
-  self.playerDomain = playerSelectionOption.playerDomain;
-  self.pcode = playerSelectionOption.pcode;
+
 
   if (self.playerSelectionOption) {
+    self.nib = self.playerSelectionOption.nib;
     self.embedCode = self.playerSelectionOption.embedCode;
     self.title = self.playerSelectionOption.title;
+    self.playerDomain = playerSelectionOption.playerDomain;
+    self.pcode = playerSelectionOption.pcode;
   }
   return self;
 }
@@ -51,6 +52,7 @@
 
   _skinController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer parent:_videoView discoveryOptions:discoveryOptions launchOptions:nil];
   [self addChildViewController:_skinController];
+  [_skinController.view setFrame:self.videoView.bounds];
   [ooyalaPlayer setEmbedCode:self.embedCode];
 }
 

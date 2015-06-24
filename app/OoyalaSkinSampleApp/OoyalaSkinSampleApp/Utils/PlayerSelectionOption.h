@@ -21,5 +21,6 @@
           embedCode:(NSString *)embedCode
               pcode:(NSString *)pcode
        playerDomain:(NSString *)playerDomain
-     viewController:(Class)viewController;
+     viewController:(Class)viewController
+                nib:(NSString *)nib;
 @end
