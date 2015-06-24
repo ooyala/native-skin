@@ -278,7 +278,7 @@ var OoyalaSkin = React.createClass({
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
-         closedCaptionsLanguage={this.state.rct_closedCaptionsLanguage}
+         closedCaptionsLanguage={this.state.selectedLanguage}
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
