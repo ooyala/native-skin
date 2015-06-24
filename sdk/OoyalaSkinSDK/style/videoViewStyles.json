@@ -13,6 +13,10 @@
     flex: 1,
     alignItems: 'stretch',
     backgroundColor: 'transparent',
+  },
+  closedCaptionStyle: {
+    flex: 1,
+    alignItems: 'flex-end',
+    backgroundColor: 'transparent',
   }
 }
-
