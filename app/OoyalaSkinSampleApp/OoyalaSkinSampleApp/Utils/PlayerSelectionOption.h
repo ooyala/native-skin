@@ -17,5 +17,10 @@
 @property NSString *pcode;
 @property Class viewController;
 
-- (id)initWithTitle:(NSString *)title embedCode:(NSString *)embedCode viewController:(Class)viewController;
+- (id)initWithTitle:(NSString *)title
+          embedCode:(NSString *)embedCode
+              pcode:(NSString *)pcode
+       playerDomain:(NSString *)playerDomain
+     viewController:(Class)viewController
+                nib:(NSString *)nib;
 @end

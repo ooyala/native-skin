@@ -2,7 +2,15 @@
 
 The Alice redesign for the iOS SDK.
 
-##In order to run the sample app, please install react 
+##Prerequisites
+
+In order to be successful running this sample app, you are expected to understand the following:
+
+  1. An understanding of the Apple Developer ecosystem, with an understanding of building, running, and provisioning applications
+  2. An understanding of the Core Ooyala SDK, how to configure and run simple Ooyala integrations (see https://github.com/ooyala/ios-sample-apps)
+  3. A passing understanding of brew, git, and node
+
+##In order to run the sample app, please first install React's required installs
 
 For more details please refer to: https://facebook.github.io/react-native/docs/getting-started.html#content
 

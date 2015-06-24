@@ -88,8 +88,8 @@ var VideoView = React.createClass({
     if (this.props.ad) {
       return null;
     }
-    return (<ProgressBar ref='progressBar' 
-      playhead={this.props.playhead} 
+    return (<ProgressBar ref='progressBar'
+      playhead={this.props.playhead}
       duration={this.props.duration}
       width={this.props.width}
       onScrub={(value)=>this.handleScrub(value)} />);
@@ -105,9 +105,9 @@ var VideoView = React.createClass({
       this.props.availableClosedCaptionsLanguages.length > 0;
 
     return (<ControlBar
-      ref='controlBar' 
-      showPlay={this.props.showPlay} 
-      playhead={this.props.playhead} 
+      ref='controlBar'
+      showPlay={this.props.showPlay}
+      playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.generateLiveLabel()}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
@@ -127,7 +127,7 @@ var VideoView = React.createClass({
       console.log("adbar title" + adTitle + "clickUrl " + this.props.ad.clickUrl);
       return (<AdBar
         title={adTitle}
-        playhead={this.props.playhead} 
+        playhead={this.props.playhead}
         duration={this.props.duration}
         count={count}
         index={count - unplayed}
@@ -160,6 +160,14 @@ var VideoView = React.createClass({
         </View>);
     }
     return placeholder;
+  },
+
+  _renderClosedCaptions: function() {
+    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
+    return <ClosedCaptionsView
+      style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
+      captionJSON={this.props.captionJSON}
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
   },
 
   _handleSocialShare: function() {
@@ -195,23 +203,17 @@ var VideoView = React.createClass({
   render: function() {
     var adBar = this._renderAdBar();
     var placeholder = this._renderPlaceholder();
+    var closedCaptions = this._renderClosedCaptions();
     var progressBar = this._renderProgressBar();
-    var controlBar = this._renderControlBar();  
-
-    var ccOverlayHeight = windowSize.height - 60;
-    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    var ccOverlay = <ClosedCaptionsView
-      style={[{position:'absolute', left:0, top:0, width:windowSize.width, height:ccOverlayHeight, opacity:ccOpacity, backgroundColor:'transparent'}]}
-      captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+    var controlBar = this._renderControlBar();
 
     return (
       <View style={styles.container}>
         {adBar}
         {placeholder}
+        {closedCaptions}
         {progressBar}
         {controlBar}
-        {ccOverlay}
       </View>
     );
   }
