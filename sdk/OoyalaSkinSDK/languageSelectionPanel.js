@@ -14,7 +14,13 @@ var {
   View,
 } = React;
 
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+var Constants = require('./constants');
+var {
+  ICONS,
+  UI_TEXT,
+} = Constants;
+
+var ToggleSwitch = require('./toggleSwitch');
 
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
@@ -24,49 +30,61 @@ var LanguageSelectionPanel = React.createClass({
     onDismiss: React.PropTypes.func,
   },
 
+  rowHasChanged(r1, r2) {
+    console.log('rowHasChanged');
+    return r1.left !== r2.left || r1.right !== r2.right || r1.selected !== r2.selected;
+  },
+
+  isSelected: function(name) {
+    return name && name !== '' && name == this.props.selectedLanguage;
+  },
+
+  generateRows() {
+    console.log('generateRows:'+this.props.selectedLanguage);
+    var rows = [];
+    for (var i = 0; i < this.props.dataSource.length;) {
+      var left = this.props.dataSource[i++];
+      var right = "";
+      if (i < this.props.dataSource.length) {
+        right = this.props.dataSource[i++];
+      }
+      rows.push({left:left, right:right, selected:this.props.selectedLanguage});
+      i = i + 2;
+    }
+    return rows;
+  },
+
   getInitialState: function() {
-    return {dataSource:ds.cloneWithRows(this.props.dataSource), 
-            switchOn: false
-          };
+    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => this.rowHasChanged(r1, r2)});
+    return {dataSource:ds.cloneWithRows(this.generateRows())};
   },
 
-  onRowSelected: function(row) {
-  	if (this.props.onRowAction) {
-  	  this.props.onSelect({row});
-  	}
+  onSelected: function(name) {
+    if (this.props.selectedLanguage !== name) {
+      this.props.onSelect(name);
+    }
   },
 
-  onSwitchToggled: function() {
-    var nextState = !this.state.switchOn;
-    this.setState({switchOn: nextState});
+  onSwitchToggled: function(switchOn) {
+    if (switchOn) {
+      this.onSelected(this.props.selectedLanguage);
+    } else {
+      this.onSelected('');
+    }
   },
 
   getCloseButton: function() {
     return (
       <TouchableHighlight
-        onPress={() => this.onRowSelected(row)}>
+        onPress={this.props.onDismiss}>
         <View style={styles.button}>
-          <Text style={styles.buttonText}>row</Text>
+          <Text style={styles.buttonText}>{ICONS.CLOSE}</Text>
         </View>
       </TouchableHighlight>);
   },
 
-  getToggleSwitch: function() {
-    var icon = this.state.switchOn ? ICONS.TOGGLEON : ICONS.TOGGLEOFF;
-    return (
-      <View style={styles.toggleSwitch}>
-        <Text style={styles.buttonText}>{UI_TEXT.OFF}</Text>
-        <TouchableHighlight
-          onPress={this.onSwitchToggled}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>{icon}</Text>
-          </View>
-        </TouchableHighlight>
-        <Text style={styles.buttonText}>{UI_TEXT.OFF}</Text>
-      </View>);
-  },
-
   render: function() {
+    var hasCC = this.props.selectedLanguage && this.props.selectedLanguage !== '';
     return (
       <View style={styles.fullscreenContainer}>
         <View style={styles.panelTitleRow}>
@@ -74,7 +92,10 @@ var LanguageSelectionPanel = React.createClass({
           <View style={styles.placeHolder}></View>
           {this.getCloseButton()}
         </View>
-        {this.getToggleSwitch()}
+        <ToggleSwitch
+          switchOn={hasCC}
+          onValueChanged={(value)=>this.onSwitchToggled(value)}>
+        </ToggleSwitch>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow}
@@ -85,13 +106,25 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   renderRow: function(row: object, sectionID: number, rowID: number) {
+    var leftStyle = this.isSelected(row.left) ? styles.selectedButton : styles.button;
+    var rightStyle = this.isSelected(row.right) ? styles.selectedButton : styles.button;
     return (
-    <TouchableHighlight
-      onPress={() => this.onRowSelected(row)}>
-      <View style={styles.button}>
-        <Text style={styles.buttonText}>row</Text>
+      <View style= {styles.row}>
+        <TouchableHighlight 
+          style={styles.placeHolder}
+          onPress={() => this.onSelected(row.left)}>
+          <View style={leftStyle}>
+            <Text style={styles.buttonText}>{row.left}</Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.placeHolder}
+          onPress={() => this.onSelected(row.right)}>
+          <View style={rightStyle}>
+            <Text style={styles.buttonText}>{row.right}</Text>
+          </View>
+        </TouchableHighlight>
       </View>
-    </TouchableHighlight>
     );
   },
 });
@@ -105,18 +138,20 @@ var styles = StyleSheet.create({
   placeHolder: {
     flex: 1,
   },
-  panelTitleRow: {
+  row: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    backgroundColor: 'transparent',
+  },
+  panelTitleRow: {
+    height: 30,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  toggleSwitch: {
-    flex: 1,
-    flexDirection: 'row',
-  },
   panelTitle: {
   	flex: 1,
-  	fontSize: 40,
+  	fontSize: 20,
   	textAlign: 'left',
   	color: 'white',
   	padding: 20
@@ -135,7 +170,13 @@ var styles = StyleSheet.create({
     backgroundColor: '#333333',
   },
   button: {
-    backgroundColor: '#F9F4F6',
+    backgroundColor: '#333333',
+    padding: 6,
+    margin: 10,
+    borderRadius: 5,
+  },
+  selectedButton: {
+    backgroundColor: '#498DFC',
     padding: 6,
     margin: 10,
     borderRadius: 5,
@@ -144,7 +185,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#030303',
     fontSize: 16,
-    fontFamily: 'AvenirNext-DemiBold',
+    fontFamily: 'fontawesome',
   },
 });
 

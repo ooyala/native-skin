@@ -46,7 +46,7 @@ var OoyalaSkin = React.createClass({
       // states from react
       screenType: SCREEN_TYPES.LOADING_SCREEN,
       overlayType: null,
-      selectedLanguage: null,
+      selectedLanguage: 'en',
       // states from native
       title: '',
       description: '',
@@ -76,19 +76,34 @@ var OoyalaSkin = React.createClass({
 
   cchack: function(n) {
     // todo: remove this testing hack and do it right...
-    if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
-      // if( this.state.availableClosedCaptionsLanguages ) {
-      //   var ccl = (this.state.rct_closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
-      //   this.setState({rct_closedCaptionsLanguage: ccl});
-      // }
-      this.setState({overlayType:OVERLAY_TYPES.CC_OPTIONS});
-    }
+    
     // todo: ...remove this testing hack and do it right.
   },
 
+  handleOverlay: function(overlayName) {
+    if (this.state.rate > 0) {
+      // video is playing, pause first
+      this.setState({pausedByOverlay:true});
+      eventBridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
+    }
+
+    this.setState({overlayType:OVERLAY_TYPES.CC_OPTIONS})
+  },
+
+  onOverlayDismissed: function() {
+    this.setState({overlayType:null});
+    if (this.state.pausedByOverlay) {
+      this.setState({pausedByOverlay:false});
+      eventBridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
+    }
+  },
+
   handlePress: function(n) {
-    this.cchack(n); // todo: remove this testing hack and do it right.
-    eventBridge.onPress({name:n});
+    if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
+      this.handleOverlay(OVERLAY_TYPES.CC_OPTIONS);
+    } else {
+      eventBridge.onPress({name:n});
+    }
   },
 
   handleScrub: function(value) {
@@ -170,13 +185,10 @@ var OoyalaSkin = React.createClass({
   },
 
   onLanguageSelected: function(e) {
+    console.log('onLanguageSelected:'+e);
     this.setState({selectedLanguage:e});
   },
   
-  onOverlayDismissed: function() {
-    this.setState({overlayType:null});
-  },
-
   shouldShowLandscape: function() {
     return this.state.width > this.state.height;
   },
@@ -211,7 +223,7 @@ var OoyalaSkin = React.createClass({
   render: function() {
     if (this.state.overlayType) {
       switch (this.state.overlayType) {
-        case OVERLAY_TYPES:CC_OPTIONS: return this._renderCCOptions(); break;
+        case OVERLAY_TYPES.CC_OPTIONS: return this._renderCCOptions(); break;
       }
     } else {
       switch (this.state.screenType) {
