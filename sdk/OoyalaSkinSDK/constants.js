@@ -10,6 +10,9 @@ var ICONS = {
   REPLAY:'\uf01e',
   SHARE:'\uf045',
   CC: '\uf20a',
+  CLOSE: '\uf00d',
+  TOGGLEOFF: '\uf204',
+  TOGGLEON: '\uf205'
 };
 
 var BUTTON_NAMES = { // must match Objective-C code expectations.
@@ -42,6 +45,12 @@ var SCREEN_TYPES = {
   AD_SCREEN: 'ad'
 };
 
+var OVERLAY_TYPES = {
+  DISCOVERY_OVERLAY: 'discovery',
+  SOCIAL_OVERLAY: 'social',
+  CC_OPTIONS: 'cc_options'
+};
+
 var OOSTATES = {
   PAUSED: 'paused',
 };
@@ -52,6 +61,9 @@ var UI_TEXT = {
   LIVE: 'LIVE',
   GO_LIVE: 'GO LIVE',
   SEPERATOR: '/',
+  CC_OPTIONS: 'CC Options',
+  ON: 'On',
+  OFF: 'Off',
 };
 
-module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT};
+module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT, OVERLAY_TYPES};
