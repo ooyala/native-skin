@@ -35,3 +35,12 @@ For more details please refer to: https://facebook.github.io/react-native/docs/g
   2. open OoyalaSkin.xcworkspace
   3. launch OoyalaSkin
 
+##Run sample app on device without a service
+
+  1. on terminal go to sdk/OoyalaSkinSDK
+  2. run "react-native bundle" (note: react-native bundle --minify does not work) 
+  3. run "cp iOS/main.jsbundle ../../app/OoyalaSkinSampleApp/OoyalaSkinSampleApp/main.jsbundle"
+  4. in DefaultSkinPlayerViewController.m comment out "NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];"
+  5. uncomment "NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];"
+  6. now you should be able to run the app on device.
+
