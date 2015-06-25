@@ -15,7 +15,8 @@
           embedCode:(NSString *)embedCode
               pcode:(NSString *)pcode
        playerDomain:(NSString *)playerDomain
-     viewController:(Class)viewController {
+     viewController:(Class)viewController
+                nib:(NSString *)nib {
   self = [super init];
   if (self) {
     self.title = title;
@@ -23,6 +24,7 @@
     self.viewController = viewController;
     self.pcode = pcode;
     self.playerDomain = playerDomain;
+    self.nib = nib;
   }
   return self;
 }
