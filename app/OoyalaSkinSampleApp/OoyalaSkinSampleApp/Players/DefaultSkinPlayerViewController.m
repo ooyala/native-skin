@@ -49,8 +49,8 @@
   OOOptions *options = [OOOptions new];
   OOOoyalaPlayer *ooyalaPlayer = [[OOOoyalaPlayer alloc] initWithPcode:self.pcode domain:[[OOPlayerDomain alloc] initWithString:self.playerDomain] options:options];
   OODiscoveryOptions *discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypePopular limit:10 timeout:60];
-
-  _skinController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer parent:_videoView discoveryOptions:discoveryOptions launchOptions:nil];
+  NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+  _skinController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer parent:_videoView discoveryOptions:discoveryOptions launchOptions:nil jsCodeLocation:jsCodeLocation];
   [self addChildViewController:_skinController];
   [_skinController.view setFrame:self.videoView.bounds];
   [ooyalaPlayer setEmbedCode:self.embedCode];

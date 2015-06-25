@@ -35,10 +35,10 @@ static NSString *kViewChangeKey = @"frame";
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView
               discoveryOptions:(OODiscoveryOptions *)discoveryOptions
-                 launchOptions:(NSDictionary *)options{
+                 launchOptions:(NSDictionary *)options
+                jsCodeLocation:(NSURL *)jsCodeLocation {
   if (self = [super init]) {
     [self setPlayer:player];
-    NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/ooyalaSkin.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
