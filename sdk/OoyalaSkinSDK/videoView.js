@@ -53,7 +53,7 @@ var VideoView = React.createClass({
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
-    showWatermark: React.PropTypes.bool,
+    shouldShowLandscape: React.PropTypes.bool
   },
 
   shouldShowDiscovery: function() {
@@ -112,6 +112,7 @@ var VideoView = React.createClass({
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
+      shouldShowLandscape={this.props.shouldShowLandscape}
       showWatermark={this.props.showWatermark}
       isShow = {this.state.showControls}/>);
   },

@@ -69,10 +69,10 @@ var StartScreen = React.createClass({
 
     var infoPanelLocation;
     switch (this.props.config.infoPanelPosition) {
-      case "NW":
+      case "topLeft":
         infoPanelLocation = styles.infoPanelNW;
         break;
-      case "SW":
+      case "bottomLeft":
         infoPanelLocation = styles.infoPanelSW;
         break;
       default:
@@ -88,7 +88,7 @@ var StartScreen = React.createClass({
   },
 
   render: function() {
-    var fullscreenPromoImage = (this.props.config.mode == 'default');
+    var fullscreenPromoImage = (this.props.config.promoImageSize == 'default');
     
     var playButton;
     if(this.props.config.showPlayButton) {
