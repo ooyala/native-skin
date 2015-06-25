@@ -118,7 +118,8 @@ render: function() {
  var controlBar;
  controlBar = (<ControlBar 
   ref='controlBar' 
-  showPlay={this.props.showPlay} 
+  showPlay={this.props.showPlay}
+  isShow='true'
   playhead={this.props.duration} 
   duration={this.props.duration} 
   primaryActionButton={ICONS.REPLAY}
@@ -126,7 +127,7 @@ render: function() {
 
  var waterMark = (<WaterMark />);
 
- if (fullscreenPromoImage) {   
+ //if (fullscreenPromoImage) {
    return (
 
      <Image 
@@ -151,7 +152,7 @@ render: function() {
      </Image>
       
      );
- } else {
+ /*} else {
    var promoImage = (
      <Image 
      source={{uri: this.props.promoUrl}}
@@ -162,14 +163,16 @@ render: function() {
 
    return (
      <View style={styles.container}>
-     <View style={replaybuttonLocation}>
-     {replaybutton}
-     </View>
-     {promoImage}
-     {infoPanel}
+       <View style={replaybuttonLocation}>
+        {replaybutton}
+       </View>
+       {promoImage}
+       {infoPanel}
+       {progressBar}
+       {controlBar}
      </View>
      );
- }
+ }*/
 }
 });
 

@@ -88,7 +88,7 @@ var StartScreen = React.createClass({
   },
 
   render: function() {
-    var fullscreenPromoImage = (this.props.config.mode == 'default');
+    var fullscreenPromoImage = (this.props.config.promoImageSize == 'default');
     
     var playButton;
     if(this.props.config.showPlayButton) {

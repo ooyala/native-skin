@@ -216,6 +216,13 @@ var OoyalaSkin = React.createClass({
 
   _renderEndScreen: function() {
     var EndScreenConfig = config.endScreen;
+    switch(config.endScreen.screenToShowInEnd) {
+      case 'discovery':
+        EndScreenConfig.showReplayButton = false;
+        EndScreenConfig.showTitle = false;
+        EndScreenConfig.showDescription = false;
+        break;
+    }
     return (
       <EndScreen
         config={EndScreenConfig}
@@ -241,7 +248,7 @@ var OoyalaSkin = React.createClass({
          live ={this.state.live}
          width={this.state.width}
          height={this.state.height}
-         showWatermark={this.shouldShowLandscape()}
+         shouldShowLandscape={this.shouldShowLandscape()}
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
