@@ -102,7 +102,6 @@
 		972ED8871AE6F008005043DC /* OOSkinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinViewController.h; sourceTree = "<group>"; };
 		972ED8881AE6F008005043DC /* OOSkinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinViewController.m; sourceTree = "<group>"; };
 		972ED8A11AE6FC3E005043DC /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		972ED8AA1AE7011D005043DC /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		972ED8B41AE70307005043DC /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
@@ -167,12 +166,8 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
-				97DE27AD1B212B670071DBFE /* libxml2.dylib */,
-				97DE27AB1B212B520071DBFE /* libc++abi.dylib */,
-				97DE27A51B212B4A0071DBFE /* libc++.dylib */,
-				97637E2B1B1E700900501427 /* OoyalaSDK.framework */,
+				FF12905E1AEABA9B00664374 /* Frameworks */,
 				5EEDC9C31B0E7B8100A3AD27 /* JSX */,
-				FF12905E1AEABA9B00664374 /* framework */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
 				972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */,
 				972ED84C1AE6EEEB005043DC /* Products */,
@@ -249,15 +244,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FF12905E1AEABA9B00664374 /* framework */ = {
+		FF12905E1AEABA9B00664374 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				97DE27A51B212B4A0071DBFE /* libc++.dylib */,
+				97DE27AB1B212B520071DBFE /* libc++abi.dylib */,
+				97DE27AD1B212B670071DBFE /* libxml2.dylib */,
 				972ED8CB1AE70631005043DC /* libz.dylib */,
-				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
 				972ED8AA1AE7011D005043DC /* MediaPlayer.framework */,
-				972ED8A81AE6FCB3005043DC /* OoyalaSDK.framework */,
+				97637E2B1B1E700900501427 /* OoyalaSDK.framework */,
+				972ED8AC1AE7016A005043DC /* SystemConfiguration.framework */,
 			);
-			name = framework;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

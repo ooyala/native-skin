@@ -18,7 +18,7 @@ var Constants = require('./constants');
 var {
   ICONS,
   BUTTON_NAMES,
-  IMG_URLS
+  IMG_URLS,
 } = Constants;
 
 var Utils = require('./utils');
@@ -39,10 +39,19 @@ var ControlBar = React.createClass({
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
     showWatermark: React.PropTypes.bool,
+    live: React.PropTypes.string
   },
 
   getDefaultProps: function() {
     return {playhead: 0, duration: 0};
+  },
+
+  getDurationString: function() {
+    if (this.props.live) {
+      return this.props.live
+    } else {
+      return Utils.secondsToString(this.props.playhead) + Constants.UI_TEXT.SEPERATOR + Utils.secondsToString(this.props.duration);
+    }
   },
 
   onPlayPausePress: function() { 
@@ -74,10 +83,9 @@ var ControlBar = React.createClass({
     var shareIcon = ICONS.SHARE;
     var menuIcon = ICONS.ELLIPSIS;
     var closedCaptionsIcon = ICONS.CC;
-    var durationString = Utils.secondsToString(this.props.duration);
-    var playheadString = Utils.secondsToString(this.props.playhead);
     var volumeScrubber;
     var controlBarView;
+    var durationString = this.getDurationString();
     if (this.state.showVolume) {
       volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
     }
@@ -111,7 +119,7 @@ var ControlBar = React.createClass({
             </Text>
           </TouchableHighlight>
             {volumeScrubber}
-          <Text style={styles.label}>{playheadString}/{durationString}</Text>
+          <Text style={styles.label}>{durationString}</Text>
           <View style={styles.placeholder} />
           <TouchableHighlight onPress={this.onSocialSharePress}>
             <Text style={styles.icon}>{shareIcon}</Text>
