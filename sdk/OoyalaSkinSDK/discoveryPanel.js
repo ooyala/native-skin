@@ -22,6 +22,7 @@ var DiscoveryPanel = React.createClass({
     isShow: React.PropTypes.bool,
     dataSource: React.PropTypes.array,
     onRowAction: React.PropTypes.func,
+    config: React.PropTypes.object
   },
 
   getInitialState: function() {
@@ -85,7 +86,7 @@ var DiscoveryPanel = React.createClass({
 
   renderHeader: function() {
   	return (
-  	  <Text style={styles.panelTitle}>Discovery</Text>);
+  	  <Text style={styles.panelTitle}>{this.props.config.title}</Text>);
   },
 });
 

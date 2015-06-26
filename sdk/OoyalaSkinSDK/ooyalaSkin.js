@@ -216,6 +216,7 @@ var OoyalaSkin = React.createClass({
     var discovery = (
       <DiscoveryPanel
         isShow='true'
+        config={config.discoveryScreen}
         dataSource={this.state.discoveryResults}
         onRowAction={(info) => this.onDiscoveryRow(info)}>
       </DiscoveryPanel>);
