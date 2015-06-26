@@ -15,7 +15,7 @@ var {
 } = Constants;
 
 var ICONS = require('./constants').ICONS;
-var marginValue = 10;
+var SquareButton = require('./squareButton');
 
 var StartScreen = React.createClass({
   propTypes: {
@@ -35,41 +35,18 @@ var StartScreen = React.createClass({
   // Gets the play button based on the current config settings
   getPlayButton: function() {
     if(this.props.config.showPlayButton) {
-      var playButtonLocation;
-      var fontsize = (this.props.height + this.props.width) * 0.1;
-      switch (this.props.config.playButtonPosition) {
-        case "center":
-          playButtonLocation = {
-            position: 'absolute', 
-            top: (this.props.height - fontsize) / 2, 
-            left: (this.props.width - fontsize) / 2};
-          break;
-        case "bottomLeft":
-          playButtonLocation = styles.SW;
-          break;
-        default:
-          throw("Invalid play button location " + this.props.config.playButtonPosition);
-          return null;
-      }
-
-      var playButtonStyle = {
-        fontSize: fontsize,
-        textAlign: 'center',
-        color: 'white',
-        fontFamily: 'fontawesome',
-        margin: 10
-      };
-
+      var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
+      console.log("buttonSize"+buttonSize);
       return (
-        <View style={playButtonLocation}>
-          <TouchableHighlight
-            onPress={this.handleClick}
-            underlayColor="transparent"
-            activeOpacity={0.5}>
-            <Text style={playButtonStyle}>{ICONS.PLAY}</Text>
-          </TouchableHighlight>
-        </View>
-      );
+        <SquareButton
+          icon={ICONS.PLAY}
+          position={this.props.config.playButtonPosition}
+          onPress={this.handleClick}
+          opacity={0.5}
+          width={this.props.width}
+          height={this.props.height}
+          size={buttonSize}>
+        </SquareButton>)
     }
     return null;
   },
