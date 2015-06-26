@@ -40,6 +40,9 @@ var EndScreen = React.createClass({
    promoUrl: React.PropTypes.string,
    onPress: React.PropTypes.func,
    onSocialButtonPress: React.PropTypes.func,
+   width: React.PropTypes.number,
+   height: React.PropTypes.number,
+   discoveryPanel: React.PropTypes.object
  },
 
  toggleControlBar: function() {
@@ -119,6 +122,8 @@ render: function() {
  controlBar = (<ControlBar 
   ref='controlBar' 
   showPlay={this.props.showPlay}
+  height={this.props.height}
+  width={this.props.width}
   isShow='true'
   playhead={this.props.duration} 
   duration={this.props.duration} 
@@ -126,6 +131,11 @@ render: function() {
   onPress={(name) => this.handleClick(name)} />);
 
  var waterMark = (<WaterMark />);
+
+  switch(this.props.config.screenToShowOnEnd) {
+    case 'discovery':
+      return this.props.discoveryPanel;
+  }
 
  //if (fullscreenPromoImage) {
    return (

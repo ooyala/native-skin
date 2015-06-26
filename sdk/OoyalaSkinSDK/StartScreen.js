@@ -109,7 +109,7 @@ var StartScreen = React.createClass({
       promoUrl = this.props.promoUrl;
     }
     
-    if (fullscreenPromoImage) {   
+    //if (fullscreenPromoImage) {
       return (
         <Image 
           source={{uri: promoUrl}}
@@ -119,7 +119,7 @@ var StartScreen = React.createClass({
           {playButton}
           {waterMarkImage}
         </Image>);
-    } else {
+    /*} else {
       var promoImage = (
         <Image 
           source={{uri: promoUrl}}
@@ -135,7 +135,7 @@ var StartScreen = React.createClass({
           {waterMarkImage}
         </View>
       );
-    }
+    }*/
   }
 });
 

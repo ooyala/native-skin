@@ -5,6 +5,11 @@
 'use strict';
 
 var Utils = {
+
+  shouldShowLandscape: function(width, height) {
+    return width > height;
+  },
+
   isPlaying: function( rate ) {
     return rate > 0;
   },
@@ -37,6 +42,6 @@ var Utils = {
     }
     return minus + t;
   }
-}
+};
 
 module.exports = Utils;

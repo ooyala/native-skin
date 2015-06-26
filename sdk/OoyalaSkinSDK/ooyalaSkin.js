@@ -20,6 +20,7 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
+var DiscoveryPanel = require('./discoveryPanel');
 
 var Constants = require('./constants');
 var {
@@ -161,10 +162,6 @@ var OoyalaSkin = React.createClass({
     // nothing to do yet.
   },
 
-  shouldShowLandscape: function() {
-    return this.state.width > this.state.height;
-  },
-
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
@@ -216,17 +213,20 @@ var OoyalaSkin = React.createClass({
 
   _renderEndScreen: function() {
     var EndScreenConfig = config.endScreen;
-    switch(config.endScreen.screenToShowInEnd) {
-      case 'discovery':
-        EndScreenConfig.showReplayButton = false;
-        EndScreenConfig.showTitle = false;
-        EndScreenConfig.showDescription = false;
-        break;
-    }
+    var discovery = (
+      <DiscoveryPanel
+        isShow='true'
+        dataSource={this.state.discoveryResults}
+        onRowAction={(info) => this.onDiscoveryRow(info)}>
+      </DiscoveryPanel>);
+
     return (
       <EndScreen
         config={EndScreenConfig}
         title={this.state.title}
+        width={this.state.width}
+        height={this.state.height}
+        discoveryPanel={discovery}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
         duration={this.state.duration} 
@@ -248,7 +248,6 @@ var OoyalaSkin = React.createClass({
          live ={this.state.live}
          width={this.state.width}
          height={this.state.height}
-         shouldShowLandscape={this.shouldShowLandscape()}
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
