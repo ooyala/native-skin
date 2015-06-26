@@ -2,7 +2,15 @@
 
 The Alice redesign for the iOS SDK.
 
-##In order to run the sample app, please install react 
+##Prerequisites
+
+In order to be successful running this sample app, you are expected to understand the following:
+
+  1. An understanding of the Apple Developer ecosystem, with an understanding of building, running, and provisioning applications
+  2. An understanding of the Core Ooyala SDK, how to configure and run simple Ooyala integrations (see https://github.com/ooyala/ios-sample-apps)
+  3. A passing understanding of brew, git, and node
+
+##In order to run the sample app, please first install React's required installs
 
 For more details please refer to: https://facebook.github.io/react-native/docs/getting-started.html#content
 
@@ -26,4 +34,13 @@ For more details please refer to: https://facebook.github.io/react-native/docs/g
   1. go to repo root
   2. open OoyalaSkin.xcworkspace
   3. launch OoyalaSkin
+
+##Run sample app on device without a service
+
+  1. on terminal go to sdk/OoyalaSkinSDK
+  2. run "react-native bundle" (note: react-native bundle --minify does not work) 
+  3. run "cp iOS/main.jsbundle ../../app/OoyalaSkinSampleApp/OoyalaSkinSampleApp/main.jsbundle"
+  4. in DefaultSkinPlayerViewController.m comment out "NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];"
+  5. uncomment "NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];"
+  6. now you should be able to run the app on device.
 
