@@ -84,10 +84,6 @@ var VideoView = React.createClass({
     this.props.onPress(name);
   },
 
-  _handleGeneralPress: function() {
-    this.setState({showSharePanel:false});
-  },
-
   _renderProgressBar: function() {
     if (this.props.ad) {
       return null;
@@ -187,6 +183,7 @@ var VideoView = React.createClass({
     this.setState({showSharePanel:false});
     this.setState({showDiscoveryPanel: false});
     this.setState({showMoreOptionScreen: false});
+  },
 
   _renderClosedCaptions: function() {
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
