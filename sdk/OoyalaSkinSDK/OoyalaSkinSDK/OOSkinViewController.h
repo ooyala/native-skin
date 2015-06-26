@@ -20,7 +20,8 @@
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView
               discoveryOptions:(OODiscoveryOptions *)discoveryOptions
-                 launchOptions:(NSDictionary *)options;
+                 launchOptions:(NSDictionary *)options
+                jsCodeLocation:(NSURL *)jsCodeLocation;
 
 - (void)loadStartScreenConfigureFile;
 - (void)toggleFullscreen;
