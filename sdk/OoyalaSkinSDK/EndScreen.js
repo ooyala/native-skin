@@ -137,7 +137,6 @@ render: function() {
       return this.props.discoveryPanel;
   }
 
- //if (fullscreenPromoImage) {
    return (
 
      <Image 
@@ -162,27 +161,6 @@ render: function() {
      </Image>
       
      );
- /*} else {
-   var promoImage = (
-     <Image 
-     source={{uri: this.props.promoUrl}}
-     style={styles.promoImageSmall}
-     resizeMode={Image.resizeMode.contain}>
-     </Image>
-     );
-
-   return (
-     <View style={styles.container}>
-       <View style={replaybuttonLocation}>
-        {replaybutton}
-       </View>
-       {promoImage}
-       {infoPanel}
-       {progressBar}
-       {controlBar}
-     </View>
-     );
- }*/
 }
 });
 
