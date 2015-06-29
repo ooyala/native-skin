@@ -134,33 +134,38 @@ render: function() {
 
   switch(this.props.config.screenToShowOnEnd) {
     case 'discovery':
-      return this.props.discoveryPanel;
+      return (
+        <View style={styles.fullscreenContainer}>
+          {this.props.discoveryPanel}
+          {progressBar}
+          {controlBar}
+        </View>
+      );
+    default:
+      return (
+
+        <Image
+          source={{uri: this.props.promoUrl}}
+          style={styles.fullscreenContainer}
+          resizeMode={Image.resizeMode.contain}
+        >
+          <View
+            style={styles.fullscreenContainer}>
+            {infoPanel}
+            {sharePanel}
+            <View style={replaybuttonLocation}>
+              {replaybutton}
+            </View>
+            {waterMark}
+          </View>
+         {progressBar}
+         {controlBar}
+        </Image>
+
+      );
   }
 
-   return (
 
-     <Image 
-     source={{uri: this.props.promoUrl}}
-     style={styles.fullscreenContainer}
-     resizeMode={Image.resizeMode.contain}
-     >
-      <View 
-        style={styles.fullscreenContainer}>
-
-       {infoPanel}
-       {sharePanel}
-
-       <View style={replaybuttonLocation}>
-        {replaybutton}
-       </View>
-
-       {waterMark}
-       </View>
-       {progressBar}
-       {controlBar}
-     </Image>
-      
-     );
 }
 });
 

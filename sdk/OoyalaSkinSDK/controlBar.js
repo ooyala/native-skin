@@ -40,7 +40,6 @@ var ControlBar = React.createClass({
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
-    showWatermark: React.PropTypes.bool,
     live: React.PropTypes.string,
     shouldShowLandscape: React.PropTypes.bool
   },

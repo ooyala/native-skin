@@ -112,8 +112,6 @@ var VideoView = React.createClass({
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
-      shouldShowLandscape={this.props.shouldShowLandscape}
-      showWatermark={this.props.showWatermark}
       width={this.props.width}
       height={this.props.height}
       isShow='true'/>);
