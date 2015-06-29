@@ -108,8 +108,7 @@ var StartScreen = React.createClass({
     if(this.props.config.showPromo) {
       promoUrl = this.props.promoUrl;
     }
-    
-    //if (fullscreenPromoImage) {
+
       return (
         <Image 
           source={{uri: promoUrl}}
@@ -119,23 +118,6 @@ var StartScreen = React.createClass({
           {playButton}
           {waterMarkImage}
         </Image>);
-    /*} else {
-      var promoImage = (
-        <Image 
-          source={{uri: promoUrl}}
-          style={styles.promoImageSmall}
-          resizeMode={Image.resizeMode.contain}>
-        </Image>
-      );
-      return (
-        <View style={styles.container}>
-          {playButton}
-          {promoImage}
-          {infoPanel}
-          {waterMarkImage}
-        </View>
-      );
-    }*/
   }
 });
 
