@@ -1,16 +1,8 @@
-var React = require('react-native');
-
-var styles = React.StyleSheet.create({
+{
   container: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start'
-  },
-
-  fullscreenContainer: {
-  	flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
   },
 
   promoImageSmall: {
@@ -45,8 +37,5 @@ var styles = React.StyleSheet.create({
     color: 'white',
     fontFamily: 'fontawesome',
     margin: 10
-  },
-});
-
-module.exports = styles;
-
+  }
+}

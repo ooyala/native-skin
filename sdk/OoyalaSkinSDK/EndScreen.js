@@ -8,6 +8,9 @@ var {
   TouchableHighlight,
 } = React;
 
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/endScreenStyles.json'));
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var WaterMark = require('./waterMark');
@@ -167,54 +170,6 @@ render: function() {
 
 
 }
-});
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-
-  fullscreenContainer: {
-  	flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-
-  promoImageSmall: {
-    width: 180,
-    height: 90,
-    margin: 20,
-  },
-
-  replaybuttonCenter: {
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-
-  replaybuttonSE: {
-    position: 'absolute',    
-    bottom: 0,
-    right: 0
-  },
-
-  replaybuttonSW: {
-    position: 'absolute',    
-    bottom: 0,
-    left: 0
-  },
-
-  replaybutton: {
-    fontSize: 40,
-    textAlign: 'center',
-    color: 'white',
-    fontFamily: 'fontawesome',
-    margin: 10
-  },
 });
 
 module.exports = EndScreen;
