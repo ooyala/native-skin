@@ -263,13 +263,15 @@ var VideoView = React.createClass({
     
     var progressBar = this._renderProgressBar();
     var controlBar = this._renderControlBar();
+    var closedCaptions = this._renderClosedCaptions();
 
     if(this.state.showMoreOptionScreen){
       progressBar = null;
       controlBar = null;
-      ccOverlay = null;
+      closedCaptions = null;
     }
 
+    
     return (
       <View style={styles.container}>
         {adBar}
