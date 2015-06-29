@@ -48,14 +48,14 @@ var VideoView = React.createClass({
     live: React.PropTypes.bool,
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
+    height: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
-    onSocialButtonPress: React.PropTypes.func,
-    showWatermark: React.PropTypes.bool,
+    onSocialButtonPress: React.PropTypes.func
   },
 
   shouldShowDiscovery: function() {
@@ -114,8 +114,9 @@ var VideoView = React.createClass({
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
-      showWatermark={this.props.showWatermark}
-      isShow = {this.state.showControls}/>);
+      width={this.props.width}
+      height={this.props.height}
+      isShow='true'/>);
   },
 
   _renderAdBar: function() {
