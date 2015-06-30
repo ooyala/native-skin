@@ -111,6 +111,8 @@ var VideoView = React.createClass({
       playhead={this.props.playhead} 
       duration={this.props.duration}
       live={this.generateLiveLabel()}
+      width={this.props.width}
+      height={this.props.height}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}

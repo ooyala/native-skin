@@ -59,6 +59,18 @@ var ProgressBar = React.createClass({
     return percent;
   },
 
+  componentDidUpdate: function(prevProps, prevState) {
+    if(prevProps.isShow != this.props.isShow) {
+      AnimationExperimental.startAnimation({
+        node: this,
+        duration: 400,
+        property: 'positionY',
+        easing: 'easingInOutExpo',
+        toValue: this.props.isShow ? this.props.height - 46 : this.props.height
+      });
+    }
+  },
+
   render: function() {
     var playedPercent = this.positionToPercent(this.props.playhead);
     var bufferedPercent = this.positionToPercent(this.props.buffered - this.props.playhead);
