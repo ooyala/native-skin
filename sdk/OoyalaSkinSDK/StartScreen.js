@@ -9,6 +9,9 @@ var {
   TouchableHighlight,
 } = React;
 
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 var Constants = require('./constants');
 var {
   IMG_URLS
@@ -66,11 +69,11 @@ var StartScreen = React.createClass({
 
     var infoPanelLocation;
     switch (this.props.config.infoPanelPosition) {
-      case "NW":
-        infoPanelLocation = styles.NW;
+      case "topLeft":
+        infoPanelLocation = styles.infoPanelNW;
         break;
-      case "SW":
-        infoPanelLocation = styles.SW;
+      case "bottomLeft":
+        infoPanelLocation = styles.infoPanelSW;
         break;
       default:
         throw("Invalid infoPanel location " + this.props.config.infoPanelPosition);
@@ -124,73 +127,6 @@ var StartScreen = React.createClass({
         {playButton}
       </View>
     );
-  },
-});
-
-var padding = 10;
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  infoPanelTitle: {
-    textAlign: 'left',
-    fontSize: 20,
-    fontFamily: 'Arial-BoldMT',
-    color: 'white',
-    marginTop: 20,
-    marginLeft: 10,
-    marginRight: 10
-  },
-
-  infoPanelDescription: {
-    textAlign: 'left',
-    fontSize: 16,
-    fontFamily: 'ArialMT',
-    color: 'white',
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
-  },
-
-  waterMarkImage: {
-    width:160,
-    height: 24,
-    backgroundColor: 'transparent',
-    margin: 10
-  },
-
-  promoImageSmall: {
-    position: 'absolute',
-    width: 180,
-    height: 90,
-    margin: 20,
-    left: 0,
-    bottom: 50,
-  },
-
-  SW: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-  },
-
-  SE: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-  },
-
-  NW: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  },
-
-  NE: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
   },
 });
 

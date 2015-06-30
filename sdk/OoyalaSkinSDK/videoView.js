@@ -22,6 +22,8 @@ var AdBar = require('./adBar');
 var Constants = require('./constants');
 var Utils = require('./utils');
 
+var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+
 var {
   ICONS,
   BUTTON_NAMES,
@@ -46,14 +48,14 @@ var VideoView = React.createClass({
     live: React.PropTypes.bool,
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
+    height: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
-    onSocialButtonPress: React.PropTypes.func,
-    showWatermark: React.PropTypes.bool,
+    onSocialButtonPress: React.PropTypes.func
   },
 
   shouldShowDiscovery: function() {
@@ -86,8 +88,8 @@ var VideoView = React.createClass({
     if (this.props.ad) {
       return null;
     }
-    return (<ProgressBar ref='progressBar' 
-      playhead={this.props.playhead} 
+    return (<ProgressBar ref='progressBar'
+      playhead={this.props.playhead}
       duration={this.props.duration}
       width={this.props.width}
       onScrub={(value)=>this.handleScrub(value)} />);
@@ -103,17 +105,18 @@ var VideoView = React.createClass({
       this.props.availableClosedCaptionsLanguages.length > 0;
 
     return (<ControlBar
-      ref='controlBar' 
-      showPlay={this.props.showPlay} 
-      playhead={this.props.playhead} 
+      ref='controlBar'
+      showPlay={this.props.showPlay}
+      playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.generateLiveLabel()}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
-      showWatermark={this.props.showWatermark}
-      isShow = {this.state.showControls}/>);
+      width={this.props.width}
+      height={this.props.height}
+      isShow='true'/>);
   },
 
   _renderAdBar: function() {
@@ -125,7 +128,7 @@ var VideoView = React.createClass({
       console.log("adbar title" + adTitle + "clickUrl " + this.props.ad.clickUrl);
       return (<AdBar
         title={adTitle}
-        playhead={this.props.playhead} 
+        playhead={this.props.playhead}
         duration={this.props.duration}
         count={count}
         index={count - unplayed}
@@ -165,7 +168,7 @@ var VideoView = React.createClass({
     return <ClosedCaptionsView
       style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
       captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;    
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
   },
 
   _handleSocialShare: function() {
@@ -215,29 +218,6 @@ var VideoView = React.createClass({
       </View>
     );
   }
-});
-
-var styles = StyleSheet.create({
-  fullscreenContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-  placeholder : {
-    flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: 'transparent',
-  },
-  closedCaptionStyle: {
-    flex: 1,
-    alignItems: 'flex-end',
-    backgroundColor: 'transparent',
-  },
 });
 
 module.exports = VideoView
