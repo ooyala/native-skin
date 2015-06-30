@@ -89,12 +89,14 @@ var StartScreen = React.createClass({
 
   getPromoImage: function() {
     if (this.props.config.showPromo && this.props.promoUrl) {
-      var fullscreen = (this.props.config.mode == 'default');
+      var fullscreen = (this.props.config.promoImageSize == 'default');
 
       return (
         <Image 
           source={{uri: this.props.promoUrl}}
-          style={fullscreen ? styles.container : styles.promoImageSmall}
+          style={fullscreen ? 
+            {position:'absolute', top:0, left:0, width:this.props.width, height: this.props.height} :
+             styles.promoImageSmall}
           resizeMode={Image.resizeMode.contain}>
         </Image>
       );
@@ -104,7 +106,7 @@ var StartScreen = React.createClass({
   },
 
   getWaterMark: function () {
-    var waterMarkImageLocation = styles.SE;
+    var waterMarkImageLocation = styles.waterMarkImageSE;
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
         source={{uri: IMG_URLS.OOYALA_LOGO}} 
