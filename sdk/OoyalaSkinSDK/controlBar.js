@@ -14,6 +14,7 @@ var {
   View
 } = React;
 
+var AnimationExperimental = require('AnimationExperimental');
 var Constants = require('./constants');
 var {
   ICONS,
@@ -78,6 +79,18 @@ var ControlBar = React.createClass({
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   },
 
+  componentDidUpdate: function(prevProps, prevState) {
+    if(prevProps.isShow != this.props.isShow) {
+      AnimationExperimental.startAnimation({
+        node: this,
+        duration: 400,
+        property: 'positionY',
+        easing: 'easingInOutExpo',
+        toValue: this.props.isShow ? this.props.height - 46 : this.props.height
+      });
+    }
+  },
+
   render: function() {
     var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
     var shareIcon = ICONS.SHARE;
@@ -116,7 +129,7 @@ var ControlBar = React.createClass({
     }
 
     return (
-        <View style={styles.container}>
+        <View style={displayStyle}>
             <TouchableHighlight onPress={this.onPlayPausePress}>
                 <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
             </TouchableHighlight>

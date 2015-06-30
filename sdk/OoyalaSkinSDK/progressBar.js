@@ -10,6 +10,7 @@ var {
   StyleSheet
 } = React;
 
+var AnimationExperimental = require('AnimationExperimental');
 var eventBridge = require('NativeModules').OOReactBridge;
 
 var ICONS = require('./constants').ICONS;
@@ -21,7 +22,8 @@ var ProgressBar = React.createClass({
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
     width: React.PropTypes.number,
-    onScrub: React.PropTypes.func,
+    height: React.PropTypes.number,
+    onScrub: React.PropTypes.func
   },
 
   getInitialState: function() {
