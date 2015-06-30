@@ -11,6 +11,11 @@ var {
 
 
 var Utils = {
+
+  shouldShowLandscape: function(width, height) {
+    return width > height;
+  },
+
   // Returns a React stylesheet based on the json object passed in. This method takes the json object,
   // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
   getStyles: function(specificStyles) {
@@ -59,6 +64,6 @@ var Utils = {
     }
     return minus + t;
   }
-}
+};
 
 module.exports = Utils;

@@ -9,16 +9,6 @@
 /* Begin PBXBuildFile section */
 		0B773E721B211FFA0056588E /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B773E701B211FFA0056588E /* OOReactSocialShare.h */; };
 		0B773E731B211FFA0056588E /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B773E711B211FFA0056588E /* OOReactSocialShare.m */; };
-		0BDAB8D81B41EFE9008FDCB9 /* adBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8CE1B41EFE9008FDCB9 /* adBarStyles.json */; };
-		0BDAB8D91B41EFE9008FDCB9 /* controlBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8CF1B41EFE9008FDCB9 /* controlBarStyles.json */; };
-		0BDAB8DA1B41EFE9008FDCB9 /* discoveryPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D01B41EFE9008FDCB9 /* discoveryPanelStyles.json */; };
-		0BDAB8DB1B41EFE9008FDCB9 /* endScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D11B41EFE9008FDCB9 /* endScreenStyles.json */; };
-		0BDAB8DC1B41EFE9008FDCB9 /* infoPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D21B41EFE9008FDCB9 /* infoPanelStyles.json */; };
-		0BDAB8DD1B41EFE9008FDCB9 /* pauseScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D31B41EFE9008FDCB9 /* pauseScreenStyles.json */; };
-		0BDAB8DE1B41EFE9008FDCB9 /* sharePanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D41B41EFE9008FDCB9 /* sharePanelStyles.json */; };
-		0BDAB8DF1B41EFE9008FDCB9 /* startScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D51B41EFE9008FDCB9 /* startScreenStyles.json */; };
-		0BDAB8E01B41EFE9008FDCB9 /* styles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D61B41EFE9008FDCB9 /* styles.json */; };
-		0BDAB8E11B41EFE9008FDCB9 /* videoViewStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 0BDAB8D71B41EFE9008FDCB9 /* videoViewStyles.json */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
 		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
@@ -89,16 +79,6 @@
 /* Begin PBXFileReference section */
 		0B773E701B211FFA0056588E /* OOReactSocialShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSocialShare.h; sourceTree = "<group>"; };
 		0B773E711B211FFA0056588E /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
-		0BDAB8CE1B41EFE9008FDCB9 /* adBarStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = adBarStyles.json; sourceTree = "<group>"; };
-		0BDAB8CF1B41EFE9008FDCB9 /* controlBarStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = controlBarStyles.json; sourceTree = "<group>"; };
-		0BDAB8D01B41EFE9008FDCB9 /* discoveryPanelStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = discoveryPanelStyles.json; sourceTree = "<group>"; };
-		0BDAB8D11B41EFE9008FDCB9 /* endScreenStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = endScreenStyles.json; sourceTree = "<group>"; };
-		0BDAB8D21B41EFE9008FDCB9 /* infoPanelStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = infoPanelStyles.json; sourceTree = "<group>"; };
-		0BDAB8D31B41EFE9008FDCB9 /* pauseScreenStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pauseScreenStyles.json; sourceTree = "<group>"; };
-		0BDAB8D41B41EFE9008FDCB9 /* sharePanelStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sharePanelStyles.json; sourceTree = "<group>"; };
-		0BDAB8D51B41EFE9008FDCB9 /* startScreenStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = startScreenStyles.json; sourceTree = "<group>"; };
-		0BDAB8D61B41EFE9008FDCB9 /* styles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = styles.json; sourceTree = "<group>"; };
-		0BDAB8D71B41EFE9008FDCB9 /* videoViewStyles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = videoViewStyles.json; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
@@ -159,27 +139,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0BDAB8CD1B41EFE9008FDCB9 /* style */ = {
-			isa = PBXGroup;
-			children = (
-				0BDAB8CE1B41EFE9008FDCB9 /* adBarStyles.json */,
-				0BDAB8CF1B41EFE9008FDCB9 /* controlBarStyles.json */,
-				0BDAB8D01B41EFE9008FDCB9 /* discoveryPanelStyles.json */,
-				0BDAB8D11B41EFE9008FDCB9 /* endScreenStyles.json */,
-				0BDAB8D21B41EFE9008FDCB9 /* infoPanelStyles.json */,
-				0BDAB8D31B41EFE9008FDCB9 /* pauseScreenStyles.json */,
-				0BDAB8D41B41EFE9008FDCB9 /* sharePanelStyles.json */,
-				0BDAB8D51B41EFE9008FDCB9 /* startScreenStyles.json */,
-				0BDAB8D61B41EFE9008FDCB9 /* styles.json */,
-				0BDAB8D71B41EFE9008FDCB9 /* videoViewStyles.json */,
-			);
-			path = style;
-			sourceTree = "<group>";
-		};
 		5EEDC9C31B0E7B8100A3AD27 /* JSX */ = {
 			isa = PBXGroup;
 			children = (
-				0BDAB8CD1B41EFE9008FDCB9 /* style */,
 				978C867A1B3B8726009E1A16 /* adBar.js */,
 				5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */,
 				5EEDC9C41B0E7B9000A3AD27 /* constants.js */,
@@ -423,31 +385,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BDAB8DC1B41EFE9008FDCB9 /* infoPanelStyles.json in Resources */,
-				0BDAB8DB1B41EFE9008FDCB9 /* endScreenStyles.json in Resources */,
 				5EEDC9D21B0E7B9000A3AD27 /* EndScreen.js in Resources */,
 				5EEDC9DB1B0E7B9000A3AD27 /* waterMark.js in Resources */,
 				978C867F1B3B8726009E1A16 /* discoveryPanel.js in Resources */,
 				5EEDC9D51B0E7B9000A3AD27 /* PauseScreen.js in Resources */,
 				978C86811B3B8726009E1A16 /* utils.js in Resources */,
-				0BDAB8E01B41EFE9008FDCB9 /* styles.json in Resources */,
 				978C86801B3B8726009E1A16 /* index.ios.js in Resources */,
-				0BDAB8D81B41EFE9008FDCB9 /* adBarStyles.json in Resources */,
 				5EEDC9D11B0E7B9000A3AD27 /* controlBar.js in Resources */,
 				5EEDC9D91B0E7B9000A3AD27 /* StartScreen.js in Resources */,
 				5EEDC9D81B0E7B9000A3AD27 /* sharePanel.js in Resources */,
 				5EEDC9D71B0E7B9000A3AD27 /* progressBar.js in Resources */,
 				5EEDC9DA1B0E7B9000A3AD27 /* videoView.js in Resources */,
-				0BDAB8E11B41EFE9008FDCB9 /* videoViewStyles.json in Resources */,
 				978C867E1B3B8726009E1A16 /* adBar.js in Resources */,
-				0BDAB8DF1B41EFE9008FDCB9 /* startScreenStyles.json in Resources */,
 				5EEDC9D01B0E7B9000A3AD27 /* constants.js in Resources */,
-				0BDAB8D91B41EFE9008FDCB9 /* controlBarStyles.json in Resources */,
-				0BDAB8DA1B41EFE9008FDCB9 /* discoveryPanelStyles.json in Resources */,
-				0BDAB8DE1B41EFE9008FDCB9 /* sharePanelStyles.json in Resources */,
 				5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */,
 				5EEDC9D31B0E7B9000A3AD27 /* infoPanel.js in Resources */,
-				0BDAB8DD1B41EFE9008FDCB9 /* pauseScreenStyles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
