@@ -1,0 +1,22 @@
+{
+  fullscreenContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+  },
+  placeholder : {
+    flex: 1,
+    alignItems: 'stretch',
+    backgroundColor: 'transparent',
+  },
+  closedCaptionStyle: {
+    flex: 1,
+    alignItems: 'flex-end',
+    backgroundColor: 'transparent',
+  }
+}

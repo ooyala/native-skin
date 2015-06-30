@@ -7,6 +7,10 @@ var {
   	TouchableHighlight,
 } = React;
 
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/sharePanelStyles.json'));
+
 var SharePanel = React.createClass ({
 	propTypes: {
 		isShow: React.PropTypes.boolean,
@@ -68,42 +72,6 @@ var SharePanel = React.createClass ({
     		</View>
 		)
 	}
-});
-
-var styles = StyleSheet.create({
-	container: {
-    	flexDirection: 'column',
-    	alignItems: 'center',
-  	},
-
-  	sharePanelNW: {
-  		flexDirection: 'column',
-    	backgroundColor: 'rgba(0,0,0,0.5)',
-  	},
-
-  	sharePanelTitle: {
-  		textAlign: 'center',
-	    fontSize: 18,
-	    fontFamily: 'Arial-BoldMT',
-	    color: 'white',
-	    margin: 20
-  	},
-
-  	sharePanelButtonRow: {
-  		flexDirection:'row',
-  		alignItems: 'center',
-  		alignSelf: 'center',
-  		backgroundColor: 'transparent',
-  		margin: 20
-  	},
-
-  	socialButton: {
-  		width: 54,
-  		height: 54,
-  		alignItems: 'center',
-    	backgroundColor: 'transparent',
-    	margin: 10
-  	}
 });
 
 module.exports = SharePanel;

@@ -61,7 +61,7 @@ var ProgressBar = React.createClass({
     var bufferedPercent = this.positionToPercent(this.props.buffered - this.props.playhead);
     var unbufferedPercent = 1 - playedPercent - bufferedPercent;
     
-    var containerStyle = {flexDirection: 'row', height: 10};
+    var containerStyle = {flexDirection: 'row', height: 2};
     var playedStyle = {backgroundColor: '#488DFB', flex: playedPercent};
     var bufferedStyle = {backgroundColor: '#808080', flex: bufferedPercent};
     var unbufferedStyle = {backgroundColor: '#B0B0B0', flex: unbufferedPercent};

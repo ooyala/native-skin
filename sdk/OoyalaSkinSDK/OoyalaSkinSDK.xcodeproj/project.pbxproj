@@ -17,9 +17,7 @@
 		5EEDC9D11B0E7B9000A3AD27 /* controlBar.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C51B0E7B9000A3AD27 /* controlBar.js */; };
 		5EEDC9D21B0E7B9000A3AD27 /* EndScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */; };
 		5EEDC9D31B0E7B9000A3AD27 /* infoPanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C71B0E7B9000A3AD27 /* infoPanel.js */; };
-		5EEDC9D41B0E7B9000A3AD27 /* ooyalaSkin.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C81B0E7B9000A3AD27 /* ooyalaSkin.js */; };
 		5EEDC9D51B0E7B9000A3AD27 /* PauseScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C91B0E7B9000A3AD27 /* PauseScreen.js */; };
-		5EEDC9D61B0E7B9000A3AD27 /* pauseScreenStyles.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CA1B0E7B9000A3AD27 /* pauseScreenStyles.js */; };
 		5EEDC9D71B0E7B9000A3AD27 /* progressBar.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CB1B0E7B9000A3AD27 /* progressBar.js */; };
 		5EEDC9D81B0E7B9000A3AD27 /* sharePanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CC1B0E7B9000A3AD27 /* sharePanel.js */; };
 		5EEDC9D91B0E7B9000A3AD27 /* StartScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CD1B0E7B9000A3AD27 /* StartScreen.js */; };
@@ -38,6 +36,10 @@
 		972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8B91AE70307005043DC /* libRCTImage.a */; };
 		972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8D21AE70760005043DC /* libRCTText.a */; };
 		97637E2C1B1E700900501427 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97637E2B1B1E700900501427 /* OoyalaSDK.framework */; };
+		978C867E1B3B8726009E1A16 /* adBar.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867A1B3B8726009E1A16 /* adBar.js */; };
+		978C867F1B3B8726009E1A16 /* discoveryPanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867B1B3B8726009E1A16 /* discoveryPanel.js */; };
+		978C86801B3B8726009E1A16 /* index.ios.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867C1B3B8726009E1A16 /* index.ios.js */; };
+		978C86811B3B8726009E1A16 /* utils.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867D1B3B8726009E1A16 /* utils.js */; };
 		97DE27A61B212B4A0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27A51B212B4A0071DBFE /* libc++.dylib */; };
 		97DE27AC1B212B520071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AB1B212B520071DBFE /* libc++abi.dylib */; };
 		97DE27AE1B212B670071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AD1B212B670071DBFE /* libxml2.dylib */; };
@@ -85,9 +87,7 @@
 		5EEDC9C51B0E7B9000A3AD27 /* controlBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = controlBar.js; sourceTree = "<group>"; };
 		5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = EndScreen.js; sourceTree = "<group>"; };
 		5EEDC9C71B0E7B9000A3AD27 /* infoPanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = infoPanel.js; sourceTree = "<group>"; };
-		5EEDC9C81B0E7B9000A3AD27 /* ooyalaSkin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ooyalaSkin.js; sourceTree = "<group>"; };
 		5EEDC9C91B0E7B9000A3AD27 /* PauseScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PauseScreen.js; sourceTree = "<group>"; };
-		5EEDC9CA1B0E7B9000A3AD27 /* pauseScreenStyles.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pauseScreenStyles.js; sourceTree = "<group>"; };
 		5EEDC9CB1B0E7B9000A3AD27 /* progressBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = progressBar.js; sourceTree = "<group>"; };
 		5EEDC9CC1B0E7B9000A3AD27 /* sharePanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sharePanel.js; sourceTree = "<group>"; };
 		5EEDC9CD1B0E7B9000A3AD27 /* StartScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = StartScreen.js; sourceTree = "<group>"; };
@@ -108,6 +108,10 @@
 		972ED8CB1AE70631005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		97637E2B1B1E700900501427 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
+		978C867A1B3B8726009E1A16 /* adBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = adBar.js; sourceTree = "<group>"; };
+		978C867B1B3B8726009E1A16 /* discoveryPanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = discoveryPanel.js; sourceTree = "<group>"; };
+		978C867C1B3B8726009E1A16 /* index.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.ios.js; sourceTree = "<group>"; };
+		978C867D1B3B8726009E1A16 /* utils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = utils.js; sourceTree = "<group>"; };
 		97DE27A51B212B4A0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27AB1B212B520071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -138,17 +142,19 @@
 		5EEDC9C31B0E7B8100A3AD27 /* JSX */ = {
 			isa = PBXGroup;
 			children = (
+				978C867A1B3B8726009E1A16 /* adBar.js */,
 				5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */,
 				5EEDC9C41B0E7B9000A3AD27 /* constants.js */,
 				5EEDC9C51B0E7B9000A3AD27 /* controlBar.js */,
+				978C867B1B3B8726009E1A16 /* discoveryPanel.js */,
 				5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */,
+				978C867C1B3B8726009E1A16 /* index.ios.js */,
 				5EEDC9C71B0E7B9000A3AD27 /* infoPanel.js */,
-				5EEDC9C81B0E7B9000A3AD27 /* ooyalaSkin.js */,
 				5EEDC9C91B0E7B9000A3AD27 /* PauseScreen.js */,
-				5EEDC9CA1B0E7B9000A3AD27 /* pauseScreenStyles.js */,
 				5EEDC9CB1B0E7B9000A3AD27 /* progressBar.js */,
 				5EEDC9CC1B0E7B9000A3AD27 /* sharePanel.js */,
 				5EEDC9CD1B0E7B9000A3AD27 /* StartScreen.js */,
+				978C867D1B3B8726009E1A16 /* utils.js */,
 				5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */,
 				5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */,
 			);
@@ -381,14 +387,16 @@
 			files = (
 				5EEDC9D21B0E7B9000A3AD27 /* EndScreen.js in Resources */,
 				5EEDC9DB1B0E7B9000A3AD27 /* waterMark.js in Resources */,
+				978C867F1B3B8726009E1A16 /* discoveryPanel.js in Resources */,
 				5EEDC9D51B0E7B9000A3AD27 /* PauseScreen.js in Resources */,
+				978C86811B3B8726009E1A16 /* utils.js in Resources */,
+				978C86801B3B8726009E1A16 /* index.ios.js in Resources */,
 				5EEDC9D11B0E7B9000A3AD27 /* controlBar.js in Resources */,
 				5EEDC9D91B0E7B9000A3AD27 /* StartScreen.js in Resources */,
 				5EEDC9D81B0E7B9000A3AD27 /* sharePanel.js in Resources */,
 				5EEDC9D71B0E7B9000A3AD27 /* progressBar.js in Resources */,
 				5EEDC9DA1B0E7B9000A3AD27 /* videoView.js in Resources */,
-				5EEDC9D41B0E7B9000A3AD27 /* ooyalaSkin.js in Resources */,
-				5EEDC9D61B0E7B9000A3AD27 /* pauseScreenStyles.js in Resources */,
+				978C867E1B3B8726009E1A16 /* adBar.js in Resources */,
 				5EEDC9D01B0E7B9000A3AD27 /* constants.js in Resources */,
 				5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */,
 				5EEDC9D31B0E7B9000A3AD27 /* infoPanel.js in Resources */,
