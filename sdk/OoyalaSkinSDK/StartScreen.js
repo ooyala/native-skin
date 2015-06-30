@@ -18,7 +18,7 @@ var {
 } = Constants;
 
 var ICONS = require('./constants').ICONS;
-var RectButton = require('./widgets/rectButton');
+var RectButton = require('./widgets/RectButton');
 
 var StartScreen = React.createClass({
   propTypes: {
