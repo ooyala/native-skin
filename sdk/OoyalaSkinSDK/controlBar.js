@@ -34,6 +34,8 @@ var ControlBar = React.createClass({
   },
 
   propTypes: {
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
     primaryActionButton: React.PropTypes.string,
     fullscreenButton: React.PropTypes.string,
     playhead: React.PropTypes.number,
@@ -41,8 +43,8 @@ var ControlBar = React.createClass({
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
-    showWatermark: React.PropTypes.bool,
-    live: React.PropTypes.string
+    live: React.PropTypes.string,
+    shouldShowLandscape: React.PropTypes.bool
   },
 
   getDefaultProps: function() {
@@ -107,7 +109,7 @@ var ControlBar = React.createClass({
 
     var watermark;
     // If is landscape
-    if(this.props.showWatermark) {
+    if(Utils.shouldShowLandscape(this.props.width, this.props.height)) {
       watermark = (
         <Image style={styles.waterMarkImage}
           source={{uri: IMG_URLS.OOYALA_LOGO}}

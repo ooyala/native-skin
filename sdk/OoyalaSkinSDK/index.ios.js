@@ -20,6 +20,7 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
+var DiscoveryPanel = require('./discoveryPanel');
 
 var Constants = require('./constants');
 var {
@@ -163,10 +164,6 @@ var OoyalaSkin = React.createClass({
     // nothing to do yet.
   },
 
-  shouldShowLandscape: function() {
-    return this.state.width > this.state.height;
-  },
-
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
@@ -212,16 +209,29 @@ var OoyalaSkin = React.createClass({
         title={this.state.title}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
+        width={this.state.width}
+        height={this.state.height}
         onPress={(name) => this.handlePress(name)}/>
     );
   },
 
   _renderEndScreen: function() {
-    var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    var EndScreenConfig = config.endScreen;
+    var discovery = (
+      <DiscoveryPanel
+        isShow='true'
+        config={config.discoveryScreen}
+        dataSource={this.state.discoveryResults}
+        onRowAction={(info) => this.onDiscoveryRow(info)}>
+      </DiscoveryPanel>);
+
     return (
       <EndScreen
         config={EndScreenConfig}
         title={this.state.title}
+        width={this.state.width}
+        height={this.state.height}
+        discoveryPanel={discovery}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
         duration={this.state.duration} 
@@ -243,7 +253,6 @@ var OoyalaSkin = React.createClass({
          live ={this.state.live}
          width={this.state.width}
          height={this.state.height}
-         showWatermark={this.shouldShowLandscape()}
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
