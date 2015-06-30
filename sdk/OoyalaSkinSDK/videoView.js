@@ -21,6 +21,8 @@ var AdBar = require('./adBar');
 var Constants = require('./constants');
 var Utils = require('./utils');
 
+var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+
 var {
   ICONS,
   BUTTON_NAMES,
@@ -87,8 +89,8 @@ var VideoView = React.createClass({
     if (this.props.ad) {
       return null;
     }
-    return (<ProgressBar ref='progressBar' 
-      playhead={this.props.playhead} 
+    return (<ProgressBar ref='progressBar'
+      playhead={this.props.playhead}
       duration={this.props.duration}
       width={this.props.width}
       height={this.props.height}
@@ -106,9 +108,9 @@ var VideoView = React.createClass({
       this.props.availableClosedCaptionsLanguages.length > 0;
 
     return (<ControlBar
-      ref='controlBar' 
-      showPlay={this.props.showPlay} 
-      playhead={this.props.playhead} 
+      ref='controlBar'
+      showPlay={this.props.showPlay}
+      playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.generateLiveLabel()}
       width={this.props.width}
@@ -130,7 +132,7 @@ var VideoView = React.createClass({
       console.log("adbar title" + adTitle + "clickUrl " + this.props.ad.clickUrl);
       return (<AdBar
         title={adTitle}
-        playhead={this.props.playhead} 
+        playhead={this.props.playhead}
         duration={this.props.duration}
         count={count}
         index={count - unplayed}
@@ -170,7 +172,7 @@ var VideoView = React.createClass({
     return <ClosedCaptionsView
       style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
       captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;    
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
   },
 
   _handleSocialShare: function() {
@@ -216,29 +218,6 @@ var VideoView = React.createClass({
       </View>
     );
   }
-});
-
-var styles = StyleSheet.create({
-  fullscreenContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-  placeholder : {
-    flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: 'transparent',
-  },
-  closedCaptionStyle: {
-    flex: 1,
-    alignItems: 'flex-end',
-    backgroundColor: 'transparent',
-  },
 });
 
 module.exports = VideoView
