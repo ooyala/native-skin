@@ -11,10 +11,10 @@ var {
   Text,
   Image,
   TouchableHighlight,
-  View
+  View,
+  LayoutAnimation
 } = React;
 
-var AnimationExperimental = require('AnimationExperimental');
 var Constants = require('./constants');
 var {
   ICONS,
@@ -85,13 +85,7 @@ var ControlBar = React.createClass({
 
   componentDidUpdate: function(prevProps, prevState) {
     if(prevProps.isShow != this.props.isShow) {
-      AnimationExperimental.startAnimation({
-        node: this,
-        duration: 400,
-        property: 'positionY',
-        easing: 'easingInOutExpo',
-        toValue: this.props.isShow ? this.props.height - 46 : this.props.height
-      });
+      LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     }
   },
 
@@ -160,5 +154,21 @@ var ControlBar = React.createClass({
     );
   }
 });
+
+var animations = {
+  layout: {
+    easeInEaseOut: {
+      duration: 400,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};
 
 module.exports = ControlBar;

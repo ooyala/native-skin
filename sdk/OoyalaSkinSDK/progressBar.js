@@ -7,10 +7,10 @@
 var React = require('react-native');
 var {
   View,
-  StyleSheet
+  StyleSheet,
+  LayoutAnimation
 } = React;
 
-var AnimationExperimental = require('AnimationExperimental');
 var eventBridge = require('NativeModules').OOReactBridge;
 
 var ICONS = require('./constants').ICONS;
@@ -61,13 +61,7 @@ var ProgressBar = React.createClass({
 
   componentDidUpdate: function(prevProps, prevState) {
     if(prevProps.isShow != this.props.isShow) {
-      AnimationExperimental.startAnimation({
-        node: this,
-        duration: 400,
-        property: 'positionY',
-        easing: 'easingInOutExpo',
-        toValue: this.props.isShow ? this.props.height - 46 : this.props.height
-      });
+      LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     }
   },
 
@@ -115,9 +109,24 @@ var styles = StyleSheet.create({
   },
   containerHidden: {
     flexDirection: 'row', 
-    height: 10,
-    top: 46
-  },
+    height: 10
+  }
 });
+
+var animations = {
+  layout: {
+    easeInEaseOut: {
+      duration: 400,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};
 
 module.exports = ProgressBar;
