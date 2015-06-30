@@ -18,7 +18,6 @@
 		5EEDC9D21B0E7B9000A3AD27 /* EndScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */; };
 		5EEDC9D31B0E7B9000A3AD27 /* infoPanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C71B0E7B9000A3AD27 /* infoPanel.js */; };
 		5EEDC9D51B0E7B9000A3AD27 /* PauseScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9C91B0E7B9000A3AD27 /* PauseScreen.js */; };
-		5EEDC9D61B0E7B9000A3AD27 /* pauseScreenStyles.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CA1B0E7B9000A3AD27 /* pauseScreenStyles.js */; };
 		5EEDC9D71B0E7B9000A3AD27 /* progressBar.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CB1B0E7B9000A3AD27 /* progressBar.js */; };
 		5EEDC9D81B0E7B9000A3AD27 /* sharePanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CC1B0E7B9000A3AD27 /* sharePanel.js */; };
 		5EEDC9D91B0E7B9000A3AD27 /* StartScreen.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CD1B0E7B9000A3AD27 /* StartScreen.js */; };
@@ -89,7 +88,6 @@
 		5EEDC9C61B0E7B9000A3AD27 /* EndScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = EndScreen.js; sourceTree = "<group>"; };
 		5EEDC9C71B0E7B9000A3AD27 /* infoPanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = infoPanel.js; sourceTree = "<group>"; };
 		5EEDC9C91B0E7B9000A3AD27 /* PauseScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PauseScreen.js; sourceTree = "<group>"; };
-		5EEDC9CA1B0E7B9000A3AD27 /* pauseScreenStyles.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = pauseScreenStyles.js; sourceTree = "<group>"; };
 		5EEDC9CB1B0E7B9000A3AD27 /* progressBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = progressBar.js; sourceTree = "<group>"; };
 		5EEDC9CC1B0E7B9000A3AD27 /* sharePanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = sharePanel.js; sourceTree = "<group>"; };
 		5EEDC9CD1B0E7B9000A3AD27 /* StartScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = StartScreen.js; sourceTree = "<group>"; };
@@ -153,7 +151,6 @@
 				978C867C1B3B8726009E1A16 /* index.ios.js */,
 				5EEDC9C71B0E7B9000A3AD27 /* infoPanel.js */,
 				5EEDC9C91B0E7B9000A3AD27 /* PauseScreen.js */,
-				5EEDC9CA1B0E7B9000A3AD27 /* pauseScreenStyles.js */,
 				5EEDC9CB1B0E7B9000A3AD27 /* progressBar.js */,
 				5EEDC9CC1B0E7B9000A3AD27 /* sharePanel.js */,
 				5EEDC9CD1B0E7B9000A3AD27 /* StartScreen.js */,
@@ -399,7 +396,6 @@
 				5EEDC9D81B0E7B9000A3AD27 /* sharePanel.js in Resources */,
 				5EEDC9D71B0E7B9000A3AD27 /* progressBar.js in Resources */,
 				5EEDC9DA1B0E7B9000A3AD27 /* videoView.js in Resources */,
-				5EEDC9D61B0E7B9000A3AD27 /* pauseScreenStyles.js in Resources */,
 				978C867E1B3B8726009E1A16 /* adBar.js in Resources */,
 				5EEDC9D01B0E7B9000A3AD27 /* constants.js in Resources */,
 				5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */,
