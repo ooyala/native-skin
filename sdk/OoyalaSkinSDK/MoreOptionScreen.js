@@ -13,6 +13,7 @@ var {
 
 var Utils = require('./utils');
 var Constants = require('./constants');
+var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
 
 var {
@@ -33,21 +34,27 @@ var MoreOptionScreen = React.createClass({
 
   _renderButton: function(style, icon, func) {
     return (
-      <TouchableHighlight onPress={func}>
-        <Text style={style}>{icon}</Text>
-      </TouchableHighlight>
+      <RectButton
+        icon={icon}
+        onPress={func}
+        fontSize={20}
+        style={style}>
+      </RectButton>
     );
   },
 
   _renderIconButton: function(icon, func) {
     return (
-      <TouchableHighlight onPress={func}>
-        <Text style={styles.icon}>{icon}</Text>
-      </TouchableHighlight>
+      <RectButton
+        icon={icon}
+        onPress={func}
+        fontSize={30}
+        style={styles.icon}>
+      </RectButton>
     );
   },
 
-  onPlayPausePress: function() { 
+  onDismissPress: function() { 
     this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
   },
 
@@ -63,38 +70,23 @@ var MoreOptionScreen = React.createClass({
     var shareButton = this._renderIconButton(ICONS.SHARE, this.onPlayPausePress);
     var settingButton = this._renderIconButton(ICONS.SETTING, this.onPlayPausePress);
 
-    var closeButton = this._renderButton(styles.closeIconStyle, ICONS.CLOSE, this.onPlayPausePress);
+    var dismissButton = this._renderButton(styles.closeIconStyle, ICONS.CLOSE, this.onDismissPress);
 
-    var moreOptionRow;
-    if(this.state.optionSelected){
-      moreOptionRow = (
-        <View
-          ref='moreOptionRow' 
-          style={styles.rowBottom}>
-          {discoveryButton}
-          {qualityButton}
-          {ccButton}
-          {shareButton}
-          {settingButton}
-        </View>
-      );
-    }else{
-      moreOptionRow = (
-        <View
-          ref='moreOptionRow' 
-          style={styles.rowCenter}>
-          {discoveryButton}
-          {qualityButton}
-          {ccButton}
-          {shareButton}
-          {settingButton}
-        </View>
-      );
-    }
-
-    var closeButtonRow = (
-      <View style={styles.closeButtonNE}>
-        {closeButton}
+    var moreOptionRow = (
+      <View
+        ref='moreOptionRow' 
+        style={this.state.optionSelected? styles.rowBottom: styles.rowCenter}>
+        {discoveryButton}          
+        {qualityButton}
+        {ccButton}
+        {shareButton}
+        {settingButton}
+      </View>
+    );
+    
+    var dismissButtonRow = (
+      <View style={styles.dismissButtonTopRight}>
+        {dismissButton}
       </View>
     );
 
@@ -102,7 +94,7 @@ var MoreOptionScreen = React.createClass({
     if(this.props.isShow){
       moreOptionScreen = (
         <View style={styles.fullscreenContainer}>
-          {closeButtonRow}
+          {dismissButtonRow}
           {moreOptionRow}
         </View>
       );
