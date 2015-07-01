@@ -1,8 +1,16 @@
 {
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
+    //alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+    height: 46,
+  },
+  containerHidden: {
+    flexDirection: 'row',
+    //alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    height: 0,
+    overflow: 'hidden',
   },
   icon: {
     fontSize: 20,

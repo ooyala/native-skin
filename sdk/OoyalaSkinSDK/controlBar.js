@@ -11,7 +11,8 @@ var {
   Text,
   Image,
   TouchableHighlight,
-  View
+  View,
+  LayoutAnimation
 } = React;
 
 var Constants = require('./constants');
@@ -58,9 +59,9 @@ var ControlBar = React.createClass({
     }
   },
 
-  onPlayPausePress: function() { 
+  onPlayPausePress: function() {
     this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
-  }, 
+  },
 
   onVolumePress: function() {
     this.setState({showVolume:!this.state.showVolume});
@@ -80,6 +81,12 @@ var ControlBar = React.createClass({
 
   onMorePress: function() {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
+  },
+
+  componentDidUpdate: function(prevProps, prevState) {
+    if(prevProps.isShow != this.props.isShow) {
+      LayoutAnimation.configureNext(animations.layout.controlBarHideShow);
+    }
   },
 
   render: function() {
@@ -107,45 +114,61 @@ var ControlBar = React.createClass({
     var ccButton;
     if( this.props.showClosedCaptionsButton ) {
       ccButton = (<TouchableHighlight onPress={this.onClosedCaptionsPress}>
-                    <Text style={styles.icon}>{closedCaptionsIcon}</Text>
-                  </TouchableHighlight>);
+        <Text style={styles.icon}>{closedCaptionsIcon}</Text>
+      </TouchableHighlight>);
     }
 
+    var displayStyle = styles.container;
     if (this.props.isShow){
-      controlBarView = (
-        <View style={styles.container}>
-          <TouchableHighlight onPress={this.onPlayPausePress}>
-            <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.onVolumePress}>
-            <Text style={this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon}>
-              {volumeIcon}
-            </Text>
-          </TouchableHighlight>
-            {volumeScrubber}
-          <Text style={styles.label}>{durationString}</Text>
-          <View style={styles.placeholder} />
-          <TouchableHighlight onPress={this.onSocialSharePress}>
-            <Text style={styles.icon}>{shareIcon}</Text>
-          </TouchableHighlight>
-          {ccButton}
-          <TouchableHighlight onPress={this.onFullscreenPress}>
-            <Text style={styles.icon}>{this.props.fullscreenButton}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.onMorePress}>
-            <Text style={styles.icon}>{menuIcon}</Text>
-          </TouchableHighlight>
-          {watermark}
-      </View>
-      );
+      displayStyle = styles.container;
     }
-    
+    else {
+      displayStyle = styles.containerHidden;
+    }
+
     return (
-      <View>
-        {controlBarView}
+      <View style={displayStyle}>
+        <TouchableHighlight onPress={this.onPlayPausePress}>
+          <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this.onVolumePress}>
+          <Text style={this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon}>
+            {volumeIcon}
+          </Text>
+        </TouchableHighlight>
+        {volumeScrubber}
+        <Text style={styles.label}>{durationString}</Text>
+        <View style={styles.placeholder} />
+        <TouchableHighlight onPress={this.onSocialSharePress}>
+          <Text style={styles.icon}>{shareIcon}</Text>
+        </TouchableHighlight>
+        {ccButton}
+        <TouchableHighlight onPress={this.onFullscreenPress}>
+          <Text style={styles.icon}>{this.props.fullscreenButton}</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this.onMorePress}>
+          <Text style={styles.icon}>{menuIcon}</Text>
+        </TouchableHighlight>
+        {watermark}
       </View>
     );
   }
 });
+
+var animations = {
+  layout: {
+    controlBarHideShow: {
+      duration: 400,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
+  }
+};
 
 module.exports = ControlBar;
