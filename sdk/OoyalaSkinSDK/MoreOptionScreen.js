@@ -13,6 +13,7 @@ var {
 
 var Utils = require('./utils');
 var Constants = require('./constants');
+var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
 
 var {
   ICONS,
@@ -113,57 +114,6 @@ var MoreOptionScreen = React.createClass({
       </View>
     );
   }
-});
-
-var styles = StyleSheet.create({
-  fullscreenContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)'
-  },
-  
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-end'
-  },
-
-  closeButtonNE:{
-    position: 'absolute',
-    top: 15,
-    right: 15,
-  },
-
-  rowCenter: {
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-
-  rowBottom: {
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'flex-end',
-    backgroundColor: 'transparent',
-  },
-
-  icon: {
-    fontSize: 30,
-    textAlign: 'center',
-    color: 'white',
-    fontFamily: 'fontawesome',
-    margin: 15
-  },
-
-  closeIconStyle: {
-    fontSize: 20,
-    textAlign: 'center',
-    color: '#8E8E8E',
-    fontFamily: 'fontawesome',
-  },
 });
 
 var animations = {
