@@ -10,6 +10,10 @@ var ICONS = {
   REPLAY:'\uf01e',
   SHARE:'\uf045',
   CC: '\uf20a',
+  DISCOVERY: '\uf14e',
+  QUALITY: '\uf080',
+  SETTING: '\uf013',
+  CLOSE: '\uf00d',
 };
 
 var BUTTON_NAMES = { // must match Objective-C code expectations.
