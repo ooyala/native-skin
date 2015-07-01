@@ -85,7 +85,7 @@ var ControlBar = React.createClass({
 
   componentDidUpdate: function(prevProps, prevState) {
     if(prevProps.isShow != this.props.isShow) {
-      LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+      LayoutAnimation.configureNext(animations.layout.controlBarHideShow);
     }
   },
 
@@ -157,7 +157,7 @@ var ControlBar = React.createClass({
 
 var animations = {
   layout: {
-    easeInEaseOut: {
+    controlBarHideShow: {
       duration: 400,
       create: {
         type: LayoutAnimation.Types.easeInEaseOut,

@@ -56,7 +56,7 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
-    lastPress: React.PropTypes.number
+    lastPressedTime: React.PropTypes.number
   },
 
   shouldShowDiscovery: function() {
@@ -188,7 +188,7 @@ var VideoView = React.createClass({
   },
 
   showControlBar: function() {
-    return this.state.showControls && (new Date).getTime() < this.props.lastPress + 5000;
+    return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + 5000;
   },
 
   toggleControlBar: function() {

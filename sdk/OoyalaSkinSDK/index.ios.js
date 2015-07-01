@@ -49,7 +49,7 @@ var OoyalaSkin = React.createClass({
       duration: 1,
       rate: 0,
       fullscreen: false,
-      lastPress: (new Date).getTime()
+      lastPressedTime: (new Date).getTime()
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -83,7 +83,7 @@ var OoyalaSkin = React.createClass({
   },
 
   handlePress: function(n) {
-    this.setState({lastPress: (new Date).getTime()});
+    this.setState({lastPressedTime: (new Date).getTime()});
     this.cchack(n); // todo: remove this testing hack and do it right.
     eventBridge.onPress({name:n});
   },
@@ -261,7 +261,7 @@ var OoyalaSkin = React.createClass({
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-         lastPress={this.state.lastPress} >
+         lastPressedTime={this.state.lastPressedTime} >
        </VideoView>
 
      );
