@@ -44,3 +44,10 @@ For more details please refer to: https://facebook.github.io/react-native/docs/g
   5. uncomment "NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];"
   6. now you should be able to run the app on device.
 
+##Generate ipa for distribution
+
+  1. Follow the steps in previous section to run sample app on device
+  2. With a provisioned device connected, select OoyalaSkinSampleApp schema and the connected device in Xcode.
+  3. From Xcode menu, choose "Product->Archive"
+  4. From Xcode orgnizer, choose "Export"
+  5. Select "Save for enterprise" and follow the instructions to generate ipa file. 
