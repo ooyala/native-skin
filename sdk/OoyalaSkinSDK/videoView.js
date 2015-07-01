@@ -16,7 +16,6 @@ var windowSize = Dimensions.get('window');
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var ClosedCaptionsView = require('./closedCaptionsView');
-var AnimationExperimental = require('AnimationExperimental');
 var SharePanel = require('./sharePanel');
 var MoreOptionScreen = require('./MoreOptionScreen');
 var AdBar = require('./adBar');
@@ -58,7 +57,9 @@ var VideoView = React.createClass({
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
-    onSocialButtonPress: React.PropTypes.func
+    onSocialButtonPress: React.PropTypes.func,
+    showWatermark: React.PropTypes.bool,
+    lastPressedTime: React.PropTypes.number
   },
 
   shouldShowDiscovery: function() {
@@ -94,7 +95,9 @@ var VideoView = React.createClass({
       playhead={this.props.playhead}
       duration={this.props.duration}
       width={this.props.width}
-      onScrub={(value)=>this.handleScrub(value)} />);
+      height={this.props.height}
+      onScrub={(value)=>this.handleScrub(value)}
+      isShow={this.showControlBar()} />);
   },
 
   _renderControlBar: function() {
@@ -112,13 +115,14 @@ var VideoView = React.createClass({
       playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.generateLiveLabel()}
+      width={this.props.width}
+      height={this.props.height}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
-      width={this.props.width}
-      height={this.props.height}
-      isShow='true'/>);
+      showWatermark={this.props.showWatermark}
+      isShow={this.showControlBar()} />);
   },
 
   _renderAdBar: function() {
@@ -208,18 +212,14 @@ var VideoView = React.createClass({
     return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
+  showControlBar: function() {
+    return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + 5000;
+  },
+
   toggleControlBar: function() {
-    for (var ref in this.refs) {
-      console.log("ref is",ref);
-      AnimationExperimental.startAnimation({
-        node: this.refs[ref],
-        duration: 500,
-        property: 'opacity',
-        easing: 'easingInOutExpo',
-        toValue: this.state.showControls ? 0 : 1,
-      });
-    }
-    this.setState({showControls:!this.state.showControls});
+
+    this.setState({showControls:!this.showControlBar()});
+    this.props.onPress();
   },
 
   handleTouchEnd: function(event) {
