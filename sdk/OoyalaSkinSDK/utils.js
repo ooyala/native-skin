@@ -4,7 +4,34 @@
  */
 'use strict';
 
+var React = require('react-native');
+var {
+  StyleSheet
+} = React;
+
+
 var Utils = {
+
+  shouldShowLandscape: function(width, height) {
+    return width > height;
+  },
+
+  // Returns a React stylesheet based on the json object passed in. This method takes the json object,
+  // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
+  getStyles: function(specificStyles) {
+    var globalStyles = require('./style/styles.json');
+
+    if(specificStyles == undefined) {
+      specificStyles = {};
+    }
+
+    var styles = {};
+    for (var attrname in globalStyles) { styles[attrname] = globalStyles[attrname]; }
+    for (var attrname in specificStyles) { styles[attrname] = specificStyles[attrname]; }
+
+    return React.StyleSheet.create(styles);
+  },
+
   isPlaying: function( rate ) {
     return rate > 0;
   },
@@ -37,6 +64,6 @@ var Utils = {
     }
     return minus + t;
   }
-}
+};
 
 module.exports = Utils;

@@ -35,3 +35,19 @@ For more details please refer to: https://facebook.github.io/react-native/docs/g
   2. open OoyalaSkin.xcworkspace
   3. launch OoyalaSkin
 
+##Run sample app on device without a service
+
+  1. on terminal go to sdk/OoyalaSkinSDK
+  2. run "react-native bundle" (note: react-native bundle --minify does not work) 
+  3. run "cp iOS/main.jsbundle ../../app/OoyalaSkinSampleApp/OoyalaSkinSampleApp/main.jsbundle"
+  4. in DefaultSkinPlayerViewController.m comment out "NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];"
+  5. uncomment "NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];"
+  6. now you should be able to run the app on device.
+
+##Generate ipa for distribution
+
+  1. Follow the steps in previous section to run sample app on device
+  2. With a provisioned device connected, select OoyalaSkinSampleApp schema and the connected device in Xcode.
+  3. From Xcode menu, choose "Product->Archive"
+  4. From Xcode orgnizer, choose "Export"
+  5. Select "Save for enterprise" and follow the instructions to generate ipa file. 

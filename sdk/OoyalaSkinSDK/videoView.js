@@ -16,11 +16,12 @@ var windowSize = Dimensions.get('window');
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var ClosedCaptionsView = require('./closedCaptionsView');
-var AnimationExperimental = require('AnimationExperimental');
 var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
 var Constants = require('./constants');
 var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 
 var {
   ICONS,
@@ -46,6 +47,7 @@ var VideoView = React.createClass({
     live: React.PropTypes.bool,
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
+    height: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
@@ -54,6 +56,7 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
+    lastPressedTime: React.PropTypes.number
   },
 
   shouldShowDiscovery: function() {
@@ -86,11 +89,13 @@ var VideoView = React.createClass({
     if (this.props.ad) {
       return null;
     }
-    return (<ProgressBar ref='progressBar' 
-      playhead={this.props.playhead} 
+    return (<ProgressBar ref='progressBar'
+      playhead={this.props.playhead}
       duration={this.props.duration}
       width={this.props.width}
-      onScrub={(value)=>this.handleScrub(value)} />);
+      height={this.props.height}
+      onScrub={(value)=>this.handleScrub(value)}
+      isShow={this.showControlBar()} />);
   },
 
   _renderControlBar: function() {
@@ -103,17 +108,19 @@ var VideoView = React.createClass({
       this.props.availableClosedCaptionsLanguages.length > 0;
 
     return (<ControlBar
-      ref='controlBar' 
-      showPlay={this.props.showPlay} 
-      playhead={this.props.playhead} 
+      ref='controlBar'
+      showPlay={this.props.showPlay}
+      playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.generateLiveLabel()}
+      width={this.props.width}
+      height={this.props.height}
       primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
       fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow = {this.state.showControls}/>);
+      isShow={this.showControlBar()} />);
   },
 
   _renderAdBar: function() {
@@ -125,7 +132,7 @@ var VideoView = React.createClass({
       console.log("adbar title" + adTitle + "clickUrl " + this.props.ad.clickUrl);
       return (<AdBar
         title={adTitle}
-        playhead={this.props.playhead} 
+        playhead={this.props.playhead}
         duration={this.props.duration}
         count={count}
         index={count - unplayed}
@@ -165,7 +172,7 @@ var VideoView = React.createClass({
     return <ClosedCaptionsView
       style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
       captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;    
+      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
   },
 
   _handleSocialShare: function() {
@@ -180,18 +187,14 @@ var VideoView = React.createClass({
     return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
+  showControlBar: function() {
+    return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + 5000;
+  },
+
   toggleControlBar: function() {
-    for (var ref in this.refs) {
-      console.log("ref is",ref);
-      AnimationExperimental.startAnimation({
-        node: this.refs[ref],
-        duration: 500,
-        property: 'opacity',
-        easing: 'easingInOutExpo',
-        toValue: this.state.showControls ? 0 : 1,
-      });
-    }
-    this.setState({showControls:!this.state.showControls});
+
+    this.setState({showControls:!this.showControlBar()});
+    this.props.onPress();
   },
 
   handleTouchEnd: function(event) {
@@ -215,29 +218,6 @@ var VideoView = React.createClass({
       </View>
     );
   }
-});
-
-var styles = StyleSheet.create({
-  fullscreenContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-  placeholder : {
-    flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: 'transparent',
-  },
-  closedCaptionStyle: {
-    flex: 1,
-    alignItems: 'flex-end',
-    backgroundColor: 'transparent',
-  },
 });
 
 module.exports = VideoView

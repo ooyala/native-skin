@@ -11,7 +11,8 @@ var {
   Text,
   Image,
   TouchableHighlight,
-  View
+  View,
+  LayoutAnimation
 } = React;
 
 var Constants = require('./constants');
@@ -23,6 +24,8 @@ var {
 
 var Utils = require('./utils');
 
+var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
+
 var ControlBar = React.createClass({
   getInitialState: function() {
     return {
@@ -31,6 +34,8 @@ var ControlBar = React.createClass({
   },
 
   propTypes: {
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
     primaryActionButton: React.PropTypes.string,
     fullscreenButton: React.PropTypes.string,
     playhead: React.PropTypes.number,
@@ -38,8 +43,8 @@ var ControlBar = React.createClass({
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
-    showWatermark: React.PropTypes.bool,
-    live: React.PropTypes.string
+    live: React.PropTypes.string,
+    shouldShowLandscape: React.PropTypes.bool
   },
 
   getDefaultProps: function() {
@@ -54,9 +59,9 @@ var ControlBar = React.createClass({
     }
   },
 
-  onPlayPausePress: function() { 
+  onPlayPausePress: function() {
     this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
-  }, 
+  },
 
   onVolumePress: function() {
     this.setState({showVolume:!this.state.showVolume});
@@ -78,6 +83,12 @@ var ControlBar = React.createClass({
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   },
 
+  componentDidUpdate: function(prevProps, prevState) {
+    if(prevProps.isShow != this.props.isShow) {
+      LayoutAnimation.configureNext(animations.layout.controlBarHideShow);
+    }
+  },
+
   render: function() {
     var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
     var shareIcon = ICONS.SHARE;
@@ -92,7 +103,7 @@ var ControlBar = React.createClass({
 
     var watermark;
     // If is landscape
-    if(this.props.showWatermark) {
+    if(Utils.shouldShowLandscape(this.props.width, this.props.height)) {
       watermark = (
         <Image style={styles.waterMarkImage}
           source={{uri: IMG_URLS.OOYALA_LOGO}}
@@ -103,89 +114,61 @@ var ControlBar = React.createClass({
     var ccButton;
     if( this.props.showClosedCaptionsButton ) {
       ccButton = (<TouchableHighlight onPress={this.onClosedCaptionsPress}>
-                    <Text style={styles.icon}>{closedCaptionsIcon}</Text>
-                  </TouchableHighlight>);
+        <Text style={styles.icon}>{closedCaptionsIcon}</Text>
+      </TouchableHighlight>);
     }
 
+    var displayStyle = styles.container;
     if (this.props.isShow){
-      controlBarView = (
-        <View style={styles.container}>
-          <TouchableHighlight onPress={this.onPlayPausePress}>
-            <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.onVolumePress}>
-            <Text style={this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon}>
-              {volumeIcon}
-            </Text>
-          </TouchableHighlight>
-            {volumeScrubber}
-          <Text style={styles.label}>{durationString}</Text>
-          <View style={styles.placeholder} />
-          <TouchableHighlight onPress={this.onSocialSharePress}>
-            <Text style={styles.icon}>{shareIcon}</Text>
-          </TouchableHighlight>
-          {ccButton}
-          <TouchableHighlight onPress={this.onFullscreenPress}>
-            <Text style={styles.icon}>{this.props.fullscreenButton}</Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={this.onMorePress}>
-            <Text style={styles.icon}>{menuIcon}</Text>
-          </TouchableHighlight>
-          {watermark}
-      </View>
-      );
+      displayStyle = styles.container;
     }
-    
+    else {
+      displayStyle = styles.containerHidden;
+    }
+
     return (
-      <View>
-        {controlBarView}
+      <View style={displayStyle}>
+        <TouchableHighlight onPress={this.onPlayPausePress}>
+          <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this.onVolumePress}>
+          <Text style={this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon}>
+            {volumeIcon}
+          </Text>
+        </TouchableHighlight>
+        {volumeScrubber}
+        <Text style={styles.label}>{durationString}</Text>
+        <View style={styles.placeholder} />
+        <TouchableHighlight onPress={this.onSocialSharePress}>
+          <Text style={styles.icon}>{shareIcon}</Text>
+        </TouchableHighlight>
+        {ccButton}
+        <TouchableHighlight onPress={this.onFullscreenPress}>
+          <Text style={styles.icon}>{this.props.fullscreenButton}</Text>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={this.onMorePress}>
+          <Text style={styles.icon}>{menuIcon}</Text>
+        </TouchableHighlight>
+        {watermark}
       </View>
     );
   }
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  icon: {
-    fontSize: 20,
-    textAlign: 'center',
-    color: '#8E8E8E',
-    fontFamily: 'fontawesome',
-    margin: 10,
-    padding: 2,
-  },
-  label: {
-    textAlign: 'center',
-    color: 'white',
-    fontSize: 16,
-    margin: 10,
-    padding: 2,
-    fontFamily: 'AvenirNext-DemiBold',
-  },
-  iconHighlighted: {
-    color: '#E6E6E6',
-  },
-  volumeSlider: {
-    height: 20,
-    width: 100,
-    marginLeft: 10,
-    alignSelf: 'center',
-  },
-  placeholder: {
-    flex: 1,
-  },
-
-  waterMarkImage: {
-    width: 120,
-    height: 18,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    margin: 10
+var animations = {
+  layout: {
+    controlBarHideShow: {
+      duration: 400,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    }
   }
-});
+};
 
 module.exports = ControlBar;

@@ -15,6 +15,7 @@
 #import <OoyalaSDK/OOEmbeddedSecureURLGenerator.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import <OoyalaSDK/OODebugMode.h>
+#import <OoyalaSDK/OOOptions.h>
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -35,10 +36,10 @@ static NSString *kViewChangeKey = @"frame";
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView
               discoveryOptions:(OODiscoveryOptions *)discoveryOptions
-                 launchOptions:(NSDictionary *)options{
+                 launchOptions:(NSDictionary *)options
+                jsCodeLocation:(NSURL *)jsCodeLocation {
   if (self = [super init]) {
     [self setPlayer:player];
-    NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/ooyalaSkin.bundle"];
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
@@ -72,6 +73,10 @@ static NSString *kViewChangeKey = @"frame";
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   _player = player;
   if (_player != nil) {
+    SEL selector = NSSelectorFromString(@"disableAdLearnMoreButton");
+    if ([player.options respondsToSelector:selector]) {
+      [player.options performSelector:selector];
+    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeStateChangedNotification:) name:OOOoyalaPlayerStateChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeCurrentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:_player];

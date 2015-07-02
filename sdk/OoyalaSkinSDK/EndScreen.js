@@ -8,6 +8,9 @@ var {
   TouchableHighlight,
 } = React;
 
+var Utils = require('./utils');
+
+var styles = Utils.getStyles(require('./style/endScreenStyles.json'));
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var WaterMark = require('./waterMark');
@@ -40,25 +43,10 @@ var EndScreen = React.createClass({
    promoUrl: React.PropTypes.string,
    onPress: React.PropTypes.func,
    onSocialButtonPress: React.PropTypes.func,
+   width: React.PropTypes.number,
+   height: React.PropTypes.number,
+   discoveryPanel: React.PropTypes.object
  },
-
- toggleControlBar: function() {
-  for (var ref in this.refs) {
-    console.log("ref is",ref);
-    if(ref === "sharePanel"){
-      continue;
-    }
-
-    AnimationExperimental.startAnimation({
-      node: this.refs[ref],
-      duration: 500,
-      property: 'opacity',
-      easing: 'easingInOutExpo',
-      toValue: this.state.showControls ? 0 : 1,
-    });
-  }
-  this.setState({showControls:!this.state.showControls});
-},
 
 handleClick: function(name) {
   if(name === "SocialShare"){
@@ -84,19 +72,23 @@ render: function() {
                            // {buttonName: BUTTON_NAMES.GOOGLEPLUS, imgUrl: IMG_URLS.GOOGLEPLUS},
                            // {buttonName: BUTTON_NAMES.EMAIL, imgUrl: IMG_URLS.EMAIL}];
 
- var replaybutton = (
-   <TouchableHighlight
-   onPress={(name) => this.handleClick('PlayPause')}
-   underlayColor="transparent"
-   activeOpacity={0.5}>
-   <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
-   </TouchableHighlight>
-   );
+  var replaybutton;
+  if(this.props.config.showReplayButton) {
+    replaybutton = (
+      <TouchableHighlight
+      onPress={(name) => this.handleClick('PlayPause')}
+      underlayColor="transparent"
+      activeOpacity={0.5}>
+      <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
+      </TouchableHighlight>
+    );
+  }
 
- var infoPanel;
- if (this.props.config.infoPanel) {
-   infoPanel = (<InfoPanel title={this.props.title} description={this.props.description} />);
- }
+  var title = this.props.config.showTitle ? this.props.title : null;
+  var description = this.props.config.showDescription ? this.props.description : null;
+
+  var infoPanel;
+  infoPanel = (<InfoPanel title={title} description={description} />);
 
  var sharePanel;
  sharePanel = (<SharePanel 
@@ -109,12 +101,16 @@ render: function() {
  progressBar = (<ProgressBar 
   ref='progressBar' 
   playhead={this.props.duration} 
-  duration={this.props.duration}  />);
+  duration={this.props.duration} 
+  isShow={this.state.showControls} />);
 
  var controlBar;
  controlBar = (<ControlBar 
   ref='controlBar' 
-  showPlay={this.props.showPlay} 
+  showPlay={this.props.showPlay}
+  height={this.props.height}
+  width={this.props.width}
+  isShow='true'
   playhead={this.props.duration} 
   duration={this.props.duration} 
   primaryActionButton={ICONS.REPLAY}
@@ -122,99 +118,41 @@ render: function() {
 
  var waterMark = (<WaterMark />);
 
- if (fullscreenPromoImage) {   
-   return (
+  switch(this.props.config.screenToShowOnEnd) {
+    case 'discovery':
+      return (
+        <View style={styles.fullscreenContainer}>
+          {this.props.discoveryPanel}
+          {progressBar}
+          {controlBar}
+        </View>
+      );
+    default:
+      return (
 
-     <Image 
-     source={{uri: this.props.promoUrl}}
-     style={styles.fullscreenContainer}
-     resizeMode={Image.resizeMode.contain}
-     >
-      <View 
-        style={styles.fullscreenContainer}>
+        <Image
+          source={{uri: this.props.promoUrl}}
+          style={styles.fullscreenContainer}
+          resizeMode={Image.resizeMode.contain}
+        >
+          <View
+            style={styles.fullscreenContainer}>
+            {infoPanel}
+            {sharePanel}
+            <View style={replaybuttonLocation}>
+              {replaybutton}
+            </View>
+            {waterMark}
+          </View>
+         {progressBar}
+         {controlBar}
+        </Image>
 
-       {infoPanel}
-       {sharePanel}
+      );
+  }
 
-       <View style={replaybuttonLocation}>
-        {replaybutton}
-       </View>
 
-       {waterMark}
-       </View>
-       {progressBar}
-       {controlBar}
-     </Image>
-      
-     );
- } else {
-   var promoImage = (
-     <Image 
-     source={{uri: this.props.promoUrl}}
-     style={styles.promoImageSmall}
-     resizeMode={Image.resizeMode.contain}>
-     </Image>
-     );
-
-   return (
-     <View style={styles.container}>
-     <View style={replaybuttonLocation}>
-     {replaybutton}
-     </View>
-     {promoImage}
-     {infoPanel}
-     </View>
-     );
- }
 }
-});
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  },
-
-  fullscreenContainer: {
-  	flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-
-  promoImageSmall: {
-    width: 180,
-    height: 90,
-    margin: 20,
-  },
-
-  replaybuttonCenter: {
-    flex: 1,
-    flexDirection: 'row',
-    alignSelf: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-
-  replaybuttonSE: {
-    position: 'absolute',    
-    bottom: 0,
-    right: 0
-  },
-
-  replaybuttonSW: {
-    position: 'absolute',    
-    bottom: 0,
-    left: 0
-  },
-
-  replaybutton: {
-    fontSize: 40,
-    textAlign: 'center',
-    color: 'white',
-    fontFamily: 'fontawesome',
-    margin: 10
-  },
 });
 
 module.exports = EndScreen;

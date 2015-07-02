@@ -20,6 +20,7 @@ var eventBridge = require('NativeModules').OOReactBridge;
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
+var DiscoveryPanel = require('./discoveryPanel');
 
 
 var Constants = require('./constants');
@@ -55,6 +56,7 @@ var OoyalaSkin = React.createClass({
       duration: 1,
       rate: 0,
       fullscreen: false,
+      lastPressedTime: (new Date).getTime()
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -99,11 +101,13 @@ var OoyalaSkin = React.createClass({
   },
 
   handlePress: function(n) {
+    this.setState({lastPressedTime: (new Date).getTime()});
     if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
       this.handleOverlay(OVERLAY_TYPES.CC_OPTIONS);
     } else {
       eventBridge.onPress({name:n});
     }
+    eventBridge.onPress({name:n});
   },
 
   handleScrub: function(value) {
@@ -243,16 +247,29 @@ var OoyalaSkin = React.createClass({
         title={this.state.title}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
+        width={this.state.width}
+        height={this.state.height}
         onPress={(name) => this.handlePress(name)}/>
     );
   },
 
   _renderEndScreen: function() {
-    var EndScreenConfig = {mode:'default', infoPanel:{visible:true}};
+    var EndScreenConfig = config.endScreen;
+    var discovery = (
+      <DiscoveryPanel
+        isShow='true'
+        config={config.discoveryScreen}
+        dataSource={this.state.discoveryResults}
+        onRowAction={(info) => this.onDiscoveryRow(info)}>
+      </DiscoveryPanel>);
+
     return (
       <EndScreen
         config={EndScreenConfig}
         title={this.state.title}
+        width={this.state.width}
+        height={this.state.height}
+        discoveryPanel={discovery}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
         duration={this.state.duration} 
@@ -274,7 +291,6 @@ var OoyalaSkin = React.createClass({
          live ={this.state.live}
          width={this.state.width}
          height={this.state.height}
-         showWatermark={this.shouldShowLandscape()}
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
@@ -282,7 +298,8 @@ var OoyalaSkin = React.createClass({
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
-         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} >
+         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+         lastPressedTime={this.state.lastPressedTime} >
        </VideoView>
 
      );
