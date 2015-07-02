@@ -12,11 +12,13 @@ var {
   View,
 } = React;
 
-var Constants = require('./constants');
+var Constants = require('../constants');
 var {
   ICONS,
   UI_TEXT,
 } = Constants;
+
+var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.json'));
 
 var ToggleSwitch = React.createClass({
   propTypes: {
@@ -49,33 +51,6 @@ var ToggleSwitch = React.createClass({
         </View>
       </TouchableHighlight>
     );
-  },
-});
-
-var styles = StyleSheet.create({
-  container: {
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  grayedText: {
-    textAlign: 'center',
-    color: '#363636',
-    fontSize: 12,
-    padding: 6,
-  },
-  highlightedText: {
-    textAlign: 'center',
-    color: '#FFFFFF',
-    fontSize: 12,
-    padding: 6,
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: 'green',
-    fontSize: 16,
-    fontFamily: 'fontawesome',
-    margin: 10,
   },
 });
 

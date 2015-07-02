@@ -20,7 +20,7 @@ var {
   UI_TEXT,
 } = Constants;
 
-var ToggleSwitch = require('./toggleSwitch');
+var ToggleSwitch = require('./widgets/ToggleSwitch');
 
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
@@ -124,64 +124,6 @@ var LanguageSelectionPanel = React.createClass({
   },
 });
 
-var styles = StyleSheet.create({
-  fullscreenContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-  placeHolder: {
-    flex: 1,
-  },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    backgroundColor: 'transparent',
-  },
-  panelTitleRow: {
-    height: 30,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  panelTitle: {
-  	flex: 1,
-  	fontSize: 20,
-  	textAlign: 'left',
-  	color: 'white',
-  	padding: 20
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    marginBottom: 6,
-    marginTop: 6,
-    marginLeft: 12,
-  },
-  listView: {
-    backgroundColor: '#333333',
-  },
-  button: {
-    backgroundColor: '#333333',
-    padding: 6,
-    margin: 10,
-    borderRadius: 5,
-  },
-  selectedButton: {
-    backgroundColor: '#498DFC',
-    padding: 6,
-    margin: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#030303',
-    fontSize: 16,
-    fontFamily: 'fontawesome',
-  },
-});
+var styles = require('./utils').getStyles(require('./style/languageSelectionPanelStyles.json'));
 
 module.exports = LanguageSelectionPanel;
