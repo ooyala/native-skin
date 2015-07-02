@@ -51,7 +51,7 @@ var UpNext = React.createClass({
   },
 
   render: function() {
-    if(this.state.showUpNext && !this.state.isDismissed) {
+    if(this.state.showUpNext && !this.state.isDismissed && this.props.config.showUpNext) {
       return (
         <View
           style={styles.container}>
