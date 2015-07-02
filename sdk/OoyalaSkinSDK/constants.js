@@ -43,7 +43,8 @@ var SCREEN_TYPES = {
   START_SCREEN: 'start',
   END_SCREEN: 'end',
   PAUSE_SCREEN: 'pause',
-  AD_SCREEN: 'ad'
+  AD_SCREEN: 'ad',
+  MOREOPTION_SCREEN: 'moreOption',
 };
 
 var OOSTATES = {

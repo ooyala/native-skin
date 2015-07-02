@@ -28,7 +28,6 @@ var MoreOptionScreen = React.createClass({
   },
 
 	propTypes: {
-		isShow: React.PropTypes.bool,
     onPress: React.PropTypes.func,
 	},
 
@@ -90,15 +89,12 @@ var MoreOptionScreen = React.createClass({
       </View>
     );
 
-    var moreOptionScreen;
-    if(this.props.isShow){
-      moreOptionScreen = (
-        <View style={styles.fullscreenContainer}>
-          {dismissButtonRow}
-          {moreOptionRow}
-        </View>
-      );
-    }
+    var moreOptionScreen = (
+      <View style={styles.fullscreenContainer}>
+        {dismissButtonRow}
+        {moreOptionRow}
+      </View>
+    );
 
     return (
       <View style={styles.fullscreenContainer}>
