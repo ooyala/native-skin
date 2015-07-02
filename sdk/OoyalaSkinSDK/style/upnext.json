@@ -7,10 +7,12 @@
     alignItems: 'center',
     height: 100
   },
+  thumbnailContainer: {
+    marginRight: 15
+  },
   thumbnail: {
     width: 112,
-    height: 63,
-    marginRight: 15
+    height: 63
   },
   countdownText: {
     fontWeight: 'bold',
