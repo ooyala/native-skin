@@ -24,7 +24,7 @@ var UpNext = React.createClass({
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     nextVideo: React.PropTypes.object,
-    onClickAction: React.PropTypes.func
+    onUpNextClicked: React.PropTypes.func
   },
 
   getInitialState: function() {
@@ -57,7 +57,7 @@ var UpNext = React.createClass({
           style={styles.container}>
 
           <TouchableHighlight
-            onPress={() => this.props.onClickAction({action:"click", embedCode:this.props.nextVideo.embedCode, bucketInfo:this.props.nextVideo.bucketInfo})}>
+            onPress={() => this.props.onUpNextClicked({action:"click", embedCode:this.props.nextVideo.embedCode, bucketInfo:this.props.nextVideo.bucketInfo})}>
             <Image
               source={{uri: this.props.nextVideo.imageUrl}}
               style={styles.thumbnail} >

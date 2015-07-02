@@ -61,7 +61,7 @@ var VideoView = React.createClass({
     lastPressedTime: React.PropTypes.number,
     upNextConfig: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
-    upNextAction: React.PropTypes.func
+    onUpNextClicked: React.PropTypes.func
   },
 
   shouldShowDiscovery: function() {
@@ -185,7 +185,7 @@ var VideoView = React.createClass({
       playhead={this.props.playhead}
       duration={this.props.duration}
       nextVideo={this.props.nextVideo}
-      onClickAction={this.props.upNextAction}
+      onUpNextClicked={this.props.onUpNextClicked}
       />;
   },
 

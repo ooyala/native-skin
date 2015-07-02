@@ -269,7 +269,7 @@ var OoyalaSkin = React.createClass({
          lastPressedTime={this.state.lastPressedTime}
          upNextConfig={upNextConfig}
          nextVideo={(this.state.discoveryResults) ? this.state.discoveryResults[0] : null}
-         upNextAction={(info) => this.onDiscoveryRow(info)}>
+         onUpNextClicked={(info) => this.onDiscoveryRow(info)}>
        </VideoView>
 
      );
