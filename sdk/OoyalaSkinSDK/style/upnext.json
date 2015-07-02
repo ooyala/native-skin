@@ -1,0 +1,33 @@
+{
+  container: {
+    padding: 15,
+    backgroundColor: 'rgba(100,100,100,0.5)',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100
+  },
+  thumbnail: {
+    width: 112,
+    height: 63,
+    marginRight: 15
+  },
+  countdownText: {
+    fontWeight: 'bold',
+    fontSize: 50,
+    textAlign: 'center',
+    color: 'white'
+  },
+  textContainer: {
+    flex: 1,
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginBottom: 10
+  },
+  description: {
+    color: 'white'
+
+  }
+}
