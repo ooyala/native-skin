@@ -76,12 +76,6 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-  cchack: function(n) {
-    // todo: remove this testing hack and do it right...
-    
-    // todo: ...remove this testing hack and do it right.
-  },
-
   handleOverlay: function(overlayName) {
     if (this.state.rate > 0) {
       // video is playing, pause first
@@ -107,7 +101,6 @@ var OoyalaSkin = React.createClass({
     } else {
       eventBridge.onPress({name:n});
     }
-    eventBridge.onPress({name:n});
   },
 
   handleScrub: function(value) {

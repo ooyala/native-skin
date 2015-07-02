@@ -127,14 +127,6 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   }
 }
 
-RCT_EXPORT_METHOD(onOverlay) {
-
-}
-
-RCT_EXPORT_METHOD(onOverlayDismiss) {
-  
-}
-
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
   NSLog(@"sendDeviceEventWithName: %@", eventName);
   [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
