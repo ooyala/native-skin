@@ -264,7 +264,8 @@ var OoyalaSkin = React.createClass({
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
          lastPressedTime={this.state.lastPressedTime}
          upNextConfig={upNextConfig}
-         nextVideo={this.state.discoveryResults[0]}>
+         nextVideo={(this.state.discoveryResults) ? this.state.discoveryResults[0] : null}
+         upNextAction={(info) => this.onDiscoveryRow(info)}>
        </VideoView>
 
      );

@@ -12,6 +12,7 @@ var {
 var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/upNext.json'));
+var RectButton = require('./widgets/RectButton');
 var Constants = require('./constants');
 var {
   IMG_URLS
@@ -22,12 +23,14 @@ var UpNext = React.createClass({
     config: React.PropTypes.object,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
-    nextVideo: React.PropTypes.object
+    nextVideo: React.PropTypes.object,
+    onClickAction: React.PropTypes.func
   },
 
   getInitialState: function() {
     return {
-      showUpNext:false
+      showUpNext:false,
+      isDismissed:false
     };
   },
 
@@ -43,19 +46,37 @@ var UpNext = React.createClass({
     }
   },
 
+  dismissUpNext: function() {
+    this.setState({isDismissed: true});
+  },
+
   render: function() {
-    if(this.state.showUpNext) {
+    if(this.state.showUpNext && !this.state.isDismissed) {
       return (
-        <View style={styles.container}>
-          <Image
-            source={{uri: this.props.nextVideo.imageUrl}}
-            style={styles.thumbnail} >
-            <Text style={styles.countdownText}>{Math.floor(this.props.duration - this.props.playhead)}</Text>
-          </Image>
+        <View
+          style={styles.container}>
+
+          <TouchableHighlight
+            onPress={() => this.props.onClickAction({action:"click", embedCode:this.props.nextVideo.embedCode, bucketInfo:this.props.nextVideo.bucketInfo})}>
+            <Image
+              source={{uri: this.props.nextVideo.imageUrl}}
+              style={styles.thumbnail} >
+              <Text style={styles.countdownText}>{Math.floor(this.props.duration - this.props.playhead)}</Text>
+            </Image>
+          </TouchableHighlight>
           <View style={styles.textContainer}>
             <Text style={styles.title}>{this.props.nextVideo.name}</Text>
             <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
           </View>
+          <RectButton
+            icon={"Dismiss"}
+            onPress={this.dismissUpNext}
+            frameWidth={60}
+            frameHeight={10}
+            buttonWidth={60}
+            buttonHeight={10}
+            fontSize={15}>
+          </RectButton>
         </View>
 
       );
