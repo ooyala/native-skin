@@ -21,6 +21,7 @@ var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var DiscoveryPanel = require('./discoveryPanel');
+var MoreOptionScreen = require('./MoreOptionScreen');
 
 var Constants = require('./constants');
 var {
@@ -39,7 +40,7 @@ var OoyalaSkin = React.createClass({
   // note/todo: some of these are more like props, expected to be over-ridden/updated
   // by the native bridge, and others are used purely on the non-native side.
   // consider using a leading underscore, or something?
-  getInitialState() {
+  getInitialState: function() {
     return {
       screenType: SCREEN_TYPES.LOADING_SCREEN,
       title: '',
@@ -79,7 +80,9 @@ var OoyalaSkin = React.createClass({
       }
     }
     // todo: ...remove this testing hack and do it right.
-
+    if( n === BUTTON_NAMES.MORE) {
+      this.setState({screenType: SCREEN_TYPES.MOREOPTION_SCREEN})
+    }
   },
 
   handlePress: function(n) {
@@ -194,10 +197,11 @@ var OoyalaSkin = React.createClass({
   render: function() {
 
     switch (this.state.screenType) {
-      case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
-      case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
-      case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
-      default:      return this._renderVideoView();   break;
+      case SCREEN_TYPES.START_SCREEN:       return this._renderStartScreen();       break;
+      case SCREEN_TYPES.END_SCREEN:         return this._renderEndScreen();         break;
+      case SCREEN_TYPES.LOADING_SCREEN:     return this._renderLoadingScreen();     break;
+      case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
+      default:                              return this._renderVideoView();         break;
     }
   },
 
@@ -278,6 +282,14 @@ var OoyalaSkin = React.createClass({
         style={styles.loading}
         size="large">
       </ActivityIndicatorIOS>)
+   },
+
+   _renderMoreOptionScreen: function() {
+    return (
+      <MoreOptionScreen
+        onPress={(name) => this.handlePress(name)}>
+      </MoreOptionScreen>
+    )
    }
 });
 
