@@ -143,7 +143,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray = [config.sharing.Twitter, config.sharing.Facebook, config.sharing.Pinterest];
+      var socialButtonsArray =config.sharing;
       placeholder = (
         <View
         style={styles.fullscreenContainer}>
