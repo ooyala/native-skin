@@ -241,6 +241,7 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderVideoView: function() {
+     var upNextConfig = config.upNext;
      var showPlayButton = this.state.rate > 0 ? false : true;
 
      return (
@@ -261,7 +262,9 @@ var OoyalaSkin = React.createClass({
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-         lastPressedTime={this.state.lastPressedTime} >
+         lastPressedTime={this.state.lastPressedTime}
+         upNextConfig={upNextConfig}
+         nextVideo={this.state.discoveryResults[0]}>
        </VideoView>
 
      );

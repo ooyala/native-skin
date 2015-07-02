@@ -120,7 +120,7 @@ var StartScreen = React.createClass({
     var playButton = this.getPlayButton();
     var infoPanel = this.getInfoPanel();
     var waterMarkImage = this.getWaterMark();
-    
+    console.log(this.props.promoURL);
     return (
       <View style={styles.container}>
         {promoImage}
