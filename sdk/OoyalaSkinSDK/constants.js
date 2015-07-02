@@ -10,6 +10,10 @@ var ICONS = {
   REPLAY:'\uf01e',
   SHARE:'\uf045',
   CC: '\uf20a',
+  DISCOVERY: '\uf14e',
+  QUALITY: '\uf080',
+  SETTING: '\uf013',
+  CLOSE: '\uf00d',
 };
 
 var BUTTON_NAMES = { // must match Objective-C code expectations.
@@ -39,7 +43,8 @@ var SCREEN_TYPES = {
   START_SCREEN: 'start',
   END_SCREEN: 'end',
   PAUSE_SCREEN: 'pause',
-  AD_SCREEN: 'ad'
+  AD_SCREEN: 'ad',
+  MOREOPTION_SCREEN: 'moreOption',
 };
 
 var OOSTATES = {
