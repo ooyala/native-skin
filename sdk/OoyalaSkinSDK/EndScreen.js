@@ -48,24 +48,6 @@ var EndScreen = React.createClass({
    discoveryPanel: React.PropTypes.object
  },
 
- toggleControlBar: function() {
-  for (var ref in this.refs) {
-    console.log("ref is",ref);
-    if(ref === "sharePanel"){
-      continue;
-    }
-
-    AnimationExperimental.startAnimation({
-      node: this.refs[ref],
-      duration: 500,
-      property: 'opacity',
-      easing: 'easingInOutExpo',
-      toValue: this.state.showControls ? 0 : 1,
-    });
-  }
-  this.setState({showControls:!this.state.showControls});
-},
-
 handleClick: function(name) {
   if(name === "SocialShare"){
     this.setState({showSharePanel:!this.state.showSharePanel});
@@ -119,7 +101,8 @@ render: function() {
  progressBar = (<ProgressBar 
   ref='progressBar' 
   playhead={this.props.duration} 
-  duration={this.props.duration}  />);
+  duration={this.props.duration} 
+  isShow={this.state.showControls} />);
 
  var controlBar;
  controlBar = (<ControlBar 
