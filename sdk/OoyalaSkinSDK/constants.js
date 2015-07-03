@@ -57,6 +57,8 @@ var OOSTATES = {
 
 var UI_TEXT = {
   LEARNMORE : 'Learn More',
+  CC_PREVIEW: 'CLOSE CAPTION PREVIEW',
+  CC_SAMPLE: 'Sample Text',
   AD_PLAYING: 'Ad Playing',
   LIVE: 'LIVE',
   GO_LIVE: 'GO LIVE',

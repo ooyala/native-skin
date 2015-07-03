@@ -21,6 +21,7 @@ var {
 } = Constants;
 
 var ToggleSwitch = require('./widgets/ToggleSwitch');
+var ClosedCaptionsView = require('./closedCaptionsView');
 
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
@@ -63,6 +64,10 @@ var LanguageSelectionPanel = React.createClass({
     }
   },
 
+  onTouchEnd: function(event) {
+    // ignore.
+  },
+
   getCloseButton: function() {
     return (
       <TouchableHighlight
@@ -73,6 +78,16 @@ var LanguageSelectionPanel = React.createClass({
       </TouchableHighlight>);
   },
 
+  getPreview: function() {
+    return (
+      <View style={styles.previewPanel}>
+        <View style={styles.splitter} />
+        <Text style={styles.buttonText}>{UI_TEXT.CC_PREVIEW}</Text>
+        <Text style={styles.buttonText}>{UI_TEXT.CC_SAMPLE}</Text>
+      </View>
+    )
+  },
+
   render: function() {
     console.log("languageselectionpanel render");
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -80,8 +95,13 @@ var LanguageSelectionPanel = React.createClass({
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
     }
+    var previewPanel;
+    if (hasCC) {
+      previewPanel = this.getPreview();
+    }
+
     return (
-      <View style={styles.fullscreenContainer}>
+      <View style={styles.panelContainer}>
         <View style={styles.panelTitleRow}>
           <Text style={styles.panelTitle}>{UI_TEXT.CC_OPTIONS}</Text>
           <View style={styles.placeHolder}></View>
@@ -96,6 +116,7 @@ var LanguageSelectionPanel = React.createClass({
           renderRow={this.renderRow}
           style={styles.listView}>
         </ListView>
+        {previewPanel}
       </View>
     );
   },
