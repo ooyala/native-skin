@@ -10,6 +10,9 @@ var ICONS = {
   REPLAY:'\uf01e',
   SHARE:'\uf045',
   CC: '\uf20a',
+  DISCOVERY: '\uf14e',
+  QUALITY: '\uf080',
+  SETTING: '\uf013',
   CLOSE: '\uf00d',
   TOGGLEOFF: '\uf204',
   TOGGLEON: '\uf205'
@@ -42,13 +45,14 @@ var SCREEN_TYPES = {
   START_SCREEN: 'start',
   END_SCREEN: 'end',
   PAUSE_SCREEN: 'pause',
-  AD_SCREEN: 'ad'
+  AD_SCREEN: 'ad',
+  MOREOPTION_SCREEN: 'moreOption',
 };
 
 var OVERLAY_TYPES = {
   DISCOVERY_OVERLAY: 'discovery',
   SOCIAL_OVERLAY: 'social',
-  CC_OPTIONS: 'cc_options'
+  CC_OPTIONS: 'cc_options',
 };
 
 var OOSTATES = {

@@ -21,6 +21,7 @@ var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var DiscoveryPanel = require('./discoveryPanel');
+var MoreOptionScreen = require('./MoreOptionScreen');
 
 
 var Constants = require('./constants');
@@ -42,7 +43,7 @@ var OoyalaSkin = React.createClass({
   // note/todo: some of these are more like props, expected to be over-ridden/updated
   // by the native bridge, and others are used purely on the non-native side.
   // consider using a leading underscore, or something?
-  getInitialState() {
+  getInitialState: function() {
     return {
       // states from react
       screenType: SCREEN_TYPES.LOADING_SCREEN,
@@ -76,13 +77,15 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-  handleOverlay: function(overlayName) {
+  pauseOnOverlay: function() {
     if (this.state.rate > 0) {
-      // video is playing, pause first
       this.setState({pausedByOverlay:true});
       eventBridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
     }
+  },
 
+  handleOverlay: function(overlayName) {
+    this.pauseOnOverlay();
     this.setState({overlayType:OVERLAY_TYPES.CC_OPTIONS})
   },
 
@@ -96,10 +99,16 @@ var OoyalaSkin = React.createClass({
 
   handlePress: function(n) {
     this.setState({lastPressedTime: (new Date).getTime()});
-    if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
-      this.handleOverlay(OVERLAY_TYPES.CC_OPTIONS);
-    } else {
-      eventBridge.onPress({name:n});
+    switch(n) {
+      case BUTTON_NAMES.CLOSED_CAPTIONS:
+        this.handleOverlay(OVERLAY_TYPES.CC_OPTIONS);
+        break;
+      case BUTTON_NAMES.MORE:
+        this.pauseOnOverlay();
+        this.setState({screenType: SCREEN_TYPES.MOREOPTION_SCREEN});
+        break;
+      default:
+        eventBridge.onPress({name:n});
     }
   },
 
@@ -227,6 +236,7 @@ var OoyalaSkin = React.createClass({
         case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
         case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
         case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
+        case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
         default:      return this._renderVideoView();   break;
       }
     }
@@ -315,7 +325,15 @@ var OoyalaSkin = React.createClass({
         onSelect={(value)=>this.onLanguageSelected(value)}
         onDismiss={this.onOverlayDismissed}>
       </LanguageSelectionPanel>)
-  }
+  },
+
+   _renderMoreOptionScreen: function() {
+    return (
+      <MoreOptionScreen
+        onPress={(name) => this.handlePress(name)}>
+      </MoreOptionScreen>
+    )
+   }
 });
 
 var styles = StyleSheet.create({

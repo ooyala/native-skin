@@ -19,6 +19,7 @@ var RectButton = React.createClass({
     buttonWidth: React.PropTypes.number,
     buttonHeight: React.PropTypes.number,
     fontSize: React.PropTypes.number,
+    style:React.PropTypes.object,
   },
 
   // Gets the play button based on the current config settings
@@ -27,7 +28,9 @@ var RectButton = React.createClass({
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     var positionStyle;
 
-    if (this.props.position == "center") {
+    if(this.props.style != null) {
+      positionStyle = this.props.style;
+    } else if (this.props.position == "center") {
       var topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
       var leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
       
