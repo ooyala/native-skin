@@ -50,7 +50,8 @@ var OoyalaSkin = React.createClass({
       duration: 1,
       rate: 0,
       fullscreen: false,
-      lastPressedTime: (new Date).getTime()
+      lastPressedTime: (new Date).getTime(),
+      upNextDismissed: false
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -104,6 +105,10 @@ var OoyalaSkin = React.createClass({
   },
 
   onDiscoveryRow: function(info) {
+    eventBridge.onDiscoveryRow(info);
+  },
+
+  upNextClicked: function(info) {
     eventBridge.onDiscoveryRow(info);
   },
 
@@ -167,6 +172,10 @@ var OoyalaSkin = React.createClass({
     // nothing to do yet.
   },
 
+  onUpNextDismissed: function(e) {
+    this.setState({upNextDismissed:e.upNextDismissed});
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
@@ -181,6 +190,7 @@ var OoyalaSkin = React.createClass({
       [ 'adStarted',                (event) => this.onAdStarted(event) ],
       [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
       [ 'adCompleted',              (event) => this.onAdCompleted(event) ],
+      [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ]
     ];
     for( var d of listenerDefinitions ) {
       this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );
@@ -269,7 +279,8 @@ var OoyalaSkin = React.createClass({
          lastPressedTime={this.state.lastPressedTime}
          upNextConfig={upNextConfig}
          nextVideo={(this.state.discoveryResults) ? this.state.discoveryResults[0] : null}
-         onUpNextClicked={(info) => this.onDiscoveryRow(info)}>
+         onUpNextClicked={(info) => this.upNextClicked(info)}
+         upNextDismissed={this.state.upNextDismissed}>
        </VideoView>
 
      );

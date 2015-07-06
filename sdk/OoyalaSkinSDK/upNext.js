@@ -24,13 +24,14 @@ var UpNext = React.createClass({
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     nextVideo: React.PropTypes.object,
-    onUpNextClicked: React.PropTypes.func
+    onUpNextClicked: React.PropTypes.func,
+    onUpNextDismissed: React.PropTypes.func,
+    upNextDismissed: React.PropTypes.bool
   },
 
   getInitialState: function() {
     return {
-      showUpNext:false,
-      isDismissed:false
+      showUpNext:false
     };
   },
 
@@ -47,11 +48,11 @@ var UpNext = React.createClass({
   },
 
   dismissUpNext: function() {
-    this.setState({isDismissed: true});
+    this.props.onUpNextDismissed();
   },
 
   render: function() {
-    if(this.state.showUpNext && !this.state.isDismissed && this.props.config.showUpNext) {
+    if(this.state.showUpNext && !this.props.upNextDismissed && this.props.config.showUpNext) {
       return (
         <View
           style={styles.container}>

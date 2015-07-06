@@ -17,6 +17,7 @@
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import "OOSkinViewController.h"
+#import "UpNextManager.h"
 
 @implementation OOReactBridge
 
@@ -36,6 +37,7 @@ static NSString *moreOptionButtonName = @"More";
 static NSString *languageKey = @"language";
 static NSString *bucketInfoKey = @"bucketInfo";
 static NSString *actionKey = @"action";
+static NSString *upNextDismiss = @"upNextDismiss";
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
@@ -51,7 +53,9 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if([buttonName isEqualToString:learnMoreButtonName]) {
       [self handleLearnMore];
     } else if([buttonName isEqualToString:moreOptionButtonName]) {
-      [self handleMoreOption];
+        [self handleMoreOption];
+    } else if([buttonName isEqualToString:upNextDismiss]) {
+        [self handleDismiss];
     }
   });
 }
@@ -98,6 +102,12 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 - (void)handleMoreOption {
   [sharedController.player pause];
 }
+
+- (void)handleDismiss {
+  [sharedController.upNextManager onDismissPressed];
+  [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed": [sharedController.upNextManager isDismissed] ? @"true" : @"false"}];
+}
+
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{

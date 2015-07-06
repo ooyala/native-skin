@@ -9,6 +9,7 @@
 #import "OOSkinViewController.h"
 #import "OOReactBridge.h"
 #import "RCTRootView.h"
+#import "UpNextManager.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -24,6 +25,7 @@
   RCTRootView *_reactView;
   UIViewController *_parentViewController;
   UIView *_parentView;
+  UpNextManager *upNextManager;
 }
 
 @end
@@ -59,6 +61,7 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
+    _upNextManager = [UpNextManager alloc];
     _discoveryOptions = discoveryOptions;
   }
   return self;
