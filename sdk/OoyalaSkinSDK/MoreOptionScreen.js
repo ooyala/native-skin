@@ -29,6 +29,7 @@ var MoreOptionScreen = React.createClass({
 
 	propTypes: {
     onPress: React.PropTypes.func,
+    onDismiss: React.PropTypes.func,
 	},
 
   _renderButton: function(style, icon, func) {
@@ -53,10 +54,6 @@ var MoreOptionScreen = React.createClass({
     );
   },
 
-  onDismissPress: function() { 
-    this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
-  },
-
   onOptionButtonPress: function() {
     LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     this.setState({optionSelected:!this.state.optionSelected});
@@ -69,7 +66,7 @@ var MoreOptionScreen = React.createClass({
     var shareButton = this._renderIconButton(ICONS.SHARE, this.onPlayPausePress);
     var settingButton = this._renderIconButton(ICONS.SETTING, this.onPlayPausePress);
 
-    var dismissButton = this._renderButton(styles.closeIconStyle, ICONS.CLOSE, this.onDismissPress);
+    var dismissButton = this._renderButton(styles.closeIconStyle, ICONS.CLOSE, this.props.onDismiss);
 
     var moreOptionRow = (
       <View

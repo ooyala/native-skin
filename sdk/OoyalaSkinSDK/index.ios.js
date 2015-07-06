@@ -90,6 +90,9 @@ var OoyalaSkin = React.createClass({
   },
 
   onOverlayDismissed: function() {
+    if (this.state.screenType == SCREEN_TYPES.MOREOPTION_SCREEN) {
+      this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+    }
     this.setState({overlayType:null});
     if (this.state.pausedByOverlay) {
       this.setState({pausedByOverlay:false});
@@ -330,7 +333,8 @@ var OoyalaSkin = React.createClass({
    _renderMoreOptionScreen: function() {
     return (
       <MoreOptionScreen
-        onPress={(name) => this.handlePress(name)}>
+        onPress={(name) => this.handlePress(name)}
+        onDismiss={this.onOverlayDismissed}>
       </MoreOptionScreen>
     )
    }
