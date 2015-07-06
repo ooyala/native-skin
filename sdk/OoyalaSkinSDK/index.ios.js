@@ -29,8 +29,10 @@ var {
   BUTTON_NAMES,
   SCREEN_TYPES,
   OOSTATES,
+  OVERLAY_TYPES,
 } = Constants;
 var VideoView = require('./videoView');
+var LanguageSelectionPanel = require('./languageSelectionPanel.js');
 
 // Add customizations
 var config = require('./skin-config/skin.json');
@@ -42,7 +44,11 @@ var OoyalaSkin = React.createClass({
   // consider using a leading underscore, or something?
   getInitialState: function() {
     return {
+      // states from react
       screenType: SCREEN_TYPES.LOADING_SCREEN,
+      overlayType: null,
+      selectedLanguage: 'en',
+      // states from native
       title: '',
       description: '',
       promoUrl: '', 
@@ -59,7 +65,6 @@ var OoyalaSkin = React.createClass({
     };
   },
 
-
   onSocialButtonPress: function(socialType) {
     OOSocialShare.onSocialButtonPress({
         'socialType': socialType,
@@ -72,24 +77,39 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-  cchack: function(n) {
-    // todo: remove this testing hack and do it right...
-    if( n === BUTTON_NAMES.CLOSED_CAPTIONS ) {
-      if( this.state.availableClosedCaptionsLanguages ) {
-        var ccl = (this.state.rct_closedCaptionsLanguage ? null : this.state.availableClosedCaptionsLanguages[0]);
-        this.setState({rct_closedCaptionsLanguage: ccl});
-      }
+  pauseOnOverlay: function() {
+    if (this.state.rate > 0) {
+      this.setState({pausedByOverlay:true});
+      eventBridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
     }
-    // todo: ...remove this testing hack and do it right.
-    if( n === BUTTON_NAMES.MORE) {
-      this.setState({screenType: SCREEN_TYPES.MOREOPTION_SCREEN})
+  },
+
+  handleOverlay: function(overlayName) {
+    this.pauseOnOverlay();
+    this.setState({overlayType:OVERLAY_TYPES.CC_OPTIONS})
+  },
+
+  onOverlayDismissed: function() {
+    this.setState({overlayType:null});
+    if (this.state.pausedByOverlay) {
+      this.setState({pausedByOverlay:false});
+      eventBridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
     }
   },
 
   handlePress: function(n) {
     this.setState({lastPressedTime: (new Date).getTime()});
-    this.cchack(n); // todo: remove this testing hack and do it right.
-    eventBridge.onPress({name:n});
+    switch(n) {
+      case BUTTON_NAMES.CLOSED_CAPTIONS:
+        this.handleOverlay(OVERLAY_TYPES.CC_OPTIONS);
+        break;
+      case BUTTON_NAMES.MORE:
+        this.pauseOnOverlay();
+        this.setState({screenType: SCREEN_TYPES.MOREOPTION_SCREEN});
+        break;
+      default:
+        eventBridge.onPress({name:n});
+    }
   },
 
   handleScrub: function(value) {
@@ -97,7 +117,9 @@ var OoyalaSkin = React.createClass({
   },
 
   updateClosedCaptions: function() {
-    eventBridge.onClosedCaptionUpdateRequested( {language:this.state.rct_closedCaptionsLanguage} );
+    if (this.state.selectedLanguage) {
+      eventBridge.onClosedCaptionUpdateRequested( {language:this.state.selectedLanguage} );
+    }
   },
 
   onClosedCaptionUpdate: function(e) {
@@ -176,6 +198,15 @@ var OoyalaSkin = React.createClass({
     this.setState({upNextDismissed:e.upNextDismissed});
   },
 
+  onLanguageSelected: function(e) {
+    console.log('onLanguageSelected:'+e);
+    this.setState({selectedLanguage:e});
+  },
+  
+  shouldShowLandscape: function() {
+    return this.state.width > this.state.height;
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
@@ -205,13 +236,18 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-
-    switch (this.state.screenType) {
-      case SCREEN_TYPES.START_SCREEN:       return this._renderStartScreen();       break;
-      case SCREEN_TYPES.END_SCREEN:         return this._renderEndScreen();         break;
-      case SCREEN_TYPES.LOADING_SCREEN:     return this._renderLoadingScreen();     break;
-      case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
-      default:                              return this._renderVideoView();         break;
+    if (this.state.overlayType) {
+      switch (this.state.overlayType) {
+        case OVERLAY_TYPES.CC_OPTIONS: return this._renderCCOptions(); break;
+      }
+    } else {
+      switch (this.state.screenType) {
+        case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
+        case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
+        case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
+        case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
+        default:      return this._renderVideoView();   break;
+      }
     }
   },
 
@@ -271,7 +307,7 @@ var OoyalaSkin = React.createClass({
          fullscreen={this.state.fullscreen}
          onPress={(value) => this.handlePress(value)}
          onScrub={(value) => this.handleScrub(value)}
-         closedCaptionsLanguage={this.state.rct_closedCaptionsLanguage}
+         closedCaptionsLanguage={this.state.selectedLanguage}
              // todo: change to boolean showCCButton.
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
@@ -294,6 +330,16 @@ var OoyalaSkin = React.createClass({
         size="large">
       </ActivityIndicatorIOS>)
    },
+
+   _renderCCOptions: function() {
+    return (
+      <LanguageSelectionPanel
+        languages={this.state.availableClosedCaptionsLanguages}
+        selectedLanguage={this.state.selectedLanguage}
+        onSelect={(value)=>this.onLanguageSelected(value)}
+        onDismiss={this.onOverlayDismissed}>
+      </LanguageSelectionPanel>)
+  },
 
    _renderMoreOptionScreen: function() {
     return (

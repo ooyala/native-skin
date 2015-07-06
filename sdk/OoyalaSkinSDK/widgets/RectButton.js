@@ -6,7 +6,7 @@ var {
   TouchableHighlight,
 } = React;
 
-var styles = require('./RectButtonStyles');
+var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
 
 var RectButton = React.createClass({
   propTypes: {

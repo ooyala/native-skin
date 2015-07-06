@@ -14,6 +14,8 @@ var ICONS = {
   QUALITY: '\uf080',
   SETTING: '\uf013',
   CLOSE: '\uf00d',
+  TOGGLEOFF: '\uf204',
+  TOGGLEON: '\uf205'
 };
 
 var BUTTON_NAMES = { // must match Objective-C code expectations.
@@ -47,16 +49,27 @@ var SCREEN_TYPES = {
   MOREOPTION_SCREEN: 'moreOption',
 };
 
+var OVERLAY_TYPES = {
+  DISCOVERY_OVERLAY: 'discovery',
+  SOCIAL_OVERLAY: 'social',
+  CC_OPTIONS: 'cc_options',
+};
+
 var OOSTATES = {
   PAUSED: 'paused',
 };
 
 var UI_TEXT = {
   LEARNMORE : 'Learn More',
+  CC_PREVIEW: 'CLOSE CAPTION PREVIEW',
+  CC_SAMPLE: 'Sample Text',
   AD_PLAYING: 'Ad Playing',
   LIVE: 'LIVE',
   GO_LIVE: 'GO LIVE',
   SEPERATOR: '/',
+  CC_OPTIONS: 'CC Options',
+  ON: 'On',
+  OFF: 'Off',
 };
 
-module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT};
+module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT, OVERLAY_TYPES};

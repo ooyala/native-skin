@@ -109,6 +109,7 @@ static NSString *kViewChangeKey = @"frame";
   NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
   NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
+  NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
 
   NSDictionary *eventBody =
   @{@"title":title,
@@ -116,6 +117,7 @@ static NSString *kViewChangeKey = @"frame";
     @"promoUrl":promoUrl,
     @"duration":durationNumber,
     @"live":live,
+    @"languages":closedCaptionsLanguages,
     @"width":frameWidth,
     @"height":frameHeight};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
