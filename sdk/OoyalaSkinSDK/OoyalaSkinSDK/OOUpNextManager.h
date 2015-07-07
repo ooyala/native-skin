@@ -4,15 +4,24 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <OoyalaSDK/OOOoyalaPlayer.h>
 
 
 @interface OOUpNextManager : NSObject
 
 @property (nonatomic) BOOL isDismissed;
+@property (nonatomic, readonly) OOOoyalaPlayer *player;
+@property (nonatomic) NSDictionary * nextVideo;
 
-/**
-* dismisses the upNext dialog when user clicks the dismiss button
-*/
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
+
+- (void)setNextVideo:(NSMutableArray *)nextVideo;
+
+- (void)playCompletedNotification:(NSNotification *)notification;
+- (void)currentItemChangedNotification:(NSNotification *)notification;
+
+- (void)goToNextVideo;
+- (void)reset;
 - (void)onDismissPressed;
 
 @end

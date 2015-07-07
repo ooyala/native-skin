@@ -50,7 +50,7 @@ var UpNext = React.createClass({
           style={styles.container}>
 
           <TouchableHighlight style={styles.thumbnailContainer}
-            onPress={() => this.props.onUpNextClicked({action:"click", embedCode:this.props.nextVideo.embedCode, bucketInfo:this.props.nextVideo.bucketInfo})}>
+            onPress={() => this.props.onUpNextClicked()}>
             <Image
               source={{uri: this.props.nextVideo.imageUrl}}
               style={styles.thumbnail} >

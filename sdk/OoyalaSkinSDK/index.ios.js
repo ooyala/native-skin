@@ -130,8 +130,8 @@ var OoyalaSkin = React.createClass({
     eventBridge.onDiscoveryRow(info);
   },
 
-  upNextClicked: function(info) {
-    eventBridge.onDiscoveryRow(info);
+  upNextClicked: function() {
+    eventBridge.upNextClicked();
   },
 
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
@@ -198,6 +198,10 @@ var OoyalaSkin = React.createClass({
     this.setState({upNextDismissed:e.upNextDismissed});
   },
 
+  onSetNextVideo: function(e) {
+    this.setState({nextVideo:e.nextVideo});
+  },
+
   onLanguageSelected: function(e) {
     console.log('onLanguageSelected:'+e);
     this.setState({selectedLanguage:e});
@@ -221,6 +225,7 @@ var OoyalaSkin = React.createClass({
       [ 'adStarted',                (event) => this.onAdStarted(event) ],
       [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
       [ 'adCompleted',              (event) => this.onAdCompleted(event) ],
+      [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
       [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ]
     ];
     for( var d of listenerDefinitions ) {
@@ -314,8 +319,8 @@ var OoyalaSkin = React.createClass({
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
          lastPressedTime={this.state.lastPressedTime}
          upNextConfig={upNextConfig}
-         nextVideo={(this.state.discoveryResults) ? this.state.discoveryResults[0] : null}
-         onUpNextClicked={(info) => this.upNextClicked(info)}
+         nextVideo={this.state.nextVideo}
+         onUpNextClicked={() => this.upNextClicked()}
          upNextDismissed={this.state.upNextDismissed}>
        </VideoView>
 

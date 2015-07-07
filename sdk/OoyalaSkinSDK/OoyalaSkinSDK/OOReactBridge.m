@@ -105,7 +105,6 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 
 - (void)handleDismiss {
   [sharedController.upNextManager onDismissPressed];
-  [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed": [sharedController.upNextManager isDismissed] ? @"true" : @"false"}];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
@@ -141,6 +140,10 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
       [OODiscoveryManager sendImpression:sharedController.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
     });
   }
+}
+
+RCT_EXPORT_METHOD(upNextClicked) {
+    [sharedController.upNextManager goToNextVideo];
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
