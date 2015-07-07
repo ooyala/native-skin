@@ -15,6 +15,8 @@ var Utils = require('./utils');
 var Constants = require('./constants');
 var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
+var config = require('./skin-config/skin.json');
+var SharePanel = require('./sharePanel');
 
 var {
   ICONS,
@@ -22,21 +24,21 @@ var {
   IMG_URLS,
 } = Constants;
 
+var moreOptionButtonSize = 30;
+var dismissButtonSize = 20;
+
 var MoreOptionScreen = React.createClass({
   getInitialState: function(){
     return {
-      optionSelected: false,
-      discoverySelected: true,
-      qualitySelected: true,
-      ccSelected: true,
-      shareSelected: true,
-      settingSelected: true,
+      buttonSelected: "None",
+      panelShow: "None"
     }
   },
 
 	propTypes: {
     onPress: React.PropTypes.func,
     onDismiss: React.PropTypes.func,
+    onSocialButtonPress: React.PropTypes.func,
 	},
 
   _renderButton: function(style, icon, func, size) {
@@ -50,66 +52,72 @@ var MoreOptionScreen = React.createClass({
     );
   },
 
-  onOptionButtonPress: function() {
+  onOptionButtonPress: function(button) {
     LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-    this.setState({optionSelected:!this.state.optionSelected});
+
+    this.setState({buttonSelected: button});
+    this.setState({panelShow: button});
   },
 
-  onDiscoveryButtonPress: function() {
-    this.setButtonSelectedState(true, false, false, false, false);
-  },
+  _renderMoreOptionButtons: function(moreOptionButtons){
+    for(var i = 0; i < config.buttons.length; i++){
+      var button = config.buttons[i];
 
-  onQualityButtonPress: function() {
-    this.setButtonSelectedState(false, true, false, false, false);
-  },
+      if(button.type == "FeatureOptions" || button.type == "MoreOptions" && button.name != "Dismiss"){
+        var moreOptionButton;
+        var buttonStyle;
+        var buttonIcon;
 
-  onCCButtonPress: function() {
-    this.setButtonSelectedState(false, false, true, false, false);
-  },
+        if(this.state.buttonSelected == "None"|| this.state.buttonSelected == button.name){
+          buttonStyle = styles.iconSelected;
+        }else{
+          buttonStyle = styles.iconUnselected;
+        }
+        
+        switch(button.name){
+          case "Discovery":
+            buttonIcon = ICONS.DISCOVERY;
+            break;
+          case "Quality":
+            buttonIcon = ICONS.QUALITY;
+            break;
+          case "CC":
+            buttonIcon = ICONS.CC;
+            break;
+          case "Share":
+            buttonIcon = ICONS.SHARE;
+            break;
+          case "Setting":
+            buttonIcon = ICONS.SETTING;
+            break;
+          default:
+            break;
+        }
 
-  onShareButtonPress: function() {
-    this.setButtonSelectedState(false, false, false, true, false);
-  },
+        var onOptionPress = function(buttonName, f){
+          return function(){
+            f(buttonName);
+          };
+        }(button.name, this.onOptionButtonPress);
 
-  onSettingButtonPress: function() {
-    this.setButtonSelectedState(false, false, false, false, true);
-  },
+        moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, moreOptionButtonSize);
 
-  setButtonSelectedState: function(discovery, quality, cc, share, setting) {
-    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-    this.setState({optionSelected:true});
-
-    this.setState({discoverySelected: discovery});
-    this.setState({qualitySelected: quality});
-    this.setState({ccSelected: cc});
-    this.setState({shareSelected: share});
-    this.setState({settingSelected: setting});
+        moreOptionButtons.push(moreOptionButton);
+      }
+    }
   },
 
 	render: function() {
-    var discoveryBtnStyle = this.state.discoverySelected? styles.iconSelected: styles.iconUnselected;
-    var qualityBtnStyle = this.state.qualitySelected? styles.iconSelected: styles.iconUnselected;
-    var ccBtnStyle = this.state.ccSelected? styles.iconSelected: styles.iconUnselected;
-    var shareBtnStyle = this.state.shareSelected? styles.iconSelected: styles.iconUnselected;
-    var settingBtnStyle = this.state.settingSelected? styles.iconSelected: styles.iconUnselected;
-
-    var discoveryButton = this._renderButton(discoveryBtnStyle, ICONS.DISCOVERY, this.onDiscoveryButtonPress, 30);
-    var qualityButton = this._renderButton(qualityBtnStyle, ICONS.QUALITY, this.onQualityButtonPress, 30);
-    var ccButton = this._renderButton(ccBtnStyle, ICONS.CC, this.onCCButtonPress, 30);
-    var shareButton = this._renderButton(shareBtnStyle, ICONS.SHARE, this.onShareButtonPress, 30);
-    var settingButton = this._renderButton(settingBtnStyle, ICONS.SETTING, this.onSettingButtonPress, 30);
-
-    var dismissButton = this._renderButton(styles.closeIconStyle, ICONS.CLOSE, this.props.onDismiss, 20);
+    var moreOptionButtons = [];
+    this._renderMoreOptionButtons(moreOptionButtons);
+    
+    var dismissButton = this._renderButton(styles.iconSelected, ICONS.DISMISS, this.props.onDismiss, dismissButtonSize);
 
     var moreOptionRow = (
       <View
         ref='moreOptionRow' 
-        style={this.state.optionSelected? styles.rowBottom: styles.rowCenter}>
-        {discoveryButton}          
-        {qualityButton}
-        {ccButton}
-        {shareButton}
-        {settingButton}
+        style={this.state.buttonSelected != "None"? styles.rowBottom: styles.rowCenter}>
+        {moreOptionButtons}
       </View>
     );
     
@@ -119,8 +127,16 @@ var MoreOptionScreen = React.createClass({
       </View>
     );
 
+    var sharePanel = (
+      <SharePanel
+        isShow= {this.state.panelShow == "Share"}
+        socialButtons={config.sharing}
+        onSocialButtonPress={(socialType) => this.props.onSocialButtonPress(socialType)} />
+    );
+
     var moreOptionScreen = (
       <View style={styles.fullscreenContainer}>
+        {sharePanel}
         {dismissButtonRow}
         {moreOptionRow}
       </View>

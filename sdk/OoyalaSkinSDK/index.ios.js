@@ -334,7 +334,8 @@ var OoyalaSkin = React.createClass({
     return (
       <MoreOptionScreen
         onPress={(name) => this.handlePress(name)}
-        onDismiss={this.onOverlayDismissed}>
+        onDismiss={this.onOverlayDismissed}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}>
       </MoreOptionScreen>
     )
    }
