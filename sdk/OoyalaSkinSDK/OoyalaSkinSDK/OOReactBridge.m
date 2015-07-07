@@ -53,9 +53,9 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if([buttonName isEqualToString:learnMoreButtonName]) {
       [self handleLearnMore];
     } else if([buttonName isEqualToString:moreOptionButtonName]) {
-        [self handleMoreOption];
+      [self handleMoreOption];
     } else if([buttonName isEqualToString:upNextDismiss]) {
-        [self handleDismiss];
+      [self handleDismiss];
     }
   });
 }
@@ -143,7 +143,7 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
 }
 
 RCT_EXPORT_METHOD(upNextClicked) {
-    [sharedController.upNextManager goToNextVideo];
+  [sharedController.upNextManager goToNextVideo];
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
