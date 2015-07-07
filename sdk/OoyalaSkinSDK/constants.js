@@ -70,6 +70,7 @@ var UI_TEXT = {
   CC_OPTIONS: 'CC Options',
   ON: 'On',
   OFF: 'Off',
+  DISCOVERY: 'Discovery'
 };
 
 module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT, OVERLAY_TYPES};

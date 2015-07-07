@@ -15,9 +15,8 @@ var {
 } = React;
 
 var Utils = require('./utils');
-
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
-var Utils = require('./utils');
+var UI_TEXT = require('./constants').UI_TEXT;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.embedCode !== r2.embedCode})
 
 var DiscoveryPanel = React.createClass({
@@ -85,20 +84,11 @@ var DiscoveryPanel = React.createClass({
   },
 
   renderHeader: function() {
-    // if image is provided, use image, otherwise use string.
-    var imageSource;
-    if (this.props.config.listImage) {
-      if (this.props.config.listImage.url) {
-        imageSource = {uri: this.props.config.listImage.url}
-      } else if (this.props.config.listImage.iosResource) {
-        imageSource = require('image!'+this.props.config.listImage.iosResource);
-      }
-    }
-
-    if (imageSource) {
-      return (<Image style={styles.waterMarkImage} source={imageSource} />);
+    if (this.props.config.listImage && this.props.config.listImage.url) {
+      return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.listImage.url}} />);
     } else {
-      return (<Text style={styles.panelTitle}>{this.props.config.listTitle}</Text>);
+      var title = this.props.config.listTitle ? this.props.config.listTitle : UI_TEXT.DISCOVERY;
+      return (<Text style={styles.panelTitle}>{title}</Text>);
     }
   },
 });
