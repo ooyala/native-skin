@@ -84,12 +84,15 @@ var DiscoveryPanel = React.createClass({
   },
 
   renderHeader: function() {
-    if (this.props.config.panelTitleImage && this.props.config.panelTitleImage.uri) {
-      return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.panelTitleImage.uri}} />);
-    } else {
-      var title = this.props.config.panelTitle ? this.props.config.panelTitle : UI_TEXT.DISCOVERY;
-      return (<Text style={styles.panelTitle}>{title}</Text>);
+    var title = UI_TEXT.DISCOVERY;
+    if (this.props.config.panelTitle) {
+      if (this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage) {
+        return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.panelTitle.imageUri}} />);
+      } else if (this.props.config.panelTitle.text) {
+        title = this.props.config.panelTitle.text;
+      }
     }
+    return (<Text style={styles.panelTitle}>{title}</Text>);
   },
 });
 
