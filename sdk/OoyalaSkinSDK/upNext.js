@@ -29,30 +29,22 @@ var UpNext = React.createClass({
     upNextDismissed: React.PropTypes.bool
   },
 
-  getInitialState: function() {
-    return {
-      showUpNext:false
-    };
-  },
-
-  componentWillReceiveProps: function(nextProps) {
-
-    // If we are given a percentage of the video in which to show the upnext dialog.
-    if(nextProps.config.timeToShow < 1) {
-      this.setState({showUpNext: nextProps.config.timeToShow < nextProps.playhead / nextProps.duration});
-    }
-    // else if we are given a number of seconds from end in which to show the upnext dialog.
-    else {
-      this.setState({showUpNext: nextProps.config.timeToShow > nextProps.duration - nextProps.playhead});
-    }
-  },
-
   dismissUpNext: function() {
     this.props.onUpNextDismissed();
   },
 
   render: function() {
-    if(this.state.showUpNext && !this.props.upNextDismissed && this.props.config.showUpNext) {
+    var isWithinShowUpNextBounds;
+    // If we are given a percentage of the video in which to show the upnext dialog.
+    if(this.props.config.timeToShow < 1) {
+      isWithinShowUpNextBounds = this.props.config.timeToShow < this.props.playhead / this.props.duration;
+    }
+    // else if we are given a number of seconds from end in which to show the upnext dialog.
+    else {
+      isWithinShowUpNextBounds = this.props.config.timeToShow > this.props.duration - this.props.playhead;
+    }
+
+    if(isWithinShowUpNextBounds && !this.props.upNextDismissed && this.props.config.showUpNext) {
       return (
         <View
           style={styles.container}>

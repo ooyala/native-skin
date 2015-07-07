@@ -3,10 +3,10 @@
 // Copyright (c) 2015 ooyala. All rights reserved.
 //
 
-#import "UpNextManager.h"
+#import "OOUpNextManager.h"
 
 
-@implementation UpNextManager
+@implementation OOUpNextManager
 
 - (void)onDismissPressed {
     _isDismissed = YES;

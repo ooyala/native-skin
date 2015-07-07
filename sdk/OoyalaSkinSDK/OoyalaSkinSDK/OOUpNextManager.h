@@ -6,7 +6,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface UpNextManager : NSObject
+@interface OOUpNextManager : NSObject
 
 @property (nonatomic) BOOL isDismissed;
 

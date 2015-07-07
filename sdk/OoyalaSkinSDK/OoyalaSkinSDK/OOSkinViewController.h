@@ -10,13 +10,13 @@
 
 @class OOOoyalaPlayer;
 @class OODiscoveryOptions;
-@class UpNextManager;
+@class OOUpNextManager;
 
 @interface OOSkinViewController : UIViewController
 
 @property (nonatomic, readonly) OODiscoveryOptions *discoveryOptions;
 @property (nonatomic, readonly) OOOoyalaPlayer *player;
-@property (nonatomic) UpNextManager *upNextManager;
+@property (nonatomic) OOUpNextManager *upNextManager;
 @property (readonly) BOOL isFullscreen;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player

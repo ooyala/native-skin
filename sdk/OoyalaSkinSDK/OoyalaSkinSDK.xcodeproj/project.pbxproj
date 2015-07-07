@@ -16,9 +16,9 @@
 		2F12F53E9749216BF6CBED86 /* upNext.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F6ACB2B1325582A57E0F /* upNext.json */; };
 		2F12F54F8F5430B1DC77BA1F /* adBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F66C4650F01E54DEBF70 /* adBarStyles.json */; };
 		2F12F5AEB5077A935B3544B2 /* pauseScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F2328FD65E0FE6E2A3A8 /* pauseScreenStyles.json */; };
-		2F12F5F76ED9606A0BAB9570 /* UpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* UpNextManager.m */; };
+		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
 		2F12F717EA93E2CBE25725E3 /* infoPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F991D312F3867ADDAC0E /* infoPanelStyles.json */; };
-		2F12F8727CAA720AF04A4451 /* UpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* UpNextManager.h */; };
+		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
 		2F12F90D230C867189B47F73 /* RectButtonStyles.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F5AF08C2724C80887A20 /* RectButtonStyles.js */; };
 		2F12F97BE887C1463FE2FCD3 /* startScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F7125EBA71D63F094C87 /* startScreenStyles.json */; };
 		2F12F9D3CB7972A2383E3382 /* controlBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */; };
@@ -99,12 +99,12 @@
 		2F12F6ACB2B1325582A57E0F /* upNext.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = upNext.json; sourceTree = "<group>"; };
 		2F12F7125EBA71D63F094C87 /* startScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = startScreenStyles.json; sourceTree = "<group>"; };
 		2F12F81C87016C03629F73A3 /* RectButton.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RectButton.js; sourceTree = "<group>"; };
-		2F12F9253B74765509247EF1 /* UpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpNextManager.h; sourceTree = "<group>"; };
+		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12F991D312F3867ADDAC0E /* infoPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = infoPanelStyles.json; sourceTree = "<group>"; };
 		2F12FA93EE3B4BB0B2EF65C0 /* discoveryPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = discoveryPanelStyles.json; sourceTree = "<group>"; };
 		2F12FC25E788F391F9990881 /* videoViewStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = videoViewStyles.json; sourceTree = "<group>"; };
 		2F12FC4252285AFD9EB38A07 /* endScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = endScreenStyles.json; sourceTree = "<group>"; };
-		2F12FC7D85581BAFCB6ED3C2 /* UpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpNextManager.m; sourceTree = "<group>"; };
+		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
@@ -253,8 +253,8 @@
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
-				2F12FC7D85581BAFCB6ED3C2 /* UpNextManager.m */,
-				2F12F9253B74765509247EF1 /* UpNextManager.h */,
+				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
+				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
@@ -330,7 +330,7 @@
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
-				2F12F8727CAA720AF04A4451 /* UpNextManager.h in Headers */,
+				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,7 +484,7 @@
 				2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */,
 				2F12F3B4F7CC06A74706432A /* RectButton.js in Sources */,
 				2F12F90D230C867189B47F73 /* RectButtonStyles.js in Sources */,
-				2F12F5F76ED9606A0BAB9570 /* UpNextManager.m in Sources */,
+				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

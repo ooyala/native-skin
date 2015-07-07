@@ -17,7 +17,7 @@
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import "OOSkinViewController.h"
-#import "UpNextManager.h"
+#import "OOUpNextManager.h"
 
 @implementation OOReactBridge
 
@@ -107,7 +107,6 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
   [sharedController.upNextManager onDismissPressed];
   [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed": [sharedController.upNextManager isDismissed] ? @"true" : @"false"}];
 }
-
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
