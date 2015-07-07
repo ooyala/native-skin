@@ -85,8 +85,21 @@ var DiscoveryPanel = React.createClass({
   },
 
   renderHeader: function() {
-  	return (
-  	  <Text style={styles.panelTitle}>{this.props.config.title}</Text>);
+    // if image is provided, use image, otherwise use string.
+    var imageSource;
+    if (this.props.config.listImage) {
+      if (this.props.config.listImage.url) {
+        imageSource = {uri: this.props.config.listImage.url}
+      } else if (this.props.config.listImage.iosResource) {
+        imageSource = require('image!'+this.props.config.listImage.iosResource);
+      }
+    }
+
+    if (imageSource) {
+      return (<Image style={styles.waterMarkImage} source={imageSource} />);
+    } else {
+      return (<Text style={styles.panelTitle}>{this.props.config.listTitle}</Text>);
+    }
   },
 });
 
