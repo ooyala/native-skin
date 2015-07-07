@@ -55,11 +55,11 @@ var DiscoveryPanel = React.createClass({
 
   renderRow: function(row: object, sectionID: number, rowID: number) {
     var title;
-    if (this.props.config.showTitle) {
+    if (this.props.config.showContentTitle) {
       title = <Text style={styles.title}>{row.name}</Text>;
     }
   	var duration;
-    if (this.props.config.showDuration) {
+    if (this.props.config.showContentDuration) {
       duration = <Text style={styles.description}>{Utils.secondsToString(row.duration)}</Text>;
     };
     this.onRowImpressed(row);
@@ -84,10 +84,10 @@ var DiscoveryPanel = React.createClass({
   },
 
   renderHeader: function() {
-    if (this.props.config.listImage && this.props.config.listImage.url) {
-      return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.listImage.url}} />);
+    if (this.props.config.panelTitleImage && this.props.config.panelTitleImage.uri) {
+      return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.panelTitleImage.uri}} />);
     } else {
-      var title = this.props.config.listTitle ? this.props.config.listTitle : UI_TEXT.DISCOVERY;
+      var title = this.props.config.panelTitle ? this.props.config.panelTitle : UI_TEXT.DISCOVERY;
       return (<Text style={styles.panelTitle}>{title}</Text>);
     }
   },
