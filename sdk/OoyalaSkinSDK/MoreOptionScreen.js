@@ -29,6 +29,7 @@ var MoreOptionScreen = React.createClass({
 
 	propTypes: {
     onPress: React.PropTypes.func,
+    discovery: React.PropTypes.object
 	},
 
   _renderButton: function(style, icon, func) {
@@ -69,7 +70,7 @@ var MoreOptionScreen = React.createClass({
     var shareButton = this._renderIconButton(ICONS.SHARE, this.onPlayPausePress);
     var settingButton = this._renderIconButton(ICONS.SETTING, this.onPlayPausePress);
 
-    var dismissButton = this._renderButton(styles.closeIconStyle, ICONS.CLOSE, this.onDismissPress);
+    var dismissButton = this._renderButton([styles.closeIconStyle, styles.topRight], ICONS.CLOSE, this.onDismissPress);
 
     var moreOptionRow = (
       <View
@@ -83,24 +84,14 @@ var MoreOptionScreen = React.createClass({
       </View>
     );
     
-    var dismissButtonRow = (
-      <View style={styles.dismissButtonTopRight}>
+    var moreOptionScreen = (
+      <View style={styles.container}>
+        {this.props.discovery}
         {dismissButton}
       </View>
     );
 
-    var moreOptionScreen = (
-      <View style={styles.fullscreenContainer}>
-        {dismissButtonRow}
-        {moreOptionRow}
-      </View>
-    );
-
-    return (
-      <View style={styles.fullscreenContainer}>
-        {moreOptionScreen}
-      </View>
-    );
+    return moreOptionScreen;
   }
 });
 

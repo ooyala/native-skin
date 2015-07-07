@@ -260,7 +260,6 @@ var OoyalaSkin = React.createClass({
     var EndScreenConfig = config.endScreen;
     var discovery = (
       <DiscoveryPanel
-        isShow='true'
         config={config.discoveryScreen}
         dataSource={this.state.discoveryResults}
         onRowAction={(info) => this.onDiscoveryRow(info)}>
@@ -328,9 +327,17 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderMoreOptionScreen: function() {
+    var discovery = (
+      <DiscoveryPanel
+        config={config.discoveryScreen}
+        dataSource={this.state.discoveryResults}
+        onRowAction={(info) => this.onDiscoveryRow(info)}>
+      </DiscoveryPanel>);
+
     return (
       <MoreOptionScreen
-        onPress={(name) => this.handlePress(name)}>
+        onPress={(name) => this.handlePress(name)}
+        discovery={discovery}>
       </MoreOptionScreen>
     )
    }

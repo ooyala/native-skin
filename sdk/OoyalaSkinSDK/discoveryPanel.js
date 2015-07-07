@@ -22,7 +22,6 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.embedCode !== r2
 
 var DiscoveryPanel = React.createClass({
   propTypes: {
-    isShow: React.PropTypes.bool,
     dataSource: React.PropTypes.array,
     onRowAction: React.PropTypes.func,
     config: React.PropTypes.object
@@ -45,27 +44,25 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    var discoveryPanel;
-    if(this.props.isShow){
-      discoveryPanel=(
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
-          renderHeader={this.renderHeader}
-          style={styles.listView}>
-        </ListView>
-      );
-    }
-
     return (
-      <View style={styles.fullscreenContainer}>
-        {discoveryPanel}
-      </View>
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow}
+        renderHeader={this.renderHeader}
+        style={styles.listView}>
+      </ListView>
     );
   },
 
   renderRow: function(row: object, sectionID: number, rowID: number) {
-  	var duration = Utils.secondsToString(row.duration);
+    var title;
+    if (this.props.config.showTitle) {
+      title = <Text style={styles.title}>{row.name}</Text>;
+    }
+  	var duration;
+    if (this.props.config.showDuration) {
+      duration = <Text style={styles.description}>{Utils.secondsToString(row.duration)}</Text>;
+    };
     this.onRowImpressed(row);
 
     return (
@@ -79,8 +76,8 @@ var DiscoveryPanel = React.createClass({
         </Image>
         
         <View style={styles.rightContainer}>
-          <Text style={styles.title}>{row.name}</Text>
-          <Text style={styles.description}>{duration}</Text>
+          {title}
+          {duration}
         </View>
       </View>
      </TouchableHighlight>
