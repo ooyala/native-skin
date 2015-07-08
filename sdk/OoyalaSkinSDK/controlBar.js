@@ -23,6 +23,7 @@ var {
 } = Constants;
 
 var Utils = require('./utils');
+var ControlBarWidget = require('./widgets/controlBarWidgets');
 
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
 
@@ -44,7 +45,8 @@ var ControlBar = React.createClass({
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
     live: React.PropTypes.string,
-    shouldShowLandscape: React.PropTypes.bool
+    shouldShowLandscape: React.PropTypes.bool,
+    config: React.PropTypes.object
   },
 
   getDefaultProps: function() {
@@ -90,33 +92,42 @@ var ControlBar = React.createClass({
   },
 
   render: function() {
-    var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
-    var shareIcon = ICONS.SHARE;
-    var menuIcon = ICONS.ELLIPSIS;
-    var closedCaptionsIcon = ICONS.CC;
-    var volumeScrubber;
-    var controlBarView;
-    var durationString = this.getDurationString();
-    if (this.state.showVolume) {
-      volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
-    }
 
-    var watermark;
-    // If is landscape
-    if(Utils.shouldShowLandscape(this.props.width, this.props.height)) {
-      watermark = (
-        <Image style={styles.waterMarkImage}
-          source={{uri: IMG_URLS.OOYALA_LOGO}}
-          resizeMode={Image.resizeMode.contain}>
-        </Image>);
-    }
+    var controlBarWidgets = [];
 
-    var ccButton;
-    if( this.props.showClosedCaptionsButton ) {
-      ccButton = (<TouchableHighlight onPress={this.onClosedCaptionsPress}>
-        <Text style={styles.icon}>{closedCaptionsIcon}</Text>
-      </TouchableHighlight>);
-    }
+    var options = {
+      playPause: {
+        onPress: this.onPlayPausePress,
+        style: styles.icon,
+        primaryActionButton: this.props.primaryActionButton
+      },
+      volume: {
+        onPress: this.onVolumePress,
+        style: this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon,
+        volumeIcon: this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN,
+        showVolume: this.state.showVolume,
+        scrubberStyle: styles.volumeSlider
+      },
+      timeDuration: {
+        style: styles.label,
+        durationString: this.getDurationString()
+      },
+      fullscreen: {
+        onPress: this.onFullscreenPress,
+        style: styles.icon,
+        icon: this.props.fullscreenButton
+      },
+      moreOptions: {
+        onPress: this.onMorePress,
+        style: styles.icon,
+        icon: ICONS.ELLIPSIS
+      },
+      watermark: {
+        shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
+        style: styles.waterMarkImage,
+        resizeMode: Image.resizeMode.contain
+      }
+    };
 
     var displayStyle = styles.container;
     if (this.props.isShow){
@@ -126,30 +137,16 @@ var ControlBar = React.createClass({
       displayStyle = styles.containerHidden;
     }
 
+    for(var i in this.props.config.items) {
+      controlBarWidgets.push(<ControlBarWidget
+        widgetType={this.props.config.items[i]}
+        options={options}
+      />);
+    }
+
     return (
       <View style={displayStyle}>
-        <TouchableHighlight onPress={this.onPlayPausePress}>
-          <Text style={styles.icon}>{this.props.primaryActionButton}</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this.onVolumePress}>
-          <Text style={this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon}>
-            {volumeIcon}
-          </Text>
-        </TouchableHighlight>
-        {volumeScrubber}
-        <Text style={styles.label}>{durationString}</Text>
-        <View style={styles.placeholder} />
-        <TouchableHighlight onPress={this.onSocialSharePress}>
-          <Text style={styles.icon}>{shareIcon}</Text>
-        </TouchableHighlight>
-        {ccButton}
-        <TouchableHighlight onPress={this.onFullscreenPress}>
-          <Text style={styles.icon}>{this.props.fullscreenButton}</Text>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={this.onMorePress}>
-          <Text style={styles.icon}>{menuIcon}</Text>
-        </TouchableHighlight>
-        {watermark}
+        {controlBarWidgets}
       </View>
     );
   }

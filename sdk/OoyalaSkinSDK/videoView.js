@@ -22,7 +22,6 @@ var Constants = require('./constants');
 var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var config = require('./skin-config/skin.json');
 
 var {
   ICONS,
@@ -57,7 +56,8 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
-    lastPressedTime: React.PropTypes.number
+    lastPressedTime: React.PropTypes.number,
+    config: React.PropTypes.object
   },
 
   shouldShowDiscovery: function() {
@@ -121,7 +121,8 @@ var VideoView = React.createClass({
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.showControlBar()} />);
+      isShow={this.showControlBar()}
+      config={this.props.config.controlBar} />);
   },
 
   _renderAdBar: function() {

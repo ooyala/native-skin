@@ -9,6 +9,23 @@
 /* Begin PBXBuildFile section */
 		0B773E721B211FFA0056588E /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B773E701B211FFA0056588E /* OOReactSocialShare.h */; };
 		0B773E731B211FFA0056588E /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B773E711B211FFA0056588E /* OOReactSocialShare.m */; };
+		2F12F0C83710E6F4F995ABA9 /* endScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FEA4BAD7FB2379B18467 /* endScreenStyles.json */; };
+		2F12F32B37B5BA2C3B42F95E /* pauseScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FCD215A737BDA398BDBB /* pauseScreenStyles.json */; };
+		2F12F34467D2A7A71F03DFDA /* adBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FE6353ECE3A5F81A2736 /* adBarStyles.json */; };
+		2F12F3D111703738FDD4E5C4 /* RectButton.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F3E1AB1F476B2F1CEED4 /* RectButton.js */; };
+		2F12F7ED31CD5E0B8F173B65 /* ToggleSwitchStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FAF1D83782A54EA1D55A /* ToggleSwitchStyles.json */; };
+		2F12F826F46FD067AB830109 /* controlBarWidgets.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F6DAFECBE385CF4187A5 /* controlBarWidgets.js */; };
+		2F12F828D1FC59C0AF02477C /* sharePanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FA70E9FDB5EC8261E7FB /* sharePanelStyles.json */; };
+		2F12F855D344D3A4B4247B22 /* ToggleSwitch.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FE6C1ED6A30A2E949CCC /* ToggleSwitch.js */; };
+		2F12F8A35EA78D2692274C51 /* videoViewStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FF9CDD955D9CCAA2D594 /* videoViewStyles.json */; };
+		2F12F926E692A04DE6E0474E /* controlBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F37632AFC7D2537ED256 /* controlBarStyles.json */; };
+		2F12F9CAB0668BCB6D852641 /* infoPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F252724E51FC9AE65734 /* infoPanelStyles.json */; };
+		2F12F9E909C1F0373109AD52 /* discoveryPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F89B52698548C069C089 /* discoveryPanelStyles.json */; };
+		2F12FAAEE7567E9C187B6E7C /* RectButtonStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F9EE05EF2EDEDEEEE55D /* RectButtonStyles.json */; };
+		2F12FB1BDA21C3405E128323 /* styles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F4BB056716B12D731643 /* styles.json */; };
+		2F12FBFE11C4A742C3CE29D8 /* startScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FA88DDBEBDEAE4DF8A04 /* startScreenStyles.json */; };
+		2F12FC0FECD3540BAA712C48 /* moreOptionScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD7B83722B99B5092165 /* moreOptionScreenStyles.json */; };
+		2F12FCCA8FDC97D1EA6A7337 /* languageSelectionPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F59FAFC3B555DB030EEE /* languageSelectionPanelStyles.json */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
 		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
@@ -73,6 +90,23 @@
 /* Begin PBXFileReference section */
 		0B773E701B211FFA0056588E /* OOReactSocialShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSocialShare.h; sourceTree = "<group>"; };
 		0B773E711B211FFA0056588E /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
+		2F12F252724E51FC9AE65734 /* infoPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = infoPanelStyles.json; sourceTree = "<group>"; };
+		2F12F37632AFC7D2537ED256 /* controlBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = controlBarStyles.json; sourceTree = "<group>"; };
+		2F12F3E1AB1F476B2F1CEED4 /* RectButton.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RectButton.js; sourceTree = "<group>"; };
+		2F12F4BB056716B12D731643 /* styles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = styles.json; sourceTree = "<group>"; };
+		2F12F59FAFC3B555DB030EEE /* languageSelectionPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = languageSelectionPanelStyles.json; sourceTree = "<group>"; };
+		2F12F6DAFECBE385CF4187A5 /* controlBarWidgets.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = controlBarWidgets.js; sourceTree = "<group>"; };
+		2F12F89B52698548C069C089 /* discoveryPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = discoveryPanelStyles.json; sourceTree = "<group>"; };
+		2F12F9EE05EF2EDEDEEEE55D /* RectButtonStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = RectButtonStyles.json; sourceTree = "<group>"; };
+		2F12FA70E9FDB5EC8261E7FB /* sharePanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = sharePanelStyles.json; sourceTree = "<group>"; };
+		2F12FA88DDBEBDEAE4DF8A04 /* startScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = startScreenStyles.json; sourceTree = "<group>"; };
+		2F12FAF1D83782A54EA1D55A /* ToggleSwitchStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = ToggleSwitchStyles.json; sourceTree = "<group>"; };
+		2F12FCD215A737BDA398BDBB /* pauseScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = pauseScreenStyles.json; sourceTree = "<group>"; };
+		2F12FD7B83722B99B5092165 /* moreOptionScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = moreOptionScreenStyles.json; sourceTree = "<group>"; };
+		2F12FE6353ECE3A5F81A2736 /* adBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = adBarStyles.json; sourceTree = "<group>"; };
+		2F12FE6C1ED6A30A2E949CCC /* ToggleSwitch.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ToggleSwitch.js; sourceTree = "<group>"; };
+		2F12FEA4BAD7FB2379B18467 /* endScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = endScreenStyles.json; sourceTree = "<group>"; };
+		2F12FF9CDD955D9CCAA2D594 /* videoViewStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = videoViewStyles.json; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
@@ -128,6 +162,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F12F24FFD70545C554E3662 /* style */ = {
+			isa = PBXGroup;
+			children = (
+				2F12F4BB056716B12D731643 /* styles.json */,
+				2F12FE6353ECE3A5F81A2736 /* adBarStyles.json */,
+				2F12FEA4BAD7FB2379B18467 /* endScreenStyles.json */,
+				2F12F252724E51FC9AE65734 /* infoPanelStyles.json */,
+				2F12FF9CDD955D9CCAA2D594 /* videoViewStyles.json */,
+				2F12F37632AFC7D2537ED256 /* controlBarStyles.json */,
+				2F12FA70E9FDB5EC8261E7FB /* sharePanelStyles.json */,
+				2F12FCD215A737BDA398BDBB /* pauseScreenStyles.json */,
+				2F12FA88DDBEBDEAE4DF8A04 /* startScreenStyles.json */,
+				2F12F89B52698548C069C089 /* discoveryPanelStyles.json */,
+				2F12FD7B83722B99B5092165 /* moreOptionScreenStyles.json */,
+				2F12F59FAFC3B555DB030EEE /* languageSelectionPanelStyles.json */,
+			);
+			path = style;
+			sourceTree = "<group>";
+		};
+		2F12F8EEF1EB5E4E175C10FA /* style */ = {
+			isa = PBXGroup;
+			children = (
+				2F12F9EE05EF2EDEDEEEE55D /* RectButtonStyles.json */,
+				2F12FAF1D83782A54EA1D55A /* ToggleSwitchStyles.json */,
+			);
+			path = style;
+			sourceTree = "<group>";
+		};
+		2F12FD39629BDE2AA8BB87B5 /* widgets */ = {
+			isa = PBXGroup;
+			children = (
+				2F12F8EEF1EB5E4E175C10FA /* style */,
+				2F12F3E1AB1F476B2F1CEED4 /* RectButton.js */,
+				2F12FE6C1ED6A30A2E949CCC /* ToggleSwitch.js */,
+				2F12F6DAFECBE385CF4187A5 /* controlBarWidgets.js */,
+			);
+			path = widgets;
+			sourceTree = "<group>";
+		};
 		5EEDC9C31B0E7B8100A3AD27 /* JSX */ = {
 			isa = PBXGroup;
 			children = (
@@ -146,6 +219,8 @@
 				978C867D1B3B8726009E1A16 /* utils.js */,
 				5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */,
 				5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */,
+				2F12FD39629BDE2AA8BB87B5 /* widgets */,
+				2F12F24FFD70545C554E3662 /* style */,
 			);
 			name = JSX;
 			sourceTree = "<group>";
@@ -390,6 +465,20 @@
 				5EEDC9D01B0E7B9000A3AD27 /* constants.js in Resources */,
 				5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */,
 				5EEDC9D31B0E7B9000A3AD27 /* infoPanel.js in Resources */,
+				2F12FAAEE7567E9C187B6E7C /* RectButtonStyles.json in Resources */,
+				2F12F7ED31CD5E0B8F173B65 /* ToggleSwitchStyles.json in Resources */,
+				2F12FB1BDA21C3405E128323 /* styles.json in Resources */,
+				2F12F34467D2A7A71F03DFDA /* adBarStyles.json in Resources */,
+				2F12F0C83710E6F4F995ABA9 /* endScreenStyles.json in Resources */,
+				2F12F9CAB0668BCB6D852641 /* infoPanelStyles.json in Resources */,
+				2F12F8A35EA78D2692274C51 /* videoViewStyles.json in Resources */,
+				2F12F926E692A04DE6E0474E /* controlBarStyles.json in Resources */,
+				2F12F828D1FC59C0AF02477C /* sharePanelStyles.json in Resources */,
+				2F12F32B37B5BA2C3B42F95E /* pauseScreenStyles.json in Resources */,
+				2F12FBFE11C4A742C3CE29D8 /* startScreenStyles.json in Resources */,
+				2F12F9E909C1F0373109AD52 /* discoveryPanelStyles.json in Resources */,
+				2F12FC0FECD3540BAA712C48 /* moreOptionScreenStyles.json in Resources */,
+				2F12FCCA8FDC97D1EA6A7337 /* languageSelectionPanelStyles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +494,9 @@
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
+				2F12F3D111703738FDD4E5C4 /* RectButton.js in Sources */,
+				2F12F855D344D3A4B4247B22 /* ToggleSwitch.js in Sources */,
+				2F12F826F46FD067AB830109 /* controlBarWidgets.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

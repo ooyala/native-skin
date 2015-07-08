@@ -268,7 +268,7 @@ var OoyalaSkin = React.createClass({
 
     return (
       <EndScreen
-        config={EndScreenConfig}
+        config={config}
         title={this.state.title}
         width={this.state.width}
         height={this.state.height}
@@ -302,7 +302,8 @@ var OoyalaSkin = React.createClass({
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-         lastPressedTime={this.state.lastPressedTime} >
+         lastPressedTime={this.state.lastPressedTime}
+         config={config}>
        </VideoView>
 
      );
