@@ -1,3 +1,4 @@
 **/xcuserdata
 sdk/OoyalaSkinSDK/node_modules
 .idea/
+**/build/
