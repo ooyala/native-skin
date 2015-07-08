@@ -14,6 +14,7 @@ var {
   View,
   Image,
   TouchableHighlight,
+  LayoutAnimation,
 } = React;
 
 var eventBridge = require('NativeModules').OOReactBridge;
@@ -22,7 +23,7 @@ var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var DiscoveryPanel = require('./discoveryPanel');
 var MoreOptionScreen = require('./MoreOptionScreen');
-
+var SharePanel = require('./sharePanel');
 
 var Constants = require('./constants');
 var {
@@ -57,12 +58,20 @@ var OoyalaSkin = React.createClass({
       duration: 1,
       rate: 0,
       fullscreen: false,
-      lastPressedTime: (new Date).getTime()
+      lastPressedTime: (new Date).getTime(),
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
+      buttonSelected: "None",
+      panelShow: "None",
     };
+  },
+
+  onOptionButtonPress: function(buttonName) {
+    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+    this.setState({buttonSelected: buttonName});
+    this.setState({panelShow: buttonName});
   },
 
   onSocialButtonPress: function(socialType) {
@@ -331,11 +340,21 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderMoreOptionScreen: function() {
+    var sharePanel = (
+      <SharePanel
+        isShow = {true}
+        socialButtons={config.sharing}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>
+    );
+
     return (
       <MoreOptionScreen
         onPress={(name) => this.handlePress(name)}
         onDismiss={this.onOverlayDismissed}
-        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}>
+        sharePanel={sharePanel}
+        buttonSelected={this.state.buttonSelected}
+        panelShow={this.state.panelShow}
+        onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)} >
       </MoreOptionScreen>
     )
    }
@@ -349,5 +368,21 @@ var styles = StyleSheet.create({
     height: 200
   },
 });
+
+var animations = {
+  layout: {
+    easeInEaseOut: {
+      duration: 900,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY,
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+    },
+  },
+};
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

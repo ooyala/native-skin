@@ -11,12 +11,12 @@ var {
   LayoutAnimation,
 } = React;
 
+var indexIos = require('./index.ios.js');
 var Utils = require('./utils');
 var Constants = require('./constants');
 var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
 var config = require('./skin-config/skin.json');
-var SharePanel = require('./sharePanel');
 
 var {
   ICONS,
@@ -28,17 +28,14 @@ var moreOptionButtonSize = 30;
 var dismissButtonSize = 20;
 
 var MoreOptionScreen = React.createClass({
-  getInitialState: function(){
-    return {
-      buttonSelected: "None",
-      panelShow: "None"
-    }
-  },
-
 	propTypes: {
     onPress: React.PropTypes.func,
     onDismiss: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
+    sharePanel: React.PropTypes.object,
+    buttonSelected: React.PropTypes.string,
+    panelShow: React.PropTypes.string,
+    onOptionButtonPress: React.PropTypes.func,
 	},
 
   _renderButton: function(style, icon, func, size) {
@@ -52,26 +49,19 @@ var MoreOptionScreen = React.createClass({
     );
   },
 
-  onOptionButtonPress: function(button) {
-    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-
-    this.setState({buttonSelected: button});
-    this.setState({panelShow: button});
-  },
-
   _renderMoreOptionButtons: function(moreOptionButtons){
     for(var i = 0; i < config.buttons.length; i++){
       var button = config.buttons[i];
 
-      if(button.type == "FeatureOptions" || button.type == "MoreOptions" && button.name != "Dismiss"){
+      if(button.type == "FeatureOptions" || button.type == "MoreOptions"){
         var moreOptionButton;
         var buttonStyle;
         var buttonIcon;
 
-        if(this.state.buttonSelected == "None"|| this.state.buttonSelected == button.name){
-          buttonStyle = styles.iconSelected;
+        if(this.props.buttonSelected == "None"|| this.props.buttonSelected == button.name){
+          buttonStyle = styles.iconBright;
         }else{
-          buttonStyle = styles.iconUnselected;
+          buttonStyle = styles.iconDark;
         }
         
         switch(button.name){
@@ -98,7 +88,7 @@ var MoreOptionScreen = React.createClass({
           return function(){
             f(buttonName);
           };
-        }(button.name, this.onOptionButtonPress);
+        }(button.name, this.props.onOptionButtonPress);
 
         moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, moreOptionButtonSize);
 
@@ -111,12 +101,12 @@ var MoreOptionScreen = React.createClass({
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
     
-    var dismissButton = this._renderButton(styles.iconSelected, ICONS.DISMISS, this.props.onDismiss, dismissButtonSize);
+    var dismissButton = this._renderButton(styles.iconBright, ICONS.DISMISS, this.props.onDismiss, dismissButtonSize);
 
     var moreOptionRow = (
       <View
         ref='moreOptionRow' 
-        style={this.state.buttonSelected != "None"? styles.rowBottom: styles.rowCenter}>
+        style={this.props.buttonSelected != "None"? styles.rowBottom: styles.rowCenter}>
         {moreOptionButtons}
       </View>
     );
@@ -127,12 +117,12 @@ var MoreOptionScreen = React.createClass({
       </View>
     );
 
-    var sharePanel = (
-      <SharePanel
-        isShow= {this.state.panelShow == "Share"}
-        socialButtons={config.sharing}
-        onSocialButtonPress={(socialType) => this.props.onSocialButtonPress(socialType)} />
-    );
+
+    var sharePanel;
+    if(this.props.panelShow == "Share"){
+      console.log("i am into it, ");
+      sharePanel = this.props.sharePanel;
+    }
 
     var moreOptionScreen = (
       <View style={styles.fullscreenContainer}>
