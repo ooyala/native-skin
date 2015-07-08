@@ -11,7 +11,7 @@ var {
 
 var Utils = require('./utils');
 
-var styles = Utils.getStyles(require('./style/upNext.json'));
+var styles = Utils.getStyles(require('./style/upNextStyles.json'));
 var RectButton = require('./widgets/RectButton');
 var Constants = require('./constants');
 var {
