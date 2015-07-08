@@ -8,7 +8,6 @@ var {
   Text,
   TouchableHighlight,
   View,
-  LayoutAnimation,
 } = React;
 
 var indexIos = require('./index.ios.js');
@@ -34,7 +33,7 @@ var MoreOptionScreen = React.createClass({
     onSocialButtonPress: React.PropTypes.func,
     sharePanel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
-    panelShow: React.PropTypes.string,
+    panelToShow: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
 	},
 
@@ -119,7 +118,7 @@ var MoreOptionScreen = React.createClass({
 
 
     var sharePanel;
-    if(this.props.panelShow == "Share"){
+    if(this.props.panelToShow == "Share"){
       console.log("i am into it, ");
       sharePanel = this.props.sharePanel;
     }
@@ -139,21 +138,5 @@ var MoreOptionScreen = React.createClass({
     );
   }
 });
-
-var animations = {
-  layout: {
-    easeInEaseOut: {
-      duration: 900,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY,
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-    },
-  },
-};
 
 module.exports = MoreOptionScreen;

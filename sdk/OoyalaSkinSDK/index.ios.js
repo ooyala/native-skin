@@ -64,14 +64,15 @@ var OoyalaSkin = React.createClass({
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
       buttonSelected: "None",
-      panelShow: "None",
+      panelToShow: "None",
+      previousScreenType: SCREEN_TYPES.START,
     };
   },
 
   onOptionButtonPress: function(buttonName) {
     LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     this.setState({buttonSelected: buttonName});
-    this.setState({panelShow: buttonName});
+    this.setState({panelToShow: buttonName});
   },
 
   onSocialButtonPress: function(socialType) {
@@ -100,8 +101,10 @@ var OoyalaSkin = React.createClass({
 
   onOverlayDismissed: function() {
     if (this.state.screenType == SCREEN_TYPES.MOREOPTION_SCREEN) {
-      this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+      this.setState({screenType: this.previousScreenType});
     }
+    this.setState({buttonSelected: "None"});
+    this.setState({panelToShow: "None"});
     this.setState({overlayType:null});
     if (this.state.pausedByOverlay) {
       this.setState({pausedByOverlay:false});
@@ -153,6 +156,10 @@ var OoyalaSkin = React.createClass({
       rate: e.rate,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
     });
+
+    if(this.state.screenType == SCREEN_TYPES.VIDEO_SCREEN || this.state.screenType == SCREEN_TYPES.END_SCREEN){
+      this.previousScreenType = this.state.screenType;
+    }
     this.updateClosedCaptions();
   },
 
@@ -353,7 +360,7 @@ var OoyalaSkin = React.createClass({
         onDismiss={this.onOverlayDismissed}
         sharePanel={sharePanel}
         buttonSelected={this.state.buttonSelected}
-        panelShow={this.state.panelShow}
+        panelToShow={this.state.panelToShow}
         onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)} >
       </MoreOptionScreen>
     )
