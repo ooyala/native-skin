@@ -37,6 +37,8 @@
 		978C867F1B3B8726009E1A16 /* discoveryPanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867B1B3B8726009E1A16 /* discoveryPanel.js */; };
 		978C86801B3B8726009E1A16 /* index.ios.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867C1B3B8726009E1A16 /* index.ios.js */; };
 		978C86811B3B8726009E1A16 /* utils.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867D1B3B8726009E1A16 /* utils.js */; };
+		97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */; };
+		97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,6 +109,8 @@
 		978C867B1B3B8726009E1A16 /* discoveryPanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = discoveryPanel.js; sourceTree = "<group>"; };
 		978C867C1B3B8726009E1A16 /* index.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.ios.js; sourceTree = "<group>"; };
 		978C867D1B3B8726009E1A16 /* utils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = utils.js; sourceTree = "<group>"; };
+		97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeViewManager.h; sourceTree = "<group>"; };
+		97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeViewManager.m; sourceTree = "<group>"; };
 		97DE27A51B212B4A0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27AB1B212B520071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -180,16 +184,18 @@
 		972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
+				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
+				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				972ED8851AE6F008005043DC /* OOReactBridge.h */,
 				972ED8861AE6F008005043DC /* OOReactBridge.m */,
-				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
-				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
 				0B773E701B211FFA0056588E /* OOReactSocialShare.h */,
 				0B773E711B211FFA0056588E /* OOReactSocialShare.m */,
 				5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */,
 				5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */,
-				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
-				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
+				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
+				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
+				97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */,
+				97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
 			);
 			path = OoyalaSkinSDK;
@@ -261,6 +267,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				0B773E721B211FFA0056588E /* OOReactSocialShare.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
@@ -403,6 +410,7 @@
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
 				0B773E731B211FFA0056588E /* OOReactSocialShare.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
+				97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
 			);

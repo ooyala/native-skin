@@ -7,7 +7,6 @@
 var React = require('react-native');
 var {
   StyleSheet,
-  SliderIOS,
   Text,
   Image,
   TouchableHighlight,
@@ -23,6 +22,7 @@ var {
 } = Constants;
 
 var Utils = require('./utils');
+var VolumeView = require('./widgets/VolumeView');
 
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
 
@@ -98,7 +98,7 @@ var ControlBar = React.createClass({
     var controlBarView;
     var durationString = this.getDurationString();
     if (this.state.showVolume) {
-      volumeScrubber = <SliderIOS style={styles.volumeSlider} />;
+      volumeScrubber = <VolumeView style={styles.volumeSlider}/>;
     }
 
     var watermark;
