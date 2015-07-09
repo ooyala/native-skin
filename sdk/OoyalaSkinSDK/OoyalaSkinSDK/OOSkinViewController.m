@@ -61,7 +61,7 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
-    _upNextManager = [[OOUpNextManager alloc] initWithPlayer:player];
+    _upNextManager = [[OOUpNextManager alloc] initWithPlayer:_player];
     _discoveryOptions = discoveryOptions;
   }
   return self;
@@ -201,8 +201,8 @@ static NSString *kViewChangeKey = @"frame";
     NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration, @"bucketInfo":bucketInfo};
     [discoveryArray addObject:discoveryItem];
   }
-  if([discoveryArray count] > 0) {
-    [_upNextManager setNextVideo:discoveryArray[0]];
+  if([discoveryArray count] > 0 && (discoveryArray[0] != nil)) {
+    [[self upNextManager] setNextVideo:discoveryArray[0]];
   }
   NSDictionary *eventBody = @{@"results":discoveryArray};
   [OOReactBridge sendDeviceEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];

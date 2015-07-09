@@ -320,7 +320,6 @@ var OoyalaSkin = React.createClass({
          lastPressedTime={this.state.lastPressedTime}
          upNextConfig={upNextConfig}
          nextVideo={this.state.nextVideo}
-         onUpNextClicked={() => this.upNextClicked()}
          upNextDismissed={this.state.upNextDismissed}>
        </VideoView>
 

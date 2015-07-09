@@ -30,6 +30,10 @@
   },
   description: {
     color: 'white'
-
+  },
+  dismissButton: {
+    width: 60,
+    height: 10,
+    fontSize: 15
   }
 }

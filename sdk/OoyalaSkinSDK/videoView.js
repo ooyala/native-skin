@@ -61,7 +61,6 @@ var VideoView = React.createClass({
     lastPressedTime: React.PropTypes.number,
     upNextConfig: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
-    onUpNextClicked: React.PropTypes.func,
     upNextDismissed: React.PropTypes.bool
   },
 
@@ -183,12 +182,12 @@ var VideoView = React.createClass({
   _renderUpNext: function() {
     return <UpNext
       config={this.props.upNextConfig}
+      ad={this.props.ad}
       playhead={this.props.playhead}
       duration={this.props.duration}
       nextVideo={this.props.nextVideo}
       upNextDismissed={this.props.upNextDismissed}
-      onUpNextDismissed={() => this.handlePress("upNextDismiss")}
-      onUpNextClicked={this.props.onUpNextClicked}
+      onPress={(value) => this.handlePress(value)}
       />;
   },
 

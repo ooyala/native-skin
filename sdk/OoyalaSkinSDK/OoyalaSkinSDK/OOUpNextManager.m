@@ -10,6 +10,7 @@
 
 @interface OOUpNextManager ()
 @property(nonatomic) BOOL *upNextEnabled;
+@property (nonatomic, weak) OOOoyalaPlayer *player;
 @end
 
 @implementation OOUpNextManager
@@ -23,27 +24,29 @@
   _player = player;
 
   //listen to currentItemChanged, on, reset state (player.currentItem.embedCode)
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:[self player]];
 
   //listen to ContentComplete, on, set Ec and play
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
 
   return self;
 }
 
 - (void)setNextVideo:(NSDictionary *)nextVideo {
-  _nextVideo = nextVideo;
+  if(nextVideo != nil) {
+    _nextVideo = nextVideo;
 
-  // After the a new video has been set, let react know that isDismissed
-  // is now false.
-  [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:_isDismissed]}];
+    // After the a new video has been set, let react know that isDismissed
+    // is now false.
+    [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
 
-  // Sets the next video to play in the upnext as specified by react.
-  [OOReactBridge sendDeviceEventWithName:@"setNextVideo" body:@{@"nextVideo" : _nextVideo}];
+    // Sets the next video to play in the upnext as specified by react.
+    [OOReactBridge sendDeviceEventWithName:@"setNextVideo" body:@{@"nextVideo" : _nextVideo}];
+  }
 }
 
 - (void)playCompletedNotification:(NSNotification *)notification {
-  if (_upNextEnabled) {
+  if ([self upNextEnabled]) {
     [self goToNextVideo];
   }
 }
@@ -51,27 +54,23 @@
 - (void)goToNextVideo {
   // if upnext has not been dismissed and there is a next video, play the
   // next video.
-  if (!_isDismissed && _nextVideo != NULL) {
-    [_player setEmbedCode:[_nextVideo objectForKey:@"embedCode"]];
-    [_player play];
+  if (!self.isDismissed && self.nextVideo != NULL) {
+    [[self player] setEmbedCode:[[self nextVideo] objectForKey:@"embedCode"]];
+    [[self player] play];
   }
 }
 
 - (void)currentItemChangedNotification:(NSNotification *)notification {
-  [self reset];
-}
-
-- (void)reset {
   // Set upNext back to non dismissed and the next video to null.
-  _isDismissed = NO;
-  _nextVideo = NULL;
+  self.isDismissed = NO;
+  self.nextVideo = NULL;
 }
 
 - (void)onDismissPressed {
-  _isDismissed = YES;
+  self.isDismissed = YES;
 
   // Lets react know that dismiss has been pressed.
-  [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:_isDismissed]}];
+  [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
 }
 
 @end

@@ -38,6 +38,7 @@ static NSString *languageKey = @"language";
 static NSString *bucketInfoKey = @"bucketInfo";
 static NSString *actionKey = @"action";
 static NSString *upNextDismiss = @"upNextDismiss";
+static NSString *upNextClick = @"upNextClick";
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
@@ -55,7 +56,9 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if([buttonName isEqualToString:moreOptionButtonName]) {
       [self handleMoreOption];
     } else if([buttonName isEqualToString:upNextDismiss]) {
-      [self handleDismiss];
+      [self handleUpNextDismiss];
+    } else if([buttonName isEqualToString:upNextClick]) {
+      [self handleUpNextClick];
     }
   });
 }
@@ -103,8 +106,12 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
   [sharedController.player pause];
 }
 
-- (void)handleDismiss {
+- (void)handleUpNextDismiss {
   [sharedController.upNextManager onDismissPressed];
+}
+
+- (void)handleUpNextClick {
+  [sharedController.upNextManager goToNextVideo];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
@@ -140,10 +147,6 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
       [OODiscoveryManager sendImpression:sharedController.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
     });
   }
-}
-
-RCT_EXPORT_METHOD(upNextClicked) {
-  [sharedController.upNextManager goToNextVideo];
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {

@@ -10,7 +10,7 @@
 @interface OOUpNextManager : NSObject
 
 @property (nonatomic) BOOL isDismissed;
-@property (nonatomic, readonly) OOOoyalaPlayer *player;
+@property (nonatomic, readonly, weak) OOOoyalaPlayer *player;
 @property (nonatomic) NSDictionary * nextVideo;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
@@ -21,7 +21,6 @@
 - (void)currentItemChangedNotification:(NSNotification *)notification;
 
 - (void)goToNextVideo;
-- (void)reset;
 - (void)onDismissPressed;
 
 @end

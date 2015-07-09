@@ -13,44 +13,45 @@ var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/upNext.json'));
 var RectButton = require('./widgets/RectButton');
-var Constants = require('./constants');
-var {
-  IMG_URLS
-  } = Constants;
 
 var UpNext = React.createClass({
   propTypes: {
     config: React.PropTypes.object,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
+    ad: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
-    onUpNextClicked: React.PropTypes.func,
-    onUpNextDismissed: React.PropTypes.func,
+    onPress: React.PropTypes.func,
     upNextDismissed: React.PropTypes.bool
   },
 
   dismissUpNext: function() {
-    this.props.onUpNextDismissed();
+    this.props.onPress("upNextDismiss");
   },
 
-  render: function() {
-    var isWithinShowUpNextBounds;
-    // If we are given a percentage of the video in which to show the upnext dialog.
-    if(this.props.config.timeToShow < 1) {
-      isWithinShowUpNextBounds = this.props.config.timeToShow < this.props.playhead / this.props.duration;
+  clickUpNext: function() {
+    this.props.onPress("upNextClick");
+  },
+
+  isWithinShowUpNextBounds: function() {
+    if(this.props.config.timeToShow.indexOf('%', this.props.config.timeToShow.length - '%'.length) !== -1) {
+      return (parseFloat(this.props.config.timeToShow.slice(0,-1) / 100) < (this.props.playhead / this.props.duration));
     }
     // else if we are given a number of seconds from end in which to show the upnext dialog.
     else {
-      isWithinShowUpNextBounds = this.props.config.timeToShow > this.props.duration - this.props.playhead;
+      return parseInt(this.props.config.timeToShow) > this.props.duration - this.props.playhead;
     }
+  },
 
-    if(isWithinShowUpNextBounds && !this.props.upNextDismissed && this.props.config.showUpNext) {
+  render: function() {
+
+    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.showUpNext && !this.props.ad && this.props.nextVideo != null) {
       return (
         <View
           style={styles.container}>
 
           <TouchableHighlight style={styles.thumbnailContainer}
-            onPress={() => this.props.onUpNextClicked()}>
+            onPress={this.clickUpNext}>
             <Image
               source={{uri: this.props.nextVideo.imageUrl}}
               style={styles.thumbnail} >
@@ -64,11 +65,7 @@ var UpNext = React.createClass({
           <RectButton
             icon={"Dismiss"}
             onPress={this.dismissUpNext}
-            frameWidth={60}
-            frameHeight={10}
-            buttonWidth={60}
-            buttonHeight={10}
-            fontSize={15}>
+            style={styles.dismissButton}>
           </RectButton>
         </View>
 
