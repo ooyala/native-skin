@@ -26,6 +26,7 @@
 /* Begin PBXBuildFile section */
 		0B773E721B211FFA0056588E /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B773E701B211FFA0056588E /* OOReactSocialShare.h */; };
 		0B773E731B211FFA0056588E /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B773E711B211FFA0056588E /* OOReactSocialShare.m */; };
+		0BD9FC6F1B4D9F0B001E0CAB /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD9FC6E1B4D9F0B001E0CAB /* OoyalaSDK.framework */; };
 		2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F497D5615098F00D7BCE /* upNext.js */; };
 		2F12F21D17B8AA2DB97016B2 /* videoViewStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC25E788F391F9990881 /* videoViewStyles.json */; };
 		2F12F2E342AB0F88CBCA473F /* discoveryPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FA93EE3B4BB0B2EF65C0 /* discoveryPanelStyles.json */; };
@@ -42,7 +43,6 @@
 		2F12FA7F458E495D0961DAB0 /* endScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC4252285AFD9EB38A07 /* endScreenStyles.json */; };
 		2F12FB30C695C309EDE67706 /* sharePanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F685C92F774DB1FCF0A0 /* sharePanelStyles.json */; };
 		2F12FF3D426A9C7194E8AB7B /* styles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F1B4D41FD66245F2C579 /* styles.json */; };
-		0BD9FC6F1B4D9F0B001E0CAB /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD9FC6E1B4D9F0B001E0CAB /* OoyalaSDK.framework */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
 		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
@@ -148,6 +148,7 @@
 /* Begin PBXFileReference section */
 		0B773E701B211FFA0056588E /* OOReactSocialShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSocialShare.h; sourceTree = "<group>"; };
 		0B773E711B211FFA0056588E /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
+		0BD9FC6E1B4D9F0B001E0CAB /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = controlBarStyles.json; sourceTree = "<group>"; };
 		2F12F1B4D41FD66245F2C579 /* styles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = styles.json; sourceTree = "<group>"; };
 		2F12F2328FD65E0FE6E2A3A8 /* pauseScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = pauseScreenStyles.json; sourceTree = "<group>"; };
@@ -164,7 +165,6 @@
 		2F12FC25E788F391F9990881 /* videoViewStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = videoViewStyles.json; sourceTree = "<group>"; };
 		2F12FC4252285AFD9EB38A07 /* endScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = endScreenStyles.json; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
-		0BD9FC6E1B4D9F0B001E0CAB /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
@@ -787,6 +787,7 @@
 				0BD9FC661B4D9E83001E0CAB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		972ED8451AE6EEEB005043DC /* Build configuration list for PBXProject "OoyalaSkinSDK" */ = {
 			isa = XCConfigurationList;

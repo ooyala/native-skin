@@ -59,7 +59,7 @@ var OoyalaSkin = React.createClass({
       rate: 0,
       fullscreen: false,
       lastPressedTime: (new Date).getTime(),
-      upNextDismissed: false
+      upNextDismissed: false,
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -316,7 +316,7 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderVideoView: function() {
-     var upNextConfig = config.upNext;
+     var upNextConfig = config.upNextScreen;
      var showPlayButton = this.state.rate > 0 ? false : true;
 
      return (
