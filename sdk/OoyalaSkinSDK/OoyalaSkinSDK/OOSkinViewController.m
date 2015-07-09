@@ -9,6 +9,7 @@
 #import "OOSkinViewController.h"
 #import "OOReactBridge.h"
 #import "RCTRootView.h"
+#import "OOUpNextManager.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -59,6 +60,7 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player];
     _discoveryOptions = discoveryOptions;
   }
   return self;
@@ -197,6 +199,9 @@ static NSString *kViewChangeKey = @"frame";
     NSString *bucketInfo = [dict objectForKey:@"bucket_info"];
     NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration, @"bucketInfo":bucketInfo};
     [discoveryArray addObject:discoveryItem];
+  }
+  if([discoveryArray count] > 0 && (discoveryArray[0] != nil)) {
+    [self.upNextManager setNextVideo:discoveryArray[0]];
   }
   NSDictionary *eventBody = @{@"results":discoveryArray};
   [OOReactBridge sendDeviceEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];

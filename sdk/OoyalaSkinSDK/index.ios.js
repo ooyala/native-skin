@@ -59,6 +59,7 @@ var OoyalaSkin = React.createClass({
       rate: 0,
       fullscreen: false,
       lastPressedTime: (new Date).getTime(),
+      upNextDismissed: false,
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -209,6 +210,14 @@ var OoyalaSkin = React.createClass({
     // nothing to do yet.
   },
 
+  onUpNextDismissed: function(e) {
+    this.setState({upNextDismissed:e.upNextDismissed});
+  },
+
+  onSetNextVideo: function(e) {
+    this.setState({nextVideo:e.nextVideo});
+  },
+
   onLanguageSelected: function(e) {
     console.log('onLanguageSelected:'+e);
     this.setState({selectedLanguage:e});
@@ -232,6 +241,8 @@ var OoyalaSkin = React.createClass({
       [ 'adStarted',                (event) => this.onAdStarted(event) ],
       [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
       [ 'adCompleted',              (event) => this.onAdCompleted(event) ],
+      [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
+      [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ]
     ];
     for( var d of listenerDefinitions ) {
       this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );
@@ -301,6 +312,7 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderVideoView: function() {
+     var upNextConfig = config.upNextScreen;
      var showPlayButton = this.state.rate > 0 ? false : true;
 
      return (
@@ -321,7 +333,10 @@ var OoyalaSkin = React.createClass({
          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
          captionJSON={this.state.captionJSON}
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-         lastPressedTime={this.state.lastPressedTime} >
+         lastPressedTime={this.state.lastPressedTime}
+         upNextConfig={upNextConfig}
+         nextVideo={this.state.nextVideo}
+         upNextDismissed={this.state.upNextDismissed}>
        </VideoView>
 
      );
