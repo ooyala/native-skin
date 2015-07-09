@@ -11,6 +11,8 @@
 @interface OOUpNextManager ()
 @property(nonatomic) BOOL *upNextEnabled;
 @property (nonatomic, weak) OOOoyalaPlayer *player;
+@property (nonatomic) BOOL isDismissed;
+@property (nonatomic) NSDictionary * nextVideo;
 @end
 
 @implementation OOUpNextManager
@@ -18,10 +20,10 @@
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player {
 
   // TODO Read the following value in from skin config
-  _upNextEnabled = YES;
+  self.upNextEnabled = YES;
 
   // Save the player passed in with the init
-  _player = player;
+  self.player = player;
 
   //listen to currentItemChanged, on, reset state (player.currentItem.embedCode)
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:[self player]];

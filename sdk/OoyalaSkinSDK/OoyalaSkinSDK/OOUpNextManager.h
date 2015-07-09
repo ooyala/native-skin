@@ -9,9 +9,8 @@
 
 @interface OOUpNextManager : NSObject
 
-@property (nonatomic) BOOL isDismissed;
+@property (nonatomic, readonly) BOOL isDismissed;
 @property (nonatomic, readonly, weak) OOOoyalaPlayer *player;
-@property (nonatomic) NSDictionary * nextVideo;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
 

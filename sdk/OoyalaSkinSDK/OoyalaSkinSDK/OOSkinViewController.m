@@ -25,7 +25,6 @@
   RCTRootView *_reactView;
   UIViewController *_parentViewController;
   UIView *_parentView;
-  OOUpNextManager *upNextManager;
 }
 
 @end
@@ -61,7 +60,7 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
-    _upNextManager = [[OOUpNextManager alloc] initWithPlayer:_player];
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player];
     _discoveryOptions = discoveryOptions;
   }
   return self;
@@ -202,7 +201,7 @@ static NSString *kViewChangeKey = @"frame";
     [discoveryArray addObject:discoveryItem];
   }
   if([discoveryArray count] > 0 && (discoveryArray[0] != nil)) {
-    [[self upNextManager] setNextVideo:discoveryArray[0]];
+    [self.upNextManager setNextVideo:discoveryArray[0]];
   }
   NSDictionary *eventBody = @{@"results":discoveryArray};
   [OOReactBridge sendDeviceEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];

@@ -146,10 +146,6 @@ var OoyalaSkin = React.createClass({
     eventBridge.onDiscoveryRow(info);
   },
 
-  upNextClicked: function() {
-    eventBridge.upNextClicked();
-  },
-
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
     console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
     if (e.rate > 0) {
