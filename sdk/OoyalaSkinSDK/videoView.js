@@ -180,7 +180,7 @@ var VideoView = React.createClass({
 
   _renderUpNext: function() {
     return <UpNext
-      config={this.props.upNextConfig}
+      config={this.props.config.upNextScreen}
       ad={this.props.ad}
       playhead={this.props.playhead}
       duration={this.props.duration}

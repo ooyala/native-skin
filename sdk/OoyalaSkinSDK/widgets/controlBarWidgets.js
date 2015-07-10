@@ -12,6 +12,7 @@ var {
   SliderIOS,
   TouchableHighlight
 } = React;
+var VolumeView = require('./VolumeView');
 
 var Constants = require('./../constants');
 var {
@@ -38,7 +39,7 @@ var controlBarWidget = React.createClass({
   volumeWidget: function (options) {
     var volumeScrubber = null;
     if (options.showVolume) {
-      volumeScrubber = <SliderIOS style={options.scrubberStyle} />;
+      volumeScrubber = <VolumeView style={options.scrubberStyle} />;
     }
     return (
       <View style={{flexDirection: 'row'}}>

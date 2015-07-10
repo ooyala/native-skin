@@ -92,16 +92,6 @@ var ControlBar = React.createClass({
   },
 
   render: function() {
-    var volumeIcon = this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN;
-    var shareIcon = ICONS.SHARE;
-    var menuIcon = ICONS.ELLIPSIS;
-    var closedCaptionsIcon = ICONS.CC;
-    var volumeScrubber;
-    var controlBarView;
-    var durationString = this.getDurationString();
-    if (this.state.showVolume) {
-      volumeScrubber = <VolumeView style={styles.volumeSlider}/>;
-    }
 
     var controlBarWidgets = [];
 

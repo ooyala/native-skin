@@ -295,7 +295,10 @@ var OoyalaSkin = React.createClass({
 
     return (
       <EndScreen
-        config={config}
+        config={{
+          endScreen: this.props.endScreen,
+          controlBar: this.props.controlBar
+        }}
         title={this.state.title}
         width={this.state.width}
         height={this.state.height}
@@ -330,7 +333,10 @@ var OoyalaSkin = React.createClass({
          captionJSON={this.state.captionJSON}
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
          lastPressedTime={this.state.lastPressedTime}
-         config={config}
+         config={{
+           controlBar: this.props.controlBar,
+           upNextScreen: this.props.upNextScreen
+         }}
          nextVideo={this.state.nextVideo}
          upNextDismissed={this.state.upNextDismissed}>
        </VideoView>
