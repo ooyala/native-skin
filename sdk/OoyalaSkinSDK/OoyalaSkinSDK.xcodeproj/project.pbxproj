@@ -57,7 +57,6 @@
 		5EEDC9DA1B0E7B9000A3AD27 /* videoView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */; };
 		5EEDC9DB1B0E7B9000A3AD27 /* waterMark.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */; };
 		5EEDC9E51B0E7C6900A3AD27 /* closedCaptionsView.js in Resources */ = {isa = PBXBuildFile; fileRef = 5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */; };
-		5EFDD1521B4F435200A61DC2 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5EFDD1511B4F435200A61DC2 /* OoyalaSDK.framework */; };
 		9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9724B8D21B0185DB00C1623F /* libRCTAnimationExperimental.a */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8861AE6F008005043DC /* OOReactBridge.m */; };
@@ -72,8 +71,7 @@
 		978C86811B3B8726009E1A16 /* utils.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867D1B3B8726009E1A16 /* utils.js */; };
 		97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */; };
 		97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */; };
-		97A86ECC1B4F38BD00AAAA37 /* OOLocaleHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A86ECA1B4F38BD00AAAA37 /* OOLocaleHelper.h */; };
-		97A86ECD1B4F38BD00AAAA37 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A86ECB1B4F38BD00AAAA37 /* OOLocaleHelper.m */; };
+		97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,7 +179,6 @@
 		5EEDC9CE1B0E7B9000A3AD27 /* videoView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = videoView.js; sourceTree = "<group>"; };
 		5EEDC9CF1B0E7B9000A3AD27 /* waterMark.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = waterMark.js; sourceTree = "<group>"; };
 		5EEDC9E41B0E7C6900A3AD27 /* closedCaptionsView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = closedCaptionsView.js; sourceTree = "<group>"; };
-		5EFDD1511B4F435200A61DC2 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		9724B8CD1B0185DB00C1623F /* RCTAnimationExperimental.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimationExperimental.xcodeproj; path = "react-native/Libraries/Animation/RCTAnimationExperimental.xcodeproj"; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -201,8 +198,7 @@
 		978C867D1B3B8726009E1A16 /* utils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = utils.js; sourceTree = "<group>"; };
 		97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeViewManager.h; sourceTree = "<group>"; };
 		97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeViewManager.m; sourceTree = "<group>"; };
-		97A86ECA1B4F38BD00AAAA37 /* OOLocaleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOLocaleHelper.h; sourceTree = "<group>"; };
-		97A86ECB1B4F38BD00AAAA37 /* OOLocaleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOLocaleHelper.m; sourceTree = "<group>"; };
+		97CF89F01B50642C008E0470 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		97DE27A51B212B4A0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27AB1B212B520071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -213,10 +209,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5EFDD1521B4F435200A61DC2 /* OoyalaSDK.framework in Frameworks */,
 				9724B8D31B018A3F00C1623F /* libRCTAnimationExperimental.a in Frameworks */,
 				972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */,
 				972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */,
+				97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */,
 				972ED8A71AE6FCAB005043DC /* libReact.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -287,6 +283,7 @@
 		972ED8411AE6EEEB005043DC = {
 			isa = PBXGroup;
 			children = (
+				97CF89F01B50642C008E0470 /* OoyalaSDK.framework */,
 				FF12905E1AEABA9B00664374 /* Frameworks */,
 				5EEDC9C31B0E7B8100A3AD27 /* JSX */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
@@ -308,8 +305,6 @@
 			children = (
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
-				97A86ECA1B4F38BD00AAAA37 /* OOLocaleHelper.h */,
-				97A86ECB1B4F38BD00AAAA37 /* OOLocaleHelper.m */,
 				972ED8851AE6F008005043DC /* OOReactBridge.h */,
 				972ED8861AE6F008005043DC /* OOReactBridge.m */,
 				0B773E701B211FFA0056588E /* OOReactSocialShare.h */,
@@ -318,11 +313,11 @@
 				5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
-				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
-				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
 				97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */,
 				97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
+				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
+				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
@@ -374,7 +369,6 @@
 		FF12905E1AEABA9B00664374 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5EFDD1511B4F435200A61DC2 /* OoyalaSDK.framework */,
 				97DE27A51B212B4A0071DBFE /* libc++.dylib */,
 				97DE27AB1B212B520071DBFE /* libc++abi.dylib */,
 				97DE27AD1B212B670071DBFE /* libxml2.dylib */,
@@ -396,7 +390,6 @@
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				0B773E721B211FFA0056588E /* OOReactSocialShare.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
-				97A86ECC1B4F38BD00AAAA37 /* OOLocaleHelper.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
@@ -603,7 +596,6 @@
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
 				2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */,
 				2F12F3B4F7CC06A74706432A /* RectButton.js in Sources */,
-				97A86ECD1B4F38BD00AAAA37 /* OOLocaleHelper.m in Sources */,
 				2F12F90D230C867189B47F73 /* RectButtonStyles.js in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 			);
@@ -754,8 +746,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/michael.len/repos/ios-skin/vendor/Ooyala/OoyalaSDK-iOS",
-					"/Users/jonslenk/Dev/repos/ios-skin3/vendor/Ooyala/OoyalaSDK-iOS",
+					"$(PROJECT_DIR)/VendorLibraries",
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -775,8 +766,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/michael.len/repos/ios-skin/vendor/Ooyala/OoyalaSDK-iOS",
-					"/Users/jonslenk/Dev/repos/ios-skin3/vendor/Ooyala/OoyalaSDK-iOS",
+					"$(PROJECT_DIR)/VendorLibraries",
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

@@ -25,7 +25,6 @@
                  launchOptions:(NSDictionary *)options
                 jsCodeLocation:(NSURL *)jsCodeLocation;
 
-- (void)loadStartScreenConfigureFile;
 - (void)toggleFullscreen;
 
 @end
