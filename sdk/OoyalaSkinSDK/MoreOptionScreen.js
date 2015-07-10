@@ -15,7 +15,6 @@ var Utils = require('./utils');
 var Constants = require('./constants');
 var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
-var config = require('./skin-config/skin.json');
 
 var {
   ICONS,
@@ -49,8 +48,8 @@ var MoreOptionScreen = React.createClass({
   },
 
   _renderMoreOptionButtons: function(moreOptionButtons){
-    for(var i = 0; i < config.buttons.length; i++){
-      var button = config.buttons[i];
+    for(var i = 0; i < this.props.buttons.length; i++){
+      var button = this.props.buttons[i];
 
       if(button.type == "FeatureOptions" || button.type == "MoreOptions"){
         var moreOptionButton;

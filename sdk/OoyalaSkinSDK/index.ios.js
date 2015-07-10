@@ -36,9 +36,6 @@ var {
 var VideoView = require('./videoView');
 var LanguageSelectionPanel = require('./languageSelectionPanel.js');
 
-// Add customizations
-var config = require('./skin-config/skin.json');
-
 var OoyalaSkin = React.createClass({
 
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -275,7 +272,7 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderStartScreen: function() {
-    var startScreenConfig = config.startScreen;
+    var startScreenConfig = this.props.startScreen;
     return (
       <StartScreen
         config={startScreenConfig}
@@ -289,15 +286,16 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderEndScreen: function() {
-    var EndScreenConfig = config.endScreen;
+    var DiscoveryScreenConfig = this.props.discoveryScreen;
     var discovery = (
       <DiscoveryPanel
         isShow='true'
-        config={config.discoveryScreen}
+        config={DiscoveryScreenConfig}
         dataSource={this.state.discoveryResults}
         onRowAction={(info) => this.onDiscoveryRow(info)}>
       </DiscoveryPanel>);
 
+    var EndScreenConfig = this.props.endScreen;
     return (
       <EndScreen
         config={EndScreenConfig}
@@ -314,8 +312,27 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderVideoView: function() {
-    var upNextConfig = config.upNextScreen;
+      var upNextConfig = this.props.upNextScreen;
       var showPlayButton = this.state.rate > 0 ? false : true;
+
+      return (
+        <VideoView
+          rate={this.state.rate}
+          showPlay={showPlayButton}
+          playhead={this.state.playhead}
+          duration={this.state.duration}
+          ad ={this.state.ad}
+          live ={this.state.live}
+          width={this.state.width}
+          height={this.state.height}
+          fullscreen={this.state.fullscreen}
+          onPress={(value) => this.handlePress(value)}
+          onScrub={(value) => this.handleScrub(value)}
+          closedCaptionsLanguage={this.state.selectedLanguage}
+
+   _renderVideoView: function() {
+     var upNextConfig = this.props.upNextScreen;
+     var showPlayButton = this.state.rate > 0 ? false : true;
 
       return (
         <VideoView
@@ -361,7 +378,7 @@ var OoyalaSkin = React.createClass({
         selectedLanguage={this.state.selectedLanguage}
         onSelect={(value)=>this.onLanguageSelected(value)}
         onDismiss={this.onOverlayDismissed}
-        localizableStrings={config.localizableStrings}
+        localizableStrings={this.props.localizableStrings}
         locale={this.state.locale}>
       </LanguageSelectionPanel>)
   },
@@ -370,7 +387,7 @@ var OoyalaSkin = React.createClass({
     var sharePanel = (
       <SharePanel
         isShow = {true}
-        socialButtons={config.sharing}
+        socialButtons={this.props.sharing}
         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>
     );
 

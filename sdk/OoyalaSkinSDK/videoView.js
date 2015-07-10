@@ -21,9 +21,7 @@ var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var Constants = require('./constants');
 var Utils = require('./utils');
-
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var config = require('./skin-config/skin.json');
 
 var {
   ICONS,
@@ -71,8 +69,8 @@ var VideoView = React.createClass({
   generateLiveLabel: function() {
     if (this.props.live) {
       return this.props.showPlay? 
-        Utils.localizedString(this.props.locale, "GO_LIVE", config.localizableStrings): 
-        Utils.localizedString(this.props.locale, "LIVE", config.localizableStrings);
+        Utils.localizedString(this.props.locale, "GO_LIVE", this.props.localizableStrings): 
+        Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings);
     }
   },
 
@@ -132,7 +130,7 @@ var VideoView = React.createClass({
 
   _renderAdBar: function() {
     if (this.props.ad) {
-      var adTitle = Utils.localizedString(this.props.locale, "AD_PLAYING", config.localizableStrings);
+      var adTitle = Utils.localizedString(this.props.locale, "AD_PLAYING", this.props.localizableStrings);
       if (this.props.ad.title && this.props.ad.title.length > 0) {
         adTitle = adTitle + ":" + adTitle;
       } 
@@ -148,7 +146,7 @@ var VideoView = React.createClass({
         index={count - unplayed}
         onPress={this.handlePress}
         showButton={showLearnMore}
-        buttonText={Utils.localizedString(this.props.locale, "learnMore", config.localizableStrings)} />
+        buttonText={Utils.localizedString(this.props.locale, "learnMore", this.props.localizableStrings)} />
       );
     }
     return null;
@@ -157,7 +155,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray =config.sharing;
+      var socialButtonsArray =this.props.sharing;
       placeholder = (
         <View
         style={styles.fullscreenContainer}>

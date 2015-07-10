@@ -9,7 +9,6 @@ var {
 
 var Utils = require('./utils');
 var styles = Utils.getStyles();
-var config = require('./skin-config/skin.json');
 
 var ICONS = require('./constants').ICONS;
 
@@ -18,7 +17,7 @@ var WaterMark = React.createClass ({
 		var waterMarkImageLocation = styles.waterMarkImageSE;
   	var waterMarkImage = (
     		<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-	        source={{uri: config.general.watermark.url}} 
+	        source={{uri: this.props.general.watermark.url}}
 	        resizeMode={Image.resizeMode.contain}>
 	    </Image>
   	);
