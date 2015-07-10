@@ -83,8 +83,8 @@ var LanguageSelectionPanel = React.createClass({
     return (
       <View style={styles.previewPanel}>
         <View style={styles.splitter} />
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "CC_PREVIEW", this.props.localizableStrings)}</Text>
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "CC_SAMPLE", this.props.localizableStrings)}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "CLOSE CAPTION PREVIEW", this.props.localizableStrings)}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "Sample Text", this.props.localizableStrings)}</Text>
       </View>
     )
   },
@@ -103,7 +103,7 @@ var LanguageSelectionPanel = React.createClass({
     return (
       <View style={styles.panelContainer}>
         <View style={styles.panelTitleRow}>
-          <Text style={styles.panelTitle}>{Utils.localizedString(this.props.locale, "CC_OPTIONS", this.props.localizableStrings)}</Text>
+          <Text style={styles.panelTitle}>{Utils.localizedString(this.props.locale, "CC Options", this.props.localizableStrings)}</Text>
           <View style={styles.placeHolder}></View>
           {this.getCloseButton()}
         </View>

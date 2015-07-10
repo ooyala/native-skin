@@ -311,25 +311,6 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-  _renderVideoView: function() {
-      var upNextConfig = this.props.upNextScreen;
-      var showPlayButton = this.state.rate > 0 ? false : true;
-
-      return (
-        <VideoView
-          rate={this.state.rate}
-          showPlay={showPlayButton}
-          playhead={this.state.playhead}
-          duration={this.state.duration}
-          ad ={this.state.ad}
-          live ={this.state.live}
-          width={this.state.width}
-          height={this.state.height}
-          fullscreen={this.state.fullscreen}
-          onPress={(value) => this.handlePress(value)}
-          onScrub={(value) => this.handleScrub(value)}
-          closedCaptionsLanguage={this.state.selectedLanguage}
-
    _renderVideoView: function() {
      var upNextConfig = this.props.upNextScreen;
      var showPlayButton = this.state.rate > 0 ? false : true;
@@ -356,9 +337,9 @@ var OoyalaSkin = React.createClass({
           upNextConfig={upNextConfig}
           nextVideo={this.state.nextVideo}
           upNextDismissed={this.state.upNextDismissed}
-          locale={this.state.locale}>
+          locale={this.state.locale}
+          localizableStrings={this.props.localizableStrings}>
        </VideoView>
-
      );
    },
 
