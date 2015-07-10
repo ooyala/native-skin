@@ -185,15 +185,15 @@ var VideoView = React.createClass({
   },
 
   _renderUpNext: function() {
-    // return <UpNext
-    //   config={this.props.upNextConfig}
-    //   ad={this.props.ad}
-    //   playhead={this.props.playhead}
-    //   duration={this.props.duration}
-    //   nextVideo={this.props.nextVideo}
-    //   upNextDismissed={this.props.upNextDismissed}
-    //   onPress={(value) => this.handlePress(value)} >
-    //   </UpNext>;
+    return <UpNext
+      config={this.props.upNextConfig}
+      ad={this.props.ad}
+      playhead={this.props.playhead}
+      duration={this.props.duration}
+      nextVideo={this.props.nextVideo}
+      upNextDismissed={this.props.upNextDismissed}
+      onPress={(value) => this.handlePress(value)} >
+      </UpNext>;
   },
 
   _handleSocialShare: function() {
