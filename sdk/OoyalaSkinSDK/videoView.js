@@ -21,9 +21,7 @@ var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var Constants = require('./constants');
 var Utils = require('./utils');
-
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var config = require('./skin-config/skin.json');
 
 var {
   ICONS,
@@ -151,7 +149,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray =config.sharing;
+      var socialButtonsArray =this.props.sharing;
       placeholder = (
         <View
         style={styles.fullscreenContainer}>
