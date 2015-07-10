@@ -14,6 +14,7 @@ var {
   View,
   Image,
   TouchableHighlight,
+  LayoutAnimation,
 } = React;
 
 var eventBridge = require('NativeModules').OOReactBridge;
@@ -22,7 +23,7 @@ var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var DiscoveryPanel = require('./discoveryPanel');
 var MoreOptionScreen = require('./MoreOptionScreen');
-
+var SharePanel = require('./sharePanel');
 
 var Constants = require('./constants');
 var {
@@ -34,9 +35,6 @@ var {
 } = Constants;
 var VideoView = require('./videoView');
 var LanguageSelectionPanel = require('./languageSelectionPanel.js');
-
-// Add customizations
-var config = require('./skin-config/skin.json');
 
 var OoyalaSkin = React.createClass({
 
@@ -57,12 +55,22 @@ var OoyalaSkin = React.createClass({
       duration: 1,
       rate: 0,
       fullscreen: false,
-      lastPressedTime: (new Date).getTime()
+      lastPressedTime: (new Date).getTime(),
+      upNextDismissed: false,
       // things which default to null and thus don't have to be stated:
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
+      buttonSelected: "None",
+      panelToShow: "None",
+      previousScreenType: SCREEN_TYPES.START,
     };
+  },
+
+  onOptionButtonPress: function(buttonName) {
+    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
+    this.setState({buttonSelected: buttonName});
+    this.setState({panelToShow: buttonName});
   },
 
   onSocialButtonPress: function(socialType) {
@@ -90,6 +98,11 @@ var OoyalaSkin = React.createClass({
   },
 
   onOverlayDismissed: function() {
+    if (this.state.screenType == SCREEN_TYPES.MOREOPTION_SCREEN) {
+      this.setState({screenType: this.previousScreenType});
+    }
+    this.setState({buttonSelected: "None"});
+    this.setState({panelToShow: "None"});
     this.setState({overlayType:null});
     if (this.state.pausedByOverlay) {
       this.setState({pausedByOverlay:false});
@@ -141,6 +154,10 @@ var OoyalaSkin = React.createClass({
       rate: e.rate,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
     });
+
+    if(this.state.screenType == SCREEN_TYPES.VIDEO_SCREEN || this.state.screenType == SCREEN_TYPES.END_SCREEN){
+      this.previousScreenType = this.state.screenType;
+    }
     this.updateClosedCaptions();
   },
 
@@ -190,6 +207,14 @@ var OoyalaSkin = React.createClass({
     // nothing to do yet.
   },
 
+  onUpNextDismissed: function(e) {
+    this.setState({upNextDismissed:e.upNextDismissed});
+  },
+
+  onSetNextVideo: function(e) {
+    this.setState({nextVideo:e.nextVideo});
+  },
+
   onLanguageSelected: function(e) {
     console.log('onLanguageSelected:'+e);
     this.setState({selectedLanguage:e});
@@ -213,6 +238,8 @@ var OoyalaSkin = React.createClass({
       [ 'adStarted',                (event) => this.onAdStarted(event) ],
       [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
       [ 'adCompleted',              (event) => this.onAdCompleted(event) ],
+      [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
+      [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ]
     ];
     for( var d of listenerDefinitions ) {
       this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );
@@ -243,7 +270,7 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderStartScreen: function() {
-    var startScreenConfig = config.startScreen;
+    var startScreenConfig = this.props.startScreen;
     return (
       <StartScreen
         config={startScreenConfig}
@@ -257,11 +284,11 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderEndScreen: function() {
-    var EndScreenConfig = config.endScreen;
+    var DiscoveryScreenConfig = this.props.discoveryScreen;
     var discovery = (
       <DiscoveryPanel
         isShow='true'
-        config={config.discoveryScreen}
+        config={DiscoveryScreenConfig}
         dataSource={this.state.discoveryResults}
         onRowAction={(info) => this.onDiscoveryRow(info)}>
       </DiscoveryPanel>);
@@ -303,7 +330,9 @@ var OoyalaSkin = React.createClass({
          captionJSON={this.state.captionJSON}
          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
          lastPressedTime={this.state.lastPressedTime}
-         config={config}>
+         config={config}
+         nextVideo={this.state.nextVideo}
+         upNextDismissed={this.state.upNextDismissed}>
        </VideoView>
 
      );
@@ -329,9 +358,21 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderMoreOptionScreen: function() {
+    var sharePanel = (
+      <SharePanel
+        isShow = {true}
+        socialButtons={this.props.sharing}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>
+    );
+
     return (
       <MoreOptionScreen
-        onPress={(name) => this.handlePress(name)}>
+        onPress={(name) => this.handlePress(name)}
+        onDismiss={this.onOverlayDismissed}
+        sharePanel={sharePanel}
+        buttonSelected={this.state.buttonSelected}
+        panelToShow={this.state.panelToShow}
+        onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)} >
       </MoreOptionScreen>
     )
    }
@@ -345,5 +386,21 @@ var styles = StyleSheet.create({
     height: 200
   },
 });
+
+var animations = {
+  layout: {
+    easeInEaseOut: {
+      duration: 900,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY,
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut,
+      },
+    },
+  },
+};
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

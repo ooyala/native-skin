@@ -18,9 +18,9 @@ var ControlBar = require('./controlBar');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
+var UpNext = require('./upNext');
 var Constants = require('./constants');
 var Utils = require('./utils');
-
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 
 var {
@@ -56,6 +56,8 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
+    nextVideo: React.PropTypes.object,
+    upNextDismissed: React.PropTypes.bool,
     lastPressedTime: React.PropTypes.number,
     config: React.PropTypes.object
   },
@@ -148,7 +150,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray =config.sharing;
+      var socialButtonsArray=this.props.sharing;
       placeholder = (
         <View
         style={styles.fullscreenContainer}>
@@ -174,6 +176,18 @@ var VideoView = React.createClass({
       style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
       captionJSON={this.props.captionJSON}
       onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+  },
+
+  _renderUpNext: function() {
+    return <UpNext
+      config={this.props.upNextConfig}
+      ad={this.props.ad}
+      playhead={this.props.playhead}
+      duration={this.props.duration}
+      nextVideo={this.props.nextVideo}
+      upNextDismissed={this.props.upNextDismissed}
+      onPress={(value) => this.handlePress(value)}
+      />;
   },
 
   _handleSocialShare: function() {
@@ -208,12 +222,14 @@ var VideoView = React.createClass({
     var closedCaptions = this._renderClosedCaptions();
     var progressBar = this._renderProgressBar();
     var controlBar = this._renderControlBar();
+    var upNext = this._renderUpNext();
 
     return (
       <View style={styles.container}>
         {adBar}
         {placeholder}
         {closedCaptions}
+        {upNext}
         {progressBar}
         {controlBar}
       </View>

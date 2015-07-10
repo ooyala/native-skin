@@ -33,9 +33,18 @@
     backgroundColor: 'transparent',
   },
 
-  icon: {
+  iconBright: {
     fontSize: 30,
     textAlign: 'center',
+    color: 'white',
+    fontFamily: 'fontawesome',
+    margin: 15
+  },
+
+  iconDark: {
+    fontSize: 30,
+    textAlign: 'center',
+    opacity: 0.4,
     color: 'white',
     fontFamily: 'fontawesome',
     margin: 15
