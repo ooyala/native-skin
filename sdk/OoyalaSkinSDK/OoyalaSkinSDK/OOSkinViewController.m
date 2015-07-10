@@ -44,6 +44,7 @@ static NSString *kViewChangeKey = @"frame";
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
+    _reactView.initialProperties = [self getReactViewInitialProperties];
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
     [self.view setFrame:rect];
@@ -64,6 +65,21 @@ static NSString *kViewChangeKey = @"frame";
     _discoveryOptions = discoveryOptions;
   }
   return self;
+}
+
+-(NSDictionary*) getReactViewInitialProperties {
+  NSDictionary *d = nil;
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:@"skin" ofType:@"json"];
+  NSData *data = [NSData dataWithContentsOfFile:filePath];
+  if (data) {
+    NSError* error = nil;
+    d = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    if( error != nil ) {
+      d = nil;
+    }
+  }
+  ASSERT( d, @"missing skin configuration json" );
+  return d;
 }
 
 - (void)viewDidLoad {
