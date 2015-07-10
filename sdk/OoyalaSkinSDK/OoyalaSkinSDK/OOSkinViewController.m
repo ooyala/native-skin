@@ -10,6 +10,7 @@
 #import "OOReactBridge.h"
 #import "RCTRootView.h"
 #import "OOUpNextManager.h"
+#import "OOLocaleHelper.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -109,6 +110,7 @@ static NSString *kViewChangeKey = @"frame";
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
   NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
   NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
+  NSString *localeId = [OOLocaleHelper preferredLanguageId];
 
   NSDictionary *eventBody =
   @{@"title":title,
@@ -118,7 +120,8 @@ static NSString *kViewChangeKey = @"frame";
     @"live":live,
     @"languages":closedCaptionsLanguages,
     @"width":frameWidth,
-    @"height":frameHeight};
+    @"height":frameHeight,
+    @"locale":localeId};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   if (_player.currentItem.embedCode && _discoveryOptions) {
     [self loadDiscovery:_player.currentItem.embedCode];
@@ -154,30 +157,7 @@ static NSString *kViewChangeKey = @"frame";
   [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
 }
 
-- (NSDictionary *)getDictionaryFromJSONFile {
-  NSString * filePath =[[NSBundle mainBundle] pathForResource:@"StartScreen" ofType:@"json"];
-  NSError * error;
-  NSString* fileContents =[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
-  NSData *data = [fileContents dataUsingEncoding:NSUTF8StringEncoding];
-  NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-
-  if([results isKindOfClass:[NSDictionary class]]) {
-    NSLog(@"results = %@", results);
-    return [results valueForKey:@"startScreen"];
-  }
-
-  if(error) {
-    NSLog(@"Error reading file: %@",error.localizedDescription);
-  }
-
-  return nil;
-}
-
 #pragma mark Discovery UI
-
-- (void)loadStartScreenConfigureFile {
-  // TODO: implement this.
-}
 
 - (void)loadDiscovery:(NSString *)embedCode {
   [OODiscoveryManager getResults:_discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {

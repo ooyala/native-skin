@@ -59,17 +59,4 @@ var OOSTATES = {
   PAUSED: 'paused',
 };
 
-var UI_TEXT = {
-  LEARNMORE : 'Learn More',
-  CC_PREVIEW: 'CLOSE CAPTION PREVIEW',
-  CC_SAMPLE: 'Sample Text',
-  AD_PLAYING: 'Ad Playing',
-  LIVE: 'LIVE',
-  GO_LIVE: 'GO LIVE',
-  SEPERATOR: '/',
-  CC_OPTIONS: 'CC Options',
-  ON: 'On',
-  OFF: 'Off',
-};
-
-module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, UI_TEXT, OVERLAY_TYPES};
+module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, OVERLAY_TYPES};
