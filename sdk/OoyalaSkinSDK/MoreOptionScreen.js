@@ -97,20 +97,10 @@ var MoreOptionScreen = React.createClass({
   },
 
 	render: function() {
-<<<<<<< HEAD
-    var discoveryButton = this._renderIconButton(ICONS.DISCOVERY, this.onOptionButtonPress);
-    var qualityButton = this._renderIconButton(ICONS.QUALITY, this.onPlayPausePress);
-    var ccButton = this._renderIconButton(ICONS.CC, this.onPlayPausePress);
-    var shareButton = this._renderIconButton(ICONS.SHARE, this.onPlayPausePress);
-    var settingButton = this._renderIconButton(ICONS.SETTING, this.onPlayPausePress);
-
-    var dismissButton = this._renderButton([styles.closeIconStyle, styles.topRight], ICONS.CLOSE, this.onDismissPress);
-=======
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
     
     var dismissButton = this._renderButton(styles.iconBright, ICONS.DISMISS, this.props.onDismiss, dismissButtonSize);
->>>>>>> master
 
     var moreOptionRow = (
       <View
@@ -120,12 +110,6 @@ var MoreOptionScreen = React.createClass({
       </View>
     );
     
-<<<<<<< HEAD
-    var moreOptionScreen = (
-      <View style={styles.container}>
-        {this.props.discovery}
-        {dismissButton}
-=======
     var dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
         {dismissButton}
@@ -144,7 +128,6 @@ var MoreOptionScreen = React.createClass({
         {sharePanel}
         {dismissButtonRow}
         {moreOptionRow}
->>>>>>> master
       </View>
     );
 

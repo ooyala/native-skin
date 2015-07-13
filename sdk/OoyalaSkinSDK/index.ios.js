@@ -359,12 +359,12 @@ var OoyalaSkin = React.createClass({
   },
 
    _renderMoreOptionScreen: function() {
-    var discovery = (
-      <DiscoveryPanel
-        config={config.discoveryScreen}
-        dataSource={this.state.discoveryResults}
-        onRowAction={(info) => this.onDiscoveryRow(info)}>
-      </DiscoveryPanel>);
+    // var discovery = (
+    //   <DiscoveryPanel
+    //     config={config.discoveryScreen}
+    //     dataSource={this.state.discoveryResults}
+    //     onRowAction={(info) => this.onDiscoveryRow(info)}>
+    //   </DiscoveryPanel>);
 
     var sharePanel = (
       <SharePanel
