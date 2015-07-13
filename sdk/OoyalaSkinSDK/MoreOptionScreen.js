@@ -89,7 +89,6 @@ var MoreOptionScreen = React.createClass({
             f(buttonName);
           };
         }(button.name, this.props.onOptionButtonPress);
-        console.log("Color is ", button);
         moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, moreOptionButtonSize, button.color);
 
         moreOptionButtons.push(moreOptionButton);
@@ -120,7 +119,6 @@ var MoreOptionScreen = React.createClass({
 
     var sharePanel;
     if(this.props.panelToShow == "Share"){
-      console.log("i am into it, ");
       sharePanel = this.props.sharePanel;
     }
 
