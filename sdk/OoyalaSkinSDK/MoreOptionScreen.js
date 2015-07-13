@@ -34,6 +34,7 @@ var MoreOptionScreen = React.createClass({
     buttonSelected: React.PropTypes.string,
     panelToShow: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
+    buttons: React.PropTypes.array,
 	},
 
   _renderButton: function(style, icon, func, size) {
