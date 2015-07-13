@@ -17,7 +17,7 @@
 @property (nonatomic, readonly) OODiscoveryOptions *discoveryOptions;
 @property (nonatomic, readonly) OOOoyalaPlayer *player;
 @property (nonatomic) OOUpNextManager *upNextManager;
-@property (readonly) BOOL isFullscreen;
+@property (nonatomic, readonly) BOOL isFullscreen;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView
