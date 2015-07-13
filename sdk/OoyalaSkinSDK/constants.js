@@ -13,7 +13,7 @@ var ICONS = {
   DISCOVERY: '\uf14e',
   QUALITY: '\uf080',
   SETTING: '\uf013',
-  CLOSE: '\uf00d',
+  DISMISS: '\uf00d',
   TOGGLEOFF: '\uf204',
   TOGGLEON: '\uf205'
 };

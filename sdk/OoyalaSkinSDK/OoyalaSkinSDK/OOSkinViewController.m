@@ -9,6 +9,7 @@
 #import "OOSkinViewController.h"
 #import "OOReactBridge.h"
 #import "RCTRootView.h"
+#import "OOUpNextManager.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -43,6 +44,8 @@ static NSString *kViewChangeKey = @"frame";
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
+    _skinConfig = [self getReactViewInitialProperties];
+    _reactView.initialProperties = _skinConfig;
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
     [self.view setFrame:rect];
@@ -59,9 +62,25 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player];
     _discoveryOptions = discoveryOptions;
   }
   return self;
+}
+
+-(NSDictionary*) getReactViewInitialProperties {
+  NSDictionary *d = nil;
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:@"skin" ofType:@"json"];
+  NSData *data = [NSData dataWithContentsOfFile:filePath];
+  if (data) {
+    NSError* error = nil;
+    d = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    if( error != nil ) {
+      d = nil;
+    }
+  }
+  ASSERT( d, @"missing skin configuration json" );
+  return d;
 }
 
 - (void)viewDidLoad {
@@ -152,30 +171,7 @@ static NSString *kViewChangeKey = @"frame";
   [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
 }
 
-- (NSDictionary *)getDictionaryFromJSONFile {
-  NSString * filePath =[[NSBundle mainBundle] pathForResource:@"StartScreen" ofType:@"json"];
-  NSError * error;
-  NSString* fileContents =[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
-  NSData *data = [fileContents dataUsingEncoding:NSUTF8StringEncoding];
-  NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-
-  if([results isKindOfClass:[NSDictionary class]]) {
-    NSLog(@"results = %@", results);
-    return [results valueForKey:@"startScreen"];
-  }
-
-  if(error) {
-    NSLog(@"Error reading file: %@",error.localizedDescription);
-  }
-
-  return nil;
-}
-
 #pragma mark Discovery UI
-
-- (void)loadStartScreenConfigureFile {
-  // TODO: implement this.
-}
 
 - (void)loadDiscovery:(NSString *)embedCode {
   [OODiscoveryManager getResults:_discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
@@ -197,6 +193,9 @@ static NSString *kViewChangeKey = @"frame";
     NSString *bucketInfo = [dict objectForKey:@"bucket_info"];
     NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration, @"bucketInfo":bucketInfo};
     [discoveryArray addObject:discoveryItem];
+  }
+  if([discoveryArray count] > 0 && (discoveryArray[0] != nil)) {
+    [self.upNextManager setNextVideo:discoveryArray[0]];
   }
   NSDictionary *eventBody = @{@"results":discoveryArray};
   [OOReactBridge sendDeviceEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];

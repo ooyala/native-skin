@@ -10,12 +10,15 @@
 
 @class OOOoyalaPlayer;
 @class OODiscoveryOptions;
+@class OOUpNextManager;
 
 @interface OOSkinViewController : UIViewController
 
 @property (nonatomic, readonly) OODiscoveryOptions *discoveryOptions;
 @property (nonatomic, readonly) OOOoyalaPlayer *player;
+@property (nonatomic) OOUpNextManager *upNextManager;
 @property (readonly) BOOL isFullscreen;
+@property (nonatomic, readonly) NSDictionary *skinConfig;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView
@@ -23,7 +26,6 @@
                  launchOptions:(NSDictionary *)options
                 jsCodeLocation:(NSURL *)jsCodeLocation;
 
-- (void)loadStartScreenConfigureFile;
 - (void)toggleFullscreen;
 
 @end

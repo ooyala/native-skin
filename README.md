@@ -51,3 +51,7 @@ For more details please refer to: https://facebook.github.io/react-native/docs/g
   3. From Xcode menu, choose "Product->Archive"
   4. From Xcode orgnizer, choose "Export"
   5. Select "Save for enterprise" and follow the instructions to generate ipa file. 
+
+##Build the OoyalaSkinSDK.framework
+  1. xcodebuild -project sdk/OoyalaSkinSDK/OoyalaSkinSDK.xcodeproj/ -sdk iphonesimulator -target OoyalaSkinSDKUniversal
+  2. find OoyalaSkinSDK.framework in sdk/OoyalaSkinSDK/build/
