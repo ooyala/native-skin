@@ -36,7 +36,7 @@
   iconBright: {
     fontSize: 30,
     textAlign: 'center',
-    color: 'white',
+    color: '#D8F781',
     fontFamily: 'fontawesome',
     margin: 15
   },
@@ -44,8 +44,8 @@
   iconDark: {
     fontSize: 30,
     textAlign: 'center',
+    color: '#D8F781',
     opacity: 0.4,
-    color: 'white',
     fontFamily: 'fontawesome',
     margin: 15
   },

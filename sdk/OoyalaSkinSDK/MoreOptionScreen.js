@@ -37,13 +37,14 @@ var MoreOptionScreen = React.createClass({
     buttons: React.PropTypes.array,
 	},
 
-  _renderButton: function(style, icon, func, size) {
+  _renderButton: function(style, icon, func, size, color) {
     return (
       <RectButton
         icon={icon}
         onPress={func}
         fontSize={size}
-        style={style}>
+        style={style}
+        buttonColor={color}>
       </RectButton>
     );
   },
@@ -88,8 +89,8 @@ var MoreOptionScreen = React.createClass({
             f(buttonName);
           };
         }(button.name, this.props.onOptionButtonPress);
-
-        moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, moreOptionButtonSize);
+        console.log("Color is ", button);
+        moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, moreOptionButtonSize, button.color);
 
         moreOptionButtons.push(moreOptionButton);
       }

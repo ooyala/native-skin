@@ -18,6 +18,7 @@ var RectButton = React.createClass({
     frameHeight: React.PropTypes.number,
     buttonWidth: React.PropTypes.number,
     buttonHeight: React.PropTypes.number,
+    buttonColor: React.PropTypes.string,
     fontSize: React.PropTypes.number,
     style:React.PropTypes.object,
   },
@@ -25,7 +26,8 @@ var RectButton = React.createClass({
   // Gets the play button based on the current config settings
   render: function() {
     var fontStyle = {fontSize: this.props.fontSize};
-    var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
+    var sizeStyle = {width: this.props.buttonWidth, heightv: this.props.buttonHeight};
+    var buttonColor = {color: this.props.buttonColor};
     var positionStyle;
 
     if(this.props.style != null) {
@@ -42,7 +44,7 @@ var RectButton = React.createClass({
 
     return (
       <TouchableHighlight  
-        style={positionStyle}
+        style={[positionStyle, buttonColor]}
         onPress={this.props.onPress}
         underlayColor="transparent"
         activeOpacity={this.props.opacity}>
