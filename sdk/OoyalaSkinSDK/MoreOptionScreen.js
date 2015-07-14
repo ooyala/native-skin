@@ -36,15 +36,14 @@ var MoreOptionScreen = React.createClass({
     buttons: React.PropTypes.array,
 	},
 
-  _renderButton: function(style, icon, func, size, color, opacity) {
+  _renderButton: function(style, icon, func, size, color) {
     return (
       <RectButton
         icon={icon}
         onPress={func}
         fontSize={size}
         style={style}
-        buttonColor={color}
-        buttonOpacity={opacity}>
+        buttonColor={color}>
       </RectButton>
     );
   },
@@ -55,16 +54,37 @@ var MoreOptionScreen = React.createClass({
 
       if(button.type == "FeatureOptions" || button.type == "MoreOptions"){
         var moreOptionButton;
-        var buttonOpacity;
-        var buttonIcon;
+        var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button.name);
+        var buttonIcon = this._renderIcon(button.name);
+        var buttonStyle = [styles.icon, buttonOpacity];
 
-        if(this.props.buttonSelected == "None"|| this.props.buttonSelected == button.name){
-          buttonOpacity = this.props.moreOptionConfig.brightOpacity;
-        }else{
-          buttonOpacity = this.props.moreOptionConfig.darkOpacity;
-        }
+        var onOptionPress = function(buttonName, f){
+          return function(){
+            f(buttonName);
+          };
+        }(button.name, this.props.onOptionButtonPress);
         
-        switch(button.name){
+        moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, this.props.moreOptionConfig.iconSize, button.color);
+
+        moreOptionButtons.push(moreOptionButton);
+      }
+    }
+  },
+
+  _renderOpacity: function(buttonSelected, buttonName){
+    var buttonOpacity;
+    if(buttonSelected == "None" || buttonSelected == buttonName){
+      buttonOpacity = this.props.moreOptionConfig.brightOpacity;
+    }else{
+      buttonOpacity = this.props.moreOptionConfig.darkOpacity;
+    }
+
+    return {opacity: buttonOpacity};
+  },
+
+  _renderIcon: function(buttonName){
+    var buttonIcon;
+    switch(buttonName){
           case "Discovery":
             buttonIcon = ICONS.DISCOVERY;
             break;
@@ -83,18 +103,7 @@ var MoreOptionScreen = React.createClass({
           default:
             break;
         }
-
-        var onOptionPress = function(buttonName, f){
-          return function(){
-            f(buttonName);
-          };
-        }(button.name, this.props.onOptionButtonPress);
-
-        moreOptionButton = this._renderButton(styles.icon, buttonIcon, onOptionPress, this.props.moreOptionConfig.iconSize, button.color, buttonOpacity);
-
-        moreOptionButtons.push(moreOptionButton);
-      }
-    }
+    return buttonIcon;
   },
 
 	render: function() {
