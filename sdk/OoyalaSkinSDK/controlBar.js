@@ -95,7 +95,7 @@ var ControlBar = React.createClass({
 
     var controlBarWidgets = [];
 
-    var options = {
+    var widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
         style: styles.icon,
@@ -140,7 +140,7 @@ var ControlBar = React.createClass({
     for(var i in this.props.config.items) {
       controlBarWidgets.push(<ControlBarWidget
         widgetType={this.props.config.items[i]}
-        options={options}
+        options={widgetOptions}
       />);
     }
 

@@ -88,6 +88,21 @@ var controlBarWidget = React.createClass({
     }
   },
 
+  shareWidget: function(options) {
+    // TODO implement
+    return null;
+  },
+
+  closedCaptionWidget: function(options) {
+    // TODO implement
+    return null;
+  },
+
+  bitrateSelectorWidget: function(options) {
+    // TODO implement
+    return null;
+  },
+
   render: function() {
 
     var widget = null;
@@ -116,6 +131,15 @@ var controlBarWidget = React.createClass({
         break;
       case "watermark":
         widget = this.watermarkWidget(this.props.options[this.props.widgetType]);
+        break;
+      case "share":
+        widget = this.shareWidget(this.props.options[this.props.widgetType]);
+        break;
+      case "closedCaption":
+        widget = this.closedCaptionWidget(this.props.options[this.props.widgetType]);
+        break;
+      case "bitrateSelector":
+        widget = this.bitrateSelectorWidget(this.props.options[this.props.widgetType]);
         break;
     }
 
