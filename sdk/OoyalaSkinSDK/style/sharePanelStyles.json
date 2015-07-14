@@ -2,6 +2,7 @@
   container: {
     flexDirection: 'column',
     alignItems: 'center',
+    backgroundColor: "yellow"
   },
 
   sharePanelNW: {

@@ -29,7 +29,7 @@ var MoreOptionScreen = React.createClass({
 	propTypes: {
     onDismiss: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
-    selectedPanel: React.PropTypes.object,
+    panel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
     buttons: React.PropTypes.array,
@@ -116,7 +116,7 @@ var MoreOptionScreen = React.createClass({
 
     var moreOptionScreen = (
       <View style={styles.fullscreenContainer}>
-        {this.props.selectedPanel}
+        {this.props.panel}
         {dismissButtonRow}
         {moreOptionRow}
       </View>

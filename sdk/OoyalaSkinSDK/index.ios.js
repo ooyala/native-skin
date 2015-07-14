@@ -139,7 +139,7 @@ var OoyalaSkin = React.createClass({
 
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
     console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
-    if (e.rate > 0) {
+    if (e.rate > 0 && this.state.screenType == SCREEN_TYPES.START_SCREEN) {
       this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
     }
     this.setState({
@@ -353,8 +353,9 @@ var OoyalaSkin = React.createClass({
       </DiscoveryPanel>);
   },
 
-  _renderSelectedPanel: function() {
-    switch (this.props.buttonSelected) {
+  _renderMoreOptionPanel: function() {
+    console.log("renderMoreOptionPanel:"+ this.state.buttonSelected);
+    switch (this.state.buttonSelected) {
       case BUTTON_NAMES.DISCOVERY: 
         return this._renderDiscoveryPanel();
         break;
@@ -375,12 +376,14 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderMoreOptionScreen: function() {
-    console.log("renderMoreOptions");
+    console.log("renderMoreOptions buttonSelected" + this.state.buttonSelected);
+    var panel = this._renderMoreOptionPanel();
+
     return (
       <MoreOptionScreen
         buttons={this.props.buttons}
         onDismiss={this.onOptionDismissed}
-        selectedPanel={this._renderSelectedPanel()}
+        panel={panel}
         buttonSelected={this.state.buttonSelected}
         onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)} >
       </MoreOptionScreen>
