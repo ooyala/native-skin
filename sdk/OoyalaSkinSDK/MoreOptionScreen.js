@@ -27,12 +27,10 @@ var dismissButtonSize = 20;
 
 var MoreOptionScreen = React.createClass({
 	propTypes: {
-    onPress: React.PropTypes.func,
     onDismiss: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
-    sharePanel: React.PropTypes.object,
+    selectedPanel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
-    panelToShow: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
     buttons: React.PropTypes.array,
 	},
@@ -64,19 +62,19 @@ var MoreOptionScreen = React.createClass({
         }
         
         switch(button.name){
-          case "Discovery":
+          case BUTTON_NAMES.DISCOVERY:
             buttonIcon = ICONS.DISCOVERY;
             break;
-          case "Quality":
+          case BUTTON_NAMES.QUALITY:
             buttonIcon = ICONS.QUALITY;
             break;
-          case "CC":
+          case BUTTON_NAMES.CLOSED_CAPTIONS:
             buttonIcon = ICONS.CC;
             break;
-          case "Share":
+          case BUTTON_NAMES.SHARE:
             buttonIcon = ICONS.SHARE;
             break;
-          case "Setting":
+          case BUTTON_NAMES.SETTING:
             buttonIcon = ICONS.SETTING;
             break;
           default:
@@ -116,16 +114,9 @@ var MoreOptionScreen = React.createClass({
       </View>
     );
 
-
-    var sharePanel;
-    if(this.props.panelToShow == "Share"){
-      console.log("i am into it, ");
-      sharePanel = this.props.sharePanel;
-    }
-
     var moreOptionScreen = (
       <View style={styles.fullscreenContainer}>
-        {sharePanel}
+        {this.props.selectedPanel}
         {dismissButtonRow}
         {moreOptionRow}
       </View>
