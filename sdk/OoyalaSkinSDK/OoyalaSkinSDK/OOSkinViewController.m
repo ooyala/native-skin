@@ -44,7 +44,8 @@ static NSString *kViewChangeKey = @"frame";
     _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
-    _reactView.initialProperties = [self getReactViewInitialProperties];
+    _skinConfig = [self getReactViewInitialProperties];
+    _reactView.initialProperties = _skinConfig;
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
     [self.view setFrame:rect];
@@ -170,30 +171,7 @@ static NSString *kViewChangeKey = @"frame";
   [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
 }
 
-- (NSDictionary *)getDictionaryFromJSONFile {
-  NSString * filePath =[[NSBundle mainBundle] pathForResource:@"StartScreen" ofType:@"json"];
-  NSError * error;
-  NSString* fileContents =[NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:&error];
-  NSData *data = [fileContents dataUsingEncoding:NSUTF8StringEncoding];
-  NSDictionary *results = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&error];
-
-  if([results isKindOfClass:[NSDictionary class]]) {
-    NSLog(@"results = %@", results);
-    return [results valueForKey:@"startScreen"];
-  }
-
-  if(error) {
-    NSLog(@"Error reading file: %@",error.localizedDescription);
-  }
-
-  return nil;
-}
-
 #pragma mark Discovery UI
-
-- (void)loadStartScreenConfigureFile {
-  // TODO: implement this.
-}
 
 - (void)loadDiscovery:(NSString *)embedCode {
   [OODiscoveryManager getResults:_discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
