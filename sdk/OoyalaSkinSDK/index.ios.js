@@ -369,8 +369,8 @@ var OoyalaSkin = React.createClass({
 
     return (
       <MoreOptionScreen
+        moreOptionConfig={this.props.moreOptions}
         buttons={this.props.buttons}
-        onPress={(name) => this.handlePress(name)}
         onDismiss={this.onOverlayDismissed}
         sharePanel={sharePanel}
         buttonSelected={this.state.buttonSelected}

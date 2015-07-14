@@ -22,12 +22,11 @@ var {
   IMG_URLS,
 } = Constants;
 
-var moreOptionButtonSize = 30;
 var dismissButtonSize = 20;
 
 var MoreOptionScreen = React.createClass({
 	propTypes: {
-    onPress: React.PropTypes.func,
+    moreOptionConfig: React.PropTypes.object,
     onDismiss: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
     sharePanel: React.PropTypes.object,
@@ -37,14 +36,15 @@ var MoreOptionScreen = React.createClass({
     buttons: React.PropTypes.array,
 	},
 
-  _renderButton: function(style, icon, func, size, color) {
+  _renderButton: function(style, icon, func, size, color, opacity) {
     return (
       <RectButton
         icon={icon}
         onPress={func}
         fontSize={size}
         style={style}
-        buttonColor={color}>
+        buttonColor={color}
+        buttonOpacity={opacity}>
       </RectButton>
     );
   },
@@ -55,13 +55,13 @@ var MoreOptionScreen = React.createClass({
 
       if(button.type == "FeatureOptions" || button.type == "MoreOptions"){
         var moreOptionButton;
-        var buttonStyle;
+        var buttonOpacity;
         var buttonIcon;
 
         if(this.props.buttonSelected == "None"|| this.props.buttonSelected == button.name){
-          buttonStyle = styles.iconBright;
+          buttonOpacity = this.props.moreOptionConfig.brightOpacity;
         }else{
-          buttonStyle = styles.iconDark;
+          buttonOpacity = this.props.moreOptionConfig.darkOpacity;
         }
         
         switch(button.name){
@@ -89,7 +89,8 @@ var MoreOptionScreen = React.createClass({
             f(buttonName);
           };
         }(button.name, this.props.onOptionButtonPress);
-        moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, moreOptionButtonSize, button.color);
+
+        moreOptionButton = this._renderButton(styles.icon, buttonIcon, onOptionPress, this.props.moreOptionConfig.iconSize, button.color, buttonOpacity);
 
         moreOptionButtons.push(moreOptionButton);
       }
