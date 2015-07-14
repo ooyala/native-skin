@@ -67,7 +67,7 @@ var Utils = {
 
   localizedString: function(preferredLocale, stringId, localizableStrings) {
     console.log("preferredLocale" + preferredLocale + "stringId" + stringId + "localizableStrings" + localizableStrings);
-    var defaultLocale = localizableStrings["defaultLanguage"] ? localizableStrings["defaultLanguage"] : "en";
+    var defaultLocale = localizableStrings["default"] ? localizableStrings["defaultLanguage"] : "en";
     
     if (localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
       return localizableStrings[preferredLocale][stringId];

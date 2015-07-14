@@ -29,6 +29,9 @@
 		5EFDD1D71B4F48BD00A61DC2 /* skin.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EFDD19B1B4F486300A61DC2 /* skin.json */; };
 		970ADAEB1B506160008E8AEF /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 970ADAEA1B506160008E8AEF /* OoyalaSkinSDK.framework */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
+		979FF9F31B5592BF00F08B16 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 979FF9F01B5592BF00F08B16 /* en.json */; };
+		979FF9F41B5592BF00F08B16 /* es.json in Resources */ = {isa = PBXBuildFile; fileRef = 979FF9F11B5592BF00F08B16 /* es.json */; };
+		979FF9F51B5592BF00F08B16 /* zh.json in Resources */ = {isa = PBXBuildFile; fileRef = 979FF9F21B5592BF00F08B16 /* zh.json */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -63,6 +66,9 @@
 		5EFDD19B1B4F486300A61DC2 /* skin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skin.json; sourceTree = "<group>"; };
 		970ADAEA1B506160008E8AEF /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		979FF9F01B5592BF00F08B16 /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
+		979FF9F11B5592BF00F08B16 /* es.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = es.json; sourceTree = "<group>"; };
+		979FF9F21B5592BF00F08B16 /* zh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = zh.json; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -166,6 +172,9 @@
 		5EFDD15B1B4F486300A61DC2 /* skin-config */ = {
 			isa = PBXGroup;
 			children = (
+				979FF9F01B5592BF00F08B16 /* en.json */,
+				979FF9F11B5592BF00F08B16 /* es.json */,
+				979FF9F21B5592BF00F08B16 /* zh.json */,
 				5EFDD19B1B4F486300A61DC2 /* skin.json */,
 			);
 			path = "skin-config";
@@ -257,12 +266,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				979FF9F41B5592BF00F08B16 /* es.json in Resources */,
+				979FF9F51B5592BF00F08B16 /* zh.json in Resources */,
 				5EFDD1D71B4F48BD00A61DC2 /* skin.json in Resources */,
 				0B78245D1B2B86F800D718AB /* fontawesome-webfont.ttf in Resources */,
 				0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */,
 				0BFFF7B41B3A213800D72444 /* SmallSkinPlayerView.xib in Resources */,
 				0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */,
 				0B7824541B2B83AB00D718AB /* Main.storyboard in Resources */,
+				979FF9F31B5592BF00F08B16 /* en.json in Resources */,
 				0B7824571B2B841800D718AB /* TableCell.xib in Resources */,
 				0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */,
 				0B78246B1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib in Resources */,
