@@ -1,8 +1,4 @@
 {
-  fullscreenContainer: {
-    flex: 1,
-    alignItems: 'stretch',
-  },
   panelTitle: {
     flex: 1,
     fontSize: 40,
@@ -38,11 +34,13 @@
     textAlign: 'left',
     color: '#ADADAD',
   },
-  thumbnail: {
-    width: 112,
-    height: 63,
+  "thumbnail": {
+    "width": 112,
+    "height": 63,
   },
-  listView: {
-    backgroundColor: '#333333',
+  "listView": {
+    "flex": 1,
+    "marginTop": 20,
+    "backgroundColor": "transparent",
   },
 }
