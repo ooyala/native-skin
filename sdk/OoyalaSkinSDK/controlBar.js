@@ -68,7 +68,7 @@ var ControlBar = React.createClass({
   },
 
   onSocialSharePress: function() {
-    this.props.onPress && this.props.onPress(BUTTON_NAMES.SOCIAL_SHARE);
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.SHARE);
   },
 
   onClosedCaptionsPress: function() {
