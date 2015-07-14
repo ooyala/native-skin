@@ -110,6 +110,7 @@ var OoyalaSkin = React.createClass({
       case BUTTON_NAMES.DISCOVERY:
       case BUTTON_NAMES.QUALITY:
       case BUTTON_NAMES.CLOSED_CAPTIONS:
+      case BUTTON_NAMES.SHARE:
       case BUTTON_NAMES.SETTING:
         this.pauseOnOptions();
         this.setState({buttonSelected:n, screenType:SCREEN_TYPES.MOREOPTION_SCREEN});

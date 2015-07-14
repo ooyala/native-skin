@@ -20,7 +20,6 @@ var ICONS = {
 
 var BUTTON_NAMES = { // must match Objective-C code expectations.
   PLAY_PAUSE: 'PlayPause',
-  SOCIAL_SHARE: 'SocialShare',
   FULLSCREEN: 'Fullscreen',
   MORE: 'More',
   TWITTER: 'Twitter',

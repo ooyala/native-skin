@@ -1,8 +1,7 @@
 {
   container: {
     flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: "yellow"
+    alignItems: 'center'
   },
 
   sharePanelNW: {

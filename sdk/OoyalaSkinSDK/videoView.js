@@ -77,15 +77,7 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
-    switch (name) {
-      case BUTTON_NAMES.SOCIAL_SHARE: this._handleSocialShare();    break;
-      default:                        this._handleGeneralPress();   break;
-    }
     this.props.onPress(name);
-  },
-
-  _handleGeneralPress: function() {
-    this.setState({showSharePanel:false});
   },
 
   _renderProgressBar: function() {
