@@ -16,7 +16,7 @@
     fontSize: 20,
     textAlign: 'center',
     color: '#8E8E8E',
-    fontFamily: 'fontawesome',
+    fontFamily: 'untitled-font-1',
     margin: 10,
     padding: 2,
   },
