@@ -10,9 +10,9 @@ var CollapsingBarUtils = {
   collapse: function( barWidth, orderedItems ) {
     var fit = [];
     if( barWidth > 0 && orderedItems ) {
-      var orderedItemsCopy = orderedItems.slice();
-      var fitFixed = this._fitItems( barWidth, orderedItemsCopy, true );
-      var fitBonus = this._fitItems( fitFixed.remainingWidth, orderedItemsCopy, false );
+      var remainingItems = orderedItems.slice();
+      var fitFixed = this._fitItems( barWidth, remainingItems, true );
+      var fitBonus = this._fitItems( fitFixed.remainingWidth, remainingItems, false );
       fit = this._reorderItems( fitFixed, fitBonus, orderedItems );
     }
     return fit;
