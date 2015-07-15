@@ -163,7 +163,26 @@ static NSString *kViewChangeKey = @"frame";
 }
 
 - (void) bridgeAdStartNotification:(NSNotification *)notification {
-  NSDictionary *eventBody = notification.userInfo;
+  //TODO: read cutomized font and font size
+  static NSString *adFontFamily = @"AvenirNext-DemiBold";
+  static NSUInteger adFontSize = 16;
+
+  NSDictionary *adInfo = notification.userInfo;
+
+  NSInteger count = [adInfo[@"count"] integerValue];
+  NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
+  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
+  NSString *adTitle = [NSString stringWithFormat:@"%@ ", adInfo[@"title"]];
+  NSString *titlePrefix = adTitle.length ? @"Ad Playing:" : @"Ad Playing";
+  CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
+  CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
+  CGSize countSize = [self textSize:countString withFontFamily:adFontFamily size:adFontSize];
+
+  NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
+  [eventBody setObject:[NSNumber numberWithFloat:titleSize.width] forKey:@"titleWidth"];
+  [eventBody setObject:[NSNumber numberWithFloat:titlePrefixSize.width] forKey:@"prefixWidth"];
+  [eventBody setObject:[NSNumber numberWithFloat:countSize.width] forKey:@"countWidth"];
+  [eventBody setObject:adTitle forKey:@"title"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
@@ -250,6 +269,16 @@ static NSString *kViewChangeKey = @"frame";
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
   [OOReactBridge deregisterController:self];
+}
+
+#pragma mark utils
+- (CGSize)textSize:(NSString *)text withFontFamily:(NSString *)fontFamily size:(NSUInteger)fontSize {
+  // given an array of strings and other settings, compute the width of the strings to assist correct layout.
+  NSArray *fontArray = [UIFont fontNamesForFamilyName:fontFamily];
+  NSString *fontName = fontArray.count > 0 ? fontArray[0] : fontFamily;
+  UIFont *font = [UIFont fontWithName:fontName size:fontSize];
+  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
+  return textSize;
 }
 
 @end
