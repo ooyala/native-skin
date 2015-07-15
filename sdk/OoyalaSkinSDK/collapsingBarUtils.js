@@ -4,30 +4,39 @@ var CollapsingBarUtils = {
 
   // /**
   //  * @param barWidth numeric.
-  //  * @param orderedItems left to right ordered items
-  //  * of type {width:numeric, collapsable:boolean}.
+  //  * @param orderedItems array of left to right ordered items,
+  //  * each having at least properies minWidth:numeric, collapsable:boolean.
   //  * @return {fit:[items that fit in the barWidth], dropped:[items that did not fit]}.
   //  */
   collapse: function( barWidth, orderedItems ) {
     var fit = [];
     var dropped = [];
     if( barWidth > 0 && orderedItems ) {
-      var fitFixed = this._fitItems( barWidth, orderedItems, true );
-      var fitBonus = this._fitItems( fitFixed.remainingWidth, fitFixed.remainingItems, false );
+      var nonCollapsableItems = orderedItems.filter( function(e) { return ! e.collapsable; } );
+      var collapsableItems = orderedItems.filter( function(e) { return e.collapsable; } );
+      var fitFixed = this._fitItems( barWidth, nonCollapsableItems );
+      var fitBonus = this._fitItems( fitFixed.remainingWidth, collapsableItems );
       fit = this._reorderItems( fitFixed.items, fitBonus.items, orderedItems );
-      dropped = fitBonus.remainingItems;
+      dropped = fitFixed.remainingItems.concat( fitBonus.remainingItems );
     }
     return {fit:fit, dropped:dropped};
   },
 
-  _fitItems: function( remainingWidth, orderedItems, onlyFixed ) {
+  // /**
+  //  * @param remainingWidth numeric.
+  //  * @param orderedItems array of left to right ordered items,
+  //  * each having at least properies minWidth:numeric, collapsable:boolean.
+  //  * @return {items:[items that fit in the original remainingWidth],
+  //  * remainingWidth:final remaining width,
+  //  * remainingItems:[items that did not fit in original remainingWidth]}
+  //  */
+  _fitItems: function( remainingWidth, orderedItems ) {
     var fitItems = []
     var remainingItems = orderedItems.slice();
     if( remainingWidth && orderedItems ) {
       this._visit( orderedItems, function( o, k, v ) {
-        var keep = v.width <= remainingWidth && v.collapsable != onlyFixed;
-        if( keep ) {
-          remainingWidth -= v.width;
+        if( v.minWidth <= remainingWidth ) {
+          remainingWidth -= v.minWidth;
           fitItems.push( v );
           remainingItems.splice( remainingItems.indexOf(v), 1 );
         }
@@ -75,11 +84,11 @@ var CollapsingBarUtils = {
 
     // _F means 'fixed' or 'featured' (old terminology): not collapsible.
     // _C means 'collapsible'.
-    B1_F100 : 	{name : "b1", collapsable : false,	width : 100},
-    B2_F1 : 		{name : "b2", collapsable : false,	width : 1},
-    B3_F1 : 		{name : "b3", collapsable : false,	width : 1},
-    B4_C100 : 	{name : "b4", collapsable : true,	width : 100},
-    B5_C1 : 		{name : "b5", collapsable : true,	width : 1},
+    B1_F100 : 	{name : "b1", collapsable : false,	minWidth : 100},
+    B2_F1 : 		{name : "b2", collapsable : false,	minWidth : 1},
+    B3_F1 : 		{name : "b3", collapsable : false,	minWidth : 1},
+    B4_C100 : 	{name : "b4", collapsable : true,	minWidth : 100},
+    B5_C1 : 		{name : "b5", collapsable : true,	minWidth : 1},
 
     TestDropped_dropFixedMixed: function() {
       var oi = [this.B1_F100, this.B5_C1];

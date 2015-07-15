@@ -20,6 +20,7 @@ For more details please refer to: https://facebook.github.io/react-native/docs/g
   4. brew install watchman
 
 ##Clone this repo and update submodule:
+
   1. git clone git@github.com:ooyala/ios-skin.git
   2. git submodule init
   3. git submodule update
@@ -53,5 +54,14 @@ For more details please refer to: https://facebook.github.io/react-native/docs/g
   5. Select "Save for enterprise" and follow the instructions to generate ipa file. 
 
 ##Build the OoyalaSkinSDK.framework
+
   1. xcodebuild -project sdk/OoyalaSkinSDK/OoyalaSkinSDK.xcodeproj/ -sdk iphonesimulator -target OoyalaSkinSDKUniversal
   2. find OoyalaSkinSDK.framework in sdk/OoyalaSkinSDK/build/
+
+##Running Unit Tests
+
+  1. Some of the JavaScript components have unit tests in their file. It is possible
+     to run them using the [Node REPL](https://nodejs.org/api/repl.html).
+  1. For example, run the REPL and then do ".load collapsingBarUtils.js" followed by
+     "CollapsingBarUtils.TestSuite.Run();".
+  
