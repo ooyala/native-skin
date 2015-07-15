@@ -291,39 +291,39 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-   _renderVideoView: function() {
-     var upNextConfig = this.props.upNextScreen;
-     var showPlayButton = this.state.rate > 0 ? false : true;
+  _renderVideoView: function() {
+    var upNextConfig = this.props.upNextScreen;
+    var showPlayButton = this.state.rate > 0 ? false : true;
 
-      return (
-        <VideoView
-          rate={this.state.rate}
-          showPlay={showPlayButton}
-          playhead={this.state.playhead}
-          duration={this.state.duration}
-          ad ={this.state.ad}
-          live ={this.state.live}
-          width={this.state.width}
-          height={this.state.height}
-          fullscreen={this.state.fullscreen}
-          onPress={(value) => this.handlePress(value)}
-          onScrub={(value) => this.handleScrub(value)}
-          closedCaptionsLanguage={this.state.selectedLanguage}
-             // todo: change to boolean showCCButton.
-          availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
-          captionJSON={this.state.captionJSON}
-          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-          lastPressedTime={this.state.lastPressedTime}
-          upNextConfig={upNextConfig}
-          nextVideo={this.state.nextVideo}
-          upNextDismissed={this.state.upNextDismissed}
-          locale={this.state.locale}
-          localizableStrings={this.props.localizableStrings}>
-       </VideoView>
-     );
-   },
+    return (
+      <VideoView
+        rate={this.state.rate}
+        showPlay={showPlayButton}
+        playhead={this.state.playhead}
+        duration={this.state.duration}
+        ad ={this.state.ad}
+        live ={this.state.live}
+        width={this.state.width}
+        height={this.state.height}
+        fullscreen={this.state.fullscreen}
+        onPress={(value) => this.handlePress(value)}
+        onScrub={(value) => this.handleScrub(value)}
+        closedCaptionsLanguage={this.state.selectedLanguage}
+           // todo: change to boolean showCCButton.
+        availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
+        captionJSON={this.state.captionJSON}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+        lastPressedTime={this.state.lastPressedTime}
+        upNextConfig={upNextConfig}
+        nextVideo={this.state.nextVideo}
+        upNextDismissed={this.state.upNextDismissed}
+        locale={this.state.locale}
+        localizableStrings={this.props.localizableStrings}>
+      </VideoView>
+    );
+  },
 
-   _renderLoadingScreen: function() {
+  _renderLoadingScreen: function() {
     return (
       <ActivityIndicatorIOS
         animating={true}
@@ -332,7 +332,7 @@ var OoyalaSkin = React.createClass({
       </ActivityIndicatorIOS>)
    },
 
-   _renderCCOptions: function() {
+  _renderCCOptions: function() {
     return (
       <LanguageSelectionPanel
         languages={this.state.availableClosedCaptionsLanguages}
