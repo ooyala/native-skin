@@ -15,14 +15,12 @@ var {
 } = React;
 
 var Utils = require('./utils');
-
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
-var Utils = require('./utils');
+var UI_TEXT = require('./constants').UI_TEXT;
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.embedCode !== r2.embedCode})
 
 var DiscoveryPanel = React.createClass({
   propTypes: {
-    isShow: React.PropTypes.bool,
     dataSource: React.PropTypes.array,
     onRowAction: React.PropTypes.func,
     config: React.PropTypes.object
@@ -45,27 +43,25 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    var discoveryPanel;
-    if(this.props.isShow){
-      discoveryPanel=(
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow}
-          renderHeader={this.renderHeader}
-          style={styles.listView}>
-        </ListView>
-      );
-    }
-
     return (
-      <View style={styles.fullscreenContainer}>
-        {discoveryPanel}
-      </View>
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this.renderRow}
+        renderHeader={this.renderHeader}
+        style={styles.listView}>
+      </ListView>
     );
   },
 
   renderRow: function(row: object, sectionID: number, rowID: number) {
-  	var duration = Utils.secondsToString(row.duration);
+    var title;
+    if (this.props.config.showContentTitle) {
+      title = <Text style={styles.title}>{row.name}</Text>;
+    }
+  	var duration;
+    if (this.props.config.showContentDuration) {
+      duration = <Text style={styles.description}>{Utils.secondsToString(row.duration)}</Text>;
+    };
     this.onRowImpressed(row);
 
     return (
@@ -79,8 +75,8 @@ var DiscoveryPanel = React.createClass({
         </Image>
         
         <View style={styles.rightContainer}>
-          <Text style={styles.title}>{row.name}</Text>
-          <Text style={styles.description}>{duration}</Text>
+          {title}
+          {duration}
         </View>
       </View>
      </TouchableHighlight>
@@ -88,8 +84,15 @@ var DiscoveryPanel = React.createClass({
   },
 
   renderHeader: function() {
-  	return (
-  	  <Text style={styles.panelTitle}>{this.props.config.title}</Text>);
+    var title = UI_TEXT.DISCOVERY;
+    if (this.props.config.panelTitle) {
+      if (this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage) {
+        return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.panelTitle.imageUri}} />);
+      } else if (this.props.config.panelTitle.text) {
+        title = this.props.config.panelTitle.text;
+      }
+    }
+    return (<Text style={styles.panelTitle}>{title}</Text>);
   },
 });
 
