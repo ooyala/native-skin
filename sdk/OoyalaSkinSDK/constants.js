@@ -20,8 +20,6 @@ var ICONS = {
 
 var BUTTON_NAMES = { // must match Objective-C code expectations.
   PLAY_PAUSE: 'PlayPause',
-  SOCIAL_SHARE: 'SocialShare',
-  CLOSED_CAPTIONS: 'ClosedCaptions',
   FULLSCREEN: 'Fullscreen',
   MORE: 'More',
   TWITTER: 'Twitter',
@@ -29,6 +27,12 @@ var BUTTON_NAMES = { // must match Objective-C code expectations.
   GOOGLEPLUS: 'GooglePlus',
   EMAIL: 'Email',
   LEARNMORE: 'LearnMore',
+  // more option buttons
+  DISCOVERY: 'Discovery',
+  QUALITY: 'Quality',
+  CLOSED_CAPTIONS: 'CC',
+  SHARE: 'Share',
+  SETTING: 'Setting',
 };
 
 var IMG_URLS = {
@@ -49,14 +53,8 @@ var SCREEN_TYPES = {
   MOREOPTION_SCREEN: 'moreOption',
 };
 
-var OVERLAY_TYPES = {
-  DISCOVERY_OVERLAY: 'discovery',
-  SOCIAL_OVERLAY: 'social',
-  CC_OPTIONS: 'cc_options',
-};
-
 var OOSTATES = {
   PAUSED: 'paused',
 };
 
-module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, OVERLAY_TYPES};
+module.exports = {ICONS, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES};

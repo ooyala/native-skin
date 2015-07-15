@@ -12,7 +12,8 @@
 @property (nonatomic, readonly) BOOL isDismissed;
 @property (nonatomic, readonly, weak) OOOoyalaPlayer *player;
 
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                        config:(NSDictionary *)config;
 
 - (void)setNextVideo:(NSMutableArray *)nextVideo;
 
