@@ -62,7 +62,7 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
-    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player];
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
     _discoveryOptions = discoveryOptions;
   }
   return self;
