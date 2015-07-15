@@ -8,11 +8,11 @@
     height: 100
   },
   thumbnailContainer: {
-    marginRight: 15
+    marginRight: 15,
+    flex: 1
   },
   thumbnail: {
-    width: 112,
-    height: 63
+    flex: 1
   },
   countdownText: {
     fontWeight: 'bold',
@@ -21,7 +21,7 @@
     color: 'white'
   },
   textContainer: {
-    flex: 1,
+    flex: 5
   },
   title: {
     color: 'white',
@@ -32,8 +32,7 @@
     color: 'white'
   },
   dismissButton: {
-    width: 60,
-    height: 10,
+    flex: 1,
     fontSize: 15
   }
 }
