@@ -25,17 +25,11 @@ var Utils = require('./utils');
 
 var AdBar = React.createClass({
   propTypes: {
-    title: React.PropTypes.string,
+    ad: React.PropTypes.object,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
-    count: React.PropTypes.number,
-    index: React.PropTypes.number,
     onPress: React.PropTypes.func,
-    showLearnMore: React.PropTypes.bool,
-  },
-
-  getDefaultProps: function() {
-    return {playhead: 0, duration: 0, title:'', count: 1, index: 0};
+    width: React.PropTypes.number
   },
 
   onLearnMore: function() { 
@@ -43,27 +37,50 @@ var AdBar = React.createClass({
   }, 
 
   render: function() {
+    var adTitle = this.props.ad.title ? this.props.ad.title : "";
+    var count = this.props.ad.count ? this.props.ad.count : 1;
+    var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
+    var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
+
     var remainingString = 
       Utils.secondsToString(this.props.duration - this.props.playhead);
     
-    var titleString = 
-      this.props.title.length > 0 ? UI_TEXT.AD_PLAYING + ": " + this.props.title : UI_TEXT.AD_PLAYING;
+    var prefixString = 
+      this.props.ad.title && this.props.ad.title.length > 0 ? UI_TEXT.AD_PLAYING + ":" : UI_TEXT.AD_PLAYING;
 
-    var countString = "(" + this.props.index + "/" + this.props.count + ")";
+    var countString = "(" + (count - unplayed) + "/" + count + ")";
+    var learnMoreButtonWidthStyle = {width: this.props.width * 0.25};
+    var allowedTextLength = showLearnMore ? this.props.width * 0.5 : this.props.width * 0.8;
+    var textString;
+
+    console.log("width"+this.props.width+"allowed"+allowedTextLength+"count"+this.props.ad.countWidth+"title"+this.props.ad.titleWidth+"prefix"+this.props.ad.prefixWidth);
+    if (this.props.ad.countWidth <= allowedTextLength) {
+      textString = countString;
+      allowedTextLength -= this.props.ad.countWidth;
+      if (this.props.ad.titleWidth <= allowedTextLength) {
+        textString = this.props.ad.title + textString;
+        allowedTextLength -= this.props.ad.titleWidth;
+        if (this.props.ad.prefixWidth <= allowedTextLength) {
+          textString = prefixString + textString;
+        } 
+      }
+    } 
+
+    var labelString = textString ? textString + " | " + remainingString : remainingString;
 
     var learnMoreButton;
-    if (this.props.showLearnMore) {
+    if (showLearnMore) {
       learnMoreButton = (
         <TouchableHighlight 
           onPress={this.onLearnMore}>
-          <View style={styles.button}>
+          <View style={[styles.button, learnMoreButtonWidthStyle]}>
             <Text style={styles.buttonText}>{UI_TEXT.LEARNMORE}</Text>
           </View>
         </TouchableHighlight>);
     }
     return (
       <View style={styles.container}>
-          <Text style={styles.label}>{titleString + countString + ' | ' + remainingString}</Text>
+          <Text allowFontScaling={true} style={styles.label}>{labelString}</Text>
           <View style={styles.placeholder} />
           {learnMoreButton}
       </View>
