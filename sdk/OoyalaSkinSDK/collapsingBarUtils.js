@@ -21,19 +21,19 @@ var CollapsingBarUtils = {
   },
 
   _fitItems: function( remainingWidth, orderedItems, onlyFixed ) {
-    var items = []
+    var fitItems = []
     var remainingItems = orderedItems.slice();
     if( remainingWidth && orderedItems ) {
       this._visit( orderedItems, function( o, k, v ) {
         var keep = v.width <= remainingWidth && v.collapsable != onlyFixed;
         if( keep ) {
           remainingWidth -= v.width;
-          items.push( v );
+          fitItems.push( v );
           remainingItems.splice( remainingItems.indexOf(v), 1 );
         }
       } );
     }
-    var r = { items:items, remainingWidth:remainingWidth, remainingItems:remainingItems };
+    var r = { items:fitItems, remainingWidth:remainingWidth, remainingItems:remainingItems };
     return r;
   },
 
