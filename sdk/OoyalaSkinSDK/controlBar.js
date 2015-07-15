@@ -57,7 +57,7 @@ var ControlBar = React.createClass({
     if (this.props.live) {
       return this.props.live
     } else {
-      return Utils.secondsToString(this.props.playhead) + Constants.UI_TEXT.SEPERATOR + Utils.secondsToString(this.props.duration);
+      return Utils.secondsToString(this.props.playhead) + "/" + Utils.secondsToString(this.props.duration);
     }
   },
 

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>OoyalaSkinSDK.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>0BD9FC641B4D9E83001E0CAB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>972ED84A1AE6EEEB005043DC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>972ED8551AE6EEEB005043DC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+	</dict>
+</dict>
+</plist>

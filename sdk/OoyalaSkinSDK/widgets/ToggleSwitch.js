@@ -15,7 +15,6 @@ var {
 var Constants = require('../constants');
 var {
   ICONS,
-  UI_TEXT,
 } = Constants;
 
 var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.json'));
@@ -23,6 +22,8 @@ var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.j
 var ToggleSwitch = React.createClass({
   propTypes: {
     switchOn: React.PropTypes.bool,
+    swithOnText: React.PropTypes.string,
+    swithOffText: React.PropTypes.string,
     onValueChanged: React.PropTypes.func,
   },
 
@@ -45,9 +46,9 @@ var ToggleSwitch = React.createClass({
       <TouchableHighlight
         onPress={this.onSwitchToggled}>
         <View style={styles.container}>
-          <Text style={offTextStyle}>{UI_TEXT.OFF}</Text>
+          <Text style={offTextStyle}>{this.props.switchOffText}</Text>
           <Text style={styles.buttonText}>{switchIcon}</Text>
-          <Text style={onTextStyle}>{UI_TEXT.ON}</Text>
+          <Text style={onTextStyle}>{this.props.switchOnText}</Text>
         </View>
       </TouchableHighlight>
     );
