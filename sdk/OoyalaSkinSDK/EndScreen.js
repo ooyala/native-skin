@@ -65,7 +65,7 @@ handleTouchEnd: function(event) {
 },
 
 render: function() {
- var fullscreenPromoImage = (this.props.config.mode == 'default');
+ var fullscreenPromoImage = (this.props.config.endScreen.mode == 'default');
  var replaybuttonLocation = styles.replaybuttonCenter;
  var socialButtonsArray = [{buttonName: BUTTON_NAMES.TWITTER, imgUrl: IMG_URLS.TWITTER},
                            {buttonName: BUTTON_NAMES.FACEBOOK, imgUrl: IMG_URLS.FACEBOOK}];
@@ -73,7 +73,7 @@ render: function() {
                            // {buttonName: BUTTON_NAMES.EMAIL, imgUrl: IMG_URLS.EMAIL}];
 
   var replaybutton;
-  if(this.props.config.showReplayButton) {
+  if(this.props.config.endScreen.showReplayButton) {
     replaybutton = (
       <TouchableHighlight
       onPress={(name) => this.handleClick('PlayPause')}
@@ -84,8 +84,8 @@ render: function() {
     );
   }
 
-  var title = this.props.config.showTitle ? this.props.title : null;
-  var description = this.props.config.showDescription ? this.props.description : null;
+  var title = this.props.config.endScreen.showTitle ? this.props.title : null;
+  var description = this.props.config.endScreen.showDescription ? this.props.description : null;
 
   var infoPanel;
   infoPanel = (<InfoPanel title={title} description={description} />);
@@ -111,14 +111,15 @@ render: function() {
   height={this.props.height}
   width={this.props.width}
   isShow='true'
-  playhead={this.props.duration} 
+  playhead={this.props.duration}
   duration={this.props.duration} 
   primaryActionButton={ICONS.REPLAY}
-  onPress={(name) => this.handleClick(name)} />);
+  onPress={(name) => this.handleClick(name)}
+  config={this.props.config.controlBar}/>);
 
  var waterMark = (<WaterMark />);
 
-  switch(this.props.config.screenToShowOnEnd) {
+  switch(this.props.config.endScreen.screenToShowOnEnd) {
     case 'discovery':
       return (
         <View style={styles.fullscreenContainer}>
