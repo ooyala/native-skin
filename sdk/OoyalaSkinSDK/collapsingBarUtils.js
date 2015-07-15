@@ -20,20 +20,20 @@ var CollapsingBarUtils = {
     return {fit:fit, dropped:dropped};
   },
 
-  _fitItems: function( availableWidth, orderedItems, onlyFixed ) {
+  _fitItems: function( remainingWidth, orderedItems, onlyFixed ) {
     var items = []
     var remainingItems = orderedItems.slice();
-    if( availableWidth && orderedItems ) {
+    if( remainingWidth && orderedItems ) {
       this._visit( orderedItems, function( o, k, v ) {
-        var keep = v.width <= availableWidth && v.collapsable != onlyFixed;
+        var keep = v.width <= remainingWidth && v.collapsable != onlyFixed;
         if( keep ) {
-          availableWidth -= v.width;
+          remainingWidth -= v.width;
           items.push( v );
           remainingItems.splice( remainingItems.indexOf(v), 1 );
         }
       } );
     }
-    var r = { items:items, remainingWidth:availableWidth, remainingItems:remainingItems };
+    var r = { items:items, remainingWidth:remainingWidth, remainingItems:remainingItems };
     return r;
   },
 
