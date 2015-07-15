@@ -26,8 +26,7 @@ var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var {
   ICONS,
   BUTTON_NAMES,
-  IMG_URLS,
-  UI_TEXT
+  IMG_URLS
 } = Constants;
 
 var VideoView = React.createClass({
@@ -59,7 +58,9 @@ var VideoView = React.createClass({
     lastPressedTime: React.PropTypes.number,
     upNextConfig: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
-    upNextDismissed: React.PropTypes.bool
+    upNextDismissed: React.PropTypes.bool,
+    locale: React.PropTypes.string,
+    localizableStrings: React.PropTypes.object,
   },
 
   shouldShowDiscovery: function() {
@@ -68,7 +69,9 @@ var VideoView = React.createClass({
 
   generateLiveLabel: function() {
     if (this.props.live) {
-      return this.props.showPlay? UI_TEXT.GO_LIVE: UI_TEXT.LIVE;
+      return this.props.showPlay? 
+        Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings): 
+        Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings);
     }
   },
 
@@ -120,11 +123,14 @@ var VideoView = React.createClass({
 
   _renderAdBar: function() {
     if (this.props.ad) {
-      var adTitle = this.props.ad.title ? this.props.ad.title : "";
+      var adTitle = Utils.localizedString(this.props.locale, "Ad Playing", this.props.localizableStrings);
+      if (this.props.ad.title && this.props.ad.title.length > 0) {
+        adTitle = adTitle + ":" + adTitle;
+      } 
       var count = this.props.ad.count ? this.props.ad.count : 1;
       var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
       var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
-      console.log("adbar title" + adTitle + "clickUrl " + this.props.ad.clickUrl);
+
       return (<AdBar
         title={adTitle}
         playhead={this.props.playhead}
@@ -132,7 +138,8 @@ var VideoView = React.createClass({
         count={count}
         index={count - unplayed}
         onPress={this.handlePress}
-        showLearnMore={showLearnMore} />
+        showButton={showLearnMore}
+        buttonText={Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings)} />
       );
     }
     return null;
@@ -177,8 +184,8 @@ var VideoView = React.createClass({
       duration={this.props.duration}
       nextVideo={this.props.nextVideo}
       upNextDismissed={this.props.upNextDismissed}
-      onPress={(value) => this.handlePress(value)}
-      />;
+      onPress={(value) => this.handlePress(value)} >
+      </UpNext>;
   },
 
   _handleSocialShare: function() {
