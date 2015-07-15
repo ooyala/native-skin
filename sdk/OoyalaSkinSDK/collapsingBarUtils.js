@@ -45,14 +45,6 @@ var CollapsingBarUtils = {
     return orderedFit;
   },
 
-  _toNamedMap: function( items ) {
-    var namedMap = {}
-    this._visit( items, function(o, k, v) {
-      if( v.name ) { namedMap[ v.name ] = v; }
-    });
-    return namedMap;
-  },
-
   _visit: function( obj, visitFn ) {
     if( obj ) {
       var keys = Object.keys( obj );
