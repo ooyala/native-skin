@@ -174,14 +174,22 @@ static NSString *kViewChangeKey = @"frame";
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
   NSString *adTitle = [NSString stringWithFormat:@"%@ ", adInfo[@"title"]];
   NSString *titlePrefix = adTitle.length ? @"Ad Playing:" : @"Ad Playing";
+  NSString *durationString = @"00:00";
+  NSString *learnMoreString = @"Learn More";
+
   CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
   CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
   CGSize countSize = [self textSize:countString withFontFamily:adFontFamily size:adFontSize];
+  CGSize durationSize = [self textSize:durationString withFontFamily:adFontFamily size:adFontSize];
+  CGSize learnMoreSize = [self textSize:learnMoreString withFontFamily:adFontFamily size:adFontSize];
+  NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
+                             @"duration":[NSNumber numberWithFloat:durationSize.width],
+                             @"count":[NSNumber numberWithFloat:countSize.width],
+                             @"title":[NSNumber numberWithFloat:titleSize.width],
+                             @"prefix":[NSNumber numberWithFloat:titlePrefixSize.width]};
 
   NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
-  [eventBody setObject:[NSNumber numberWithFloat:titleSize.width] forKey:@"titleWidth"];
-  [eventBody setObject:[NSNumber numberWithFloat:titlePrefixSize.width] forKey:@"prefixWidth"];
-  [eventBody setObject:[NSNumber numberWithFloat:countSize.width] forKey:@"countWidth"];
+  [eventBody setObject:measures forKey:@"measures"];
   [eventBody setObject:adTitle forKey:@"title"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
