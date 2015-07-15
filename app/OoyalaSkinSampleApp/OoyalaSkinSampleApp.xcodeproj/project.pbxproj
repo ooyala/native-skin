@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B345ADC1B5626ED006CD3B0 /* OoyalaSkinSDK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B345ADB1B5626ED006CD3B0 /* OoyalaSkinSDK.xcassets */; };
 		0B78242F1B2B7EB600D718AB /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B7824241B2B7EB600D718AB /* AppDelegate.m */; };
 		0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824251B2B7EB600D718AB /* LaunchScreen.xib */; };
-		0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B7824291B2B7EB600D718AB /* Images.xcassets */; };
 		0B7824331B2B7EB600D718AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242A1B2B7EB600D718AB /* Info.plist */; };
 		0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 0B78242B1B2B7EB600D718AB /* main.jsbundle */; };
 		0B7824351B2B7EB600D718AB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B78242C1B2B7EB600D718AB /* main.m */; };
@@ -35,11 +35,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0B345ADB1B5626ED006CD3B0 /* OoyalaSkinSDK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = OoyalaSkinSDK.xcassets; sourceTree = "<group>"; };
 		0B7824231B2B7EB600D718AB /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0B7824241B2B7EB600D718AB /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		0B7824261B2B7EB600D718AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "fontawesome-webfont.ttf"; sourceTree = "<group>"; };
-		0B7824291B2B7EB600D718AB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0B78242A1B2B7EB600D718AB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B78242B1B2B7EB600D718AB /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		0B78242C1B2B7EB600D718AB /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -90,7 +90,6 @@
 			children = (
 				0B7824231B2B7EB600D718AB /* AppDelegate.h */,
 				0B7824241B2B7EB600D718AB /* AppDelegate.m */,
-				0B7824291B2B7EB600D718AB /* Images.xcassets */,
 				0B78242A1B2B7EB600D718AB /* Info.plist */,
 				0B7824251B2B7EB600D718AB /* LaunchScreen.xib */,
 				0B7824431B2B82C000D718AB /* Lists */,
@@ -175,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				970ADAEA1B506160008E8AEF /* OoyalaSkinSDK.framework */,
+				0B345ADB1B5626ED006CD3B0 /* OoyalaSkinSDK.xcassets */,
 				5EFDD15B1B4F486300A61DC2 /* skin-config */,
 				0B7824221B2B7EB600D718AB /* OoyalaSkinSampleApp */,
 				0BD9FCA81B4DEE91001E0CAB /* VendorLibraries */,
@@ -259,10 +259,10 @@
 			files = (
 				5EFDD1D71B4F48BD00A61DC2 /* skin.json in Resources */,
 				0B78245D1B2B86F800D718AB /* fontawesome-webfont.ttf in Resources */,
-				0B7824321B2B7EB600D718AB /* Images.xcassets in Resources */,
 				0BFFF7B41B3A213800D72444 /* SmallSkinPlayerView.xib in Resources */,
 				0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */,
 				0B7824541B2B83AB00D718AB /* Main.storyboard in Resources */,
+				0B345ADC1B5626ED006CD3B0 /* OoyalaSkinSDK.xcassets in Resources */,
 				0B7824571B2B841800D718AB /* TableCell.xib in Resources */,
 				0B7824301B2B7EB600D718AB /* LaunchScreen.xib in Resources */,
 				0B78246B1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib in Resources */,
