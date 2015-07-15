@@ -55,12 +55,12 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
-    lastPressedTime: React.PropTypes.number,
-    upNextConfig: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
     locale: React.PropTypes.string,
     localizableStrings: React.PropTypes.object,
+    lastPressedTime: React.PropTypes.number,
+    config: React.PropTypes.object
   },
 
   shouldShowDiscovery: function() {
@@ -118,7 +118,8 @@ var VideoView = React.createClass({
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.showControlBar()} />);
+      isShow={this.showControlBar()}
+      config={this.props.config.controlBar} />);
   },
 
   _renderAdBar: function() {
@@ -148,7 +149,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray =this.props.sharing;
+      var socialButtonsArray=this.props.sharing;
       placeholder = (
         <View
         style={styles.fullscreenContainer}>
@@ -178,7 +179,7 @@ var VideoView = React.createClass({
 
   _renderUpNext: function() {
     return <UpNext
-      config={this.props.upNextConfig}
+      config={this.props.config.upNextScreen}
       ad={this.props.ad}
       playhead={this.props.playhead}
       duration={this.props.duration}

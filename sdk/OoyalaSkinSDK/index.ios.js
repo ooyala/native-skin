@@ -276,9 +276,13 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderEndScreen: function() {
+
     return (
       <EndScreen
-        config={this.props.endScreen}
+        config={{
+          endScreen: this.props.endScreen,
+          controlBar: this.props.controlBar
+        }}
         title={this.state.title}
         width={this.state.width}
         height={this.state.height}
@@ -318,7 +322,12 @@ var OoyalaSkin = React.createClass({
         nextVideo={this.state.nextVideo}
         upNextDismissed={this.state.upNextDismissed}
         locale={this.state.locale}
-        localizableStrings={this.props.localizableStrings}>
+        localizableStrings={this.props.localizableStrings}
+        lastPressedTime={this.state.lastPressedTime}
+         config={{
+           controlBar: this.props.controlBar,
+           upNextScreen: this.props.upNextScreen
+         }}>
       </VideoView>
     );
   },
