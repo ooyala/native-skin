@@ -105,45 +105,22 @@ var controlBarWidget = React.createClass({
 
   render: function() {
 
-    var widget = null;
+    var widgetsMap = {
+      "playPause": this.playPauseWidget,
+      "volume": this.volumeWidget,
+      "timeDuration": this.timeDurationWidget,
+      "flexibleSpace": this.flexibleSpaceWidget,
+      "discovery": this.discoveryWidget,
+      "fullscreen": this.fullscreenWidget,
+      "moreOptions": this.moreOptionsWidget,
+      "watermark": this.watermarkWidget,
+      "share": this.shareWidget,
+      "closedCaption": this.closedCaptionWidget,
+      "bitrateSelector": this.bitrateSelectorWidget
+    };
+    var widgetOptions = this.props.options[this.props.widgetType];
 
-    switch (this.props.widgetType) {
-      case "playPause":
-        widget = this.playPauseWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "volume":
-        widget = this.volumeWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "timeDuration":
-        widget = this.timeDurationWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "flexibleSpace":
-        widget = this.flexibleSpaceWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "discovery":
-        widget = this.discoveryWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "fullscreen":
-        widget = this.fullscreenWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "moreOptions":
-        widget = this.moreOptionsWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "watermark":
-        widget = this.watermarkWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "share":
-        widget = this.shareWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "closedCaption":
-        widget = this.closedCaptionWidget(this.props.options[this.props.widgetType]);
-        break;
-      case "bitrateSelector":
-        widget = this.bitrateSelectorWidget(this.props.options[this.props.widgetType]);
-        break;
-    }
-
-    return widget;
+    return widgetsMap[this.props.widgetType](widgetOptions);
   }
 
 });

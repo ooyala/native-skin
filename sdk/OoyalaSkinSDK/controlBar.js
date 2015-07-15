@@ -137,7 +137,7 @@ var ControlBar = React.createClass({
       displayStyle = styles.containerHidden;
     }
 
-    for(var i in this.props.config.items) {
+    for(var i = 0; i < this.props.config.items.length; i++) {
       controlBarWidgets.push(<ControlBarWidget
         widgetType={this.props.config.items[i]}
         options={widgetOptions}
