@@ -22,45 +22,65 @@ var {
   IMG_URLS,
 } = Constants;
 
-var moreOptionButtonSize = 30;
 var dismissButtonSize = 20;
 
 var MoreOptionScreen = React.createClass({
 	propTypes: {
+    moreOptionConfig: React.PropTypes.object,
     onDismiss: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
     panel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
-    buttons: React.PropTypes.array,
 	},
 
-  _renderButton: function(style, icon, func, size) {
+  _renderButton: function(style, icon, func, size, color) {
     return (
       <RectButton
         icon={icon}
         onPress={func}
         fontSize={size}
-        style={style}>
+        style={style}
+        buttonColor={color}>
       </RectButton>
     );
   },
 
   _renderMoreOptionButtons: function(moreOptionButtons){
-    for(var i = 0; i < this.props.buttons.length; i++){
-      var button = this.props.buttons[i];
+    for(var i = 0; i < this.props.moreOptionConfig.buttons.length; i++){
+      var button = this.props.moreOptionConfig.buttons[i];
 
-      if(button.type == "FeatureOptions" || button.type == "MoreOptions"){
-        var moreOptionButton;
-        var buttonStyle;
-        var budsfasdttonIcon;dadfsadfasdfsad
-        if(this.props.buttonSelected == "None"|| this.props.buttonSelected == button.name){
-          buttonStyle = styles.iconBright;
-        }else{
-          buttonStyle = styles.iconDark;
-        }
+      var moreOptionButton;
+      var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button);
+      var buttonIcon = this._renderIcon(button);
+      var buttonStyle = [styles.icon, buttonOpacity];
+
+      var onOptionPress = function(buttonName, f){
+        return function(){
+          f(buttonName);
+        };
+      }(button, this.props.onOptionButtonPress);
         
-        switch(button.name){
+      moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, this.props.moreOptionConfig.iconSize, this.props.moreOptionConfig.color);
+
+      moreOptionButtons.push(moreOptionButton);
+    }
+  },
+
+  _renderOpacity: function(buttonSelected, buttonName){
+    var buttonOpacity;
+    if(buttonSelected == BUTTON_NAMES.NONE || buttonSelected == buttonName){
+      buttonOpacity = this.props.moreOptionConfig.brightOpacity;
+    }else{
+      buttonOpacity = this.props.moreOptionConfig.darkOpacity;
+    }
+
+    return {opacity: buttonOpacity};
+  },
+
+  _renderIcon: function(buttonName){
+    var buttonIcon;
+    switch(buttonName){
           case BUTTON_NAMES.DISCOVERY:
             buttonIcon = ICONS.DISCOVERY;
             break;
@@ -79,18 +99,7 @@ var MoreOptionScreen = React.createClass({
           default:
             break;
         }
-
-        var onOptionPress = function(buttonName, f){
-          return function(){
-            f(buttonName);
-          };
-        }(button.name, this.props.onOptionButtonPress);
-
-        moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, moreOptionButtonSize);
-
-        moreOptionButtons.push(moreOptionButton);
-      }
-    }
+    return buttonIcon;
   },
 
 	render: function() {
@@ -102,7 +111,7 @@ var MoreOptionScreen = React.createClass({
     var moreOptionRow = (
       <View
         ref='moreOptionRow' 
-        style={this.props.buttonSelected != "None"? styles.rowBottom: styles.rowCenter}>
+        style={this.props.buttonSelected != BUTTON_NAMES.NONE? styles.rowBottom: styles.rowCenter}>
         {moreOptionButtons}
       </View>
     );
