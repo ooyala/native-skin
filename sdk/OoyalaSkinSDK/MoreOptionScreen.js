@@ -53,8 +53,7 @@ var MoreOptionScreen = React.createClass({
       if(button.type == "FeatureOptions" || button.type == "MoreOptions"){
         var moreOptionButton;
         var buttonStyle;
-        var buttonIcon;
-
+        var budsfasdttonIcon;dadfsadfasdfsad
         if(this.props.buttonSelected == "None"|| this.props.buttonSelected == button.name){
           buttonStyle = styles.iconBright;
         }else{
