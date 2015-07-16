@@ -26,7 +26,8 @@ var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var {
   ICONS,
   BUTTON_NAMES,
-  IMG_URLS
+  IMG_URLS,
+  UI_TEXT
 } = Constants;
 
 var VideoView = React.createClass({
@@ -55,12 +56,12 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
+    lastPressedTime: React.PropTypes.number,
+    upNextConfig: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
-    locale: React.PropTypes.string,
     localizableStrings: React.PropTypes.object,
-    lastPressedTime: React.PropTypes.number,
-    config: React.PropTypes.object
+    locale: React.PropTypes.string
   },
 
   shouldShowDiscovery: function() {
@@ -69,9 +70,7 @@ var VideoView = React.createClass({
 
   generateLiveLabel: function() {
     if (this.props.live) {
-      return this.props.showPlay? 
-        Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings): 
-        Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings);
+      return this.props.showPlay? UI_TEXT.GO_LIVE: UI_TEXT.LIVE;
     }
   },
 
@@ -118,29 +117,19 @@ var VideoView = React.createClass({
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.showControlBar()}
-      config={this.props.config.controlBar} />);
+      isShow={this.showControlBar()} />);
   },
 
   _renderAdBar: function() {
     if (this.props.ad) {
-      var adTitle = Utils.localizedString(this.props.locale, "Ad Playing", this.props.localizableStrings);
-      if (this.props.ad.title && this.props.ad.title.length > 0) {
-        adTitle = adTitle + ":" + adTitle;
-      } 
-      var count = this.props.ad.count ? this.props.ad.count : 1;
-      var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
-      var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
-
       return (<AdBar
-        title={adTitle}
+        ad={this.props.ad}
         playhead={this.props.playhead}
         duration={this.props.duration}
-        count={count}
-        index={count - unplayed}
-        onPress={this.handlePress}
-        showButton={showLearnMore}
-        buttonText={Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings)} />
+        onPress={this.handlePress} 
+        width={this.props.width}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale} />
       );
     }
     return null;
@@ -149,7 +138,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray=this.props.sharing;
+      var socialButtonsArray =this.props.sharing;
       placeholder = (
         <View
         style={styles.fullscreenContainer}>
@@ -179,14 +168,13 @@ var VideoView = React.createClass({
 
   _renderUpNext: function() {
     return <UpNext
-      config={this.props.config.upNextScreen}
+      config={this.props.upNextConfig}
       ad={this.props.ad}
       playhead={this.props.playhead}
       duration={this.props.duration}
       nextVideo={this.props.nextVideo}
       upNextDismissed={this.props.upNextDismissed}
-      onPress={(value) => this.handlePress(value)} >
-      </UpNext>;
+      onPress={(value) => this.handlePress(value)}/>;
   },
 
   _handleSocialShare: function() {

@@ -183,7 +183,34 @@ static NSString *kViewChangeKey = @"frame";
 }
 
 - (void) bridgeAdStartNotification:(NSNotification *)notification {
-  NSDictionary *eventBody = notification.userInfo;
+  //TODO: read cutomized font and font size
+  static NSString *adFontFamily = @"AvenirNext-DemiBold";
+  static NSUInteger adFontSize = 16;
+
+  NSDictionary *adInfo = notification.userInfo;
+
+  NSInteger count = [adInfo[@"count"] integerValue];
+  NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
+  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
+  NSString *adTitle = [NSString stringWithFormat:@"%@ ", adInfo[@"title"]];
+  NSString *titlePrefix = adTitle.length ? @"Ad Playing:" : @"Ad Playing";
+  NSString *durationString = @"00:00";
+  NSString *learnMoreString = @"Learn More";
+
+  CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
+  CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
+  CGSize countSize = [self textSize:countString withFontFamily:adFontFamily size:adFontSize];
+  CGSize durationSize = [self textSize:durationString withFontFamily:adFontFamily size:adFontSize];
+  CGSize learnMoreSize = [self textSize:learnMoreString withFontFamily:adFontFamily size:adFontSize];
+  NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
+                             @"duration":[NSNumber numberWithFloat:durationSize.width],
+                             @"count":[NSNumber numberWithFloat:countSize.width],
+                             @"title":[NSNumber numberWithFloat:titleSize.width],
+                             @"prefix":[NSNumber numberWithFloat:titlePrefixSize.width]};
+
+  NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
+  [eventBody setObject:measures forKey:@"measures"];
+  [eventBody setObject:adTitle forKey:@"title"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
@@ -270,6 +297,16 @@ static NSString *kViewChangeKey = @"frame";
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
   [OOReactBridge deregisterController:self];
+}
+
+#pragma mark utils
+- (CGSize)textSize:(NSString *)text withFontFamily:(NSString *)fontFamily size:(NSUInteger)fontSize {
+  // given an array of strings and other settings, compute the width of the strings to assist correct layout.
+  NSArray *fontArray = [UIFont fontNamesForFamilyName:fontFamily];
+  NSString *fontName = fontArray.count > 0 ? fontArray[0] : fontFamily;
+  UIFont *font = [UIFont fontWithName:fontName size:fontSize];
+  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
+  return textSize;
 }
 
 @end

@@ -24,45 +24,85 @@ var Utils = require('./utils');
 
 var AdBar = React.createClass({
   propTypes: {
-    title: React.PropTypes.string,
+    ad: React.PropTypes.object,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
-    count: React.PropTypes.number,
-    index: React.PropTypes.number,
     onPress: React.PropTypes.func,
-    showButton: React.PropTypes.bool,
-    buttonText: React.PropTypes.string,
+    width: React.PropTypes.number,
+    localizableStrings: React.PropTypes.object,
+    locale: React.PropTypes.string
   },
 
-  getDefaultProps: function() {
-    return {playhead: 0, duration: 0, title:'', count: 1, index: 0};
-  },
-
-  onButton: function() { 
+  onLearnMore: function() { 
     this.props.onPress(BUTTON_NAMES.LEARNMORE);
   }, 
 
-  render: function() {
+  generateResponsiveText: function(showLearnMore) {
+    var textString;
+    var adTitle = this.props.ad.title ? this.props.ad.title + " ": " ";
+    var count = this.props.ad.count ? this.props.ad.count : 1;
+    var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
+
     var remainingString = 
       Utils.secondsToString(this.props.duration - this.props.playhead);
 
-    var countString = "(" + this.props.index + "/" + this.props.count + ")";
+    var prefixString = Utils.localizedString(this.props.locale, "Ad Playing", this.props.localizableStrings);
+    if (this.props.ad.title && this.props.ad.title.length > 0) {
+      prefixString = prefixString + ":";
+    }
 
-    var rightButton;
-    if (this.props.showButton) {
-      rightButton = (
+    var countString = "(" + (count - unplayed) + "/" + count + ")";
+    
+    var allowedTextLength = this.props.width - 32;
+    if (showLearnMore) {
+      allowedTextLength -= this.props.ad.measures.learnmore + 32;
+    }
+
+    console.log("width"+this.props.width + "allowed"+allowedTextLength+ "learnmore"+this.props.ad.measures.learnmore);
+    console.log("duration"+ this.props.ad.measures.duration+
+      "count"+this.props.ad.measures.count+"title"+this.props.ad.measures.title+"prefix"+this.props.ad.measures.prefix);
+    if (this.props.ad.measures.duration <= allowedTextLength) {
+      textString = remainingString;
+      allowedTextLength -= this.props.ad.measures.duration;
+      console.log("allowedAfterDuration"+allowedTextLength);
+      if (this.props.ad.measures.count <= allowedTextLength) {
+        textString = countString + textString;
+        allowedTextLength -= this.props.ad.measures.count;
+        console.log("allowedAfterCount"+allowedTextLength);
+        if (this.props.ad.measures.title <= allowedTextLength) {
+          textString = this.props.ad.title + textString;
+          allowedTextLength -= this.props.ad.measures.title;
+          console.log("allowedAfterTitle"+allowedTextLength);
+          if (this.props.ad.measures.prefix <= allowedTextLength) {
+            textString = prefixString + textString;
+          }
+        }
+      }
+    } 
+
+    return textString;
+  },
+
+  render: function() {
+    var learnMoreButton;
+    var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
+    var textString = this.generateResponsiveText(showLearnMore);
+    var learnMoreText = Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings);
+
+    if (showLearnMore) {
+      learnMoreButton = (
         <TouchableHighlight 
           onPress={this.onLearnMore}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{this.props.buttonText}</Text>
+            <Text style={styles.buttonText}>{learnMoreText}</Text>
           </View>
         </TouchableHighlight>);
     }
     return (
       <View style={styles.container}>
-          <Text style={styles.label}>{this.props.title + countString + ' | ' + remainingString}</Text>
+          <Text allowFontScaling={true} style={styles.label}>{textString}</Text>
           <View style={styles.placeholder} />
-          {rightButton}
+          {learnMoreButton}
       </View>
       );
   }
