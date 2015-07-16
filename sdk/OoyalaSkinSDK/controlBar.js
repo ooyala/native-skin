@@ -16,7 +16,6 @@ var {
 
 var Constants = require('./constants');
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS,
 } = Constants;
@@ -37,8 +36,8 @@ var ControlBar = React.createClass({
   propTypes: {
     width: React.PropTypes.number,
     height: React.PropTypes.number,
-    primaryActionButton: React.PropTypes.string,
-    fullscreenButton: React.PropTypes.string,
+    showPlay: React.PropTypes.string,
+    fullscreen: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
@@ -99,12 +98,15 @@ var ControlBar = React.createClass({
       playPause: {
         onPress: this.onPlayPausePress,
         style: styles.icon,
-        primaryActionButton: this.props.primaryActionButton
+        playIcon: this.props.config.icons.play.fontCharacter,
+        pauseIcon: this.props.config.icons.pause.fontCharacter,
+        replayIcon: this.props.config.icons.replay.fontCharacter,
+        primaryActionButton: this.props.showPlay
       },
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon,
-        volumeIcon: this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN,
+        volumeIcon: this.props.config.icons.volume.fontCharacter,
         showVolume: this.state.showVolume,
         scrubberStyle: styles.volumeSlider
       },
@@ -115,12 +117,12 @@ var ControlBar = React.createClass({
       fullscreen: {
         onPress: this.onFullscreenPress,
         style: styles.icon,
-        icon: this.props.fullscreenButton
+        icon: this.props.fullscreen ? this.props.config.icons.compress.fontCharacter : this.props.config.icons.expand.fontCharacter
       },
       moreOptions: {
         onPress: this.onMorePress,
         style: styles.icon,
-        icon: ICONS.ELLIPSIS
+        icon: this.props.config.icons.ellipses.fontCharacter
       },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),

@@ -16,7 +16,6 @@ var VolumeView = require('./VolumeView');
 
 var Constants = require('./../constants');
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS,
   } = Constants;
@@ -29,9 +28,15 @@ var controlBarWidget = React.createClass({
   },
 
   playPauseWidget: function (options) {
+    var iconMap = {
+      "play": options.playIcon,
+      "pause": options.pauseIcon,
+      "replay": options.replayIcon
+    };
+
     return (
       <TouchableHighlight onPress={options.onPress}>
-        <Text style={options.style}>{options.primaryActionButton}</Text>
+        <Text style={options.style}>{iconMap[options.primaryActionButton]}</Text>
       </TouchableHighlight>
     );
   },

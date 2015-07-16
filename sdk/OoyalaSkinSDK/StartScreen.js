@@ -17,7 +17,6 @@ var {
   IMG_URLS
 } = Constants;
 
-var ICONS = require('./constants').ICONS;
 var RectButton = require('./widgets/RectButton');
 
 var StartScreen = React.createClass({
@@ -42,7 +41,7 @@ var StartScreen = React.createClass({
       console.log("buttonSize"+buttonSize);
       return (
         <RectButton
-          icon={ICONS.PLAY}
+          icon={this.props.config.icons.play.fontCharacter}
           position={this.props.config.playButtonPosition}
           onPress={this.handleClick}
           opacity={0.5}

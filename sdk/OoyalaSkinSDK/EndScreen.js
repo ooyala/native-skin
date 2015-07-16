@@ -22,7 +22,6 @@ var AnimationExperimental = require('AnimationExperimental');
 var Constants = require('./constants');
 
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS,
 } = Constants;
@@ -79,7 +78,7 @@ render: function() {
       onPress={(name) => this.handleClick('PlayPause')}
       underlayColor="transparent"
       activeOpacity={0.5}>
-      <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
+      <Text style={styles.replaybutton}>{this.props.config.endScreen.icons.replay.fontCharacter}</Text>
       </TouchableHighlight>
     );
   }
@@ -107,13 +106,12 @@ render: function() {
  var controlBar;
  controlBar = (<ControlBar 
   ref='controlBar' 
-  showPlay={this.props.showPlay}
+  showPlay="replay"
   height={this.props.height}
   width={this.props.width}
   isShow='true'
   playhead={this.props.duration}
-  duration={this.props.duration} 
-  primaryActionButton={ICONS.REPLAY}
+  duration={this.props.duration}
   onPress={(name) => this.handleClick(name)}
   config={this.props.config.controlBar}/>);
 

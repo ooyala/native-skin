@@ -26,7 +26,6 @@ var MoreOptionScreen = require('./MoreOptionScreen');
 var SharePanel = require('./sharePanel');
 var Constants = require('./constants');
 var {
-  ICONS,
   BUTTON_NAMES,
   SCREEN_TYPES,
   OOSTATES,

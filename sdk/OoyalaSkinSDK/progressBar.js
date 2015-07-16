@@ -13,8 +13,6 @@ var {
 
 var eventBridge = require('NativeModules').OOReactBridge;
 
-var ICONS = require('./constants').ICONS;
-
 var ProgressBar = React.createClass({
   propTypes: {
     isShow: React.PropTypes.bool,

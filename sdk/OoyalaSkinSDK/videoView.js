@@ -24,7 +24,6 @@ var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS
 } = Constants;
@@ -107,14 +106,13 @@ var VideoView = React.createClass({
 
     return (<ControlBar
       ref='controlBar'
-      showPlay={this.props.showPlay}
+      showPlay={this.props.showPlay ? "play" : "pause"}
       playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.generateLiveLabel()}
       width={this.props.width}
       height={this.props.height}
-      primaryActionButton = {this.props.showPlay? ICONS.PLAY: ICONS.PAUSE}
-      fullscreenButton = {this.props.fullscreen ? ICONS.COMPRESS : ICONS.EXPAND}
+      fullscreen = {this.props.fullscreen}
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
