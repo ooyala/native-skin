@@ -32,7 +32,6 @@ var MoreOptionScreen = React.createClass({
     panel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
-    buttons: React.PropTypes.array,
 	},
 
   _renderButton: function(style, icon, func, size, color) {
@@ -48,25 +47,23 @@ var MoreOptionScreen = React.createClass({
   },
 
   _renderMoreOptionButtons: function(moreOptionButtons){
-    for(var i = 0; i < this.props.buttons.length; i++){
-      var button = this.props.buttons[i];
+    for(var i = 0; i < this.props.moreOptionConfig.buttons.length; i++){
+      var button = this.props.moreOptionConfig.buttons[i];
 
-      if(button.type == "FeatureOptions" || button.type == "MoreOptions"){
-        var moreOptionButton;
-        var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button.name);
-        var buttonIcon = this._renderIcon(button.name);
-        var buttonStyle = [styles.icon, buttonOpacity];
+      var moreOptionButton;
+      var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button);
+      var buttonIcon = this._renderIcon(button);
+      var buttonStyle = [styles.icon, buttonOpacity];
 
-        var onOptionPress = function(buttonName, f){
-          return function(){
-            f(buttonName);
-          };
-        }(button.name, this.props.onOptionButtonPress);
+      var onOptionPress = function(buttonName, f){
+        return function(){
+          f(buttonName);
+        };
+      }(button, this.props.onOptionButtonPress);
         
-        moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, this.props.moreOptionConfig.iconSize, button.color);
+      moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, this.props.moreOptionConfig.iconSize, this.props.moreOptionConfig.color);
 
-        moreOptionButtons.push(moreOptionButton);
-      }
+      moreOptionButtons.push(moreOptionButton);
     }
   },
 
@@ -114,7 +111,7 @@ var MoreOptionScreen = React.createClass({
     var moreOptionRow = (
       <View
         ref='moreOptionRow' 
-        style={this.props.buttonSelected != "None"? styles.rowBottom: styles.rowCenter}>
+        style={this.props.buttonSelected != BUTTON_NAMES.NONE? styles.rowBottom: styles.rowCenter}>
         {moreOptionButtons}
       </View>
     );
