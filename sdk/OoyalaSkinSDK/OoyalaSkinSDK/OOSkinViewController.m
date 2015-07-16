@@ -10,6 +10,7 @@
 #import "OOReactBridge.h"
 #import "RCTRootView.h"
 #import "OOUpNextManager.h"
+#import "OOLocaleHelper.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -62,25 +63,44 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
-    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player];
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
     _discoveryOptions = discoveryOptions;
   }
   return self;
 }
 
--(NSDictionary*) getReactViewInitialProperties {
-  NSDictionary *d = nil;
-  NSString *filePath = [[NSBundle mainBundle] pathForResource:@"skin" ofType:@"json"];
+- (NSDictionary *)dictionaryFromJson:(NSString *)filename {
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:@"json"];
   NSData *data = [NSData dataWithContentsOfFile:filePath];
   if (data) {
     NSError* error = nil;
-    d = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    if( error != nil ) {
-      d = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    if( error == nil ) {
+      return dict;
     }
   }
-  ASSERT( d, @"missing skin configuration json" );
-  return d;
+
+  return nil;
+}
+
+-(NSDictionary*) getReactViewInitialProperties {
+  NSDictionary *d = [self dictionaryFromJson:@"skin"];
+  ASSERT(d, @"missing skin configuration json" );
+
+  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
+  NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[@"localizableStrings"]];
+  NSArray *languages = localizableStrings[@"languages"];
+  for (NSString *locale in languages) {
+    d = [self dictionaryFromJson:locale];
+    if (d) {
+      [localizableStrings setObject:d forKey:locale];
+    }
+  }
+
+  [dict setObject:localizableStrings forKey:@"localizableStrings"];
+  NSString *localeId = [OOLocaleHelper preferredLanguageId];
+  [dict setObject:localeId forKey:@"locale"];
+  return dict;
 }
 
 - (void)viewDidLoad {

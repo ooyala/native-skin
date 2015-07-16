@@ -13,7 +13,6 @@ var styles = Utils.getStyles(require('./style/sharePanelStyles.json'));
 
 var SharePanel = React.createClass ({
 	propTypes: {
-		isShow: React.PropTypes.boolean,
 		socialButtons: React.PropTypes.array,
 		onSocialButtonPress: React.PropTypes.func,
 	},
@@ -25,52 +24,46 @@ var SharePanel = React.createClass ({
 	render: function() {
 		var sharePanel;
 		var socialButtons = [];
+		
+		for (var i = 0; i < this.props.socialButtons.length; i++){
 
-		if(this.props.isShow){
-			for (var i = 0; i < this.props.socialButtons.length; i++){
+			var socialButton;
+			var buttonName = this.props.socialButtons[i].buttonName;
+			var buttonImgUrl = this.props.socialButtons[i].imgUrl;
 
-				var socialButton;
-				var buttonName = this.props.socialButtons[i].buttonName;
-				var buttonImgUrl = this.props.socialButtons[i].imgUrl;
+			// handle javascript reference issue
+			var onPressButton = function(buttonName, f){
+				return function(){
+					f(buttonName);
+				};
+			}(buttonName, this.onSocialButtonPress);
 
-				// handle javascript reference issue
-				var onPressButton = function(buttonName, f){
-					return function(){
-						f(buttonName);
-					};
-				}(buttonName, this.onSocialButtonPress);
-
-				socialButton = (
-					<TouchableHighlight
-						onPress = {onPressButton}
-		   				underlayColor="transparent"
-		   				activeOpacity={0.5}>
-		   				<Image style={styles.socialButton}
-				       		source={{uri: buttonImgUrl}}
-				       		resizeMode={Image.resizeMode.contain}>
-				   		</Image>
-		   			</TouchableHighlight>
-				);
-
-				socialButtons.push(socialButton);
-			}
-			
-			sharePanel = (
-				<View style={styles.sharePanelNW}>
-					<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
-
-					<View style={styles.sharePanelButtonRow}>
-						{socialButtons}
-					</View>
-				</View>
+			socialButton = (
+				<TouchableHighlight
+					onPress = {onPressButton}
+	   				underlayColor="transparent"
+	   				activeOpacity={0.5}>
+	   				<Image style={styles.socialButton}
+			       		source={{uri: buttonImgUrl}}
+			       		resizeMode={Image.resizeMode.contain}>
+			   		</Image>
+	   			</TouchableHighlight>
 			);
-		}
 
+			socialButtons.push(socialButton);
+		}
+		
 		return (
-			<View style={styles.container}>
-      			{sharePanel}
-    		</View>
-		)
+		<View style={styles.container}>
+
+			<View style={styles.sharePanelNW}>
+				<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
+
+				<View style={styles.sharePanelButtonRow}>
+					{socialButtons}
+				</View>
+			</View>
+		</View>);
 	}
 });
 
