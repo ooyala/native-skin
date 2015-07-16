@@ -36,7 +36,7 @@ var ControlBar = React.createClass({
   propTypes: {
     width: React.PropTypes.number,
     height: React.PropTypes.number,
-    showPlay: React.PropTypes.string,
+    primaryButton: React.PropTypes.string,
     fullscreen: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
@@ -98,15 +98,15 @@ var ControlBar = React.createClass({
       playPause: {
         onPress: this.onPlayPausePress,
         style: styles.icon,
-        playIcon: this.props.config.icons.play.fontCharacter,
-        pauseIcon: this.props.config.icons.pause.fontCharacter,
-        replayIcon: this.props.config.icons.replay.fontCharacter,
-        primaryActionButton: this.props.showPlay
+        playIcon: this.props.config.icons.play,
+        pauseIcon: this.props.config.icons.pause,
+        replayIcon: this.props.config.icons.replay,
+        primaryActionButton: this.props.primaryButton
       },
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon,
-        volumeIcon: this.props.config.icons.volume.fontCharacter,
+        icon: this.props.config.icons.volume,
         showVolume: this.state.showVolume,
         scrubberStyle: styles.volumeSlider
       },
@@ -117,12 +117,12 @@ var ControlBar = React.createClass({
       fullscreen: {
         onPress: this.onFullscreenPress,
         style: styles.icon,
-        icon: this.props.fullscreen ? this.props.config.icons.compress.fontCharacter : this.props.config.icons.expand.fontCharacter
+        icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
       },
       moreOptions: {
         onPress: this.onMorePress,
         style: styles.icon,
-        icon: this.props.config.icons.ellipses.fontCharacter
+        icon: this.props.config.icons.moreOptions
       },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
@@ -139,9 +139,9 @@ var ControlBar = React.createClass({
       displayStyle = styles.containerHidden;
     }
 
-    for(var i = 0; i < this.props.config.items.length; i++) {
+    for(var i = 0; i < this.props.config.controlBar.items.length; i++) {
       controlBarWidgets.push(<ControlBarWidget
-        widgetType={this.props.config.items[i]}
+        widgetType={this.props.config.controlBar.items[i]}
         options={widgetOptions}
       />);
     }

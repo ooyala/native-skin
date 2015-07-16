@@ -78,7 +78,7 @@ render: function() {
       onPress={(name) => this.handleClick('PlayPause')}
       underlayColor="transparent"
       activeOpacity={0.5}>
-      <Text style={styles.replaybutton}>{this.props.config.endScreen.icons.replay.fontCharacter}</Text>
+      <Text style={[styles.replaybutton, {fontFamily: this.props.config.icons.replay.iconFont}]}>{this.props.config.icons.replay.iconCharacter}</Text>
       </TouchableHighlight>
     );
   }
@@ -105,15 +105,18 @@ render: function() {
 
  var controlBar;
  controlBar = (<ControlBar 
-  ref='controlBar' 
-  showPlay="replay"
+  ref='controlBar'
+  primaryButton="replay"
   height={this.props.height}
   width={this.props.width}
   isShow='true'
   playhead={this.props.duration}
   duration={this.props.duration}
   onPress={(name) => this.handleClick(name)}
-  config={this.props.config.controlBar}/>);
+   config={{
+     controlBar: this.props.config.controlBar,
+     icons: this.props.config.icons
+   }}/>);
 
  var waterMark = (<WaterMark />);
 

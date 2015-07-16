@@ -106,7 +106,7 @@ var VideoView = React.createClass({
 
     return (<ControlBar
       ref='controlBar'
-      showPlay={this.props.showPlay ? "play" : "pause"}
+      primaryButton={this.props.showPlay ? "play" : "pause"}
       playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.generateLiveLabel()}
@@ -117,7 +117,10 @@ var VideoView = React.createClass({
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={this.showControlBar()}
-      config={this.props.config.controlBar} />);
+      config={{
+        controlBar: this.props.config.controlBar,
+        icons: this.props.config.icons
+      }} />);
   },
 
   _renderAdBar: function() {

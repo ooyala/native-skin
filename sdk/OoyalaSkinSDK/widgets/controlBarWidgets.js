@@ -36,7 +36,7 @@ var controlBarWidget = React.createClass({
 
     return (
       <TouchableHighlight onPress={options.onPress}>
-        <Text style={options.style}>{iconMap[options.primaryActionButton]}</Text>
+        <Text style={[options.style, {fontFamily: iconMap[options.primaryActionButton].iconFont}]}>{iconMap[options.primaryActionButton].iconCharacter}</Text>
       </TouchableHighlight>
     );
   },
@@ -49,7 +49,7 @@ var controlBarWidget = React.createClass({
     return (
       <View style={{flexDirection: 'row'}}>
         <TouchableHighlight onPress={options.onPress}>
-          <Text style={options.style}>{options.volumeIcon}</Text>
+          <Text style={[options.style, {fontFamily: options.icon.iconFont}]}>{options.icon.iconCharacter}</Text>
         </TouchableHighlight>
         {volumeScrubber}
       </View>
@@ -71,13 +71,13 @@ var controlBarWidget = React.createClass({
 
   fullscreenWidget: function(options) {
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={options.style}>{options.icon}</Text>
+      <Text style={[options.style, {fontFamily: options.icon.iconFont}]}>{options.icon.iconCharacter}</Text>
     </TouchableHighlight>);
   },
 
   moreOptionsWidget: function (options) {
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={options.style}>{options.icon}</Text>
+      <Text style={[options.style, {fontFamily: options.icon.iconFont}]}>{options.icon.iconCharacter}</Text>
     </TouchableHighlight>);
   },
 

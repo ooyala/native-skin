@@ -19,12 +19,13 @@ var RectButton = React.createClass({
     buttonWidth: React.PropTypes.number,
     buttonHeight: React.PropTypes.number,
     fontSize: React.PropTypes.number,
+    fontFamily: React.PropTypes.string,
     style:React.PropTypes.object,
   },
 
   // Gets the play button based on the current config settings
   render: function() {
-    var fontStyle = {fontSize: this.props.fontSize};
+    var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     var positionStyle;
 
