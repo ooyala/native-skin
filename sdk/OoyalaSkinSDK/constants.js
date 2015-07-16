@@ -33,6 +33,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations.
   CLOSED_CAPTIONS: 'CC',
   SHARE: 'Share',
   SETTING: 'Setting',
+  NONE: 'None'
 };
 
 var IMG_URLS = {

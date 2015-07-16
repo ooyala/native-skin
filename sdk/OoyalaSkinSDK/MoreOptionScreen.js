@@ -72,7 +72,7 @@ var MoreOptionScreen = React.createClass({
 
   _renderOpacity: function(buttonSelected, buttonName){
     var buttonOpacity;
-    if(buttonSelected == "None" || buttonSelected == buttonName){
+    if(buttonSelected == BUTTON_NAMES.NONE || buttonSelected == buttonName){
       buttonOpacity = this.props.moreOptionConfig.brightOpacity;
     }else{
       buttonOpacity = this.props.moreOptionConfig.darkOpacity;
@@ -84,7 +84,7 @@ var MoreOptionScreen = React.createClass({
   _renderIcon: function(buttonName){
     var buttonIcon;
     switch(buttonName){
-          case "Discovery":
+          case BUTTON_NAMES.DISCOVERY:
             buttonIcon = ICONS.DISCOVERY;
             break;
           case BUTTON_NAMES.QUALITY:
