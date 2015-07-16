@@ -181,9 +181,7 @@ var OoyalaSkin = React.createClass({
       live:e.live,
       promoUrl:e.promoUrl, 
       width:e.width, 
-      height:e.height,
-      locale:e.locale
-    });
+      height:e.height});
   },
 
   onFrameChange: function(e) {
@@ -296,7 +294,6 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderVideoView: function() {
-    var upNextConfig = this.props.upNextScreen;
     var showPlayButton = this.state.rate > 0 ? false : true;
 
     return (
@@ -313,21 +310,19 @@ var OoyalaSkin = React.createClass({
         onPress={(value) => this.handlePress(value)}
         onScrub={(value) => this.handleScrub(value)}
         closedCaptionsLanguage={this.state.selectedLanguage}
-           // todo: change to boolean showCCButton.
+        // todo: change to boolean showCCButton.
         availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
         captionJSON={this.state.captionJSON}
         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
         lastPressedTime={this.state.lastPressedTime}
-        upNextConfig={upNextConfig}
+        config={{
+          controlBar: this.props.controlBar,
+          upNextScreen: this.props.upNextScreen
+        }}
         nextVideo={this.state.nextVideo}
         upNextDismissed={this.state.upNextDismissed}
-        locale={this.state.locale}
-        localizableStrings={this.props.localizableStrings}
-        lastPressedTime={this.state.lastPressedTime}
-         config={{
-           controlBar: this.props.controlBar,
-           upNextScreen: this.props.upNextScreen
-         }}>
+        localizableStrings = {this.props.localizableStrings}
+        locale={this.props.locale}>
       </VideoView>
     );
   },
@@ -349,7 +344,7 @@ var OoyalaSkin = React.createClass({
         onSelect={(value)=>this.onLanguageSelected(value)}
         onDismiss={this.onOverlayDismissed}
         localizableStrings={this.props.localizableStrings}
-        locale={this.state.locale}>
+        locale={this.props.locale}>
       </LanguageSelectionPanel>)
   },
 

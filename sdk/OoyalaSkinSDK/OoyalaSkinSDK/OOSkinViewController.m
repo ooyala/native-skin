@@ -96,7 +96,10 @@ static NSString *kViewChangeKey = @"frame";
       [localizableStrings setObject:d forKey:locale];
     }
   }
+
   [dict setObject:localizableStrings forKey:@"localizableStrings"];
+  NSString *localeId = [OOLocaleHelper preferredLanguageId];
+  [dict setObject:localeId forKey:@"locale"];
   return dict;
 }
 
@@ -143,7 +146,6 @@ static NSString *kViewChangeKey = @"frame";
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
   NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
   NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
-  NSString *localeId = [OOLocaleHelper preferredLanguageId];
 
   NSDictionary *eventBody =
   @{@"title":title,
@@ -153,8 +155,7 @@ static NSString *kViewChangeKey = @"frame";
     @"live":live,
     @"languages":closedCaptionsLanguages,
     @"width":frameWidth,
-    @"height":frameHeight,
-    @"locale":localeId};
+    @"height":frameHeight};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   if (_player.currentItem.embedCode && _discoveryOptions) {
     [self loadDiscovery:_player.currentItem.embedCode];
