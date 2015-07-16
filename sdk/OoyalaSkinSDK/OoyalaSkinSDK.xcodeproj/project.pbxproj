@@ -41,6 +41,7 @@
 		2F12F9D3CB7972A2383E3382 /* controlBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */; };
 		2F12FA7F458E495D0961DAB0 /* endScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC4252285AFD9EB38A07 /* endScreenStyles.json */; };
 		2F12FB30C695C309EDE67706 /* sharePanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F685C92F774DB1FCF0A0 /* sharePanelStyles.json */; };
+		2F12FDD11E083902D840710B /* controlBarWidgets.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F36A560AA799E10C33B5 /* controlBarWidgets.js */; };
 		2F12FF3D426A9C7194E8AB7B /* styles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F1B4D41FD66245F2C579 /* styles.json */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
@@ -72,6 +73,8 @@
 		97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */; };
 		97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */; };
 		97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
+		97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */; };
+		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +154,7 @@
 		2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = controlBarStyles.json; sourceTree = "<group>"; };
 		2F12F1B4D41FD66245F2C579 /* styles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = styles.json; sourceTree = "<group>"; };
 		2F12F2328FD65E0FE6E2A3A8 /* pauseScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = pauseScreenStyles.json; sourceTree = "<group>"; };
+		2F12F36A560AA799E10C33B5 /* controlBarWidgets.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = controlBarWidgets.js; sourceTree = "<group>"; };
 		2F12F497D5615098F00D7BCE /* upNext.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = upNext.js; sourceTree = "<group>"; };
 		2F12F5AF08C2724C80887A20 /* RectButtonStyles.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RectButtonStyles.js; sourceTree = "<group>"; };
 		2F12F66C4650F01E54DEBF70 /* adBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = adBarStyles.json; sourceTree = "<group>"; };
@@ -199,6 +203,8 @@
 		97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeViewManager.h; sourceTree = "<group>"; };
 		97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeViewManager.m; sourceTree = "<group>"; };
 		97CF89F01B50642C008E0470 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
+		97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOLocaleHelper.h; sourceTree = "<group>"; };
+		97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOLocaleHelper.m; sourceTree = "<group>"; };
 		97DE27A51B212B4A0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27AB1B212B520071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -225,6 +231,7 @@
 			children = (
 				2F12F81C87016C03629F73A3 /* RectButton.js */,
 				2F12F5AF08C2724C80887A20 /* RectButtonStyles.js */,
+				2F12F36A560AA799E10C33B5 /* controlBarWidgets.js */,
 			);
 			path = widgets;
 			sourceTree = "<group>";
@@ -303,6 +310,8 @@
 		972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
+				97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */,
+				97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */,
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				972ED8851AE6F008005043DC /* OOReactBridge.h */,
@@ -390,6 +399,7 @@
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				0B773E721B211FFA0056588E /* OOReactSocialShare.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
+				97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
@@ -596,8 +606,10 @@
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
 				2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */,
 				2F12F3B4F7CC06A74706432A /* RectButton.js in Sources */,
+				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
 				2F12F90D230C867189B47F73 /* RectButtonStyles.js in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
+				2F12FDD11E083902D840710B /* controlBarWidgets.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

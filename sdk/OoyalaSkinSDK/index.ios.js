@@ -274,9 +274,13 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderEndScreen: function() {
+
     return (
       <EndScreen
-        config={this.props.endScreen}
+        config={{
+          endScreen: this.props.endScreen,
+          controlBar: this.props.controlBar
+        }}
         title={this.state.title}
         width={this.state.width}
         height={this.state.height}
@@ -289,37 +293,41 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-   _renderVideoView: function() {
-     var upNextConfig = this.props.upNextScreen;
-     var showPlayButton = this.state.rate > 0 ? false : true;
+  _renderVideoView: function() {
+    var showPlayButton = this.state.rate > 0 ? false : true;
 
-     return (
-       <VideoView
-         rate={this.state.rate}
-         showPlay={showPlayButton}
-         playhead={this.state.playhead}
-         duration={this.state.duration}
-         ad ={this.state.ad}
-         live ={this.state.live}
-         width={this.state.width}
-         height={this.state.height}
-         fullscreen={this.state.fullscreen}
-         onPress={(value) => this.handlePress(value)}
-         onScrub={(value) => this.handleScrub(value)}
-         closedCaptionsLanguage={this.state.selectedLanguage}
-             // todo: change to boolean showCCButton.
-         availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
-         captionJSON={this.state.captionJSON}
-         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-         lastPressedTime={this.state.lastPressedTime}
-         upNextConfig={upNextConfig}
-         nextVideo={this.state.nextVideo}
-         upNextDismissed={this.state.upNextDismissed}>
-       </VideoView>
-     );
-   },
+    return (
+      <VideoView
+        rate={this.state.rate}
+        showPlay={showPlayButton}
+        playhead={this.state.playhead}
+        duration={this.state.duration}
+        ad ={this.state.ad}
+        live ={this.state.live}
+        width={this.state.width}
+        height={this.state.height}
+        fullscreen={this.state.fullscreen}
+        onPress={(value) => this.handlePress(value)}
+        onScrub={(value) => this.handleScrub(value)}
+        closedCaptionsLanguage={this.state.selectedLanguage}
+        // todo: change to boolean showCCButton.
+        availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
+        captionJSON={this.state.captionJSON}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+        lastPressedTime={this.state.lastPressedTime}
+        config={{
+          controlBar: this.props.controlBar,
+          upNextScreen: this.props.upNextScreen
+        }}
+        nextVideo={this.state.nextVideo}
+        upNextDismissed={this.state.upNextDismissed}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale}>
+      </VideoView>
+    );
+  },
 
-   _renderLoadingScreen: function() {
+  _renderLoadingScreen: function() {
     return (
       <ActivityIndicatorIOS
         animating={true}
@@ -328,13 +336,15 @@ var OoyalaSkin = React.createClass({
       </ActivityIndicatorIOS>)
    },
 
-   _renderCCOptions: function() {
+  _renderCCOptions: function() {
     return (
       <LanguageSelectionPanel
         languages={this.state.availableClosedCaptionsLanguages}
         selectedLanguage={this.state.selectedLanguage}
         onSelect={(value)=>this.onLanguageSelected(value)}
-        onDismiss={this.onOverlayDismissed}>
+        onDismiss={this.onOverlayDismissed}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale}>
       </LanguageSelectionPanel>)
   },
 

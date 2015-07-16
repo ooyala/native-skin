@@ -17,8 +17,7 @@ var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/adBarStyles.json'));
 var Constants = require('./constants');
 var {
-  BUTTON_NAMES,
-  UI_TEXT
+  BUTTON_NAMES
 } = Constants;
 
 var Utils = require('./utils');
@@ -29,7 +28,9 @@ var AdBar = React.createClass({
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
-    width: React.PropTypes.number
+    width: React.PropTypes.number,
+    localizableStrings: React.PropTypes.object,
+    locale: React.PropTypes.string
   },
 
   onLearnMore: function() { 
@@ -44,9 +45,11 @@ var AdBar = React.createClass({
 
     var remainingString = 
       Utils.secondsToString(this.props.duration - this.props.playhead);
-    
-    var prefixString = 
-      this.props.ad.title && this.props.ad.title.length > 0 ? UI_TEXT.AD_PLAYING + ":" : UI_TEXT.AD_PLAYING;
+
+    var prefixString = Utils.localizedString(this.props.locale, "Ad Playing", this.props.localizableStrings);
+    if (this.props.ad.title && this.props.ad.title.length > 0) {
+      prefixString = prefixString + ":";
+    }
 
     var countString = "(" + (count - unplayed) + "/" + count + ")";
     
@@ -84,13 +87,14 @@ var AdBar = React.createClass({
     var learnMoreButton;
     var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
     var textString = this.generateResponsiveText(showLearnMore);
+    var learnMoreText = Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings);
 
     if (showLearnMore) {
       learnMoreButton = (
         <TouchableHighlight 
           onPress={this.onLearnMore}>
           <View style={styles.button}>
-            <Text style={styles.buttonText}>{UI_TEXT.LEARNMORE}</Text>
+            <Text style={styles.buttonText}>{learnMoreText}</Text>
           </View>
         </TouchableHighlight>);
     }

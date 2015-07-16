@@ -59,7 +59,9 @@ var VideoView = React.createClass({
     lastPressedTime: React.PropTypes.number,
     upNextConfig: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
-    upNextDismissed: React.PropTypes.bool
+    upNextDismissed: React.PropTypes.bool,
+    localizableStrings: React.PropTypes.object,
+    locale: React.PropTypes.string
   },
 
   shouldShowDiscovery: function() {
@@ -125,7 +127,9 @@ var VideoView = React.createClass({
         playhead={this.props.playhead}
         duration={this.props.duration}
         onPress={this.handlePress} 
-        width={this.props.width} />
+        width={this.props.width}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale} />
       );
     }
     return null;
