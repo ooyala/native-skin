@@ -27,7 +27,6 @@ var LanguageSelectionPanel = React.createClass({
     languages: React.PropTypes.array,
     selectedLanguage: React.PropTypes.string,
     onSelect: React.PropTypes.func,
-    onDismiss: React.PropTypes.func,
     localizableStrings: React.PropTypes.object,
     locale: React.PropTypes.string
   },
@@ -69,16 +68,6 @@ var LanguageSelectionPanel = React.createClass({
     // ignore.
   },
 
-  getCloseButton: function() {
-    return (
-      <TouchableHighlight
-        onPress={this.props.onDismiss}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>{ICONS.CLOSE}</Text>
-        </View>
-      </TouchableHighlight>);
-  },
-
   getPreview: function() {
     return (
       <View style={styles.previewPanel}>
@@ -104,8 +93,6 @@ var LanguageSelectionPanel = React.createClass({
       <View style={styles.panelContainer}>
         <View style={styles.panelTitleRow}>
           <Text style={styles.panelTitle}>{Utils.localizedString(this.props.locale, "CC Options", this.props.localizableStrings)}</Text>
-          <View style={styles.placeHolder}></View>
-          {this.getCloseButton()}
         </View>
         <ToggleSwitch
           switchOn={hasCC}
