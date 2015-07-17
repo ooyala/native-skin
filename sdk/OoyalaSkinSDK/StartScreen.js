@@ -40,8 +40,8 @@ var StartScreen = React.createClass({
       var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
       return (
         <RectButton
-          icon={this.props.config.icons.play.iconCharacter}
-          fontFamily={this.props.config.icons.play.iconFont}
+          icon={this.props.config.icons.play.fontString}
+          fontFamily={this.props.config.icons.play.fontFamilyName}
           position={this.props.config.startScreen.playButtonPosition}
           onPress={this.handleClick}
           opacity={0.5}

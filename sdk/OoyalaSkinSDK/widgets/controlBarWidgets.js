@@ -36,7 +36,7 @@ var controlBarWidget = React.createClass({
 
     return (
       <TouchableHighlight onPress={options.onPress}>
-        <Text style={[options.style, {fontFamily: iconMap[options.primaryActionButton].iconFont}]}>{iconMap[options.primaryActionButton].iconCharacter}</Text>
+        <Text style={[options.style, {fontFamily: iconMap[options.primaryActionButton].fontFamilyName}]}>{iconMap[options.primaryActionButton].fontString}</Text>
       </TouchableHighlight>
     );
   },
@@ -49,7 +49,7 @@ var controlBarWidget = React.createClass({
     return (
       <View style={{flexDirection: 'row'}}>
         <TouchableHighlight onPress={options.onPress}>
-          <Text style={[options.style, {fontFamily: options.icon.iconFont}]}>{options.icon.iconCharacter}</Text>
+          <Text style={[options.style, {fontFamily: options.icon.fontFamilyName}]}>{options.icon.fontString}</Text>
         </TouchableHighlight>
         {volumeScrubber}
       </View>
@@ -71,13 +71,13 @@ var controlBarWidget = React.createClass({
 
   fullscreenWidget: function(options) {
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={[options.style, {fontFamily: options.icon.iconFont}]}>{options.icon.iconCharacter}</Text>
+      <Text style={[options.style, {fontFamily: options.icon.fontFamilyName}]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
   moreOptionsWidget: function (options) {
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={[options.style, {fontFamily: options.icon.iconFont}]}>{options.icon.iconCharacter}</Text>
+      <Text style={[options.style, {fontFamily: options.icon.fontFamilyName}]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
@@ -123,9 +123,9 @@ var controlBarWidget = React.createClass({
       "closedCaption": this.closedCaptionWidget,
       "bitrateSelector": this.bitrateSelectorWidget
     };
-    var widgetOptions = this.props.options[this.props.widgetType];
+    var widgetOptions = this.props.options[this.props.widgetType.name];
 
-    return widgetsMap[this.props.widgetType](widgetOptions);
+    return widgetsMap[this.props.widgetType.name](widgetOptions);
   }
 
 });

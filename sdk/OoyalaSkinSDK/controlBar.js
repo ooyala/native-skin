@@ -106,7 +106,7 @@ var ControlBar = React.createClass({
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon,
-        icon: this.props.config.icons.volume,
+        icon: this.props.config.icons.volumeDown,
         showVolume: this.state.showVolume,
         scrubberStyle: styles.volumeSlider
       },
@@ -122,7 +122,7 @@ var ControlBar = React.createClass({
       moreOptions: {
         onPress: this.onMorePress,
         style: styles.icon,
-        icon: this.props.config.icons.moreOptions
+        icon: this.props.config.icons.ellipsis
       },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),

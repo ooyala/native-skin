@@ -56,7 +56,7 @@ var PauseScreen = React.createClass({
         onPress={this.handleClick}
         underlayColor="transparent"
         activeOpacity={0.5}>
-        <Text style={[styles.playButton, {fontFamily: this.props.config.icons.play.iconFont}]}>{this.props.config.icons.play.iconCharacter}</Text>
+        <Text style={[styles.playButton, {fontFamily: this.props.config.icons.play.fontFamilyName}]}>{this.props.config.icons.play.fontString}</Text>
       </TouchableHighlight>
     );
   },

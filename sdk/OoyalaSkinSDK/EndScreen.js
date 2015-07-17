@@ -78,7 +78,7 @@ render: function() {
       onPress={(name) => this.handleClick('PlayPause')}
       underlayColor="transparent"
       activeOpacity={0.5}>
-      <Text style={[styles.replaybutton, {fontFamily: this.props.config.icons.replay.iconFont}]}>{this.props.config.icons.replay.iconCharacter}</Text>
+      <Text style={[styles.replaybutton, {fontFamily: this.props.config.icons.replay.fontFamilyName}]}>{this.props.config.icons.replay.fontString}</Text>
       </TouchableHighlight>
     );
   }
