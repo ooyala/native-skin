@@ -176,7 +176,8 @@ var VideoView = React.createClass({
       duration={this.props.duration}
       nextVideo={this.props.nextVideo}
       upNextDismissed={this.props.upNextDismissed}
-      onPress={(value) => this.handlePress(value)}/>;
+      onPress={(value) => this.handlePress(value)}
+      width={this.props.width}/>;
   },
 
   _handleSocialShare: function() {

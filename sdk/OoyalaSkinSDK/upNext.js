@@ -22,7 +22,8 @@ var UpNext = React.createClass({
     ad: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
     onPress: React.PropTypes.func,
-    upNextDismissed: React.PropTypes.bool
+    upNextDismissed: React.PropTypes.bool,
+    width: React.PropTypes.number
   },
 
   dismissUpNext: function() {
@@ -46,30 +47,49 @@ var UpNext = React.createClass({
   render: function() {
 
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.showUpNext && !this.props.ad && this.props.nextVideo != null) {
-      return (
-        <View
-          style={styles.container}>
 
-          <TouchableHighlight style={styles.thumbnailContainer}
-            onPress={this.clickUpNext}>
-            <Image
-              source={{uri: this.props.nextVideo.imageUrl}}
-              style={styles.thumbnail} >
-              <Text style={styles.countdownText}>{Math.floor(this.props.duration - this.props.playhead)}</Text>
-            </Image>
-          </TouchableHighlight>
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>{this.props.nextVideo.name}</Text>
-            <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
-          </View>
-          <RectButton
-            icon={"Dismiss"}
-            onPress={this.dismissUpNext}
-            style={styles.dismissButton}>
-          </RectButton>
-        </View>
-
+      var upNextImage = (
+      <TouchableHighlight style={styles.thumbnailContainer}
+        onPress={this.clickUpNext}>
+        <Image
+          source={{uri: this.props.nextVideo.imageUrl}}
+          style={styles.thumbnail} >
+          <Text style={styles.countdownText}>{Math.floor(this.props.duration - this.props.playhead)}</Text>
+        </Image>
+      </TouchableHighlight>
       );
+      var upNextDescription = (
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{this.props.nextVideo.name}</Text>
+          <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
+        </View>
+      );
+      var upNextDismissButton = (
+        <RectButton
+          icon={"Dismiss"}
+          onPress={this.dismissUpNext}
+          style={styles.dismissButton}>
+        </RectButton>
+      );
+
+      if (this.props.width < 300) {
+        return (
+          <View style={styles.container}>
+          {upNextImage}
+          {upNextDismissButton}
+          </View>
+        );
+      }
+      else {
+        return (
+          <View style={styles.container}>
+            {upNextImage}
+            {upNextDescription}
+            {upNextDismissButton}
+          </View>
+        );
+      }
+
     }
     return null;
   }
