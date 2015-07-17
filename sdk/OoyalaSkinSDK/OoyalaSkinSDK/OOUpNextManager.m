@@ -9,7 +9,7 @@
 #import "OOReactBridge.h"
 
 @interface OOUpNextManager ()
-@property(nonatomic) BOOL *upNextEnabled;
+@property(nonatomic) BOOL upNextEnabled;
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic) BOOL isDismissed;
 @property (nonatomic) NSDictionary * nextVideo;
