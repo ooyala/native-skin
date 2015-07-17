@@ -22,32 +22,20 @@ var {
 var ToggleSwitch = require('./widgets/ToggleSwitch');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var Utils = require('./utils');
+var ResponsiveList = require('./widgets/ResponsiveList');
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
     languages: React.PropTypes.array,
     selectedLanguage: React.PropTypes.string,
     onSelect: React.PropTypes.func,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
     localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string
+    locale: React.PropTypes.string,
   },
 
   isSelected: function(name) {
     return name && name !== '' && name == this.props.selectedLanguage;
-  },
-
-  generateRows() {
-    console.log('generateRows:'+this.props.selectedLanguage);
-    var rows = [];
-    for (var i = 0; i < this.props.languages.length;) {
-      var left = this.props.languages[i++];
-      var right = "";
-      if (i < this.props.languages.length) {
-        right = this.props.languages[i++];
-      }
-      rows.push({left:left, right:right, selected:this.props.selectedLanguage});
-      i = i + 2;
-    }
-    return rows;
   },
 
   onSelected: function(name) {
@@ -100,36 +88,30 @@ var LanguageSelectionPanel = React.createClass({
           switchOnText={Utils.localizedString(this.props.locale, "On", this.props.localizableStrings)}
           switchOffText={Utils.localizedString(this.props.locale, "Off", this.props.localizableStrings)}>
         </ToggleSwitch>
-        <ListView
-          dataSource={ds.cloneWithRows(this.generateRows())}
-          renderRow={this.renderRow}
-          style={styles.listView}>
-        </ListView>
+        <ResponsiveList
+          horizontal={false}
+          data={this.props.languages}
+          itemRender={this.renderItem}
+          width={this.props.width}
+          height={this.props.height}
+          itemWidth={100}
+          itemHeight={65}>
+        </ResponsiveList>
         {previewPanel}
       </View>
     );
   },
 
-  renderRow: function(row: object, sectionID: number, rowID: number) {
-    var leftStyle = this.isSelected(row.left) ? styles.selectedButton : styles.button;
-    var rightStyle = this.isSelected(row.right) ? styles.selectedButton : styles.button;
+  renderItem: function(item: object, itemId: number) {
+    var itemStyle = this.isSelected(item) ? styles.selectedButton : styles.button;
     return (
-      <View style= {styles.row}>
-        <TouchableHighlight 
-          style={styles.placeHolder}
-          onPress={() => this.onSelected(row.left)}>
-          <View style={leftStyle}>
-            <Text style={styles.buttonText}>{row.left}</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.placeHolder}
-          onPress={() => this.onSelected(row.right)}>
-          <View style={rightStyle}>
-            <Text style={styles.buttonText}>{row.right}</Text>
-          </View>
-        </TouchableHighlight>
-      </View>
+      <TouchableHighlight 
+        style={styles.item}
+        onPress={() => this.onSelected(item)}>
+        <View style={itemStyle}>
+          <Text style={styles.buttonText}>{item}</Text>
+        </View>
+      </TouchableHighlight>
     );
   },
 });

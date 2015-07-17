@@ -6,13 +6,13 @@ var {
   ScrollView
 } = React;
 
-var styles = require('../utils').getStyles(require('./style/ResponsiveList.json'));
+var styles=require('../utils').getStyles(require('./style/ResponsiveListStyles.json'));
 
 var ResponsiveList = React.createClass({
   propTypes: {
     horizontal: React.PropTypes.bool,
-    data: React.PropTypes.array
-    itemRender: React.PropTypes.func
+    data: React.PropTypes.array,
+    itemRender: React.PropTypes.func,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     itemWidth: React.PropTypes.number,
@@ -21,58 +21,64 @@ var ResponsiveList = React.createClass({
 
   getRows: function() {
     var itemsPerRow = Math.floor(this.props.width / this.props.itemWidth);
+    if (itemsPerRow == 0) {
+      itemsPerRow = 1;
+    }
     var numberOfRows = Math.ceil(this.props.data.length / itemsPerRow);
+    console.log("numberOfRows"+numberOfRows+"itemsPerRow"+itemsPerRow);
     var rows = [];
     for (var i = 0; i  < numberOfRows; i++) {
       rows[i] = [];
       for (var j = 0; j < itemsPerRow; j++) {
         if (i * itemsPerRow + j < this.props.data.length) {
-          rows[rowIndex][] = this.props.data[i * itemsPerRow + j];
+          rows[i][j] = this.props.data[i * itemsPerRow + j];
         }
       }
-      rowIndex++;
     }
     return rows;
-  }
+  },
 
   getColumns: function() {
     var itemsPerColumn = Math.floor(this.props.height/ this.props.itemHeight);
+    if (itemsPerColumn == 0) {
+      itemsPerColumn = 1;
+    }
+    console.log("numberOfRows"+numberOfRows+"itemsPerRow"+itemsPerRow);
     var numberOfColumns = Math.ceil(this.props.data.length / itemsPerColumn);
     var columns = [];
     for (var i = 0; i  < numberOfColumns; i++) {
       columns[i] = [];
       for (j = 0; j < itemsPerColumn; j++) {
         if (i + j * numberOfColumns < this.props.data.length) {
-          columns[i][] = this.props.data[i + j * numberOfColumns];
+          columns[i][j] = this.props.data[i + j * numberOfColumns];
         }
       }
     }
     return columns;
-  }
+  },
 
   getInitialState: function() {
-    data = this.props.horizontal ? this.getRows : this.getColumns;
-    return {
-      data:data;
-    }
-  }
+    return {};
+  },
 
-  // Gets the play button based on the current config settings
-  render: function() {
-    
+  render: function() {  
+    var slices = this.props.horizontal ? this.getColumns() : this.getRows();
     return (
       <ScrollView 
-        style={{height:this.props.height}}
+        style={{flex:1}}
         horizontal={this.props.horizontal}> 
-        {this.state.data.map(renderRow)}
+        {slices.map(this.renderSlice)}
       </ScrollView>);
   },
 
-  renderRow: function(item, i) {
-    var rowStyle = this.props.horizontal ? styles.row : styles.column;
-    <View style={rowStyle}>
-      {item.map(itemRender)}
-    </View>
+  renderSlice: function(slice: object, i: number) {
+    console.log("renderSlice" + i);
+    var sliceStyle = this.props.horizontal ? styles.column : styles.row;
+    return (<View
+      key={i} 
+      style={sliceStyle}>
+      {slice.map(this.props.itemRender)}
+    </View>);
   }
 });
 
