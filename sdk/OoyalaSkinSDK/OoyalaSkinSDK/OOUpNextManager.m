@@ -7,6 +7,7 @@
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import "OOReactBridge.h"
+#import <OoyalaSDK/OODebugMode.h>
 
 @interface OOUpNextManager ()
 @property(nonatomic) BOOL upNextEnabled;
@@ -74,6 +75,11 @@
 
   // Lets react know that dismiss has been pressed.
   [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
+}
+
+- (void)dealloc {
+  LOG(@"upnext dealloc");
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
