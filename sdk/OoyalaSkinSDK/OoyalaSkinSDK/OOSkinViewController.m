@@ -34,6 +34,8 @@
 
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
+static NSString *kLocalizableStrings = @"localizableStrings";
+static NSString *kLocale = @"locale";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView
@@ -88,7 +90,7 @@ static NSString *kViewChangeKey = @"frame";
   ASSERT(d, @"missing skin configuration json" );
 
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
-  NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[@"localizableStrings"]];
+  NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
   NSArray *languages = localizableStrings[@"languages"];
   for (NSString *locale in languages) {
     d = [self dictionaryFromJson:locale];
@@ -97,9 +99,9 @@ static NSString *kViewChangeKey = @"frame";
     }
   }
 
-  [dict setObject:localizableStrings forKey:@"localizableStrings"];
+  [dict setObject:localizableStrings forKey:kLocalizableStrings];
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
-  [dict setObject:localeId forKey:@"locale"];
+  [dict setObject:localeId forKey:kLocale];
   return dict;
 }
 
@@ -192,10 +194,14 @@ static NSString *kViewChangeKey = @"frame";
   NSInteger count = [adInfo[@"count"] integerValue];
   NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
-  NSString *adTitle = [NSString stringWithFormat:@"%@ ", adInfo[@"title"]];
-  NSString *titlePrefix = adTitle.length ? @"Ad Playing:" : @"Ad Playing";
+  NSString *title = adInfo[@"title"];
+  NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
+  NSString *titlePrefix = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Ad Playing"];
+  if (title.length > 0) {
+    titlePrefix = [titlePrefix stringByAppendingString:@":"];
+  }
   NSString *durationString = @"00:00";
-  NSString *learnMoreString = @"Learn More";
+  NSString *learnMoreString = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Learn More"];
 
   CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
   CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
