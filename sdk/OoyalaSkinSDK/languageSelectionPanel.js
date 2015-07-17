@@ -17,18 +17,18 @@ var {
 var Constants = require('./constants');
 var {
   ICONS,
-  UI_TEXT,
 } = Constants;
 
 var ToggleSwitch = require('./widgets/ToggleSwitch');
 var ClosedCaptionsView = require('./closedCaptionsView');
-
+var Utils = require('./utils');
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
     languages: React.PropTypes.array,
     selectedLanguage: React.PropTypes.string,
     onSelect: React.PropTypes.func,
-    onDismiss: React.PropTypes.func,
+    localizableStrings: React.PropTypes.object,
+    locale: React.PropTypes.string
   },
 
   isSelected: function(name) {
@@ -68,28 +68,17 @@ var LanguageSelectionPanel = React.createClass({
     // ignore.
   },
 
-  getCloseButton: function() {
-    return (
-      <TouchableHighlight
-        onPress={this.props.onDismiss}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>{ICONS.CLOSE}</Text>
-        </View>
-      </TouchableHighlight>);
-  },
-
   getPreview: function() {
     return (
       <View style={styles.previewPanel}>
         <View style={styles.splitter} />
-        <Text style={styles.buttonText}>{UI_TEXT.CC_PREVIEW}</Text>
-        <Text style={styles.buttonText}>{UI_TEXT.CC_SAMPLE}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "CLOSE CAPTION PREVIEW", this.props.localizableStrings)}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "Sample Text", this.props.localizableStrings)}</Text>
       </View>
     )
   },
 
   render: function() {
-    console.log("languageselectionpanel render");
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
@@ -103,13 +92,13 @@ var LanguageSelectionPanel = React.createClass({
     return (
       <View style={styles.panelContainer}>
         <View style={styles.panelTitleRow}>
-          <Text style={styles.panelTitle}>{UI_TEXT.CC_OPTIONS}</Text>
-          <View style={styles.placeHolder}></View>
-          {this.getCloseButton()}
+          <Text style={styles.panelTitle}>{Utils.localizedString(this.props.locale, "CC Options", this.props.localizableStrings)}</Text>
         </View>
         <ToggleSwitch
           switchOn={hasCC}
-          onValueChanged={(value)=>this.onSwitchToggled(value)}>
+          onValueChanged={(value)=>this.onSwitchToggled(value)}
+          switchOnText={Utils.localizedString(this.props.locale, "On", this.props.localizableStrings)}
+          switchOffText={Utils.localizedString(this.props.locale, "Off", this.props.localizableStrings)}>
         </ToggleSwitch>
         <ListView
           dataSource={ds.cloneWithRows(this.generateRows())}

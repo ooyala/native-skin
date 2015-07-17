@@ -10,6 +10,7 @@
 #import "OOReactBridge.h"
 #import "RCTRootView.h"
 #import "OOUpNextManager.h"
+#import "OOLocaleHelper.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -33,6 +34,8 @@
 
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
+static NSString *kLocalizableStrings = @"localizableStrings";
+static NSString *kLocale = @"locale";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                         parent:(UIView *)parentView
@@ -62,25 +65,44 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
-    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player];
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
     _discoveryOptions = discoveryOptions;
   }
   return self;
 }
 
--(NSDictionary*) getReactViewInitialProperties {
-  NSDictionary *d = nil;
-  NSString *filePath = [[NSBundle mainBundle] pathForResource:@"skin" ofType:@"json"];
+- (NSDictionary *)dictionaryFromJson:(NSString *)filename {
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:@"json"];
   NSData *data = [NSData dataWithContentsOfFile:filePath];
   if (data) {
     NSError* error = nil;
-    d = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    if( error != nil ) {
-      d = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    if( error == nil ) {
+      return dict;
     }
   }
-  ASSERT( d, @"missing skin configuration json" );
-  return d;
+
+  return nil;
+}
+
+-(NSDictionary*) getReactViewInitialProperties {
+  NSDictionary *d = [self dictionaryFromJson:@"skin"];
+  ASSERT(d, @"missing skin configuration json" );
+
+  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
+  NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
+  NSArray *languages = localizableStrings[@"languages"];
+  for (NSString *locale in languages) {
+    d = [self dictionaryFromJson:locale];
+    if (d) {
+      [localizableStrings setObject:d forKey:locale];
+    }
+  }
+
+  [dict setObject:localizableStrings forKey:kLocalizableStrings];
+  NSString *localeId = [OOLocaleHelper preferredLanguageId];
+  [dict setObject:localeId forKey:kLocale];
+  return dict;
 }
 
 - (void)viewDidLoad {
@@ -163,7 +185,38 @@ static NSString *kViewChangeKey = @"frame";
 }
 
 - (void) bridgeAdStartNotification:(NSNotification *)notification {
-  NSDictionary *eventBody = notification.userInfo;
+  //TODO: read cutomized font and font size
+  static NSString *adFontFamily = @"AvenirNext-DemiBold";
+  static NSUInteger adFontSize = 16;
+
+  NSDictionary *adInfo = notification.userInfo;
+
+  NSInteger count = [adInfo[@"count"] integerValue];
+  NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
+  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
+  NSString *title = adInfo[@"title"];
+  NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
+  NSString *titlePrefix = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Ad Playing"];
+  if (title.length > 0) {
+    titlePrefix = [titlePrefix stringByAppendingString:@":"];
+  }
+  NSString *durationString = @"00:00";
+  NSString *learnMoreString = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Learn More"];
+
+  CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
+  CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
+  CGSize countSize = [self textSize:countString withFontFamily:adFontFamily size:adFontSize];
+  CGSize durationSize = [self textSize:durationString withFontFamily:adFontFamily size:adFontSize];
+  CGSize learnMoreSize = [self textSize:learnMoreString withFontFamily:adFontFamily size:adFontSize];
+  NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
+                             @"duration":[NSNumber numberWithFloat:durationSize.width],
+                             @"count":[NSNumber numberWithFloat:countSize.width],
+                             @"title":[NSNumber numberWithFloat:titleSize.width],
+                             @"prefix":[NSNumber numberWithFloat:titlePrefixSize.width]};
+
+  NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
+  [eventBody setObject:measures forKey:@"measures"];
+  [eventBody setObject:adTitle forKey:@"title"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
@@ -250,6 +303,16 @@ static NSString *kViewChangeKey = @"frame";
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
   [OOReactBridge deregisterController:self];
+}
+
+#pragma mark utils
+- (CGSize)textSize:(NSString *)text withFontFamily:(NSString *)fontFamily size:(NSUInteger)fontSize {
+  // given an array of strings and other settings, compute the width of the strings to assist correct layout.
+  NSArray *fontArray = [UIFont fontNamesForFamilyName:fontFamily];
+  NSString *fontName = fontArray.count > 0 ? fontArray[0] : fontFamily;
+  UIFont *font = [UIFont fontWithName:fontName size:fontSize];
+  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
+  return textSize;
 }
 
 @end

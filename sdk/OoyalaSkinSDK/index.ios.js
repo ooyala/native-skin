@@ -24,18 +24,16 @@ var EndScreen = require('./EndScreen');
 var DiscoveryPanel = require('./discoveryPanel');
 var MoreOptionScreen = require('./MoreOptionScreen');
 var SharePanel = require('./sharePanel');
-
 var Constants = require('./constants');
 var {
   ICONS,
   BUTTON_NAMES,
   SCREEN_TYPES,
   OOSTATES,
-  OVERLAY_TYPES,
 } = Constants;
 var VideoView = require('./videoView');
 var LanguageSelectionPanel = require('./languageSelectionPanel.js');
-
+var previousScreenType;
 var OoyalaSkin = React.createClass({
 
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -45,7 +43,6 @@ var OoyalaSkin = React.createClass({
     return {
       // states from react
       screenType: SCREEN_TYPES.LOADING_SCREEN,
-      overlayType: null,
       selectedLanguage: 'en',
       // states from native
       title: '',
@@ -61,16 +58,13 @@ var OoyalaSkin = React.createClass({
       // rct_closedCaptionsLanguage: null,
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
-      buttonSelected: "None",
-      panelToShow: "None",
-      previousScreenType: SCREEN_TYPES.START,
+      buttonSelected: "None"
     };
   },
 
   onOptionButtonPress: function(buttonName) {
     LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
     this.setState({buttonSelected: buttonName});
-    this.setState({panelToShow: buttonName});
   },
 
   onSocialButtonPress: function(socialType) {
@@ -85,25 +79,22 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-  pauseOnOverlay: function() {
+  pauseOnOptions: function() {
+    if (this.state.screenType != SCREEN_TYPES.MOREOPTION_SCREEN) {
+      this.previousScreenType = this.state.screenType; 
+    }
+    
     if (this.state.rate > 0) {
       this.setState({pausedByOverlay:true});
       eventBridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
     }
   },
 
-  handleOverlay: function(overlayName) {
-    this.pauseOnOverlay();
-    this.setState({overlayType:OVERLAY_TYPES.CC_OPTIONS})
-  },
-
-  onOverlayDismissed: function() {
+  onOptionDismissed: function() {
     if (this.state.screenType == SCREEN_TYPES.MOREOPTION_SCREEN) {
       this.setState({screenType: this.previousScreenType});
     }
     this.setState({buttonSelected: "None"});
-    this.setState({panelToShow: "None"});
-    this.setState({overlayType:null});
     if (this.state.pausedByOverlay) {
       this.setState({pausedByOverlay:false});
       eventBridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
@@ -113,12 +104,16 @@ var OoyalaSkin = React.createClass({
   handlePress: function(n) {
     this.setState({lastPressedTime: (new Date).getTime()});
     switch(n) {
-      case BUTTON_NAMES.CLOSED_CAPTIONS:
-        this.handleOverlay(OVERLAY_TYPES.CC_OPTIONS);
-        break;
       case BUTTON_NAMES.MORE:
-        this.pauseOnOverlay();
-        this.setState({screenType: SCREEN_TYPES.MOREOPTION_SCREEN});
+        n="None";
+      // fall through intentionally
+      case BUTTON_NAMES.DISCOVERY:
+      case BUTTON_NAMES.QUALITY:
+      case BUTTON_NAMES.CLOSED_CAPTIONS:
+      case BUTTON_NAMES.SHARE:
+      case BUTTON_NAMES.SETTING:
+        this.pauseOnOptions();
+        this.setState({buttonSelected:n, screenType:SCREEN_TYPES.MOREOPTION_SCREEN});
         break;
       default:
         eventBridge.onPress({name:n});
@@ -145,7 +140,7 @@ var OoyalaSkin = React.createClass({
 
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
     console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
-    if (e.rate > 0) {
+    if (e.rate > 0 && this.state.screenType == SCREEN_TYPES.START_SCREEN) {
       this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
     }
     this.setState({
@@ -254,18 +249,13 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    if (this.state.overlayType) {
-      switch (this.state.overlayType) {
-        case OVERLAY_TYPES.CC_OPTIONS: return this._renderCCOptions(); break;
-      }
-    } else {
-      switch (this.state.screenType) {
-        case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
-        case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
-        case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
-        case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
-        default:      return this._renderVideoView();   break;
-      }
+    console.log("renderScreen" + this.state.screenType);
+    switch (this.state.screenType) {
+      case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
+      case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
+      case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
+      case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
+      default:      return this._renderVideoView();   break;
     }
   },
 
@@ -284,23 +274,17 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderEndScreen: function() {
-    var DiscoveryScreenConfig = this.props.discoveryScreen;
-    var discovery = (
-      <DiscoveryPanel
-        isShow='true'
-        config={DiscoveryScreenConfig}
-        dataSource={this.state.discoveryResults}
-        onRowAction={(info) => this.onDiscoveryRow(info)}>
-      </DiscoveryPanel>);
 
-    var EndScreenConfig = this.props.endScreen;
     return (
       <EndScreen
-        config={EndScreenConfig}
+        config={{
+          endScreen: this.props.endScreen,
+          controlBar: this.props.controlBar
+        }}
         title={this.state.title}
         width={this.state.width}
         height={this.state.height}
-        discoveryPanel={discovery}
+        discoveryPanel={this._renderDiscoveryPanel()}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
         duration={this.state.duration} 
@@ -309,38 +293,41 @@ var OoyalaSkin = React.createClass({
     );
   },
 
-   _renderVideoView: function() {
-     var upNextConfig = this.props.upNextScreen;
-     var showPlayButton = this.state.rate > 0 ? false : true;
+  _renderVideoView: function() {
+    var showPlayButton = this.state.rate > 0 ? false : true;
 
-     return (
-       <VideoView
-         rate={this.state.rate}
-         showPlay={showPlayButton}
-         playhead={this.state.playhead}
-         duration={this.state.duration}
-         ad ={this.state.ad}
-         live ={this.state.live}
-         width={this.state.width}
-         height={this.state.height}
-         fullscreen={this.state.fullscreen}
-         onPress={(value) => this.handlePress(value)}
-         onScrub={(value) => this.handleScrub(value)}
-         closedCaptionsLanguage={this.state.selectedLanguage}
-             // todo: change to boolean showCCButton.
-         availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
-         captionJSON={this.state.captionJSON}
-         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-         lastPressedTime={this.state.lastPressedTime}
-         upNextConfig={upNextConfig}
-         nextVideo={this.state.nextVideo}
-         upNextDismissed={this.state.upNextDismissed}>
-       </VideoView>
+    return (
+      <VideoView
+        rate={this.state.rate}
+        showPlay={showPlayButton}
+        playhead={this.state.playhead}
+        duration={this.state.duration}
+        ad ={this.state.ad}
+        live ={this.state.live}
+        width={this.state.width}
+        height={this.state.height}
+        fullscreen={this.state.fullscreen}
+        onPress={(value) => this.handlePress(value)}
+        onScrub={(value) => this.handleScrub(value)}
+        closedCaptionsLanguage={this.state.selectedLanguage}
+        // todo: change to boolean showCCButton.
+        availableClosedCaptionsLanguages={this.state.availableClosedCaptionsLanguages}
+        captionJSON={this.state.captionJSON}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+        lastPressedTime={this.state.lastPressedTime}
+        config={{
+          controlBar: this.props.controlBar,
+          upNextScreen: this.props.upNextScreen
+        }}
+        nextVideo={this.state.nextVideo}
+        upNextDismissed={this.state.upNextDismissed}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale}>
+      </VideoView>
+    );
+  },
 
-     );
-   },
-
-   _renderLoadingScreen: function() {
+  _renderLoadingScreen: function() {
     return (
       <ActivityIndicatorIOS
         animating={true}
@@ -349,32 +336,66 @@ var OoyalaSkin = React.createClass({
       </ActivityIndicatorIOS>)
    },
 
-   _renderCCOptions: function() {
+  _renderCCOptions: function() {
     return (
       <LanguageSelectionPanel
         languages={this.state.availableClosedCaptionsLanguages}
         selectedLanguage={this.state.selectedLanguage}
         onSelect={(value)=>this.onLanguageSelected(value)}
-        onDismiss={this.onOverlayDismissed}>
+        onDismiss={this.onOverlayDismissed}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale}>
       </LanguageSelectionPanel>)
   },
 
-   _renderMoreOptionScreen: function() {
-    var sharePanel = (
+  _renderSocialOptions: function() {
+    return (
       <SharePanel
-        isShow = {true}
         socialButtons={this.props.sharing}
-        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>
-    );
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>);
+  },
+
+  _renderDiscoveryPanel: function() {
+    return (
+      <DiscoveryPanel
+        config={this.props.discoveryScreen}
+        dataSource={this.state.discoveryResults}
+        onRowAction={(info) => this.onDiscoveryRow(info)}>
+      </DiscoveryPanel>);
+  },
+
+  _renderMoreOptionPanel: function() {
+    console.log("renderMoreOptionPanel:"+ this.state.buttonSelected);
+    switch (this.state.buttonSelected) {
+      case BUTTON_NAMES.DISCOVERY: 
+        return this._renderDiscoveryPanel();
+        break;
+      case BUTTON_NAMES.QUALITY:
+        break;
+      case BUTTON_NAMES.CLOSED_CAPTIONS:
+        return this._renderCCOptions();
+        break;
+      case BUTTON_NAMES.SHARE:
+        return this._renderSocialOptions();
+        break;
+      case BUTTON_NAMES.SETTING:
+        break;
+      default:
+        break;
+    }
+    return null;
+  },
+
+  _renderMoreOptionScreen: function() {
+    console.log("renderMoreOptions buttonSelected" + this.state.buttonSelected);
+    var panel = this._renderMoreOptionPanel();
 
     return (
       <MoreOptionScreen
-        buttons={this.props.buttons}
-        onPress={(name) => this.handlePress(name)}
-        onDismiss={this.onOverlayDismissed}
-        sharePanel={sharePanel}
+        moreOptionConfig={this.props.moreOptions}
+        onDismiss={this.onOptionDismissed}
+        panel={panel}
         buttonSelected={this.state.buttonSelected}
-        panelToShow={this.state.panelToShow}
         onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)} >
       </MoreOptionScreen>
     )

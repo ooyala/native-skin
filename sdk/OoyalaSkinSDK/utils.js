@@ -63,7 +63,23 @@ var Utils = {
       t = hh + ":" + t;
     }
     return minus + t;
-  }
+  },
+
+  localizedString: function(preferredLocale, stringId, localizableStrings) {
+    console.log("preferredLocale" + preferredLocale + "stringId" + stringId + "localizableStrings" + localizableStrings);
+    var defaultLocale = localizableStrings["default"] ? localizableStrings["defaultLanguage"] : "en";
+    
+    if (localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
+      return localizableStrings[preferredLocale][stringId];
+    }
+    
+    if (localizableStrings[defaultLocale] && localizableStrings[defaultLocale][stringId]) {
+      return localizableStrings[defaultLocale][stringId];
+    }
+
+    return stringId;
+  },
+
 };
 
 module.exports = Utils;

@@ -17,10 +17,11 @@
 
 @implementation OOUpNextManager
 
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player {
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                 config:(NSDictionary *)config {
 
-  // TODO Read the following value in from skin config
-  self.upNextEnabled = YES;
+  // Read the following value in from skin config
+  self.upNextEnabled = [[config objectForKey:@"showUpNext"] boolValue];
 
   // Save the player passed in with the init
   self.player = player;
