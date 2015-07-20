@@ -321,7 +321,7 @@ var OoyalaSkin = React.createClass({
         }}
         nextVideo={this.state.nextVideo}
         upNextDismissed={this.state.upNextDismissed}
-        localizableStrings = {this.props.localizableStrings}
+        localizableStrings={this.props.localizableStrings}
         locale={this.props.locale}>
       </VideoView>
     );
@@ -396,7 +396,7 @@ var OoyalaSkin = React.createClass({
 
     return (
       <MoreOptionScreen
-        buttons={this.props.buttons}
+        moreOptionConfig={this.props.moreOptions}
         onDismiss={this.onOptionDismissed}
         panel={panel}
         buttonSelected={this.state.buttonSelected}

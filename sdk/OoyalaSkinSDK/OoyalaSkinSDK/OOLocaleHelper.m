@@ -20,4 +20,25 @@
   return preferredLanguageId;
 }
 
++ (NSString *)localizedString:(NSDictionary *)localizableStrings locale:(NSString *)locale forKey:(NSString *)key {
+  if (key.length <= 0) {
+    return key;
+  }
+
+  NSString *defaultLocale = [localizableStrings objectForKey:@"default"];
+  if (!defaultLocale) {
+    defaultLocale = @"";
+  }
+
+  NSArray *preferredOrder = [NSArray arrayWithObjects:locale, defaultLocale, @"en", nil];
+  for (int i = 0; i < preferredOrder.count; ++i ) {
+    NSDictionary *stringTable = [localizableStrings objectForKey:preferredOrder[i]];
+    if (stringTable && [stringTable objectForKey:key]) {
+      return [stringTable objectForKey:key];
+    }
+  }
+  return key;
+}
+
+
 @end
