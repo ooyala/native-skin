@@ -4,67 +4,41 @@ var CollapsingBarUtils = {
 
   // /**
   //  * @param barWidth numeric.
-  //  * @param orderedItems array of left to right ordered items,
-  //  * each having at least properies minWidth:numeric, collapsable:boolean.
+  //  * @param orderedItems array of left to right ordered items.
+  //  * Each item must have a collapsable:boolean property. It must
+  //  * also have a minWidth value that is named @param minWidthPropertyName.
+  //  * @param minWidthPropertyName string name of property use read for minWidth of item.
   //  * @return {fit:[items that fit in the barWidth], dropped:[items that did not fit]}.
   //  */
-  collapse: function( barWidth, orderedItems ) {
-    var fit = [];
-    var dropped = [];
-    if( barWidth > 0 && orderedItems ) {
-      var nonCollapsableItems = orderedItems.filter( function(e) { return ! e.collapsable; } );
-      var collapsableItems = orderedItems.filter( function(e) { return e.collapsable; } );
-      var fitFixed = this._fitItems( barWidth, nonCollapsableItems );
-      var fitBonus = this._fitItems( fitFixed.remainingWidth, collapsableItems );
-      fit = this._reorderItems( fitFixed.items, fitBonus.items, orderedItems );
-      dropped = fitFixed.remainingItems.concat( fitBonus.remainingItems );
-    }
-    return {fit:fit, dropped:dropped};
+  collapse: function( barWidth, orderedItems, minWidthPropertyName ) {
+    if( ! orderedItems ) { return []; }
+    if( arguments.length != 3 ) { return orderedItems; }
+    return this._collapse( barWidth, orderedItems, minWidthPropertyName );
   },
 
-  // /**
-  //  * @param remainingWidth numeric.
-  //  * @param orderedItems array of left to right ordered items,
-  //  * each having at least properies minWidth:numeric, collapsable:boolean.
-  //  * @return {items:[items that fit in the original remainingWidth],
-  //  * remainingWidth:final remaining width,
-  //  * remainingItems:[items that did not fit in original remainingWidth]}
-  //  */
-  _fitItems: function( remainingWidth, orderedItems ) {
-    var fitItems = []
-    var remainingItems = orderedItems.slice();
-    if( remainingWidth && orderedItems ) {
-      this._visit( orderedItems, function( o, k, v ) {
-        if( v.minWidth <= remainingWidth ) {
-          remainingWidth -= v.minWidth;
-          fitItems.push( v );
-          remainingItems.splice( remainingItems.indexOf(v), 1 );
-        }
-      } );
+  _collapse: function( barWidth, orderedItems, minWidthPropertyName ) {
+    var r = { fit : orderedItems.slice(), dropped : [] };
+    var usedWidth = r.fit.reduce( function(p, b, i, a) { return p+b[minWidthPropertyName]||0; }, 0 );
+    if( orderedItems ) {
+      for( var i = orderedItems.length-1; i >= 0; i-- ) {
+        var b = orderedItems[i];
+        usedWidth = this._filterItem( barWidth, usedWidth, r.fit, r.dropped, b, minWidthPropertyName );
+      }
     }
-    var r = { items:fitItems, remainingWidth:remainingWidth, remainingItems:remainingItems };
     return r;
   },
 
-  _reorderItems: function( fixedItems, bonusItems, orderedItems ) {
-    var fitItems = [];
-    if( orderedItems ) {
-      this._visit( orderedItems, function( o, k, v ) {
-        if( fixedItems.indexOf(v)>-1 || bonusItems.indexOf(v)>-1 ) {
-          fitItems.push( v );
-        }
-      } );
+  _filterItem: function( barWidth, usedWidth, fit, dropped, item, minWidthPropertyName ) {
+    if( ! item[minWidthPropertyName] ) {
+      dropped.push( item );
+      fit.splice( fit.indexOf(item), 1 );
     }
-    return fitItems;
-  },
-
-  _visit: function( obj, visitFn ) {
-    if( obj ) {
-      var keys = Object.keys( obj );
-      for( var i = 0; i < keys.length; ++i ) {
-        visitFn( obj, keys[i], obj[keys[i]] );
-      }
+    if( usedWidth > barWidth && item.collapsable ) {
+      dropped.push( item );
+      fit.splice( fit.indexOf(item), 1 );
+      usedWidth = usedWidth - dropped[minWidthPropertyName];
     }
+    return usedWidth;
   },
 
   TestSuite: {
@@ -92,86 +66,100 @@ var CollapsingBarUtils = {
 
     TestDropped_dropFixedMixed: function() {
       var oi = [this.B1_F100, this.B5_C1];
-      var results = CollapsingBarUtils.collapse( 1, oi );
+      var results = CollapsingBarUtils.collapse( 1, oi, 'minWidth' );
       this.AssertStrictEquals( results.dropped.length, 1 );
-      this.AssertStrictEquals( results.dropped[0], this.B1_F100 );
+      this.AssertStrictEquals( results.dropped[0], this.B5_C1 );
+    },
+
+    TestDropped_dropCollapsableSingle: function() {
+      var oi = [this.B4_C100];
+      var results = CollapsingBarUtils.collapse( 1, oi, 'minWidth' );
+      this.AssertStrictEquals( results.dropped.length, 1 );
+      this.AssertStrictEquals( results.dropped[0], oi[0] );
     },
 
     TestDropped_dropFixedSingle: function() {
       var oi = [this.B1_F100];
-      var results = CollapsingBarUtils.collapse( 1, oi );
-      this.AssertStrictEquals( results.dropped.length, 1 );
-      this.AssertStrictEquals( results.dropped.toString(), oi.toString() );
+      var results = CollapsingBarUtils.collapse( 1, oi, 'minWidth' );
+      this.AssertStrictEquals( results.dropped.length, 0 );
     },
 
     TestFit_merging: function() {
       var oi = [this.B2_F1, this.B5_C1, this.B3_F1 ];
-      var results = CollapsingBarUtils.collapse( 100, oi );
+      var results = CollapsingBarUtils.collapse( 100, oi, 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 3 );
       this.AssertStrictEquals( results.fit.toString(), oi.toString() );
     },
 
     TestFit_revKeepFixed: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B4_C100, this.B1_F100] );
+      var results = CollapsingBarUtils.collapse( 100, [this.B4_C100, this.B1_F100], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 1 );
       this.AssertStrictEquals( results.fit[0], this.B1_F100 );
     },
 
     TestFit_keepFixed: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B1_F100, this.B4_C100] );
+      var results = CollapsingBarUtils.collapse( 100, [this.B1_F100, this.B4_C100], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 1 );
       this.AssertStrictEquals( results.fit[0], this.B1_F100 );
     },
 
     TestFit_revOneCollapsableFits: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B5_C1, this.B4_C100] );
+      var results = CollapsingBarUtils.collapse( 100, [this.B5_C1, this.B4_C100], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 1 );
       this.AssertStrictEquals( results.fit[0], this.B5_C1 );
     },
 
     TestFit_oneCollapsableFits: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B4_C100, this.B5_C1] );
+      var results = CollapsingBarUtils.collapse( 100, [this.B4_C100, this.B5_C1], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 1 );
       this.AssertStrictEquals( results.fit[0], this.B4_C100 );
     },
 
     TestFit_collapsableFits: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B4_C100] );
+      var results = CollapsingBarUtils.collapse( 100, [this.B4_C100], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 1 );
       this.AssertStrictEquals( results.fit[0], this.B4_C100 );
     },
 
     TestFit_allFixedFit: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B2_F1, this.B3_F1] );
+      var results = CollapsingBarUtils.collapse( 100, [this.B2_F1, this.B3_F1], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 2 );
       this.AssertStrictEquals( results.fit[0], this.B2_F1 );
       this.AssertStrictEquals( results.fit[1], this.B3_F1 );
     },
 
     TestFit_revOneFixedFits: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B2_F1, this.B1_F100] );
-      this.AssertStrictEquals( results.fit.length, 1 );
-      this.AssertStrictEquals( results.fit[0], this.B2_F1 );
+      var oi = [this.B2_F1, this.B1_F100];
+      var results = CollapsingBarUtils.collapse( 100, oi, 'minWidth' );
+      this.AssertStrictEquals( results.fit.length, 2 );
+      this.AssertStrictEquals( results.fit.toString(), oi.toString() );
     },
 
     TestFit_oneFixedFits: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B1_F100, this.B2_F1] );
-      this.AssertStrictEquals( results.fit.length, 1 );
-      this.AssertStrictEquals( results.fit[0], this.B1_F100 );
+      var oi = [this.B1_F100, this.B2_F1];
+      var results = CollapsingBarUtils.collapse( 100, oi, 'minWidth' );
+      this.AssertStrictEquals( results.fit.length, 2 );
+      this.AssertStrictEquals( results.fit.toString(), oi.toString() );
     },
 
     TestFit_keepItemMeetingSpec: function() {
-      var results = CollapsingBarUtils.collapse( 100, [this.B2_F1] );
+      var results = CollapsingBarUtils.collapse( 100, [this.B2_F1], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 1 );
     },
 
     TestFit_discardItemNotMeetingSpec: function() {
-      var results = CollapsingBarUtils.collapse( 100, [{name:"b1", collapsable:false}] );
+      var results = CollapsingBarUtils.collapse( 100, [{name:"b1", collapsable:false}], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 0 );
     },
 
-    TestFit_discardItemsInZeroSpace: function() {
-      var results = CollapsingBarUtils.collapse( 0, [this.B2_F1, {name:"b1", collapsable:false}] );
+    TestFit_discardItemsInZeroSpace_fixed: function() {
+      var results = CollapsingBarUtils.collapse( 0, [this.B2_F1], 'minWidth' );
+      this.AssertStrictEquals( results.fit.length, 1 );
+      this.AssertStrictEquals( results.fit[0], this.B2_F1 );
+    },
+
+    TestFit_discardItemsInZeroSpace_collapsable: function() {
+      var results = CollapsingBarUtils.collapse( 0, [this.B4_C100], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 0 );
     },
 
@@ -181,7 +169,7 @@ var CollapsingBarUtils = {
       for( var si = 0; si < sizes.length; ++si ) {
         for( var ii = 0; ii < items.length; ++ii ) {
           // not saying it returns anything sane, just doesn't die.
-          CollapsingBarUtils.collapse( sizes[si], items[ii] );
+          CollapsingBarUtils.collapse( sizes[si], items[ii], 'minWidth' );
         }
       }
     },
@@ -198,7 +186,6 @@ var CollapsingBarUtils = {
           console.log( "---",  k, "PASS!" );
         }
       }
-      console.log( "ran", keys.length, "tests." );
     },
   },
 };
