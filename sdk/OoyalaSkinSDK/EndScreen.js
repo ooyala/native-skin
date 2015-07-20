@@ -22,7 +22,6 @@ var AnimationExperimental = require('AnimationExperimental');
 var Constants = require('./constants');
 
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS,
 } = Constants;
@@ -74,12 +73,13 @@ render: function() {
 
   var replaybutton;
   if(this.props.config.endScreen.showReplayButton) {
+    var fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
     replaybutton = (
       <TouchableHighlight
       onPress={(name) => this.handleClick('PlayPause')}
       underlayColor="transparent"
       activeOpacity={0.5}>
-      <Text style={styles.replaybutton}>{ICONS.REPLAY}</Text>
+      <Text style={[styles.replaybutton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
       </TouchableHighlight>
     );
   }
@@ -106,16 +106,18 @@ render: function() {
 
  var controlBar;
  controlBar = (<ControlBar 
-  ref='controlBar' 
-  showPlay={this.props.showPlay}
+  ref='controlBar'
+  primaryButton="replay"
   height={this.props.height}
   width={this.props.width}
   isShow='true'
   playhead={this.props.duration}
-  duration={this.props.duration} 
-  primaryActionButton={ICONS.REPLAY}
+  duration={this.props.duration}
   onPress={(name) => this.handleClick(name)}
-  config={this.props.config.controlBar}/>);
+   config={{
+     controlBar: this.props.config.controlBar,
+     icons: this.props.config.icons
+   }}/>);
 
  var waterMark = (<WaterMark />);
 

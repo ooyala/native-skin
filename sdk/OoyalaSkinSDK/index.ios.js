@@ -26,7 +26,6 @@ var MoreOptionScreen = require('./MoreOptionScreen');
 var SharePanel = require('./sharePanel');
 var Constants = require('./constants');
 var {
-  ICONS,
   BUTTON_NAMES,
   SCREEN_TYPES,
   OOSTATES,
@@ -260,10 +259,12 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderStartScreen: function() {
-    var startScreenConfig = this.props.startScreen;
     return (
       <StartScreen
-        config={startScreenConfig}
+        config={{
+          startScreen: this.props.startScreen,
+          icons: this.props.icons
+        }}
         title={this.state.title}
         description={this.state.description}
         promoUrl={this.state.promoUrl}
@@ -279,7 +280,8 @@ var OoyalaSkin = React.createClass({
       <EndScreen
         config={{
           endScreen: this.props.endScreen,
-          controlBar: this.props.controlBar
+          controlBar: this.props.controlBar,
+          icons: this.props.icons
         }}
         title={this.state.title}
         width={this.state.width}
@@ -317,7 +319,8 @@ var OoyalaSkin = React.createClass({
         lastPressedTime={this.state.lastPressedTime}
         config={{
           controlBar: this.props.controlBar,
-          upNextScreen: this.props.upNextScreen
+          upNextScreen: this.props.upNextScreen,
+          icons: this.props.icons
         }}
         nextVideo={this.state.nextVideo}
         upNextDismissed={this.state.upNextDismissed}

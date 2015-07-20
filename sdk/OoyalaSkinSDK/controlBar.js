@@ -16,7 +16,6 @@ var {
 
 var Constants = require('./constants');
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS,
 } = Constants;
@@ -37,8 +36,8 @@ var ControlBar = React.createClass({
   propTypes: {
     width: React.PropTypes.number,
     height: React.PropTypes.number,
-    primaryActionButton: React.PropTypes.string,
-    fullscreenButton: React.PropTypes.string,
+    primaryButton: React.PropTypes.string,
+    fullscreen: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
@@ -99,12 +98,15 @@ var ControlBar = React.createClass({
       playPause: {
         onPress: this.onPlayPausePress,
         style: styles.icon,
-        primaryActionButton: this.props.primaryActionButton
+        playIcon: this.props.config.icons.play,
+        pauseIcon: this.props.config.icons.pause,
+        replayIcon: this.props.config.icons.replay,
+        primaryActionButton: this.props.primaryButton
       },
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon,
-        volumeIcon: this.state.showVolume ? ICONS.VOLUMEUP : ICONS.VOLUMEDOWN,
+        icon: this.props.config.icons.volumeDown,
         showVolume: this.state.showVolume,
         scrubberStyle: styles.volumeSlider
       },
@@ -115,12 +117,12 @@ var ControlBar = React.createClass({
       fullscreen: {
         onPress: this.onFullscreenPress,
         style: styles.icon,
-        icon: this.props.fullscreenButton
+        icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
       },
       moreOptions: {
         onPress: this.onMorePress,
         style: styles.icon,
-        icon: ICONS.ELLIPSIS
+        icon: this.props.config.icons.ellipsis
       },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
@@ -137,9 +139,9 @@ var ControlBar = React.createClass({
       displayStyle = styles.containerHidden;
     }
 
-    for(var i = 0; i < this.props.config.items.length; i++) {
+    for(var i = 0; i < this.props.config.controlBar.items.length; i++) {
       controlBarWidgets.push(<ControlBarWidget
-        widgetType={this.props.config.items[i]}
+        widgetType={this.props.config.controlBar.items[i]}
         options={widgetOptions}
       />);
     }

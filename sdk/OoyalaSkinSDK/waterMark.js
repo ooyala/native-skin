@@ -10,8 +10,6 @@ var {
 var Utils = require('./utils');
 var styles = Utils.getStyles();
 
-var ICONS = require('./constants').ICONS;
-
 var WaterMark = React.createClass ({
 	render: function() {
 		var waterMarkImageLocation = styles.waterMarkImageSE;
@@ -30,4 +28,4 @@ var WaterMark = React.createClass ({
 	}
 });
 
-module.exports = WaterMark
+module.exports = WaterMark;

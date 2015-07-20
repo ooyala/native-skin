@@ -16,7 +16,6 @@ var VolumeView = require('./VolumeView');
 
 var Constants = require('./../constants');
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS,
   } = Constants;
@@ -29,9 +28,15 @@ var controlBarWidget = React.createClass({
   },
 
   playPauseWidget: function (options) {
+    var iconMap = {
+      "play": options.playIcon,
+      "pause": options.pauseIcon,
+      "replay": options.replayIcon
+    };
+    var fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
     return (
       <TouchableHighlight onPress={options.onPress}>
-        <Text style={options.style}>{options.primaryActionButton}</Text>
+        <Text style={[options.style, fontFamilyStyle]}>{iconMap[options.primaryActionButton].fontString}</Text>
       </TouchableHighlight>
     );
   },
@@ -41,10 +46,11 @@ var controlBarWidget = React.createClass({
     if (options.showVolume) {
       volumeScrubber = <VolumeView style={options.scrubberStyle} />;
     }
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (
       <View style={{flexDirection: 'row'}}>
         <TouchableHighlight onPress={options.onPress}>
-          <Text style={options.style}>{options.volumeIcon}</Text>
+          <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
         </TouchableHighlight>
         {volumeScrubber}
       </View>
@@ -65,14 +71,16 @@ var controlBarWidget = React.createClass({
   },
 
   fullscreenWidget: function(options) {
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={options.style}>{options.icon}</Text>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
   moreOptionsWidget: function (options) {
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={options.style}>{options.icon}</Text>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
@@ -118,9 +126,9 @@ var controlBarWidget = React.createClass({
       "closedCaption": this.closedCaptionWidget,
       "bitrateSelector": this.bitrateSelectorWidget
     };
-    var widgetOptions = this.props.options[this.props.widgetType];
+    var widgetOptions = this.props.options[this.props.widgetType.name];
 
-    return widgetsMap[this.props.widgetType](widgetOptions);
+    return widgetsMap[this.props.widgetType.name](widgetOptions);
   }
 
 });
