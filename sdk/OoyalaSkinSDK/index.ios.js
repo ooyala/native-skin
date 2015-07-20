@@ -346,6 +346,8 @@ var OoyalaSkin = React.createClass({
         selectedLanguage={this.state.selectedLanguage}
         onSelect={(value)=>this.onLanguageSelected(value)}
         onDismiss={this.onOverlayDismissed}
+        width={this.state.width}
+        height={this.state.height}
         localizableStrings={this.props.localizableStrings}
         locale={this.props.locale}>
       </LanguageSelectionPanel>)
@@ -363,7 +365,9 @@ var OoyalaSkin = React.createClass({
       <DiscoveryPanel
         config={this.props.discoveryScreen}
         dataSource={this.state.discoveryResults}
-        onRowAction={(info) => this.onDiscoveryRow(info)}>
+        onRowAction={(info) => this.onDiscoveryRow(info)}
+        width={this.state.width}
+        height={this.state.height}>
       </DiscoveryPanel>);
   },
 

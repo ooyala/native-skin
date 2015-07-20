@@ -12,21 +12,21 @@ var {
   Text,
   TouchableHighlight,
   View,
+  ScrollView
 } = React;
 
 var Utils = require('./utils');
+var ResponsiveList = require('./widgets/ResponsiveList');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.embedCode !== r2.embedCode})
-
+// TODO: read this from config.
+var rowRect = {width:360, height:64}
 var DiscoveryPanel = React.createClass({
   propTypes: {
     dataSource: React.PropTypes.array,
     onRowAction: React.PropTypes.func,
-    config: React.PropTypes.object
-  },
-
-  getInitialState: function() {
-    return {dataSource:ds.cloneWithRows(this.props.dataSource)};
+    config: React.PropTypes.object,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number
   },
 
   onRowSelected: function(row) {
@@ -43,12 +43,18 @@ var DiscoveryPanel = React.createClass({
 
   render: function() {
     return (
-      <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this.renderRow}
-        renderHeader={this.renderHeader}
-        style={styles.listView}>
-      </ListView>
+      <View style={styles.panel}>
+        {this.renderHeader()}
+        <ResponsiveList
+          horizontal={false}
+          data={this.props.dataSource}
+          itemRender={this.renderRow}
+          width={this.props.width}
+          height={this.props.height}
+          itemWidth={rowRect.width}
+          itemHeight={rowRect.height}>
+        </ResponsiveList>
+      </View>
     );
   },
 
@@ -66,7 +72,8 @@ var DiscoveryPanel = React.createClass({
     return (
     <TouchableHighlight
       underlayColor='#37455B'
-      onPress={() => this.onRowSelected(row)}>
+      onPress={() => this.onRowSelected(row)}
+      style={rowRect}>
       <View style={styles.container}>
         <Image
           source={{uri: row.imageUrl}}
