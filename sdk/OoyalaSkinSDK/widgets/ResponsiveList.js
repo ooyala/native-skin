@@ -7,7 +7,7 @@ var {
 } = React;
 
 var styles=require('../utils').getStyles(require('./style/ResponsiveListStyles.json'));
-
+var placeHolderItem = "ResponsiveListPlaceHolder";
 var ResponsiveList = React.createClass({
   propTypes: {
     horizontal: React.PropTypes.bool,
@@ -32,6 +32,8 @@ var ResponsiveList = React.createClass({
       for (var j = 0; j < itemsPerRow; j++) {
         if (i * itemsPerRow + j < this.props.data.length) {
           rows[i][j] = this.props.data[i * itemsPerRow + j];
+        } else {
+          rows[i][j] = placeHolderItem;
         }
       }
     }
@@ -52,6 +54,8 @@ var ResponsiveList = React.createClass({
       for (j = 0; j < itemsPerColumn; j++) {
         if (i + j * numberOfColumns < this.props.data.length) {
           columns[i][j] = this.props.data[i + j * numberOfColumns];
+        } else {
+          columns[i][j] = placeHolderItem;
         }
       }
     }
@@ -77,8 +81,19 @@ var ResponsiveList = React.createClass({
     return (<View
       key={i} 
       style={sliceStyle}>
-      {slice.map(this.props.itemRender)}
+      {slice.map(this.renderItem)}
     </View>);
+  },
+
+  renderItem: function(item: object, i: number) {
+    var placeHolderStyle = 
+      {backgroundColor: "transparent", width:this.props.itemWidth, height: this.props.itemHeight};
+    if (item === placeHolderItem) {
+      return (<View style={placeHolderStyle}></View>);
+    } else {
+      console.log("item"+item+"i"+i);
+      return this.props.itemRender(item, i);
+    }
   }
 });
 
