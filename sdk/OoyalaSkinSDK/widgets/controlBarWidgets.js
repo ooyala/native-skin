@@ -33,10 +33,10 @@ var controlBarWidget = React.createClass({
       "pause": options.pauseIcon,
       "replay": options.replayIcon
     };
-
+    var fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
     return (
       <TouchableHighlight onPress={options.onPress}>
-        <Text style={[options.style, {fontFamily: iconMap[options.primaryActionButton].fontFamilyName}]}>{iconMap[options.primaryActionButton].fontString}</Text>
+        <Text style={[options.style, fontFamilyStyle]}>{iconMap[options.primaryActionButton].fontString}</Text>
       </TouchableHighlight>
     );
   },
@@ -46,10 +46,11 @@ var controlBarWidget = React.createClass({
     if (options.showVolume) {
       volumeScrubber = <VolumeView style={options.scrubberStyle} />;
     }
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (
       <View style={{flexDirection: 'row'}}>
         <TouchableHighlight onPress={options.onPress}>
-          <Text style={[options.style, {fontFamily: options.icon.fontFamilyName}]}>{options.icon.fontString}</Text>
+          <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
         </TouchableHighlight>
         {volumeScrubber}
       </View>
@@ -70,14 +71,16 @@ var controlBarWidget = React.createClass({
   },
 
   fullscreenWidget: function(options) {
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={[options.style, {fontFamily: options.icon.fontFamilyName}]}>{options.icon.fontString}</Text>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
   moreOptionsWidget: function (options) {
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight onPress={options.onPress}>
-      <Text style={[options.style, {fontFamily: options.icon.fontFamilyName}]}>{options.icon.fontString}</Text>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
