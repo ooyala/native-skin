@@ -10,10 +10,11 @@ var BUTTON_NAMES = { // must match Objective-C code expectations.
   LEARNMORE: 'LearnMore',
   // more option buttons
   DISCOVERY: 'Discovery',
-  QUALITY: 'Quality',
+  QUALITY: 'VideoQuality',
   CLOSED_CAPTIONS: 'CC',
   SHARE: 'Share',
-  SETTING: 'Setting',
+  SETTING: 'Settings',
+  NONE: 'None'
 };
 
 var IMG_URLS = {

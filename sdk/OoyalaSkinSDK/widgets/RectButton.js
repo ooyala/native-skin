@@ -18,6 +18,7 @@ var RectButton = React.createClass({
     frameHeight: React.PropTypes.number,
     buttonWidth: React.PropTypes.number,
     buttonHeight: React.PropTypes.number,
+    buttonColor: React.PropTypes.string,
     fontSize: React.PropTypes.number,
     fontFamily: React.PropTypes.string,
     style:React.PropTypes.object,
@@ -27,6 +28,7 @@ var RectButton = React.createClass({
   render: function() {
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
+    var buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
     var positionStyle;
 
     if(this.props.style != null) {
@@ -40,7 +42,6 @@ var RectButton = React.createClass({
     } else {    
       positionStyle = styles[this.props.position];
     }
-
     return (
       <TouchableHighlight  
         style={positionStyle}
@@ -48,7 +49,7 @@ var RectButton = React.createClass({
         underlayColor="transparent"
         activeOpacity={this.props.opacity}>
         <View style={[styles.buttonArea, sizeStyle]}>
-          <Text style={[styles.buttonTextStyle, fontStyle]}>{this.props.icon}</Text>
+          <Text style={[styles.buttonTextStyle, fontStyle, buttonColor]}>{this.props.icon}</Text>
         </View>
       </TouchableHighlight>);
   },

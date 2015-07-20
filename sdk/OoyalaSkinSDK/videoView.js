@@ -54,12 +54,12 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
+    lastPressedTime: React.PropTypes.number,
+    config: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
-    locale: React.PropTypes.string,
     localizableStrings: React.PropTypes.object,
-    lastPressedTime: React.PropTypes.number,
-    config: React.PropTypes.object
+    locale: React.PropTypes.string
   },
 
   shouldShowDiscovery: function() {
@@ -125,23 +125,14 @@ var VideoView = React.createClass({
 
   _renderAdBar: function() {
     if (this.props.ad) {
-      var adTitle = Utils.localizedString(this.props.locale, "Ad Playing", this.props.localizableStrings);
-      if (this.props.ad.title && this.props.ad.title.length > 0) {
-        adTitle = adTitle + ":" + adTitle;
-      } 
-      var count = this.props.ad.count ? this.props.ad.count : 1;
-      var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
-      var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
-
       return (<AdBar
-        title={adTitle}
+        ad={this.props.ad}
         playhead={this.props.playhead}
         duration={this.props.duration}
-        count={count}
-        index={count - unplayed}
-        onPress={this.handlePress}
-        showButton={showLearnMore}
-        buttonText={Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings)} />
+        onPress={this.handlePress} 
+        width={this.props.width}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale} />
       );
     }
     return null;
@@ -150,7 +141,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray=this.props.sharing;
+      var socialButtonsArray =this.props.sharing;
       placeholder = (
         <View
         style={styles.fullscreenContainer}>
@@ -186,8 +177,8 @@ var VideoView = React.createClass({
       duration={this.props.duration}
       nextVideo={this.props.nextVideo}
       upNextDismissed={this.props.upNextDismissed}
-      onPress={(value) => this.handlePress(value)} >
-      </UpNext>;
+      onPress={(value) => this.handlePress(value)}
+      width={this.props.width}/>;
   },
 
   _handleSocialShare: function() {
