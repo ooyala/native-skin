@@ -14,6 +14,10 @@ var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/upNext.json'));
 var RectButton = require('./widgets/RectButton');
 
+var descriptionMinWidth = 140;
+var thumbnailWidth = 80;
+var dismissButtonWidth = 80;
+
 var UpNext = React.createClass({
   propTypes: {
     config: React.PropTypes.object,
@@ -49,7 +53,7 @@ var UpNext = React.createClass({
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.showUpNext && !this.props.ad && this.props.nextVideo != null) {
 
       var upNextImage = (
-      <TouchableHighlight style={styles.thumbnailContainer}
+      <TouchableHighlight style={[styles.thumbnailContainer, {width: thumbnailWidth}]}
         onPress={this.clickUpNext}>
         <Image
           source={{uri: this.props.nextVideo.imageUrl}}
@@ -68,11 +72,11 @@ var UpNext = React.createClass({
         <RectButton
           icon={"Dismiss"}
           onPress={this.dismissUpNext}
-          style={styles.dismissButton}>
+          style={[styles.dismissButton, {width: dismissButtonWidth}]}>
         </RectButton>
       );
 
-      if (this.props.width < 300) {
+      if (this.props.width < descriptionMinWidth + thumbnailWidth + dismissButtonWidth) {
         return (
           <View style={styles.container}>
           {upNextImage}

@@ -8,8 +8,7 @@
     height: 100
   },
   thumbnailContainer: {
-    marginRight: 15,
-    flex: 1
+    marginRight: 15
   },
   thumbnail: {
     flex: 1
@@ -21,7 +20,8 @@
     color: 'white'
   },
   textContainer: {
-    flex: 5
+    flex: 5,
+    overflow: 'hidden'
   },
   title: {
     color: 'white',
@@ -32,7 +32,6 @@
     color: 'white'
   },
   dismissButton: {
-    flex: 1,
     fontSize: 15
   }
 }
