@@ -26,6 +26,7 @@
 		0BFFF7B21B3A201A00D72444 /* TallPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B11B3A201A00D72444 /* TallPlayerView.xib */; };
 		0BFFF7B41B3A213800D72444 /* SmallSkinPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B31B3A213800D72444 /* SmallSkinPlayerView.xib */; };
 		0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */; };
+		2F12FF394E8985621462AB52 /* alice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F9F14C5661D0AE78BEC3 /* alice.ttf */; };
 		5EFDD1D71B4F48BD00A61DC2 /* skin.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EFDD19B1B4F486300A61DC2 /* skin.json */; };
 		970ADAEB1B506160008E8AEF /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 970ADAEA1B506160008E8AEF /* OoyalaSkinSDK.framework */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
@@ -63,6 +64,7 @@
 		0BFFF7B31B3A213800D72444 /* SmallSkinPlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SmallSkinPlayerView.xib; sourceTree = "<group>"; };
 		0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WidePlayerView.xib; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F12F9F14C5661D0AE78BEC3 /* alice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = alice.ttf; sourceTree = "<group>"; };
 		5EFDD19B1B4F486300A61DC2 /* skin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skin.json; sourceTree = "<group>"; };
 		970ADAEA1B506160008E8AEF /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -113,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */,
+				2F12F9F14C5661D0AE78BEC3 /* alice.ttf */,
 			);
 			name = Fonts;
 			path = OoyalaSkinSampleApp/Fonts;
@@ -282,6 +285,7 @@
 				0BFFF7B21B3A201A00D72444 /* TallPlayerView.xib in Resources */,
 				0B7824671B2FA0BD00D718AB /* DefaultSkinPlayerView.xib in Resources */,
 				0B7824331B2B7EB600D718AB /* Info.plist in Resources */,
+				2F12FF394E8985621462AB52 /* alice.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
