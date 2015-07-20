@@ -46,7 +46,7 @@ var DiscoveryPanel = React.createClass({
       <View style={styles.panel}>
         {this.renderHeader()}
         <ResponsiveList
-          horizontal={true}
+          horizontal={false}
           data={this.props.dataSource}
           itemRender={this.renderRow}
           width={this.props.width}
