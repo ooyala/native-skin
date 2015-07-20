@@ -139,7 +139,7 @@ var ControlBar = React.createClass({
 
     for(var i = 0; i < this.props.config.items.length; i++) {
       controlBarWidgets.push(<ControlBarWidget
-        widgetType={this.props.config.items[i]}
+        widgetType={this.props.config.items[i].name}
         options={widgetOptions}
       />);
     }
