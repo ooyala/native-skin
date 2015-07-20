@@ -254,8 +254,7 @@ var OoyalaSkin = React.createClass({
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
       case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
-      case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderCCOptions(); break;
-      //return this._renderMoreOptionScreen();  break;
+      case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
       default:      return this._renderVideoView();   break;
     }
   },

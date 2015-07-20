@@ -18,7 +18,8 @@ var {
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
-
+// TODO: read this from config.
+var rowRect = {width:360, height:64}
 var DiscoveryPanel = React.createClass({
   propTypes: {
     dataSource: React.PropTypes.array,
@@ -42,16 +43,16 @@ var DiscoveryPanel = React.createClass({
 
   render: function() {
     return (
-      <View style={styles.listView}>
+      <View style={styles.panel}>
         {this.renderHeader()}
         <ResponsiveList
-          horizontal={false}
+          horizontal={true}
           data={this.props.dataSource}
           itemRender={this.renderRow}
           width={this.props.width}
           height={this.props.height}
-          itemWidth={this.props.width}
-          itemHeight={80}>
+          itemWidth={rowRect.width}
+          itemHeight={rowRect.height}>
         </ResponsiveList>
       </View>
     );
@@ -71,7 +72,8 @@ var DiscoveryPanel = React.createClass({
     return (
     <TouchableHighlight
       underlayColor='#37455B'
-      onPress={() => this.onRowSelected(row)}>
+      onPress={() => this.onRowSelected(row)}
+      style={rowRect}>
       <View style={styles.container}>
         <Image
           source={{uri: row.imageUrl}}

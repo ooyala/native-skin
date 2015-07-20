@@ -43,8 +43,9 @@ var ResponsiveList = React.createClass({
     if (itemsPerColumn == 0) {
       itemsPerColumn = 1;
     }
-    console.log("numberOfRows"+numberOfRows+"itemsPerRow"+itemsPerRow);
+    
     var numberOfColumns = Math.ceil(this.props.data.length / itemsPerColumn);
+    console.log("numberOfColumns"+numberOfColumns+"itemsPerColumn"+itemsPerColumn);
     var columns = [];
     for (var i = 0; i  < numberOfColumns; i++) {
       columns[i] = [];
@@ -72,7 +73,6 @@ var ResponsiveList = React.createClass({
   },
 
   renderSlice: function(slice: object, i: number) {
-    console.log("renderSlice" + i);
     var sliceStyle = this.props.horizontal ? styles.column : styles.row;
     return (<View
       key={i} 
