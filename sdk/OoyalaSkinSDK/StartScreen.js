@@ -17,7 +17,6 @@ var {
   IMG_URLS
 } = Constants;
 
-var ICONS = require('./constants').ICONS;
 var RectButton = require('./widgets/RectButton');
 
 var StartScreen = React.createClass({
@@ -37,13 +36,13 @@ var StartScreen = React.createClass({
 
   // Gets the play button based on the current config settings
   getPlayButton: function() {
-    if(this.props.config.showPlayButton) {
+    if(this.props.config.startScreen.showPlayButton) {
       var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
-      console.log("buttonSize"+buttonSize);
       return (
         <RectButton
-          icon={ICONS.PLAY}
-          position={this.props.config.playButtonPosition}
+          icon={this.props.config.icons.play.fontString}
+          fontFamily={this.props.config.icons.play.fontFamilyName}
+          position={this.props.config.startScreen.playButtonPosition}
           onPress={this.handleClick}
           opacity={0.5}
           frameWidth={this.props.width}
@@ -59,16 +58,16 @@ var StartScreen = React.createClass({
   // Gets the infoPanel based on the current config settings
   getInfoPanel: function() {
     var infoPanelTitle;
-    if(this.props.config.showTitle) {
+    if(this.props.config.startScreen.showTitle) {
       infoPanelTitle = (<Text style={styles.infoPanelTitle}>{this.props.title}</Text>);
     }
     var infoPanelDescription;
-    if(this.props.config.showDescription) {
+    if(this.props.config.startScreen.showDescription) {
       infoPanelDescription = (<Text style={styles.infoPanelDescription}>{this.props.description}</Text>);
     }
 
     var infoPanelLocation;
-    switch (this.props.config.infoPanelPosition) {
+    switch (this.props.config.startScreen.infoPanelPosition) {
       case "topLeft":
         infoPanelLocation = styles.infoPanelNW;
         break;
@@ -76,7 +75,7 @@ var StartScreen = React.createClass({
         infoPanelLocation = styles.infoPanelSW;
         break;
       default:
-        throw("Invalid infoPanel location " + this.props.config.infoPanelPosition);
+        throw("Invalid infoPanel location " + this.props.config.startScreen.infoPanelPosition);
     }
 
     return (
@@ -88,8 +87,8 @@ var StartScreen = React.createClass({
   },
 
   getPromoImage: function() {
-    if (this.props.config.showPromo && this.props.promoUrl) {
-      var fullscreen = (this.props.config.promoImageSize == 'default');
+    if (this.props.config.startScreen.showPromo && this.props.promoUrl) {
+      var fullscreen = (this.props.config.startScreen.promoImageSize == 'default');
 
       return (
         <Image 

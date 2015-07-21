@@ -285,10 +285,10 @@ static NSString *kLocale = @"locale";
     }
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     [window addSubview:self.view];
-    [self.view setFrame:window.frame];
+    [self.view setFrame:window.bounds];
   } else {
     [_parentView addSubview:self.view];
-    [self.view setFrame:_parentView.frame];
+    [self.view setFrame:_parentView.bounds];
     if (_parentViewController) {
       [_parentViewController addChildViewController:self];
       _parentViewController = nil;

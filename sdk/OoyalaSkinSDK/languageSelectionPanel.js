@@ -31,7 +31,7 @@ var LanguageSelectionPanel = React.createClass({
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string,
+    locale: React.PropTypes.string
   },
 
   isSelected: function(name) {

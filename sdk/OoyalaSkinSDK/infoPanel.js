@@ -8,7 +8,6 @@ var {
 var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/infoPanelStyles.json'));
-var ICONS = require('./constants').ICONS;
 
 var InfoPanel = React.createClass ({
 	propTypes: {

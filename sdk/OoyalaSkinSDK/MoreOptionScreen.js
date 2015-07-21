@@ -17,7 +17,6 @@ var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
 
 var {
-  ICONS,
   BUTTON_NAMES,
   IMG_URLS,
 } = Constants;
@@ -26,20 +25,21 @@ var dismissButtonSize = 20;
 
 var MoreOptionScreen = React.createClass({
 	propTypes: {
-    moreOptionConfig: React.PropTypes.object,
     onDismiss: React.PropTypes.func,
     onSocialButtonPress: React.PropTypes.func,
     panel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
+    config: React.PropTypes.object
 	},
 
-  _renderButton: function(style, icon, func, size, color) {
+  _renderButton: function(style, icon, func, size, color, fontFamily) {
     return (
       <RectButton
         icon={icon}
         onPress={func}
         fontSize={size}
+        fontFamily={fontFamily}
         style={style}
         buttonColor={color}>
       </RectButton>
@@ -47,8 +47,8 @@ var MoreOptionScreen = React.createClass({
   },
 
   _renderMoreOptionButtons: function(moreOptionButtons){
-    for(var i = 0; i < this.props.moreOptionConfig.buttons.length; i++){
-      var button = this.props.moreOptionConfig.buttons[i];
+    for(var i = 0; i < this.props.config.moreOptions.buttons.length; i++){
+      var button = this.props.config.moreOptions.buttons[i];
 
       var moreOptionButton;
       var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button);
@@ -60,8 +60,8 @@ var MoreOptionScreen = React.createClass({
           f(buttonName);
         };
       }(button, this.props.onOptionButtonPress);
-        
-      moreOptionButton = this._renderButton(buttonStyle, buttonIcon, onOptionPress, this.props.moreOptionConfig.iconSize, this.props.moreOptionConfig.color);
+
+      moreOptionButton = this._renderButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptions.iconSize, this.props.config.moreOptions.color, buttonIcon.fontFamilyName);
 
       moreOptionButtons.push(moreOptionButton);
     }
@@ -70,9 +70,9 @@ var MoreOptionScreen = React.createClass({
   _renderOpacity: function(buttonSelected, buttonName){
     var buttonOpacity;
     if(buttonSelected == BUTTON_NAMES.NONE || buttonSelected == buttonName){
-      buttonOpacity = this.props.moreOptionConfig.brightOpacity;
+      buttonOpacity = this.props.config.moreOptions.brightOpacity;
     }else{
-      buttonOpacity = this.props.moreOptionConfig.darkOpacity;
+      buttonOpacity = this.props.config.moreOptions.darkOpacity;
     }
 
     return {opacity: buttonOpacity};
@@ -82,19 +82,19 @@ var MoreOptionScreen = React.createClass({
     var buttonIcon;
     switch(buttonName){
           case BUTTON_NAMES.DISCOVERY:
-            buttonIcon = ICONS.DISCOVERY;
+            buttonIcon = this.props.config.icons.discovery;
             break;
           case BUTTON_NAMES.QUALITY:
-            buttonIcon = ICONS.QUALITY;
+            buttonIcon = this.props.config.icons.quality;
             break;
           case BUTTON_NAMES.CLOSED_CAPTIONS:
-            buttonIcon = ICONS.CC;
+            buttonIcon = this.props.config.icons.cc;
             break;
           case BUTTON_NAMES.SHARE:
-            buttonIcon = ICONS.SHARE;
+            buttonIcon = this.props.config.icons.share;
             break;
           case BUTTON_NAMES.SETTING:
-            buttonIcon = ICONS.SETTING;
+            buttonIcon = this.props.config.icons.setting;
             break;
           default:
             break;
@@ -106,7 +106,7 @@ var MoreOptionScreen = React.createClass({
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
     
-    var dismissButton = this._renderButton(styles.iconBright, ICONS.DISMISS, this.props.onDismiss, dismissButtonSize);
+    var dismissButton = this._renderButton(styles.iconBright, this.props.config.icons.dismiss.fontString, this.props.onDismiss, dismissButtonSize, this.props.config.moreOptions.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow = (
       <View

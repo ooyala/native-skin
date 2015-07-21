@@ -12,7 +12,6 @@ var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/pauseScreenStyles.json'));
 var WaterMark = require('./waterMark');
 var InfoPanel = require('./infoPanel');
-var ICONS = require('./constants').ICONS;
 
 var PauseScreen = React.createClass({
   propTypes: {
@@ -52,12 +51,13 @@ var PauseScreen = React.createClass({
   },
 
   _renderPlayButton: function() {
+    var fontFamilyStyle = {fontFamily: this.props.config.icons.play.fontFamilyName};
     return (
       <TouchableHighlight
         onPress={this.handleClick}
         underlayColor="transparent"
         activeOpacity={0.5}>
-        <Text style={styles.playButton}>{ICONS.PLAY}</Text>
+        <Text style={[styles.playButton, fontFamilyStyle]}>{this.props.config.icons.play.fontString}</Text>
       </TouchableHighlight>
     );
   },
