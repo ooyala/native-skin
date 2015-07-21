@@ -35,7 +35,6 @@
 
   icon: {
     textAlign: 'center',
-    fontFamily: 'fontawesome',
     margin: 15
   },
 
