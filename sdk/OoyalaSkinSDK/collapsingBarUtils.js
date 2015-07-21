@@ -21,7 +21,7 @@ var CollapsingBarUtils = {
   },
 
   _isValid: function( item, minName ) {
-    var valid = (item !== undefined) && (item[minName] !== undefined) && (item.collapsable !== undefined);
+    var valid = (item !== undefined) && (item[minName] !== undefined) && (item[minName] >= 0) && (item.collapsable !== undefined);
     return valid;
   },
 
