@@ -22,6 +22,7 @@ var {
 
 var Utils = require('./utils');
 var ControlBarWidget = require('./widgets/controlBarWidgets');
+var CollapsingBarUtils = require('./collapsingBarUtils');
 var VolumeView = require('./widgets/VolumeView');
 
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
@@ -139,9 +140,12 @@ var ControlBar = React.createClass({
       displayStyle = styles.containerHidden;
     }
 
-    for(var i = 0; i < this.props.config.controlBar.items.length; i++) {
+    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.controlBar.items, 'sdkMinWidth' );
+    for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
+      var widget = itemCollapsingResults.fit[i];
+      console.log( widget );
       controlBarWidgets.push(<ControlBarWidget
-        widgetType={this.props.config.controlBar.items[i]}
+        widgetType={widget}
         options={widgetOptions}
       />);
     }
