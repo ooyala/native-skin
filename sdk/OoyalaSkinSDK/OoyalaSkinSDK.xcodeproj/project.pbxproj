@@ -41,7 +41,9 @@
 		2F12F9D3CB7972A2383E3382 /* controlBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */; };
 		2F12FA7F458E495D0961DAB0 /* endScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC4252285AFD9EB38A07 /* endScreenStyles.json */; };
 		2F12FB30C695C309EDE67706 /* sharePanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F685C92F774DB1FCF0A0 /* sharePanelStyles.json */; };
+		2F12FD19BD9BF0E9981598D3 /* moreOptionScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */; };
 		2F12FDD11E083902D840710B /* controlBarWidgets.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F36A560AA799E10C33B5 /* controlBarWidgets.js */; };
+		2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */; };
 		2F12FF3D426A9C7194E8AB7B /* styles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F1B4D41FD66245F2C579 /* styles.json */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
 		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
@@ -165,9 +167,11 @@
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12F991D312F3867ADDAC0E /* infoPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = infoPanelStyles.json; sourceTree = "<group>"; };
 		2F12FA93EE3B4BB0B2EF65C0 /* discoveryPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = discoveryPanelStyles.json; sourceTree = "<group>"; };
+		2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MoreOptionScreen.js; sourceTree = "<group>"; };
 		2F12FC25E788F391F9990881 /* videoViewStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = videoViewStyles.json; sourceTree = "<group>"; };
 		2F12FC4252285AFD9EB38A07 /* endScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = endScreenStyles.json; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
+		2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = moreOptionScreenStyles.json; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
 		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 				2F12F7125EBA71D63F094C87 /* startScreenStyles.json */,
 				2F12FA93EE3B4BB0B2EF65C0 /* discoveryPanelStyles.json */,
 				2F12F6ACB2B1325582A57E0F /* upNext.json */,
+				2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */,
 			);
 			path = style;
 			sourceTree = "<group>";
@@ -275,6 +280,7 @@
 				2F12F497D5615098F00D7BCE /* upNext.js */,
 				2F12FE077D208B29E5A5098B /* style */,
 				2F12F4B46CDB9F18224C2AF6 /* widgets */,
+				2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */,
 			);
 			name = JSX;
 			sourceTree = "<group>";
@@ -546,6 +552,7 @@
 				2F12F97BE887C1463FE2FCD3 /* startScreenStyles.json in Resources */,
 				2F12F2E342AB0F88CBCA473F /* discoveryPanelStyles.json in Resources */,
 				2F12F53E9749216BF6CBED86 /* upNext.json in Resources */,
+				2F12FD19BD9BF0E9981598D3 /* moreOptionScreenStyles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -610,6 +617,7 @@
 				2F12F90D230C867189B47F73 /* RectButtonStyles.js in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				2F12FDD11E083902D840710B /* controlBarWidgets.js in Sources */,
+				2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
