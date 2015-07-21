@@ -9,14 +9,20 @@ var CollapsingBarUtils = {
   //  * a minimum width property, named @param minName.
   //  * @param minName string that is the name for looking up the minimum width of a given item.
   //  * @return {fit:[items that fit in the barWidth], dropped:[items that did not fit]}.
-  //  * Note: items which do not meet the item spec will appear in dropped.
+  //  * Note: items which do not meet the item spec will be removed and not appear in the results.
   //  */
   collapse: function( barWidth, orderedItems, minName ) {
     if( Number.isNaN( barWidth ) || barWidth === undefined ) { return orderedItems; }
     if( ! orderedItems ) { return []; }
     if( minName === undefined ) { return orderedItems; }
-    var self = this; var validItems = orderedItems.filter( function(i) { return self._isValid(i,minName); } );
+    var self = this;
+    var validItems = orderedItems.filter( function(i) { return self._isValid(i,minName); } );
     return this._collapse( barWidth, validItems, minName );
+  },
+
+  _isValid: function( item, minName ) {
+    var valid = (item !== undefined) && (item[minName] !== undefined) && (item.collapsable !== undefined);
+    return valid;
   },
 
   _collapse: function( barWidth, orderedItems, minName ) {  
@@ -29,11 +35,6 @@ var CollapsingBarUtils = {
       }
     }
     return r;
-  },
-
-  _isValid: function( item, minName ) {
-    var valid = (item !== undefined) && (item[minName] !== undefined) && (item.collapsable !== undefined);
-    return valid;
   },
 
   _dropLastItemMatching: function( results, item, minName, usedWidth ) {
@@ -166,7 +167,12 @@ var CollapsingBarUtils = {
       this.AssertStrictEquals( results.fit.length, 1, results );
     },
 
-    TestFit_discardInvalidItem: function() {
+    TestFit_discardInvalidItem_dropped: function() {
+      var results = CollapsingBarUtils.collapse( 100, [{name:"b1", collapsable:false}], 'minWidth' );
+      this.AssertStrictEquals( results.dropped.length, 0, results );
+    },
+
+    TestFit_discardInvalidItem_fit: function() {
       var results = CollapsingBarUtils.collapse( 100, [{name:"b1", collapsable:false}], 'minWidth' );
       this.AssertStrictEquals( results.fit.length, 0, results );
     },
