@@ -5,14 +5,10 @@
     "alignItems": "stretch",
     "backgroundColor": "black",
   },
-  "placeHolder": {
+  "item": {
     "flex": 1,
-  },
-  "row": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "stretch",
-    "backgroundColor": "transparent",
+    "width": 100,
+    "height": 65
   },
   "panelTitleRow": {
     "height": 30,
@@ -44,12 +40,16 @@
     "padding": 6,
     "margin": 10,
     "borderRadius": 5,
+    "width": 80,
+    "height": 45
   },
   "selectedButton": {
     "backgroundColor": "#498DFC",
     "padding": 6,
     "margin": 10,
     "borderRadius": 5,
+    "width": 80,
+    "height": 45
   },
   "buttonText": {
     "textAlign": "center",
