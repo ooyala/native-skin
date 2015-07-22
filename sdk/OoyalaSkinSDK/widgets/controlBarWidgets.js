@@ -126,9 +126,14 @@ var controlBarWidget = React.createClass({
       "closedCaption": this.closedCaptionWidget,
       "bitrateSelector": this.bitrateSelectorWidget
     };
-    var widgetOptions = this.props.options[this.props.widgetType.name];
-
-    return widgetsMap[this.props.widgetType.name](widgetOptions);
+    if( this.props.widgetType.name in widgetsMap ) {
+      var widgetOptions = this.props.options[this.props.widgetType.name];
+      return widgetsMap[this.props.widgetType.name](widgetOptions);
+    }
+    else {
+      console.log( "WARNING: unsupported widget name: " + this.props.widgetType.name );
+      return <View></View>;
+    }
   }
 
 });
