@@ -30,8 +30,7 @@ var LanguageSelectionPanel = React.createClass({
     onSelect: React.PropTypes.func,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
-    localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string
+    config: React.PropTypes.object
   },
 
   isSelected: function(name) {
@@ -60,8 +59,8 @@ var LanguageSelectionPanel = React.createClass({
     return (
       <View style={styles.previewPanel}>
         <View style={styles.splitter} />
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "CLOSE CAPTION PREVIEW", this.props.localizableStrings)}</Text>
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.locale, "Sample Text", this.props.localizableStrings)}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "CLOSE CAPTION PREVIEW", this.props.config.localizableStrings)}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "Sample Text", this.props.config.localizableStrings)}</Text>
       </View>
     )
   },
@@ -76,24 +75,26 @@ var LanguageSelectionPanel = React.createClass({
     if (hasCC) {
       previewPanel = this.getPreview();
     }
-
+    // screen height - title - toggle switch - preview - option bar
+    var itemPanelHeight = this.props.height  - 30 - 30 - 60 - 60;
     return (
       <View style={styles.panelContainer}>
         <View style={styles.panelTitleRow}>
-          <Text style={styles.panelTitle}>{Utils.localizedString(this.props.locale, "CC Options", this.props.localizableStrings)}</Text>
+          <Text style={styles.panelTitle}>{Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings)}</Text>
         </View>
         <ToggleSwitch
           switchOn={hasCC}
           onValueChanged={(value)=>this.onSwitchToggled(value)}
-          switchOnText={Utils.localizedString(this.props.locale, "On", this.props.localizableStrings)}
-          switchOffText={Utils.localizedString(this.props.locale, "Off", this.props.localizableStrings)}>
+          switchOnText={Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings)}
+          switchOffText={Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings)}
+          config={this.props.config}>
         </ToggleSwitch>
         <ResponsiveList
-          horizontal={false}
+          horizontal={true}
           data={this.props.languages}
           itemRender={this.renderItem}
           width={this.props.width}
-          height={this.props.height}
+          height={itemPanelHeight}
           itemWidth={100}
           itemHeight={65}>
         </ResponsiveList>

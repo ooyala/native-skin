@@ -348,8 +348,9 @@ var OoyalaSkin = React.createClass({
         onDismiss={this.onOverlayDismissed}
         width={this.state.width}
         height={this.state.height}
-        localizableStrings={this.props.localizableStrings}
-        locale={this.props.locale}>
+        config={{localizableStrings:this.props.localizableStrings,
+                 locale:this.props.locale,
+                 icons:this.props.icons}}>
       </LanguageSelectionPanel>)
   },
 
