@@ -97,7 +97,7 @@ var ControlBar = React.createClass({
     var widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
-        style: styles.icon,
+        style: [styles.icon, this.props.config.controlBar.iconStyle],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
@@ -105,7 +105,7 @@ var ControlBar = React.createClass({
       },
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ? [styles.icon, styles.iconHighlighted] : styles.icon,
+        style: this.state.showVolume ? [styles.icon, styles.iconHighlighted, this.props.config.controlBar.iconStyle] : [styles.icon, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.volumeDown,
         showVolume: this.state.showVolume,
         scrubberStyle: styles.volumeSlider
@@ -116,12 +116,12 @@ var ControlBar = React.createClass({
       },
       fullscreen: {
         onPress: this.onFullscreenPress,
-        style: styles.icon,
+        style: [styles.icon, this.props.config.controlBar.iconStyle],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
       },
       moreOptions: {
         onPress: this.onMorePress,
-        style: styles.icon,
+        style: [styles.icon, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.ellipsis
       },
       watermark: {
