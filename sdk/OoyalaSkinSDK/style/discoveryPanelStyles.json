@@ -23,11 +23,8 @@
     "marginLeft": 8
   },
   "title": {
-    "fontSize": 20,
     "marginBottom": 8,
-    "fontFamily": "Arial-BoldMT",
     "textAlign": "left",
-    "color": "white",
   },
   "description": {
     "fontSize": 16,

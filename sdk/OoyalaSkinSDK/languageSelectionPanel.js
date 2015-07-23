@@ -31,7 +31,8 @@ var LanguageSelectionPanel = React.createClass({
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string
+    locale: React.PropTypes.string,
+    config: React.PropTypes.object
   },
 
   isSelected: function(name) {
@@ -86,7 +87,8 @@ var LanguageSelectionPanel = React.createClass({
           switchOn={hasCC}
           onValueChanged={(value)=>this.onSwitchToggled(value)}
           switchOnText={Utils.localizedString(this.props.locale, "On", this.props.localizableStrings)}
-          switchOffText={Utils.localizedString(this.props.locale, "Off", this.props.localizableStrings)}>
+          switchOffText={Utils.localizedString(this.props.locale, "Off", this.props.localizableStrings)}
+          config={this.props.config}>
         </ToggleSwitch>
         <ResponsiveList
           horizontal={false}

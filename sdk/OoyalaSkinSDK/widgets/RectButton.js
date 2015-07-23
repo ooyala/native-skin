@@ -19,6 +19,7 @@ var RectButton = React.createClass({
     buttonWidth: React.PropTypes.number,
     buttonHeight: React.PropTypes.number,
     buttonColor: React.PropTypes.string,
+    buttonStyle: React.PropTypes.object,
     fontSize: React.PropTypes.number,
     fontFamily: React.PropTypes.string,
     style:React.PropTypes.object,
@@ -49,7 +50,7 @@ var RectButton = React.createClass({
         underlayColor="transparent"
         activeOpacity={this.props.opacity}>
         <View style={[styles.buttonArea, sizeStyle]}>
-          <Text style={[styles.buttonTextStyle, fontStyle, buttonColor]}>{this.props.icon}</Text>
+          <Text style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle]}>{this.props.icon}</Text>
         </View>
       </TouchableHighlight>);
   },

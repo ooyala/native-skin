@@ -9,11 +9,11 @@ var BUTTON_NAMES = { // must match Objective-C code expectations.
   EMAIL: 'Email',
   LEARNMORE: 'LearnMore',
   // more option buttons
-  DISCOVERY: 'Discovery',
-  QUALITY: 'VideoQuality',
-  CLOSED_CAPTIONS: 'CC',
-  SHARE: 'Share',
-  SETTING: 'Settings',
+  DISCOVERY: 'discovery',
+  QUALITY: 'quality',
+  CLOSED_CAPTIONS: 'closedCaption',
+  SHARE: 'share',
+  SETTING: 'settings',
   NONE: 'None'
 };
 
