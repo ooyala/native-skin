@@ -19,7 +19,7 @@ var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 // TODO: read this from config.
-var rowRect = {width:360, height:64}
+var itemRect = {width:160, height:120}
 var DiscoveryPanel = React.createClass({
   propTypes: {
     dataSource: React.PropTypes.array,
@@ -42,48 +42,48 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
+    var panelHeight = this.props.height - 80;
     return (
       <View style={styles.panel}>
         {this.renderHeader()}
         <ResponsiveList
-          horizontal={false}
+          horizontal={true}
           data={this.props.dataSource}
-          itemRender={this.renderRow}
+          itemRender={this.renderItem}
           width={this.props.width}
-          height={this.props.height}
-          itemWidth={rowRect.width}
-          itemHeight={rowRect.height}>
+          height={panelHeight}
+          itemWidth={itemRect.width}
+          itemHeight={itemRect.height}>
         </ResponsiveList>
       </View>
     );
   },
 
-  renderRow: function(row: object, sectionID: number, rowID: number) {
+  renderItem: function(item: object, sectionID: number, itemID: number) {
     var title;
     if (this.props.config.showContentTitle) {
-      title = <Text style={styles.title}>{row.name}</Text>;
+      title = <Text style={styles.title} numberOfLines={1}>{item.name}</Text>;
     }
   	var duration;
     if (this.props.config.showContentDuration) {
-      duration = <Text style={styles.description}>{Utils.secondsToString(row.duration)}</Text>;
+      duration = <Text style={styles.description} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
     };
-    this.onRowImpressed(row);
+    var thumbnail = (
+      <Image
+        source={{uri:item.imageUrl}}
+        style={styles.thumbnail} >
+      </Image>);
+    this.onRowImpressed(item);
 
     return (
     <TouchableHighlight
       underlayColor='#37455B'
-      onPress={() => this.onRowSelected(row)}
-      style={rowRect}>
-      <View style={styles.container}>
-        <Image
-          source={{uri: row.imageUrl}}
-          style={styles.thumbnail} >
-        </Image>
-        
-        <View style={styles.rightContainer}>
-          {title}
-          {duration}
-        </View>
+      onPress={() => this.onRowSelected(item)}
+      style={itemRect}>
+      <View style={styles.columnContainer}>
+        {thumbnail}
+        {title}
+        {duration}
       </View>
      </TouchableHighlight>
     );
