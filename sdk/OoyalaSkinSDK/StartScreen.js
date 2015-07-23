@@ -44,7 +44,7 @@ var StartScreen = React.createClass({
           fontFamily={this.props.config.icons.play.fontFamilyName}
           position={this.props.config.startScreen.playButtonPosition}
           onPress={this.handleClick}
-          opacity={0.5}
+          buttonStyle={this.props.config.startScreen.playIconStyle}
           frameWidth={this.props.width}
           frameHeight={this.props.height}
           buttonWidth={buttonSize * 2}
@@ -59,11 +59,11 @@ var StartScreen = React.createClass({
   getInfoPanel: function() {
     var infoPanelTitle;
     if(this.props.config.startScreen.showTitle) {
-      infoPanelTitle = (<Text style={styles.infoPanelTitle}>{this.props.title}</Text>);
+      infoPanelTitle = (<Text style={[styles.infoPanelTitle, this.props.config.startScreen.titleFont]}>{this.props.title}</Text>);
     }
     var infoPanelDescription;
     if(this.props.config.startScreen.showDescription) {
-      infoPanelDescription = (<Text style={styles.infoPanelDescription}>{this.props.description}</Text>);
+      infoPanelDescription = (<Text style={[styles.infoPanelDescription, this.props.config.startScreen.descriptionFont]}>{this.props.description}</Text>);
     }
 
     var infoPanelLocation;

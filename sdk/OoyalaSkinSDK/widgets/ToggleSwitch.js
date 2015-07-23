@@ -13,9 +13,6 @@ var {
 } = React;
 
 var Constants = require('../constants');
-var {
-  ICONS,
-} = Constants;
 
 var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.json'));
 
@@ -33,12 +30,12 @@ var ToggleSwitch = React.createClass({
   },
 
   render: function() {
-    console.log("renderToggleSwith"+this.props.switchOn);
     var onTextStyle = this.props.switchOn ? styles.highlightedText : styles.grayedText;
     var offTextStyle = this.props.switchOn ? styles.grayedText : styles.highlightedText;
     var switchIcon = this.props.switchOn ? this.props.config.icons.toggleOn.fontString : this.props.config.icons.toggleOff.fontString;
-    var switchStyle = this.props.switchOn ? [styles.buttonText, {fontFamily: this.props.config.icons.toggleOn.fontFamilyName}] : [styles.buttonText, {fontFamily: this.props.config.icons.toggleOff.fontFamilyName}];
-
+    var switchStyle = this.props.switchOn ? 
+      [styles.buttonText, {fontFamily: this.props.config.icons.toggleOn.fontFamilyName}] : 
+      [styles.buttonText, {fontFamily: this.props.config.icons.toggleOff.fontFamilyName}];
     return (
       <TouchableHighlight
         onPress={this.onSwitchToggled}>
