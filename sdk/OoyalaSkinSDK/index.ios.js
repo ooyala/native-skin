@@ -14,7 +14,6 @@ var {
   View,
   Image,
   TouchableHighlight,
-  LayoutAnimation,
 } = React;
 
 var eventBridge = require('NativeModules').OOReactBridge;
@@ -61,9 +60,8 @@ var OoyalaSkin = React.createClass({
     };
   },
 
-  onOptionButtonPress: function(buttonName) {
-    LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-    this.setState({buttonSelected: buttonName});
+  onOptionButtonPress: function(buttonName) { 
+    this.setState({buttonSelected:buttonName, screenType:SCREEN_TYPES.MOREOPTION_SCREEN});
   },
 
   onSocialButtonPress: function(socialType) {
@@ -112,7 +110,7 @@ var OoyalaSkin = React.createClass({
       case BUTTON_NAMES.SHARE:
       case BUTTON_NAMES.SETTING:
         this.pauseOnOptions();
-        this.setState({buttonSelected:n, screenType:SCREEN_TYPES.MOREOPTION_SCREEN});
+        this.onOptionButtonPress(n);
         break;
       default:
         eventBridge.onPress({name:n});
@@ -423,21 +421,5 @@ var styles = StyleSheet.create({
     height: 200
   },
 });
-
-var animations = {
-  layout: {
-    easeInEaseOut: {
-      duration: 900,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY,
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-    },
-  },
-};
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
