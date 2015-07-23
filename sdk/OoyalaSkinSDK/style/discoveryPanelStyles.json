@@ -1,10 +1,11 @@
 {
   "panelTitle": {
     "flex": 1,
-    "fontSize": 40,
+    "fontSize": 20,
     "textAlign": "left",
     "color": "white",
-    "padding": 20
+    "padding": 20,
+    "height": 30
   },
   "container": {
     "flex": 1,
@@ -23,14 +24,14 @@
     "marginLeft": 8
   },
   "title": {
-    "fontSize": 20,
+    "fontSize": 12,
     "marginBottom": 8,
     "fontFamily": "Arial-BoldMT",
     "textAlign": "left",
     "color": "white",
   },
   "description": {
-    "fontSize": 16,
+    "fontSize": 10,
     "marginBottom": 8,
     "fontFamily": "Arial",
     "textAlign": "left",
@@ -42,7 +43,15 @@
   },
   "panel": {
     "flex": 1,
-    "marginTop": 20,
     "backgroundColor": "black",
+  },
+  "columnContainer": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "alignItems": "center",
+    "padding": 10,
+    "width":160,
+    "height":120
   },
 }
