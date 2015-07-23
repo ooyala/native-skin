@@ -61,7 +61,7 @@ var MoreOptionScreen = React.createClass({
         };
       }(button, this.props.onOptionButtonPress);
 
-      moreOptionButton = this._renderButton([buttonStyle, this.props.config.moreOptions.iconStyle], buttonIcon.fontString, onOptionPress, this.props.config.moreOptions.iconSize, this.props.config.moreOptions.iconStyle.color, buttonIcon.fontFamilyName);
+      moreOptionButton = this._renderButton([buttonStyle, this.props.config.moreOptions.iconStyle], buttonIcon.fontString, onOptionPress, this.props.config.moreOptions.iconSize, this.props.config.moreOptions.color, buttonIcon.fontFamilyName);
 
       moreOptionButtons.push(moreOptionButton);
     }
@@ -80,6 +80,7 @@ var MoreOptionScreen = React.createClass({
 
   _renderIcon: function(buttonName){
     var buttonIcon;
+    console.log("buttonName"+buttonName);
     switch(buttonName){
           case BUTTON_NAMES.DISCOVERY:
             buttonIcon = this.props.config.icons.discovery;
@@ -106,7 +107,7 @@ var MoreOptionScreen = React.createClass({
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
     
-    var dismissButton = this._renderButton(styles.iconBright, this.props.config.icons.dismiss.fontString, this.props.onDismiss, dismissButtonSize, this.props.config.moreOptions.iconStyle.color, this.props.config.icons.dismiss.fontFamilyName);
+    var dismissButton = this._renderButton(styles.iconBright, this.props.config.icons.dismiss.fontString, this.props.onDismiss, dismissButtonSize, this.props.config.moreOptions.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow = (
       <View
