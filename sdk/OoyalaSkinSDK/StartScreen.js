@@ -59,11 +59,11 @@ var StartScreen = React.createClass({
   getInfoPanel: function() {
     var infoPanelTitle;
     if(this.props.config.startScreen.showTitle) {
-      infoPanelTitle = (<Text style={styles.infoPanelTitle}>{this.props.title}</Text>);
+      infoPanelTitle = (<Text style={[styles.infoPanelTitle, this.props.config.startScreen.titleFont]}>{this.props.title}</Text>);
     }
     var infoPanelDescription;
     if(this.props.config.startScreen.showDescription) {
-      infoPanelDescription = (<Text style={styles.infoPanelDescription}>{this.props.description}</Text>);
+      infoPanelDescription = (<Text style={[styles.infoPanelDescription, this.props.config.startScreen.descriptionFont]}>{this.props.description}</Text>);
     }
 
     var infoPanelLocation;
