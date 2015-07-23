@@ -98,7 +98,7 @@ var DiscoveryPanel = React.createClass({
         title = this.props.config.panelTitle.text;
       }
     }
-    return (<Text style={styles.panelTitle}>{title}</Text>);
+    return (<Text style={[styles.panelTitle, this.props.config.titleFont]}>{title}</Text>);
   },
 });
 
