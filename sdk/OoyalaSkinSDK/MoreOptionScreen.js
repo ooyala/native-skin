@@ -2,7 +2,6 @@
 
 var React = require('react-native');
 var {
-  Animated,
   Image,
   ListView,
   StyleSheet,
