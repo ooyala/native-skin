@@ -2,27 +2,22 @@
 
 var CollapsingBarUtils = {
 
-  // /**
-  //  * @param barWidth numeric.
-  //  * @param orderedItems array of left to right ordered items.
-  //  * Each item has property collapsable:boolean, and minWidth:number.
-  //  * @return {fit:[items that fit in the barWidth], dropped:[items that did not fit]}.
-  //  * Note: items which do not meet the item spec will be removed and not appear in the results.
-  //  */
+  // @param barWidth numeric.
+  // @param orderedItems array of left to right ordered items.
+  // Each item has property collapsable:boolean, and minWidth:number.
+  // @return {fit:[items that fit in the barWidth], dropped:[items that did not fit]}.
+  // Note: items which do not meet the item spec will be removed and not appear in the results.
   collapse: function( barWidth, orderedItems ) {
     if( isNaN( barWidth ) || barWidth === undefined ) { return orderedItems; }
     if( ! orderedItems ) { return []; }
     var self = this;
     var validItems = orderedItems.filter( function(i) { return self._isValid(i); } );
     var r = this._collapse( barWidth, validItems );
-    console.log( barWidth );
-    console.log( orderedItems );
-    console.log( r );
     return r;
   },
 
   _isValid: function( item ) {
-    var valid = (item !== undefined) && (item.minWidth !== undefined) && (item.minWidth >= 0) && (item.appearance !== undefined);
+    var valid = item && item.minWidth >= 0 && item.appearance;
     return valid;
   },
 
@@ -81,6 +76,20 @@ var CollapsingBarUtils = {
     B4_Collapsing100 : 	{name : "b4", appearance : "both",	minWidth : 100},
     B5_Collapsing1 : 		{name : "b5", appearance : "both",	minWidth : 1},
     B6_Collapsing1 : 		{name : "b6", appearance : "both",	minWidth : 1},
+    B7_MoreOptions100:  {name : "b7", appearance : "moreOptions", minWidth : 100},
+    B8_None100:     {name : "b7", appearance : "none", minWidth : 100},
+
+    TestDropped_dropAppearanceNone: function() {
+      var oi = [this.B8_None100];
+      var results = CollapsingBarUtils.collapse( 1, oi );
+      this.AssertStrictEquals( results.dropped.toString(), oi.toString(), results );
+    },
+
+    TestDropped_dropAppearanceMoreOptions: function() {
+      var oi = [this.B7_MoreOptions100];
+      var results = CollapsingBarUtils.collapse( 1, oi );
+      this.AssertStrictEquals( results.dropped.toString(), oi.toString(), results );
+    },
 
     TestDropped_dropAliasOnlyOnce: function() {
       var oi = [this.B5_Collapsing1, this.B6_Collapsing1, this.B5_Collapsing1];
