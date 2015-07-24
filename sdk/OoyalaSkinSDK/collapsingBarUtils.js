@@ -15,9 +15,6 @@ var CollapsingBarUtils = {
     var self = this;
     var validItems = orderedItems.filter( function(i) { return self._isValid(i); } );
     var r = this._collapse( barWidth, validItems );
-    console.log( barWidth );
-    console.log( orderedItems );
-    console.log( r );
     return r;
   },
 

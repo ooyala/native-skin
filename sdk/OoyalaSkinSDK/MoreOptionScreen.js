@@ -68,12 +68,9 @@ var MoreOptionScreen = React.createClass({
 
   // TODO: this needs to be wired up to filter out the results from CollapsingBarUtils.collapse().
   _renderMoreOptionButtons: function(moreOptionButtons){
-    console.log( "moreOptions props.config = ", this.props.config );
     var buttons = this.props.config.buttons.mobile.filter( function(b) { return b.appearance && (b.appearance == "moreOptions" || b.appearance == "both") } );
-    console.log( "moreOptions buttons = ", buttons );
     for(var i = 0; i < buttons.length; i++){
       var button = buttons[i];
-      console.log( "moreOptions button = ", button );
 
       var moreOptionButton;
       var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button.name);
@@ -111,7 +108,6 @@ var MoreOptionScreen = React.createClass({
 
   _renderIcon: function(buttonName){
     var buttonIcon;
-    console.log("buttonName"+buttonName);
     switch(buttonName){
           case BUTTON_NAMES.DISCOVERY:
             buttonIcon = this.props.config.icons.discovery;
