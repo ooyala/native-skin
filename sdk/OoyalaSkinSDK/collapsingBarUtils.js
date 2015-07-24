@@ -24,13 +24,20 @@ var CollapsingBarUtils = {
   _collapse: function( barWidth, orderedItems ) {
     var r = { fit : orderedItems.slice(), dropped : [] };
     var usedWidth = orderedItems.reduce( function(p,c,i,a) { return p+c.minWidth; }, 0 );
-    for( var i = orderedItems.length-1; i >= 0 && usedWidth > barWidth; --i ) {
+    for( var i = orderedItems.length-1; i >= 0; --i ) {
       var item = orderedItems[ i ];
-      if( !this._isValid( item ) || this._isCollapsable( item ) ) {
+      if( this._mustCollapse(item) ) {
+        usedWidth = this._dropLastItemMatching(r, item, usedWidth);
+      }
+      if( usedWidth > barWidth && this._isCollapsable( item ) ) {
         usedWidth = this._dropLastItemMatching(r, item, usedWidth);
       }
     }
     return r;
+  },
+
+  _mustCollapse: function( item ) {
+    return !this._isValid(item) || item.appearance == "none" || item.appearance == "moreOptions";
   },
 
   _isCollapsable: function( item ) {
@@ -78,6 +85,25 @@ var CollapsingBarUtils = {
     B6_Collapsing1 : 		{name : "b6", appearance : "both",	minWidth : 1},
     B7_MoreOptions100:  {name : "b7", appearance : "moreOptions", minWidth : 100},
     B8_None100:     {name : "b7", appearance : "none", minWidth : 100},
+
+    TestDropped_dropMoreOptionsDoesntCount: function() {
+      var oi = [this.B5_Collapsing1, this.B7_MoreOptions100];
+      var results = CollapsingBarUtils.collapse( 100, oi );
+      this.AssertStrictEquals( results.dropped.length, 1, results );
+      this.AssertStrictEquals( results.dropped[0], this.B7_MoreOptions100, results );
+    },
+
+    TestDropped_dropMoreOptionsFits: function() {
+      var oi = [this.B7_MoreOptions100];
+      var results = CollapsingBarUtils.collapse( 100, oi );
+      this.AssertStrictEquals( results.dropped.toString(), oi.toString(), results );
+    },
+
+    TestDropped_dropAppearanceNoneFits: function() {
+      var oi = [this.B8_None100];
+      var results = CollapsingBarUtils.collapse( 100, oi );
+      this.AssertStrictEquals( results.dropped.toString(), oi.toString(), results );
+    },
 
     TestDropped_dropAppearanceNone: function() {
       var oi = [this.B8_None100];

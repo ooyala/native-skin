@@ -140,10 +140,9 @@ var ControlBar = React.createClass({
       displayStyle = styles.containerHidden;
     }
 
-    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons.mobile );
+    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
-      console.log( widget );
       controlBarWidgets.push(<ControlBarWidget
         widgetType={widget}
         options={widgetOptions}

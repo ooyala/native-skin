@@ -279,7 +279,7 @@ var OoyalaSkin = React.createClass({
         config={{
           endScreen: this.props.endScreen,
           controlBar: this.props.controlBar,
-          buttons: this.props.buttons,
+          buttons: this.props.buttons.mobile,
           icons: this.props.icons
         }}
         title={this.state.title}
@@ -318,7 +318,7 @@ var OoyalaSkin = React.createClass({
         lastPressedTime={this.state.lastPressedTime}
         config={{
           controlBar: this.props.controlBar,
-          buttons: this.props.buttons,
+          buttons: this.props.buttons.mobile,
           upNextScreen: this.props.upNextScreen,
           icons: this.props.icons
         }}
@@ -408,8 +408,10 @@ var OoyalaSkin = React.createClass({
         onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)}
         config={{
           moreOptions: this.props.moreOptions,
-          buttons: this.props.buttons,
-          icons: this.props.icons
+          buttons: this.props.buttons.mobile,
+          icons: this.props.icons,
+          // TODO: assumes this is how control bar width is calculated everywhere.
+          controlBarWidth: this.state.width
         }} >
       </MoreOptionScreen>
     )
