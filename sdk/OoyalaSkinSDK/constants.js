@@ -1,5 +1,5 @@
 
-var BUTTON_NAMES = { // must match Objective-C code expectations.
+var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'Fullscreen',
   MORE: 'More',

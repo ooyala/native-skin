@@ -119,6 +119,7 @@ var VideoView = React.createClass({
       isShow={this.showControlBar()}
       config={{
         controlBar: this.props.config.controlBar,
+        buttons: this.props.config.buttons,
         icons: this.props.config.icons
       }} />);
   },
