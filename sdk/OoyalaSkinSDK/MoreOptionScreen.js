@@ -42,7 +42,7 @@ var MoreOptionScreen = React.createClass({
       property: 'scaleXY',
       fromValue: [1, 0],
       toValue: [1, 1],
-    });  
+    });
     AnimationExperimental.startAnimation({
       node: this.refs.this,
       duration: 900,
@@ -51,6 +51,18 @@ var MoreOptionScreen = React.createClass({
       fromValue: 0,
       toValue: 1,
     });  
+  },
+
+  onOptionPress: function(buttonName) {
+    AnimationExperimental.startAnimation({
+      node: this.refs.this,
+      duration: 900,
+      easing: 'linear',
+      property: 'opacity',
+      fromValue: 0,
+      toValue: 1,
+    });  
+    this.props.onOptionButtonPress(buttonName);
   },
 
   _renderButton: function(style, icon, func, size, color, fontFamily) {
@@ -90,7 +102,7 @@ var MoreOptionScreen = React.createClass({
         return function(){
           f(buttonName);
         };
-      }(button.name, this.props.onOptionButtonPress);
+      }(button.name, this.onOptionPress);
 
       moreOptionButton = this._renderButton([buttonStyle, this.props.config.moreOptions.iconStyle], buttonIcon.fontString, onOptionPress, this.props.config.moreOptions.iconSize, this.props.config.moreOptions.color, buttonIcon.fontFamilyName);
 
