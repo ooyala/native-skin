@@ -1,11 +1,10 @@
 {
   "panelTitle": {
-    "flex": 1,
-    "fontSize": 20,
+    "height": 40
+  },
+  "panelTitleText": {
+    "padding": 10,
     "textAlign": "left",
-    "color": "white",
-    "padding": 20,
-    "height": 30
   },
   "container": {
     "flex": 1,

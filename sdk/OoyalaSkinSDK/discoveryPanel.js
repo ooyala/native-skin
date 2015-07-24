@@ -42,7 +42,7 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    var panelHeight = this.props.height - 80;
+    var panelHeight = this.props.height - 40;
     return (
       <View style={styles.panel}>
         {this.renderHeader()}
@@ -98,7 +98,10 @@ var DiscoveryPanel = React.createClass({
         title = this.props.config.panelTitle.text;
       }
     }
-    return (<Text style={[styles.panelTitle, this.props.config.titleFont]}>{title}</Text>);
+    return (
+      <View style={styles.panelTitle}>
+        <Text style={[styles.panelTitleText,this.props.config.titleFont]}>{title}</Text>
+      </View>);
   },
 });
 

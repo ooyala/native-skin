@@ -76,7 +76,7 @@ var LanguageSelectionPanel = React.createClass({
       previewPanel = this.getPreview();
     }
     // screen height - title - toggle switch - preview - option bar
-    var itemPanelHeight = this.props.height  - 30 - 30 - 60 - 60;
+    var itemPanelHeight = this.props.height  - 30 - 30 - 60;
     return (
       <View style={styles.panelContainer}>
         <View style={styles.panelTitleRow}>
