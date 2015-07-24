@@ -66,20 +66,31 @@ var MoreOptionScreen = React.createClass({
     );
   },
 
+  // TODO: this needs to be wired up to filter out the results from CollapsingBarUtils.collapse().
   _renderMoreOptionButtons: function(moreOptionButtons){
-    for(var i = 0; i < this.props.config.moreOptions.buttons.length; i++){
-      var button = this.props.config.moreOptions.buttons[i];
+    console.log( "moreOptions props.config = ", this.props.config );
+    var buttons = this.props.config.buttons.mobile.filter( function(b) { return b.appearance && (b.appearance == "moreOptions" || b.appearance == "both") } );
+    console.log( "moreOptions buttons = ", buttons );
+    for(var i = 0; i < buttons.length; i++){
+      var button = buttons[i];
+      console.log( "moreOptions button = ", button );
 
       var moreOptionButton;
-      var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button);
-      var buttonIcon = this._renderIcon(button);
+      var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button.name);
+      var buttonIcon = this._renderIcon(button.name);
       var buttonStyle = [styles.icon, buttonOpacity];
+
+      // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
+      if( buttonOpacity === undefined || buttonIcon === undefined || buttonStyle === undefined ) {
+        console.log( "ERROR: skipping unsupported More Options button ", button );
+        continue;
+      }
 
       var onOptionPress = function(buttonName, f){
         return function(){
           f(buttonName);
         };
-      }(button, this.props.onOptionButtonPress);
+      }(button.name, this.props.onOptionButtonPress);
 
       moreOptionButton = this._renderButton([buttonStyle, this.props.config.moreOptions.iconStyle], buttonIcon.fontString, onOptionPress, this.props.config.moreOptions.iconSize, this.props.config.moreOptions.color, buttonIcon.fontFamilyName);
 
@@ -114,7 +125,7 @@ var MoreOptionScreen = React.createClass({
           case BUTTON_NAMES.SHARE:
             buttonIcon = this.props.config.icons.share;
             break;
-          case BUTTON_NAMES.SETTING:
+          case BUTTON_NAMES.SETTING: // TODO: this doesn't exist in the skin.json?
             buttonIcon = this.props.config.icons.setting;
             break;
           default:
