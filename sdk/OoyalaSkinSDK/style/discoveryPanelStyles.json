@@ -39,7 +39,5 @@
   },
   "panel": {
     "flex": 1,
-    "marginTop": 20,
-    "backgroundColor": "black",
   },
 }

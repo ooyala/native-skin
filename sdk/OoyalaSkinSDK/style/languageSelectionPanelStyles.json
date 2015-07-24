@@ -3,7 +3,6 @@
     "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch",
-    "backgroundColor": "black",
   },
   "item": {
     "flex": 1,
