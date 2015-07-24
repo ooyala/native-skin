@@ -15,6 +15,7 @@ var Utils = require('./utils');
 var Constants = require('./constants');
 var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
+var AnimationExperimental = require('AnimationExperimental');
 
 var {
   BUTTON_NAMES,
@@ -32,6 +33,25 @@ var MoreOptionScreen = React.createClass({
     onOptionButtonPress: React.PropTypes.func,
     config: React.PropTypes.object
 	},
+
+  componentDidMount:function () {
+    AnimationExperimental.startAnimation({
+      node: this.refs.this,
+      duration: 900,
+      easing: 'linear',
+      property: 'scaleXY',
+      fromValue: [1, 0],
+      toValue: [1, 1],
+    });  
+    AnimationExperimental.startAnimation({
+      node: this.refs.this,
+      duration: 900,
+      easing: 'linear',
+      property: 'opacity',
+      fromValue: 0,
+      toValue: 1,
+    });  
+  },
 
   _renderButton: function(style, icon, func, size, color, fontFamily) {
     return (
@@ -109,13 +129,16 @@ var MoreOptionScreen = React.createClass({
     
     var dismissButton = this._renderButton(styles.iconBright, this.props.config.icons.dismiss.fontString, this.props.onDismiss, dismissButtonSize, this.props.config.moreOptions.color, this.props.config.icons.dismiss.fontFamilyName);
 
-    var moreOptionRow = (
+    var moreOptionRow;
+    if (!this.props.buttonSelected || this.props.buttonSelected == BUTTON_NAMES.NONE) {
+
+      moreOptionRow = (
       <View
         ref='moreOptionRow' 
-        style={this.props.buttonSelected != BUTTON_NAMES.NONE? styles.rowBottom: styles.rowCenter}>
+        style={styles.rowCenter}>
         {moreOptionButtons}
-      </View>
-    );
+      </View>);
+    }
     
     var dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
@@ -124,10 +147,10 @@ var MoreOptionScreen = React.createClass({
     );
 
     var moreOptionScreen = (
-      <View style={styles.fullscreenContainer}>
+      <View ref='this' style={styles.fullscreenContainer}>
+        {moreOptionRow}
         {this.props.panel}
         {dismissButtonRow}
-        {moreOptionRow}
       </View>
     );
 
