@@ -25,22 +25,17 @@ var ToggleSwitch = React.createClass({
     config: React.PropTypes.object
   },
 
-  getInitialState: function() {
-    return {switchOn:this.props.switchOn};
-  },
-
   onSwitchToggled: function() {
-    var nextState = !this.state.switchOn;
-    this.setState({switchOn: nextState});
-    this.props.onValueChanged(nextState);
+    this.props.onValueChanged(!this.props.switchOn);
   },
 
   render: function() {
-    var onTextStyle = this.state.switchOn ? styles.highlightedText : styles.grayedText;
-    var offTextStyle = this.state.switchOn ? styles.grayedText : styles.highlightedText;
-    var switchIcon = this.state.switchOn ? this.props.config.icons.toggleOn.fontString : this.props.config.icons.toggleOff.fontString;
-    var switchStyle = this.state.switchOn ? [styles.buttonText, {fontFamily: this.props.config.icons.toggleOn.fontFamilyName}] : [styles.buttonText, {fontFamily: this.props.config.icons.toggleOff.fontFamilyName}];
-
+    var onTextStyle = this.props.switchOn ? styles.highlightedText : styles.grayedText;
+    var offTextStyle = this.props.switchOn ? styles.grayedText : styles.highlightedText;
+    var switchIcon = this.props.switchOn ? this.props.config.icons.toggleOn.fontString : this.props.config.icons.toggleOff.fontString;
+    var switchStyle = this.props.switchOn ? 
+      [styles.buttonText, {fontFamily: this.props.config.icons.toggleOn.fontFamilyName}] : 
+      [styles.buttonText, {fontFamily: this.props.config.icons.toggleOff.fontFamilyName}];
     return (
       <TouchableHighlight
         onPress={this.onSwitchToggled}>

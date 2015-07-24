@@ -64,6 +64,7 @@
   },
   "previewPanel": { 
     "alignItems":"flex-start",
+    "height": 60
   },
   "closedCaptionStyle": {
     "textAlign":"left",
