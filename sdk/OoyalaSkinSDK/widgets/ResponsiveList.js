@@ -6,6 +6,7 @@ var {
   ScrollView
 } = React;
 
+var GradientView = require('../gradientView');
 var styles=require('../utils').getStyles(require('./style/ResponsiveListStyles.json'));
 var placeHolderItem = "ResponsiveListPlaceHolder";
 var ResponsiveList = React.createClass({
@@ -25,7 +26,6 @@ var ResponsiveList = React.createClass({
       itemsPerRow = 1;
     }
     var numberOfRows = Math.ceil(this.props.data.length / itemsPerRow);
-    console.log("numberOfRows"+numberOfRows+"itemsPerRow"+itemsPerRow);
     var rows = [];
     for (var i = 0; i  < numberOfRows; i++) {
       rows[i] = [];
@@ -47,13 +47,12 @@ var ResponsiveList = React.createClass({
     }
     
     var numberOfColumns = Math.ceil(this.props.data.length / itemsPerColumn);
-    console.log("numberOfColumns"+numberOfColumns+"itemsPerColumn"+itemsPerColumn);
     var columns = [];
     for (var i = 0; i  < numberOfColumns; i++) {
       columns[i] = [];
       for (j = 0; j < itemsPerColumn; j++) {
-        if (i + j * numberOfColumns < this.props.data.length) {
-          columns[i][j] = this.props.data[i + j * numberOfColumns];
+        if (i * itemsPerColumn + j  < this.props.data.length) {
+          columns[i][j] = this.props.data[i * itemsPerColumn + j];
         } else {
           columns[i][j] = placeHolderItem;
         }
@@ -62,18 +61,19 @@ var ResponsiveList = React.createClass({
     return columns;
   },
 
-  getInitialState: function() {
-    return {};
-  },
-
   render: function() {  
     var slices = this.props.horizontal ? this.getColumns() : this.getRows();
     return (
-      <ScrollView 
-        style={{flex:1}}
-        horizontal={this.props.horizontal}> 
-        {slices.map(this.renderSlice)}
-      </ScrollView>);
+      <View style={{flex: 1}}>
+        <ScrollView 
+          style={{position:"absolute", width:this.props.width, height:this.props.height}}
+          horizontal={this.props.horizontal}
+          directionalLockEnabled={true}
+          showsHorizontalScrollIndicator={false}> 
+          {slices.map(this.renderSlice)}
+        </ScrollView>
+        <GradientView style={{position:"absolute", width:this.props.width, height:this.props.height}} />
+      </View>);
   },
 
   renderSlice: function(slice: object, i: number) {
@@ -91,7 +91,6 @@ var ResponsiveList = React.createClass({
     if (item === placeHolderItem) {
       return (<View style={placeHolderStyle}></View>);
     } else {
-      console.log("item"+item+"i"+i);
       return this.props.itemRender(item, i);
     }
   }
