@@ -16,12 +16,14 @@ var CollapsingBarUtils = {
   },
 
   _isValid: function( item ) {
-    var valid = item && item.location;
-    if( valid && item.location == "controlBar" ) {
-      valid =
-      item.whenDoesNotFit &&
-      item.minWidth !== undefined && item.minWidth >= 0;
-    }
+    var valid = (
+      item &&
+      item.location == "moreOptions" ||
+      (item.location == "controlBar" &&
+        item.whenDoesNotFit &&
+        item.minWidth !== undefined &&
+        item.minWidth >= 0)
+    );
     return valid;
   },
 
@@ -30,18 +32,18 @@ var CollapsingBarUtils = {
     var usedWidth = orderedItems.reduce( function(p,c,i,a) { return p+c.minWidth; }, 0 );
     for( var i = orderedItems.length-1; i >= 0; --i ) {
       var item = orderedItems[ i ];
-      if( this._mustCollapse(item) ) {
+      if( this._isOnlyInMoreOptions(item) ) {
         usedWidth = this._collapseLastItemMatching(r, item, usedWidth);
       }
-      if( usedWidth > barWidth && this._isCollapsable( item ) ) {
+      if( usedWidth > barWidth && this._isCollapsable(item) ) {
         usedWidth = this._collapseLastItemMatching(r, item, usedWidth);
       }
     }
     return r;
   },
 
-  _mustCollapse: function( item ) {
-    var must = !this._isValid(item) || item.location == "moreOptions";
+  _isOnlyInMoreOptions: function( item ) {
+    var must = item.location == "moreOptions";
     return must;
   },
 
@@ -109,22 +111,22 @@ var CollapsingBarUtils = {
       this.AssertStrictEquals( results.overflow.toString(), oi.toString(), results );
     },
 
+    TestOverflow_overflowMoreOptionsDoesNotFit: function() {
+      var oi = [this.B7_MoreOptions100];
+      var results = CollapsingBarUtils.collapse( 1, oi );
+      this.AssertStrictEquals( results.overflow.toString(), oi.toString(), results );
+    },
+
     TestOverflow_overflowAppearanceNoneFits: function() {
       var oi = [this.B8_None100];
       var results = CollapsingBarUtils.collapse( 100, oi );
       this.AssertStrictEquals( results.overflow.length, 0, results );
     },
 
-    TestOverflow_overflowAppearanceNone: function() {
+    TestOverflow_overflowAppearanceNoneDoesNotFit: function() {
       var oi = [this.B8_None100];
       var results = CollapsingBarUtils.collapse( 1, oi );
       this.AssertStrictEquals( results.overflow.length, 0, results );
-    },
-
-    TestOverflow_overflowAppearanceMoreOptions: function() {
-      var oi = [this.B7_MoreOptions100];
-      var results = CollapsingBarUtils.collapse( 1, oi );
-      this.AssertStrictEquals( results.overflow.toString(), oi.toString(), results );
     },
 
     TestOverflow_overflowAliasOnlyOnce: function() {
