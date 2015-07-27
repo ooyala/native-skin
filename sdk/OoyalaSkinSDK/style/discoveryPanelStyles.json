@@ -22,16 +22,9 @@
     "flex": 1,
     "marginLeft": 8
   },
-  "title": {
-    "marginBottom": 8,
+  "contentText": {
+    "marginTop": 8,
     "textAlign": "left",
-  },
-  "description": {
-    "fontSize": 10,
-    "marginBottom": 8,
-    "fontFamily": "Arial",
-    "textAlign": "left",
-    "color": "#ADADAD",
   },
   "thumbnail": {
     "width": 112,

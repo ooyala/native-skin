@@ -61,12 +61,12 @@ var DiscoveryPanel = React.createClass({
 
   renderItem: function(item: object, sectionID: number, itemID: number) {
     var title;
-    if (this.props.config.showContentTitle) {
-      title = <Text style={styles.title} numberOfLines={1}>{item.name}</Text>;
+    if (this.props.config.contentTitle && this.props.config.contentTitle.show) {
+      title = <Text style={[styles.contentText, this.props.config.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
     }
   	var duration;
-    if (this.props.config.showContentDuration) {
-      duration = <Text style={styles.description} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
+    if (this.props.config.contentDuration && this.props.config.contentDuration.show) {
+      duration = <Text style={[styles.contentText, this.props.config.contentDuration.font]} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
     };
     var thumbnail = (
       <Image
