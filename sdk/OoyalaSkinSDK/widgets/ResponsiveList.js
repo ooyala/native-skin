@@ -20,49 +20,42 @@ var ResponsiveList = React.createClass({
     itemHeight: React.PropTypes.number
   },
 
-  getRows: function() {
-    var itemsPerRow = Math.floor(this.props.width / this.props.itemWidth);
-    if (itemsPerRow == 0) {
-      itemsPerRow = 1;
-    }
-    var numberOfRows = Math.ceil(this.props.data.length / itemsPerRow);
-    var rows = [];
-    for (var i = 0; i  < numberOfRows; i++) {
-      rows[i] = [];
-      for (var j = 0; j < itemsPerRow; j++) {
-        if (i * itemsPerRow + j < this.props.data.length) {
-          rows[i][j] = this.props.data[i * itemsPerRow + j];
-        } else {
-          rows[i][j] = placeHolderItem;
-        }
-      }
-    }
-    return rows;
-  },
+  getSlices: function() {
+    var listMeasure = this.props.horizontal ? this.props.height : this.props.width;
+    var itemMeasure = this.props.horizontal ? this.props.itemHeight : this.props.itemWidth;
+    var itemsPerSlice = Math.floor(listMeasure / itemMeasure);
+    var itemsPerSliceCap = 5;
 
-  getColumns: function() {
-    var itemsPerColumn = Math.floor(this.props.height/ this.props.itemHeight);
-    if (itemsPerColumn == 0) {
-      itemsPerColumn = 1;
+    if (itemsPerSlice <= 0) {
+      itemsPerSlice = 1;
+    } else if (itemsPerSlice > itemsPerSliceCap) {
+      itemsPerSlice = itemsPerSliceCap;
     }
-    
-    var numberOfColumns = Math.ceil(this.props.data.length / itemsPerColumn);
-    var columns = [];
-    for (var i = 0; i  < numberOfColumns; i++) {
-      columns[i] = [];
-      for (j = 0; j < itemsPerColumn; j++) {
-        if (i * itemsPerColumn + j  < this.props.data.length) {
-          columns[i][j] = this.props.data[i * itemsPerColumn + j];
+    var numberOfSlices = Math.ceil(this.props.data.length / itemsPerSlice);
+    var slices = [];
+    for (var i = 0; i  < numberOfSlices; i++) {
+      slices[i] = [];
+      for (var j = 0; j < itemsPerSlice; j++) {
+        if (i * itemsPerSlice + j < this.props.data.length) {
+          slices[i][j] = this.props.data[i * itemsPerSlice + j];
         } else {
-          columns[i][j] = placeHolderItem;
+          slices[i][j] = placeHolderItem;
         }
       }
     }
-    return columns;
+    return slices;
   },
 
   render: function() {  
-    var slices = this.props.horizontal ? this.getColumns() : this.getRows();
+    var slices = this.getSlices();
+    var listBound = this.props.horizontal ? this.props.width : this.props.height;
+    var itemBound = this.props.horizontal ? this.props.itemWidth : this.props.itemHeight;
+    var gradientView;
+    console.log("numberOfSlices" + slices.length + "listBound" +listBound + "itemBound"+itemBound);
+    if (slices.length * itemBound > listBound) {
+      gradientView = (<GradientView style={{position:"absolute", width:this.props.width, height:this.props.height}} />);
+    }
+
     return (
       <View style={{flex: 1}}>
         <ScrollView 
@@ -72,7 +65,7 @@ var ResponsiveList = React.createClass({
           showsHorizontalScrollIndicator={false}> 
           {slices.map(this.renderSlice)}
         </ScrollView>
-        <GradientView style={{position:"absolute", width:this.props.width, height:this.props.height}} />
+        {gradientView}
       </View>);
   },
 
