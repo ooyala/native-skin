@@ -3,7 +3,6 @@
     "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch",
-    "backgroundColor": "black",
   },
   "item": {
     "flex": 1,
@@ -65,6 +64,7 @@
   },
   "previewPanel": { 
     "alignItems":"flex-start",
+    "height": 60
   },
   "closedCaptionStyle": {
     "textAlign":"left",

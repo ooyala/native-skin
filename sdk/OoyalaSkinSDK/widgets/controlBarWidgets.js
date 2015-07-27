@@ -66,7 +66,10 @@ var controlBarWidget = React.createClass({
   },
 
   discoveryWidget: function (options) {
-    // TODO implement
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (<TouchableHighlight onPress={options.onPress}>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
+    </TouchableHighlight>);
     return null;
   },
 
@@ -97,13 +100,17 @@ var controlBarWidget = React.createClass({
   },
 
   shareWidget: function(options) {
-    // TODO implement
-    return null;
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (<TouchableHighlight onPress={options.onPress}>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
+    </TouchableHighlight>);
   },
 
   closedCaptionWidget: function(options) {
-    // TODO implement
-    return null;
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (<TouchableHighlight onPress={options.onPress}>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
+    </TouchableHighlight>);
   },
 
   bitrateSelectorWidget: function(options) {
