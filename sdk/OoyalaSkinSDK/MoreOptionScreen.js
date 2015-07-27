@@ -70,7 +70,7 @@ var MoreOptionScreen = React.createClass({
 
   _renderMoreOptionButtons: function(moreOptionButtons){
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.config.controlBarWidth, this.props.config.buttons );
-    var buttons = itemCollapsingResults.dropped.filter( function(b) { return b.appearance && (b.appearance == "moreOptions" || b.appearance == "both") } );
+    var buttons = itemCollapsingResults.overflow;
     for(var i = 0; i < buttons.length; i++){
       var button = buttons[i];
 
