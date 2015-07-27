@@ -16,6 +16,7 @@ var Constants = require('./constants');
 var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
 var AnimationExperimental = require('AnimationExperimental');
+var CollapsingBarUtils = require('./collapsingBarUtils');
 
 var {
   BUTTON_NAMES,
@@ -31,7 +32,8 @@ var MoreOptionScreen = React.createClass({
     panel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
-    config: React.PropTypes.object
+    config: React.PropTypes.object,
+    controlBarWidth: React.PropTypes.number
 	},
 
   componentDidMount:function () {
@@ -66,9 +68,9 @@ var MoreOptionScreen = React.createClass({
     );
   },
 
-  // TODO: this needs to be wired up to filter out the results from CollapsingBarUtils.collapse().
   _renderMoreOptionButtons: function(moreOptionButtons){
-    var buttons = this.props.config.buttons.mobile.filter( function(b) { return b.appearance && (b.appearance == "moreOptions" || b.appearance == "both") } );
+    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.config.controlBarWidth, this.props.config.buttons );
+    var buttons = itemCollapsingResults.dropped.filter( function(b) { return b.appearance && (b.appearance == "moreOptions" || b.appearance == "both") } );
     for(var i = 0; i < buttons.length; i++){
       var button = buttons[i];
 
