@@ -72,7 +72,7 @@ static NSString *kLocale = @"locale";
     if(!_movieFullScreenView){
       _movieFullScreenView = [[UIView alloc] init];
       _movieFullScreenView.alpha = 0.f;
-      _movieFullScreenView.autoresizesSubviews = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+      _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
       [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
     }
   }
@@ -326,8 +326,7 @@ static NSString *kLocale = @"locale";
       [_movieFullScreenView setFrame:window.bounds];
     }
     [window addSubview:_movieFullScreenView];
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-      
+    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
       _movieFullScreenView.alpha = 1.f;
     } completion:^(BOOL finished) {
       self.view.alpha = 1.f;
@@ -343,7 +342,7 @@ static NSString *kLocale = @"locale";
       _parentViewController = nil;
     }
     
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
       _movieFullScreenView.alpha = 0.f;
     } completion:^(BOOL finished) {
       self.view.alpha = 1.f;
@@ -351,7 +350,7 @@ static NSString *kLocale = @"locale";
       [self.view setFrame:_parentView.bounds];
     }];
   }
-  [UIView commitAnimations];
+  
   if( wasPlaying ) {
     [self.player play];
   }
