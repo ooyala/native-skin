@@ -4,6 +4,7 @@ var {
   Text,
   View,
   TouchableHighlight,
+  Animated
 } = React;
 
 var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
@@ -23,12 +24,30 @@ var RectButton = React.createClass({
     fontSize: React.PropTypes.number,
     fontFamily: React.PropTypes.string,
     style:React.PropTypes.object,
+    animation: React.PropTypes.object,
+    animationTrigger: React.PropTypes.bool
+  },
+
+  getInitialState: function() {
+    return {
+      animationOpacity: 1
+    };
+  },
+
+  componentDidUpdate: function(prevProps, prevState) {
+    if(this.props.animationTrigger != prevProps.animationTrigger && this.props.animationTrigger) {
+      Animated.decay(this.state.animationOpacity, {
+        toValue: 0
+      }).start();
+      //LayoutAnimation.configureNext(this.props.animation);
+    }
   },
 
   // Gets the play button based on the current config settings
   render: function() {
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
+    var opacity = {opacity: this.state.animationOpacity};
     var buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
     var positionStyle;
 
@@ -44,8 +63,8 @@ var RectButton = React.createClass({
       positionStyle = styles[this.props.position];
     }
     return (
-      <TouchableHighlight  
-        style={positionStyle}
+      <TouchableHighlight
+        style={[positionStyle, opacity]}
         onPress={this.props.onPress}
         underlayColor="transparent"
         activeOpacity={this.props.opacity}>

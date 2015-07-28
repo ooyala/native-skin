@@ -8,7 +8,8 @@ var React = require('react-native');
 var {
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  LayoutAnimation
 } = React;
 
 var Dimensions = require('Dimensions');
@@ -19,9 +20,12 @@ var ClosedCaptionsView = require('./closedCaptionsView');
 var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
 var UpNext = require('./upNext');
+var RectButton = require('./widgets/RectButton');
 var Constants = require('./constants');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+
+var autohideDelay = 5000;
 
 var {
   BUTTON_NAMES,
@@ -31,7 +35,7 @@ var {
 var VideoView = React.createClass({
   getInitialState: function() {
     return {
-      showControls: true,
+      showControls: false,
       showSharePanel: false,
     };
   },
@@ -79,6 +83,9 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
+    if(name == BUTTON_NAMES.PLAY_PAUSE && this.props.showPlay) {
+      this.state.showControls = false;
+    }
     this.props.onPress(name);
   },
 
@@ -92,7 +99,7 @@ var VideoView = React.createClass({
       width={this.props.width}
       height={this.props.height}
       onScrub={(value)=>this.handleScrub(value)}
-      isShow={this.showControlBar()} />);
+      isShow={this.controlsVisible()} />);
   },
 
   _renderControlBar: function() {
@@ -116,7 +123,7 @@ var VideoView = React.createClass({
       onPress={(name) => this.handlePress(name)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.showControlBar()}
+      isShow={this.controlsVisible()}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -182,6 +189,58 @@ var VideoView = React.createClass({
       width={this.props.width}/>;
   },
 
+  _renderPlayPause: function() {
+
+    var playPauseHideAnimation = {
+      duration: 400,
+      create: {
+        type: LayoutAnimation.Types.easeInEaseOut,
+        property: LayoutAnimation.Properties.scaleXY
+      },
+      update: {
+        delay: 100,
+        type: LayoutAnimation.Types.easeInEaseOut
+      }
+    };
+
+    var buttonOpacity;
+    if(this.controlsVisible()) {
+      buttonOpacity = 1;
+    }
+    else {
+      buttonOpacity = 0;
+    }
+
+    var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
+    var playPauseString;
+    var playPauseFont;
+
+    if(this.props.showPlay) {
+      playPauseString = this.props.config.icons.play.fontString;
+      playPauseFont = this.props.config.icons.play.fontFamilyName
+    }
+    else {
+      playPauseString = this.props.config.icons.pause.fontString;
+      playPauseFont = this.props.config.icons.pause.fontFamilyName
+    }
+
+    return (
+      <RectButton
+        icon={playPauseString}
+        fontFamily={playPauseFont}
+        position={"center"}
+        onPress={() => this.handlePress(BUTTON_NAMES.PLAY_PAUSE)}
+        frameWidth={this.props.width}
+        frameHeight={this.props.height}
+        buttonWidth={buttonSize * 2}
+        buttonHeight={buttonSize * 2}
+        fontSize={buttonSize}
+        opacity={buttonOpacity}
+        animation={playPauseHideAnimation}
+        animationTrigger={this.controlsVisible()}>
+      </RectButton>);
+  },
+
   _handleSocialShare: function() {
     this.setState({showSharePanel:!this.state.showSharePanel});
   },
@@ -194,13 +253,13 @@ var VideoView = React.createClass({
     return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
-  showControlBar: function() {
-    return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + 5000;
+  controlsVisible: function() {
+    return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + autohideDelay;
   },
 
   toggleControlBar: function() {
 
-    this.setState({showControls:!this.showControlBar()});
+    this.setState({showControls:!this.controlsVisible()});
     this.props.onPress();
   },
 
@@ -215,12 +274,14 @@ var VideoView = React.createClass({
     var progressBar = this._renderProgressBar();
     var controlBar = this._renderControlBar();
     var upNext = this._renderUpNext();
+    var playPause = this._renderPlayPause();
 
     return (
       <View style={styles.container}>
         {adBar}
         {placeholder}
         {closedCaptions}
+        {playPause}
         {upNext}
         {progressBar}
         {controlBar}
@@ -229,4 +290,4 @@ var VideoView = React.createClass({
   }
 });
 
-module.exports = VideoView
+module.exports = VideoView;
