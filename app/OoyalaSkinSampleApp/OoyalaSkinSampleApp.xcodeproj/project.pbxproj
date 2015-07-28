@@ -33,6 +33,12 @@
 		976F26691B56F7F2005CFA66 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 976F26661B56F7F2005CFA66 /* en.json */; };
 		976F266A1B56F7F2005CFA66 /* es.json in Resources */ = {isa = PBXBuildFile; fileRef = 976F26671B56F7F2005CFA66 /* es.json */; };
 		976F266B1B56F7F2005CFA66 /* zh.json in Resources */ = {isa = PBXBuildFile; fileRef = 976F26681B56F7F2005CFA66 /* zh.json */; };
+		97930C0D1B670971009B3512 /* FreewheelPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97930C0C1B670971009B3512 /* FreewheelPlayerViewController.m */; };
+		97930C101B6709A9009B3512 /* MasterListViewControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97930C0F1B6709A9009B3512 /* MasterListViewControllerTableViewController.m */; };
+		97930C131B670D49009B3512 /* LayoutListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97930C121B670D49009B3512 /* LayoutListViewController.m */; };
+		97930C161B670D70009B3512 /* IMATestsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97930C151B670D70009B3512 /* IMATestsListViewController.m */; };
+		97930C191B670D9F009B3512 /* FreewheelTestsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97930C181B670D9F009B3512 /* FreewheelTestsListViewController.m */; };
+		97930C1C1B670E77009B3512 /* BasicTestsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97930C1B1B670E77009B3512 /* BasicTestsListViewController.m */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -71,6 +77,18 @@
 		976F26661B56F7F2005CFA66 /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
 		976F26671B56F7F2005CFA66 /* es.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = es.json; sourceTree = "<group>"; };
 		976F26681B56F7F2005CFA66 /* zh.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = zh.json; sourceTree = "<group>"; };
+		97930C0B1B670971009B3512 /* FreewheelPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreewheelPlayerViewController.h; sourceTree = "<group>"; };
+		97930C0C1B670971009B3512 /* FreewheelPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreewheelPlayerViewController.m; sourceTree = "<group>"; };
+		97930C0E1B6709A9009B3512 /* MasterListViewControllerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterListViewControllerTableViewController.h; sourceTree = "<group>"; };
+		97930C0F1B6709A9009B3512 /* MasterListViewControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterListViewControllerTableViewController.m; sourceTree = "<group>"; };
+		97930C111B670D49009B3512 /* LayoutListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutListViewController.h; sourceTree = "<group>"; };
+		97930C121B670D49009B3512 /* LayoutListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayoutListViewController.m; sourceTree = "<group>"; };
+		97930C141B670D70009B3512 /* IMATestsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMATestsListViewController.h; sourceTree = "<group>"; };
+		97930C151B670D70009B3512 /* IMATestsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IMATestsListViewController.m; sourceTree = "<group>"; };
+		97930C171B670D9F009B3512 /* FreewheelTestsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FreewheelTestsListViewController.h; sourceTree = "<group>"; };
+		97930C181B670D9F009B3512 /* FreewheelTestsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FreewheelTestsListViewController.m; sourceTree = "<group>"; };
+		97930C1A1B670E77009B3512 /* BasicTestsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicTestsListViewController.h; sourceTree = "<group>"; };
+		97930C1B1B670E77009B3512 /* BasicTestsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicTestsListViewController.m; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -126,6 +144,16 @@
 			children = (
 				0B7824441B2B82C000D718AB /* OoyalaSkinListViewController.h */,
 				0B7824451B2B82C000D718AB /* OoyalaSkinListViewController.m */,
+				97930C0E1B6709A9009B3512 /* MasterListViewControllerTableViewController.h */,
+				97930C0F1B6709A9009B3512 /* MasterListViewControllerTableViewController.m */,
+				97930C111B670D49009B3512 /* LayoutListViewController.h */,
+				97930C121B670D49009B3512 /* LayoutListViewController.m */,
+				97930C141B670D70009B3512 /* IMATestsListViewController.h */,
+				97930C151B670D70009B3512 /* IMATestsListViewController.m */,
+				97930C171B670D9F009B3512 /* FreewheelTestsListViewController.h */,
+				97930C181B670D9F009B3512 /* FreewheelTestsListViewController.m */,
+				97930C1A1B670E77009B3512 /* BasicTestsListViewController.h */,
+				97930C1B1B670E77009B3512 /* BasicTestsListViewController.m */,
 			);
 			path = Lists;
 			sourceTree = "<group>";
@@ -159,6 +187,8 @@
 			children = (
 				0B7824591B2B855500D718AB /* DefaultSkinPlayerViewController.h */,
 				0B78245A1B2B855500D718AB /* DefaultSkinPlayerViewController.m */,
+				97930C0B1B670971009B3512 /* FreewheelPlayerViewController.h */,
+				97930C0C1B670971009B3512 /* FreewheelPlayerViewController.m */,
 			);
 			path = Players;
 			sourceTree = "<group>";
@@ -296,11 +326,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97930C161B670D70009B3512 /* IMATestsListViewController.m in Sources */,
 				0B7824461B2B82C000D718AB /* OoyalaSkinListViewController.m in Sources */,
+				97930C131B670D49009B3512 /* LayoutListViewController.m in Sources */,
 				0B7824351B2B7EB600D718AB /* main.m in Sources */,
 				0B78242F1B2B7EB600D718AB /* AppDelegate.m in Sources */,
+				97930C1C1B670E77009B3512 /* BasicTestsListViewController.m in Sources */,
+				97930C0D1B670971009B3512 /* FreewheelPlayerViewController.m in Sources */,
 				0B78244C1B2B834F00D718AB /* PlayerSelectionOption.m in Sources */,
 				0B78244D1B2B834F00D718AB /* SampleAppPlayerViewController.m in Sources */,
+				97930C101B6709A9009B3512 /* MasterListViewControllerTableViewController.m in Sources */,
+				97930C191B670D9F009B3512 /* FreewheelTestsListViewController.m in Sources */,
 				0B78245B1B2B855500D718AB /* DefaultSkinPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
