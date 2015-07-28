@@ -77,6 +77,10 @@ var ControlBar = React.createClass({
     this.props.onPress && this.props.onPress(BUTTON_NAMES.CLOSED_CAPTIONS);
   },
 
+  onDiscoveryPress: function() {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.DISCOVERY);
+  },
+
   onFullscreenPress: function() {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
   },
@@ -125,6 +129,21 @@ var ControlBar = React.createClass({
         style: [styles.icon, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.ellipsis
       },
+      discovery: {
+        onPress: this.onDiscoveryPress,
+        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        icon: this.props.config.icons.discovery
+      },
+      share: {
+        onPress: this.onSocialSharePress,
+        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        icon: this.props.config.icons.share
+      },
+      closedCaption: {
+        onPress: this.onClosedCaptionsPress,
+        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        icon: this.props.config.icons.cc
+      },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
@@ -140,7 +159,10 @@ var ControlBar = React.createClass({
       displayStyle = styles.containerHidden;
     }
 
+    console.log("Width: " + this.props.width);
+
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
+    console.log(itemCollapsingResults);
     for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
       controlBarWidgets.push(<ControlBarWidget

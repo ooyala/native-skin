@@ -6,6 +6,7 @@ var {
   ScrollView
 } = React;
 
+var GradientView = require('../gradientView');
 var styles=require('../utils').getStyles(require('./style/ResponsiveListStyles.json'));
 var placeHolderItem = "ResponsiveListPlaceHolder";
 var ResponsiveList = React.createClass({
@@ -19,61 +20,53 @@ var ResponsiveList = React.createClass({
     itemHeight: React.PropTypes.number
   },
 
-  getRows: function() {
-    var itemsPerRow = Math.floor(this.props.width / this.props.itemWidth);
-    if (itemsPerRow == 0) {
-      itemsPerRow = 1;
+  getSlices: function() {
+    var listMeasure = this.props.horizontal ? this.props.height : this.props.width;
+    var itemMeasure = this.props.horizontal ? this.props.itemHeight : this.props.itemWidth;
+    var itemsPerSlice = Math.floor(listMeasure / itemMeasure);
+    var itemsPerSliceCap = 5;
+
+    if (itemsPerSlice <= 0) {
+      itemsPerSlice = 1;
+    } else if (itemsPerSlice > itemsPerSliceCap) {
+      itemsPerSlice = itemsPerSliceCap;
     }
-    var numberOfRows = Math.ceil(this.props.data.length / itemsPerRow);
-    console.log("numberOfRows"+numberOfRows+"itemsPerRow"+itemsPerRow);
-    var rows = [];
-    for (var i = 0; i  < numberOfRows; i++) {
-      rows[i] = [];
-      for (var j = 0; j < itemsPerRow; j++) {
-        if (i * itemsPerRow + j < this.props.data.length) {
-          rows[i][j] = this.props.data[i * itemsPerRow + j];
+    var numberOfSlices = Math.ceil(this.props.data.length / itemsPerSlice);
+    var slices = [];
+    for (var i = 0; i  < numberOfSlices; i++) {
+      slices[i] = [];
+      for (var j = 0; j < itemsPerSlice; j++) {
+        if (i * itemsPerSlice + j < this.props.data.length) {
+          slices[i][j] = this.props.data[i * itemsPerSlice + j];
         } else {
-          rows[i][j] = placeHolderItem;
+          slices[i][j] = placeHolderItem;
         }
       }
     }
-    return rows;
-  },
-
-  getColumns: function() {
-    var itemsPerColumn = Math.floor(this.props.height/ this.props.itemHeight);
-    if (itemsPerColumn == 0) {
-      itemsPerColumn = 1;
-    }
-    
-    var numberOfColumns = Math.ceil(this.props.data.length / itemsPerColumn);
-    console.log("numberOfColumns"+numberOfColumns+"itemsPerColumn"+itemsPerColumn);
-    var columns = [];
-    for (var i = 0; i  < numberOfColumns; i++) {
-      columns[i] = [];
-      for (j = 0; j < itemsPerColumn; j++) {
-        if (i + j * numberOfColumns < this.props.data.length) {
-          columns[i][j] = this.props.data[i + j * numberOfColumns];
-        } else {
-          columns[i][j] = placeHolderItem;
-        }
-      }
-    }
-    return columns;
-  },
-
-  getInitialState: function() {
-    return {};
+    return slices;
   },
 
   render: function() {  
-    var slices = this.props.horizontal ? this.getColumns() : this.getRows();
+    var slices = this.getSlices();
+    var listBound = this.props.horizontal ? this.props.width : this.props.height;
+    var itemBound = this.props.horizontal ? this.props.itemWidth : this.props.itemHeight;
+    var gradientView;
+    console.log("numberOfSlices" + slices.length + "listBound" +listBound + "itemBound"+itemBound);
+    if (slices.length * itemBound > listBound) {
+      gradientView = (<GradientView style={{position:"absolute", width:this.props.width, height:this.props.height}} />);
+    }
+
     return (
-      <ScrollView 
-        style={{flex:1}}
-        horizontal={this.props.horizontal}> 
-        {slices.map(this.renderSlice)}
-      </ScrollView>);
+      <View style={{flex: 1}}>
+        <ScrollView 
+          style={{position:"absolute", width:this.props.width, height:this.props.height}}
+          horizontal={this.props.horizontal}
+          directionalLockEnabled={true}
+          showsHorizontalScrollIndicator={false}> 
+          {slices.map(this.renderSlice)}
+        </ScrollView>
+        {gradientView}
+      </View>);
   },
 
   renderSlice: function(slice: object, i: number) {
@@ -91,7 +84,6 @@ var ResponsiveList = React.createClass({
     if (item === placeHolderItem) {
       return (<View style={placeHolderStyle}></View>);
     } else {
-      console.log("item"+item+"i"+i);
       return this.props.itemRender(item, i);
     }
   }

@@ -41,7 +41,6 @@ var OoyalaSkin = React.createClass({
     return {
       // states from react
       screenType: SCREEN_TYPES.LOADING_SCREEN,
-      selectedLanguage: 'en',
       // states from native
       title: '',
       description: '',
@@ -53,7 +52,7 @@ var OoyalaSkin = React.createClass({
       lastPressedTime: (new Date).getTime(),
       upNextDismissed: false,
       // things which default to null and thus don't have to be stated:
-      // rct_closedCaptionsLanguage: null,
+      // selectedLanguage: null,
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
       buttonSelected: "None"
@@ -348,11 +347,9 @@ var OoyalaSkin = React.createClass({
         onDismiss={this.onOverlayDismissed}
         width={this.state.width}
         height={this.state.height}
-        localizableStrings={this.props.localizableStrings}
-        locale={this.props.locale}
-        config={{
-          icons: this.props.icons
-        }}>
+        config={{localizableStrings:this.props.localizableStrings,
+                 locale:this.props.locale,
+                 icons:this.props.icons}}>
       </LanguageSelectionPanel>)
   },
 

@@ -6,6 +6,12 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "PlayerSelectionOption.h"
 
 @interface OoyalaSkinListViewController : UITableViewController <UITableViewDelegate>
+
+- (void)addTestCases;
+- (void)insertNewObject:(PlayerSelectionOption *)selectionObject;
+- (void)addCommonWithTitle:(NSString*)title embedCode:(NSString*)embedCode;
+
 @end
