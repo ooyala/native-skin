@@ -18,6 +18,7 @@ var {
 } = Constants;
 
 var RectButton = require('./widgets/RectButton');
+var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
 
 var StartScreen = React.createClass({
   propTypes: {
@@ -39,7 +40,7 @@ var StartScreen = React.createClass({
     if(this.props.config.startScreen.showPlayButton) {
       var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
       return (
-        <RectButton
+        <VideoViewPlayPause
           icon={this.props.config.icons.play.fontString}
           fontFamily={this.props.config.icons.play.fontFamilyName}
           position={this.props.config.startScreen.playButtonPosition}
@@ -50,7 +51,7 @@ var StartScreen = React.createClass({
           buttonWidth={buttonSize * 2}
           buttonHeight={buttonSize * 2}
           fontSize={buttonSize}>
-        </RectButton>)
+        </VideoViewPlayPause>)
     }
     return null;
   },

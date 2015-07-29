@@ -21,6 +21,7 @@ var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var RectButton = require('./widgets/RectButton');
+var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
 var Constants = require('./constants');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
@@ -224,8 +225,9 @@ var VideoView = React.createClass({
       playPauseFont = this.props.config.icons.pause.fontFamilyName
     }
 
+    return null;
     return (
-      <RectButton
+      <VideoViewPlayPause
         icon={playPauseString}
         fontFamily={playPauseFont}
         position={"center"}
@@ -238,7 +240,7 @@ var VideoView = React.createClass({
         opacity={buttonOpacity}
         animation={playPauseHideAnimation}
         animationTrigger={this.controlsVisible()}>
-      </RectButton>);
+      </VideoViewPlayPause>);
   },
 
   _handleSocialShare: function() {
