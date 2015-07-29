@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SampleAppPlayerViewController.h"
 
-@interface FreewheelPlayerViewController : NSObject
+@interface FreewheelPlayerViewController : SampleAppPlayerViewController
+
+@property (nonatomic, retain) IBOutlet UIView *videoView;
+
+@property (nonatomic, retain) IBOutlet UILabel *textLabel;
 
 @end
