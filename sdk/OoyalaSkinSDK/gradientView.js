@@ -11,6 +11,7 @@ class GradientView extends React.Component {
   }
 }
 
+GradientView.propTypes = {};
 var OOGradientView = requireNativeComponent('OOGradientView', GradientView);
 module.exports = GradientView;
 
