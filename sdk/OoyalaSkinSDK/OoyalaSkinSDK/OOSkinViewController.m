@@ -26,6 +26,7 @@
   RCTRootView *_reactView;
   UIViewController *_parentViewController;
   UIView *_parentView;
+  UIView *_movieFullScreenView;
 }
 
 @end
@@ -57,16 +58,22 @@ static NSString *kLocale = @"locale";
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
     _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
+    
     [self.view addSubview:_player.view];
     [self.view addSubview:_reactView];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
-
+    
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
     _discoveryOptions = discoveryOptions;
+    
+    _movieFullScreenView = [[UIView alloc] init];
+    _movieFullScreenView.alpha = 0.f;
+    _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
+    
   }
   return self;
 }
@@ -98,7 +105,7 @@ static NSString *kLocale = @"locale";
       [localizableStrings setObject:d forKey:locale];
     }
   }
-
+  
   [dict setObject:localizableStrings forKey:kLocalizableStrings];
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
   [dict setObject:localeId forKey:kLocale];
@@ -107,7 +114,7 @@ static NSString *kLocale = @"locale";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
 }
 
 - (void)setPlayer:(OOOoyalaPlayer *)player {
@@ -148,7 +155,7 @@ static NSString *kLocale = @"locale";
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
   NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
   NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
-
+  
   NSDictionary *eventBody =
   @{@"title":title,
     @"description":itemDescription,
@@ -188,9 +195,9 @@ static NSString *kLocale = @"locale";
   //TODO: read cutomized font and font size
   static NSString *adFontFamily = @"AvenirNext-DemiBold";
   static NSUInteger adFontSize = 16;
-
+  
   NSDictionary *adInfo = notification.userInfo;
-
+  
   NSInteger count = [adInfo[@"count"] integerValue];
   NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
@@ -202,7 +209,7 @@ static NSString *kLocale = @"locale";
   }
   NSString *durationString = @"00:00";
   NSString *learnMoreString = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Learn More"];
-
+  
   CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
   CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
   CGSize countSize = [self textSize:countString withFontFamily:adFontFamily size:adFontSize];
@@ -213,7 +220,7 @@ static NSString *kLocale = @"locale";
                              @"count":[NSNumber numberWithFloat:countSize.width],
                              @"title":[NSNumber numberWithFloat:titleSize.width],
                              @"prefix":[NSNumber numberWithFloat:titlePrefixSize.width]};
-
+  
   NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
   [eventBody setObject:measures forKey:@"measures"];
   [eventBody setObject:adTitle forKey:@"title"];
@@ -261,7 +268,7 @@ static NSString *kLocale = @"locale";
   if (context == &kFrameChangeContext) {
     NSNumber *width = [NSNumber numberWithFloat:self.view.frame.size.width];
     NSNumber *height = [NSNumber numberWithFloat:self.view.frame.size.height];
-
+    
     NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
     [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else {
@@ -274,8 +281,7 @@ static NSString *kLocale = @"locale";
   if( wasPlaying ) {
     [_player pause];
   }
-  [UIView beginAnimations:@"animateAddContentView" context:nil];
-  [UIView setAnimationDuration:FULLSCREEN_ANIMATION_DURATION];
+
   [self.view removeFromSuperview];
   _isFullscreen = !_isFullscreen;
   if (_isFullscreen) {
@@ -284,8 +290,18 @@ static NSString *kLocale = @"locale";
       [self removeFromParentViewController];
     }
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    [window addSubview:self.view];
-    [self.view setFrame:window.bounds];
+    if (CGRectEqualToRect(_movieFullScreenView.frame, CGRectZero)) {
+      [_movieFullScreenView setFrame:window.bounds];
+    }
+    [window addSubview:_movieFullScreenView];
+    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+      _movieFullScreenView.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      self.view.alpha = 1.f;
+      [_movieFullScreenView addSubview:self.view];
+      [self.view setFrame:window.bounds];
+    }];
+    
   } else {
     [_parentView addSubview:self.view];
     [self.view setFrame:_parentView.bounds];
@@ -293,8 +309,16 @@ static NSString *kLocale = @"locale";
       [_parentViewController addChildViewController:self];
       _parentViewController = nil;
     }
+    
+    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+      _movieFullScreenView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      self.view.alpha = 1.f;
+      [_movieFullScreenView removeFromSuperview];
+      [self.view setFrame:_parentView.bounds];
+    }];
   }
-  [UIView commitAnimations];
+  
   if( wasPlaying ) {
     [self.player play];
   }
