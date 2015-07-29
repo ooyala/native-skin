@@ -69,12 +69,11 @@ static NSString *kLocale = @"locale";
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
     _discoveryOptions = discoveryOptions;
     
-    if(!_movieFullScreenView){
-      _movieFullScreenView = [[UIView alloc] init];
-      _movieFullScreenView.alpha = 0.f;
-      _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-      [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
-    }
+    _movieFullScreenView = [[UIView alloc] init];
+    _movieFullScreenView.alpha = 0.f;
+    _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
+    
   }
   return self;
 }
@@ -277,37 +276,6 @@ static NSString *kLocale = @"locale";
   }
 }
 
-//- (void)toggleFullscreen {
-//  BOOL wasPlaying = self.player.isPlaying;
-//  if( wasPlaying ) {
-//    [_player pause];
-//  }
-//  [UIView beginAnimations:@"animateAddContentView" context:nil];
-//  [UIView setAnimationDuration:FULLSCREEN_ANIMATION_DURATION];
-//  [self.view removeFromSuperview];
-//  _isFullscreen = !_isFullscreen;
-//  if (_isFullscreen) {
-//    if (self.parentViewController) {
-//      _parentViewController = self.parentViewController;
-//      [self removeFromParentViewController];
-//    }
-//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//    [window addSubview:self.view];
-//    [self.view setFrame:window.bounds];
-//  } else {
-//    [_parentView addSubview:self.view];
-//    [self.view setFrame:_parentView.bounds];
-//    if (_parentViewController) {
-//      [_parentViewController addChildViewController:self];
-//      _parentViewController = nil;
-//    }
-//  }
-//  [UIView commitAnimations];
-//  if( wasPlaying ) {
-//    [self.player play];
-//  }
-//}
-
 - (void)toggleFullscreen {
   BOOL wasPlaying = self.player.isPlaying;
   if( wasPlaying ) {
@@ -355,8 +323,6 @@ static NSString *kLocale = @"locale";
     [self.player play];
   }
 }
-
-
 
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
