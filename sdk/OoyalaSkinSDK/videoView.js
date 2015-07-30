@@ -192,18 +192,6 @@ var VideoView = React.createClass({
 
   _renderPlayPause: function() {
 
-    var playPauseHideAnimation = {
-      duration: 400,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    };
-
     var buttonOpacity;
     if(this.controlsVisible()) {
       buttonOpacity = 1;
@@ -213,32 +201,28 @@ var VideoView = React.createClass({
     }
 
     var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
-    var playPauseString;
-    var playPauseFont;
 
-    if(this.props.showPlay) {
-      playPauseString = this.props.config.icons.play.fontString;
-      playPauseFont = this.props.config.icons.play.fontFamilyName
-    }
-    else {
-      playPauseString = this.props.config.icons.pause.fontString;
-      playPauseFont = this.props.config.icons.pause.fontFamilyName
-    }
-
-    return null;
     return (
       <VideoViewPlayPause
-        icon={playPauseString}
-        fontFamily={playPauseFont}
+        icons={{
+          play: {
+            icon: this.props.config.icons.play.fontString,
+            fontFamily: this.props.config.icons.play.fontFamilyName
+          },
+          pause: {
+            icon: this.props.config.icons.pause.fontString,
+            fontFamily: this.props.config.icons.pause.fontFamilyName
+          }
+        }}
         position={"center"}
-        onPress={() => this.handlePress(BUTTON_NAMES.PLAY_PAUSE)}
+        playing={this.props.showPlay}
+        onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
         buttonWidth={buttonSize * 2}
         buttonHeight={buttonSize * 2}
         fontSize={buttonSize}
         opacity={buttonOpacity}
-        animation={playPauseHideAnimation}
         animationTrigger={this.controlsVisible()}>
       </VideoViewPlayPause>);
   },
