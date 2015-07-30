@@ -135,28 +135,26 @@ $(document).ready(function(){initNavTree('_o_o_i_m_a_manager_8h_source.html','')
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
 <div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="interface_o_o_i_m_a_manager.html#a753175228924a983754e308aadd67323">   36</a></span>&#160;<span class="keyword">@property</span>(nonatomic) NSString *<a class="code" href="interface_o_o_i_m_a_manager.html#a753175228924a983754e308aadd67323">adUrlOverride</a>;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;- (instancetype)initWithOoyalaPlayerViewController:(OOOoyalaPlayerViewController *)viewController;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;- (instancetype)initWithOoyalaPlayer:(OOOoyalaPlayer *)player;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;- (instancetype)initWithOoyalaPlayer:(OOOoyalaPlayer *)player;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;- (void)addCompanionSlot:(UIView *)slot;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;- (void)setAdTagParameters:(NSDictionary*)adTagParameters;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;-(void)<a class="code" href="interface_o_o_i_m_a_manager.html#a7f4256ede7fa76a9e7dff5be86312353">play</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment"> * Use the default browser like Safari on the mobile device instead of browsing in the native app.</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment"> */</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;-(void)setUseDefaultBrowser:(BOOL)useDefaultBrowser;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;-(void)<a class="code" href="interface_o_o_i_m_a_manager.html#ad5144c348f624bd505da6c46c7a3079f">pause</a>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">@end</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;- (void)addCompanionSlot:(UIView *)slot;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;- (void)setAdTagParameters:(NSDictionary*)adTagParameters;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;-(void)<a class="code" href="interface_o_o_i_m_a_manager.html#a7f4256ede7fa76a9e7dff5be86312353">play</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> * Use the default browser like Safari on the mobile device instead of browsing in the native app.</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;-(void)setUseDefaultBrowser:(BOOL)useDefaultBrowser;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;-(void)<a class="code" href="interface_o_o_i_m_a_manager.html#ad5144c348f624bd505da6c46c7a3079f">pause</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">@end</span></div>
 <div class="ttc" id="interface_o_o_i_m_a_manager_html_a753175228924a983754e308aadd67323"><div class="ttname"><a href="interface_o_o_i_m_a_manager.html#a753175228924a983754e308aadd67323">OOIMAManager::adUrlOverride</a></div><div class="ttdeci">NSString * adUrlOverride</div><div class="ttdoc">Configure IMA ads from given URL. </div><div class="ttdef"><b>Definition:</b> OOIMAManager.h:36</div></div>
 <div class="ttc" id="interface_o_o_i_m_a_manager_html"><div class="ttname"><a href="interface_o_o_i_m_a_manager.html">OOIMAManager</a></div><div class="ttdef"><b>Definition:</b> OOIMAManager.h:23</div></div>
-<div class="ttc" id="interface_o_o_i_m_a_manager_html_a7f4256ede7fa76a9e7dff5be86312353"><div class="ttname"><a href="interface_o_o_i_m_a_manager.html#a7f4256ede7fa76a9e7dff5be86312353">-[OOIMAManager play]</a></div><div class="ttdeci">void play()</div><div class="ttdoc">Play, or queue up automatic playing of ads if they are still loading. </div><div class="ttdef"><b>Definition:</b> OOIMAManager.m:272</div></div>
-<div class="ttc" id="interface_o_o_i_m_a_manager_html_ad5144c348f624bd505da6c46c7a3079f"><div class="ttname"><a href="interface_o_o_i_m_a_manager.html#ad5144c348f624bd505da6c46c7a3079f">-[OOIMAManager pause]</a></div><div class="ttdeci">void pause()</div><div class="ttdoc">Pause currently playing ad. </div><div class="ttdef"><b>Definition:</b> OOIMAManager.m:278</div></div>
+<div class="ttc" id="interface_o_o_i_m_a_manager_html_a7f4256ede7fa76a9e7dff5be86312353"><div class="ttname"><a href="interface_o_o_i_m_a_manager.html#a7f4256ede7fa76a9e7dff5be86312353">-[OOIMAManager play]</a></div><div class="ttdeci">void play()</div><div class="ttdoc">Play, or queue up automatic playing of ads if they are still loading. </div><div class="ttdef"><b>Definition:</b> OOIMAManager.m:241</div></div>
+<div class="ttc" id="interface_o_o_i_m_a_manager_html_ad5144c348f624bd505da6c46c7a3079f"><div class="ttname"><a href="interface_o_o_i_m_a_manager.html#ad5144c348f624bd505da6c46c7a3079f">-[OOIMAManager pause]</a></div><div class="ttdeci">void pause()</div><div class="ttdoc">Pause currently playing ad. </div><div class="ttdef"><b>Definition:</b> OOIMAManager.m:247</div></div>
 <div class="ttc" id="_i_m_a_ad_event_8h_html"><div class="ttname"><a href="_i_m_a_ad_event_8h.html">IMAAdEvent.h</a></div><div class="ttdoc">GoogleIMA3. </div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -164,7 +162,7 @@ $(document).ready(function(){initNavTree('_o_o_i_m_a_manager_8h_source.html','')
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>OOIMAManager.h</b></li>
-    <li class="footer">Generated on Wed Jul 29 2015 14:27:47 for Ooyala-Google-IMA-iOS-SDK by
+    <li class="footer">Generated on Thu Jul 30 2015 13:45:07 for Ooyala-Google-IMA-iOS-SDK by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

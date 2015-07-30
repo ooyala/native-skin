@@ -6,6 +6,7 @@
 #import <Foundation/Foundation.h>
 
 #import <OoyalaSDK/OOAdPlugin.h>
+#import "IMAAd.h"
 #import "IMAAdEvent.h"
 #import "IMAAdsLoader.h"
 
@@ -33,13 +34,6 @@
  * Module Metadata.
  */
 @property(nonatomic) NSString *adUrlOverride;
-
-/**
- * Initialize a OOIMAManager using the OOOoyalaPlayerViewController
- * @param[in] viewController the OOOoylaPlayerViewController control the OOOoyalaPlayer's View
- * @returns the initialized OOIMAManager
- */
-- (instancetype)initWithOoyalaPlayerViewController:(OOOoyalaPlayerViewController *)viewController;
 
 /**
  * Initialize a OOIMAManager using the OOOoyalaPlayer
