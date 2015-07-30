@@ -60,7 +60,7 @@ var StartScreen = React.createClass({
           buttonHeight={buttonSize * 2}
           fontSize={buttonSize}
           playing={false}
-          animationTrigger={true}
+          showButton={true}
           isStartScreen={true}>
         </VideoViewPlayPause>)
     }

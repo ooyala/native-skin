@@ -29,7 +29,7 @@ var VideoViewPlayPause = React.createClass({
     buttonStyle: React.PropTypes.object,
     fontSize: React.PropTypes.number,
     style:React.PropTypes.object,
-    animationTrigger: React.PropTypes.bool,
+    showButton: React.PropTypes.bool,
     playing: React.PropTypes.bool,
     isStartScreen: React.PropTypes.bool
   },
@@ -114,7 +114,7 @@ var VideoViewPlayPause = React.createClass({
     var playButton = this._renderButton("play");
     var pauseButton = this._renderButton("pause");
 
-    if(this.props.animationTrigger || (!this.props.animationTrigger && (this.state.play.animationOpacity._value != 0))) {
+    if(this.props.showButton || (!this.props.showButton && (this.state.play.animationOpacity._value != 0))) {
       return (
         <TouchableHighlight
           style={[positionStyle]}

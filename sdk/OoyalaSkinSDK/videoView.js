@@ -223,7 +223,7 @@ var VideoView = React.createClass({
         buttonHeight={buttonSize * 2}
         fontSize={buttonSize}
         opacity={buttonOpacity}
-        animationTrigger={this.controlsVisible()}>
+        showButton={this.controlsVisible()}>
       </VideoViewPlayPause>);
   },
 
