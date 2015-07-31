@@ -124,6 +124,7 @@ static NSString *kLocale = @"locale";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdCompleteNotification:) name:OOOoyalaPlayerAdCompletedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
   }
 }
 
@@ -221,6 +222,10 @@ static NSString *kLocale = @"locale";
 }
 
 - (void) bridgeAdCompleteNotification:(NSNotification *)notification {
+  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
+}
+
+- (void) bridgePlayStartedNotification:(NSNotification *)notification {
   [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
 }
 
