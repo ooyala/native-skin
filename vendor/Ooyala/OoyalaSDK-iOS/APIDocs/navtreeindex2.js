@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"interface_o_o_ooyala_player_view_controller.html#a0ab3ea11ad725313c202b8ac62cec439":[0,0,34,14],
+"interface_o_o_ooyala_player_view_controller.html#a24bd2b618c792bfaaa0f59dd4dfa5e8e":[0,0,34,3],
 "interface_o_o_ooyala_player_view_controller.html#a45bcbd81d0e07b8fba7694a8cf7f5ae2":[0,0,34,16],
 "interface_o_o_ooyala_player_view_controller.html#a53d150656169112cb06b58f684a2b9ff":[0,0,34,9],
 "interface_o_o_ooyala_player_view_controller.html#a616e00d7412bce9e50af5974a5334496":[0,0,34,4],

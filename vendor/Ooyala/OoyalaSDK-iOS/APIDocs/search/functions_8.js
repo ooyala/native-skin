@@ -30,7 +30,7 @@ var searchData=
   ['initwithtime_3a',['initWithTime:',['../interface_o_o_ad_spot.html#a07c0a881864520010b77eb97697f98f9',1,'OOAdSpot']]],
   ['initwithtime_3aclickurl_3atrackingurls_3aembedcode_3aapi_3a',['initWithTime:clickURL:trackingURLs:embedCode:api:',['../interface_o_o_ooyala_ad_spot.html#acb432d6c370a2a5e1eb9d0ccbf3b565a',1,'OOOoyalaAdSpot']]],
   ['initwithtime_3aclickurl_3atrackingurls_3avasturl_3a',['initWithTime:clickURL:trackingURLs:vastURL:',['../interface_o_o_v_a_s_t_ad_spot.html#af8c06258d83b97c086906e79a1151eaf',1,'OOVASTAdSpot']]],
-  ['initwithtitle_3aclickurl_3acount_3aunplayedcount_3a',['initWithTitle:clickUrl:count:unplayedCount:',['../interface_o_o_ad_pod_info.html#a333d8aa8a20b6cf941fb0f6d02cdd9a5',1,'OOAdPodInfo']]],
+  ['initwithtitle_3aclickurl_3acount_3aunplayedcount_3arequiredadbar_3arequirecontrols_3a',['initWithTitle:clickUrl:count:unplayedCount:requiredAdBar:requireControls:',['../interface_o_o_ad_pod_info.html#aaf8c831886d11abbd75d8800ec52ea52',1,'OOAdPodInfo']]],
   ['initwithtype_3alimit_3atimeout_3a',['initWithType:limit:timeout:',['../interface_o_o_discovery_options.html#a73225b7146e52bbdecdf777c64a8f847',1,'OODiscoveryOptions']]],
   ['insertad_3a',['insertAd:',['../interface_o_o_ad_spot_manager.html#a6cfa74aea020c63e6c9a1aa872b54b82',1,'OOAdSpotManager::insertAd:()'],['../interface_o_o_video.html#a94ea4a418b896a1eb2bdd1f8c20a6e6d',1,'OOVideo::insertAd:()']]],
   ['insertads_3a',['insertAds:',['../interface_o_o_ad_spot_manager.html#a8c672225c30ed460a8b0379eba9f0943',1,'OOAdSpotManager']]],

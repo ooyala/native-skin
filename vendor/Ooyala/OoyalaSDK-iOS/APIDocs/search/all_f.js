@@ -8,6 +8,8 @@ var searchData=
   ['reportplayrequested',['reportPlayRequested',['../interface_o_o_analytics.html#af2c2e362e3ace87fabb64f02479c298b',1,'OOAnalytics']]],
   ['reportplaystarted',['reportPlayStarted',['../interface_o_o_analytics.html#aca90ed9a4d4ecf2a5b9ce5d2c64b4240',1,'OOAnalytics']]],
   ['reportreplay',['reportReplay',['../interface_o_o_analytics.html#a8f9bafb12f8e07166d11d3e352a56998',1,'OOAnalytics']]],
+  ['requireadbar',['requireAdBar',['../interface_o_o_ad_pod_info.html#ac56ca53a238bfa2b4e59ae9b2a84931a',1,'OOAdPodInfo']]],
+  ['requirecontrols',['requireControls',['../interface_o_o_ad_pod_info.html#a7cb8e3dc80045ea65b819f5381231388',1,'OOAdPodInfo']]],
   ['resetads',['resetAds',['../interface_o_o_ad_spot_manager.html#a9c65ff2280b2d50162fdb52feeca5f43',1,'OOAdSpotManager::resetAds()'],['../interface_o_o_ooyala_player.html#a09113034b26c156199680be465fdf14d',1,'OOOoyalaPlayer::resetAds()']]],
   ['resetstreamselector',['resetStreamSelector',['../interface_o_o_stream.html#ae10478810e7a689e6e3d86b3ee18f25f',1,'OOStream']]],
   ['rootitem',['rootItem',['../interface_o_o_ooyala_player.html#a830f620327a98258e9fd2af4b98e1bb1',1,'OOOoyalaPlayer']]]

@@ -116,23 +116,31 @@ $(document).ready(function(){initNavTree('_o_o_ad_pod_info_8h_source.html','');}
 <div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="interface_o_o_ad_pod_info.html#a073d85ca3db4173457294b80eaf393ae">   12</a></span>&#160;<span class="keyword">@property</span> (nonatomic, readonly) NSString *<a class="code" href="interface_o_o_ad_pod_info.html#a073d85ca3db4173457294b80eaf393ae">clickUrl</a>; </div>
 <div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="interface_o_o_ad_pod_info.html#acede1ba9fe03aa3493ca21943293f876">   13</a></span>&#160;<span class="keyword">@property</span> (nonatomic, readonly) NSUInteger <a class="code" href="interface_o_o_ad_pod_info.html#acede1ba9fe03aa3493ca21943293f876">count</a>; </div>
 <div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="interface_o_o_ad_pod_info.html#a55c02b3020769a51a2ae87823c17e65d">   14</a></span>&#160;<span class="keyword">@property</span> (nonatomic, readonly) NSUInteger <a class="code" href="interface_o_o_ad_pod_info.html#a55c02b3020769a51a2ae87823c17e65d">unplayedCount</a>; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;- (instancetype)initWithTitle:(NSString *)title</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                     clickUrl:(NSString *)clickUrl</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                     count:(NSUInteger)adsCount</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                unplayedCount:(NSUInteger)unplayedCount;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">@end</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="interface_o_o_ad_pod_info.html#ac56ca53a238bfa2b4e59ae9b2a84931a">   15</a></span>&#160;<span class="keyword">@property</span> (nonatomic, readonly) BOOL <a class="code" href="interface_o_o_ad_pod_info.html#ac56ca53a238bfa2b4e59ae9b2a84931a">requireAdBar</a>; </div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="interface_o_o_ad_pod_info.html#a7cb8e3dc80045ea65b819f5381231388">   16</a></span>&#160;<span class="keyword">@property</span> (nonatomic, readonly) BOOL <a class="code" href="interface_o_o_ad_pod_info.html#a7cb8e3dc80045ea65b819f5381231388">requireControls</a>; </div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;- (instancetype)initWithTitle:(NSString *)title</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                     clickUrl:(NSString *)clickUrl</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                        count:(NSUInteger)adsCount</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                unplayedCount:(NSUInteger)unplayedCount</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                requiredAdBar:(BOOL)adbar</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;              requireControls:(BOOL)controls;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;- (NSDictionary *)toDictionary;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">@end</span></div>
 <div class="ttc" id="interface_o_o_ad_pod_info_html_a55c02b3020769a51a2ae87823c17e65d"><div class="ttname"><a href="interface_o_o_ad_pod_info.html#a55c02b3020769a51a2ae87823c17e65d">OOAdPodInfo::unplayedCount</a></div><div class="ttdeci">NSUInteger unplayedCount</div><div class="ttdef"><b>Definition:</b> OOAdPodInfo.h:14</div></div>
 <div class="ttc" id="interface_o_o_ad_pod_info_html_a073d85ca3db4173457294b80eaf393ae"><div class="ttname"><a href="interface_o_o_ad_pod_info.html#a073d85ca3db4173457294b80eaf393ae">OOAdPodInfo::clickUrl</a></div><div class="ttdeci">NSString * clickUrl</div><div class="ttdef"><b>Definition:</b> OOAdPodInfo.h:12</div></div>
 <div class="ttc" id="interface_o_o_ad_pod_info_html_acede1ba9fe03aa3493ca21943293f876"><div class="ttname"><a href="interface_o_o_ad_pod_info.html#acede1ba9fe03aa3493ca21943293f876">OOAdPodInfo::count</a></div><div class="ttdeci">NSUInteger count</div><div class="ttdef"><b>Definition:</b> OOAdPodInfo.h:13</div></div>
+<div class="ttc" id="interface_o_o_ad_pod_info_html_ac56ca53a238bfa2b4e59ae9b2a84931a"><div class="ttname"><a href="interface_o_o_ad_pod_info.html#ac56ca53a238bfa2b4e59ae9b2a84931a">OOAdPodInfo::requireAdBar</a></div><div class="ttdeci">BOOL requireAdBar</div><div class="ttdef"><b>Definition:</b> OOAdPodInfo.h:15</div></div>
 <div class="ttc" id="interface_o_o_ad_pod_info_html"><div class="ttname"><a href="interface_o_o_ad_pod_info.html">OOAdPodInfo</a></div><div class="ttdoc">OOAdPodInfo. </div><div class="ttdef"><b>Definition:</b> OOAdPodInfo.h:9</div></div>
+<div class="ttc" id="interface_o_o_ad_pod_info_html_a7cb8e3dc80045ea65b819f5381231388"><div class="ttname"><a href="interface_o_o_ad_pod_info.html#a7cb8e3dc80045ea65b819f5381231388">OOAdPodInfo::requireControls</a></div><div class="ttdeci">BOOL requireControls</div><div class="ttdef"><b>Definition:</b> OOAdPodInfo.h:16</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_4123bfad01389b1a97c182f1168a3731.html">OoyalaSDK</a></li><li class="navelem"><a class="el" href="dir_8ec8ce6c8ef74fabb07464308f1eb120.html">Classes</a></li><li class="navelem"><a class="el" href="dir_0e09fdea917043b611d86dc93ccc6fff.html">item</a></li><li class="navelem"><b>OOAdPodInfo.h</b></li>
-    <li class="footer">Generated on Thu Jul 30 2015 13:44:58 for Ooyala-iOS-SDK by
+    <li class="footer">Generated on Thu Jul 30 2015 16:55:04 for Ooyala-iOS-SDK by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

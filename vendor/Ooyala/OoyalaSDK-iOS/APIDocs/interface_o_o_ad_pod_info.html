@@ -123,8 +123,8 @@ $(document).ready(function(){initNavTree('interface_o_o_ad_pod_info.html','');})
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Instance Methods</h2></td></tr>
-<tr class="memitem:a333d8aa8a20b6cf941fb0f6d02cdd9a5"><td class="memItemLeft" align="right" valign="top">(instancetype)&#160;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_o_o_ad_pod_info.html#a333d8aa8a20b6cf941fb0f6d02cdd9a5">initWithTitle:clickUrl:count:unplayedCount:</a></td></tr>
-<tr class="separator:a333d8aa8a20b6cf941fb0f6d02cdd9a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf8c831886d11abbd75d8800ec52ea52"><td class="memItemLeft" align="right" valign="top">(instancetype)&#160;</td><td class="memItemRight" valign="bottom">- <a class="el" href="interface_o_o_ad_pod_info.html#aaf8c831886d11abbd75d8800ec52ea52">initWithTitle:clickUrl:count:unplayedCount:requiredAdBar:requireControls:</a></td></tr>
+<tr class="separator:aaf8c831886d11abbd75d8800ec52ea52"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="properties"></a>
 Properties</h2></td></tr>
@@ -134,13 +134,17 @@ Properties</h2></td></tr>
 <tr class="separator:acede1ba9fe03aa3493ca21943293f876"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55c02b3020769a51a2ae87823c17e65d"><td class="memItemLeft" align="right" valign="top">NSUInteger&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_o_o_ad_pod_info.html#a55c02b3020769a51a2ae87823c17e65d">unplayedCount</a></td></tr>
 <tr class="separator:a55c02b3020769a51a2ae87823c17e65d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac56ca53a238bfa2b4e59ae9b2a84931a"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_o_o_ad_pod_info.html#ac56ca53a238bfa2b4e59ae9b2a84931a">requireAdBar</a></td></tr>
+<tr class="separator:ac56ca53a238bfa2b4e59ae9b2a84931a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cb8e3dc80045ea65b819f5381231388"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interface_o_o_ad_pod_info.html#a7cb8e3dc80045ea65b819f5381231388">requireControls</a></td></tr>
+<tr class="separator:a7cb8e3dc80045ea65b819f5381231388"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p><a class="el" href="interface_o_o_ad_pod_info.html" title="OOAdPodInfo. ">OOAdPodInfo</a>. </p>
 <p><a class="el" href="_o_o_ad_pod_info_8h_source.html">OOAdPodInfo.h</a> in OoyalaSDK </p>
 <dl class="section copyright"><dt>Copyright</dt><dd>Copyright (c) 2015 Ooyala, Inc. All rights reserved. </dd></dl>
 </div><h2 class="groupheader">Method Documentation</h2>
-<a class="anchor" id="a333d8aa8a20b6cf941fb0f6d02cdd9a5"></a>
+<a class="anchor" id="aaf8c831886d11abbd75d8800ec52ea52"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -166,7 +170,19 @@ Properties</h2></td></tr>
           <td class="paramkey">unplayedCount:</td>
           <td></td>
           <td class="paramtype">(NSUInteger)&#160;</td>
-          <td class="paramname"><em>unplayedCount</em>&#160;</td>
+          <td class="paramname"><em>unplayedCount</em></td>
+        </tr>
+        <tr>
+          <td class="paramkey">requiredAdBar:</td>
+          <td></td>
+          <td class="paramtype">(BOOL)&#160;</td>
+          <td class="paramname"><em>adbar</em></td>
+        </tr>
+        <tr>
+          <td class="paramkey">requireControls:</td>
+          <td></td>
+          <td class="paramtype">(BOOL)&#160;</td>
+          <td class="paramname"><em>controls</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -175,7 +191,7 @@ Properties</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>the unplayed ads count Initialize an OOOptions object with the given parameters </p>
+<p>if the ad require UI controls Initialize an OOOptions object with the given parameters </p>
 <dl class="section return"><dt>Returns</dt><dd>the initialized OOOptions </dd></dl>
 
 </div>
@@ -223,6 +239,48 @@ Properties</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ac56ca53a238bfa2b4e59ae9b2a84931a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">- (BOOL) requireAdBar</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">nonatomic</span><span class="mlabel">assign</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>the unplayed ads count </p>
+
+</div>
+</div>
+<a class="anchor" id="a7cb8e3dc80045ea65b819f5381231388"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">- (BOOL) requireControls</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">read</span><span class="mlabel">nonatomic</span><span class="mlabel">assign</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>if the ad require an adbar </p>
+
+</div>
+</div>
 <a class="anchor" id="a55c02b3020769a51a2ae87823c17e65d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -244,8 +302,9 @@ Properties</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>OoyalaSDK/Classes/item/<a class="el" href="_o_o_ad_pod_info_8h_source.html">OOAdPodInfo.h</a></li>
+<li>OoyalaSDK/Classes/item/OOAdPodInfo.m</li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
@@ -253,7 +312,7 @@ Properties</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="interface_o_o_ad_pod_info.html">OOAdPodInfo</a></li>
-    <li class="footer">Generated on Thu Jul 30 2015 13:44:58 for Ooyala-iOS-SDK by
+    <li class="footer">Generated on Thu Jul 30 2015 16:55:04 for Ooyala-iOS-SDK by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
