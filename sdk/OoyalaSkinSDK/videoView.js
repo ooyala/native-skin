@@ -129,7 +129,7 @@ var VideoView = React.createClass({
       );
   },
 
-  _renderPlaceholder: function(respondToClick) {
+  _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
       var socialButtonsArray =this.props.sharing;
@@ -198,37 +198,20 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-    var showAdBar = this.props.ad && this.props.ad.requireAdBar;
-    var showProgressControls = !this.props.ad || this.props.ad.requireControls;
-    
-    var adBar;
-    if (showAdBar) {
-      adBar = this._renderAdBar();
-    } 
-    var placeholder = this._renderPlaceholder(showAdBar);
-    var closedCaptions = this._renderClosedCaptions();
-    var progressBar;
-    var controlBar;
-    if (showProgressControls) {
-      progressBar = this._renderProgressBar();
-      controlBar = this._renderControlBar();
-    } 
-    var upNext;
-    if (!this.props.ad) {
-      upNext = this._renderUpNext();
-    } 
-
-    return (
-      <View
-        style={styles.container}>
-        {adBar}
-        {placeholder}
-        {closedCaptions}
-        {upNext}
-        {progressBar}
-        {controlBar}
-      </View>
-    );
+    if (this.props.ad) {
+      return this.props.ad.requireAdBar ? this._renderAdBar() : null;
+    } else {
+      return (
+        <View
+          style={styles.container}>
+          {this._renderPlaceholder()}
+          {this._renderClosedCaptions()}
+          {this._renderUpNext()}
+          {this._renderProgressBar()}
+          {this._renderControlBar()}
+        </View>
+      );
+    }
   }
 });
 

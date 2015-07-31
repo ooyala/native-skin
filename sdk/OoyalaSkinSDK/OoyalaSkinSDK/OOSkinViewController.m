@@ -219,10 +219,14 @@ static NSString *kLocale = @"locale";
   [eventBody setObject:measures forKey:@"measures"];
   [eventBody setObject:adTitle forKey:@"title"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  if (![adInfo[@"requireAdBar"] boolValue]) {
+    _reactView.userInteractionEnabled = NO;
+  }
 }
 
 - (void) bridgeAdCompleteNotification:(NSNotification *)notification {
   [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
+  _reactView.userInteractionEnabled = YES;
 }
 
 - (void) bridgePlayStartedNotification:(NSNotification *)notification {
@@ -307,6 +311,7 @@ static NSString *kLocale = @"locale";
 
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
 }
 
