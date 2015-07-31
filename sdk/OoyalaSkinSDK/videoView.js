@@ -83,9 +83,6 @@ var VideoView = React.createClass({
   },
 
   _renderProgressBar: function() {
-    if (this.props.ad) {
-      return null;
-    }
     return (<ProgressBar ref='progressBar'
       playhead={this.props.playhead}
       duration={this.props.duration}
@@ -96,10 +93,6 @@ var VideoView = React.createClass({
   },
 
   _renderControlBar: function() {
-    if (this.props.ad) {
-      return null;
-    }
-
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -125,8 +118,7 @@ var VideoView = React.createClass({
   },
 
   _renderAdBar: function() {
-    if (this.props.ad) {
-      return (<AdBar
+    return (<AdBar
         ad={this.props.ad}
         playhead={this.props.playhead}
         duration={this.props.duration}
@@ -135,8 +127,6 @@ var VideoView = React.createClass({
         localizableStrings={this.props.localizableStrings}
         locale={this.props.locale} />
       );
-    }
-    return null;
   },
 
   _renderPlaceholder: function() {
@@ -145,18 +135,18 @@ var VideoView = React.createClass({
       var socialButtonsArray =this.props.sharing;
       placeholder = (
         <View
-        style={styles.fullscreenContainer}>
-        <SharePanel
-        isShow= {this.state.showSharePanel}
-        socialButtons={socialButtonsArray}
-        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
+          style={styles.fullscreenContainer}>
+          <SharePanel
+          isShow= {this.state.showSharePanel}
+          socialButtons={socialButtonsArray}
+          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
         </View>
       );
     } else {
       placeholder = (
         <View
-        style={styles.placeholder}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+          style={styles.placeholder}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}>
         </View>);
     }
     return placeholder;
@@ -199,7 +189,6 @@ var VideoView = React.createClass({
   },
 
   toggleControlBar: function() {
-
     this.setState({showControls:!this.showControlBar()});
     this.props.onPress();
   },
@@ -209,23 +198,20 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-    var adBar = this._renderAdBar();
-    var placeholder = this._renderPlaceholder();
-    var closedCaptions = this._renderClosedCaptions();
-    var progressBar = this._renderProgressBar();
-    var controlBar = this._renderControlBar();
-    var upNext = this._renderUpNext();
-
-    return (
-      <View style={styles.container}>
-        {adBar}
-        {placeholder}
-        {closedCaptions}
-        {upNext}
-        {progressBar}
-        {controlBar}
-      </View>
-    );
+    if (this.props.ad) {
+      return this.props.ad.requireAdBar ? this._renderAdBar() : null;
+    } else {
+      return (
+        <View
+          style={styles.container}>
+          {this._renderPlaceholder()}
+          {this._renderClosedCaptions()}
+          {this._renderUpNext()}
+          {this._renderProgressBar()}
+          {this._renderControlBar()}
+        </View>
+      );
+    }
   }
 });
 
