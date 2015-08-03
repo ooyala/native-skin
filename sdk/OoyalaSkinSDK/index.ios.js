@@ -112,6 +112,9 @@ var OoyalaSkin = React.createClass({
         this.onOptionButtonPress(n);
         break;
       default:
+        if(n == BUTTON_NAMES.PLAY_PAUSE && this.state.rate == 0){
+          this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN});
+        }
         eventBridge.onPress({name:n});
     }
   },
@@ -136,7 +139,7 @@ var OoyalaSkin = React.createClass({
 
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
     console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
-    if (e.rate > 0 && this.state.screenType == SCREEN_TYPES.START_SCREEN) {
+    if ((e.rate > 0) && ((this.state.screenType == SCREEN_TYPES.START_SCREEN) || (this.state.screenType == SCREEN_TYPES.LOADING_SCREEN))) {
       this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
     }
     this.setState({
