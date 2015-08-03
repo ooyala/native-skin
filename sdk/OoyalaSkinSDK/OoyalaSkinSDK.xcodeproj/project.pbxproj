@@ -28,6 +28,7 @@
 		0B773E731B211FFA0056588E /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B773E711B211FFA0056588E /* OOReactSocialShare.m */; };
 		2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F497D5615098F00D7BCE /* upNext.js */; };
 		2F12F21D17B8AA2DB97016B2 /* videoViewStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC25E788F391F9990881 /* videoViewStyles.json */; };
+		2F12F2386F5E0DCE595F9120 /* gradientView.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F3A0C7D3DAF790B0F22B /* gradientView.js */; };
 		2F12F2E342AB0F88CBCA473F /* discoveryPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FA93EE3B4BB0B2EF65C0 /* discoveryPanelStyles.json */; };
 		2F12F53E9749216BF6CBED86 /* upNext.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F6ACB2B1325582A57E0F /* upNext.json */; };
 		2F12F54F8F5430B1DC77BA1F /* adBarStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F66C4650F01E54DEBF70 /* adBarStyles.json */; };
@@ -41,7 +42,7 @@
 		2F12FA7F458E495D0961DAB0 /* endScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC4252285AFD9EB38A07 /* endScreenStyles.json */; };
 		2F12FB30C695C309EDE67706 /* sharePanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F685C92F774DB1FCF0A0 /* sharePanelStyles.json */; };
 		2F12FD19BD9BF0E9981598D3 /* moreOptionScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */; };
-		2F12FE796C73DE85BF0F8F51 /* gradientView.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F8BCF397F43B95A9C57E /* gradientView.js */; };
+		2F12FDA6780E12386A117907 /* VideoViewPlayPause.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F9A8DA5F02FF9C01A125 /* VideoViewPlayPause.js */; };
 		2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */; };
 		2F12FF3D426A9C7194E8AB7B /* styles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F1B4D41FD66245F2C579 /* styles.json */; };
 		5E1173451B5EEE3D00454C55 /* collapsingBarUtils.js in Resources */ = {isa = PBXBuildFile; fileRef = 5E11732A1B5EEE3D00454C55 /* collapsingBarUtils.js */; };
@@ -170,15 +171,16 @@
 		2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = controlBarStyles.json; sourceTree = "<group>"; };
 		2F12F1B4D41FD66245F2C579 /* styles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = styles.json; sourceTree = "<group>"; };
 		2F12F2328FD65E0FE6E2A3A8 /* pauseScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = pauseScreenStyles.json; sourceTree = "<group>"; };
+		2F12F3A0C7D3DAF790B0F22B /* gradientView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = gradientView.js; sourceTree = "<group>"; };
 		2F12F497D5615098F00D7BCE /* upNext.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = upNext.js; sourceTree = "<group>"; };
 		2F12F4F9CA98E2DA7917C4C8 /* languageSelectionPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = languageSelectionPanelStyles.json; sourceTree = "<group>"; };
 		2F12F66C4650F01E54DEBF70 /* adBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = adBarStyles.json; sourceTree = "<group>"; };
 		2F12F685C92F774DB1FCF0A0 /* sharePanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = sharePanelStyles.json; sourceTree = "<group>"; };
 		2F12F6ACB2B1325582A57E0F /* upNext.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = upNext.json; sourceTree = "<group>"; };
 		2F12F7125EBA71D63F094C87 /* startScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = startScreenStyles.json; sourceTree = "<group>"; };
-		2F12F8BCF397F43B95A9C57E /* gradientView.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = gradientView.js; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12F991D312F3867ADDAC0E /* infoPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = infoPanelStyles.json; sourceTree = "<group>"; };
+		2F12F9A8DA5F02FF9C01A125 /* VideoViewPlayPause.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = VideoViewPlayPause.js; sourceTree = "<group>"; };
 		2F12FA93EE3B4BB0B2EF65C0 /* discoveryPanelStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = discoveryPanelStyles.json; sourceTree = "<group>"; };
 		2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MoreOptionScreen.js; sourceTree = "<group>"; };
 		2F12FC25E788F391F9990881 /* videoViewStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = videoViewStyles.json; sourceTree = "<group>"; };
@@ -287,6 +289,7 @@
 				5E11733E1B5EEE3D00454C55 /* style */,
 				5E1173421B5EEE3D00454C55 /* ToggleSwitch.js */,
 				5E1173431B5EEE3D00454C55 /* VolumeView.js */,
+				2F12F9A8DA5F02FF9C01A125 /* VideoViewPlayPause.js */,
 			);
 			path = widgets;
 			sourceTree = "<group>";
@@ -326,7 +329,7 @@
 				2F12F497D5615098F00D7BCE /* upNext.js */,
 				2F12FE077D208B29E5A5098B /* style */,
 				2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */,
-				2F12F8BCF397F43B95A9C57E /* gradientView.js */,
+				2F12F3A0C7D3DAF790B0F22B /* gradientView.js */,
 			);
 			name = JSX;
 			sourceTree = "<group>";
@@ -681,7 +684,8 @@
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
 				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,
 				2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */,
-				2F12FE796C73DE85BF0F8F51 /* gradientView.js in Sources */,
+				2F12F2386F5E0DCE595F9120 /* gradientView.js in Sources */,
+				2F12FDA6780E12386A117907 /* VideoViewPlayPause.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
