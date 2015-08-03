@@ -331,11 +331,12 @@ var OoyalaSkin = React.createClass({
 
   _renderLoadingScreen: function() {
     return (
-      <ActivityIndicatorIOS
-        animating={true}
-        style={styles.loading}
-        size="large">
-      </ActivityIndicatorIOS>)
+      <View style={styles.loading}>
+        <ActivityIndicatorIOS
+          animating={true}
+          size="large">
+        </ActivityIndicatorIOS>
+      </View>)
    },
 
   _renderCCOptions: function() {

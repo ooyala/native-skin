@@ -4,7 +4,7 @@ var {
   Text,
   View,
   TouchableHighlight,
-} = React;
+  } = React;
 
 var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
 
@@ -37,14 +37,14 @@ var RectButton = React.createClass({
     } else if (this.props.position == "center") {
       var topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
       var leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
-      
-      positionStyle = 
-        {position: 'absolute', top: topOffset, left: leftOffset};
-    } else {    
+
+      positionStyle =
+      {position: 'absolute', top: topOffset, left: leftOffset};
+    } else {
       positionStyle = styles[this.props.position];
     }
     return (
-      <TouchableHighlight  
+      <TouchableHighlight
         style={positionStyle}
         onPress={this.props.onPress}
         underlayColor="transparent"
