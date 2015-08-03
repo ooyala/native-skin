@@ -123,7 +123,7 @@ static NSString *kLocale = @"locale";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdCompleteNotification:) name:OOOoyalaPlayerAdCompletedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
   }
 }
@@ -224,7 +224,7 @@ static NSString *kLocale = @"locale";
   }
 }
 
-- (void) bridgeAdCompleteNotification:(NSNotification *)notification {
+- (void) bridgeAdPodCompleteNotification:(NSNotification *)notification {
   [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
   _reactView.userInteractionEnabled = YES;
 }
