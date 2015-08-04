@@ -27,6 +27,8 @@
 		0BFFF7B41B3A213800D72444 /* SmallSkinPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B31B3A213800D72444 /* SmallSkinPlayerView.xib */; };
 		0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */; };
 		2F12FF394E8985621462AB52 /* alice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F9F14C5661D0AE78BEC3 /* alice.ttf */; };
+		4572D5E01B715F75008D5A8F /* AdManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4572D5DF1B715F75008D5A8F /* AdManager.framework */; };
+		4572D5E21B715FA4008D5A8F /* libGoogleIMA3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4572D5E11B715FA4008D5A8F /* libGoogleIMA3.a */; };
 		5EFDD1D71B4F48BD00A61DC2 /* skin.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EFDD19B1B4F486300A61DC2 /* skin.json */; };
 		970ADAEB1B506160008E8AEF /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 970ADAEA1B506160008E8AEF /* OoyalaSkinSDK.framework */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
@@ -45,7 +47,6 @@
 		97930E251B698E2D009B3512 /* AdManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E241B698E2D009B3512 /* AdManager.framework */; };
 		97930E271B699595009B3512 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E261B699595009B3512 /* EventKit.framework */; };
 		97930E291B6995CB009B3512 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E281B6995CB009B3512 /* WebKit.framework */; };
-		97930E391B69965A009B3512 /* libGoogleIMA3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E381B69965A009B3512 /* libGoogleIMA3.a */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -78,6 +79,8 @@
 		0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WidePlayerView.xib; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F12F9F14C5661D0AE78BEC3 /* alice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = alice.ttf; sourceTree = "<group>"; };
+		4572D5DF1B715F75008D5A8F /* AdManager.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdManager.framework; path = ../../../vendor/Freewheel/AdManager.framework; sourceTree = "<group>"; };
+		4572D5E11B715FA4008D5A8F /* libGoogleIMA3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleIMA3.a; path = ../../../vendor/GoogleIMA/libGoogleIMA3.a; sourceTree = "<group>"; };
 		5EFDD19B1B4F486300A61DC2 /* skin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skin.json; sourceTree = "<group>"; };
 		970ADAEA1B506160008E8AEF /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -117,7 +120,6 @@
 		97930E351B69965A009B3512 /* IMACompanionAdSlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMACompanionAdSlot.h; path = ../../../vendor/GoogleIMA/IMACompanionAdSlot.h; sourceTree = "<group>"; };
 		97930E361B69965A009B3512 /* IMAContentPlayhead.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMAContentPlayhead.h; path = ../../../vendor/GoogleIMA/IMAContentPlayhead.h; sourceTree = "<group>"; };
 		97930E371B69965A009B3512 /* IMAUiElements.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMAUiElements.h; path = ../../../vendor/GoogleIMA/IMAUiElements.h; sourceTree = "<group>"; };
-		97930E381B69965A009B3512 /* libGoogleIMA3.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleIMA3.a; path = ../../../vendor/GoogleIMA/libGoogleIMA3.a; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -131,9 +133,10 @@
 				97930E291B6995CB009B3512 /* WebKit.framework in Frameworks */,
 				97930E271B699595009B3512 /* EventKit.framework in Frameworks */,
 				970ADAEB1B506160008E8AEF /* OoyalaSkinSDK.framework in Frameworks */,
+				4572D5E01B715F75008D5A8F /* AdManager.framework in Frameworks */,
 				97930C6F1B6988FF009B3512 /* OoyalaFreewheelSDK.framework in Frameworks */,
-				97930E391B69965A009B3512 /* libGoogleIMA3.a in Frameworks */,
 				97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */,
+				4572D5E21B715FA4008D5A8F /* libGoogleIMA3.a in Frameworks */,
 				97930C701B6988FF009B3512 /* OoyalaIMASDK.framework in Frameworks */,
 				97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */,
 				97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */,
@@ -233,6 +236,7 @@
 		0BD9FCA81B4DEE91001E0CAB /* VendorLibraries */ = {
 			isa = PBXGroup;
 			children = (
+				4572D5DF1B715F75008D5A8F /* AdManager.framework */,
 				97930E2A1B69965A009B3512 /* IMAAd.h */,
 				97930E2B1B69965A009B3512 /* IMAAdDisplayContainer.h */,
 				97930E2C1B69965A009B3512 /* IMAAdError.h */,
@@ -247,7 +251,7 @@
 				97930E351B69965A009B3512 /* IMACompanionAdSlot.h */,
 				97930E361B69965A009B3512 /* IMAContentPlayhead.h */,
 				97930E371B69965A009B3512 /* IMAUiElements.h */,
-				97930E381B69965A009B3512 /* libGoogleIMA3.a */,
+				4572D5E11B715FA4008D5A8F /* libGoogleIMA3.a */,
 				97930E241B698E2D009B3512 /* AdManager.framework */,
 				97930C5B1B6988FE009B3512 /* OoyalaFreewheelSDK.framework */,
 				97930C5C1B6988FE009B3512 /* OoyalaIMASDK.framework */,
@@ -434,6 +438,13 @@
 					"/Users/zchen/repos/ios-skin/vendor/Ooyala/OoyalaFreewheelSDK-iOS",
 					"/Users/zchen/repos/ios-skin/vendor/Ooyala/OoyalaIMASDK-iOS",
 					"/Users/zchen/repos/ios-skin/vendor/Freewheel",
+					"/Users/dkao/Documents/ios-skin/vendor/Freewheel",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-buoxruhdqgqbnthkovxdltvccgey/Build/Products/Debug-iphoneos",
+					"$(PROJECT_DIR)/VendorLibraries",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -446,6 +457,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/zchen/repos/ios-skin/vendor/GoogleIMA",
+					"/Users/dkao/Documents/ios-skin/vendor/GoogleIMA",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OoyalaSkinSampleApp;
@@ -458,6 +470,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-buoxruhdqgqbnthkovxdltvccgey/Build/Products/Debug-iphoneos",
+					"$(PROJECT_DIR)/VendorLibraries",
+					"/Users/dkao/Documents/ios-skin/vendor/Freewheel",
+				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos",
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-buoxruhdqgqbnthkovxdltvccgey/Build/Products/Debug-iphoneos",
@@ -477,6 +496,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"/Users/zchen/repos/ios-skin/vendor/GoogleIMA",
+					"/Users/dkao/Documents/ios-skin/vendor/GoogleIMA",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = OoyalaSkinSampleApp;
