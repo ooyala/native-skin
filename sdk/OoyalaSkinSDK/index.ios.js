@@ -138,14 +138,9 @@ var OoyalaSkin = React.createClass({
   },
 
   onTimeChange: function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
-    console.log( "onTimeChange: " + e.rate + ", " + (e.rate>0) );
-    if (e.rate > 0 && this.state.screenType == SCREEN_TYPES.START_SCREEN) {
-      this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
-    }
     this.setState({
       playhead: e.playhead,
       duration: e.duration,
-      rate: e.rate,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
     });
 
@@ -157,7 +152,7 @@ var OoyalaSkin = React.createClass({
 
   onAdStarted: function(e) {
     console.log( "onAdStarted");
-    this.setState({ad:e});
+    this.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN});
   },
 
   onAdSwitched: function(e) {
@@ -165,8 +160,8 @@ var OoyalaSkin = React.createClass({
     this.setState({ad:e});
   },
 
-  onAdCompleted: function(e) {
-    console.log( "onAdCompleted ");
+  onAdPodCompleted: function(e) {
+    console.log( "onAdPodCompleted ");
     this.setState({ad: null});
   },
 
@@ -188,6 +183,10 @@ var OoyalaSkin = React.createClass({
     this.setState({width:e.width, height:e.height, fullscreen:e.fullscreen});
   },
 
+  onPlayStarted: function(e) {
+    this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+  },
+
   onPlayComplete: function(e) {
     this.setState({screenType: SCREEN_TYPES.END_SCREEN});
   },
@@ -198,7 +197,12 @@ var OoyalaSkin = React.createClass({
   },
 
   onStateChange: function(e) {
-    // nothing to do yet.
+    console.log("state changed")
+    switch (e.state) {
+      case "paused": this.setState({rate:0}); break;
+      case "playing": this.setState({rate:1}); break;
+      default: break;
+    }
   },
 
   onUpNextDismissed: function(e) {
@@ -231,9 +235,10 @@ var OoyalaSkin = React.createClass({
       [ 'onClosedCaptionUpdate',    (event) => this.onClosedCaptionUpdate(event) ],
       [ 'adStarted',                (event) => this.onAdStarted(event) ],
       [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
-      [ 'adCompleted',              (event) => this.onAdCompleted(event) ],
+      [ 'adPodCompleted',           (event) => this.onAdPodCompleted(event) ],
       [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
-      [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ]
+      [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ],
+      [ 'playStarted',              (event) => this.onPlayStarted(event) ]
     ];
     for( var d of listenerDefinitions ) {
       this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );

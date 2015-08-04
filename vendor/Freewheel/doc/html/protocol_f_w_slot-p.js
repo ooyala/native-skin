@@ -1,0 +1,26 @@
+var protocol_f_w_slot_p =
+[
+    [ "adInstances", "protocol_f_w_slot-p.html#a559fcc56ea19341ea5cba27372aba175", null ],
+    [ "currentAdInstance", "protocol_f_w_slot-p.html#a4c4dd9821d01ebf75880b0fde0c33ee5", null ],
+    [ "customId", "protocol_f_w_slot-p.html#a71e52beb0f31e220891642558baf965d", null ],
+    [ "embeddedAdsDuration", "protocol_f_w_slot-p.html#aa2ddc22e3af5b2c35e45a2071df96378", null ],
+    [ "endTimePosition", "protocol_f_w_slot-p.html#a3f73d11508837943294b873b725046c0", null ],
+    [ "getParameter:", "protocol_f_w_slot-p.html#acabcb681b817058b3b71fdad278b18aa", null ],
+    [ "height", "protocol_f_w_slot-p.html#a317fa603f84eec5ed3f9ccc55b9960d4", null ],
+    [ "pause", "protocol_f_w_slot-p.html#ad9117f9a61f36e189b175d49ace30d01", null ],
+    [ "play", "protocol_f_w_slot-p.html#a6bdadf37e110df95fa1ffaebde70beee", null ],
+    [ "playheadTime", "protocol_f_w_slot-p.html#aa0c601ebd82c812d789f92dd92acea99", null ],
+    [ "preload", "protocol_f_w_slot-p.html#a9133e43ae9a7489da0cff5be12bb620c", null ],
+    [ "processEvent:", "protocol_f_w_slot-p.html#afdc7df306fdfc8197418b85ddc5a3e22", null ],
+    [ "resume", "protocol_f_w_slot-p.html#a439ff28981b448680f0f025d1554b53e", null ],
+    [ "setParameter:withValue:", "protocol_f_w_slot-p.html#acda46f2c724d58dd5edacdf11a08f43c", null ],
+    [ "setVisible:", "protocol_f_w_slot-p.html#aa6522110b3e96c0e442581548282159e", null ],
+    [ "slotBase", "protocol_f_w_slot-p.html#a4143d7e84447c5757b2096ef5260e4c3", null ],
+    [ "stop", "protocol_f_w_slot-p.html#a54267a37f88c102ba0a09014691c23b3", null ],
+    [ "timePosition", "protocol_f_w_slot-p.html#a8a0c1c90131f3b49b154f87f95134b4f", null ],
+    [ "timePositionClass", "protocol_f_w_slot-p.html#a87ced452ce231fac859610301637cf2b", null ],
+    [ "totalDuration", "protocol_f_w_slot-p.html#ab578874c95703956115d0d0534c46349", null ],
+    [ "type", "protocol_f_w_slot-p.html#a2ba003f90c13424b8e99bf34c454fce1", null ],
+    [ "visible", "protocol_f_w_slot-p.html#aaa5c8742c249f992a8af970987ccb9f4", null ],
+    [ "width", "protocol_f_w_slot-p.html#aadc06e99426384f798c895d32a0516f2", null ]
+];
