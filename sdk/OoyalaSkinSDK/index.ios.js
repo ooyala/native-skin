@@ -111,8 +111,13 @@ var OoyalaSkin = React.createClass({
         this.pauseOnOptions();
         this.onOptionButtonPress(n);
         break;
+      case BUTTON_NAMES.PLAY_PAUSE:
+        if(this.state.rate == 0){
+          this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN});
+        }
       default:
         eventBridge.onPress({name:n});
+        break;
     }
   },
 
@@ -197,7 +202,10 @@ var OoyalaSkin = React.createClass({
     console.log("state changed")
     switch (e.state) {
       case "paused": this.setState({rate:0}); break;
-      case "playing": this.setState({rate:1}); break;
+      case "playing": 
+        this.setState({rate:1}); 
+        this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+        break;
       default: break;
     }
   },
