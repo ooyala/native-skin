@@ -48,6 +48,10 @@ var VideoViewPlayPause = React.createClass({
   },
 
   onPress: function(name) {
+    this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+  },
+
+  playPauseAction(name) {
     if(name == "play") {
       this.state.play.animationScale.setValue(1);
       this.state.play.animationOpacity.setValue(1);
@@ -70,7 +74,12 @@ var VideoViewPlayPause = React.createClass({
       this.state.play.animationOpacity.setValue(1);
       this.state.play.animationScale.setValue(1);
     }
-    this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+  },
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevProps.playing != this.props.playing || this.props.playing) {
+      this.playPauseAction(this.props.playing ? "pause" : "play");
+    }
   },
 
   _renderButton(name) {
