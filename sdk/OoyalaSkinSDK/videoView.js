@@ -251,6 +251,7 @@ var VideoView = React.createClass({
           style={styles.container}>
           {this._renderPlaceholder()}
           {this._renderClosedCaptions()}
+          {this._renderPlayPause()}
           {this._renderUpNext()}
           {this._renderProgressBar()}
           {this._renderControlBar()}
