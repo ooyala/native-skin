@@ -1,0 +1,10 @@
+{
+  "container": {
+  	"flexDirection": "row",
+    "height": 12,
+    "marginVertical": 20,
+    "marginHorizontal": 35,
+    "borderWidth": 1,
+    "borderColor": "#7E7E7E",
+  }
+}

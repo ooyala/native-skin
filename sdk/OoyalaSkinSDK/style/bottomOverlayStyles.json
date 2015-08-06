@@ -1,0 +1,10 @@
+{
+  "container": {
+    "flexDirection": "column",
+    "backgroundColor": "#AFAFAF",
+    "height": 100,
+    "opacity": 0.5,
+    "position": "absolute",
+    "bottom": 0
+  }
+}
