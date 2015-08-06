@@ -11,25 +11,14 @@ var {
   LayoutAnimation
 } = React;
 
-var eventBridge = require('NativeModules').OOReactBridge;
+var Utils = require('./utils');
+var styles = Utils.getStyles(require('./style/progressBarStyles.json'));
 
 var ProgressBar = React.createClass({
   propTypes: {
-    isShow: React.PropTypes.bool,
-    playhead: React.PropTypes.number,
-    buffered: React.PropTypes.number,
-    duration: React.PropTypes.number,
     width: React.PropTypes.number,
-    height: React.PropTypes.number,
+    percent: React.PropTypes.number,
     onScrub: React.PropTypes.func
-  },
-
-  getInitialState: function() {
-    return {showSlider:false, sliderX: 0};
-  },
-
-  getDefaultProps: function() {
-    return {playhead: 0, buffered: 0, duration: 1};
   },
 
   handleTouchStart: function(event) {
@@ -47,84 +36,33 @@ var ProgressBar = React.createClass({
     this.setState({showSlider:false});
   },
 
-  positionToPercent:function(position) {
-    var percent = position / this.props.duration;
-    if (percent > 1) {
-      percent = 1;
-    } else if (percent < 0) {
-      percent = 0;
-    }
-    return percent;
-  },
+  _renderScrubber: function() {
 
-  componentDidUpdate: function(prevProps, prevState) {
-    if(prevProps.isShow != this.props.isShow) {
-      LayoutAnimation.configureNext(animations.layout.easeInEaseOut);
-    }
   },
 
   render: function() {
-    var playedPercent = this.positionToPercent(this.props.playhead);
-    var bufferedPercent = this.positionToPercent(this.props.buffered - this.props.playhead);
+    var playedPercent = this.props.percent;
+    var bufferedPercent = 0
     var unbufferedPercent = 1 - playedPercent - bufferedPercent;
     
-    var playedStyle = {backgroundColor: '#488DFB', flex: playedPercent};
-    var bufferedStyle = {backgroundColor: '#808080', flex: bufferedPercent};
-    var unbufferedStyle = {backgroundColor: '#B0B0B0', flex: unbufferedPercent};
+    var playedStyle = {backgroundColor: '#4389FF', flex: playedPercent};
+    var bufferedStyle = {backgroundColor: '#7F7F7F', flex: bufferedPercent};
+    var unbufferedStyle = {backgroundColor: '#AFAFAF', flex: unbufferedPercent};
     
     var progressStyles = StyleSheet.create({played:playedStyle, buffered:bufferedStyle, unbuffered:unbufferedStyle});
-    var slider;
-    if (this.props.showSlider) {
-      slider = (<View style={{backgroundColor: 'white', position: 'absolute', left: this.state.sliderX, width: 10, height:10}} />);
-    }
-
-    var displayStyle;
-    if(this.props.isShow) {
-      displayStyle = styles.container;
-    }
-    else {
-      displayStyle = styles.containerHidden;
-    }
     return (
       <View 
-        style={displayStyle} 
+        style={styles.container} 
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
         onTouchEnd={(event) => this.handleTouchEnd(event)}>
         <View style={progressStyles.played} />
         <View style={progressStyles.buffered} />
         <View style={progressStyles.unbuffered} />
-        {slider}
+        {this._renderScrubber()}
       </View>
     );
   }
 });
-
-var styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row', 
-    height: 10
-  },
-  containerHidden: {
-    flexDirection: 'row', 
-    height: 10
-  }
-});
-
-var animations = {
-  layout: {
-    easeInEaseOut: {
-      duration: 400,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
 
 module.exports = ProgressBar;
