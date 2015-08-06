@@ -8,6 +8,7 @@
 
 #import "OOReactSocialShare.h"
 #import "RCTConvert.h"
+#import "OOFacebookSharePlugin.h"
 #import <MessageUI/MessageUI.h>
 #import <Social/Social.h>
 
@@ -62,6 +63,8 @@ RCT_EXPORT_METHOD(onSocialButtonPress:(NSDictionary *)options
     if([socialType isEqualToString:TWITTER]){
       serviceType = SLServiceTypeTwitter;
     }else if([socialType isEqualToString:FACEBOOK]){
+      OOFacebookSharePlugin *facebookSharePlugin = [[OOFacebookSharePlugin alloc] init];
+      [facebookSharePlugin share];
       serviceType = SLServiceTypeFacebook;
     }
     if([SLComposeViewController isAvailableForServiceType:serviceType]) {

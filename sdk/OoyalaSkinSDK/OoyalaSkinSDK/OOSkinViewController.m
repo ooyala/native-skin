@@ -11,6 +11,7 @@
 #import "RCTRootView.h"
 #import "OOUpNextManager.h"
 #import "OOLocaleHelper.h"
+#import "OOSharePlugin.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -331,6 +332,10 @@ static NSString *kLocale = @"locale";
   if( wasPlaying ) {
     [self.player play];
   }
+}
+
+- (void)registerSharePlugin:(OOSharePlugin *) sharePlugin {
+
 }
 
 - (void)dealloc {
