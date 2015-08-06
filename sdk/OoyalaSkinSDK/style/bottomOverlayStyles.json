@@ -1,9 +1,8 @@
 {
   "container": {
     "flexDirection": "column",
-    "backgroundColor": "#AFAFAF",
-    "height": 100,
-    "opacity": 0.5,
+    "backgroundColor": "rgba(0,0,0,0.3)",
+    "height": 85,
     "position": "absolute",
     "bottom": 0
   }

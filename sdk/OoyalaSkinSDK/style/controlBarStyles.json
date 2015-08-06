@@ -1,11 +1,11 @@
 {
-  container: {
-    flexDirection: 'row',
-    //alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    height: 46,
-    position:"absolute",
-    bottom: 0,
+  "container": {
+    "flexDirection": "row",
+    "height": 46,
+    "position":"absolute",
+    "marginHorizontal": 20,
+    "marginBottom": 16,
+    "bottom": 0,
   },
   containerHidden: {
     flexDirection: 'row',
