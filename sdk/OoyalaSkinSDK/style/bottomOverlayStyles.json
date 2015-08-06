@@ -5,5 +5,11 @@
     "height": 85,
     "position": "absolute",
     "bottom": 0
+  },
+  
+  "progressScrubber": {
+  	"position": "absolute",
+  	"height": 18,
+  	"width": 18
   }
 }

@@ -24,6 +24,7 @@ var Utils = require('./utils');
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
+var progressBarStyles = Utils.getStyles(require('./style/progressBarStyles.json'));
 
 var BottomOverlay = React.createClass({
 
@@ -63,6 +64,24 @@ var BottomOverlay = React.createClass({
     }
   },
 
+  _renderProgressScrubber: function(percent) {
+    var topMargin = 16;
+    var leftMargin = 20;
+    var progressBarHeight = 6;
+    var scrubberSize = 18;
+
+    var topOffset = topMargin + progressBarHeight / 2 - scrubberSize / 2;
+    var progressBarWidth = this.props.width - 2 * leftMargin;
+    var leftOffset = leftMargin + percent * progressBarWidth - scrubberSize / 2;
+    var positionStyle = {top:topOffset, left:leftOffset};
+    
+    return (
+      <Image
+        source={{uri:"doc-gray-circle.png"}}
+        style={[styles.progressScrubber, positionStyle]} >
+      </Image>);
+  },
+
   _renderProgressBar: function(percent) {
     return (<ProgressBar ref='progressBar'
       percent={percent}
@@ -73,7 +92,7 @@ var BottomOverlay = React.createClass({
   _renderControlBar: function() {
     return (<ControlBar
       ref='controlBar'
-      primaryButton={this.props.showPlay ? "play" : "pause"}
+      primaryButton={this.props.primaryButton}
       playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.props.live}
@@ -102,11 +121,13 @@ var BottomOverlay = React.createClass({
   render: function() {
     if (this.props.isShow) {
       var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
+      console.log("percentage"+playedPercent);
       var widthStyle = {width:this.props.width};
       return (
         <View style={[styles.container, widthStyle]}>
           {this._renderProgressBar(playedPercent)}
           {this._renderControlBar()}
+          {this._renderProgressScrubber(playedPercent)}
         </View>
       );
     } else {
