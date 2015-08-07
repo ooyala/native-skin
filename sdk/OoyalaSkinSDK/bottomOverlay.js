@@ -75,10 +75,8 @@ var BottomOverlay = React.createClass({
     var positionStyle = {top:topOffset, left:leftOffset};
     
     return (
-      <Image
-        source={{uri:"doc-gray-circle.png"}}
-        style={[styles.progressScrubber, positionStyle]} >
-      </Image>);
+      <Text style={[styles.progressScrubber, positionStyle]} >{"\uf111"}
+      </Text>);
   },
 
   _renderProgressBar: function(percent) {
@@ -92,7 +90,7 @@ var BottomOverlay = React.createClass({
       playhead={this.props.playhead}
       duration={this.props.duration}
       live={this.props.live}
-      width={this.props.width}
+      width={this.props.width - 2 * leftMargin}
       height={this.props.height}
       fullscreen = {this.props.fullscreen}
       onPress={this.props.onPress}
