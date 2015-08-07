@@ -96,12 +96,14 @@ var VideoView = React.createClass({
 
     return (<BottomOverlay
       width={this.props.width}
+      height={this.props.height}
       primaryButton={this.props.showPlay ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
       playhead={this.props.playhead}
       duration={this.props.duration} 
       live={this.generateLiveLabel()}
       onPress={(name) => this.handlePress(name)}
+      onScrub={(value)=>this.handleScrub(value)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={this.controlsVisible()}

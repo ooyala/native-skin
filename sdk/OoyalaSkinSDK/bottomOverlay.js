@@ -25,23 +25,34 @@ var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
 var progressBarStyles = Utils.getStyles(require('./style/progressBarStyles.json'));
-
+var topMargin = 16;
+var leftMargin = 20;
+var progressBarHeight = 6;
+var scrubberSize = 18;
 var BottomOverlay = React.createClass({
 
   propTypes: {
     width: React.PropTypes.number,
+    height: React.PropTypes.number,
     primaryButton: React.PropTypes.string,
     fullscreen: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
+    onScrub: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
     live: React.PropTypes.string,
     shouldShowLandscape: React.PropTypes.bool,
     shouldShowCCOptions: React.PropTypes.bool,
     config: React.PropTypes.object,
-    onScrub: React.PropTypes.func
+    
+  },
+
+  getInitialState: function() {
+    return {
+      touch: false
+    };
   },
 
   componentDidUpdate: function(prevProps, prevState) {
@@ -50,26 +61,14 @@ var BottomOverlay = React.createClass({
     }
   },
 
-  handleTouchStart: function(event) {
-    this.setState({sliderX:event.nativeEvent.pageX});
-  },
-
-  handleTouchMove: function(event) {
-    this.setState({sliderX:event.nativeEvent.pageX});   
-  },
-
-  handleTouchEnd: function(event) {
-    if (this.props.onScrub) {
-      this.props.onScrub(event.nativeEvent.pageX / this.props.width);
+  handleProgress: function(touch, percent) {
+    this.setState({touch:touch, percent:percent});
+    if (!touch && this.onScrub) {
+      this.onScrub(this.state.percent);
     }
   },
 
   _renderProgressScrubber: function(percent) {
-    var topMargin = 16;
-    var leftMargin = 20;
-    var progressBarHeight = 6;
-    var scrubberSize = 18;
-
     var topOffset = topMargin + progressBarHeight / 2 - scrubberSize / 2;
     var progressBarWidth = this.props.width - 2 * leftMargin;
     var leftOffset = leftMargin + percent * progressBarWidth - scrubberSize / 2;
@@ -83,10 +82,7 @@ var BottomOverlay = React.createClass({
   },
 
   _renderProgressBar: function(percent) {
-    return (<ProgressBar ref='progressBar'
-      percent={percent}
-      width={this.props.width}
-      onScrub={this.props.onScrub} />);
+    return (<ProgressBar ref='progressBar' percent={percent} />);
   },
 
   _renderControlBar: function() {
@@ -118,16 +114,49 @@ var BottomOverlay = React.createClass({
     return percent;
   },
 
+  touchPercent: function(x) {
+    var percent = (x - leftMargin) / (this.props.width - 2 * leftMargin);
+    if (percent > 1) {
+      percent = 1;
+    } else if (percent < 0) {
+      percent = 0;
+    }
+    return percent;
+  },
+
+  handleTouchStart: function(event) {
+    if ((this.props.height - event.nativeEvent.pageY) < 50) {
+      return;
+    }
+    this.setState({touch:true, x:event.nativeEvent.pageX});
+    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+  },
+
+  handleTouchMove: function(event) {
+    this.setState({x:event.nativeEvent.pageX});  
+    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE); 
+  },
+
+  handleTouchEnd: function(event) {
+    if (this.state.touch && this.props.onScrub) {
+      this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+    }
+    this.setState({touch:false, x:null});
+    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+  },
+
   render: function() {
     if (this.props.isShow) {
       var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-      console.log("percentage"+playedPercent);
       var widthStyle = {width:this.props.width};
       return (
-        <View style={[styles.container, widthStyle]}>
+        <View style={[styles.container, widthStyle]}
+          onTouchStart={(event) => this.handleTouchStart(event)}
+          onTouchMove={(event) => this.handleTouchMove(event)}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}>
           {this._renderProgressBar(playedPercent)}
           {this._renderControlBar()}
-          {this._renderProgressScrubber(playedPercent)}
+          {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
         </View>
       );
     } else {
