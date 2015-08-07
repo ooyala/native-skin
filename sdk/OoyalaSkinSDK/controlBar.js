@@ -43,7 +43,6 @@ var ControlBar = React.createClass({
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
-    isShow: React.PropTypes.bool,
     live: React.PropTypes.string,
     shouldShowLandscape: React.PropTypes.bool,
     config: React.PropTypes.object
@@ -87,12 +86,6 @@ var ControlBar = React.createClass({
 
   onMorePress: function() {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
-  },
-
-  componentDidUpdate: function(prevProps, prevState) {
-    if(prevProps.isShow != this.props.isShow) {
-      LayoutAnimation.configureNext(animations.layout.controlBarHideShow);
-    }
   },
 
   render: function() {
@@ -151,13 +144,6 @@ var ControlBar = React.createClass({
       }
     };
 
-    var displayStyle = styles.container;
-    if (this.props.isShow){
-      displayStyle = styles.container;
-    }
-    else {
-      displayStyle = styles.containerHidden;
-    }
 
     console.log("Width: " + this.props.width);
 
@@ -167,32 +153,16 @@ var ControlBar = React.createClass({
       var widget = itemCollapsingResults.fit[i];
       controlBarWidgets.push(<ControlBarWidget
         widgetType={widget}
-        options={widgetOptions}
-      />);
+        options={widgetOptions}/>);
     }
 
+    var widthStyle = {width:this.props.width};
     return (
-      <View style={displayStyle}>
+      <View style={[styles.container, widthStyle]}>
         {controlBarWidgets}
       </View>
     );
   }
 });
-
-var animations = {
-  layout: {
-    controlBarHideShow: {
-      duration: 400,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
 
 module.exports = ControlBar;
