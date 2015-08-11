@@ -12,6 +12,7 @@
 #import "OOUpNextManager.h"
 #import "OOLocaleHelper.h"
 #import "OOSharePlugin.h"
+#import "OOFacebookSharePlugin.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -28,6 +29,7 @@
   UIViewController *_parentViewController;
   UIView *_parentView;
   UIView *_movieFullScreenView;
+  NSMutableArray *_sharePlugins;
 }
 
 @end
@@ -51,6 +53,13 @@ static NSString *kLocale = @"locale";
                                           launchOptions:nil];
     _skinConfig = [self getReactViewInitialProperties];
     _reactView.initialProperties = _skinConfig;
+
+    _sharePlugins = [[NSMutableArray alloc] init];
+    for (NSDictionary *sharingNetwork in [_skinConfig objectForKey:@"sharing"]) {
+      Class sharePluginClass = NSClassFromString([NSString stringWithFormat:@"%@%@%@", @"OO",[sharingNetwork objectForKey:@"buttonName"], @"SharePlugin"]);
+      [_sharePlugins addObject: [[sharePluginClass alloc] init]];
+    }
+
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
     [self.view setFrame:rect];
@@ -332,10 +341,6 @@ static NSString *kLocale = @"locale";
   if( wasPlaying ) {
     [self.player play];
   }
-}
-
-- (void)registerSharePlugin:(OOSharePlugin *) sharePlugin {
-
 }
 
 - (void)dealloc {
