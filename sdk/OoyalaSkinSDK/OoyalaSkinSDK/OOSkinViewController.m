@@ -23,6 +23,7 @@
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
+#define FULLSCREEN_ANIMATION_DELAY 0
 
 @interface OOSkinViewController () {
   RCTRootView *_reactView;
@@ -78,12 +79,6 @@ static NSString *kLocale = @"locale";
     _isFullscreen = NO;
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
     _discoveryOptions = discoveryOptions;
-    
-    _movieFullScreenView = [[UIView alloc] init];
-    _movieFullScreenView.alpha = 0.f;
-    _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
-    
   }
   return self;
 }
@@ -296,51 +291,33 @@ static NSString *kLocale = @"locale";
 }
 
 - (void)toggleFullscreen {
-  BOOL wasPlaying = self.player.isPlaying;
-  if( wasPlaying ) {
-    [_player pause];
-  }
-
-  [self.view removeFromSuperview];
   _isFullscreen = !_isFullscreen;
   if (_isFullscreen) {
     if (self.parentViewController) {
       _parentViewController = self.parentViewController;
       [self removeFromParentViewController];
     }
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    if (CGRectEqualToRect(_movieFullScreenView.frame, CGRectZero)) {
-      [_movieFullScreenView setFrame:window.bounds];
-    }
-    [window addSubview:_movieFullScreenView];
-    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-      _movieFullScreenView.alpha = 1.f;
-    } completion:^(BOOL finished) {
-      self.view.alpha = 1.f;
-      [_movieFullScreenView addSubview:self.view];
-      [self.view setFrame:window.bounds];
-    }];
-    
   } else {
-    [_parentView addSubview:self.view];
-    [self.view setFrame:_parentView.bounds];
     if (_parentViewController) {
       [_parentViewController addChildViewController:self];
       _parentViewController = nil;
     }
-    
-    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-      _movieFullScreenView.alpha = 0.f;
-    } completion:^(BOOL finished) {
-      self.view.alpha = 1.f;
-      [_movieFullScreenView removeFromSuperview];
-      [self.view setFrame:_parentView.bounds];
-    }];
   }
-  
-  if( wasPlaying ) {
-    [self.player play];
-  }
+
+  [self.view removeFromSuperview];
+  UIView *targetView = _isFullscreen ? [UIApplication sharedApplication].keyWindow : _parentView;
+  CGAffineTransform transform = CGAffineTransformMakeScale(targetView.bounds.size.width/self.view.bounds.size.width, targetView.bounds.size.height/self.view.bounds.size.height);
+  [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION
+                        delay:FULLSCREEN_ANIMATION_DELAY
+                      options:UIViewAnimationOptionCurveEaseInOut
+                   animations:^{
+    self.view.transform = transform;
+
+  } completion:^(BOOL finished) {
+    [targetView addSubview:self.view];
+    self.view.transform = CGAffineTransformIdentity;
+    [self.view setFrame:targetView.bounds];
+  }];
 }
 
 - (void)dealloc {

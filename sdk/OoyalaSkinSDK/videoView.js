@@ -8,14 +8,12 @@ var React = require('react-native');
 var {
   Text,
   View,
-  StyleSheet,
-  LayoutAnimation
+  StyleSheet
 } = React;
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
-var ProgressBar = require('./progressBar');
-var ControlBar = require('./controlBar');
+var BottomOverlay = require('./bottomOverlay');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
@@ -90,31 +88,21 @@ var VideoView = React.createClass({
     this.props.onPress(name);
   },
 
-  _renderProgressBar: function() {
-    return (<ProgressBar ref='progressBar'
-      playhead={this.props.playhead}
-      duration={this.props.duration}
-      width={this.props.width}
-      height={this.props.height}
-      onScrub={(value)=>this.handleScrub(value)}
-      isShow={this.controlsVisible()} />);
-  },
-
-  _renderControlBar: function() {
+  _renderBottomOverlay: function() {
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
-    return (<ControlBar
-      ref='controlBar'
-      primaryButton={this.props.showPlay ? "play" : "pause"}
-      playhead={this.props.playhead}
-      duration={this.props.duration}
-      live={this.generateLiveLabel()}
+    return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
+      primaryButton={this.props.showPlay ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
+      playhead={this.props.playhead}
+      duration={this.props.duration} 
+      live={this.generateLiveLabel()}
       onPress={(name) => this.handlePress(name)}
+      onScrub={(value)=>this.handleScrub(value)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={this.controlsVisible()}
@@ -233,16 +221,17 @@ var VideoView = React.createClass({
     return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + autohideDelay;
   },
 
-  toggleControlBar: function() {
+  toggleBottomOverlay: function() {
     this.setState({showControls:!this.controlsVisible()});
     this.props.onPress();
   },
 
   handleTouchEnd: function(event) {
-    this.toggleControlBar();
+    this.toggleBottomOverlay();
   },
 
   render: function() {
+
     if (this.props.ad) {
       return this.props.ad.requireAdBar ? this._renderAdBar() : null;
     } else {
@@ -253,8 +242,7 @@ var VideoView = React.createClass({
           {this._renderClosedCaptions()}
           {this._renderPlayPause()}
           {this._renderUpNext()}
-          {this._renderProgressBar()}
-          {this._renderControlBar()}
+          {this._renderBottomOverlay()}
         </View>
       );
     }

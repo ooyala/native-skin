@@ -111,6 +111,8 @@ var OoyalaSkin = React.createClass({
         this.pauseOnOptions();
         this.onOptionButtonPress(n);
         break;
+      case BUTTON_NAMES.RESET_AUTOHIDE:
+        break;
       case BUTTON_NAMES.PLAY_PAUSE:
         if(this.state.rate == 0){
           this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN});
@@ -291,7 +293,7 @@ var OoyalaSkin = React.createClass({
         config={{
           endScreen: this.props.endScreen,
           controlBar: this.props.controlBar,
-          buttons: this.props.buttons.mobile,
+          buttons: this.props.buttons.mobileContent,
           icons: this.props.icons
         }}
         title={this.state.title}
@@ -330,7 +332,7 @@ var OoyalaSkin = React.createClass({
         lastPressedTime={this.state.lastPressedTime}
         config={{
           controlBar: this.props.controlBar,
-          buttons: this.props.buttons.mobile,
+          buttons: this.props.buttons.mobileContent,
           upNextScreen: this.props.upNextScreen,
           icons: this.props.icons
         }}
@@ -419,7 +421,7 @@ var OoyalaSkin = React.createClass({
         onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)}
         config={{
           moreOptions: this.props.moreOptions,
-          buttons: this.props.buttons.mobile,
+          buttons: this.props.buttons.mobileContent,
           icons: this.props.icons,
           // TODO: assumes this is how control bar width is calculated everywhere.
           controlBarWidth: this.state.width
