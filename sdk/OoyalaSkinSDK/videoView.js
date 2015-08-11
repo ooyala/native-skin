@@ -8,8 +8,7 @@ var React = require('react-native');
 var {
   Text,
   View,
-  StyleSheet,
-  LayoutAnimation
+  StyleSheet
 } = React;
 
 var Dimensions = require('Dimensions');
