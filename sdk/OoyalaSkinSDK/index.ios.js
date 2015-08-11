@@ -114,9 +114,6 @@ var OoyalaSkin = React.createClass({
       case BUTTON_NAMES.RESET_AUTOHIDE:
         break;
       case BUTTON_NAMES.PLAY_PAUSE:
-        if(this.state.rate == 0){
-          this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN});
-        }
       default:
         eventBridge.onPress({name:n});
         break;
