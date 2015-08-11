@@ -260,7 +260,6 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    console.log("renderScreen" + this.state.screenType);
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
@@ -415,6 +414,7 @@ var OoyalaSkin = React.createClass({
 
     return (
       <MoreOptionScreen
+        height={this.state.height}
         onDismiss={this.onOptionDismissed}
         panel={panel}
         buttonSelected={this.state.buttonSelected}
