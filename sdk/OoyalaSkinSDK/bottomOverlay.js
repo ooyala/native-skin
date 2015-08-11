@@ -6,12 +6,12 @@
 
 var React = require('react-native');
 var {
+  Animated,
+  Image,
   StyleSheet,
   Text,
-  Image,
   TouchableHighlight,
   View,
-  LayoutAnimation
 } = React;
 
 var Constants = require('./constants');
@@ -45,19 +45,37 @@ var BottomOverlay = React.createClass({
     live: React.PropTypes.string,
     shouldShowLandscape: React.PropTypes.bool,
     shouldShowCCOptions: React.PropTypes.bool,
-    config: React.PropTypes.object,
-    
+    config: React.PropTypes.object
   },
 
   getInitialState: function() {
     return {
-      touch: false
+      touch: false,
+      translateY: new Animated.Value(85),
+      opacity: new Animated.Value(0)
     };
   },
 
   componentDidUpdate: function(prevProps, prevState) {
-    if(prevProps.isShow != this.props.isShow) {
-      LayoutAnimation.configureNext(animations.layout.controlBarHideShow);
+    if(prevProps.isShow != this.props.isShow ) {
+      this.state.translateY.setValue(this.props.isShow? 85 : 0);
+      this.state.opacity.setValue(this.props.isShow? 0 : 1);
+      Animated.parallel([
+        Animated.timing(                      
+          this.state.translateY,                 
+          {
+            toValue: this.props.isShow? 0 : 85,                         
+            duration: 500,
+            delay: 0  
+          }),
+        Animated.timing(                      
+          this.state.opacity,                 
+          {
+            toValue: this.props.isShow ? 1 : 0,                         
+            duration: 500,
+            delay: 0  
+          }),
+      ]).start();
     }
   },
 
@@ -144,39 +162,19 @@ var BottomOverlay = React.createClass({
   },
 
   render: function() {
-    if (this.props.isShow) {
-      var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-      var widthStyle = {width:this.props.width};
-      return (
-        <View style={[styles.container, widthStyle]}
-          onTouchStart={(event) => this.handleTouchStart(event)}
-          onTouchMove={(event) => this.handleTouchMove(event)}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}>
-          {this._renderProgressBar(playedPercent)}
-          {this._renderControlBar()}
-          {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
-        </View>
-      );
-    } else {
-      return null;
-    }
+    var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
+    var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},], opacity:this.state.opacity};
+    return (
+      <Animated.View style={[styles.container, widthStyle]}
+        onTouchStart={(event) => this.handleTouchStart(event)}
+        onTouchMove={(event) => this.handleTouchMove(event)}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+        {this._renderProgressBar(playedPercent)}
+        {this._renderControlBar()}
+        {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
+      </Animated.View>
+    );  
   }
 });
-
-var animations = {
-  layout: {
-    controlBarHideShow: {
-      duration: 400,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
 
 module.exports = BottomOverlay;
