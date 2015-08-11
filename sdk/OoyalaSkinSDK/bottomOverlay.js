@@ -51,21 +51,31 @@ var BottomOverlay = React.createClass({
   getInitialState: function() {
     return {
       touch: false,
-      translateY: new Animated.Value(0)
+      translateY: new Animated.Value(85),
+      opacity: new Animated.Value(0)
     };
   },
 
   componentDidUpdate: function(prevProps, prevState) {
     if(prevProps.isShow != this.props.isShow ) {
-      this.state.translateY.setValue(85);
-      Animated.timing(                      
-        this.state.translateY,                 
-        {
-          toValue: 0,                         
-          duration: 500,
-          delay: 0  
-        }
-      ).start();
+      this.state.translateY.setValue(this.props.isShow? 85 : 0);
+      this.state.opacity.setValue(this.props.isShow? 0 : 1);
+      Animated.parallel([
+        Animated.timing(                      
+          this.state.translateY,                 
+          {
+            toValue: this.props.isShow? 0 : 85,                         
+            duration: 500,
+            delay: 0  
+          }),
+        Animated.timing(                      
+          this.state.opacity,                 
+          {
+            toValue: this.props.isShow ? 1 : 0,                         
+            duration: 500,
+            delay: 0  
+          }),
+      ]).start();
     }
   },
 
@@ -152,22 +162,18 @@ var BottomOverlay = React.createClass({
   },
 
   render: function() {
-    if (this.props.isShow) {
-      var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-      var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},]};
-      return (
-        <Animated.View style={[styles.container, widthStyle]}
-          onTouchStart={(event) => this.handleTouchStart(event)}
-          onTouchMove={(event) => this.handleTouchMove(event)}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}>
-          {this._renderProgressBar(playedPercent)}
-          {this._renderControlBar()}
-          {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
-        </Animated.View>
-      );
-    } else {
-      return null;
-    }
+    var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
+    var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},], opacity:this.state.opacity};
+    return (
+      <Animated.View style={[styles.container, widthStyle]}
+        onTouchStart={(event) => this.handleTouchStart(event)}
+        onTouchMove={(event) => this.handleTouchMove(event)}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+        {this._renderProgressBar(playedPercent)}
+        {this._renderControlBar()}
+        {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
+      </Animated.View>
+    );  
   }
 });
 
