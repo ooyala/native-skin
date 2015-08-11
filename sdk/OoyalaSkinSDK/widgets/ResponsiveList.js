@@ -31,18 +31,21 @@ var ResponsiveList = React.createClass({
     } else if (itemsPerSlice > itemsPerSliceCap) {
       itemsPerSlice = itemsPerSliceCap;
     }
-    var numberOfSlices = Math.ceil(this.props.data.length / itemsPerSlice);
     var slices = [];
-    for (var i = 0; i  < numberOfSlices; i++) {
-      slices[i] = [];
-      for (var j = 0; j < itemsPerSlice; j++) {
-        if (i * itemsPerSlice + j < this.props.data.length) {
-          slices[i][j] = this.props.data[i * itemsPerSlice + j];
-        } else {
-          slices[i][j] = placeHolderItem;
+    if(this.props.data != null){
+      var numberOfSlices = Math.ceil(this.props.data.length / itemsPerSlice);
+      for (var i = 0; i  < numberOfSlices; i++) {
+        slices[i] = [];
+        for (var j = 0; j < itemsPerSlice; j++) {
+          if (i * itemsPerSlice + j < this.props.data.length) {
+            slices[i][j] = this.props.data[i * itemsPerSlice + j];
+          } else {
+            slices[i][j] = placeHolderItem;
+          }
         }
       }
     }
+
     return slices;
   },
 
