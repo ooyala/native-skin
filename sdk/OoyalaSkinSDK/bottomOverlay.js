@@ -6,12 +6,12 @@
 
 var React = require('react-native');
 var {
+  Animated,
+  Image,
   StyleSheet,
   Text,
-  Image,
   TouchableHighlight,
   View,
-  LayoutAnimation
 } = React;
 
 var Constants = require('./constants');
@@ -45,19 +45,27 @@ var BottomOverlay = React.createClass({
     live: React.PropTypes.string,
     shouldShowLandscape: React.PropTypes.bool,
     shouldShowCCOptions: React.PropTypes.bool,
-    config: React.PropTypes.object,
-    
+    config: React.PropTypes.object
   },
 
   getInitialState: function() {
     return {
-      touch: false
+      touch: false,
+      translateY: new Animated.Value(0)
     };
   },
 
   componentDidUpdate: function(prevProps, prevState) {
-    if(prevProps.isShow != this.props.isShow) {
-      LayoutAnimation.configureNext(animations.layout.controlBarHideShow);
+    if(prevProps.isShow != this.props.isShow ) {
+      this.state.translateY.setValue(85);
+      Animated.timing(                      
+        this.state.translateY,                 
+        {
+          toValue: 0,                         
+          duration: 500,
+          delay: 0  
+        }
+      ).start();
     }
   },
 
@@ -146,37 +154,21 @@ var BottomOverlay = React.createClass({
   render: function() {
     if (this.props.isShow) {
       var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-      var widthStyle = {width:this.props.width};
+      var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},]};
       return (
-        <View style={[styles.container, widthStyle]}
+        <Animated.View style={[styles.container, widthStyle]}
           onTouchStart={(event) => this.handleTouchStart(event)}
           onTouchMove={(event) => this.handleTouchMove(event)}
           onTouchEnd={(event) => this.handleTouchEnd(event)}>
           {this._renderProgressBar(playedPercent)}
           {this._renderControlBar()}
           {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
-        </View>
+        </Animated.View>
       );
     } else {
       return null;
     }
   }
 });
-
-var animations = {
-  layout: {
-    controlBarHideShow: {
-      duration: 400,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY
-      },
-      update: {
-        delay: 100,
-        type: LayoutAnimation.Types.easeInEaseOut
-      }
-    }
-  }
-};
 
 module.exports = BottomOverlay;
