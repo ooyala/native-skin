@@ -26,20 +26,37 @@
     "marginTop": 8,
     "textAlign": "left",
   },
-  "thumbnail": {
-    "width": 112,
-    "height": 63,
+  "thumbnailPortrait": {
+    "width": 148,
+    "height": 88,
+  },
+  "thumbnailLandscape": {
+    "width": 118,
+    "height": 68,
   },
   "panel": {
     "flex": 1,
   },
-  "columnContainer": {
+  "columnContainerPortrait": {
     "flex": 1,
     "flexDirection": "column",
     "backgroundColor": "transparent",
     "alignItems": "center",
     "padding": 10,
-    "width":160,
-    "height":120
+    "width": 180,
+    "height": 144,
+    "margin": 4
+  },
+  "columnContainerLandscape": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "alignItems": "center",
+    "padding": 6,
+    "width": 150,
+    "height": 114,
+    "marginLeft": 21,
+    "marginRight": 21,
+    "marginBottom": 21
   },
 }

@@ -55,7 +55,8 @@ var OoyalaSkin = React.createClass({
       // selectedLanguage: null,
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
-      buttonSelected: "None"
+      buttonSelected: "None",
+      orientation: 'portrait'
     };
   },
 
@@ -180,8 +181,8 @@ var OoyalaSkin = React.createClass({
   },
 
   onFrameChange: function(e) {
-    console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
-    this.setState({width:e.width, height:e.height, fullscreen:e.fullscreen});
+    console.log("receive frameChange, frame width is" + e.width + " height is" + e.height + "orientation is" + e.orientation);
+    this.setState({width:e.width, height:e.height, fullscreen:e.fullscreen, orientation: e.orientation});
   },
 
   onPlayStarted: function(e) {
@@ -379,7 +380,8 @@ var OoyalaSkin = React.createClass({
         dataSource={this.state.discoveryResults}
         onRowAction={(info) => this.onDiscoveryRow(info)}
         width={this.state.width}
-        height={this.state.height}>
+        height={this.state.height}
+        orientation={this.state.orientation}>
       </DiscoveryPanel>);
   },
 

@@ -19,14 +19,18 @@ var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 // TODO: read this from config.
-var itemRect = {width:160, height:120}
+var itemRect;
+var thumbnailStyle;
+var columnContainerStyle;
+
 var DiscoveryPanel = React.createClass({
   propTypes: {
     dataSource: React.PropTypes.array,
     onRowAction: React.PropTypes.func,
     config: React.PropTypes.object,
     width: React.PropTypes.number,
-    height: React.PropTypes.number
+    height: React.PropTypes.number,
+    orientation: React.PropTypes.string
   },
 
   onRowSelected: function(row) {
@@ -43,6 +47,17 @@ var DiscoveryPanel = React.createClass({
 
   render: function() {
     var panelHeight = this.props.height - 40;
+
+    if(this.props.orientation == "portrait"){
+      itemRect = {width: 180, height:144};
+      thumbnailStyle = styles.thumbnailPortrait;
+      columnContainerStyle = styles.columnContainerPortrait;
+    }else{
+      itemRect = {width: 150, height: 74};
+      thumbnailStyle = styles.thumbnailLandscape;
+      columnContainerStyle = styles.columnContainerLandscape;
+    }
+    
     return (
       <View style={styles.panel}>
         {this.renderHeader()}
@@ -68,10 +83,11 @@ var DiscoveryPanel = React.createClass({
     if (this.props.config.contentDuration && this.props.config.contentDuration.show) {
       duration = <Text style={[styles.contentText, this.props.config.contentDuration.font]} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
     };
+
     var thumbnail = (
       <Image
         source={{uri:item.imageUrl}}
-        style={styles.thumbnail} >
+        style={thumbnailStyle} >
       </Image>);
     this.onRowImpressed(item);
 
@@ -80,7 +96,7 @@ var DiscoveryPanel = React.createClass({
       underlayColor='#37455B'
       onPress={() => this.onRowSelected(item)}
       style={itemRect}>
-      <View style={styles.columnContainer}>
+      <View style={columnContainerStyle}>
         {thumbnail}
         {title}
         {duration}
