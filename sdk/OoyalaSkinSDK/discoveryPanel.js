@@ -49,7 +49,7 @@ var DiscoveryPanel = React.createClass({
     var panelHeight = this.props.height - 40;
 
     if(this.props.orientation == "portrait"){
-      itemRect = {width: 180, height:144};
+      itemRect = {width: 186, height:164};
       thumbnailStyle = styles.thumbnailPortrait;
       columnContainerStyle = styles.columnContainerPortrait;
     }else{

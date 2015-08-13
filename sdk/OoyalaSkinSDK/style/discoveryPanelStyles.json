@@ -42,10 +42,10 @@
     "flexDirection": "column",
     "backgroundColor": "transparent",
     "alignItems": "center",
-    "padding": 10,
-    "width": 180,
-    "height": 144,
-    "margin": 4
+    "padding": 5,
+    "width": 186,
+    "height": 164,
+    "marginTop": 20
   },
   "columnContainerLandscape": {
     "flex": 1,
