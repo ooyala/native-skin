@@ -135,6 +135,8 @@ var OoyalaSkin = React.createClass({
   },
 
   onDiscoveryRow: function(info) {
+    if (info.action && info.action === "click")
+    this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN})
     eventBridge.onDiscoveryRow(info);
   },
 
