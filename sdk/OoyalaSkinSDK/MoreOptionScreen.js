@@ -41,7 +41,8 @@ var MoreOptionScreen = React.createClass({
   getInitialState: function() {
     return {
       translateY: new Animated.Value(this.props.height),
-      opacity: new Animated.Value(0)
+      opacity: new Animated.Value(0),
+      rowTranslateY: new Animated.Value(0),
     };
   },
 
@@ -66,8 +67,20 @@ var MoreOptionScreen = React.createClass({
     ]).start();
   },
 
+  onAnimationComplete: function(result){
+    this.props.onOptionButtonPress(this.state.button);
+  },
+
   onOptionPress: function(buttonName) {
-    this.props.onOptionButtonPress(buttonName);
+    this.setState({button:buttonName});
+    Animated.timing(
+      this.state.rowTranslateY,{
+        toValue: this.props.height / 2 - 30,
+        duration: animationDuration,
+        delay: 0
+      }
+    ).start(this.onAnimationComplete);
+    
   },
 
   _renderButton: function(style, icon, func, size, color, fontFamily) {
@@ -156,12 +169,15 @@ var MoreOptionScreen = React.createClass({
     var moreOptionRow;
     if (!this.props.buttonSelected || this.props.buttonSelected == BUTTON_NAMES.NONE) {
 
+      
+    var rowAnimateStyle = {transform: [{translateY: this.state.rowTranslateY}]};
       moreOptionRow = (
-      <View
-        ref='moreOptionRow' 
-        style={styles.rowCenter}>
-        {moreOptionButtons}
-      </View>);
+        <Animated.View
+          ref='moreOptionRow' 
+          style={[styles.rowCenter, rowAnimateStyle]}>
+          {moreOptionButtons}
+        </Animated.View>
+      );
     }
     
     var dismissButtonRow = (
