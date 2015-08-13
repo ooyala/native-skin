@@ -10,13 +10,14 @@
 #import "OOReactBridge.h"
 #import "RCTBridge.h"
 #import "RCTEventDispatcher.h"
+#import "OOSkinOptions.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
-#import "OOSkinViewController.h"
+#import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
 
 @implementation OOReactBridge
@@ -138,13 +139,13 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   if ([action isEqualToString:@"click"]) {
     NSString *embedCode = [parameters objectForKey:embedCodeKey];
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendClick:sharedController.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+      [OODiscoveryManager sendClick:sharedController.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
       [player setEmbedCode:embedCode];
       [player play];
     });
   } else if ([action isEqualToString:@"impress"]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendImpression:sharedController.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+      [OODiscoveryManager sendImpression:sharedController.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
     });
   }
 }
