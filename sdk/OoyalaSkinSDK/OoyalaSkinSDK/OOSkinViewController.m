@@ -90,9 +90,9 @@ static NSString *kLocale = @"locale";
   return nil;
 }
 
--(NSDictionary*) getReactViewInitialProperties {
-  NSDictionary *d = [self dictionaryFromJson:@"skin"];
-  ASSERT(d, @"missing skin configuration json" );
+- (NSDictionary*) getReactViewInitialProperties {
+  NSDictionary *d = [self dictionaryFromJson:self.skinOptions.configFileName];
+  ASSERT(d != nil, @"missing skin configuration json" );
 
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
   NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
@@ -107,6 +107,8 @@ static NSString *kLocale = @"locale";
   [dict setObject:localizableStrings forKey:kLocalizableStrings];
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
   [dict setObject:localeId forKey:kLocale];
+
+  [self mergeDictionary:dict with:self.skinOptions.overrideConfigs];
   return dict;
 }
 
@@ -297,6 +299,19 @@ static NSString *kLocale = @"locale";
   UIFont *font = [UIFont fontWithName:fontName size:fontSize];
   CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
   return textSize;
+}
+
+- (void)mergeDictionary:(NSMutableDictionary *)dict with:(NSDictionary *)otherDict {
+  for (id key in [otherDict allKeys]) {
+    NSObject *value = [dict objectForKey:key];
+    if ([value isKindOfClass:[NSDictionary class]]) {
+      NSMutableDictionary *subDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)value];
+      [self mergeDictionary:subDict with:[otherDict objectForKey:key]];
+      [dict setObject:subDict forKey:key];
+    } else {
+      [dict setObject:[otherDict objectForKey:key] forKey:key];
+    }
+  }
 }
 
 @end
