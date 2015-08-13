@@ -135,6 +135,9 @@ var OoyalaSkin = React.createClass({
   },
 
   onDiscoveryRow: function(info) {
+    if (info.action && info.action === "click") {
+      this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN, autoPlay: true})
+    }
     eventBridge.onDiscoveryRow(info);
   },
 
@@ -169,7 +172,6 @@ var OoyalaSkin = React.createClass({
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
     this.setState({
-      screenType:SCREEN_TYPES.START_SCREEN, 
       title:e.title, 
       description:e.description, 
       duration:e.duration, 
@@ -177,6 +179,9 @@ var OoyalaSkin = React.createClass({
       promoUrl:e.promoUrl, 
       width:e.width, 
       height:e.height});
+    if (!this.state.autoPlay) {
+      this.setState({screenType: SCREEN_TYPES.START_SCREEN});
+    };
   },
 
   onFrameChange: function(e) {
@@ -185,7 +190,7 @@ var OoyalaSkin = React.createClass({
   },
 
   onPlayStarted: function(e) {
-    this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+    this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN, autoPlay: false});
   },
 
   onPlayComplete: function(e) {
