@@ -279,7 +279,6 @@ static NSString *kLocale = @"locale";
   }
 }
 
-
 - (void)toggleFullscreen {
   _isFullscreen = !_isFullscreen;
   if (_isFullscreen) {
