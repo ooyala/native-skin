@@ -31,8 +31,8 @@
     "height": 88,
   },
   "thumbnailLandscape": {
-    "width": 118,
-    "height": 68,
+    "width": 128,
+    "height": 74,
   },
   "panel": {
     "flex": 1,
@@ -44,7 +44,7 @@
     "alignItems": "center",
     "padding": 5,
     "width": 186,
-    "height": 164,
+    "height": 144,
     "marginTop": 20
   },
   "columnContainerLandscape": {
@@ -52,11 +52,9 @@
     "flexDirection": "column",
     "backgroundColor": "transparent",
     "alignItems": "center",
-    "padding": 6,
-    "width": 150,
-    "height": 114,
-    "marginLeft": 21,
-    "marginRight": 21,
-    "marginBottom": 21
+    "padding": 4,
+    "width": 168,
+    "height": 124,
+    "marginTop": 18
   },
 }

@@ -22,6 +22,7 @@ var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 var itemRect;
 var thumbnailStyle;
 var columnContainerStyle;
+var widthPortrait = 375;
 
 var DiscoveryPanel = React.createClass({
   propTypes: {
@@ -29,8 +30,7 @@ var DiscoveryPanel = React.createClass({
     onRowAction: React.PropTypes.func,
     config: React.PropTypes.object,
     width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    orientation: React.PropTypes.string
+    height: React.PropTypes.number
   },
 
   onRowSelected: function(row) {
@@ -48,12 +48,12 @@ var DiscoveryPanel = React.createClass({
   render: function() {
     var panelHeight = this.props.height - 40;
 
-    if(this.props.orientation == "portrait"){
+    if(this.props.width <= widthPortrait){
       itemRect = {width: 186, height:164};
       thumbnailStyle = styles.thumbnailPortrait;
       columnContainerStyle = styles.columnContainerPortrait;
     }else{
-      itemRect = {width: 150, height: 74};
+      itemRect = {width: 168, height:124};
       thumbnailStyle = styles.thumbnailLandscape;
       columnContainerStyle = styles.columnContainerLandscape;
     }

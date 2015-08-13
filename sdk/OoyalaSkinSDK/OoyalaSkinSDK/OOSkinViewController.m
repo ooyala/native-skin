@@ -272,27 +272,13 @@ static NSString *kLocale = @"locale";
     NSNumber *width = [NSNumber numberWithFloat:self.view.frame.size.width];
     NSNumber *height = [NSNumber numberWithFloat:self.view.frame.size.height];
     
-    NSString *orientation = [self getOrientation];
-    
-    NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen], @"orientation": orientation};
+    NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
     [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
 }
 
-- (NSString *)getOrientation {
-  NSString *orientation;
-  if(UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)){
-    orientation = @"landscape";
-  }
-  
-  if(UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)){
-    orientation = @"portrait";
-  }
-  
-  return orientation;
-}
 
 - (void)toggleFullscreen {
   _isFullscreen = !_isFullscreen;
