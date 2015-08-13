@@ -83,6 +83,9 @@
 		976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F26D51B62B4A6005CFA66 /* OOGradientViewManager.m */; };
 		976F26DA1B62B4BB005CFA66 /* OOGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 976F26D81B62B4BB005CFA66 /* OOGradientView.h */; };
 		976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F26D91B62B4BB005CFA66 /* OOGradientView.m */; };
+		9771E33D1B7BF670009FDE85 /* OOSkinOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 9771E33B1B7BF670009FDE85 /* OOSkinOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9771E33E1B7BF670009FDE85 /* OOSkinOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9771E33C1B7BF670009FDE85 /* OOSkinOptions.m */; };
+		9771E3421B7C1441009FDE85 /* OOSkinViewController+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 9771E3401B7C1441009FDE85 /* OOSkinViewController+Internal.h */; };
 		978C867E1B3B8726009E1A16 /* adBar.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867A1B3B8726009E1A16 /* adBar.js */; };
 		978C867F1B3B8726009E1A16 /* discoveryPanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867B1B3B8726009E1A16 /* discoveryPanel.js */; };
 		978C86801B3B8726009E1A16 /* index.ios.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867C1B3B8726009E1A16 /* index.ios.js */; };
@@ -230,6 +233,9 @@
 		976F26D51B62B4A6005CFA66 /* OOGradientViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientViewManager.m; sourceTree = "<group>"; };
 		976F26D81B62B4BB005CFA66 /* OOGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOGradientView.h; sourceTree = "<group>"; };
 		976F26D91B62B4BB005CFA66 /* OOGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientView.m; sourceTree = "<group>"; };
+		9771E33B1B7BF670009FDE85 /* OOSkinOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinOptions.h; sourceTree = "<group>"; };
+		9771E33C1B7BF670009FDE85 /* OOSkinOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinOptions.m; sourceTree = "<group>"; };
+		9771E3401B7C1441009FDE85 /* OOSkinViewController+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OOSkinViewController+Internal.h"; sourceTree = "<group>"; };
 		978C867A1B3B8726009E1A16 /* adBar.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = adBar.js; sourceTree = "<group>"; };
 		978C867B1B3B8726009E1A16 /* discoveryPanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = discoveryPanel.js; sourceTree = "<group>"; };
 		978C867C1B3B8726009E1A16 /* index.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.ios.js; sourceTree = "<group>"; };
@@ -379,8 +385,11 @@
 				0B773E711B211FFA0056588E /* OOReactSocialShare.m */,
 				5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */,
 				5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */,
+				9771E33B1B7BF670009FDE85 /* OOSkinOptions.h */,
+				9771E33C1B7BF670009FDE85 /* OOSkinOptions.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
+				9771E3401B7C1441009FDE85 /* OOSkinViewController+Internal.h */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
 				97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */,
@@ -455,11 +464,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
+				9771E33D1B7BF670009FDE85 /* OOSkinOptions.h in Headers */,
 				976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				0B773E721B211FFA0056588E /* OOReactSocialShare.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
 				97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */,
+				9771E3421B7C1441009FDE85 /* OOSkinViewController+Internal.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				976F26DA1B62B4BB005CFA66 /* OOGradientView.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
@@ -683,6 +694,7 @@
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
 				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,
+				9771E33E1B7BF670009FDE85 /* OOSkinOptions.m in Sources */,
 				2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */,
 				2F12F2386F5E0DCE595F9120 /* gradientView.js in Sources */,
 				2F12FDA6780E12386A117907 /* VideoViewPlayPause.js in Sources */,
