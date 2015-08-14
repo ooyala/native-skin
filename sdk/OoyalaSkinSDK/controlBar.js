@@ -43,7 +43,7 @@ var ControlBar = React.createClass({
     duration: React.PropTypes.number,
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
-    live: React.PropTypes.string,
+    live: React.PropTypes.object, // a label to display and a function to handle golive.
     shouldShowLandscape: React.PropTypes.bool,
     config: React.PropTypes.object
   },
@@ -54,7 +54,7 @@ var ControlBar = React.createClass({
 
   getDurationString: function() {
     if (this.props.live) {
-      return this.props.live
+      return this.props.live.label;
     } else {
       return Utils.secondsToString(this.props.playhead) + "/" + Utils.secondsToString(this.props.duration);
     }
@@ -109,6 +109,7 @@ var ControlBar = React.createClass({
         scrubberStyle: styles.volumeSlider
       },
       timeDuration: {
+        onPress: this.props.live ? this.props.live.onGoLive : null,
         style: styles.label,
         durationString: this.getDurationString()
       },
