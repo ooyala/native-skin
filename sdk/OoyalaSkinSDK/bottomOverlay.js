@@ -42,7 +42,7 @@ var BottomOverlay = React.createClass({
     onScrub: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
-    live: React.PropTypes.string,
+    live: React.PropTypes.object,
     shouldShowLandscape: React.PropTypes.bool,
     shouldShowCCOptions: React.PropTypes.bool,
     config: React.PropTypes.object

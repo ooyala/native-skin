@@ -118,8 +118,14 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
     OOOoyalaPlayer *player = sharedController.player;
-    NSNumber *position = [parameters objectForKey:percentageKey];
-    [player seek:player.duration * [position doubleValue]];
+    if (player) {
+      CMTimeRange seekableRange = player.seekableTimeRange;
+      Float64 duration = CMTimeGetSeconds(seekableRange.duration);
+      Float64 start = CMTimeGetSeconds(seekableRange.start);
+      NSNumber *position = [parameters objectForKey:percentageKey];
+      Float64 playhead = [position doubleValue] * duration + start;
+      [player seek:playhead];
+    }
   });
 }
 
