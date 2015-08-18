@@ -194,9 +194,9 @@ var MoreOptionScreen = React.createClass({
     var animationStyle = {transform:[{translateY:this.state.translateY},], opacity:this.state.opacity}
     var moreOptionScreen = (
       <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
-        {moreOptionRow}
         {this.props.panel}
         {dismissButtonRow}
+        {moreOptionRow}
       </Animated.View>
     );
 
