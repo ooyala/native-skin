@@ -136,11 +136,17 @@ static NSString *kLocale = @"locale";
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-
   CMTimeRange seekableRange = _player.seekableTimeRange;
-  Float64 duration = CMTimeGetSeconds(seekableRange.duration);
-  Float64 start = CMTimeGetSeconds(seekableRange.start);
-  Float64 adjustedPlayhead = _player.playheadTime - start;
+  Float64 duration;
+  Float64 adjustedPlayhead;
+  if (CMTIMERANGE_IS_INVALID(seekableRange)) {
+    duration = _player.duration;
+    adjustedPlayhead = _player.playheadTime;
+  } else {
+    duration = CMTimeGetSeconds(seekableRange.duration);
+    adjustedPlayhead = _player.playheadTime - CMTimeGetSeconds(seekableRange.start);
+  }
+
   NSNumber *playheadNumber = [NSNumber numberWithFloat:adjustedPlayhead];
   NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
