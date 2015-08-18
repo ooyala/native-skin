@@ -88,7 +88,7 @@ static NSString *kLocale = @"locale";
 
 -(NSDictionary*) getReactViewInitialProperties {
   NSDictionary *d = [self dictionaryFromJson:@"skin"];
-  ASSERT(d, @"missing skin configuration json" );
+  ASSERT(d != nil, @"missing skin configuration json" );
 
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
   NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
@@ -130,8 +130,13 @@ static NSString *kLocale = @"locale";
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber = [NSNumber numberWithFloat:_player.playheadTime];
-  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.duration];
+
+  CMTimeRange seekableRange = _player.seekableTimeRange;
+  Float64 duration = CMTimeGetSeconds(seekableRange.duration);
+  Float64 start = CMTimeGetSeconds(seekableRange.start);
+  Float64 adjustedPlayhead = _player.playheadTime - start;
+  NSNumber *playheadNumber = [NSNumber numberWithFloat:adjustedPlayhead];
+  NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
   NSDictionary *eventBody =
   @{@"duration":durationNumber,

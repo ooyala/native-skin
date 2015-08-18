@@ -58,7 +58,15 @@ var controlBarWidget = React.createClass({
   },
 
   timeDurationWidget: function (options) {
-    return (<Text style={options.style}>{options.durationString}</Text>);
+    if (options.onPress) {
+      return (
+        <TouchableHighlight onPress={options.onPress}>
+          <Text style={options.style}>{options.durationString}</Text>
+        </TouchableHighlight>);
+    } else {
+      return (<Text style={options.style}>{options.durationString}</Text>);
+    }
+    
   },
 
   flexibleSpaceWidget: function (options) {
