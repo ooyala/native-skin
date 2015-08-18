@@ -60,6 +60,7 @@
 }
 
 - (void) dealloc {
+  NSLog(@"DEALLOC FACEBOOK");
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
