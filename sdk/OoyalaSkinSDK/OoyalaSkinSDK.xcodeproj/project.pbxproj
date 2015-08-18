@@ -24,11 +24,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */; };
+		2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F497D5615098F00D7BCE /* upNext.js */; };
 		2F12F21D17B8AA2DB97016B2 /* videoViewStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC25E788F391F9990881 /* videoViewStyles.json */; };
 		2F12F2386F5E0DCE595F9120 /* gradientView.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F3A0C7D3DAF790B0F22B /* gradientView.js */; };
-		2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */; };
+		2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F12F2E342AB0F88CBCA473F /* discoveryPanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FA93EE3B4BB0B2EF65C0 /* discoveryPanelStyles.json */; };
 		2F12F53E9749216BF6CBED86 /* upNext.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F6ACB2B1325582A57E0F /* upNext.json */; };
 		2F12F5442930D9C3618AB601 /* OOTwitterSharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FA4EC7B6C67EFF3C5E67 /* OOTwitterSharePlugin.m */; };
@@ -46,7 +46,7 @@
 		2F12FB421CC2D19A1A7A21A6 /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */; };
 		2F12FD19BD9BF0E9981598D3 /* moreOptionScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */; };
 		2F12FDA6780E12386A117907 /* VideoViewPlayPause.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F9A8DA5F02FF9C01A125 /* VideoViewPlayPause.js */; };
-		2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */; };
+		2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */; };
 		2F12FF3D426A9C7194E8AB7B /* styles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F1B4D41FD66245F2C579 /* styles.json */; };
 		2F12FF4131E5E2020BE1ABD4 /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */; };
@@ -478,6 +478,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
+				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
+				2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */,
+				2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */,
 				976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
@@ -486,10 +489,7 @@
 				976F26DA1B62B4BB005CFA66 /* OOGradientView.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
-				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
-				2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */,
 				2F12FF4131E5E2020BE1ABD4 /* OOReactSocialShare.h in Headers */,
-				2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
