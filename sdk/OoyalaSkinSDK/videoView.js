@@ -69,11 +69,23 @@ var VideoView = React.createClass({
     return this.state.showDiscoveryPanel && this.props.discovery;
   },
 
-  generateLiveLabel: function() {
+  generateLiveObject: function() {
     if (this.props.live) {
-      return this.props.showPlay? 
-        Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings): 
-        Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings);
+      var isLive = this.props.playhead >= this.props.duration * 0.95;
+      return ({
+        label: 
+          isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
+          Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
+        onGoLive: isLive? null : this.onGoLive});   
+    } else {
+      return null;
+    }
+  },
+
+  onGoLive: function() {
+    console.log("onGoLive");
+    if (this.props.onScrub) {
+      this.props.onScrub(1);
     }
   },
 
@@ -82,10 +94,14 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
-    if(name == BUTTON_NAMES.PLAY_PAUSE && this.props.showPlay) {
-      this.state.showControls = false;
+    if (name == "LIVE") {
+      this.props.onScrub(1);
+    } else {
+      if(name == BUTTON_NAMES.PLAY_PAUSE && this.props.showPlay) {
+        this.state.showControls = false;
+      }
+      this.props.onPress(name);
     }
-    this.props.onPress(name);
   },
 
   _renderBottomOverlay: function() {
@@ -100,7 +116,7 @@ var VideoView = React.createClass({
       fullscreen = {this.props.fullscreen}
       playhead={this.props.playhead}
       duration={this.props.duration} 
-      live={this.generateLiveLabel()}
+      live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
@@ -157,6 +173,10 @@ var VideoView = React.createClass({
   },
 
   _renderUpNext: function() {
+    if (this.props.live) {
+      return null;
+    }
+
     return <UpNext
       config={this.props.config.upNextScreen}
       ad={this.props.ad}
@@ -201,7 +221,8 @@ var VideoView = React.createClass({
         buttonHeight={buttonSize * 2}
         fontSize={buttonSize}
         opacity={buttonOpacity}
-        showButton={this.controlsVisible()}>
+        showButton={this.controlsVisible()}
+        rate={this.props.rate}>
       </VideoViewPlayPause>);
   },
 

@@ -1,4 +1,10 @@
 {
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
   waterMarkContainer: {
     flexDirection: 'row', 
     height: 8

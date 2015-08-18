@@ -1,5 +1,6 @@
 var React = require('react-native');
 var {
+  ActivityIndicatorIOS,
   StyleSheet,
   Text,
   View,
@@ -31,7 +32,8 @@ var VideoViewPlayPause = React.createClass({
     style:React.PropTypes.object,
     showButton: React.PropTypes.bool,
     playing: React.PropTypes.bool,
-    isStartScreen: React.PropTypes.bool
+    isStartScreen: React.PropTypes.bool,
+    rate: React.PropTypes.number
   },
 
   getInitialState: function() {
@@ -82,6 +84,19 @@ var VideoViewPlayPause = React.createClass({
     }
   },
 
+  _renderLoading: function() {
+    console.log("PLAYING " + this.props.playing);
+    if(this.props.rate == 0 && !this.props.playing) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicatorIOS
+            animating={true}
+            size="large">
+          </ActivityIndicatorIOS>
+        </View>);
+    }
+  },
+
   _renderButton(name) {
     if(this.state[name].animationOpacity._value == 0) {
       return null;
@@ -122,6 +137,7 @@ var VideoViewPlayPause = React.createClass({
 
     var playButton = this._renderButton("play");
     var pauseButton = this._renderButton("pause");
+    var loading = this._renderLoading();
 
     if(this.props.showButton || (!this.props.showButton && (this.state.play.animationOpacity._value != 0))) {
       return (
@@ -132,6 +148,7 @@ var VideoViewPlayPause = React.createClass({
           <View style={[styles.buttonArea, sizeStyle]}>
             {playButton}
             {pauseButton}
+            {loading}
           </View>
         </TouchableHighlight>
       );

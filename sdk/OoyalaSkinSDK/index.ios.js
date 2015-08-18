@@ -114,9 +114,6 @@ var OoyalaSkin = React.createClass({
       case BUTTON_NAMES.RESET_AUTOHIDE:
         break;
       case BUTTON_NAMES.PLAY_PAUSE:
-        if(this.state.rate == 0){
-          this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN});
-        }
       default:
         eventBridge.onPress({name:n});
         break;
@@ -138,6 +135,9 @@ var OoyalaSkin = React.createClass({
   },
 
   onDiscoveryRow: function(info) {
+    if (info.action && info.action === "click") {
+      this.setState({screenType: SCREEN_TYPES.LOADING_SCREEN, autoPlay: true})
+    }
     eventBridge.onDiscoveryRow(info);
   },
 
@@ -172,7 +172,6 @@ var OoyalaSkin = React.createClass({
   onCurrentItemChange: function(e) {
     console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
     this.setState({
-      screenType:SCREEN_TYPES.START_SCREEN, 
       title:e.title, 
       description:e.description, 
       duration:e.duration, 
@@ -180,6 +179,9 @@ var OoyalaSkin = React.createClass({
       promoUrl:e.promoUrl, 
       width:e.width, 
       height:e.height});
+    if (!this.state.autoPlay) {
+      this.setState({screenType: SCREEN_TYPES.START_SCREEN});
+    };
   },
 
   onFrameChange: function(e) {
@@ -188,7 +190,7 @@ var OoyalaSkin = React.createClass({
   },
 
   onPlayStarted: function(e) {
-    this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+    this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN, autoPlay: false});
   },
 
   onPlayComplete: function(e) {
@@ -260,7 +262,6 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    console.log("renderScreen" + this.state.screenType);
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
@@ -415,6 +416,7 @@ var OoyalaSkin = React.createClass({
 
     return (
       <MoreOptionScreen
+        height={this.state.height}
         onDismiss={this.onOptionDismissed}
         panel={panel}
         buttonSelected={this.state.buttonSelected}
