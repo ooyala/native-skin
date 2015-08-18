@@ -21,16 +21,15 @@
     "flex": 1,
     "flexDirection": "row",
     "alignSelf": "center",
-    "alignItems": "center",
     "backgroundColor": "transparent",
   },
 
   "rowBottom": {
+    "flex":1,
     "flexDirection": "row",
     "alignSelf": "center",
     "alignItems": "flex-end",
     "backgroundColor": "transparent",
-    "height": 60
   },
 
   "icon": {
