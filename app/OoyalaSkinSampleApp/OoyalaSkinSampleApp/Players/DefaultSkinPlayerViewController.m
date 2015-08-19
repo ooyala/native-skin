@@ -9,6 +9,8 @@
 #import "DefaultSkinPlayerViewController.h"
 #import <OoyalaSkinSDK/OOSkinViewController.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaSkinSDK/OOFacebookSharePlugin.h>
+#import <OoyalaSkinSDK/OOTwitterSharePlugin.h>
 #import <OoyalaSDK/OOPlayerDomain.h>
 #import <OoyalaSDK/OOOptions.h>
 #import <OoyalaSDK/OODiscoveryOptions.h>
@@ -25,9 +27,14 @@
 
 @implementation DefaultSkinPlayerViewController
 
+NSMutableArray *_sharePlugins;
+
 - (id)initWithPlayerSelectionOption:(PlayerSelectionOption *)playerSelectionOption {
   self = [super initWithPlayerSelectionOption: playerSelectionOption];
 
+  _sharePlugins = [[NSMutableArray alloc] init];
+  [_sharePlugins addObject: [[OOFacebookSharePlugin alloc] init]];
+  [_sharePlugins addObject: [[OOTwitterSharePlugin alloc] init]];
 
   if (self.playerSelectionOption) {
     self.nib = self.playerSelectionOption.nib;
