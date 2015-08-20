@@ -12,8 +12,8 @@ var ResponsiveDesignManager = {
    * style, and other data for responsiveness.
    *
    * Priority:
+   *  multiplier,
    *  values,
-   *  threshold,
    *
    * @param args: {
    *  width,
@@ -22,6 +22,11 @@ var ResponsiveDesignManager = {
    *  multiplier[],
    *  values[],
    *  style
+   * }
+   *
+   * return: {
+   *  value: the responsive value based on the size of the width,
+   *  style: the style object that can be rendered in jsx
    * }
    */
   makeResponsive: function(args) {
