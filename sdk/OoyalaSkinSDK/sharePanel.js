@@ -29,7 +29,8 @@ var SharePanel = React.createClass ({
 
 			var socialButton;
 			var buttonName = this.props.socialButtons[i].buttonName;
-			var buttonImgUrl = this.props.socialButtons[i].imgUrl;
+			var buttonFont = {fontFamily: this.props.socialButtons[i].icon.fontFamilyName, color: "white", fontSize: 50, margin: 10};
+      var buttonIcon = this.props.socialButtons[i].icon.fontString;
 
 			// handle javascript reference issue
 			var onPressButton = function(buttonName, f){
@@ -43,10 +44,10 @@ var SharePanel = React.createClass ({
 					onPress = {onPressButton}
 	   				underlayColor="transparent"
 	   				activeOpacity={0.5}>
-	   				<Image style={styles.socialButton}
-			       		source={{uri: buttonImgUrl}}
-			       		resizeMode={Image.resizeMode.contain}>
-			   		</Image>
+          <Text
+            style={buttonFont}>
+        {buttonIcon}
+          </Text>
 	   			</TouchableHighlight>
 			);
 

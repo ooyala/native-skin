@@ -11,6 +11,7 @@
 #import "RCTRootView.h"
 #import "OOUpNextManager.h"
 #import "OOLocaleHelper.h"
+#import "OOSharePlugin.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -27,6 +28,7 @@
   RCTRootView *_reactView;
   UIViewController *_parentViewController;
   UIView *_parentView;
+  UIView *_movieFullScreenView;
 }
 
 @end
@@ -50,6 +52,7 @@ static NSString *kLocale = @"locale";
                                           launchOptions:nil];
     _skinConfig = [self getReactViewInitialProperties];
     _reactView.initialProperties = _skinConfig;
+
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
     [self.view setFrame:rect];
