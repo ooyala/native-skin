@@ -6,6 +6,9 @@
 
 var ResponsiveDesignManager = {
 
+  // Default threshold
+  threshold: [320, 860],
+
   /**
    * makeResponsive takes an object that has the width and height of the
    * player and returns an object that has it's current state, a rendered
@@ -32,8 +35,18 @@ var ResponsiveDesignManager = {
   makeResponsive: function(args) {
     // Between which two array threshold elements is the current size?
     var size = 0;
-    for(var i in args.threshold) {
-      if(args.width > args.threshold[i]) {
+    var threshold;
+
+    // See if threshold is provided or not
+    if(args.threshold) {
+      threshold = args.threshold;
+    }
+    else {
+      threshold = this.threshold;
+    }
+
+    for(var i in threshold) {
+      if(args.width > threshold[i]) {
         size = parseInt(i) + 1;
       }
     }
