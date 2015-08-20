@@ -45,6 +45,9 @@ var ResponsiveDesignManager = {
       if(args.multiplier.length != args.threshold.length + 1) {
         throw new Error("Multiplier array needs to be one element greater than threshold array.");
       }
+      if(!args.baseSize) {
+        throw new Error("baseSize must me given when using multiplier");
+      }
       responsive.value = args.baseSize * args.multiplier[size];
     }
     // If the responsive using specific values at each size.
@@ -142,6 +145,16 @@ var ResponsiveDesignManager = {
         this.Assert(true);
       }
 
+      responsiveArgs.baseSize = null;
+      try {
+        responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
+        this.Assert(false);
+      }
+      catch (error) {
+        this.Assert(true);
+      }
+
+      responsiveArgs.baseSize = 100;
       responsiveArgs.threshold = null;
       try {
         responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
