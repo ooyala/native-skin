@@ -8,6 +8,7 @@ var ResponsiveDesignManager = {
 
   // Default threshold
   threshold: [320, 860],
+  multiplier: [0.8, 1, 1.2],
 
   /**
    * makeResponsive takes an object that has the width and height of the
@@ -15,8 +16,8 @@ var ResponsiveDesignManager = {
    * style, and other data for responsiveness.
    *
    * Priority:
-   *  multiplier,
    *  values,
+   *  multiplier,
    *
    * @param args: {
    *  width,
@@ -52,24 +53,32 @@ var ResponsiveDesignManager = {
     }
 
     var responsive = {};
-    // If the responsive using a multiplier at each size.
-    if(args.multiplier) {
+    // If the responsive using specific values at each size.
+    if(args.values) {
       // Throw an error if the threshold and values are not provided correctly.
-      if(args.multiplier.length != args.threshold.length + 1) {
+      if(args.values.length != threshold.length + 1) {
+        throw new Error("Values array needs to be one element greater than threshold array.");
+      }
+      responsive.value = args.values[size];
+    }
+    // If the responsive using a multiplier at each size.
+    else if(args.baseSize) {
+      var multiplier;
+      // See if multiplier is provided or not
+      if(args.multiplier) {
+        multiplier = args.multiplier;
+      }
+      else {
+        multiplier = this.multiplier;
+      }
+      // Throw an error if the threshold and values are not provided correctly.
+      if(multiplier.length != threshold.length + 1) {
         throw new Error("Multiplier array needs to be one element greater than threshold array.");
       }
       if(!args.baseSize) {
         throw new Error("baseSize must me given when using multiplier");
       }
-      responsive.value = args.baseSize * args.multiplier[size];
-    }
-    // If the responsive using specific values at each size.
-    else if(args.values) {
-      // Throw an error if the threshold and values are not provided correctly.
-      if(args.values.length != args.threshold.length + 1) {
-        throw new Error("Values array needs to be one element greater than threshold array.");
-      }
-      responsive.value = args.values[size];
+      responsive.value = args.baseSize * multiplier[size];
     }
     // If no values or multipliers are given
     else {
