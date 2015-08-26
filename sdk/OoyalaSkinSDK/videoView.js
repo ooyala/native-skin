@@ -198,8 +198,6 @@ var VideoView = React.createClass({
       buttonOpacity = 0;
     }
 
-    var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
-
     return (
       <VideoViewPlayPause
         icons={{
@@ -217,9 +215,9 @@ var VideoView = React.createClass({
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
-        buttonWidth={buttonSize * 2}
-        buttonHeight={buttonSize * 2}
-        fontSize={buttonSize}
+        buttonWidth={60}
+        buttonHeight={60}
+        fontSize={60}
         opacity={buttonOpacity}
         showButton={this.controlsVisible()}
         rate={this.props.rate}>

@@ -24,6 +24,7 @@ var Utils = require('./utils');
 var ControlBarWidget = require('./widgets/controlBarWidgets');
 var CollapsingBarUtils = require('./collapsingBarUtils');
 var VolumeView = require('./widgets/VolumeView');
+var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
 
@@ -90,12 +91,15 @@ var ControlBar = React.createClass({
 
   render: function() {
 
+    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, 20);
+    var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, 16);
+
     var controlBarWidgets = [];
 
     var widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
-        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
@@ -103,39 +107,39 @@ var ControlBar = React.createClass({
       },
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ? [styles.icon, styles.iconHighlighted, this.props.config.controlBar.iconStyle] : [styles.icon, this.props.config.controlBar.iconStyle],
+        style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.volume,
         showVolume: this.state.showVolume,
         scrubberStyle: styles.volumeSlider
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
-        style: styles.label,
+        style: [styles.label, {"fontSize": labelFontSize}],
         durationString: this.getDurationString()
       },
       fullscreen: {
         onPress: this.onFullscreenPress,
-        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
       },
       moreOptions: {
         onPress: this.onMorePress,
-        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.ellipsis
       },
       discovery: {
         onPress: this.onDiscoveryPress,
-        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.discovery
       },
       share: {
         onPress: this.onSocialSharePress,
-        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.share
       },
       closedCaption: {
         onPress: this.onClosedCaptionsPress,
-        style: [styles.icon, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
         icon: this.props.config.icons.cc
       },
       watermark: {
@@ -157,9 +161,11 @@ var ControlBar = React.createClass({
         options={widgetOptions}/>);
     }
 
+    var paddingTopStyle = ResponsiveDesignManager.makeResponsiveValues(this.props.width, [0, 4, 6]);
+
     var widthStyle = {width:this.props.width};
     return (
-      <View style={[styles.container, widthStyle]}>
+      <View style={[styles.container, {bottom: paddingTopStyle}, widthStyle]}>
         {controlBarWidgets}
       </View>
     );

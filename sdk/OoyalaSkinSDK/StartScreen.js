@@ -38,7 +38,6 @@ var StartScreen = React.createClass({
   // Gets the play button based on the current config settings
   getPlayButton: function() {
     if(this.props.config.startScreen.showPlayButton) {
-      var buttonSize = Math.floor((this.props.height + this.props.width) * 0.05);
       return (
         <VideoViewPlayPause
           icons={{
@@ -56,9 +55,9 @@ var StartScreen = React.createClass({
           buttonStyle={this.props.config.startScreen.playIconStyle}
           frameWidth={this.props.width}
           frameHeight={this.props.height}
-          buttonWidth={buttonSize * 2}
-          buttonHeight={buttonSize * 2}
-          fontSize={buttonSize}
+          buttonWidth={60}
+          buttonHeight={60}
+          fontSize={60}
           playing={false}
           showButton={true}
           isStartScreen={true}>
