@@ -8,6 +8,7 @@
 
 #import "DefaultSkinPlayerViewController.h"
 #import <OoyalaSkinSDK/OOSkinViewController.h>
+#import <OoyalaSkinSDK/OOSkinOptions.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSkinSDK/OOFacebookSharePlugin.h>
 #import <OoyalaSkinSDK/OOTwitterSharePlugin.h>
@@ -58,8 +59,10 @@ NSMutableArray *_sharePlugins;
   OODiscoveryOptions *discoveryOptions = [[OODiscoveryOptions alloc] initWithType:OODiscoveryTypePopular limit:10 timeout:60];
 //  NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
   NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
+  NSDictionary *overrideConfigs = @{@"upNextScreen": @{@"timeToShow": @"8"}};
 
-  _skinController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer parent:_videoView discoveryOptions:discoveryOptions launchOptions:nil jsCodeLocation:jsCodeLocation];
+  OOSkinOptions *skinOptions = [[OOSkinOptions alloc] initWithDiscoveryOptions:discoveryOptions jsCodeLocation:jsCodeLocation configFileName:@"skin" overrideConfigs:overrideConfigs];
+  self.skinController = [[OOSkinViewController alloc] initWithPlayer:ooyalaPlayer skinOptions:skinOptions parent:_videoView launchOptions:nil];
   [self addChildViewController:_skinController];
   [_skinController.view setFrame:self.videoView.bounds];
   [ooyalaPlayer setEmbedCode:self.embedCode];

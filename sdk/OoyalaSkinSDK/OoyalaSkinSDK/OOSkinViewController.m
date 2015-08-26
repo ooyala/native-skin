@@ -11,6 +11,7 @@
 #import "RCTRootView.h"
 #import "OOUpNextManager.h"
 #import "OOLocaleHelper.h"
+#import "OOSkinOptions.h"
 #import "OOSharePlugin.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
@@ -31,6 +32,10 @@
   UIView *_movieFullScreenView;
 }
 
+@property (nonatomic) OOUpNextManager *upNextManager;
+@property (nonatomic) NSDictionary *skinConfig;
+@property (nonatomic) BOOL isFullscreen;
+
 @end
 
 @implementation OOSkinViewController
@@ -41,13 +46,13 @@ static NSString *kLocalizableStrings = @"localizableStrings";
 static NSString *kLocale = @"locale";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                    skinOptions:(OOSkinOptions *)skinOptions
                         parent:(UIView *)parentView
-              discoveryOptions:(OODiscoveryOptions *)discoveryOptions
-                 launchOptions:(NSDictionary *)options
-                jsCodeLocation:(NSURL *)jsCodeLocation {
+                 launchOptions:(NSDictionary *)options {
   if (self = [super init]) {
     [self setPlayer:player];
-    _reactView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
+    _skinOptions = skinOptions;
+    _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                           launchOptions:nil];
     _skinConfig = [self getReactViewInitialProperties];
@@ -70,7 +75,6 @@ static NSString *kLocale = @"locale";
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
-    _discoveryOptions = discoveryOptions;
   }
   return self;
 }
@@ -89,8 +93,8 @@ static NSString *kLocale = @"locale";
   return nil;
 }
 
--(NSDictionary*) getReactViewInitialProperties {
-  NSDictionary *d = [self dictionaryFromJson:@"skin"];
+- (NSDictionary*) getReactViewInitialProperties {
+  NSDictionary *d = [self dictionaryFromJson:self.skinOptions.configFileName];
   ASSERT(d != nil, @"missing skin configuration json" );
 
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
@@ -106,6 +110,8 @@ static NSString *kLocale = @"locale";
   [dict setObject:localizableStrings forKey:kLocalizableStrings];
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
   [dict setObject:localeId forKey:kLocale];
+
+  [self mergeDictionary:dict with:self.skinOptions.overrideConfigs];
   return dict;
 }
 
@@ -133,11 +139,17 @@ static NSString *kLocale = @"locale";
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-
   CMTimeRange seekableRange = _player.seekableTimeRange;
-  Float64 duration = CMTimeGetSeconds(seekableRange.duration);
-  Float64 start = CMTimeGetSeconds(seekableRange.start);
-  Float64 adjustedPlayhead = _player.playheadTime - start;
+  Float64 duration;
+  Float64 adjustedPlayhead;
+  if (CMTIMERANGE_IS_INVALID(seekableRange)) {
+    duration = _player.duration;
+    adjustedPlayhead = _player.playheadTime;
+  } else {
+    duration = CMTimeGetSeconds(seekableRange.duration);
+    adjustedPlayhead = _player.playheadTime - CMTimeGetSeconds(seekableRange.start);
+  }
+
   NSNumber *playheadNumber = [NSNumber numberWithFloat:adjustedPlayhead];
   NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
@@ -169,7 +181,7 @@ static NSString *kLocale = @"locale";
     @"width":frameWidth,
     @"height":frameHeight};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
-  if (_player.currentItem.embedCode && _discoveryOptions) {
+  if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
     [self loadDiscovery:_player.currentItem.embedCode];
   }
 }
@@ -245,7 +257,7 @@ static NSString *kLocale = @"locale";
 #pragma mark Discovery UI
 
 - (void)loadDiscovery:(NSString *)embedCode {
-  [OODiscoveryManager getResults:_discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
+  [OODiscoveryManager getResults:self.skinOptions.discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
     if (error) {
       LOG(@"discovery request failed, error is %@", error.description);
     } else {
@@ -287,6 +299,39 @@ static NSString *kLocale = @"locale";
   }
 }
 
+- (void)dealloc {
+  [self.view removeObserver:self forKeyPath:kViewChangeKey];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [OOReactBridge deregisterController:self];
+}
+
+#pragma mark utils
+- (CGSize)textSize:(NSString *)text withFontFamily:(NSString *)fontFamily size:(NSUInteger)fontSize {
+  // given an array of strings and other settings, compute the width of the strings to assist correct layout.
+  NSArray *fontArray = [UIFont fontNamesForFamilyName:fontFamily];
+  NSString *fontName = fontArray.count > 0 ? fontArray[0] : fontFamily;
+  UIFont *font = [UIFont fontWithName:fontName size:fontSize];
+  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
+  return textSize;
+}
+
+- (void)mergeDictionary:(NSMutableDictionary *)dict with:(NSDictionary *)otherDict {
+  for (id key in [otherDict allKeys]) {
+    NSObject *value = [dict objectForKey:key];
+    if ([value isKindOfClass:[NSDictionary class]]) {
+      NSMutableDictionary *subDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)value];
+      [self mergeDictionary:subDict with:[otherDict objectForKey:key]];
+      [dict setObject:subDict forKey:key];
+    } else {
+      [dict setObject:[otherDict objectForKey:key] forKey:key];
+    }
+  }
+}
+
+@end
+
+@implementation OOSkinViewController(Internal)
+
 - (void)toggleFullscreen {
   _isFullscreen = !_isFullscreen;
   if (_isFullscreen) {
@@ -308,29 +353,17 @@ static NSString *kLocale = @"locale";
                         delay:FULLSCREEN_ANIMATION_DELAY
                       options:UIViewAnimationOptionCurveEaseInOut
                    animations:^{
-    self.view.transform = transform;
+                     self.view.transform = transform;
 
-  } completion:^(BOOL finished) {
-    [targetView addSubview:self.view];
-    self.view.transform = CGAffineTransformIdentity;
-    [self.view setFrame:targetView.bounds];
-  }];
+                   } completion:^(BOOL finished) {
+                     [targetView addSubview:self.view];
+                     self.view.transform = CGAffineTransformIdentity;
+                     [self.view setFrame:targetView.bounds];
+                   }];
 }
 
-- (void)dealloc {
-  [self.view removeObserver:self forKeyPath:kViewChangeKey];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [OOReactBridge deregisterController:self];
-}
-
-#pragma mark utils
-- (CGSize)textSize:(NSString *)text withFontFamily:(NSString *)fontFamily size:(NSUInteger)fontSize {
-  // given an array of strings and other settings, compute the width of the strings to assist correct layout.
-  NSArray *fontArray = [UIFont fontNamesForFamilyName:fontFamily];
-  NSString *fontName = fontArray.count > 0 ? fontArray[0] : fontFamily;
-  UIFont *font = [UIFont fontWithName:fontName size:fontSize];
-  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
-  return textSize;
+- (OOUpNextManager *)upNextManager {
+  return _upNextManager;
 }
 
 @end

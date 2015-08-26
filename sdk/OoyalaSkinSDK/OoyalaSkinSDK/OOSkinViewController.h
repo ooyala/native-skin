@@ -9,23 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @class OOOoyalaPlayer;
-@class OODiscoveryOptions;
-@class OOUpNextManager;
+@class OOSkinOptions;
 
 @interface OOSkinViewController : UIViewController
 
-@property (nonatomic, readonly) OODiscoveryOptions *discoveryOptions;
 @property (nonatomic, readonly) OOOoyalaPlayer *player;
-@property (nonatomic) OOUpNextManager *upNextManager;
-@property (readonly) BOOL isFullscreen;
-@property (nonatomic, readonly) NSDictionary *skinConfig;
+@property (nonatomic, readonly) OOSkinOptions *skinOptions;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                   skinOptions:(OOSkinOptions *)jsCodeLocation
                         parent:(UIView *)parentView
-              discoveryOptions:(OODiscoveryOptions *)discoveryOptions
-                 launchOptions:(NSDictionary *)options
-                jsCodeLocation:(NSURL *)jsCodeLocation;
-
-- (void)toggleFullscreen;
+                 launchOptions:(NSDictionary *)options;
 
 @end

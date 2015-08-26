@@ -84,6 +84,10 @@
 		972ED8A71AE6FCAB005043DC /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8A61AE6FC3E005043DC /* libReact.a */; };
 		972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8B91AE70307005043DC /* libRCTImage.a */; };
 		972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8D21AE70760005043DC /* libRCTText.a */; };
+		9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922771B8E37F300A61ACF /* OOSkinOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 976922781B8E37F300A61ACF /* OOSkinOptions.m */; };
+		9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */; };
+		9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */; };
 		976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 976F26D41B62B4A6005CFA66 /* OOGradientViewManager.h */; };
 		976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F26D51B62B4A6005CFA66 /* OOGradientViewManager.m */; };
 		976F26DA1B62B4BB005CFA66 /* OOGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 976F26D81B62B4BB005CFA66 /* OOGradientView.h */; };
@@ -236,6 +240,10 @@
 		972ED8B41AE70307005043DC /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		972ED8CB1AE70631005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		976922771B8E37F300A61ACF /* OOSkinOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinOptions.h; sourceTree = "<group>"; };
+		976922781B8E37F300A61ACF /* OOSkinOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinOptions.m; sourceTree = "<group>"; };
+		976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OOSkinViewController+Internal.h"; sourceTree = "<group>"; };
+		9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OoyalaSkinSDK.h; sourceTree = "<group>"; };
 		976F26D41B62B4A6005CFA66 /* OOGradientViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOGradientViewManager.h; sourceTree = "<group>"; };
 		976F26D51B62B4A6005CFA66 /* OOGradientViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientViewManager.m; sourceTree = "<group>"; };
 		976F26D81B62B4BB005CFA66 /* OOGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOGradientView.h; sourceTree = "<group>"; };
@@ -401,14 +409,18 @@
 				972ED8861AE6F008005043DC /* OOReactBridge.m */,
 				5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */,
 				5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */,
+				976922771B8E37F300A61ACF /* OOSkinOptions.h */,
+				976922781B8E37F300A61ACF /* OOSkinOptions.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
+				976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
 				97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */,
 				97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */,
-				972ED84E1AE6EEEB005043DC /* Supporting Files */,
+				9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */,
 				2F12F06F64B2FE9323AA598C /* Social */,
+				972ED84E1AE6EEEB005043DC /* Supporting Files */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
@@ -478,6 +490,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
+				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
+				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
+				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
 				2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */,
 				2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */,
@@ -714,6 +729,7 @@
 				2F12F82ACF2CE2BFCB2383FC /* OOFacebookSharePlugin.m in Sources */,
 				2F12FB421CC2D19A1A7A21A6 /* OOReactSocialShare.m in Sources */,
 				2F12F5442930D9C3618AB601 /* OOTwitterSharePlugin.m in Sources */,
+				9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
