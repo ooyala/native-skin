@@ -38,11 +38,17 @@ var ResponsiveDesignManager = {
    * @param baseSize
    * @returns {number}
    */
-  makeResponsiveMultiplier: function(width, threshold, multiplier, baseSize) {
+  makeResponsiveMultiplier: function(width, baseSize, multiplier, threshold) {
     var size = this.getSize(width, threshold);
     var multiple = (multiplier) ? multiplier : this.multiplier;
 
-    return baseSize * multiple[size];
+    if(typeof baseSize === "number" && typeof multiple === "object" && multiple.length > 0) {
+      if(size >= multiple.length) {
+        return baseSize * multiple[multiple.length - 1];
+      }
+      return baseSize * multiple[size];
+    }
+    return 0;
   },
 
   /**
@@ -54,10 +60,16 @@ var ResponsiveDesignManager = {
    * @param values
    * @returns {number}
    */
-  makeResponsiveValues: function(width, threshold, values) {
+  makeResponsiveValues: function(width, values, threshold) {
     var size = this.getSize(width, threshold);
 
-    return values[size];
+    if(typeof values === "object" && values.length > 0) {
+      if(size >= values.length) {
+        return values[values.length - 1];
+      }
+      return values[size];
+    }
+    return 0;
   },
 
   /**
@@ -84,97 +96,53 @@ var ResponsiveDesignManager = {
     },
 
     TestResponsive_multiplier_medium: function() {
-      var responsiveArgs = {
-        width: 500,
-        baseSize: 100,
-        threshold: [200, 800],
-        multiplier: [1, 2, 3]
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals(responsive.value, 200, responsive);
+      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100, [1, 2, 3], [200, 800]);
+      this.AssertStrictEquals(responsive, 200, responsive);
     },
 
     TestResponsive_multiplier_medium_default: function() {
-      var responsiveArgs = {
-        width: 500,
-        baseSize: 100
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals(responsive.value, 100, responsive);
+      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100);
+      this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_small: function() {
-      var responsiveArgs = {
-        width: 100,
-        baseSize: 100,
-        threshold: [200, 800],
-        multiplier: [1, 2, 3]
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals(responsive.value, 100, responsive);
+      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(100, 100, [1, 2, 3], [200, 800]);
+      this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_small_border: function() {
-      var responsiveArgs = {
-        width: 200,
-        baseSize: 100,
-        threshold: [200, 800],
-        multiplier: [1, 2, 3]
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals(responsive.value, 100, responsive);
+      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(200, 100, [1, 2, 3], [200, 800]);
+      this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_large_border: function() {
-      var responsiveArgs = {
-        width: 800,
-        baseSize: 100,
-        threshold: [200, 800],
-        multiplier: [1, 2, 3]
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals(responsive.value, 200, responsive);
+      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(800, 100, [1, 2, 3], [200, 800]);
+      this.AssertStrictEquals(responsive, 200, responsive);
     },
 
     TestResponsive_multiplier_large: function() {
-      var responsiveArgs = {
-        width: 900,
-        baseSize: 100,
-        threshold: [200, 800],
-        multiplier: [1, 2, 3]
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals(responsive.value, 300, responsive);
+      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1, 2, 3], [200, 800]);
+      this.AssertStrictEquals(responsive, 300, responsive);
+    },
+
+    TestResponsive_multiplier_overflow: function() {
+      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1], [200, 800]);
+      this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_values_medium: function() {
-      var responsiveArgs = {
-        width: 500,
-        baseSize: 100,
-        threshold: [200, 800],
-        values: [200,300,400]
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals( responsive.value, 300, responsive );
+      var responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200, 300, 400], [200, 800]);
+      this.AssertStrictEquals( responsive, 300, responsive );
     },
 
-    TestResponsive_values_undefined: function() {
-      var responsiveArgs = {
-        width: 500,
-        baseSize: 100,
-        threshold: [200, 800],
-        values: [200]
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals( responsive.value, undefined, responsive );
+    TestResponsive_values_overflow: function() {
+      var responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200], [200, 800]);
+      this.AssertStrictEquals( responsive, 200, responsive );
     },
 
-    TestResponsive_undefined: function() {
-      var responsiveArgs = {
-        width: 500
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals( responsive, undefined, responsive );
+    TestResponsive_values_empty_array: function() {
+      var responsive = ResponsiveDesignManager.makeResponsiveValues(500, [], [200, 800]);
+      this.AssertStrictEquals( responsive, 0, responsive );
     },
 
     Run: function() {
