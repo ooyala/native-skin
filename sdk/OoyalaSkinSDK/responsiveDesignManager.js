@@ -29,54 +29,6 @@ var ResponsiveDesignManager = {
   },
 
   /**
-   * makeResponsive takes an object that has the width of the player and
-   * returns an object that has it's current state, a rendered style,
-   * and other data for responsiveness.
-   *
-   * Priority:
-   *  values,
-   *  multiplier,
-   *
-   * @param args: {
-   *  width,
-   *  baseSize,
-   *  threshold[],
-   *  multiplier[],
-   *  values[],
-   *  style
-   * }
-   *
-   * return: {
-   *  value: the responsive value based on the size of the width,
-   *  style: the style object that can be rendered in jsx
-   * }
-   */
-  makeResponsive: function(args) {
-    var responsive = {};
-
-    // If the method of responsive manipulation uses specific values between each threshold.
-    if(args.values) {
-      responsive.value = this.makeResponsiveValues(args.width, args.threshold, args.values)
-    }
-    // If the method of responsive manipulation uses a multiplier on the baseSize between each threshold.
-    else if(args.baseSize) {
-      responsive.value = this.makeResponsiveMultiplier(args.width, args.threshold, args.multiplier, args.baseSize);
-    }
-    // If no values or multipliers are given
-    else {
-      return;
-    }
-
-    // If a style is specified to return.
-    if(args.style && responsive.value) {
-      responsive.style = {};
-      responsive.style[args.style] = responsive.value;
-    }
-
-    return responsive;
-  },
-
-  /**
    * makeResponsiveMultiplier calculates the responsive value by multiplying a
    * constant to the current size of an element based on how big the screen is.
    *
@@ -223,18 +175,6 @@ var ResponsiveDesignManager = {
       };
       var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
       this.AssertStrictEquals( responsive, undefined, responsive );
-    },
-
-    TestResponsive_style: function() {
-      var responsiveArgs = {
-        width: 500,
-        baseSize: 100,
-        threshold: [200, 800],
-        multiplier: [1, 2, 3],
-        style: 'opacity'
-      };
-      var responsive = ResponsiveDesignManager.makeResponsive(responsiveArgs);
-      this.AssertStrictEquals( responsive.style.opacity, 200, responsive );
     },
 
     Run: function() {
