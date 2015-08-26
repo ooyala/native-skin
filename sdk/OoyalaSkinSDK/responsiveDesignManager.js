@@ -40,13 +40,20 @@ var ResponsiveDesignManager = {
    */
   makeResponsiveMultiplier: function(width, baseSize, multiplier, threshold) {
     var size = this.getSize(width, threshold);
-    var multiple = (multiplier) ? multiplier : this.multiplier;
+    var multipliers = (multiplier) ? multiplier : this.multiplier;
 
-    if(typeof baseSize === "number" && typeof multiple === "object" && multiple.length > 0) {
-      if(size >= multiple.length) {
-        return baseSize * multiple[multiple.length - 1];
+    if(typeof baseSize === "number" && typeof multipliers === "object" && multipliers.length > 0) {
+      if(size >= multipliers.length) {
+        console.log("Warning: No multiplier value available for size " + size + " in multiplier array [" + multipliers + "], falling back to the largest multiplier value available. Length of multiplier array should be one more than the length of the threshold array.");
+        return baseSize * multipliers[multipliers.length - 1];
       }
-      return baseSize * multiple[size];
+      return baseSize * multipliers[size];
+    }
+    if(typeof baseSize !== "number") {
+      console.log("Warning: baseSize must be a number.");
+    }
+    if(typeof multipliers !== "object" || multipliers.length <= 0) {
+      console.log("Warning: multiplier must be a non empty array.");
     }
     return 0;
   },
@@ -65,10 +72,12 @@ var ResponsiveDesignManager = {
 
     if(typeof values === "object" && values.length > 0) {
       if(size >= values.length) {
+        console.log("Warning: No value available for size " + size + " in values array [" + values + "], falling back to the largest value available. Length of values array should be one more than the length of the threshold array.");
         return values[values.length - 1];
       }
       return values[size];
     }
+    console.log("Warning: values must be a non empty array.");
     return 0;
   },
 
