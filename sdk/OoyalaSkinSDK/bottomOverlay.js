@@ -18,6 +18,7 @@ var Constants = require('./constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
+  UI_SIZES
 } = Constants;
 
 var Utils = require('./utils');
@@ -164,7 +165,7 @@ var BottomOverlay = React.createClass({
   },
 
   render: function() {
-    var heightStyle = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, 75);
+    var heightStyle = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT);
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},], opacity:this.state.opacity};
     return (

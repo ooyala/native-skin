@@ -14,7 +14,8 @@ var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 var Constants = require('./constants');
 var {
-  IMG_URLS
+  IMG_URLS,
+  UI_SIZES
 } = Constants;
 
 var RectButton = require('./widgets/RectButton');
@@ -55,9 +56,9 @@ var StartScreen = React.createClass({
           buttonStyle={this.props.config.startScreen.playIconStyle}
           frameWidth={this.props.width}
           frameHeight={this.props.height}
-          buttonWidth={60}
-          buttonHeight={60}
-          fontSize={60}
+          buttonWidth={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
+          buttonHeight={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
+          fontSize={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
           playing={false}
           showButton={true}
           isStartScreen={true}>

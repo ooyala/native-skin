@@ -28,7 +28,8 @@ var autohideDelay = 5000;
 
 var {
   BUTTON_NAMES,
-  IMG_URLS
+  IMG_URLS,
+  UI_SIZES
 } = Constants;
 
 var VideoView = React.createClass({
@@ -215,9 +216,9 @@ var VideoView = React.createClass({
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
-        buttonWidth={60}
-        buttonHeight={60}
-        fontSize={60}
+        buttonWidth={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
+        buttonHeight={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
+        fontSize={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
         opacity={buttonOpacity}
         showButton={this.controlsVisible()}
         rate={this.props.rate}>

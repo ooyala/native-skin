@@ -1,4 +1,11 @@
 
+UI_SIZES = {
+  VIDEOVIEW_PLAYPAUSE: 60,
+  CONTROLBAR_HEIGHT: 75,
+  CONTROLBAR_ICONSIZE: 20,
+  CONTROLBAR_LABELSIZE: 16
+};
+
 var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'Fullscreen',
@@ -41,4 +48,4 @@ var OOSTATES = {
   PAUSED: 'paused',
 };
 
-module.exports = {BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES};
+module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES};

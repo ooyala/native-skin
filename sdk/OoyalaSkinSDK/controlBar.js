@@ -18,6 +18,7 @@ var Constants = require('./constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
+  UI_SIZES
 } = Constants;
 
 var Utils = require('./utils');
@@ -91,8 +92,8 @@ var ControlBar = React.createClass({
 
   render: function() {
 
-    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, 20);
-    var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, 16);
+    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
+    var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
 
     var controlBarWidgets = [];
 
