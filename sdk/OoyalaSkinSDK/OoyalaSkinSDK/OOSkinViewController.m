@@ -46,7 +46,7 @@ static NSString *kLocalizableStrings = @"localizableStrings";
 static NSString *kLocale = @"locale";
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
-                    skinOptions:(OOSkinOptions *)skinOptions
+                   skinOptions:(OOSkinOptions *)skinOptions
                         parent:(UIView *)parentView
                  launchOptions:(NSDictionary *)options {
   if (self = [super init]) {
@@ -57,7 +57,7 @@ static NSString *kLocale = @"locale";
                                           launchOptions:nil];
     _skinConfig = [self getReactViewInitialProperties];
     _reactView.initialProperties = _skinConfig;
-
+    
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
     [self.view setFrame:rect];
@@ -75,6 +75,13 @@ static NSString *kLocale = @"locale";
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
+    
+    
+    _movieFullScreenView = [[UIView alloc] init];
+    _movieFullScreenView.alpha = 0.f;
+    _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
+    
   }
   return self;
 }
@@ -89,14 +96,14 @@ static NSString *kLocale = @"locale";
       return dict;
     }
   }
-
+  
   return nil;
 }
 
 - (NSDictionary*) getReactViewInitialProperties {
   NSDictionary *d = [self dictionaryFromJson:self.skinOptions.configFileName];
   ASSERT(d != nil, @"missing skin configuration json" );
-
+  
   NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
   NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
   NSArray *languages = localizableStrings[@"languages"];
@@ -110,7 +117,7 @@ static NSString *kLocale = @"locale";
   [dict setObject:localizableStrings forKey:kLocalizableStrings];
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
   [dict setObject:localeId forKey:kLocale];
-
+  
   [self mergeDictionary:dict with:self.skinOptions.overrideConfigs];
   return dict;
 }
@@ -149,7 +156,7 @@ static NSString *kLocale = @"locale";
     duration = CMTimeGetSeconds(seekableRange.duration);
     adjustedPlayhead = _player.playheadTime - CMTimeGetSeconds(seekableRange.start);
   }
-
+  
   NSNumber *playheadNumber = [NSNumber numberWithFloat:adjustedPlayhead];
   NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
@@ -268,7 +275,7 @@ static NSString *kLocale = @"locale";
 
 - (void)handleDiscoveryResults:(NSArray *)results {
   NSMutableArray *discoveryArray = [NSMutableArray new];
-  for (NSDictionary *dict in results) {
+  for (NSDictionary *dict in results) { 
     NSString *name = [dict objectForKey:@"name" ];
     NSString *embedCode = [dict objectForKey:@"embed_code"];
     NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
@@ -333,33 +340,50 @@ static NSString *kLocale = @"locale";
 @implementation OOSkinViewController(Internal)
 
 - (void)toggleFullscreen {
+  BOOL wasPlaying = self.player.isPlaying;
+  if( wasPlaying ) {
+    [_player pause];
+  }
+  
+  [self.view removeFromSuperview];
   _isFullscreen = !_isFullscreen;
   if (_isFullscreen) {
-    if (self.parentViewController) {
+    if(self.parentViewController){
       _parentViewController = self.parentViewController;
       [self removeFromParentViewController];
     }
-  } else {
-    if (_parentViewController) {
-      [_parentViewController addChildViewController:self];
-      _parentViewController = nil;
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    
+    if (CGRectEqualToRect(_movieFullScreenView.frame, CGRectZero)) {
+      [_movieFullScreenView setFrame:window.bounds];
     }
+    [window addSubview:_movieFullScreenView];
+    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+      _movieFullScreenView.alpha = 1.f;
+    } completion:^(BOOL finished) {
+      self.view.alpha = 1.f;
+      [_movieFullScreenView addSubview:self.view];
+      [self.view setFrame:window.bounds];
+    }];
+    
+  } else {
+    [_parentView addSubview:self.view];
+    [self.view setFrame:_parentView.bounds];
+    
+    [_parentViewController addChildViewController:self];
+    _parentViewController = nil;
+    
+    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
+      _movieFullScreenView.alpha = 0.f;
+    } completion:^(BOOL finished) {
+      self.view.alpha = 1.f;
+      [_movieFullScreenView removeFromSuperview];
+      [self.view setFrame:_parentView.bounds];
+    }];
   }
-
-  [self.view removeFromSuperview];
-  UIView *targetView = _isFullscreen ? [UIApplication sharedApplication].keyWindow : _parentView;
-  CGAffineTransform transform = CGAffineTransformMakeScale(targetView.bounds.size.width/self.view.bounds.size.width, targetView.bounds.size.height/self.view.bounds.size.height);
-  [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION
-                        delay:FULLSCREEN_ANIMATION_DELAY
-                      options:UIViewAnimationOptionCurveEaseInOut
-                   animations:^{
-                     self.view.transform = transform;
-
-                   } completion:^(BOOL finished) {
-                     [targetView addSubview:self.view];
-                     self.view.transform = CGAffineTransformIdentity;
-                     [self.view setFrame:targetView.bounds];
-                   }];
+  if( wasPlaying ) {
+    [self.player play];
+  }
 }
 
 - (OOUpNextManager *)upNextManager {
