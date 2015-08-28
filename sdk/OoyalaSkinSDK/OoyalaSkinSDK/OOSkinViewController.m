@@ -20,6 +20,7 @@
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OOOptions.h>
+#import "OOConstant.h"
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -50,6 +51,7 @@ static NSString *kLocale = @"locale";
                         parent:(UIView *)parentView
                  launchOptions:(NSDictionary *)options {
   if (self = [super init]) {
+    LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
     [self setPlayer:player];
     _skinOptions = skinOptions;
     _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
@@ -364,6 +366,10 @@ static NSString *kLocale = @"locale";
 
 - (OOUpNextManager *)upNextManager {
   return _upNextManager;
+}
+
+- (NSString *) version {
+  return OO_SKIN_VERSION;
 }
 
 @end

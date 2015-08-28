@@ -100,6 +100,8 @@
 		978C867F1B3B8726009E1A16 /* discoveryPanel.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867B1B3B8726009E1A16 /* discoveryPanel.js */; };
 		978C86801B3B8726009E1A16 /* index.ios.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867C1B3B8726009E1A16 /* index.ios.js */; };
 		978C86811B3B8726009E1A16 /* utils.js in Resources */ = {isa = PBXBuildFile; fileRef = 978C867D1B3B8726009E1A16 /* utils.js */; };
+		979B01301B910A040032F5CF /* OOConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 979B012E1B910A040032F5CF /* OOConstant.h */; };
+		979B01311B910A040032F5CF /* OOConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 979B012F1B910A040032F5CF /* OOConstant.m */; };
 		97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */; };
 		97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */; };
 		97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
@@ -207,8 +209,8 @@
 		2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = moreOptionScreenStyles.json; sourceTree = "<group>"; };
-		2F12FEA4EF81B97A5641F867 /* bottomOverlayStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = bottomOverlayStyles.json; sourceTree = "<group>"; };
 		2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOTwitterSharePlugin.h; sourceTree = "<group>"; };
+		2F12FEA4EF81B97A5641F867 /* bottomOverlayStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = bottomOverlayStyles.json; sourceTree = "<group>"; };
 		5E11732A1B5EEE3D00454C55 /* collapsingBarUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = collapsingBarUtils.js; sourceTree = "<group>"; };
 		5E11732B1B5EEE3D00454C55 /* languageSelectionPanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = languageSelectionPanel.js; sourceTree = "<group>"; };
 		5E11733B1B5EEE3D00454C55 /* controlBarWidgets.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = controlBarWidgets.js; sourceTree = "<group>"; };
@@ -260,6 +262,8 @@
 		978C867B1B3B8726009E1A16 /* discoveryPanel.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = discoveryPanel.js; sourceTree = "<group>"; };
 		978C867C1B3B8726009E1A16 /* index.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.ios.js; sourceTree = "<group>"; };
 		978C867D1B3B8726009E1A16 /* utils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = utils.js; sourceTree = "<group>"; };
+		979B012E1B910A040032F5CF /* OOConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOConstant.h; sourceTree = "<group>"; };
+		979B012F1B910A040032F5CF /* OOConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOConstant.m; sourceTree = "<group>"; };
 		97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeViewManager.h; sourceTree = "<group>"; };
 		97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeViewManager.m; sourceTree = "<group>"; };
 		97CF89F01B50642C008E0470 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
@@ -411,6 +415,8 @@
 			children = (
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
+				979B012E1B910A040032F5CF /* OOConstant.h */,
+				979B012F1B910A040032F5CF /* OOConstant.m */,
 				976F26D81B62B4BB005CFA66 /* OOGradientView.h */,
 				976F26D91B62B4BB005CFA66 /* OOGradientView.m */,
 				976F26D41B62B4A6005CFA66 /* OOGradientViewManager.h */,
@@ -501,6 +507,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
@@ -738,6 +745,7 @@
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
 				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,
 				2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */,
+				979B01311B910A040032F5CF /* OOConstant.m in Sources */,
 				2F12F2386F5E0DCE595F9120 /* gradientView.js in Sources */,
 				2F12FDA6780E12386A117907 /* VideoViewPlayPause.js in Sources */,
 				2F12F2EF208855006B515A66 /* responsiveDesignManager.js in Sources */,

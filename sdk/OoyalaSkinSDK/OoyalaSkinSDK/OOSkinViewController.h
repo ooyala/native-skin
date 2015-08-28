@@ -15,6 +15,7 @@
 
 @property (nonatomic, readonly) OOOoyalaPlayer *player;
 @property (nonatomic, readonly) OOSkinOptions *skinOptions;
+@property (nonatomic, readonly) NSString *version;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)jsCodeLocation
