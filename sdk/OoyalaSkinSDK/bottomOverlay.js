@@ -18,11 +18,14 @@ var Constants = require('./constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
+  UI_SIZES
 } = Constants;
 
 var Utils = require('./utils');
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
+var ResponsiveDesignManager = require('./responsiveDesignManager');
+
 var styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
 var progressBarStyles = Utils.getStyles(require('./style/progressBarStyles.json'));
 var topMargin = 16;
@@ -162,10 +165,11 @@ var BottomOverlay = React.createClass({
   },
 
   render: function() {
+    var heightStyle = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT);
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},], opacity:this.state.opacity};
     return (
-      <Animated.View style={[styles.container, widthStyle]}
+      <Animated.View style={[styles.container, widthStyle, {"height": heightStyle}]}
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
         onTouchEnd={(event) => this.handleTouchEnd(event)}>
