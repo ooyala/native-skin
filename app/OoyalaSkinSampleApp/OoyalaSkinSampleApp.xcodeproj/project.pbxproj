@@ -27,7 +27,6 @@
 		0BFFF7B41B3A213800D72444 /* SmallSkinPlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B31B3A213800D72444 /* SmallSkinPlayerView.xib */; };
 		0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */; };
 		2F12FF394E8985621462AB52 /* alice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F9F14C5661D0AE78BEC3 /* alice.ttf */; };
-		450F91E81B83E5AA00722279 /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 450F91E71B83E5AA00722279 /* OoyalaSkinSDK.framework */; };
 		5EFDD1D71B4F48BD00A61DC2 /* skin.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EFDD19B1B4F486300A61DC2 /* skin.json */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
 		976F26691B56F7F2005CFA66 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 976F26661B56F7F2005CFA66 /* en.json */; };
@@ -46,6 +45,7 @@
 		97930C701B6988FF009B3512 /* OoyalaIMASDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930C5C1B6988FE009B3512 /* OoyalaIMASDK.framework */; };
 		97930E271B699595009B3512 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E261B699595009B3512 /* EventKit.framework */; };
 		97930E291B6995CB009B3512 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E281B6995CB009B3512 /* WebKit.framework */; };
+		979B01331B9120D90032F5CF /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 979B01321B9120D90032F5CF /* OoyalaSkinSDK.framework */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -78,7 +78,6 @@
 		0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WidePlayerView.xib; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OoyalaSkinSampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OoyalaSkinSampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F12F9F14C5661D0AE78BEC3 /* alice.ttf */ = {isa = PBXFileReference; lastKnownFileType = file.ttf; path = alice.ttf; sourceTree = "<group>"; };
-		450F91E71B83E5AA00722279 /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../sdk/OoyalaSkinSDK/build/Debug-iphoneos/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
 		5EFDD19B1B4F486300A61DC2 /* skin.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skin.json; sourceTree = "<group>"; };
 		972ED77D1AE184CE005043DC /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		976F26661B56F7F2005CFA66 /* en.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = en.json; sourceTree = "<group>"; };
@@ -118,6 +117,7 @@
 		97930C5C1B6988FE009B3512 /* OoyalaIMASDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaIMASDK.framework; path = "../../../vendor/Ooyala/OoyalaIMASDK-iOS/OoyalaIMASDK.framework"; sourceTree = "<group>"; };
 		97930E261B699595009B3512 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		97930E281B6995CB009B3512 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		979B01321B9120D90032F5CF /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSkinSDK.framework; path = "../../../vendor/Ooyala/OoyalaSkinSDK-iOS/OoyalaSkinSDK.framework"; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -128,7 +128,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				450F91E81B83E5AA00722279 /* OoyalaSkinSDK.framework in Frameworks */,
 				97930E291B6995CB009B3512 /* WebKit.framework in Frameworks */,
 				97930E271B699595009B3512 /* EventKit.framework in Frameworks */,
 				97930C6F1B6988FF009B3512 /* OoyalaFreewheelSDK.framework in Frameworks */,
@@ -136,6 +135,7 @@
 				97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */,
 				97930C701B6988FF009B3512 /* OoyalaIMASDK.framework in Frameworks */,
 				97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */,
+				979B01331B9120D90032F5CF /* OoyalaSkinSDK.framework in Frameworks */,
 				97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */,
 				0BD9FCAA1B4DEE91001E0CAB /* OoyalaSDK.framework in Frameworks */,
 				972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */,
@@ -233,6 +233,7 @@
 		0BD9FCA81B4DEE91001E0CAB /* VendorLibraries */ = {
 			isa = PBXGroup;
 			children = (
+				979B01321B9120D90032F5CF /* OoyalaSkinSDK.framework */,
 				9771E2DF1B71664E009FDE85 /* GoogleIMA */,
 				9771E2DD1B716643009FDE85 /* AdManager.framework */,
 				97930C5B1B6988FE009B3512 /* OoyalaFreewheelSDK.framework */,
@@ -256,7 +257,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				450F91E71B83E5AA00722279 /* OoyalaSkinSDK.framework */,
 				97930E281B6995CB009B3512 /* WebKit.framework */,
 				97930E261B699595009B3512 /* EventKit.framework */,
 				0B345ADB1B5626ED006CD3B0 /* OoyalaSkinSDK.xcassets */,
@@ -437,15 +437,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/VendorLibraries",
-					"/Users/dkao/Documents/ios-skin/sdk/OoyalaSkinSDK/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/VendorLibraries/**",
 				);
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-buoxruhdqgqbnthkovxdltvccgey/Build/Products/Debug-iphoneos",
-					"$(PROJECT_DIR)/VendorLibraries",
-				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -470,18 +464,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/VendorLibraries",
-					"/Users/dkao/Documents/ios-skin/sdk/OoyalaSkinSDK/build/Debug-iphoneos",
+					"$(PROJECT_DIR)/VendorLibraries/**",
 				);
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-bcyfrgddmnwusnafwznscqvflobw/Build/Products/Debug-iphoneos",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/OoyalaSkin-buoxruhdqgqbnthkovxdltvccgey/Build/Products/Debug-iphoneos",
-					"$(PROJECT_DIR)/VendorLibraries",
-					"/Users/zchen/repos/ios-skin/vendor/Ooyala/OoyalaFreewheelSDK-iOS",
-					"/Users/zchen/repos/ios-skin/vendor/Ooyala/OoyalaIMASDK-iOS",
-					"/Users/zchen/repos/ios-skin/vendor/Freewheel",
-				);
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(inherited)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
