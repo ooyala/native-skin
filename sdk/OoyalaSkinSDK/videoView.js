@@ -97,12 +97,14 @@ var VideoView = React.createClass({
   handlePress: function(name) {
     if (name == "LIVE") {
       this.props.onScrub(1);
-    } else {
-      if(name == BUTTON_NAMES.PLAY_PAUSE && this.props.showPlay) {
-        this.state.showControls = false;
-      }
-      this.props.onPress(name);
     }
+    else if (name == BUTTON_NAMES.PLAY_PAUSE && this.props.showPlay) {
+      this.state.showControls = false;
+    }
+    else if (name == BUTTON_NAMES.RESET_AUTOHIDE) {
+      this.state.showControls = true;
+    }
+    this.props.onPress(name);
   },
 
   _renderBottomOverlay: function() {

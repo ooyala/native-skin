@@ -40,17 +40,31 @@ var VideoViewPlayPause = React.createClass({
     return {
       play: {
         animationScale: new Animated.Value(1),
-        animationOpacity: new Animated.Value(this.props.isStartScreen ? 1 : 0)
+        animationOpacity: new Animated.Value(1)
       },
       pause: {
         animationScale: new Animated.Value(1),
-        animationOpacity: new Animated.Value(this.props.isStartScreen ? 0 : 1)
+        animationOpacity: new Animated.Value(0)
+      },
+      widget: {
+        animationOpacity: new Animated.Value(1)
       }
     };
   },
 
-  onPress: function(name) {
-    this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+  componentWillMount: function () {
+    if(!this.props.isStartScreen) {
+      this.playPauseAction("play");
+    }
+  },
+
+  onPress: function() {
+    if(this.props.showButton || (!this.props.showButton && (this.state.play.animationOpacity._value != 0))) {
+      this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+    }
+    else {
+      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+    }
   },
 
   playPauseAction(name) {
@@ -66,8 +80,8 @@ var VideoViewPlayPause = React.createClass({
         }),
         Animated.timing(this.state.pause.animationOpacity, {
           toValue: 1,
-          duration: 0,
-          delay: 500
+          duration: 100,
+          delay: 1200
         })
       ]).start();
     }
@@ -98,20 +112,17 @@ var VideoViewPlayPause = React.createClass({
   },
 
   _renderButton(name) {
-    if(this.state[name].animationOpacity._value == 0) {
-      return null;
-    }
-
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
 
     var opacity = {opacity: this.state[name].animationOpacity};
     var animate = {transform: [{scale: this.state[name].animationScale}]};
     var buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
 
+    var size = {position: 'absolute'};
+
     return (
       <Animated.Text
-        style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}
-        onPress={() => this.onPress(name)}>
+        style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity, size]}>
         {this.props.icons[name].icon}
       </Animated.Text>
     );
@@ -134,26 +145,37 @@ var VideoViewPlayPause = React.createClass({
       positionStyle = styles[this.props.position];
     }
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
+    var opacity = {opacity: this.state.widget.animationOpacity};
 
     var playButton = this._renderButton("play");
     var pauseButton = this._renderButton("pause");
     var loading = this._renderLoading();
 
     if(this.props.showButton || (!this.props.showButton && (this.state.play.animationOpacity._value != 0))) {
-      return (
-        <TouchableHighlight
-          style={[positionStyle]}
-          underlayColor="transparent"
-          activeOpacity={this.props.opacity}>
-          <View style={[styles.buttonArea, sizeStyle]}>
-            {playButton}
-            {pauseButton}
-            {loading}
-          </View>
-        </TouchableHighlight>
-      );
+      Animated.timing(this.state.widget.animationOpacity, {
+        toValue: 1,
+        duration: 400
+      }).start();
     }
-    return null;
+    else {
+      Animated.timing(this.state.widget.animationOpacity, {
+        toValue: 0,
+        duration: 400
+      }).start();
+    }
+    return (
+      <TouchableHighlight
+        onPress={() => this.onPress()}
+        style={[positionStyle]}
+        underlayColor="transparent"
+        activeOpacity={this.props.opacity}>
+        <Animated.View style={[styles.buttonArea, sizeStyle, opacity]}>
+          {playButton}
+          {pauseButton}
+          {loading}
+        </Animated.View>
+      </TouchableHighlight>
+    );
 
   }
 });
