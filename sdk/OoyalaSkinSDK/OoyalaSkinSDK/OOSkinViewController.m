@@ -358,14 +358,16 @@ static NSString *kLocale = @"locale";
       [_movieFullScreenView setFrame:window.bounds];
     }
     [window addSubview:_movieFullScreenView];
+    [_movieFullScreenView addSubview:self.view];
+    [self.view setFrame:window.bounds];
+    self.view.alpha = 0.0f;
+    
     [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
       _movieFullScreenView.alpha = 1.f;
-    } completion:^(BOOL finished) {
       self.view.alpha = 1.f;
-      [_movieFullScreenView addSubview:self.view];
-      [self.view setFrame:window.bounds];
+    } completion:^(BOOL finished) {
+      
     }];
-    
   } else {
     [_parentView addSubview:self.view];
     [self.view setFrame:_parentView.bounds];
@@ -373,12 +375,14 @@ static NSString *kLocale = @"locale";
     [_parentViewController addChildViewController:self];
     _parentViewController = nil;
     
+    [self.view setFrame:_parentView.bounds];
+    self.view.alpha = 0.0f;
+    
     [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
       _movieFullScreenView.alpha = 0.f;
-    } completion:^(BOOL finished) {
       self.view.alpha = 1.f;
+    } completion:^(BOOL finished) {
       [_movieFullScreenView removeFromSuperview];
-      [self.view setFrame:_parentView.bounds];
     }];
   }
   if( wasPlaying ) {
