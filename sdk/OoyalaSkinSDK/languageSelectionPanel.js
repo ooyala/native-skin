@@ -90,7 +90,7 @@ var LanguageSelectionPanel = React.createClass({
           config={this.props.config}>
         </ToggleSwitch>
         <ResponsiveList
-          horizontal={true}
+          horizontal={false}
           data={this.props.languages}
           itemRender={this.renderItem}
           width={this.props.width}
