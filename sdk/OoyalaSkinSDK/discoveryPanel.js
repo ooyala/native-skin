@@ -53,7 +53,7 @@ var DiscoveryPanel = React.createClass({
       thumbnailStyle = styles.thumbnailPortrait;
       columnContainerStyle = styles.columnContainerPortrait;
     }else{
-      itemRect = {width: 168, height:124};
+      itemRect = {width: 166, height:154};
       thumbnailStyle = styles.thumbnailLandscape;
       columnContainerStyle = styles.columnContainerLandscape;
     }
@@ -62,7 +62,7 @@ var DiscoveryPanel = React.createClass({
       <View style={styles.panel}>
         {this.renderHeader()}
         <ResponsiveList
-          horizontal={true}
+          horizontal={false}
           data={this.props.dataSource}
           itemRender={this.renderItem}
           width={this.props.width}
