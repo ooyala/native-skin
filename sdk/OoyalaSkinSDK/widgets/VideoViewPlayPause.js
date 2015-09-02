@@ -15,6 +15,8 @@ var {
 
 // Uses the rectbutton styles
 var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
+var PLAY = "play";
+var PAUSE = "pause";
 
 var VideoViewPlayPause = React.createClass({
   propTypes: {
@@ -56,7 +58,7 @@ var VideoViewPlayPause = React.createClass({
 
   componentWillMount: function () {
     if((!this.props.isStartScreen && this.props.playhead == 0) || (!this.props.isStartScreen && this.props.playhead != 0 && !this.props.playing)) {
-      this.playPauseAction("play");
+      this.playPauseAction(PLAY);
       this.setState({controlPlaying: false});
     }
     if((!this.props.isStartScreen && this.props.playhead != 0 && this.props.playing)) {
@@ -68,11 +70,11 @@ var VideoViewPlayPause = React.createClass({
     if(this.props.showButton) {
       this.setState({controlPlaying: !this.state.controlPlaying});
       if(this.props.rate <= 0 != this.state.controlPlaying && !this.props.isStartScreen) {
-        this.playPauseAction("pause");
+        this.playPauseAction(PAUSE);
       }
       else {
         this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
-        this.playPauseAction((this.state.controlPlaying) ? "play" : "pause");
+        this.playPauseAction((this.state.controlPlaying) ? PLAY : PAUSE);
       }
     }
     else {
@@ -81,7 +83,7 @@ var VideoViewPlayPause = React.createClass({
   },
 
   playPauseAction(name) {
-    if(name == "play") {
+    if(name == PLAY) {
       this.state.play.animationScale.setValue(1);
       this.state.play.animationOpacity.setValue(1);
       Animated.parallel([
@@ -98,7 +100,7 @@ var VideoViewPlayPause = React.createClass({
         })
       ]).start();
     }
-    if(name == "pause") {
+    if(name == PAUSE) {
       this.state.pause.animationOpacity.setValue(0);
       this.state.play.animationOpacity.setValue(1);
       this.state.play.animationScale.setValue(1);
@@ -107,12 +109,11 @@ var VideoViewPlayPause = React.createClass({
 
   componentDidUpdate(prevProps, prevState) {
     if(prevProps.playing != this.props.playing && (this.props.rate <= 0) == this.state.controlPlaying) {
-      this.playPauseAction(this.props.playing ? "pause" : "play");
+      this.playPauseAction(this.props.playing ? PAUSE : PLAY);
     }
   },
 
   _renderLoading: function() {
-    console.log("PLAYING " + this.props.playing);
     if((this.props.rate <= 0 || this.props.playhead == 0) && !this.props.showButton && !this.state.controlPlaying) {
       return (
         <View style={styles.loading}>
@@ -160,8 +161,8 @@ var VideoViewPlayPause = React.createClass({
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     var opacity = {opacity: this.state.widget.animationOpacity};
 
-    var playButton = this._renderButton("play");
-    var pauseButton = this._renderButton("pause");
+    var playButton = this._renderButton(PLAY);
+    var pauseButton = this._renderButton(PAUSE);
     var loading = this._renderLoading();
 
     if(this.props.showButton) {
