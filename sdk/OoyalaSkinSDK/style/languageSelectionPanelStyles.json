@@ -1,5 +1,6 @@
 {
   "panelContainer": {
+    "marginTop": 50,
     "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch",
@@ -17,6 +18,7 @@
   "panelTitle": {
   	"flex": 1,
   	"fontSize": 20,
+    "fontFamily":"Verdana-Bold",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20
