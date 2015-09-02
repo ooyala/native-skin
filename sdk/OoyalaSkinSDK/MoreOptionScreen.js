@@ -154,7 +154,7 @@ var MoreOptionScreen = React.createClass({
     var dismissButton = this._renderButton(styles.iconBright, this.props.config.icons.dismiss.fontString, this.props.onDismiss, dismissButtonSize, this.props.config.moreOptions.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow;
-    var rowAnimationStyle = {transform:[{translateY:this.state.translateY},]}
+    var rowAnimationStyle = {transform:[{translateY:this.state.translateY}]}
     if (!this.props.buttonSelected || this.props.buttonSelected == BUTTON_NAMES.NONE) {
 
       moreOptionRow = (
@@ -170,7 +170,7 @@ var MoreOptionScreen = React.createClass({
         {dismissButton}
       </View>
     );
-    var animationStyle = {opacity:this.state.opacity}
+    var animationStyle = {opacity:this.state.opacity};
     var moreOptionScreen = (
       <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
         {moreOptionRow}

@@ -6,6 +6,7 @@
 
 var React = require('react-native');
 var {
+  Animated,
   ListView,
   StyleSheet,
   SwitchIOS,
@@ -14,6 +15,7 @@ var {
   View,
 } = React;
 
+var animationDuration = 1000;
 var Constants = require('./constants');
 var {
   ICONS,
@@ -31,6 +33,25 @@ var LanguageSelectionPanel = React.createClass({
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     config: React.PropTypes.object
+  },
+
+  getInitialState: function() {
+    return {
+      opacity: new Animated.Value(0)
+    };
+  },
+
+  componentDidMount:function () {
+    this.state.opacity.setValue(0);
+    Animated.parallel([
+      Animated.timing(                      
+        this.state.opacity,                 
+        {
+          toValue: 1,                         
+          duration: animationDuration,
+          delay: 0  
+        }),
+    ]).start();
   },
 
   isSelected: function(name) {
@@ -77,8 +98,9 @@ var LanguageSelectionPanel = React.createClass({
     }
     // screen height - title - toggle switch - preview - option bar
     var itemPanelHeight = this.props.height  - 30 - 30 - 60;
+    var animationStyle = {opacity:this.state.opacity};
     return (
-      <View style={styles.panelContainer}>
+      <Animated.View style={[styles.panelContainer, animationStyle]}>
         <View style={styles.panelTitleRow}>
           <Text style={styles.panelTitle}>{Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings)}</Text>
         </View>
@@ -99,7 +121,7 @@ var LanguageSelectionPanel = React.createClass({
           itemHeight={65}>
         </ResponsiveList>
         {previewPanel}
-      </View>
+      </Animated.View>
     );
   },
 
