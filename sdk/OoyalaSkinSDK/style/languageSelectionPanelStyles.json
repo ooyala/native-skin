@@ -18,7 +18,7 @@
   "panelTitle": {
   	"flex": 1,
   	"fontSize": 20,
-    "fontFamily":"Verdana-Bold",
+    "fontFamily":"RobotoCondensed-Regular",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20
