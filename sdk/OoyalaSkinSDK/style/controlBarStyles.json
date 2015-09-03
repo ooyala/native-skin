@@ -1,7 +1,6 @@
 {
   "container": {
     "flexDirection": "row",
-    "position":"absolute",
     "marginHorizontal": 20,
     "bottom": 0,
   },

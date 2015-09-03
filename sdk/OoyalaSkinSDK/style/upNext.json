@@ -1,7 +1,6 @@
 {
   container: {
-    padding: 15,
-    backgroundColor: 'rgba(100,100,100,0.5)',
+    backgroundColor: 'rgba(22,22,22,0.9)',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
@@ -11,11 +10,13 @@
     marginRight: 15
   },
   thumbnail: {
-    flex: 1
+    height: 100,
+    width: 175
   },
   countdownText: {
+    marginTop: 40,
     fontWeight: 'bold',
-    fontSize: 50,
+    fontSize: 25,
     textAlign: 'center',
     color: 'white'
   },

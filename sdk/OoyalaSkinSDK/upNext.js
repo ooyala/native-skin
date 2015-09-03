@@ -15,7 +15,7 @@ var styles = Utils.getStyles(require('./style/upNext.json'));
 var RectButton = require('./widgets/RectButton');
 
 var descriptionMinWidth = 140;
-var thumbnailWidth = 80;
+var thumbnailWidth = 175;
 var dismissButtonWidth = 80;
 
 var UpNext = React.createClass({
@@ -39,18 +39,18 @@ var UpNext = React.createClass({
   },
 
   isWithinShowUpNextBounds: function() {
-    if(this.props.config.timeToShow.indexOf('%', this.props.config.timeToShow.length - '%'.length) !== -1) {
-      return (parseFloat(this.props.config.timeToShow.slice(0,-1) / 100) < (this.props.playhead / this.props.duration));
+    if(this.props.config.upNext.timeToShow.indexOf('%', this.props.config.upNext.timeToShow.length - '%'.length) !== -1) {
+      return (parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) < (this.props.playhead / this.props.duration));
     }
     // else if we are given a number of seconds from end in which to show the upnext dialog.
     else {
-      return parseInt(this.props.config.timeToShow) > this.props.duration - this.props.playhead;
+      return parseInt(this.props.config.upNext.timeToShow) > this.props.duration - this.props.playhead;
     }
   },
 
   render: function() {
 
-    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.showUpNext && !this.props.ad && this.props.nextVideo != null) {
+    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null) {
 
       var upNextImage = (
       <TouchableHighlight style={[styles.thumbnailContainer, {width: thumbnailWidth}]}
@@ -58,7 +58,7 @@ var UpNext = React.createClass({
         <Image
           source={{uri: this.props.nextVideo.imageUrl}}
           style={styles.thumbnail} >
-          <Text style={styles.countdownText}>{Math.floor(this.props.duration - this.props.playhead)}</Text>
+          <Text style={[{fontFamily: this.props.config.icons.play.fontFamilyName, color: "white"}, styles.countdownText]}>{this.props.config.icons.play.fontString}</Text>
         </Image>
       </TouchableHighlight>
       );
