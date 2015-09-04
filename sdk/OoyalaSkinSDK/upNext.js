@@ -64,7 +64,7 @@ var UpNext = React.createClass({
       );
       var upNextDescription = (
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{this.props.nextVideo.name}</Text>
+          <Text style={styles.title}>{Math.floor(this.props.duration - this.props.playhead)} Up next: {this.props.nextVideo.name}</Text>
           <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
         </View>
       );

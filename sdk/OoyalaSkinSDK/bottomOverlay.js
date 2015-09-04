@@ -169,7 +169,7 @@ var BottomOverlay = React.createClass({
 
   render: function() {
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-    var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},], opacity:this.state.opacity};
+    var widthStyle = {width:this.props.width, opacity:this.state.opacity};
     return (
       <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}
         onTouchStart={(event) => this.handleTouchStart(event)}
