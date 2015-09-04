@@ -57,17 +57,34 @@ var VideoViewPlayPause = React.createClass({
   },
 
   componentWillMount: function () {
-    if((!this.props.isStartScreen && this.props.playhead == 0) || (!this.props.isStartScreen && this.props.playhead != 0 && !this.props.playing)) {
+    if(this.isInitialVideoPlay() || this.isVideoRemount(PLAY)) {
       this.playPauseAction(PLAY);
       this.setState({controlPlaying: false});
     }
-    if((!this.props.isStartScreen && this.props.playhead != 0 && this.props.playing)) {
+    if(this.isVideoRemount(PAUSE)) {
       this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   },
 
+  isInitialVideoPlay: function() {
+    return (!this.props.isStartScreen && this.props.playhead == 0);
+  },
+
+  isVideoRemount: function(state) {
+    if(!this.props.isStartScreen && this.props.playhead != 0) {
+      if(state == PLAY) {
+        return (!this.props.playing);
+      }
+      if(state == PAUSE) {
+        return (this.props.playing);
+      }
+    }
+    return false;
+  },
+
   onPress: function() {
     if(this.props.showButton) {
+      // Sets controlPlaying if video is paused by user
       this.setState({controlPlaying: !this.state.controlPlaying});
       if(this.props.rate <= 0 != this.state.controlPlaying && !this.props.isStartScreen) {
         this.playPauseAction(PAUSE);
@@ -82,6 +99,7 @@ var VideoViewPlayPause = React.createClass({
     }
   },
 
+  // Animations for play/pause transition
   playPauseAction(name) {
     if(name == PLAY) {
       this.state.play.animationScale.setValue(1);
