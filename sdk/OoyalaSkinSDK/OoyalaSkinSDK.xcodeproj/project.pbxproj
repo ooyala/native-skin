@@ -25,6 +25,7 @@
 
 /* Begin PBXBuildFile section */
 		2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2F12F1DD13DF180E7A362A54 /* CircularStatus.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD93ED5833DE8530A46A /* CircularStatus.json */; };
 		2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F497D5615098F00D7BCE /* upNext.js */; };
 		2F12F1FE7D04676FC26D1ED4 /* bottomOverlayStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FEA4EF81B97A5641F867 /* bottomOverlayStyles.json */; };
 		2F12F21D17B8AA2DB97016B2 /* videoViewStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FC25E788F391F9990881 /* videoViewStyles.json */; };
@@ -49,6 +50,7 @@
 		2F12FB30C695C309EDE67706 /* sharePanelStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F685C92F774DB1FCF0A0 /* sharePanelStyles.json */; };
 		2F12FB421CC2D19A1A7A21A6 /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */; };
 		2F12FD19BD9BF0E9981598D3 /* moreOptionScreenStyles.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */; };
+		2F12FD41817BD0322EF3E803 /* CircularStatus.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F0F86E9018349754D604 /* CircularStatus.js */; };
 		2F12FDA6780E12386A117907 /* VideoViewPlayPause.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F9A8DA5F02FF9C01A125 /* VideoViewPlayPause.js */; };
 		2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F12FE859AEB10B0B85405EE /* MoreOptionScreen.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FBC84A5406D95666EB0F /* MoreOptionScreen.js */; };
@@ -181,6 +183,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2F12F0F86E9018349754D604 /* CircularStatus.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CircularStatus.js; sourceTree = "<group>"; };
 		2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = controlBarStyles.json; sourceTree = "<group>"; };
 		2F12F1B4D41FD66245F2C579 /* styles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = styles.json; sourceTree = "<group>"; };
 		2F12F1C82951547D598C7333 /* responsiveDesignManager.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = responsiveDesignManager.js; sourceTree = "<group>"; };
@@ -209,6 +212,7 @@
 		2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		2F12FD19D8CC600BDDB9BB01 /* moreOptionScreenStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = moreOptionScreenStyles.json; sourceTree = "<group>"; };
+		2F12FD93ED5833DE8530A46A /* CircularStatus.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = CircularStatus.json; sourceTree = "<group>"; };
 		2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOTwitterSharePlugin.h; sourceTree = "<group>"; };
 		2F12FEA4EF81B97A5641F867 /* bottomOverlayStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = bottomOverlayStyles.json; sourceTree = "<group>"; };
 		5E11732A1B5EEE3D00454C55 /* collapsingBarUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = collapsingBarUtils.js; sourceTree = "<group>"; };
@@ -336,6 +340,7 @@
 				5E1173421B5EEE3D00454C55 /* ToggleSwitch.js */,
 				5E1173431B5EEE3D00454C55 /* VolumeView.js */,
 				2F12F9A8DA5F02FF9C01A125 /* VideoViewPlayPause.js */,
+				2F12F0F86E9018349754D604 /* CircularStatus.js */,
 			);
 			path = widgets;
 			sourceTree = "<group>";
@@ -346,6 +351,7 @@
 				5E11733F1B5EEE3D00454C55 /* RectButtonStyles.json */,
 				5E1173401B5EEE3D00454C55 /* ResponsiveListStyles.json */,
 				5E1173411B5EEE3D00454C55 /* ToggleSwitchStyles.json */,
+				2F12FD93ED5833DE8530A46A /* CircularStatus.json */,
 			);
 			path = style;
 			sourceTree = "<group>";
@@ -682,6 +688,7 @@
 				2F12F6FCE8F82905441A26C1 /* languageSelectionPanelStyles.json in Resources */,
 				2F12F1FE7D04676FC26D1ED4 /* bottomOverlayStyles.json in Resources */,
 				2F12F94D0ADF0C7F33280D03 /* progressBarStyles.json in Resources */,
+				2F12F1DD13DF180E7A362A54 /* CircularStatus.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -754,6 +761,7 @@
 				2F12FB421CC2D19A1A7A21A6 /* OOReactSocialShare.m in Sources */,
 				2F12F5442930D9C3618AB601 /* OOTwitterSharePlugin.m in Sources */,
 				9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */,
+				2F12FD41817BD0322EF3E803 /* CircularStatus.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

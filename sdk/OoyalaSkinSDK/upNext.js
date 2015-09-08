@@ -13,6 +13,7 @@ var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/upNext.json'));
 var RectButton = require('./widgets/RectButton');
+var CircularStatus = require('./widgets/CircularStatus');
 
 var descriptionMinWidth = 140;
 var thumbnailWidth = 175;
@@ -38,14 +39,19 @@ var UpNext = React.createClass({
     this.props.onPress("upNextClick");
   },
 
-  isWithinShowUpNextBounds: function() {
-    if(this.props.config.upNext.timeToShow.indexOf('%', this.props.config.upNext.timeToShow.length - '%'.length) !== -1) {
-      return (parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) < (this.props.playhead / this.props.duration));
+  upNextDuration: function() {
+
+    if(this.props.config.upNext.timeToShow.indexOf('%') >= 0) {
+      return (this.props.duration - parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) * this.props.duration);
     }
     // else if we are given a number of seconds from end in which to show the upnext dialog.
     else {
-      return parseInt(this.props.config.upNext.timeToShow) > this.props.duration - this.props.playhead;
+      return parseInt(this.props.config.upNext.timeToShow);
     }
+  },
+
+  isWithinShowUpNextBounds: function() {
+    return parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;
   },
 
   render: function() {
@@ -64,7 +70,10 @@ var UpNext = React.createClass({
       );
       var upNextDescription = (
         <View style={styles.textContainer}>
-          <Text style={styles.title}>{Math.floor(this.props.duration - this.props.playhead)} Up next: {this.props.nextVideo.name}</Text>
+          <CircularStatus total={this.props.duration} current={this.props.duration - this.props.playhead}></CircularStatus>
+          <Text style={styles.title}>
+            Up next: {this.props.nextVideo.name}
+          </Text>
           <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
         </View>
       );
