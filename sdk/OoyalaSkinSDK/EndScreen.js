@@ -17,8 +17,6 @@ var WaterMark = require('./waterMark');
 var InfoPanel = require('./infoPanel');
 var SharePanel = require('./sharePanel');
 
-var AnimationExperimental = require('AnimationExperimental');
-
 var Constants = require('./constants');
 
 var {
