@@ -6,6 +6,7 @@
 
 var React = require('react-native');
 var {
+  Animated,
   Image,
   ListView,
   StyleSheet,
@@ -23,6 +24,8 @@ var itemRect;
 var thumbnailStyle;
 var columnContainerStyle;
 var widthPortrait = 375;
+var animationDuration = 1000;
+
 
 var DiscoveryPanel = React.createClass({
   propTypes: {
@@ -31,6 +34,25 @@ var DiscoveryPanel = React.createClass({
     config: React.PropTypes.object,
     width: React.PropTypes.number,
     height: React.PropTypes.number
+  },
+
+  getInitialState: function() {
+    return {
+      opacity: new Animated.Value(0)
+    };
+  },
+
+  componentDidMount:function () {
+    this.state.opacity.setValue(0);
+    Animated.parallel([
+      Animated.timing(                      
+        this.state.opacity,                 
+        {
+          toValue: 1,                         
+          duration: animationDuration,
+          delay: 0  
+        }),
+    ]).start();
   },
 
   onRowSelected: function(row) {
@@ -58,8 +80,9 @@ var DiscoveryPanel = React.createClass({
       columnContainerStyle = styles.columnContainerLandscape;
     }
     
+    var animationStyle = {opacity:this.state.opacity};
     return (
-      <View style={styles.panel}>
+      <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}
         <ResponsiveList
           horizontal={false}
@@ -70,7 +93,7 @@ var DiscoveryPanel = React.createClass({
           itemWidth={itemRect.width}
           itemHeight={itemRect.height}>
         </ResponsiveList>
-      </View>
+      </Animated.View>
     );
   },
 
