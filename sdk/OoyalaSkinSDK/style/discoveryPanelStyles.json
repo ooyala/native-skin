@@ -32,7 +32,7 @@
   },
   "thumbnailLandscape": {
     "width": 128,
-    "height": 74,
+    "height": 88,
   },
   "panel": {
     "flex": 1,
@@ -53,8 +53,8 @@
     "backgroundColor": "transparent",
     "alignItems": "center",
     "padding": 4,
-    "width": 168,
-    "height": 124,
-    "marginTop": 18
+    "width": 166,
+    "height": 134,
+    "marginTop": 20
   },
 }
