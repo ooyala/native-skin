@@ -70,16 +70,18 @@ var UpNext = React.createClass({
       );
       var upNextDescription = (
         <View style={styles.textContainer}>
-          <CircularStatus total={this.upNextDuration()} current={this.props.duration - this.props.playhead} thickness={2} diameter={26}></CircularStatus>
-          <Text style={styles.title}>
-            Up next: {this.props.nextVideo.name}
-          </Text>
+          <View style={styles.titleContainer}>
+            <CircularStatus total={this.upNextDuration()} current={this.props.duration - this.props.playhead} thickness={2} diameter={26}></CircularStatus>
+            <Text style={styles.title}>
+              Up next: {this.props.nextVideo.name}
+            </Text>
+          </View>
           <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
         </View>
       );
       var upNextDismissButton = (
         <RectButton
-          icon={"Dismiss"}
+          icon={"X"}
           onPress={this.dismissUpNext}
           style={[styles.dismissButton, {width: dismissButtonWidth}]}>
         </RectButton>
