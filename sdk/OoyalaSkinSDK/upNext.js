@@ -70,7 +70,7 @@ var UpNext = React.createClass({
       );
       var upNextDescription = (
         <View style={styles.textContainer}>
-          <CircularStatus total={this.props.duration} current={this.props.duration - this.props.playhead}></CircularStatus>
+          <CircularStatus total={this.upNextDuration()} current={this.props.duration - this.props.playhead} thickness={2} diameter={26}></CircularStatus>
           <Text style={styles.title}>
             Up next: {this.props.nextVideo.name}
           </Text>
