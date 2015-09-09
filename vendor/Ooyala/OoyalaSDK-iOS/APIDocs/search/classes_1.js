@@ -13,6 +13,7 @@ var searchData=
   ['oochannelset',['OOChannelSet',['../interface_o_o_channel_set.html',1,'']]],
   ['ooclosedcaptions',['OOClosedCaptions',['../interface_o_o_closed_captions.html',1,'']]],
   ['ooclosedcaptionsbutton',['OOClosedCaptionsButton',['../interface_o_o_closed_captions_button.html',1,'']]],
+  ['ooclosedcaptionsitem',['OOClosedCaptionsItem',['../interface_o_o_closed_captions_item.html',1,'']]],
   ['ooclosedcaptionsselectorviewcontroller',['OOClosedCaptionsSelectorViewController',['../interface_o_o_closed_captions_selector_view_controller.html',1,'']]],
   ['ooclosedcaptionsstyle',['OOClosedCaptionsStyle',['../interface_o_o_closed_captions_style.html',1,'']]],
   ['ooclosedcaptionsview',['OOClosedCaptionsView',['../interface_o_o_closed_captions_view.html',1,'']]],

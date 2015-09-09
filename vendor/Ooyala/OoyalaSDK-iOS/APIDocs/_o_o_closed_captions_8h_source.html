@@ -31,7 +31,7 @@
   <td id="projectlogo"><img alt="Logo" src="logo.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Ooyala-iOS-SDK
-   &#160;<span id="projectnumber">v4.3.1_RC2</span>
+   &#160;<span id="projectnumber">v4.4.1_RC2</span>
    </div>
    <div id="projectbrief">Ooyala iOS Software Development Kit</div>
   </td>
@@ -113,32 +113,34 @@ $(document).ready(function(){initNavTree('_o_o_closed_captions_8h_source.html','
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">@class</span> <a class="code" href="interface_o_o_caption.html">OOCaption</a>;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html">   17</a></span>&#160;<span class="keyword">@interface </span><a class="code" href="interface_o_o_closed_captions.html">OOClosedCaptions</a> : NSObject {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">@protected</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html#a87d3a1accb83b9c398d25e8d8c5da434">   19</a></span>&#160;  NSMutableArray *<a class="code" href="interface_o_o_closed_captions.html#a87d3a1accb83b9c398d25e8d8c5da434">languages</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html#ae3874a8b5b56297616670877beea173a">   20</a></span>&#160;  NSURL *<a class="code" href="interface_o_o_closed_captions.html#ae3874a8b5b56297616670877beea173a">url</a>;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html#a1e21f2ee0ba846463c54e8291a3201e7">   21</a></span>&#160;  NSString *<a class="code" href="interface_o_o_closed_captions.html#a1e21f2ee0ba846463c54e8291a3201e7">defaultLanguage</a>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">@property</span>(readonly, nonatomic, strong) NSMutableArray *languages;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">@property</span>(readonly, nonatomic, strong) NSString *defaultLanguage;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">@property</span>(readonly, nonatomic, strong) NSURL *url;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;- (id)initWithDictionary:(NSDictionary *)data;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;- (OOReturnState)updateWithDictionary:(NSDictionary *)data;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;- (BOOL)fetchClosedCaptionsInfo;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;- (NSArray *)closedCaptionsForLanguage:(NSString *)language;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html">   17</a></span>&#160;<span class="keyword">@interface </span><a class="code" href="interface_o_o_closed_captions.html">OOClosedCaptions</a> : NSObject</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html#a88c77e404434997792fc9d7027ebc9ac">   20</a></span>&#160;<span class="keyword">@property</span>(readonly, nonatomic) NSArray *<a class="code" href="interface_o_o_closed_captions.html#a88c77e404434997792fc9d7027ebc9ac">languages</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html#a18328810ecd7bc0cd21954db89025530">   22</a></span>&#160;<span class="keyword">@property</span>(readonly, nonatomic) NSString *<a class="code" href="interface_o_o_closed_captions.html#a18328810ecd7bc0cd21954db89025530">defaultLanguage</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html#a4d9a4dcb346b84d39dab29559fbdc135">   24</a></span>&#160;<span class="keyword">@property</span>(readonly, nonatomic, strong) NSURL *<a class="code" href="interface_o_o_closed_captions.html#a4d9a4dcb346b84d39dab29559fbdc135">url</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="interface_o_o_closed_captions.html#a76dbd0f5e7d0af39b5bd7e1daf37c809">   26</a></span>&#160;<span class="keyword">@property</span>(readonly, nonatomic, strong) NSDictionary *<a class="code" href="interface_o_o_closed_captions.html#a76dbd0f5e7d0af39b5bd7e1daf37c809">vttCaptions</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;- (instancetype)init __attribute__((unavailable(&quot;use initWithDictionary:&quot;)));</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;- (instancetype)initWithDictionary:(NSDictionary *)data;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;- (OOReturnState)updateWithDictionary:(NSDictionary *)data;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;- (void)updateWithVttDictionary:(NSDictionary *)data;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;- (BOOL)<a class="code" href="interface_o_o_closed_captions.html#aad15df84ef66297be54800b13d2d88a5">fetchClosedCaptionsInfo</a>;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;- (<a class="code" href="interface_o_o_caption.html">OOCaption</a> *)captionForLanguage:(NSString *)language time:(Float64)time;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">@end</span></div>
-<div class="ttc" id="interface_o_o_closed_captions_html_a87d3a1accb83b9c398d25e8d8c5da434"><div class="ttname"><a href="interface_o_o_closed_captions.html#a87d3a1accb83b9c398d25e8d8c5da434">OOClosedCaptions::languages</a></div><div class="ttdeci">NSMutableArray * languages</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:19</div></div>
-<div class="ttc" id="interface_o_o_closed_captions_html_a1e21f2ee0ba846463c54e8291a3201e7"><div class="ttname"><a href="interface_o_o_closed_captions.html#a1e21f2ee0ba846463c54e8291a3201e7">OOClosedCaptions::defaultLanguage</a></div><div class="ttdeci">NSString * defaultLanguage</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:21</div></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;- (NSArray *)closedCaptionsForLanguage:(NSString *)language;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;- (<a class="code" href="interface_o_o_caption.html">OOCaption</a> *)captionForLanguage:(NSString *)language time:(Float64)time;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keyword">@end</span></div>
+<div class="ttc" id="interface_o_o_closed_captions_html_aad15df84ef66297be54800b13d2d88a5"><div class="ttname"><a href="interface_o_o_closed_captions.html#aad15df84ef66297be54800b13d2d88a5">-[OOClosedCaptions fetchClosedCaptionsInfo]</a></div><div class="ttdeci">BOOL fetchClosedCaptionsInfo()</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.m:172</div></div>
+<div class="ttc" id="interface_o_o_closed_captions_html_a4d9a4dcb346b84d39dab29559fbdc135"><div class="ttname"><a href="interface_o_o_closed_captions.html#a4d9a4dcb346b84d39dab29559fbdc135">OOClosedCaptions::url</a></div><div class="ttdeci">NSURL * url</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:24</div></div>
+<div class="ttc" id="interface_o_o_closed_captions_html_a76dbd0f5e7d0af39b5bd7e1daf37c809"><div class="ttname"><a href="interface_o_o_closed_captions.html#a76dbd0f5e7d0af39b5bd7e1daf37c809">OOClosedCaptions::vttCaptions</a></div><div class="ttdeci">NSDictionary * vttCaptions</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:26</div></div>
+<div class="ttc" id="interface_o_o_closed_captions_html_a18328810ecd7bc0cd21954db89025530"><div class="ttname"><a href="interface_o_o_closed_captions.html#a18328810ecd7bc0cd21954db89025530">OOClosedCaptions::defaultLanguage</a></div><div class="ttdeci">NSString * defaultLanguage</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:22</div></div>
 <div class="ttc" id="interface_o_o_closed_captions_html"><div class="ttname"><a href="interface_o_o_closed_captions.html">OOClosedCaptions</a></div><div class="ttdoc">OOClosedCaptions. </div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:17</div></div>
-<div class="ttc" id="interface_o_o_closed_captions_html_ae3874a8b5b56297616670877beea173a"><div class="ttname"><a href="interface_o_o_closed_captions.html#ae3874a8b5b56297616670877beea173a">OOClosedCaptions::url</a></div><div class="ttdeci">NSURL * url</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:20</div></div>
+<div class="ttc" id="interface_o_o_closed_captions_html_a88c77e404434997792fc9d7027ebc9ac"><div class="ttname"><a href="interface_o_o_closed_captions.html#a88c77e404434997792fc9d7027ebc9ac">OOClosedCaptions::languages</a></div><div class="ttdeci">NSArray * languages</div><div class="ttdef"><b>Definition:</b> OOClosedCaptions.h:20</div></div>
 <div class="ttc" id="interface_o_o_caption_html"><div class="ttname"><a href="interface_o_o_caption.html">OOCaption</a></div><div class="ttdoc">OOCaption. </div><div class="ttdef"><b>Definition:</b> OOCaption.h:15</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -146,7 +148,7 @@ $(document).ready(function(){initNavTree('_o_o_closed_captions_8h_source.html','
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_4123bfad01389b1a97c182f1168a3731.html">OoyalaSDK</a></li><li class="navelem"><a class="el" href="dir_8ec8ce6c8ef74fabb07464308f1eb120.html">Classes</a></li><li class="navelem"><a class="el" href="dir_0e09fdea917043b611d86dc93ccc6fff.html">item</a></li><li class="navelem"><b>OOClosedCaptions.h</b></li>
-    <li class="footer">Generated on Thu Jul 30 2015 16:55:04 for Ooyala-iOS-SDK by
+    <li class="footer">Generated on Tue Sep 8 2015 16:55:08 for Ooyala-iOS-SDK by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -53,6 +53,7 @@ var searchData=
   ['ooclosedcaptions',['OOClosedCaptions',['../interface_o_o_closed_captions.html',1,'']]],
   ['ooclosedcaptions_2em',['OOClosedCaptions.m',['../_o_o_closed_captions_8m.html',1,'']]],
   ['ooclosedcaptionsbutton',['OOClosedCaptionsButton',['../interface_o_o_closed_captions_button.html',1,'']]],
+  ['ooclosedcaptionsitem',['OOClosedCaptionsItem',['../interface_o_o_closed_captions_item.html',1,'']]],
   ['ooclosedcaptionsselectorviewcontroller',['OOClosedCaptionsSelectorViewController',['../interface_o_o_closed_captions_selector_view_controller.html',1,'']]],
   ['ooclosedcaptionsstyle',['OOClosedCaptionsStyle',['../interface_o_o_closed_captions_style.html',1,'']]],
   ['ooclosedcaptionsstyle_2em',['OOClosedCaptionsStyle.m',['../_o_o_closed_captions_style_8m.html',1,'']]],

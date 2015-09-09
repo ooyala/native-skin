@@ -40,4 +40,5 @@
 - (void)hide;
 - (void)show;
 - (void)changeDoneButtonLanguage:(NSString*)language;
+- (void)updateNavigationBarHeight:(CGFloat)height;
 @end
