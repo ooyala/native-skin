@@ -8,8 +8,7 @@
     marginRight: 15
   },
   thumbnail: {
-    height: 100,
-    width: 175
+    height: 100
   },
   countdownText: {
     marginTop: 40,
@@ -21,6 +20,7 @@
   textContainer: {
     flex: 5,
     paddingTop: 15,
+    marginRight: 15,
     overflow: 'hidden'
   },
   titleContainer: {
@@ -38,6 +38,7 @@
   },
   dismissButton: {
     fontSize: 15,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginRight: 15
   }
 }

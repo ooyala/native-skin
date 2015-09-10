@@ -14,10 +14,11 @@ var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/upNext.json'));
 var RectButton = require('./widgets/RectButton');
 var CircularStatus = require('./widgets/CircularStatus');
+var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var descriptionMinWidth = 140;
 var thumbnailWidth = 175;
-var dismissButtonWidth = 80;
+var dismissButtonWidth = 10;
 
 var UpNext = React.createClass({
   propTypes: {
@@ -57,13 +58,14 @@ var UpNext = React.createClass({
   render: function() {
 
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null) {
+      var upNextWidth = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, thumbnailWidth, [0.8,1], [520]);
 
       var upNextImage = (
-      <TouchableHighlight style={[styles.thumbnailContainer, {width: thumbnailWidth}]}
+      <TouchableHighlight style={[styles.thumbnailContainer, {width: upNextWidth}]}
         onPress={this.clickUpNext}>
         <Image
           source={{uri: this.props.nextVideo.imageUrl}}
-          style={styles.thumbnail} >
+          style={[styles.thumbnail, {width: upNextWidth}]} >
           <Text style={[{fontFamily: this.props.config.icons.play.fontFamilyName, color: "white"}, styles.countdownText]}>{this.props.config.icons.play.fontString}</Text>
         </Image>
       </TouchableHighlight>
@@ -87,11 +89,12 @@ var UpNext = React.createClass({
         </RectButton>
       );
 
-      if (this.props.width < descriptionMinWidth + thumbnailWidth + dismissButtonWidth) {
+      if (this.props.width < descriptionMinWidth + upNextWidth + dismissButtonWidth) {
         return (
           <View style={styles.container}>
-          {upNextImage}
-          {upNextDismissButton}
+            {upNextImage}
+            <View style={{flex: 5}}></View>
+            {upNextDismissButton}
           </View>
         );
       }
