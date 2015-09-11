@@ -226,7 +226,8 @@ var VideoView = React.createClass({
         fontSize={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
         opacity={buttonOpacity}
         showButton={this.controlsVisible()}
-        rate={this.props.rate}>
+        rate={this.props.rate}
+        playhead={this.props.playhead}>
       </VideoViewPlayPause>);
   },
 

@@ -51,6 +51,7 @@ var OoyalaSkin = React.createClass({
       fullscreen: false,
       lastPressedTime: (new Date).getTime(),
       upNextDismissed: false,
+      showPlayButton: true,
       // things which default to null and thus don't have to be stated:
       // selectedLanguage: null,
       // availableClosedCaptionsLanguages: null,
@@ -114,6 +115,7 @@ var OoyalaSkin = React.createClass({
       case BUTTON_NAMES.RESET_AUTOHIDE:
         break;
       case BUTTON_NAMES.PLAY_PAUSE:
+        this.setState({showPlayButton: !this.state.showPlayButton});
       default:
         eventBridge.onPress({name:n});
         break;
@@ -310,12 +312,11 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderVideoView: function() {
-    var showPlayButton = this.state.rate > 0 ? false : true;
 
     return (
       <VideoView
         rate={this.state.rate}
-        showPlay={showPlayButton}
+        showPlay={this.state.showPlayButton}
         playhead={this.state.playhead}
         duration={this.state.duration}
         ad ={this.state.ad}
