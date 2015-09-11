@@ -18,6 +18,7 @@
 #import "OOVideo.h"
 #import "OOCaption.h"
 #import "OOClosedCaptions.h"
+#import "OOOoyalaPlayer+Internal.h"
 
 NSString *const TAG = @"OOOoyalaPlayerViewController";
 NSString *const OOOoyalaPlayerViewControllerFullscreenEnter = @"fullscreenEnter";
@@ -136,18 +137,18 @@ static NSDictionary *currentLocale = nil;
     fullScreenViewController = [[OOFullScreenIOS7ViewController alloc] initWithControlsType:OOOoyalaPlayerControlTypeFullScreen player:self.player overlay:_fullscreenOverlay delegate:self];
   }
 
-  [self presentModalViewController:fullScreenViewController animated:NO];
+  [self presentViewController:fullScreenViewController animated:NO completion:^(void) {
+    if( [self.player isShowingAdWithCustomControls] ) {
+      [fullScreenViewController hideControls];
+      [fullScreenViewController setIsVisible:NO];
+    }
+    else {
+      [fullScreenViewController showControls];
+      [fullScreenViewController setIsVisible:YES];
+    }
 
-  if( [self.player isShowingAdWithCustomControls] ) {
-    [fullScreenViewController hideControls];
-    [fullScreenViewController setIsVisible:NO];
-  }
-  else {
-    [fullScreenViewController showControls];
-    [fullScreenViewController setIsVisible:YES];
-  }
-
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerViewControllerFullscreenEnter object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerViewControllerFullscreenEnter object:self];
+  }];
 }
 
 - (void)loadInline {
@@ -179,8 +180,9 @@ static NSDictionary *currentLocale = nil;
 - (void) unloadFullscreen {
   fullscreenQueued = NO;
   if (self.isFullscreen) {
-    [self dismissModalViewControllerAnimated:NO];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerViewControllerFullscreenExit object:self];
+    [self dismissViewControllerAnimated:NO completion:^(void) {
+      [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerViewControllerFullscreenExit object:self];
+    }];
   }
 }
 
@@ -200,9 +202,8 @@ static NSDictionary *currentLocale = nil;
 
 - (BOOL)isFullscreen {
   return
-  self.modalViewController == self.fullScreenViewController &&
-  self.fullScreenViewController != nil &&
-  self.fullScreenViewController == self.presentedViewController;
+    self.fullScreenViewController != nil &&
+    self.fullScreenViewController == self.presentedViewController;
 }
 
 - (void)setFullscreen:(BOOL)fullscreen {
@@ -427,6 +428,7 @@ static NSDictionary *currentLocale = nil;
 - (void)dealloc {
   LOG(@"OOOoyalaPlayerViewController.dealloc %@", [self description]);
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [player destroy];
 }
 
 #pragma mark ClosedCaptions

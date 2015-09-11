@@ -11,7 +11,7 @@ var searchData=
   ['initwithapikey_3asignaturegenerator_3a',['initWithAPIKey:signatureGenerator:',['../interface_o_o_embedded_secure_u_r_l_generator.html#a95572cbe279bbb41b77164539dceca36',1,'OOEmbeddedSecureURLGenerator']]],
   ['initwithcapacity_3a',['initWithCapacity:',['../interface_o_o_ordered_dictionary.html#a8ec80860d544ee1c420fff1bba4c9502',1,'OOOrderedDictionary']]],
   ['initwithcapacity_3akeyselector_3a',['initWithCapacity:keySelector:',['../interface_o_o_ordered_dictionary.html#a19106620468cf4c62eca7ec0a71fd7fb',1,'OOOrderedDictionary']]],
-  ['initwithdictionary_3a',['initWithDictionary:',['../interface_o_o_closed_captions.html#a678e32f7c090ef352a055871c9b7208e',1,'OOClosedCaptions::initWithDictionary:()'],['../interface_o_o_user_info.html#af60f6a2548f5bb1498d391f5198727ae',1,'OOUserInfo::initWithDictionary:()']]],
+  ['initwithdictionary_3a',['initWithDictionary:',['../interface_o_o_closed_captions.html#ad02a418f15d4210cc2f2f212744567ef',1,'OOClosedCaptions::initWithDictionary:()'],['../interface_o_o_user_info.html#af60f6a2548f5bb1498d391f5198727ae',1,'OOUserInfo::initWithDictionary:()']]],
   ['initwithembedcode_3atitle_3adescription_3a',['initWithEmbedCode:title:description:',['../interface_o_o_content_item.html#aa96907c3411968b56e14fa1194a44c3a',1,'OOContentItem']]],
   ['initwithframe_3a',['initWithFrame:',['../interface_o_o_buffer_view.html#aa427b2491a17c029f85ca9d2c06cc8f0',1,'OOBufferView']]],
   ['initwithframe_3aslider_3a',['initWithFrame:slider:',['../interface_o_o_buffer_view.html#a2dcb2a7e09363a48e79247077ca3583b',1,'OOBufferView']]],

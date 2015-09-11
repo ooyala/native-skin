@@ -87,7 +87,6 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   render: function() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
@@ -117,8 +116,8 @@ var LanguageSelectionPanel = React.createClass({
           itemRender={this.renderItem}
           width={this.props.width}
           height={itemPanelHeight}
-          itemWidth={100}
-          itemHeight={65}>
+          itemWidth={160}
+          itemHeight={88}>
         </ResponsiveList>
         {previewPanel}
       </Animated.View>

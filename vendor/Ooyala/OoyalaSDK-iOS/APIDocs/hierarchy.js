@@ -26,6 +26,7 @@ var hierarchy =
     [ "OOCaption", "interface_o_o_caption.html", null ],
     [ "OOClosedCaptions", "interface_o_o_closed_captions.html", null ],
     [ "OOClosedCaptionsButton", "interface_o_o_closed_captions_button.html", null ],
+    [ "OOClosedCaptionsItem", "interface_o_o_closed_captions_item.html", null ],
     [ "OOClosedCaptionsSelectorViewController", "interface_o_o_closed_captions_selector_view_controller.html", null ],
     [ "OOClosedCaptionsStyle", "interface_o_o_closed_captions_style.html", null ],
     [ "OOClosedCaptionsView", "interface_o_o_closed_captions_view.html", null ],

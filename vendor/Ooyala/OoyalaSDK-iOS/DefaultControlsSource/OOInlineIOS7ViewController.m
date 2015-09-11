@@ -160,21 +160,15 @@
     } else if (self.controls.playButton.isPlayShowing) {
       [self.controls.playButton setIsPlayShowing:NO];
       if (self.controls.hidden == NO) {
+        [self invalidateHideControlsTimer];
         [self showControls];
-        if (self.hideControlsTimer != nil) {
-          [self.hideControlsTimer invalidate];
-          self.hideControlsTimer = nil;
-        }
       }
     }
   } else if (!self.controls.playButton.isPlayShowing) {
       [self.controls.playButton setIsPlayShowing:YES];
       if (self.controls.hidden == NO) {
+        [self invalidateHideControlsTimer];
         [self showControls];
-        if (self.hideControlsTimer != nil) {
-          [self.hideControlsTimer invalidate];
-          self.hideControlsTimer = nil;
-        }
     }
   }
 
@@ -198,10 +192,7 @@
     return;
   }
 
-  if (self.hideControlsTimer != nil) {
-    [self.hideControlsTimer invalidate];
-    self.hideControlsTimer = nil;
-  }
+  [self invalidateHideControlsTimer];
   if (self.controls == nil) return;
 
   [UIView animateWithDuration:0.37
@@ -217,22 +208,25 @@
   [self updateClosedCaptionsPosition];
 }
 
+-(void) invalidateHideControlsTimer {
+  if (self.hideControlsTimer != nil) {
+    [self.hideControlsTimer invalidate];
+    self.hideControlsTimer = nil;
+  }
+}
+
 - (void)showControls {
   if (self.player == nil || [self showingAdsWithHiddenControls]) {
     LOG(@"showControls while player is nil");
     return;
   }
   if (!self.isVisible) return;
-  if (self.hideControlsTimer != nil) {
-    [self.hideControlsTimer invalidate];
-    self.hideControlsTimer = nil;
-  }
+  [self invalidateHideControlsTimer];
   if (self.controls == nil) return;
 
   self.controls.hidden = NO;
   if (self.overlay) self.overlay.hidden = NO;
-  if (self.player.isPlaying)
-    self.hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:CONTROLS_HIDE_TIMEOUT target:self selector:@selector(hideControls) userInfo:nil repeats:NO];
+  self.hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:CONTROLS_HIDE_TIMEOUT target:self selector:@selector(hideControls) userInfo:nil repeats:NO];
 
   [UIView animateWithDuration:0.37
                    animations: ^ {
@@ -296,10 +290,7 @@
 
 - (void)dealloc {
   LOG(@"OOInlineIOS7ViewController  dealloc");
-  if (self.hideControlsTimer != nil) {
-    [self.hideControlsTimer invalidate];
-    self.hideControlsTimer = nil;
-  }
+  [self invalidateHideControlsTimer];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

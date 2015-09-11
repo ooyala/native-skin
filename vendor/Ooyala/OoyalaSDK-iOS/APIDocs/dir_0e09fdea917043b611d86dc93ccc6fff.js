@@ -13,6 +13,7 @@ var dir_0e09fdea917043b611d86dc93ccc6fff =
     [ "OOChannelSet.m", "_o_o_channel_set_8m.html", null ],
     [ "OOClosedCaptions.h", "_o_o_closed_captions_8h_source.html", null ],
     [ "OOClosedCaptions.m", "_o_o_closed_captions_8m.html", null ],
+    [ "OOClosedCaptionsItem.h", "_o_o_closed_captions_item_8h_source.html", null ],
     [ "OOClosedCaptionsStyle.h", "_o_o_closed_captions_style_8h_source.html", null ],
     [ "OOClosedCaptionsStyle.m", "_o_o_closed_captions_style_8m.html", null ],
     [ "OOContentItem.h", "_o_o_content_item_8h_source.html", null ],

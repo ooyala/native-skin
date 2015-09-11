@@ -31,8 +31,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_o_o_ad_plugin_8h_source.html",
-"functions_enum.html",
-"interface_o_o_ooyala_player_view_controller.html#a0ab3ea11ad725313c202b8ac62cec439"
+"functions_e.html",
+"interface_o_o_ooyala_player.html#afaa225f4ff9ffa17928437d33584ceb4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
