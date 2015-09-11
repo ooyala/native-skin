@@ -6,6 +6,15 @@
     "start": "node_modules/react-native/packager/packager.sh",
     "test": "jest"
   },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": ["es6", "js"],
+    "moduleFileExtensions": ["js", "json", "es6"]
+  },
+  "devDependencies": {
+    "babel-jest": "*",
+    "jest-cli": "*"
+  },
   "dependencies": {
     "react-native": "^0.10.0"
   }
