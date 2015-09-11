@@ -54,23 +54,19 @@ var BottomOverlay = React.createClass({
   getInitialState: function() {
     return {
       touch: false,
-      translateY: new Animated.Value(85),
-      opacity: new Animated.Value(0)
+      opacity: new Animated.Value(0),
+      height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT))
     };
   },
 
   componentDidUpdate: function(prevProps, prevState) {
+    if(prevProps.width != this.props.width && this.props.isShow) {
+      this.state.height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
+    }
     if(prevProps.isShow != this.props.isShow ) {
-      this.state.translateY.setValue(this.props.isShow? 85 : 0);
       this.state.opacity.setValue(this.props.isShow? 0 : 1);
+      this.state.height.setValue(this.props.isShow? 0 : ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
       Animated.parallel([
-        Animated.timing(                      
-          this.state.translateY,                 
-          {
-            toValue: this.props.isShow? 0 : 85,                         
-            duration: 500,
-            delay: 0  
-          }),
         Animated.timing(                      
           this.state.opacity,                 
           {
@@ -78,6 +74,13 @@ var BottomOverlay = React.createClass({
             duration: 500,
             delay: 0  
           }),
+        Animated.timing(
+          this.state.height,
+          {
+            toValue: this.props.isShow ? ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0,
+            duration: 500,
+            delay: 0
+          })
       ]).start();
     }
   },
@@ -165,11 +168,10 @@ var BottomOverlay = React.createClass({
   },
 
   render: function() {
-    var heightStyle = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT);
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-    var widthStyle = {width:this.props.width, transform:[{translateY:this.state.translateY},], opacity:this.state.opacity};
+    var widthStyle = {width:this.props.width, opacity:this.state.opacity};
     return (
-      <Animated.View style={[styles.container, widthStyle, {"height": heightStyle}]}
+      <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
         onTouchEnd={(event) => this.handleTouchEnd(event)}>

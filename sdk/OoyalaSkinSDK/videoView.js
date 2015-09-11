@@ -181,7 +181,10 @@ var VideoView = React.createClass({
     }
 
     return <UpNext
-      config={this.props.config.upNextScreen}
+      config={{
+        upNext: this.props.config.upNextScreen,
+        icons: this.props.config.icons
+      }}
       ad={this.props.ad}
       playhead={this.props.playhead}
       duration={this.props.duration}

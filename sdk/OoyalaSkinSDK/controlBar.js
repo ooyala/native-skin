@@ -162,7 +162,7 @@ var ControlBar = React.createClass({
         options={widgetOptions}/>);
     }
 
-    var paddingTopStyle = ResponsiveDesignManager.makeResponsiveValues(this.props.width, [0, 4, 6]);
+    var paddingTopStyle = ResponsiveDesignManager.makeResponsiveValues(this.props.width, [17, 12, 6]);
 
     var widthStyle = {width:this.props.width};
     return (
