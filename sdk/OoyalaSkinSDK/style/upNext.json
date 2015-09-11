@@ -1,37 +1,44 @@
 {
   container: {
-    padding: 15,
-    backgroundColor: 'rgba(100,100,100,0.5)',
+    backgroundColor: 'rgba(22,22,22,0.9)',
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     height: 100
   },
   thumbnailContainer: {
     marginRight: 15
   },
   thumbnail: {
-    flex: 1
+    height: 100
   },
   countdownText: {
+    marginTop: 40,
     fontWeight: 'bold',
-    fontSize: 50,
+    fontSize: 25,
     textAlign: 'center',
     color: 'white'
   },
   textContainer: {
     flex: 5,
+    paddingTop: 15,
+    marginRight: 15,
     overflow: 'hidden'
+  },
+  titleContainer: {
+    flexDirection: 'row'
   },
   title: {
     color: 'white',
     fontWeight: 'bold',
-    marginBottom: 10
+    marginTop: 6,
+    marginLeft: 10
   },
   description: {
-    color: 'white'
+    color: 'white',
+    marginTop: 15
   },
   dismissButton: {
-    fontSize: 15
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginRight: 15
   }
 }

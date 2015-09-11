@@ -181,7 +181,10 @@ var VideoView = React.createClass({
     }
 
     return <UpNext
-      config={this.props.config.upNextScreen}
+      config={{
+        upNext: this.props.config.upNextScreen,
+        icons: this.props.config.icons
+      }}
       ad={this.props.ad}
       playhead={this.props.playhead}
       duration={this.props.duration}
@@ -223,7 +226,8 @@ var VideoView = React.createClass({
         fontSize={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
         opacity={buttonOpacity}
         showButton={this.controlsVisible()}
-        rate={this.props.rate}>
+        rate={this.props.rate}
+        playhead={this.props.playhead}>
       </VideoViewPlayPause>);
   },
 
