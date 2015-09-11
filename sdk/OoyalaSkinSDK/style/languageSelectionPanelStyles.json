@@ -7,8 +7,8 @@
   },
   "item": {
     "flex": 1,
-    "width": 100,
-    "height": 65
+    "width": 160,
+    "height": 88
   },
   "panelTitleRow": {
     "height": 30,
@@ -39,24 +39,26 @@
   "button": {
     "backgroundColor": "#333333",
     "padding": 6,
-    "margin": 10,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
     "borderRadius": 5,
-    "width": 80,
-    "height": 45
+    "width": 120,
+    "height": 48
   },
   "selectedButton": {
     "backgroundColor": "#498DFC",
     "padding": 6,
-    "margin": 10,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
     "borderRadius": 5,
-    "width": 80,
-    "height": 45
+    "width": 120,
+    "height": 48
   },
   "buttonText": {
     "textAlign": "center",
     "color": "white",
     "fontSize": 16,
-    "fontFamily": "fontawesome",
+    "fontFamily": "Roboto-Regular",
     "margin": 10,
   },
   "splitter": {

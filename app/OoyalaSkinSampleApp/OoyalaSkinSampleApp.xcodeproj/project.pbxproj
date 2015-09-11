@@ -47,6 +47,7 @@
 		97930C701B6988FF009B3512 /* OoyalaIMASDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930C5C1B6988FE009B3512 /* OoyalaIMASDK.framework */; };
 		97930E271B699595009B3512 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E261B699595009B3512 /* EventKit.framework */; };
 		97930E291B6995CB009B3512 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E281B6995CB009B3512 /* WebKit.framework */; };
+		97A8459F1BA0F0AB00509AE0 /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 97A8459E1BA0F0AB00509AE0 /* Roboto-Regular.ttf */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
@@ -120,6 +121,7 @@
 		97930C5C1B6988FE009B3512 /* OoyalaIMASDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaIMASDK.framework; path = "../../../vendor/Ooyala/OoyalaIMASDK-iOS/OoyalaIMASDK.framework"; sourceTree = "<group>"; };
 		97930E261B699595009B3512 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		97930E281B6995CB009B3512 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		97A8459E1BA0F0AB00509AE0 /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -169,6 +171,7 @@
 		0B7824271B2B7EB600D718AB /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				97A8459E1BA0F0AB00509AE0 /* Roboto-Regular.ttf */,
 				970B1F9B1B97B398008046C1 /* RobotoCondensed-Regular.ttf */,
 				0B7824281B2B7EB600D718AB /* fontawesome-webfont.ttf */,
 				2F12F9F14C5661D0AE78BEC3 /* alice.ttf */,
@@ -383,6 +386,7 @@
 				0B78246B1B2FA5DA00D718AB /* SmallSkinPlayerViewTwo.xib in Resources */,
 				0B7824341B2B7EB600D718AB /* main.jsbundle in Resources */,
 				0BFFF7B21B3A201A00D72444 /* TallPlayerView.xib in Resources */,
+				97A8459F1BA0F0AB00509AE0 /* Roboto-Regular.ttf in Resources */,
 				0B7824671B2FA0BD00D718AB /* DefaultSkinPlayerView.xib in Resources */,
 				0B7824331B2B7EB600D718AB /* Info.plist in Resources */,
 				2F12FF394E8985621462AB52 /* alice.ttf in Resources */,
