@@ -18,7 +18,7 @@
   "panelTitle": {
   	"flex": 1,
   	"fontSize": 20,
-    "fontFamily":"RobotoCondensed-Regular",
+    "fontFamily": "Helvetica",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20
@@ -58,7 +58,7 @@
     "textAlign": "center",
     "color": "white",
     "fontSize": 16,
-    "fontFamily": "Roboto-Regular",
+    "fontFamily": "Helvetica",
     "margin": 10,
   },
   "splitter": {
