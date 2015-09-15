@@ -44,12 +44,12 @@ var LanguageSelectionPanel = React.createClass({
   componentDidMount:function () {
     this.state.opacity.setValue(0);
     Animated.parallel([
-      Animated.timing(                      
-        this.state.opacity,                 
+      Animated.timing(
+        this.state.opacity,
         {
-          toValue: 1,                         
+          toValue: 1,
           duration: animationDuration,
-          delay: 0  
+          delay: 0
         }),
     ]).start();
   },
@@ -78,11 +78,11 @@ var LanguageSelectionPanel = React.createClass({
 
   getPreview: function() {
     return (
-      <View style={styles.previewPanel}>
+      <Animated.View style={styles.previewPanel}>
         <View style={styles.splitter} />
         <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "CLOSE CAPTION PREVIEW", this.props.config.localizableStrings)}</Text>
         <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "Sample Text", this.props.config.localizableStrings)}</Text>
-      </View>
+      </Animated.View>
     )
   },
 
@@ -128,7 +128,7 @@ var LanguageSelectionPanel = React.createClass({
   renderItem: function(item: object, itemId: number) {
     var itemStyle = this.isSelected(item) ? styles.selectedButton : styles.button;
     return (
-      <TouchableHighlight 
+      <TouchableHighlight
         style={styles.item}
         onPress={() => this.onSelected(item)}>
         <View style={itemStyle}>
