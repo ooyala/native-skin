@@ -174,6 +174,7 @@ static NSString *kLocale = @"locale";
   NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
   NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
   NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+  NSString *hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
   NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
@@ -184,6 +185,7 @@ static NSString *kLocale = @"locale";
   @{@"title":title,
     @"description":itemDescription,
     @"promoUrl":promoUrl,
+    @"hostedAtUrl": hostedAtUrl,
     @"duration":durationNumber,
     @"live":live,
     @"languages":closedCaptionsLanguages,
