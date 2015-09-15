@@ -25,6 +25,7 @@ var ToggleSwitch = require('./widgets/ToggleSwitch');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
+var PreviewPanel = require('./languageSelectionPreview');
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
     languages: React.PropTypes.array,
@@ -42,7 +43,7 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   componentDidMount:function () {
-    this.state.opacity.setValue(0);
+    this.state.opacity.setValue(1);
     Animated.parallel([
       Animated.timing(
         this.state.opacity,
@@ -120,7 +121,9 @@ var LanguageSelectionPanel = React.createClass({
           itemWidth={100}
           itemHeight={65}>
         </ResponsiveList>
-        {previewPanel}
+        <PreviewPanel
+          config={this.props.config}>
+        </PreviewPanel>
       </Animated.View>
     );
   },

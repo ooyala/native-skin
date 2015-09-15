@@ -35,7 +35,7 @@
     "backgroundColor": "#000000",
   },
   "button": {
-    "backgroundColor": "red",
+    "backgroundColor": "#333333",
     "padding": 6,
     "margin": 10,
     "borderRadius": 5,
@@ -58,13 +58,12 @@
     "margin": 10,
   },
   "splitter": {
-    "height": 2,
+    "height": 1,
     "alignSelf": "stretch",
-    "backgroundColor": "#FF0000"
+    "backgroundColor": "#585858"
   },
   "previewPanel": {
-    "alignItems":"flex-start",
-    "height": 200
+    "alignItems":"flex-start"
   },
   "closedCaptionStyle": {
     "textAlign":"left",
