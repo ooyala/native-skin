@@ -1448,6 +1448,7 @@ rate:0,
 fullscreen:false,
 lastPressedTime:new Date().getTime(),
 upNextDismissed:false,
+showPlayButton:true,
 
 
 
@@ -1511,6 +1512,7 @@ break;
 case BUTTON_NAMES.RESET_AUTOHIDE:
 break;
 case BUTTON_NAMES.PLAY_PAUSE:
+this.setState({showPlayButton:!this.state.showPlayButton});
 default:
 eventBridge.onPress({name:n});
 break;}},
@@ -1707,12 +1709,11 @@ onSocialButtonPress:function(socialType){return _this3.onSocialButtonPress(socia
 
 
 _renderVideoView:function(){var _this4=this;
-var showPlayButton=this.state.rate > 0?false:true;
 
 return (
 React.createElement(VideoView,{
 rate:this.state.rate,
-showPlay:showPlayButton,
+showPlay:this.state.showPlayButton,
 playhead:this.state.playhead,
 duration:this.state.duration,
 ad:this.state.ad,
@@ -52440,6 +52441,8 @@ Constants.BUTTON_NAMES;
 
 
 var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/RectButtonStyles.json'));
+var PLAY="play";
+var PAUSE="pause";
 
 var VideoViewPlayPause=React.createClass({
 propTypes:{
@@ -52458,7 +52461,8 @@ style:React.PropTypes.object,
 showButton:React.PropTypes.bool,
 playing:React.PropTypes.bool,
 isStartScreen:React.PropTypes.bool,
-rate:React.PropTypes.number},
+rate:React.PropTypes.number,
+playhead:React.PropTypes.number},
 
 
 getInitialState:function(){
@@ -52472,28 +52476,58 @@ animationScale:new Animated.Value(1),
 animationOpacity:new Animated.Value(0)},
 
 widget:{
-animationOpacity:new Animated.Value(1)}};},
+animationOpacity:new Animated.Value(1)},
 
+controlPlaying:true};},
 
 
 
 componentWillMount:function(){
-if(!this.props.isStartScreen){
-this.playPauseAction("play");}},
+if(this.isInitialVideoPlay() || this.isVideoRemount(PLAY)){
+this.playPauseAction(PLAY);
+this.setState({controlPlaying:false});}
 
+if(this.isVideoRemount(PAUSE)){
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);}},
+
+
+
+isInitialVideoPlay:function(){
+return !this.props.isStartScreen && this.props.playhead == 0;},
+
+
+isVideoRemount:function(state){
+if(!this.props.isStartScreen && this.props.playhead != 0){
+if(state == PLAY){
+return !this.props.playing;}
+
+if(state == PAUSE){
+return this.props.playing;}}
+
+
+return false;},
 
 
 onPress:function(){
-if(this.props.showButton || !this.props.showButton && this.state.play.animationOpacity._value != 0){
-this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);}else 
+if(this.props.showButton){
+
+this.setState({controlPlaying:!this.state.controlPlaying});
+if(this.props.rate <= 0 != this.state.controlPlaying && !this.props.isStartScreen){
+this.playPauseAction(PAUSE);}else 
+
+{
+this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+this.playPauseAction(this.state.controlPlaying?PLAY:PAUSE);}}else 
+
 
 {
 this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);}},
 
 
 
+
 playPauseAction:function(name){
-if(name == "play"){
+if(name == PLAY){
 this.state.play.animationScale.setValue(1);
 this.state.play.animationOpacity.setValue(1);
 Animated.parallel([
@@ -52510,7 +52544,7 @@ delay:1200})]).
 
 start();}
 
-if(name == "pause"){
+if(name == PAUSE){
 this.state.pause.animationOpacity.setValue(0);
 this.state.play.animationOpacity.setValue(1);
 this.state.play.animationScale.setValue(1);}},
@@ -52518,14 +52552,13 @@ this.state.play.animationScale.setValue(1);}},
 
 
 componentDidUpdate:function(prevProps,prevState){
-if(prevProps.playing != this.props.playing || this.props.playing){
-this.playPauseAction(this.props.playing?"pause":"play");}},
+if(prevProps.playing != this.props.playing && this.props.rate <= 0 == this.state.controlPlaying){
+this.playPauseAction(this.props.playing?PAUSE:PLAY);}},
 
 
 
 _renderLoading:function(){
-console.log("PLAYING " + this.props.playing);
-if(this.props.rate == 0 && !this.props.playing){
+if((this.props.rate <= 0 || this.props.playhead == 0) && !this.props.showButton && !this.state.controlPlaying){
 return (
 React.createElement(View,{style:styles.loading},
 React.createElement(ActivityIndicatorIOS,{
@@ -52572,11 +52605,11 @@ positionStyle = styles[this.props.position];}
 var sizeStyle={width:this.props.buttonWidth,height:this.props.buttonHeight};
 var opacity={opacity:this.state.widget.animationOpacity};
 
-var playButton=this._renderButton("play");
-var pauseButton=this._renderButton("pause");
+var playButton=this._renderButton(PLAY);
+var pauseButton=this._renderButton(PAUSE);
 var loading=this._renderLoading();
 
-if(this.props.showButton || !this.props.showButton && this.state.play.animationOpacity._value != 0){
+if(this.props.showButton){
 Animated.timing(this.state.widget.animationOpacity,{
 toValue:1,
 duration:400}).
@@ -52594,10 +52627,14 @@ onPress:function(){return _this.onPress();},
 style:[positionStyle],
 underlayColor:'transparent',
 activeOpacity:this.props.opacity},
-React.createElement(Animated.View,{style:[styles.buttonArea,sizeStyle,opacity]},
+React.createElement(View,null,
+React.createElement(Animated.View,{style:[styles.buttonArea,sizeStyle,{position:'absolute'}]},
+loading),
+
+React.createElement(Animated.View,{style:[styles.buttonArea,sizeStyle,opacity,{position:'absolute'}]},
 playButton,
-pauseButton,
-loading)));}});
+pauseButton))));}});
+
 
 
 
@@ -53032,7 +53069,7 @@ widgetType:widget,
 options:widgetOptions}));}
 
 
-var paddingTopStyle=ResponsiveDesignManager.makeResponsiveValues(this.props.width,[0,4,6]);
+var paddingTopStyle=ResponsiveDesignManager.makeResponsiveValues(this.props.width,[17,12,6]);
 
 var widthStyle={width:this.props.width};
 return (
@@ -53656,7 +53693,6 @@ module.exports = ResponsiveDesignManager;
 __d('OoyalaSkin/style/controlBarStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "container": {
     "flexDirection": "row",
-    "position":"absolute",
     "marginHorizontal": 20,
     "bottom": 0,
   },
@@ -54474,8 +54510,8 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',[],function(global, require, 
 
   "dismissButtonTopRight":{
     "position": "absolute",
-    "top": 20,
-    "right": 20,
+    "top": 15,
+    "right": 15,
   },
 
   "rowCenter": {
@@ -54689,7 +54725,10 @@ return null;}
 
 
 return React.createElement(UpNext,{
-config:this.props.config.upNextScreen,
+config:{
+upNext:this.props.config.upNextScreen,
+icons:this.props.config.icons},
+
 ad:this.props.ad,
 playhead:this.props.playhead,
 duration:this.props.duration,
@@ -54731,7 +54770,8 @@ buttonHeight:UI_SIZES.VIDEOVIEW_PLAYPAUSE,
 fontSize:UI_SIZES.VIDEOVIEW_PLAYPAUSE,
 opacity:buttonOpacity,
 showButton:this.controlsVisible(),
-rate:this.props.rate}));},
+rate:this.props.rate,
+playhead:this.props.playhead}));},
 
 
 
@@ -54837,27 +54877,30 @@ config:React.PropTypes.object},
 getInitialState:function(){
 return {
 touch:false,
-translateY:new Animated.Value(85),
-opacity:new Animated.Value(0)};},
+opacity:new Animated.Value(0),
+height:new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT))};},
 
 
 
 componentDidUpdate:function(prevProps,prevState){
-if(prevProps.isShow != this.props.isShow){
-this.state.translateY.setValue(this.props.isShow?85:0);
-this.state.opacity.setValue(this.props.isShow?0:1);
-Animated.parallel([
-Animated.timing(
-this.state.translateY,
-{
-toValue:this.props.isShow?0:85,
-duration:500,
-delay:0}),
+if(prevProps.width != this.props.width && this.props.isShow){
+this.state.height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT));}
 
+if(prevProps.isShow != this.props.isShow){
+this.state.opacity.setValue(this.props.isShow?0:1);
+this.state.height.setValue(this.props.isShow?0:ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT));
+Animated.parallel([
 Animated.timing(
 this.state.opacity,
 {
 toValue:this.props.isShow?1:0,
+duration:500,
+delay:0}),
+
+Animated.timing(
+this.state.height,
+{
+toValue:this.props.isShow?ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT):0,
 duration:500,
 delay:0})]).
 
@@ -54948,11 +54991,10 @@ this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);},
 
 
 render:function(){var _this=this;
-var heightStyle=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT);
 var playedPercent=this.playedPercent(this.props.playhead,this.props.duration);
-var widthStyle={width:this.props.width,transform:[{translateY:this.state.translateY}],opacity:this.state.opacity};
+var widthStyle={width:this.props.width,opacity:this.state.opacity};
 return (
-React.createElement(Animated.View,{style:[styles.container,widthStyle,{"height":heightStyle}],
+React.createElement(Animated.View,{style:[styles.container,widthStyle,{"height":this.state.height}],
 onTouchStart:function(event){return _this.handleTouchStart(event);},
 onTouchMove:function(event){return _this.handleTouchMove(event);},
 onTouchEnd:function(event){return _this.handleTouchEnd(event);}},
@@ -55149,7 +55191,7 @@ __d('OoyalaSkin/style/adBarStyles.json',[],function(global, require, requireDyna
 }
 ;
 });
-__d('OoyalaSkin/upNext.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/upNext.json","OoyalaSkin/widgets/RectButton.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var 
+__d('OoyalaSkin/upNext.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/upNext.json","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/CircularStatus.js","OoyalaSkin/responsiveDesignManager.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var 
 React=require('react-native/Libraries/react-native/react-native.js');var 
 
 
@@ -55164,10 +55206,12 @@ var Utils=require('OoyalaSkin/utils.js');
 
 var styles=Utils.getStyles(require('OoyalaSkin/style/upNext.json'));
 var RectButton=require('OoyalaSkin/widgets/RectButton.js');
+var CircularStatus=require('OoyalaSkin/widgets/CircularStatus.js');
+var ResponsiveDesignManager=require('OoyalaSkin/responsiveDesignManager.js');
 
 var descriptionMinWidth=140;
-var thumbnailWidth=80;
-var dismissButtonWidth=80;
+var thumbnailWidth=175;
+var dismissButtonWidth=10;
 
 var UpNext=React.createClass({
 propTypes:{
@@ -55189,48 +55233,60 @@ clickUpNext:function(){
 this.props.onPress("upNextClick");},
 
 
-isWithinShowUpNextBounds:function(){
-if(this.props.config.timeToShow.indexOf('%',this.props.config.timeToShow.length - '%'.length) !== -1){
-return parseFloat(this.props.config.timeToShow.slice(0,-1) / 100) < this.props.playhead / this.props.duration;}else 
+upNextDuration:function(){
+
+if(this.props.config.upNext.timeToShow.indexOf('%') >= 0){
+return this.props.duration - parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) * this.props.duration;}else 
 
 
 {
-return parseInt(this.props.config.timeToShow) > this.props.duration - this.props.playhead;}},
+return parseInt(this.props.config.upNext.timeToShow);}},
 
+
+
+isWithinShowUpNextBounds:function(){
+return parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;},
 
 
 render:function(){
 
-if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.showUpNext && !this.props.ad && this.props.nextVideo != null){
+if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null){
+var upNextWidth=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,thumbnailWidth,[0.8,1],[520]);
 
 var upNextImage=
-React.createElement(TouchableHighlight,{style:[styles.thumbnailContainer,{width:thumbnailWidth}],
+React.createElement(TouchableHighlight,{style:[styles.thumbnailContainer,{width:upNextWidth}],
 onPress:this.clickUpNext},
 React.createElement(Image,{
 source:{uri:this.props.nextVideo.imageUrl},
-style:styles.thumbnail},
-React.createElement(Text,{style:styles.countdownText},Math.floor(this.props.duration - this.props.playhead))));
+style:[styles.thumbnail,{width:upNextWidth}]},
+React.createElement(Text,{style:[{fontFamily:this.props.config.icons.play.fontFamilyName,color:"white"},styles.countdownText]},this.props.config.icons.play.fontString)));
 
 
 
 var upNextDescription=
 React.createElement(View,{style:styles.textContainer},
-React.createElement(Text,{style:styles.title},this.props.nextVideo.name),
+React.createElement(View,{style:styles.titleContainer},
+React.createElement(CircularStatus,{total:this.upNextDuration(),current:this.props.duration - this.props.playhead,thickness:2,diameter:26}),
+React.createElement(Text,{style:styles.title},'Up next: ',
+this.props.nextVideo.name)),
+
+
 React.createElement(Text,{style:styles.description},Utils.secondsToString(this.props.nextVideo.duration)));
 
 
 var upNextDismissButton=
 React.createElement(RectButton,{
-icon:"Dismiss",
+icon:"X",
 onPress:this.dismissUpNext,
 style:[styles.dismissButton,{width:dismissButtonWidth}]});
 
 
 
-if(this.props.width < descriptionMinWidth + thumbnailWidth + dismissButtonWidth){
+if(this.props.width < descriptionMinWidth + upNextWidth + dismissButtonWidth){
 return (
 React.createElement(View,{style:styles.container},
 upNextImage,
+React.createElement(View,{style:{flex:5}}),
 upNextDismissButton));}else 
 
 
@@ -55254,42 +55310,132 @@ module.exports = UpNext;
 });
 __d('OoyalaSkin/style/upNext.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   container: {
-    padding: 15,
-    backgroundColor: 'rgba(100,100,100,0.5)',
+    backgroundColor: 'rgba(22,22,22,0.9)',
     flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
     height: 100
   },
   thumbnailContainer: {
     marginRight: 15
   },
   thumbnail: {
-    flex: 1
+    height: 100
   },
   countdownText: {
+    marginTop: 40,
     fontWeight: 'bold',
-    fontSize: 50,
+    fontSize: 25,
     textAlign: 'center',
     color: 'white'
   },
   textContainer: {
     flex: 5,
+    paddingTop: 15,
+    marginRight: 15,
     overflow: 'hidden'
+  },
+  titleContainer: {
+    flexDirection: 'row'
   },
   title: {
     color: 'white',
     fontWeight: 'bold',
-    marginBottom: 10
+    marginTop: 6,
+    marginLeft: 10
   },
   description: {
-    color: 'white'
+    color: 'white',
+    marginTop: 15
   },
   dismissButton: {
-    fontSize: 15
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginRight: 15
   }
 }
 ;
+});
+__d('OoyalaSkin/widgets/CircularStatus.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/CircularStatus.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var 
+
+
+
+React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;var TouchableHighlight=React.TouchableHighlight;
+
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/CircularStatus.json'));
+
+var CircularStatus=React.createClass({
+propTypes:{
+current:React.PropTypes.number,
+total:React.PropTypes.number,
+diameter:React.PropTypes.number,
+thickness:React.PropTypes.number},
+
+
+render:function(){
+
+var edges=this.props.diameter;
+var segment_length=this.props.diameter * Math.PI * 1.1 / edges;
+var circleSegments=[];
+var segmentangle=-360 / edges * (Math.PI / 180);
+var radius=this.props.diameter / 2;
+var progress=this.props.current / this.props.total * edges;
+
+for(var i=0;i < edges;i++) {
+var radians=i * segmentangle + Math.PI / 2;
+var color=progress < i?"gray":"white";
+circleSegments.push(
+React.createElement(View,{style:{
+"position":"absolute",
+"top":-Math.sin(radians) * radius + radius,
+"left":-Math.cos(radians) * radius + radius,
+"height":this.props.thickness,
+"width":segment_length,
+"backgroundColor":color,
+"transform":[{
+"rotate":radians + Math.PI / 2 + "rad"}]}}));}
+
+
+
+
+
+return React.createElement(View,{style:{
+"height":this.props.diameter,
+"width":this.props.diameter}},
+
+circleSegments,
+React.createElement(Text,{style:{
+"color":"white",
+"position":"absolute",
+"top":this.props.diameter / 4,
+"right":this.props.diameter / 4,
+"fontSize":this.props.diameter / 2}},
+
+Math.floor(this.props.current)));}});
+
+
+
+
+
+module.exports = CircularStatus;
+});
+__d('OoyalaSkin/widgets/style/CircularStatus.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
+  "circle": {
+    "height": 28,
+    "width": 28,
+    //"borderRadius": 14,
+    "backgroundColor": "white",
+    "transform": [
+      {
+        "rotate": "45deg"
+      }
+    ]
+  }
+};
 });
 __d('OoyalaSkin/style/videoViewStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "fullscreenContainer": {
@@ -55424,7 +55570,6 @@ React.createElement(Text,{style:styles.panelTitle},Utils.localizedString(this.pr
 
 React.createElement(ToggleSwitch,{
 switchOn:hasCC,
-style:styles.toggleSwitch,
 onValueChanged:function(value){return _this.onSwitchToggled(value);},
 switchOnText:Utils.localizedString(this.props.config.locale,"On",this.props.config.localizableStrings),
 switchOffText:Utils.localizedString(this.props.config.locale,"Off",this.props.config.localizableStrings),
@@ -55436,8 +55581,8 @@ data:this.props.languages,
 itemRender:this.renderItem,
 width:this.props.width,
 height:itemPanelHeight,
-itemWidth:160,
-itemHeight:90}),
+itemWidth:100,
+itemHeight:65}),
 
 previewPanel));},
 
@@ -55543,7 +55688,6 @@ __d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, requi
 });
 __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "panelContainer": {
-    "marginTop": 50,
     "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch",
@@ -55558,13 +55702,9 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
     "flexDirection": "row",
     "alignItems": "center",
   },
-  "toggleSwitch": {
-    "marginLeft":20
-  },
   "panelTitle": {
   	"flex": 1,
   	"fontSize": 20,
-    "fontFamily":"RobotoCondensed-Regular",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20
@@ -55585,26 +55725,24 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
   "button": {
     "backgroundColor": "#333333",
     "padding": 6,
-    "marginVertical": 30,
-    "marginHorizontal": 20,
+    "margin": 10,
     "borderRadius": 5,
-    "width": 120,
-    "height": 48
+    "width": 80,
+    "height": 45
   },
   "selectedButton": {
     "backgroundColor": "#498DFC",
     "padding": 6,
-    "marginVertical": 30,
-    "marginHorizontal": 20,
+    "margin": 10,
     "borderRadius": 5,
-    "width": 120,
-    "height": 48
+    "width": 80,
+    "height": 45
   },
   "buttonText": {
     "textAlign": "center",
     "color": "white",
     "fontSize": 16,
-    "fontFamily": "RobotoCondensed-Regular",
+    "fontFamily": "fontawesome",
     "margin": 10,
   },
   "splitter": {
