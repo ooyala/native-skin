@@ -13,28 +13,40 @@ var styles = Utils.getStyles(require('./style/languageSelectionPanelStyles.json'
 var LanguageSelectionPreview = React.createClass({
   propTypes: {
     height: React.PropTypes.number,
-    config: React.PropTypes.object
+    config: React.PropTypes.object,
+    isVisible: React.PropTypes.bool
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       height: new Animated.Value(0)
     };
   },
 
-  _getStyle: function() {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.isVisible != this.props.isVisible) {
+      this.state.height.setValue(this.props.isVisible ? 0 : this.props.height);
+      Animated.timing(this.state.height, {
+        toValue: this.props.isVisible ? this.props.height : 0,
+        duration: 300,
+        delay: 0
+      }).start();
+    }
+  },
+
+  _getStyle() {
     return [
       styles.previewPanel,
       {
-        'height': 60
+        'height': this.state.height
       }
     ];
   },
 
-  render: function() {
+  render() {
     return (
       <Animated.View style={this._getStyle()}>
-        <View style={styles.splitter} />
+      <View style={styles.splitter} />
         <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, 'CLOSE CAPTION PREVIEW', this.props.config.localizableStrings)}</Text>
         <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, 'Sample Text', this.props.config.localizableStrings)}</Text>
       </Animated.View>

@@ -122,6 +122,8 @@ var LanguageSelectionPanel = React.createClass({
           itemHeight={65}>
         </ResponsiveList>
         <PreviewPanel
+          isVisible={hasCC}
+          height={60}
           config={this.props.config}>
         </PreviewPanel>
       </Animated.View>
