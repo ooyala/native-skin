@@ -4,7 +4,7 @@ UI_SIZES = {
   CONTROLBAR_HEIGHT: 75,
   CONTROLBAR_ICONSIZE: 20,
   CONTROLBAR_LABELSIZE: 16,
-  CC_PREVIEW_HEIGHT: 100
+  CC_PREVIEW_HEIGHT: 60
 };
 
 var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
