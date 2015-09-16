@@ -63,7 +63,8 @@
     "backgroundColor": "#585858"
   },
   "previewPanel": {
-    "alignItems":"flex-start"
+    "alignItems":"flex-start",
+    "height": 100
   },
   "closedCaptionStyle": {
     "textAlign":"left",
