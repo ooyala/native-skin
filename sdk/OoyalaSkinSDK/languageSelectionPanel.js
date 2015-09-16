@@ -25,7 +25,7 @@ var ToggleSwitch = require('./widgets/ToggleSwitch');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
-var PreviewPanel = require('./languageSelectionPreview');
+var PreviewWidget = require('./languageSelectionPreview');
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
     languages: React.PropTypes.array,
@@ -87,6 +87,7 @@ var LanguageSelectionPanel = React.createClass({
     // screen height - title - toggle switch - preview - option bar
     var itemPanelHeight = this.props.height  - 30 - 30 - 60;
     var animationStyle = {opacity:this.state.opacity};
+
     return (
       <Animated.View style={[styles.panelContainer, animationStyle]}>
         <View style={styles.panelTitleRow}>
@@ -108,11 +109,10 @@ var LanguageSelectionPanel = React.createClass({
           itemWidth={100}
           itemHeight={65}>
         </ResponsiveList>
-        <PreviewPanel
+        <PreviewWidget
           isVisible={hasCC}
-          height={60}
           config={this.props.config}>
-        </PreviewPanel>
+        </PreviewWidget>
       </Animated.View>
     );
   },
