@@ -77,26 +77,13 @@ var LanguageSelectionPanel = React.createClass({
     // ignore.
   },
 
-  getPreview: function() {
-    return (
-      <Animated.View style={styles.previewPanel}>
-        <View style={styles.splitter} />
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "CLOSE CAPTION PREVIEW", this.props.config.localizableStrings)}</Text>
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "Sample Text", this.props.config.localizableStrings)}</Text>
-      </Animated.View>
-    )
-  },
-
   render: function() {
     var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
     }
-    var previewPanel;
-    if (hasCC) {
-      previewPanel = this.getPreview();
-    }
+
     // screen height - title - toggle switch - preview - option bar
     var itemPanelHeight = this.props.height  - 30 - 30 - 60;
     var animationStyle = {opacity:this.state.opacity};
