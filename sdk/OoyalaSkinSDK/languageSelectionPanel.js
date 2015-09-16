@@ -43,7 +43,7 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   componentDidMount:function () {
-    this.state.opacity.setValue(1);
+    this.state.opacity.setValue(0);
     Animated.parallel([
       Animated.timing(
         this.state.opacity,
