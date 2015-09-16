@@ -10,9 +10,13 @@ var {
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/languageSelectionPanelStyles.json'));
 
+var Constants = require('./constants');
+var {
+  UI_SIZES
+} = Constants;
+
 var LanguageSelectionPreview = React.createClass({
   propTypes: {
-    height: React.PropTypes.number,
     config: React.PropTypes.object,
     isVisible: React.PropTypes.bool
   },
@@ -25,9 +29,9 @@ var LanguageSelectionPreview = React.createClass({
 
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.isVisible != this.props.isVisible) {
-      this.state.height.setValue(this.props.isVisible ? 0 : this.props.height);
+      this.state.height.setValue(this.props.isVisible ? 0 : UI_SIZES.CC_PREVIEW_HEIGHT);
       Animated.timing(this.state.height, {
-        toValue: this.props.isVisible ? this.props.height : 0,
+        toValue: this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT : 0,
         duration: 300,
         delay: 0
       }).start();
