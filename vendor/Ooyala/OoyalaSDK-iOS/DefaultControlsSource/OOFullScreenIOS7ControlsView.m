@@ -364,4 +364,10 @@
   }
   return NO;
 }
+
+- (void)updateNavigationBarHeight:(CGFloat)height {
+  [_topBarBackground setFrame:CGRectMake(0, 0, self.bounds.size.width, _barSize + height)];
+  [_navigationBar setFrame:CGRectMake(0, height, self.bounds.size.width, _barSize)];
+}
+
 @end

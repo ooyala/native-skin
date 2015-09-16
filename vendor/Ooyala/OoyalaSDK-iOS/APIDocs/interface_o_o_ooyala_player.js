@@ -8,6 +8,7 @@ var interface_o_o_ooyala_player =
     [ "changeCurrentItemToVideo:", "interface_o_o_ooyala_player.html#acba0a5b3cbcb2cd091ee8f65b9efa33c", null ],
     [ "clickAd", "interface_o_o_ooyala_player.html#aeeb8568e0a6cd96f63d53d46fabe3d3a", null ],
     [ "createStateNotifier", "interface_o_o_ooyala_player.html#a684af5b2959edf316efb2140894a0c01", null ],
+    [ "destroy", "interface_o_o_ooyala_player.html#a7f19d618bc6786c5887247a08b0d74b2", null ],
     [ "duration", "interface_o_o_ooyala_player.html#a7eb8ee02df57cb615e9ec8c58219bde0", null ],
     [ "encryptedLoopback", "interface_o_o_ooyala_player.html#a81e3cd37bdb048dbf03734032bc4dc2f", null ],
     [ "getCuePointsAtSecondsForCurrentPlayer", "interface_o_o_ooyala_player.html#a202f5692aabeafddcdc9cae533c15480", null ],

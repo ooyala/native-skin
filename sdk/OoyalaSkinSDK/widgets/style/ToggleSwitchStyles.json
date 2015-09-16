@@ -3,6 +3,7 @@
     "height": 30,
     "flexDirection": "row",
     "alignItems": "center",
+    "marginLeft": 16,
   },
   "grayedText": {
     "textAlign": "center",

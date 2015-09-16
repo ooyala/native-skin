@@ -147,15 +147,12 @@
   }
   if (!self.isVisible) return;
   isStatusBarHidden = NO;
-
   [self invalidateHideControlsTimer];
-
   if (self.controls == nil) return;
 
   self.controls.hidden = NO;
   if (self.overlay) self.overlay.hidden = NO;
-  if (self.player.isPlaying)
-    self.hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:CONTROLS_HIDE_TIMEOUT target:self selector:@selector(hideControls) userInfo:nil repeats:NO];
+  self.hideControlsTimer = [NSTimer scheduledTimerWithTimeInterval:CONTROLS_HIDE_TIMEOUT target:self selector:@selector(hideControls) userInfo:nil repeats:NO];
 
   [UIView animateWithDuration:0.37
                    animations: ^ {
@@ -308,6 +305,17 @@
 // Reopen popover if it was visiable before rotation
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[self.delegate didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+  
+  CGFloat newHeight;
+  if(UIInterfaceOrientationIsPortrait(fromInterfaceOrientation)){
+    newHeight = [UIApplication sharedApplication].statusBarHidden? 0:20;
+    [self.controls updateNavigationBarHeight:newHeight];
+  }
+  else if(UIInterfaceOrientationIsLandscape(fromInterfaceOrientation)){
+    newHeight = [UIApplication sharedApplication].statusBarHidden? 0:20;
+    [self.controls updateNavigationBarHeight:newHeight];
+  }
+
 }
 
 - (void)updateBottomHeight {

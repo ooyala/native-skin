@@ -14,6 +14,7 @@ var annotated =
     [ "OOChannelSet", "interface_o_o_channel_set.html", "interface_o_o_channel_set" ],
     [ "OOClosedCaptions", "interface_o_o_closed_captions.html", "interface_o_o_closed_captions" ],
     [ "OOClosedCaptionsButton", "interface_o_o_closed_captions_button.html", "interface_o_o_closed_captions_button" ],
+    [ "OOClosedCaptionsItem", "interface_o_o_closed_captions_item.html", null ],
     [ "OOClosedCaptionsSelectorViewController", "interface_o_o_closed_captions_selector_view_controller.html", "interface_o_o_closed_captions_selector_view_controller" ],
     [ "OOClosedCaptionsStyle", "interface_o_o_closed_captions_style.html", "interface_o_o_closed_captions_style" ],
     [ "OOClosedCaptionsView", "interface_o_o_closed_captions_view.html", null ],

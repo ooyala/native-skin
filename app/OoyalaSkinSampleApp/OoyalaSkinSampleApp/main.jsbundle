@@ -26972,10 +26972,22 @@ var _requestAnimationFrame=setter(GLOBAL.requestAnimationFrame,_cancelAnimationF
 
 var TimerMixin={
 componentWillUnmount:function(){
-this[_timeouts] && this[_timeouts].forEach(this.clearTimeout);
-this[_intervals] && this[_intervals].forEach(this.clearInterval);
-this[_immediates] && this[_immediates].forEach(this.clearImmediate);
-this[_rafs] && this[_rafs].forEach(this.cancelAnimationFrame);},
+this[_timeouts] && this[_timeouts].forEach(function(id){
+GLOBAL.clearTimeout(id);});
+
+this[_timeouts] = null;
+this[_intervals] && this[_intervals].forEach(function(id){
+GLOBAL.clearInterval(id);});
+
+this[_intervals] = null;
+this[_immediates] && this[_immediates].forEach(function(id){
+GLOBAL.clearImmediate(id);});
+
+this[_immediates] = null;
+this[_rafs] && this[_rafs].forEach(function(id){
+GLOBAL.cancelAnimationFrame(id);});
+
+this[_rafs] = null;},
 
 
 setTimeout:_setTimeout,
@@ -54091,7 +54103,7 @@ React.createElement(Text,{style:[styles.panelTitleText,this.props.config.titleFo
 
 module.exports = DiscoveryPanel;
 });
-__d('OoyalaSkin/widgets/ResponsiveList.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/gradientView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/ResponsiveListStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+__d('OoyalaSkin/widgets/ResponsiveList.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/ResponsiveListStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
 
 StyleSheet=
 
@@ -54099,7 +54111,6 @@ StyleSheet=
 
 React.StyleSheet;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ScrollView=React.ScrollView;
 
-var GradientView=require('OoyalaSkin/gradientView.js');
 var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/ResponsiveListStyles.json'));
 var placeHolderItem="ResponsiveListPlaceHolder";
 var ResponsiveList=React.createClass({
@@ -54146,11 +54157,6 @@ render:function(){
 var slices=this.getSlices();
 var listBound=this.props.horizontal?this.props.width:this.props.height;
 var itemBound=this.props.horizontal?this.props.itemWidth:this.props.itemHeight;
-var gradientView;
-console.log("numberOfSlices" + slices.length + "listBound" + listBound + "itemBound" + itemBound);
-if(slices.length * itemBound > listBound){
-gradientView = React.createElement(GradientView,{style:{position:"absolute",width:this.props.width,height:this.props.height}});}
-
 
 return (
 React.createElement(View,{style:{flex:1}},
@@ -54159,9 +54165,8 @@ style:{position:"absolute",width:this.props.width,height:this.props.height},
 horizontal:this.props.horizontal,
 directionalLockEnabled:true,
 showsHorizontalScrollIndicator:false},
-slices.map(this.renderSlice)),
+slices.map(this.renderSlice))));},
 
-gradientView));},
 
 
 
@@ -54176,7 +54181,7 @@ slice.map(this.renderItem));},
 
 renderItem:function(item,i){
 var placeHolderStyle=
-{backgroundColor:"transparent",width:this.props.itemWidth,height:this.props.itemHeight};
+{flex:1,backgroundColor:"transparent",width:this.props.itemWidth,height:this.props.itemHeight};
 if(item === placeHolderItem){
 return React.createElement(View,{style:placeHolderStyle});}else 
 {
@@ -54186,23 +54191,6 @@ return this.props.itemRender(item,i);}}});
 
 
 module.exports = ResponsiveList;
-});
-__d('OoyalaSkin/gradientView.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}
-
-var React=require('react-native/Libraries/react-native/react-native.js');var 
-
-requireNativeComponent=
-React.requireNativeComponent;var 
-
-GradientView=(function(_React$Component){_inherits(GradientView,_React$Component);function GradientView(){_classCallCheck(this,GradientView);_get(Object.getPrototypeOf(GradientView.prototype),'constructor',this).apply(this,arguments);}_createClass(GradientView,[{key:'render',value:
-function render(){
-return React.createElement(OOGradientView,_extends({},this.props,{pointerEvents:'none'}));}}]);return GradientView;})(React.Component);
-
-
-
-GradientView.propTypes = {};
-var OOGradientView=requireNativeComponent('OOGradientView',GradientView);
-module.exports = GradientView;
 });
 __d('OoyalaSkin/widgets/style/ResponsiveListStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "row": {  
@@ -54510,8 +54498,8 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',[],function(global, require, 
 
   "dismissButtonTopRight":{
     "position": "absolute",
-    "top": 15,
-    "right": 15,
+    "top": 20,
+    "right": 20,
   },
 
   "rowCenter": {
@@ -55551,7 +55539,6 @@ React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.pr
 
 
 render:function(){var _this=this;
-var ds=new ListView.DataSource({rowHasChanged:function(r1,r2){return r1 !== r2;}});
 var hasCC=false;
 if(this.props.selectedLanguage && this.props.selectedLanguage !== ''){
 hasCC = true;}
@@ -55581,8 +55568,8 @@ data:this.props.languages,
 itemRender:this.renderItem,
 width:this.props.width,
 height:itemPanelHeight,
-itemWidth:100,
-itemHeight:65}),
+itemWidth:160,
+itemHeight:88}),
 
 previewPanel));},
 
@@ -55665,6 +55652,7 @@ __d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, requi
     "height": 30,
     "flexDirection": "row",
     "alignItems": "center",
+    "marginLeft": 16,
   },
   "grayedText": {
     "textAlign": "center",
@@ -55688,14 +55676,15 @@ __d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, requi
 });
 __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "panelContainer": {
+    "marginTop": 50,
     "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch",
   },
   "item": {
     "flex": 1,
-    "width": 100,
-    "height": 65
+    "width": 160,
+    "height": 88
   },
   "panelTitleRow": {
     "height": 30,
@@ -55705,6 +55694,7 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
   "panelTitle": {
   	"flex": 1,
   	"fontSize": 20,
+    "fontFamily": "Helvetica",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20
@@ -55725,24 +55715,26 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
   "button": {
     "backgroundColor": "#333333",
     "padding": 6,
-    "margin": 10,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
     "borderRadius": 5,
-    "width": 80,
-    "height": 45
+    "width": 120,
+    "height": 48
   },
   "selectedButton": {
     "backgroundColor": "#498DFC",
     "padding": 6,
-    "margin": 10,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
     "borderRadius": 5,
-    "width": 80,
-    "height": 45
+    "width": 120,
+    "height": 48
   },
   "buttonText": {
     "textAlign": "center",
     "color": "white",
     "fontSize": 16,
-    "fontFamily": "fontawesome",
+    "fontFamily": "Helvetica",
     "margin": 10,
   },
   "splitter": {
