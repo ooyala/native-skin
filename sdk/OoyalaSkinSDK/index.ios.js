@@ -379,6 +379,10 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderDiscoveryPanel: function() {
+    if (!this.state.discoveryResults) {
+      return null;
+    }
+    
     return (
       <DiscoveryPanel
         config={this.props.discoveryScreen}
