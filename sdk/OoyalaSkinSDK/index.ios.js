@@ -45,6 +45,7 @@ var OoyalaSkin = React.createClass({
       title: '',
       description: '',
       promoUrl: '', 
+      hostedAtUrl: '',
       playhead: 0,
       duration: 1,
       rate: 0,
@@ -68,7 +69,7 @@ var OoyalaSkin = React.createClass({
     OOSocialShare.onSocialButtonPress({
         'socialType': socialType,
         'text':this.state.title,
-        'link':'https://www.ooyala.com',
+        'link':this.state.hostedAtUrl,
       },
       (results) => {
         console.log(results);
@@ -179,6 +180,7 @@ var OoyalaSkin = React.createClass({
       duration:e.duration, 
       live:e.live,
       promoUrl:e.promoUrl, 
+      hostedAtUrl: e.hostedAtUrl,
       width:e.width, 
       height:e.height});
     if (!this.state.autoPlay) {
