@@ -66,10 +66,6 @@ var VideoView = React.createClass({
     locale: React.PropTypes.string
   },
 
-  shouldShowDiscovery: function() {
-    return this.state.showDiscoveryPanel && this.props.discovery;
-  },
-
   generateLiveObject: function() {
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
