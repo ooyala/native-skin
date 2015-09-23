@@ -4,12 +4,14 @@ var {
 	StyleSheet,
   Text,
   View,
+  ListView,
   Image,
   TouchableHighlight,
 } = React;
 
 var Utils = require('./utils');
 
+var ResponsiveList = require('./widgets/ResponsiveList');
 var styles = Utils.getStyles(require('./style/sharePanelStyles.json'));
 var animationDuration = 1000;
 
@@ -17,6 +19,8 @@ var SharePanel = React.createClass ({
 	propTypes: {
 		socialButtons: React.PropTypes.array,
 		onSocialButtonPress: React.PropTypes.func,
+		width: React.PropTypes.number,
+    height: React.PropTypes.number,
 	},
 
 	getInitialState: function() {
@@ -75,18 +79,36 @@ var SharePanel = React.createClass ({
 			socialButtons.push(socialButton);
 		}
 		var animationStyle = {opacity:this.state.opacity};
+		// screen height - title
+		var itemPanelHeight = this.props.height  - 30;
 		return (
-		<Animated.View style={styles.container, animationStyle}>
-
-			<View style={styles.sharePanelNW}>
-				<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
-
-				<View style={styles.sharePanelButtonRow}>
-					{socialButtons}
-				</View>
+		<Animated.View style={[styles.container, animationStyle]}>
+			<View style={styles.sharePanelTitleRow}>
+				<Text style={styles.sharePanelTitle}>{"Social"}</Text>
 			</View>
+			<ResponsiveList
+          horizontal={false}
+          data={socialButtons}
+          itemRender={this.renderItem}
+          width={this.props.width}
+          height={itemPanelHeight}
+          itemWidth={90}
+          itemHeight={54}>
+      </ResponsiveList>
 		</Animated.View>);
-	}
+	},
+
+	renderItem: function(item: object, itemId: number) {
+		return (
+      <TouchableHighlight 
+        style={styles.item}
+        onPress={() => this.onSocialButtonPress(item)}>
+        <View style = {styles.socialButton}>
+        	{item}
+        </View>
+      </TouchableHighlight>
+    );
+	},
 });
 
 module.exports = SharePanel;

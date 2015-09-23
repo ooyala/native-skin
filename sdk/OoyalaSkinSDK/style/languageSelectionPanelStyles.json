@@ -19,6 +19,7 @@
   	"flex": 1,
   	"fontSize": 20,
     "fontFamily": "Helvetica",
+    "fontWeight": "bold",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20

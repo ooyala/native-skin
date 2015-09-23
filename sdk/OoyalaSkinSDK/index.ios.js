@@ -377,7 +377,9 @@ var OoyalaSkin = React.createClass({
     return (
       <SharePanel
         socialButtons={this.props.sharing}
-        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>);
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+        width={this.state.width}
+        height={this.state.height}/>);
   },
 
   _renderDiscoveryPanel: function() {
