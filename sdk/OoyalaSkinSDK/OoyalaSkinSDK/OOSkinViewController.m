@@ -144,6 +144,7 @@ static NSString *kLocale = @"locale";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
   }
 }
 
@@ -200,6 +201,16 @@ static NSString *kLocale = @"locale";
 - (void) bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
   NSDictionary *eventBody = @{@"state":stateString};
+
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeErrorNotification:(NSNotification *)notification {
+  OOOoyalaError *error = _player.error;
+  int errorCode = error ? error.code : -1;
+  NSNumber *code = [NSNumber numberWithInt:errorCode];
+  NSString *detail = _player.error.description ? _player.error.description : @"";
+  NSDictionary *eventBody = @{@"code":code,@"description":detail};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
