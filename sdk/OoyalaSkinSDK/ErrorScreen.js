@@ -22,7 +22,7 @@ var ErrorScreen = React.createClass({
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
     }
-    var title = Utils.stringForErrorCode(errorCode);
+    var title = Utils.stringForErrorCode(errorCode).toUpperCase();
     var localizedTitle = 
       Utils.localizedString(this.props.locale, title, this.props.localizableStrings);
 
@@ -36,6 +36,7 @@ var ErrorScreen = React.createClass({
     if (this.props.error && this.props.error.description) {
       var localizedDescription = 
         Utils.localizedString(this.props.locale, this.props.error.description, this.props.localizableStrings);
+      console.log("localized desc:"+ localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription} 
@@ -44,14 +45,15 @@ var ErrorScreen = React.createClass({
     return null; 
   },
 
-  render: function() {  
+  render: function() {
     var title = this.getTitle();
     var description = this.getDescription();
-
     return (
       <View style={styles.container}>
-        {title}
-        {description}
+        <View style={styles.wrapper}>
+          {title}
+          {description}
+        </View>
       </View>
     );
   },

@@ -413,4 +413,14 @@ static NSString *kLocale = @"locale";
   return OO_SKIN_VERSION;
 }
 
+- (void)queryState {
+  if (_player.state == OOOoyalaPlayerStateError) {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerErrorNotification object:nil];
+    [self bridgeErrorNotification:notification];
+  } else {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
+    [self bridgeStateChangedNotification:notification];
+  }
+}
+
 @end

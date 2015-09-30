@@ -80,7 +80,7 @@ var Utils = {
     return stringId;
   },
 
-  stringForErrorCode: function(int errorCode) {
+  stringForErrorCode: function(errorCode: int) {
     switch (errorCode) {
       case 0:
         return "Authorization Failed";

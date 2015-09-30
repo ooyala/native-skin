@@ -156,6 +156,10 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   }
 }
 
+RCT_EXPORT_METHOD(queryState) {
+  [sharedController queryState];
+}
+
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
   NSLog(@"sendDeviceEventWithName: %@", eventName);
   [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
