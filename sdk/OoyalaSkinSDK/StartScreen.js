@@ -20,6 +20,7 @@ var {
 
 var RectButton = require('./widgets/RectButton');
 var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
+var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var StartScreen = React.createClass({
   propTypes: {
@@ -38,6 +39,8 @@ var StartScreen = React.createClass({
 
   // Gets the play button based on the current config settings
   getPlayButton: function() {
+    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+
     if(this.props.config.startScreen.showPlayButton) {
       return (
         <VideoViewPlayPause
@@ -56,9 +59,9 @@ var StartScreen = React.createClass({
           buttonStyle={this.props.config.startScreen.playIconStyle}
           frameWidth={this.props.width}
           frameHeight={this.props.height}
-          buttonWidth={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
-          buttonHeight={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
-          fontSize={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
+          buttonWidth={iconFontSize}
+          buttonHeight={iconFontSize}
+          fontSize={iconFontSize}
           playing={false}
           showButton={true}
           isStartScreen={true}>
