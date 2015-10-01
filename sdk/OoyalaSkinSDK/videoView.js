@@ -256,22 +256,22 @@ var VideoView = React.createClass({
     var adBar = null;
     if (this.props.ad) {
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null; 
-    } 
-    if(this.props.config.adScreen.showControlBar == false) {
-      return adBar;
-    }else {
-      return (
-        <View
-          style={styles.container}>
-          {adBar}
-          {this._renderPlaceholder()}
-          {this._renderClosedCaptions()}
-          {this._renderPlayPause()}
-          {this._renderUpNext()}
-          {this._renderBottomOverlay()}
-        </View>
-      );
-    }  
+      if(this.props.config.adScreen.showControlBar == false) {
+        return adBar;
+      }
+    }
+    return (
+      <View
+        style={styles.container}>
+        {adBar}
+        {this._renderPlaceholder()}
+        {this._renderClosedCaptions()}
+        {this._renderPlayPause()}
+        {this._renderUpNext()}
+        {this._renderBottomOverlay()}
+      </View>
+    );
+      
   }
 });
 
