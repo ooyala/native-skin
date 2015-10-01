@@ -338,7 +338,8 @@ var OoyalaSkin = React.createClass({
           controlBar: this.props.controlBar,
           buttons: this.props.buttons.mobileContent,
           upNextScreen: this.props.upNextScreen,
-          icons: this.props.icons
+          icons: this.props.icons,
+          adScreen: this.props.adScreen
         }}
         nextVideo={this.state.nextVideo}
         upNextDismissed={this.state.upNextDismissed}

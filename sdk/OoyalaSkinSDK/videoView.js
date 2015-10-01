@@ -253,13 +253,17 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-
+    var adBar = null;
     if (this.props.ad) {
-      return this.props.ad.requireAdBar ? this._renderAdBar() : null;
-    } else {
+      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null; 
+    } 
+    if(this.props.config.adScreen.showControlBar == false) {
+      return adBar;
+    }else {
       return (
         <View
           style={styles.container}>
+          {adBar}
           {this._renderPlaceholder()}
           {this._renderClosedCaptions()}
           {this._renderPlayPause()}
@@ -267,7 +271,7 @@ var VideoView = React.createClass({
           {this._renderBottomOverlay()}
         </View>
       );
-    }
+    }  
   }
 });
 
