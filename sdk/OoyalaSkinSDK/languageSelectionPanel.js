@@ -18,7 +18,7 @@ var {
 var animationDuration = 1000;
 var Constants = require('./constants');
 var {
-  ICONS,
+  ICONS
 } = Constants;
 
 var ToggleSwitch = require('./widgets/ToggleSwitch');
@@ -85,7 +85,7 @@ var LanguageSelectionPanel = React.createClass({
     }
 
     // screen height - title - toggle switch - preview - option bar
-    var itemPanelHeight = this.props.height  - 30 - 30 - 60;
+    var itemPanelHeight = this.props.height  - 30 - 30;
     var animationStyle = {opacity:this.state.opacity};
 
     return (
