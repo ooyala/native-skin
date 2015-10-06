@@ -84,7 +84,7 @@ var LanguageSelectionPanel = React.createClass({
     }
 
     // screen height - title - toggle switch - preview - option bar
-    var itemPanelHeight = this.props.height  - 30 - 30;
+    var itemPanelHeight = this.props.height  - 30 - 30 - 60;
     var animationStyle = {opacity:this.state.opacity};
 
     return (
