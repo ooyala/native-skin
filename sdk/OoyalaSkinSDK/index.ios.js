@@ -57,7 +57,9 @@ var OoyalaSkin = React.createClass({
       // selectedLanguage: null,
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
-      buttonSelected: "None"
+      buttonSelected: "None",
+      alertTitle: '',
+      alertMessage: ''
     };
   },
 
@@ -235,6 +237,11 @@ var OoyalaSkin = React.createClass({
     return this.state.width > this.state.height;
   },
 
+  onPostShareAlert: function(e) {
+    this.setState({alertTitle: e.title});
+    this.setState({alertMessage: e.message});
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
@@ -251,7 +258,8 @@ var OoyalaSkin = React.createClass({
       [ 'adPodCompleted',           (event) => this.onAdPodCompleted(event) ],
       [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
       [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ],
-      [ 'playStarted',              (event) => this.onPlayStarted(event) ]
+      [ 'playStarted',              (event) => this.onPlayStarted(event) ],
+      [ 'postShareAlert',           (event) => this.onPostShareAlert(event) ],
     ];
     for( var d of listenerDefinitions ) {
       this.listeners.push( DeviceEventEmitter.addListener( d[0], d[1] ) );
@@ -380,7 +388,9 @@ var OoyalaSkin = React.createClass({
         socialButtons={this.props.sharing}
         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
         width={this.state.width}
-        height={this.state.height}/>);
+        height={this.state.height}
+        alertTitle={this.state.alertTitle}
+        alertMessage={this.state.alertMessage}/>);
   },
 
   _renderDiscoveryPanel: function() {

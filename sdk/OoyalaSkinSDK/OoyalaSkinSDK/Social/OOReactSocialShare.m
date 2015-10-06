@@ -24,4 +24,15 @@ RCT_EXPORT_METHOD(onSocialButtonPress:(NSDictionary *)options
 
 }
 
++ (NSString *)getSocialStringFromJson: (NSString *)key {
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:@"en" ofType:@"json"];
+  NSString *myJSON = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+  NSError *error;
+  NSArray *jsonDataArray = [NSJSONSerialization JSONObjectWithData:[myJSON dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:&error];
+  
+  NSString *value = [[jsonDataArray objectAtIndex:0] objectForKey:key];
+  
+  return value;
+}
+
 @end
