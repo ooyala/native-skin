@@ -105,6 +105,7 @@ var LanguageSelectionPanel = React.createClass({
         </View>
         <ToggleSwitch
           switchOn={hasCC}
+          areClosedCaptionsAvailable={this.props.languages.length > 0}
           onValueChanged={(value)=>this.onSwitchToggled(value)}
           switchOnText={Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings)}
           switchOffText={Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings)}

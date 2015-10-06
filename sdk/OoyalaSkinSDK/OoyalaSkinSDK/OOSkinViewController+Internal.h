@@ -12,6 +12,7 @@
 @interface OOSkinViewController (Internal)
 
 - (void)toggleFullscreen;
+- (void)queryState;
 - (OOUpNextManager *)upNextManager;
 
 @end
