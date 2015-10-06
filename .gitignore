@@ -3,3 +3,4 @@ sdk/OoyalaSkinSDK/node_modules
 .idea/
 **/build/
 **/iOS/
+.DS_Store

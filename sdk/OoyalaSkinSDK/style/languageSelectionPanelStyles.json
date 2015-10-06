@@ -65,11 +65,10 @@
   "splitter": {
     "height": 1,
     "alignSelf": "stretch",
-    "backgroundColor": "#585858",
+    "backgroundColor": "#585858"
   },
-  "previewPanel": { 
-    "alignItems":"flex-start",
-    "height": 60
+  "previewPanel": {
+    "alignItems":"flex-start"
   },
   "closedCaptionStyle": {
     "textAlign":"left",
