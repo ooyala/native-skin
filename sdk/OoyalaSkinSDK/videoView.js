@@ -66,10 +66,6 @@ var VideoView = React.createClass({
     locale: React.PropTypes.string
   },
 
-  shouldShowDiscovery: function() {
-    return this.state.showDiscoveryPanel && this.props.discovery;
-  },
-
   generateLiveObject: function() {
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
@@ -257,21 +253,25 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-
+    var adBar = null;
     if (this.props.ad) {
-      return this.props.ad.requireAdBar ? this._renderAdBar() : null;
-    } else {
-      return (
-        <View
-          style={styles.container}>
-          {this._renderPlaceholder()}
-          {this._renderClosedCaptions()}
-          {this._renderPlayPause()}
-          {this._renderUpNext()}
-          {this._renderBottomOverlay()}
-        </View>
-      );
+      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null; 
+      if(this.props.config.adScreen.showControlBar == false) {
+        return adBar;
+      }
     }
+    return (
+      <View
+        style={styles.container}>
+        {adBar}
+        {this._renderPlaceholder()}
+        {this._renderClosedCaptions()}
+        {this._renderPlayPause()}
+        {this._renderUpNext()}
+        {this._renderBottomOverlay()}
+      </View>
+    );
+      
   }
 });
 

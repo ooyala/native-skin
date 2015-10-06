@@ -43,6 +43,7 @@ var SCREEN_TYPES = {
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
   MOREOPTION_SCREEN: 'moreOption',
+  ERROR_SCREEN: 'error'
 };
 
 var OOSTATES = {

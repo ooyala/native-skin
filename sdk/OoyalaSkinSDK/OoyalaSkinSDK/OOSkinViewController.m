@@ -144,6 +144,7 @@ static NSString *kLocale = @"locale";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
   }
 }
 
@@ -174,6 +175,7 @@ static NSString *kLocale = @"locale";
   NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
   NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
   NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+  NSString *hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
   NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
@@ -184,6 +186,7 @@ static NSString *kLocale = @"locale";
   @{@"title":title,
     @"description":itemDescription,
     @"promoUrl":promoUrl,
+    @"hostedAtUrl": hostedAtUrl,
     @"duration":durationNumber,
     @"live":live,
     @"languages":closedCaptionsLanguages,
@@ -198,6 +201,16 @@ static NSString *kLocale = @"locale";
 - (void) bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
   NSDictionary *eventBody = @{@"state":stateString};
+
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeErrorNotification:(NSNotification *)notification {
+  OOOoyalaError *error = _player.error;
+  int errorCode = error ? error.code : -1;
+  NSNumber *code = [NSNumber numberWithInt:errorCode];
+  NSString *detail = _player.error.description ? _player.error.description : @"";
+  NSDictionary *eventBody = @{@"code":code,@"description":detail};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
@@ -398,6 +411,16 @@ static NSString *kLocale = @"locale";
 
 - (NSString *) version {
   return OO_SKIN_VERSION;
+}
+
+- (void)queryState {
+  if (_player.state == OOOoyalaPlayerStateError) {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerErrorNotification object:nil];
+    [self bridgeErrorNotification:notification];
+  } else {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
+    [self bridgeStateChangedNotification:notification];
+  }
 }
 
 @end

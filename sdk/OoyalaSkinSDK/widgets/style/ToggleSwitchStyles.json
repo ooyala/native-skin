@@ -3,6 +3,7 @@
     "height": 30,
     "flexDirection": "row",
     "alignItems": "center",
+    "marginLeft": 16,
   },
   "grayedText": {
     "textAlign": "center",
@@ -15,11 +16,5 @@
     "color": "#FFFFFF",
     "fontSize": 12,
     "padding": 6,
-  },
-  "buttonText": {
-    "textAlign": "center",
-    "color": "green",
-    "fontSize": 16,
-    "margin": 10,
   },
 }

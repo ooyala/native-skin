@@ -78,7 +78,6 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   render: function() {
-    var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     var hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
@@ -95,6 +94,7 @@ var LanguageSelectionPanel = React.createClass({
         </View>
         <ToggleSwitch
           switchOn={hasCC}
+          areClosedCaptionsAvailable={this.props.languages.length > 0}
           onValueChanged={(value)=>this.onSwitchToggled(value)}
           switchOnText={Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings)}
           switchOffText={Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings)}
@@ -106,8 +106,8 @@ var LanguageSelectionPanel = React.createClass({
           itemRender={this.renderItem}
           width={this.props.width}
           height={itemPanelHeight}
-          itemWidth={100}
-          itemHeight={65}>
+          itemWidth={160}
+          itemHeight={88}>
         </ResponsiveList>
         <PreviewWidget
           isVisible={hasCC}
