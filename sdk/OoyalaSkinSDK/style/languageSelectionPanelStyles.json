@@ -1,6 +1,6 @@
 {
   "panelContainer": {
-    "marginTop": 50,
+    "marginTop": 16,
     "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch",

@@ -1,6 +1,6 @@
 {
   "container": {
-    "marginTop": 50,
+    "marginTop": 18,
     "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch",
