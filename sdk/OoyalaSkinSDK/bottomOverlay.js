@@ -55,7 +55,7 @@ var BottomOverlay = React.createClass({
     return {
       touch: false,
       opacity: new Animated.Value(0),
-      height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT))
+      height: new Animated.Value(0)
     };
   },
 
@@ -67,12 +67,12 @@ var BottomOverlay = React.createClass({
       this.state.opacity.setValue(this.props.isShow? 0 : 1);
       this.state.height.setValue(this.props.isShow? 0 : ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
       Animated.parallel([
-        Animated.timing(                      
-          this.state.opacity,                 
+        Animated.timing(
+          this.state.opacity,
           {
-            toValue: this.props.isShow ? 1 : 0,                         
+            toValue: this.props.isShow ? 1 : 0,
             duration: 500,
-            delay: 0  
+            delay: 0
           }),
         Animated.timing(
           this.state.height,
@@ -97,7 +97,7 @@ var BottomOverlay = React.createClass({
     var progressBarWidth = this.props.width - 2 * leftMargin;
     var leftOffset = leftMargin + percent * progressBarWidth - scrubberSize / 2;
     var positionStyle = {top:topOffset, left:leftOffset};
-    
+
     return (
       <Text style={[styles.progressScrubber, positionStyle]} >{"\uf111"}
       </Text>);
@@ -155,8 +155,8 @@ var BottomOverlay = React.createClass({
   },
 
   handleTouchMove: function(event) {
-    this.setState({x:event.nativeEvent.pageX});  
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE); 
+    this.setState({x:event.nativeEvent.pageX});
+    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
   },
 
   handleTouchEnd: function(event) {
@@ -179,7 +179,7 @@ var BottomOverlay = React.createClass({
         {this._renderControlBar()}
         {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
       </Animated.View>
-    );  
+    );
   }
 });
 
