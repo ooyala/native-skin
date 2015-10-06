@@ -46,10 +46,10 @@
         [composeCtl setInitialText:text];
       }
 
-      [ctrl presentViewController:composeCtl animated:YES completion: nil];
-    }
-    else{
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Social share not available"
+      [ctrl presentViewController:composeCtl animated:YES completion:nil];
+      [self postSuccessPop];
+    }else{
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Twitter not available"
                                                       message:@"You may need to sign in your account in settings"
                                                      delegate:ctrl
                                             cancelButtonTitle:@"OK"
@@ -57,6 +57,18 @@
       [alert show];
     }
   }
+}
+
+- (void) postSuccessPop {
+  UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Post Successfully"
+                                                  message:@"Check out this video on your twitter"
+                                                 delegate:ctrl
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
 }
 
 - (void) dealloc {
