@@ -18,13 +18,14 @@ var {
 var animationDuration = 1000;
 var Constants = require('./constants');
 var {
-  ICONS,
+  ICONS
 } = Constants;
 
 var ToggleSwitch = require('./widgets/ToggleSwitch');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
+var PreviewWidget = require('./languageSelectionPreview');
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
     languages: React.PropTypes.array,
@@ -44,12 +45,12 @@ var LanguageSelectionPanel = React.createClass({
   componentDidMount:function () {
     this.state.opacity.setValue(0);
     Animated.parallel([
-      Animated.timing(                      
-        this.state.opacity,                 
+      Animated.timing(
+        this.state.opacity,
         {
-          toValue: 1,                         
+          toValue: 1,
           duration: animationDuration,
-          delay: 0  
+          delay: 0
         }),
     ]).start();
   },
@@ -76,28 +77,16 @@ var LanguageSelectionPanel = React.createClass({
     // ignore.
   },
 
-  getPreview: function() {
-    return (
-      <View style={styles.previewPanel}>
-        <View style={styles.splitter} />
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "CLOSE CAPTION PREVIEW", this.props.config.localizableStrings)}</Text>
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, "Sample Text", this.props.config.localizableStrings)}</Text>
-      </View>
-    )
-  },
-
   render: function() {
     var hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
     }
-    var previewPanel;
-    if (hasCC) {
-      previewPanel = this.getPreview();
-    }
+
     // screen height - title - toggle switch - preview - option bar
     var itemPanelHeight = this.props.height  - 30 - 30 - 60;
     var animationStyle = {opacity:this.state.opacity};
+
     return (
       <Animated.View style={[styles.panelContainer, animationStyle]}>
         <View style={styles.panelTitleRow}>
@@ -120,7 +109,10 @@ var LanguageSelectionPanel = React.createClass({
           itemWidth={160}
           itemHeight={88}>
         </ResponsiveList>
-        {previewPanel}
+        <PreviewWidget
+          isVisible={hasCC}
+          config={this.props.config}>
+        </PreviewWidget>
       </Animated.View>
     );
   },
@@ -128,7 +120,7 @@ var LanguageSelectionPanel = React.createClass({
   renderItem: function(item: object, itemId: number) {
     var itemStyle = this.isSelected(item) ? styles.selectedButton : styles.button;
     return (
-      <TouchableHighlight 
+      <TouchableHighlight
         style={styles.item}
         onPress={() => this.onSelected(item)}>
         <View style={itemStyle}>

@@ -3,7 +3,7 @@
     "marginTop": 50,
     "flex": 1,
     "flexDirection": "column",
-    "alignItems": "stretch",
+    "alignItems": "stretch"
   },
   "item": {
     "flex": 1,
@@ -61,15 +61,16 @@
     "fontSize": 16,
     "fontFamily": "Helvetica",
     "margin": 10,
+    "backgroundColor": "transparent"
   },
   "splitter": {
     "height": 1,
     "alignSelf": "stretch",
-    "backgroundColor": "#585858",
+    "backgroundColor": "#585858"
   },
-  "previewPanel": { 
+  "previewPanel": {
     "alignItems":"flex-start",
-    "height": 60
+    "backgroundColor": "black"
   },
   "closedCaptionStyle": {
     "textAlign":"left",

@@ -52368,7 +52368,8 @@ __d('OoyalaSkin/constants.js',[],function(global, require, requireDynamic, requi
 VIDEOVIEW_PLAYPAUSE:60,
 CONTROLBAR_HEIGHT:75,
 CONTROLBAR_ICONSIZE:20,
-CONTROLBAR_LABELSIZE:16};
+CONTROLBAR_LABELSIZE:16,
+CC_PREVIEW_HEIGHT:80};
 
 
 var BUTTON_NAMES={
@@ -55645,7 +55646,7 @@ __d('OoyalaSkin/style/videoViewStyles.json',[],function(global, require, require
 }
 ;
 });
-__d('OoyalaSkin/languageSelectionPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/ToggleSwitch.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+__d('OoyalaSkin/languageSelectionPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/ToggleSwitch.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/languageSelectionPreview.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
 
 
@@ -55672,6 +55673,7 @@ var ToggleSwitch=require('OoyalaSkin/widgets/ToggleSwitch.js');
 var ClosedCaptionsView=require('OoyalaSkin/closedCaptionsView.js');
 var Utils=require('OoyalaSkin/utils.js');
 var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
+var PreviewWidget=require('OoyalaSkin/languageSelectionPreview.js');
 var LanguageSelectionPanel=React.createClass({
 propTypes:{
 languages:React.PropTypes.array,
@@ -55723,28 +55725,16 @@ onTouchEnd:function(event){},
 
 
 
-getPreview:function(){
-return (
-React.createElement(View,{style:styles.previewPanel},
-React.createElement(View,{style:styles.splitter}),
-React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,"CLOSE CAPTION PREVIEW",this.props.config.localizableStrings)),
-React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,"Sample Text",this.props.config.localizableStrings))));},
-
-
-
-
 render:function(){var _this=this;
 var hasCC=false;
 if(this.props.selectedLanguage && this.props.selectedLanguage !== ''){
 hasCC = true;}
 
-var previewPanel;
-if(hasCC){
-previewPanel = this.getPreview();}
 
 
 var itemPanelHeight=this.props.height - 30 - 30 - 60;
 var animationStyle={opacity:this.state.opacity};
+
 return (
 React.createElement(Animated.View,{style:[styles.panelContainer,animationStyle]},
 React.createElement(View,{style:styles.panelTitleRow},
@@ -55752,6 +55742,7 @@ React.createElement(Text,{style:styles.panelTitle},Utils.localizedString(this.pr
 
 React.createElement(ToggleSwitch,{
 switchOn:hasCC,
+areClosedCaptionsAvailable:this.props.languages.length > 0,
 onValueChanged:function(value){return _this.onSwitchToggled(value);},
 switchOnText:Utils.localizedString(this.props.config.locale,"On",this.props.config.localizableStrings),
 switchOffText:Utils.localizedString(this.props.config.locale,"Off",this.props.config.localizableStrings),
@@ -55766,7 +55757,10 @@ height:itemPanelHeight,
 itemWidth:160,
 itemHeight:88}),
 
-previewPanel));},
+React.createElement(PreviewWidget,{
+isVisible:hasCC,
+config:this.props.config})));},
+
 
 
 
@@ -55797,11 +55791,12 @@ __d('OoyalaSkin/widgets/ToggleSwitch.js',["react-native/Libraries/react-native/r
 
 var React=require('react-native/Libraries/react-native/react-native.js');var 
 
-StyleSheet=
+SwitchIOS=
 
 
 
-React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+React.SwitchIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
 
 var Constants=require('OoyalaSkin/constants.js');
 
@@ -55810,8 +55805,9 @@ var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/
 var ToggleSwitch=React.createClass({
 propTypes:{
 switchOn:React.PropTypes.bool,
-swithOnText:React.PropTypes.string,
-swithOffText:React.PropTypes.string,
+areClosedCaptionsAvailable:React.PropTypes.bool,
+switchOnText:React.PropTypes.string,
+switchOffText:React.PropTypes.string,
 onValueChanged:React.PropTypes.func,
 config:React.PropTypes.object},
 
@@ -55823,18 +55819,11 @@ this.props.onValueChanged(!this.props.switchOn);},
 render:function(){
 var onTextStyle=this.props.switchOn?styles.highlightedText:styles.grayedText;
 var offTextStyle=this.props.switchOn?styles.grayedText:styles.highlightedText;
-var switchIcon=this.props.switchOn?this.props.config.icons.toggleOn.fontString:this.props.config.icons.toggleOff.fontString;
-var switchStyle=this.props.switchOn?
-[styles.buttonText,{fontFamily:this.props.config.icons.toggleOn.fontFamilyName}]:
-[styles.buttonText,{fontFamily:this.props.config.icons.toggleOff.fontFamilyName}];
 return (
-React.createElement(TouchableHighlight,{
-onPress:this.onSwitchToggled},
 React.createElement(View,{style:styles.container},
 React.createElement(Text,{style:offTextStyle},this.props.switchOffText),
-React.createElement(Text,{style:switchStyle},switchIcon),
-React.createElement(Text,{style:onTextStyle},this.props.switchOnText))));}});
-
+React.createElement(SwitchIOS,{value:this.props.switchOn,onValueChange:this.onSwitchToggled,disabled:!this.props.areClosedCaptionsAvailable}),
+React.createElement(Text,{style:onTextStyle},this.props.switchOnText)));}});
 
 
 
@@ -55861,20 +55850,76 @@ __d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, requi
     "fontSize": 12,
     "padding": 6,
   },
-  "buttonText": {
-    "textAlign": "center",
-    "color": "green",
-    "fontSize": 16,
-    "margin": 10,
-  },
 };
+});
+__d('OoyalaSkin/languageSelectionPreview.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json","OoyalaSkin/constants.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+React.Animated;var Text=React.Text;var View=React.View;
+
+var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/languageSelectionPanelStyles.json'));
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+UI_SIZES=
+Constants.UI_SIZES;
+
+var LanguageSelectionPreview=React.createClass({
+propTypes:{
+config:React.PropTypes.object,
+isVisible:React.PropTypes.bool},
+
+
+getInitialState:function(){
+return {
+height:new Animated.Value(0)};},
+
+
+
+componentDidUpdate:function(prevProps,prevState){
+if(prevProps.isVisible != this.props.isVisible){
+this.state.height.setValue(this.props.isVisible?0:UI_SIZES.CC_PREVIEW_HEIGHT);
+Animated.timing(this.state.height,{
+toValue:this.props.isVisible?UI_SIZES.CC_PREVIEW_HEIGHT:0,
+duration:300,
+delay:0}).
+start();}},
+
+
+
+_getStyle:function(){
+return [
+styles.previewPanel,
+{
+'height':this.state.height}];},
+
+
+
+
+render:function(){
+return (
+React.createElement(Animated.View,{style:this._getStyle()},
+React.createElement(View,{style:styles.splitter}),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'CLOSE CAPTION PREVIEW',this.props.config.localizableStrings)),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'Sample Text',this.props.config.localizableStrings))));}});
+
+
+
+
+
+module.exports = LanguageSelectionPreview;
 });
 __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "panelContainer": {
     "marginTop": 50,
     "flex": 1,
     "flexDirection": "column",
-    "alignItems": "stretch",
+    "alignItems": "stretch"
   },
   "item": {
     "flex": 1,
@@ -55932,15 +55977,16 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
     "fontSize": 16,
     "fontFamily": "Helvetica",
     "margin": 10,
+    "backgroundColor": "transparent"
   },
   "splitter": {
     "height": 1,
     "alignSelf": "stretch",
-    "backgroundColor": "#585858",
+    "backgroundColor": "#585858"
   },
-  "previewPanel": { 
+  "previewPanel": {
     "alignItems":"flex-start",
-    "height": 60
+    "backgroundColor": "black"
   },
   "closedCaptionStyle": {
     "textAlign":"left",
