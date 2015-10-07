@@ -84,11 +84,13 @@ By this point, you should have a strong understanding of how the iOS Skin works,
 
 If you'd like to take another extra step, try _following these steps to update the BasicPlaybackSampleApp_ as proof of the process
 
-1. Download OoyalaSDK-iOS, which contains:
+1. Download [OoyalaSDK-iOS](http://support.ooyala.com/resources/mobile-and-client-sdks), which contains:
     * Ooyala SDK (link binary with this library)
-2. Download OoyalaSkinSDK-iOS, which contains:
+2. Download [OoyalaSkinSDK-iOS](https://ooyala.box.com/ios-skin-prerelease), which contains:
+    * __NOTE:__ the framework in the download link will always point to the most up to date commit in the 'stable' branch (when the branch is created).
     * iOS Skin SDK (link binary with this library)
     * Alice font (Add to bundle. Then in Info.plist, add "alice.ttf" to "Fonts Provided by Application")
+    * (temporary) FontAwesome font (Add to bundle. Then in Info.plist, add "fontawesome-webfont.ttf" to "Fonts Provided by Application")
     * Default localization files (Add to app bundle)
     * Default skin-config.json (Add to app bundle)
     * main.jsbundle (Add to app bundle)
@@ -117,7 +119,11 @@ If you'd like to take another extra step, try _following these steps to update t
         * Should be linked
     - Ooyala Skin SDK
         * Should be linked
+        * SDK Version in the Skin package's VERSION file should match the VERSION file in the Ooyala SDK
     - Alice Font
+        * Should be bundled
+        * Should be part of Info.plist
+    - FontAwesome Font
         * Should be bundled
         * Should be part of Info.plist
     - Localization Files (en.json, zh.json, etc.)
