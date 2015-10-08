@@ -22,13 +22,13 @@ var {
   IMG_URLS
 } = Constants;
 
-let leftMargin = 20;
+var leftMargin = 20;
 
 var EndScreen = React.createClass({
 	getInitialState: function() {
     return {
       showControls:true,
-      showSharePanel:false,
+      showSharePanel:false
     };
   },
 
