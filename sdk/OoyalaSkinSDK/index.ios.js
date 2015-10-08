@@ -59,6 +59,8 @@ var OoyalaSkin = React.createClass({
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
       buttonSelected: "None",
+      alertTitle: '',
+      alertMessage: '',
       error: null
     };
   },
@@ -242,6 +244,11 @@ var OoyalaSkin = React.createClass({
     return this.state.width > this.state.height;
   },
 
+  onPostShareAlert: function(e) {
+    this.setState({alertTitle: e.title});
+    this.setState({alertMessage: e.message});
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
@@ -259,6 +266,7 @@ var OoyalaSkin = React.createClass({
       [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
       [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ],
       [ 'playStarted',              (event) => this.onPlayStarted(event) ],
+      [ 'postShareAlert',           (event) => this.onPostShareAlert(event) ],
       [ 'error',                    (event) => this.onError(event) ],
     ];
     for( var d of listenerDefinitions ) {
@@ -401,7 +409,9 @@ var OoyalaSkin = React.createClass({
         socialButtons={this.props.sharing}
         onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
         width={this.state.width}
-        height={this.state.height}/>);
+        height={this.state.height}
+        alertTitle={this.state.alertTitle}
+        alertMessage={this.state.alertMessage}/>);
   },
 
   _renderDiscoveryPanel: function() {

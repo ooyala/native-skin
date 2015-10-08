@@ -4,6 +4,8 @@
 //
 
 #import "OOFacebookSharePlugin.h"
+#import "OOReactSocialShare.h"
+#import "OOReactBridge.h"
 #import <Social/Social.h>
 
 
@@ -27,6 +29,11 @@
     NSString *link = [notification.userInfo objectForKey:@"link"];
     NSString *imageLink = [notification.userInfo objectForKey:@"imageLink"];
     NSString *text = [notification.userInfo objectForKey:@"text"];
+    
+    NSString *facebook_unavailable = [OOReactSocialShare getSocialStringFromJson:@"Facebook Unavailable"];
+    NSString *facebook_success = [OOReactSocialShare getSocialStringFromJson:@"Facebook Success"];
+    NSString *post_title = [OOReactSocialShare getSocialStringFromJson:@"Post Title"];
+    NSString *account_configure = [OOReactSocialShare getSocialStringFromJson:@"Account Configure"];
 
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
 
@@ -47,14 +54,20 @@
       }
 
       [ctrl presentViewController:composeCtl animated:YES completion: nil];
+      composeCtl.completionHandler = ^(SLComposeViewControllerResult result) {
+        switch(result) {
+          //  This means the user cancelled without sending the Tweet
+          case SLComposeViewControllerResultCancelled:
+          break;
+          case SLComposeViewControllerResultDone:
+          [OOReactBridge sendDeviceEventWithName:@"postShareAlert" body:@{@"title": post_title, @"message": facebook_success}];
+          break;
+        }
+      };
     }
     else{
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Social share not available"
-                                                      message:@"You may need to sign in your account in settings"
-                                                     delegate:ctrl
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      [alert show];
+      [OOReactBridge sendDeviceEventWithName:@"postShareAlert" body:@{@"title": facebook_unavailable, @"message": account_configure}];
+      // body {event："facebook_unavilable"
     }
   }
 }

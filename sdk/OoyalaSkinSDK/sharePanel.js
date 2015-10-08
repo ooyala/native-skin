@@ -7,6 +7,7 @@ var {
   ListView,
   Image,
   TouchableHighlight,
+  AlertIOS,
 } = React;
 
 var Utils = require('./utils');
@@ -21,6 +22,8 @@ var SharePanel = React.createClass ({
 		onSocialButtonPress: React.PropTypes.func,
 		width: React.PropTypes.number,
     height: React.PropTypes.number,
+    alertTitle: React.PropTypes.string,
+    alertMessage: React.PropTypes.string
 	},
 
 	getInitialState: function() {
@@ -49,6 +52,18 @@ var SharePanel = React.createClass ({
 	render: function() {
 		var sharePanel;
 		var socialButtons = [];
+
+		var postShareSuccessAlert;
+
+		if(this.props.alertTitle != ""){
+			postShareSuccessAlert = AlertIOS.alert(
+				this.props.alertTitle,
+  			this.props.alertMessage,
+  			[
+    			{text: 'Ok', onPress: () => console.log('Ok Pressed!')},
+  			]
+			);
+		}
 		
 		for (var i = 0; i < this.props.socialButtons.length; i++){
 
@@ -86,6 +101,7 @@ var SharePanel = React.createClass ({
 			<View style={styles.sharePanelTitleRow}>
 				<Text style={styles.sharePanelTitle}>{"Social"}</Text>
 			</View>
+			{postShareSuccessAlert}
 			<ResponsiveList
           horizontal={false}
           data={socialButtons}
