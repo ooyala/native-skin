@@ -52761,6 +52761,8 @@ BUTTON_NAMES=
 
 Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
 
+var leftMargin=20;
+
 var EndScreen=React.createClass({
 getInitialState:function(){
 return {
@@ -52858,7 +52860,7 @@ var controlBar=React.createElement(ControlBar,{
 ref:'controlBar',
 primaryButton:'replay',
 height:this.props.height,
-width:this.props.width,
+width:this.props.width - leftMargin * 2,
 isShow:'true',
 playhead:this.props.duration,
 duration:this.props.duration,
@@ -53131,8 +53133,7 @@ resizeMode:Image.resizeMode.contain}};
 
 
 
-
-console.log("Width: " + this.props.width);
+console.log("Control Bar Width: " + this.props.width);
 
 var itemCollapsingResults=CollapsingBarUtils.collapse(this.props.width,this.props.config.buttons);
 console.log(itemCollapsingResults);
