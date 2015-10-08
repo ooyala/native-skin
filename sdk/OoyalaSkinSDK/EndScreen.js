@@ -5,7 +5,7 @@ var {
   Text,
   View,
   Image,
-  TouchableHighlight,
+  TouchableHighlight
 } = React;
 
 var Utils = require('./utils');
@@ -19,13 +19,15 @@ var Constants = require('./constants');
 
 var {
   BUTTON_NAMES,
-  IMG_URLS,
+  IMG_URLS
 } = Constants;
+
+let leftMargin = 20;
 
 var EndScreen = React.createClass({
 	getInitialState: function() {
     return {
-      showControls:true, 
+      showControls:true,
       showSharePanel:false,
     };
   },
@@ -48,7 +50,7 @@ var EndScreen = React.createClass({
       this.setState({showSharePanel:!this.state.showSharePanel});
     } else {
       this.props.onPress(name);
-    } 
+    }
   },
 
   onSocialButtonPress: function(socialType){
@@ -86,9 +88,9 @@ var EndScreen = React.createClass({
 
     var title = this.props.config.endScreen.showTitle ? this.props.title : null;
     var description = this.props.config.endScreen.showDescription ? this.props.description : null;
-    var infoPanel = 
+    var infoPanel =
       (<InfoPanel title={title} description={description} />);
-  
+
     return (
       <Image
       source={{uri: this.props.promoUrl}}
@@ -109,17 +111,17 @@ var EndScreen = React.createClass({
   },
 
   render: function() {
-    var progressBar = (<ProgressBar 
-      ref='progressBar' 
-      playhead={this.props.duration} 
-      duration={this.props.duration} 
+    var progressBar = (<ProgressBar
+      ref='progressBar'
+      playhead={this.props.duration}
+      duration={this.props.duration}
       isShow={this.state.showControls} />);
 
-    var controlBar = (<ControlBar 
+    var controlBar = (<ControlBar
       ref='controlBar'
       primaryButton="replay"
       height={this.props.height}
-      width={this.props.width}
+      width={this.props.width - leftMargin * 2}
       isShow='true'
       playhead={this.props.duration}
       duration={this.props.duration}
