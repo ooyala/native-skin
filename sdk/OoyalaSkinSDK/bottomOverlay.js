@@ -32,6 +32,7 @@ var topMargin = 16;
 var leftMargin = 20;
 var progressBarHeight = 6;
 var scrubberSize = 18;
+var scrubTouchableDistance = 45;
 var BottomOverlay = React.createClass({
 
   propTypes: {
@@ -147,7 +148,8 @@ var BottomOverlay = React.createClass({
   },
 
   handleTouchStart: function(event) {
-    if ((this.props.height - event.nativeEvent.pageY) < 50) {
+    var touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
+    if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
       return;
     }
     this.setState({touch:true, x:event.nativeEvent.pageX});
