@@ -2,9 +2,25 @@
 
 This is the repository that contains all information regarding the new iOS Skin. This repo is the source for all things related to the new Ooyala SDK User Interface ('skin').  
 
+**The sample application will not run without configuration. Please conslult the First Steps for setup**
+
+# First Steps: iOS Getting Started Guide
+
+Trying things for the first time? [Check out the iOS Skin Getting Started Guide](dev_docs/README-ios.md) to try the sample application, while getting a better understanding of the new iOS Skin, OoyakaSkinSDK-iOS, and OoyalaSkinSampleApp
+
+### TL;DR: How to Run the Sample Application
+
+This will be the first four steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
+
+1. `git clone https://github.com/ooyala/ios-skin`
+2. `cd ios-skin && git submodule update --init`
+3. `open app/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
+4. Run the application
+
+
 # Overview
 
-Our new UI must...
+This project focuses on the creation of Ooyala's new Player UI for the native Ooyala SDKs. This new UI must...
 
 1. be visually consistent with the Ooyala Web UI.  
 2. be easily integratable with existing Ooyala SDK applications
@@ -27,13 +43,8 @@ This project relies on __React Native__, a UI Framework that allows for similar 
     2. *Local Hosting*: React Native provides a way to quickly debug and test javascript code by hosting a Node server that packages all of our javascript files on the fly, and put it into the sample app
 - **Skin Config**: A series of JSON files that can be found at [https://github.com/ooyala/skin-config](https://github.com/ooyala/skin-config). These files define:
     1. *skin.json*: A configuration that is applied to the OoyalaSkinSDK, which outlines the desired look and feel of the user interface.
-    2. *skin-schema.json*: A JSON schema that defines all of the possible options in the skin.json
-    3. *<language>.json*: A series of files that represent the localization of all strings used in our Skin UI
-
-# iOS Getting Started Guide
-
-[Check out the iOS Skin Getting Started Guide](dev_docs/README-ios.md) to get a better understanding of the new iOS Skin, OoyakaSkinSDK-iOS, and OoyalaSkinSampleApp
-
+    2. *skin-schema.json*: A JSON schema that defines all of the possible options for the skin.json
+    3. *[language].json*: A series of files that represent the localization of all strings used in our Skin UI (i.e. en.json, zh.json)
 
 ## Other Developer notes
 
