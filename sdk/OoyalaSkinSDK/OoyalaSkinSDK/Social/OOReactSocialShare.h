@@ -12,6 +12,4 @@
 
 @interface OOReactSocialShare : NSObject <RCTBridgeModule>
 
-+ (NSString *)getSocialStringFromJson: (NSString *)key;
-
 @end

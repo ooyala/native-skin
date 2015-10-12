@@ -4,6 +4,7 @@
 //
 
 #import "OOTwitterSharePlugin.h"
+#import "OOSkinViewController.h"
 #import "OOReactSocialShare.h"
 #import "OOReactBridge.h"
 #import <Social/Social.h>
@@ -29,10 +30,11 @@
     NSString *imageLink = [notification.userInfo objectForKey:@"imageLink"];
     NSString *text = [notification.userInfo objectForKey:@"text"];
     
-    NSString *twitter_unavailable = [OOReactSocialShare getSocialStringFromJson:@"Twitter Unavailable"];
-    NSString *twitter_success = [OOReactSocialShare getSocialStringFromJson:@"Twitter Success"];
-    NSString *post_title = [OOReactSocialShare getSocialStringFromJson:@"Post Title"];
-    NSString *account_configure = [OOReactSocialShare getSocialStringFromJson:@"Account Configure"];
+    NSDictionary *dictSocial = [OOSkinViewController getTextForSocialType:@"Twitter"];
+    NSString *twitter_unavailable = [dictSocial objectForKey:@"Twitter Unavailable"];
+    NSString *twitter_success = [dictSocial objectForKey:@"Twitter Success"];
+    NSString *post_title = [dictSocial objectForKey:@"Post Title"];
+    NSString *account_configure = [dictSocial objectForKey:@"Account Configure"];
     
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
     
