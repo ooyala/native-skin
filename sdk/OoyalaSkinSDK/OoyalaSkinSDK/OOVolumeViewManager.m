@@ -13,6 +13,7 @@
 
 RCT_EXPORT_MODULE();
 
+// React automatically resolves this class as "OOVolumeView"
 -(UIView *)view {
   MPVolumeView *v = [MPVolumeView new];
   v.showsRouteButton = NO;
