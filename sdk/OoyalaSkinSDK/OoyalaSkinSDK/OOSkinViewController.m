@@ -45,6 +45,7 @@ static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 static NSString *kLocalizableStrings = @"localizableStrings";
 static NSString *kLocale = @"locale";
+static NSDictionary *kSkinCofig;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)skinOptions
@@ -59,6 +60,7 @@ static NSString *kLocale = @"locale";
                                           launchOptions:nil];
     _skinConfig = [self getReactViewInitialProperties];
     _reactView.initialProperties = _skinConfig;
+    kSkinCofig = _skinConfig;
     
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
@@ -421,6 +423,36 @@ static NSString *kLocale = @"locale";
     NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
     [self bridgeStateChangedNotification:notification];
   }
+}
+
++ (NSDictionary *)getTextForSocialType: (NSString *)socialType {
+  NSDictionary *dictSocial;
+  
+  NSString *social_unavailable;
+  NSString *social_success;
+  NSString *post_title = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Post Title"];
+  NSString *account_configure =[OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Account Configure"];
+  
+  if ([socialType isEqual:@"Facebook"]) {
+    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Unavailable"];
+    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Success"];
+    
+    dictSocial = @{@"Facebook Unavailable": social_unavailable,
+                   @"Facebook Success": social_success,
+                   @"Post Title": post_title,
+                   @"Account Configure": account_configure};
+    
+  } else if ([socialType isEqual: @"Twitter"]) {
+    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Unavailable"];
+    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Success"];
+    
+    dictSocial = @{@"Twitter Unavailable": social_unavailable,
+                   @"Twitter Success": social_success,
+                   @"Post Title": post_title,
+                   @"Account Configure": account_configure};
+  }
+  
+  return dictSocial;
 }
 
 @end

@@ -4,10 +4,9 @@
 //
 
 #import "OOFacebookSharePlugin.h"
-#import "OOReactSocialShare.h"
+#import "OOSkinViewController.h"
 #import "OOReactBridge.h"
 #import <Social/Social.h>
-
 
 @implementation OOFacebookSharePlugin
 
@@ -16,7 +15,6 @@
 
     // Add an observer that listens to when the share button is pressed
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(share:) name:@"socialButtonPressed" object:nil];
-
   }
   return self;
 }
@@ -30,11 +28,12 @@
     NSString *imageLink = [notification.userInfo objectForKey:@"imageLink"];
     NSString *text = [notification.userInfo objectForKey:@"text"];
     
-    NSString *facebook_unavailable = [OOReactSocialShare getSocialStringFromJson:@"Facebook Unavailable"];
-    NSString *facebook_success = [OOReactSocialShare getSocialStringFromJson:@"Facebook Success"];
-    NSString *post_title = [OOReactSocialShare getSocialStringFromJson:@"Post Title"];
-    NSString *account_configure = [OOReactSocialShare getSocialStringFromJson:@"Account Configure"];
-
+    NSDictionary *dictSocial = [OOSkinViewController getTextForSocialType:@"Facebook"];
+    NSString *facebook_unavailable = [dictSocial objectForKey:@"Facebook Unavailable"];
+    NSString *facebook_success = [dictSocial objectForKey:@"Facebook Success"];
+    NSString *post_title =  [dictSocial objectForKey:@"Post Title"];
+    NSString *account_configure =  [dictSocial objectForKey:@"Account Configure"];
+    
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
 
     if([SLComposeViewController isAvailableForServiceType:serviceType]) {
