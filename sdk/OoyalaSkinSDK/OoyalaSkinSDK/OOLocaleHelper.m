@@ -32,7 +32,7 @@
 
   NSArray *preferredOrder = [NSArray arrayWithObjects:locale, defaultLocale, @"en", nil];
   for (int i = 0; i < preferredOrder.count; ++i ) {
-    NSDictionary *stringTable = [[localizableStrings objectForKey:preferredOrder[i]] objectAtIndex:0];
+    NSDictionary *stringTable = [localizableStrings objectForKey:preferredOrder[i]];
     if (stringTable && [stringTable objectForKey:key]) {
       return [stringTable objectForKey:key];
     }
