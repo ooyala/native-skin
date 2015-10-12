@@ -2,17 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "sad_frog-2.png",
+      "filename" : "volume-thumb.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sad_frog-1.png",
+      "filename" : "volume-thumb@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sad_frog.png",
       "scale" : "3x"
     }
   ],
