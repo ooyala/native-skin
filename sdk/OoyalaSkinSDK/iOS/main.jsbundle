@@ -1395,7 +1395,7 @@ throw new TypeError(
 
 var index=findIndex.call(this,predicate,context);
 return index === -1?undefined:this[index];}});}})();
-__d('OoyalaSkin/index.ios.js',["NativeModules","NativeModules","react-native/Libraries/react-native/react-native.js","OoyalaSkin/StartScreen.js","OoyalaSkin/EndScreen.js","OoyalaSkin/ErrorScreen.js","OoyalaSkin/discoveryPanel.js","OoyalaSkin/MoreOptionScreen.js","OoyalaSkin/sharePanel.js","OoyalaSkin/constants.js","OoyalaSkin/videoView.js","OoyalaSkin/languageSelectionPanel.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+__d('OoyalaSkin/index.ios.js',["NativeModules","NativeModules","react-native/Libraries/react-native/react-native.js","OoyalaSkin/StartScreen.js","OoyalaSkin/EndScreen.js","OoyalaSkin/discoveryPanel.js","OoyalaSkin/MoreOptionScreen.js","OoyalaSkin/sharePanel.js","OoyalaSkin/constants.js","OoyalaSkin/videoView.js","OoyalaSkin/languageSelectionPanel.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
 
 
@@ -1417,7 +1417,6 @@ var eventBridge=require('NativeModules').OOReactBridge;
 var OOSocialShare=require('NativeModules').OOReactSocialShare;
 var StartScreen=require('OoyalaSkin/StartScreen.js');
 var EndScreen=require('OoyalaSkin/EndScreen.js');
-var ErrorScreen=require('OoyalaSkin/ErrorScreen.js');
 var DiscoveryPanel=require('OoyalaSkin/discoveryPanel.js');
 var MoreOptionScreen=require('OoyalaSkin/MoreOptionScreen.js');
 var SharePanel=require('OoyalaSkin/sharePanel.js');
@@ -1455,8 +1454,7 @@ showPlayButton:true,
 
 
 
-buttonSelected:"None",
-error:null};},
+buttonSelected:"None"};},
 
 
 
@@ -1617,11 +1615,6 @@ default:break;}},
 
 
 
-onError:function(e){
-console.log("onError received");
-this.setState({screenType:SCREEN_TYPES.ERROR_SCREEN,error:e});},
-
-
 onUpNextDismissed:function(e){
 this.setState({upNextDismissed:e.upNextDismissed});},
 
@@ -1655,16 +1648,11 @@ var listenerDefinitions=[
 ['adPodCompleted',function(event){return _this.onAdPodCompleted(event);}],
 ['setNextVideo',function(event){return _this.onSetNextVideo(event);}],
 ['upNextDismissed',function(event){return _this.onUpNextDismissed(event);}],
-['playStarted',function(event){return _this.onPlayStarted(event);}],
-['error',function(event){return _this.onError(event);}]];
+['playStarted',function(event){return _this.onPlayStarted(event);}]];
 
 for(var d of listenerDefinitions) {
 this.listeners.push(DeviceEventEmitter.addListener(d[0],d[1]));}},
 
-
-
-componentDidMount:function(){
-eventBridge.queryState();},
 
 
 componentWillUnmount:function(){
@@ -1675,13 +1663,11 @@ this.listeners = [];},
 
 
 render:function(){
-console.log("screentype:" + this.state.screenType);
 switch(this.state.screenType){
 case SCREEN_TYPES.START_SCREEN:return this._renderStartScreen();break;
 case SCREEN_TYPES.END_SCREEN:return this._renderEndScreen();break;
 case SCREEN_TYPES.LOADING_SCREEN:return this._renderLoadingScreen();break;
 case SCREEN_TYPES.MOREOPTION_SCREEN:return this._renderMoreOptionScreen();break;
-case SCREEN_TYPES.ERROR_SCREEN:return this._renderErrorScreen();break;
 default:return this._renderVideoView();break;}},
 
 
@@ -1703,6 +1689,7 @@ onPress:function(name){return _this2.handlePress(name);}}));},
 
 
 _renderEndScreen:function(){var _this3=this;
+
 return (
 React.createElement(EndScreen,{
 config:{
@@ -1723,16 +1710,8 @@ onSocialButtonPress:function(socialType){return _this3.onSocialButtonPress(socia
 
 
 
-_renderErrorScreen:function(){
-console.log("render error screen");
-return (
-React.createElement(ErrorScreen,{
-error:this.state.error,
-localizableStrings:this.props.localizableStrings,
-locale:this.props.locale}));},
-
-
 _renderVideoView:function(){var _this4=this;
+
 return (
 React.createElement(VideoView,{
 rate:this.state.rate,
@@ -1756,8 +1735,7 @@ config:{
 controlBar:this.props.controlBar,
 buttons:this.props.buttons.mobileContent,
 upNextScreen:this.props.upNextScreen,
-icons:this.props.icons,
-adScreen:this.props.adScreen},
+icons:this.props.icons},
 
 nextVideo:this.state.nextVideo,
 upNextDismissed:this.state.upNextDismissed,
@@ -52230,56 +52208,7 @@ if(localizableStrings[defaultLocale] && localizableStrings[defaultLocale][string
 return localizableStrings[defaultLocale][stringId];}
 
 
-return stringId;},
-
-
-stringForErrorCode:function(errorCode){
-switch(errorCode){
-case 0:
-return "Authorization Failed";
-case 1:
-return "Authorization Response invalid";
-case 2:
-return "Heartbeat failed";
-case 3:
-return "Content Tree Response invalid";
-case 4:
-return "The signature of the Authorization Response is invalid";
-case 5:
-return "Content Tree Next failed";
-case 6:
-return "AVPlayer Failed";
-case 7:
-return "The asset is not encoded for iOS";
-case 8:
-return "An Internal iOS Error. Check the error property.";
-case 9:
-return "Metadata Response invalid";
-case 10:
-return "During DRM Rights Acquisition, the rights server reported an invalid token";
-case 11:
-return "During DRM Rights Acquisition, the server reported that the device limit has been reached";
-case 12:
-return "During DRM Rights Acquisition, the server reported that device binding failed";
-case 13:
-return "During DRM Rights Acquisition, the server reported the device id was too long";
-case 14:
-return "There was some unknown error during the DRM workflow";
-case 15:
-return "Failed to download a required file during the DRM workflow";
-case 16:
-return "Failed to complete device personalization during the DRM workflow";
-case 17:
-return "Failed to get rights for asset during the DRM workflow";
-case 18:
-return "The expected discovery parameters are not provided";
-case 19:
-return "The discovery response is not received due to network errors";
-case 20:
-return "The discovery reponse is received and an error occured on server side";
-default:
-return "This is not working";}}};
-
+return stringId;}};
 
 
 
@@ -52368,8 +52297,7 @@ __d('OoyalaSkin/constants.js',[],function(global, require, requireDynamic, requi
 VIDEOVIEW_PLAYPAUSE:60,
 CONTROLBAR_HEIGHT:75,
 CONTROLBAR_ICONSIZE:20,
-CONTROLBAR_LABELSIZE:16,
-CC_PREVIEW_HEIGHT:80};
+CONTROLBAR_LABELSIZE:16};
 
 
 var BUTTON_NAMES={
@@ -52407,8 +52335,7 @@ START_SCREEN:'start',
 END_SCREEN:'end',
 PAUSE_SCREEN:'pause',
 AD_SCREEN:'ad',
-MOREOPTION_SCREEN:'moreOption',
-ERROR_SCREEN:'error'};
+MOREOPTION_SCREEN:'moreOption'};
 
 
 var OOSTATES={
@@ -52761,8 +52688,6 @@ BUTTON_NAMES=
 
 Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
 
-var leftMargin=20;
-
 var EndScreen=React.createClass({
 getInitialState:function(){
 return {
@@ -52860,7 +52785,7 @@ var controlBar=React.createElement(ControlBar,{
 ref:'controlBar',
 primaryButton:'replay',
 height:this.props.height,
-width:this.props.width - leftMargin * 2,
+width:this.props.width,
 isShow:'true',
 playhead:this.props.duration,
 duration:this.props.duration,
@@ -53133,7 +53058,8 @@ resizeMode:Image.resizeMode.contain}};
 
 
 
-console.log("Control Bar Width: " + this.props.width);
+
+console.log("Width: " + this.props.width);
 
 var itemCollapsingResults=CollapsingBarUtils.collapse(this.props.width,this.props.config.buttons);
 console.log(itemCollapsingResults);
@@ -53888,100 +53814,6 @@ __d('OoyalaSkin/style/infoPanelStyles.json',[],function(global, require, require
     alignItems: 'center',
   }
 };
-});
-__d('OoyalaSkin/ErrorScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/errorScreenStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var 
-React=require('react-native/Libraries/react-native/react-native.js');var 
-
-
-StyleSheet=
-
-
-React.StyleSheet;var Text=React.Text;var View=React.View;
-
-var Utils=require('OoyalaSkin/utils.js');
-var styles=Utils.getStyles(require('OoyalaSkin/style/errorScreenStyles.json'));
-
-var ErrorScreen=React.createClass({
-propTypes:{
-error:React.PropTypes.object,
-localizableStrings:React.PropTypes.object,
-locale:React.PropTypes.string},
-
-
-getTitle:function(){
-var errorCode=-1;
-if(this.props.error && this.props.error.code){
-errorCode = this.props.error.code;}
-
-var title=Utils.stringForErrorCode(errorCode).toUpperCase();
-var localizedTitle=
-Utils.localizedString(this.props.locale,title,this.props.localizableStrings);
-
-return (
-React.createElement(Text,{style:styles.title},
-localizedTitle));},
-
-
-
-getDescription:function(){
-if(this.props.error && this.props.error.description){
-var localizedDescription=
-Utils.localizedString(this.props.locale,this.props.error.description,this.props.localizableStrings);
-console.log("localized desc:" + localizedDescription);
-return (
-React.createElement(Text,{style:styles.description},
-localizedDescription));}
-
-
-return null;},
-
-
-render:function(){
-var title=this.getTitle();
-var description=this.getDescription();
-return (
-React.createElement(View,{style:styles.container},
-React.createElement(View,{style:styles.wrapper},
-title,
-description)));}});
-
-
-
-
-
-
-module.exports = ErrorScreen;
-});
-__d('OoyalaSkin/style/errorScreenStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
-  "container": {
-    "flex": 1,
-    "alignItems": "center",
-    "backgroundColor": "#000000",
-  },
-
-  "wrapper": {
-    "flex":1,
-    "justifyContent": "center",
-  },
-
-  "title": {
-    "fontSize": 40,
-    "fontFamily": "GillSans-Bold",
-    "color":"#FFFFFF",
-    "textAlign": "left",
-    "marginHorizontal": 10,
-  },
-
-  "description": {
-    "fontSize": 24,
-    "fontFamily": "GillSans",
-    "color": "#FFFFFF",
-    "textAlign": "left",
-    "marginHorizontal": 20,
-    "marginVertical": 20
-  }
-}
-;
 });
 __d('OoyalaSkin/discoveryPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/style/discoveryPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
@@ -54982,22 +54814,18 @@ this.toggleBottomOverlay();},
 
 
 render:function(){
-var adBar=null;
+
 if(this.props.ad){
-adBar = this.props.ad.requireAdBar?this._renderAdBar():null;
-if(this.props.config.adScreen.showControlBar == false){
-return adBar;}}
-
-
+return this.props.ad.requireAdBar?this._renderAdBar():null;}else 
+{
 return (
 React.createElement(View,{
 style:styles.container},
-adBar,
 this._renderPlaceholder(),
 this._renderClosedCaptions(),
 this._renderPlayPause(),
 this._renderUpNext(),
-this._renderBottomOverlay()));}});
+this._renderBottomOverlay()));}}});
 
 
 
@@ -55063,7 +54891,7 @@ getInitialState:function(){
 return {
 touch:false,
 opacity:new Animated.Value(0),
-height:new Animated.Value(0)};},
+height:new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT))};},
 
 
 
@@ -55647,7 +55475,7 @@ __d('OoyalaSkin/style/videoViewStyles.json',[],function(global, require, require
 }
 ;
 });
-__d('OoyalaSkin/languageSelectionPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/ToggleSwitch.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/languageSelectionPreview.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+__d('OoyalaSkin/languageSelectionPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/ToggleSwitch.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
 
 
@@ -55674,7 +55502,6 @@ var ToggleSwitch=require('OoyalaSkin/widgets/ToggleSwitch.js');
 var ClosedCaptionsView=require('OoyalaSkin/closedCaptionsView.js');
 var Utils=require('OoyalaSkin/utils.js');
 var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
-var PreviewWidget=require('OoyalaSkin/languageSelectionPreview.js');
 var LanguageSelectionPanel=React.createClass({
 propTypes:{
 languages:React.PropTypes.array,
@@ -55726,16 +55553,28 @@ onTouchEnd:function(event){},
 
 
 
+getPreview:function(){
+return (
+React.createElement(View,{style:styles.previewPanel},
+React.createElement(View,{style:styles.splitter}),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,"CLOSE CAPTION PREVIEW",this.props.config.localizableStrings)),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,"Sample Text",this.props.config.localizableStrings))));},
+
+
+
+
 render:function(){var _this=this;
 var hasCC=false;
 if(this.props.selectedLanguage && this.props.selectedLanguage !== ''){
 hasCC = true;}
 
+var previewPanel;
+if(hasCC){
+previewPanel = this.getPreview();}
 
 
 var itemPanelHeight=this.props.height - 30 - 30 - 60;
 var animationStyle={opacity:this.state.opacity};
-
 return (
 React.createElement(Animated.View,{style:[styles.panelContainer,animationStyle]},
 React.createElement(View,{style:styles.panelTitleRow},
@@ -55743,7 +55582,6 @@ React.createElement(Text,{style:styles.panelTitle},Utils.localizedString(this.pr
 
 React.createElement(ToggleSwitch,{
 switchOn:hasCC,
-areClosedCaptionsAvailable:this.props.languages.length > 0,
 onValueChanged:function(value){return _this.onSwitchToggled(value);},
 switchOnText:Utils.localizedString(this.props.config.locale,"On",this.props.config.localizableStrings),
 switchOffText:Utils.localizedString(this.props.config.locale,"Off",this.props.config.localizableStrings),
@@ -55758,10 +55596,7 @@ height:itemPanelHeight,
 itemWidth:160,
 itemHeight:88}),
 
-React.createElement(PreviewWidget,{
-isVisible:hasCC,
-config:this.props.config})));},
-
+previewPanel));},
 
 
 
@@ -55792,12 +55627,11 @@ __d('OoyalaSkin/widgets/ToggleSwitch.js',["react-native/Libraries/react-native/r
 
 var React=require('react-native/Libraries/react-native/react-native.js');var 
 
-SwitchIOS=
+StyleSheet=
 
 
 
-
-React.SwitchIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
 
 var Constants=require('OoyalaSkin/constants.js');
 
@@ -55806,9 +55640,8 @@ var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/
 var ToggleSwitch=React.createClass({
 propTypes:{
 switchOn:React.PropTypes.bool,
-areClosedCaptionsAvailable:React.PropTypes.bool,
-switchOnText:React.PropTypes.string,
-switchOffText:React.PropTypes.string,
+swithOnText:React.PropTypes.string,
+swithOffText:React.PropTypes.string,
 onValueChanged:React.PropTypes.func,
 config:React.PropTypes.object},
 
@@ -55820,11 +55653,18 @@ this.props.onValueChanged(!this.props.switchOn);},
 render:function(){
 var onTextStyle=this.props.switchOn?styles.highlightedText:styles.grayedText;
 var offTextStyle=this.props.switchOn?styles.grayedText:styles.highlightedText;
+var switchIcon=this.props.switchOn?this.props.config.icons.toggleOn.fontString:this.props.config.icons.toggleOff.fontString;
+var switchStyle=this.props.switchOn?
+[styles.buttonText,{fontFamily:this.props.config.icons.toggleOn.fontFamilyName}]:
+[styles.buttonText,{fontFamily:this.props.config.icons.toggleOff.fontFamilyName}];
 return (
+React.createElement(TouchableHighlight,{
+onPress:this.onSwitchToggled},
 React.createElement(View,{style:styles.container},
 React.createElement(Text,{style:offTextStyle},this.props.switchOffText),
-React.createElement(SwitchIOS,{value:this.props.switchOn,onValueChange:this.onSwitchToggled,disabled:!this.props.areClosedCaptionsAvailable}),
-React.createElement(Text,{style:onTextStyle},this.props.switchOnText)));}});
+React.createElement(Text,{style:switchStyle},switchIcon),
+React.createElement(Text,{style:onTextStyle},this.props.switchOnText))));}});
+
 
 
 
@@ -55851,76 +55691,20 @@ __d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, requi
     "fontSize": 12,
     "padding": 6,
   },
+  "buttonText": {
+    "textAlign": "center",
+    "color": "green",
+    "fontSize": 16,
+    "margin": 10,
+  },
 };
-});
-__d('OoyalaSkin/languageSelectionPreview.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json","OoyalaSkin/constants.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
-
-var React=require('react-native/Libraries/react-native/react-native.js');var 
-
-Animated=
-
-
-React.Animated;var Text=React.Text;var View=React.View;
-
-var Utils=require('OoyalaSkin/utils.js');
-var styles=Utils.getStyles(require('OoyalaSkin/style/languageSelectionPanelStyles.json'));
-
-var Constants=require('OoyalaSkin/constants.js');var 
-
-UI_SIZES=
-Constants.UI_SIZES;
-
-var LanguageSelectionPreview=React.createClass({
-propTypes:{
-config:React.PropTypes.object,
-isVisible:React.PropTypes.bool},
-
-
-getInitialState:function(){
-return {
-height:new Animated.Value(0)};},
-
-
-
-componentDidUpdate:function(prevProps,prevState){
-if(prevProps.isVisible != this.props.isVisible){
-this.state.height.setValue(this.props.isVisible?0:UI_SIZES.CC_PREVIEW_HEIGHT);
-Animated.timing(this.state.height,{
-toValue:this.props.isVisible?UI_SIZES.CC_PREVIEW_HEIGHT:0,
-duration:300,
-delay:0}).
-start();}},
-
-
-
-_getStyle:function(){
-return [
-styles.previewPanel,
-{
-'height':this.state.height}];},
-
-
-
-
-render:function(){
-return (
-React.createElement(Animated.View,{style:this._getStyle()},
-React.createElement(View,{style:styles.splitter}),
-React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'CLOSE CAPTION PREVIEW',this.props.config.localizableStrings)),
-React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'Sample Text',this.props.config.localizableStrings))));}});
-
-
-
-
-
-module.exports = LanguageSelectionPreview;
 });
 __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "panelContainer": {
     "marginTop": 50,
     "flex": 1,
     "flexDirection": "column",
-    "alignItems": "stretch"
+    "alignItems": "stretch",
   },
   "item": {
     "flex": 1,
@@ -55978,16 +55762,15 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
     "fontSize": 16,
     "fontFamily": "Helvetica",
     "margin": 10,
-    "backgroundColor": "transparent"
   },
   "splitter": {
     "height": 1,
     "alignSelf": "stretch",
-    "backgroundColor": "#585858"
+    "backgroundColor": "#585858",
   },
-  "previewPanel": {
+  "previewPanel": { 
     "alignItems":"flex-start",
-    "backgroundColor": "black"
+    "height": 60
   },
   "closedCaptionStyle": {
     "textAlign":"left",
