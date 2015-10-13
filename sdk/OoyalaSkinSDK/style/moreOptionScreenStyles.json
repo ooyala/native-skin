@@ -13,15 +13,15 @@
 
   "dismissButtonTopRight":{
     "position": "absolute",
-    "top": 20,
-    "right": 20,
+    "top": 0,
+    "right": 0
   },
 
   "rowCenter": {
     "flex": 1,
     "flexDirection": "row",
     "alignSelf": "center",
-    "backgroundColor": "transparent",
+    "backgroundColor": "transparent"
   },
 
   "rowBottom": {
@@ -29,7 +29,7 @@
     "flexDirection": "row",
     "alignSelf": "center",
     "alignItems": "flex-end",
-    "backgroundColor": "transparent",
+    "backgroundColor": "transparent"
   },
 
   "icon": {
@@ -39,7 +39,7 @@
 
   "iconDismiss": {
     "textAlign": "center",
-    "padding": 10
+    "padding": 25
   },
 
   "closeIconStyle": {
