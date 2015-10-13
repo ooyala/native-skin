@@ -179,7 +179,7 @@ var MoreOptionScreen = React.createClass({
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
     
-    var dismissButton = this._renderButton(styles.iconBright, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptions.color, this.props.config.icons.dismiss.fontFamilyName);
+    var dismissButton = this._renderButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptions.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow;
     var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
