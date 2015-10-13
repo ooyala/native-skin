@@ -37,6 +37,11 @@
     "margin": 15
   },
 
+  "iconDismiss": {
+    "textAlign": "center",
+    "padding": 10
+  },
+
   "closeIconStyle": {
     "fontSize": 20,
     "textAlign": "center",
