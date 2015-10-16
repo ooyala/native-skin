@@ -959,9 +959,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/VendorLibraries",
-					"/Users/dkao/Documents/ios-skin/vendor/Ooyala/OoyalaSDK-iOS",
+					"$(PROJECT_DIR)/VendorLibraries/**",
+					"$(inherited)/**",
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -982,9 +981,8 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/VendorLibraries",
-					"/Users/dkao/Documents/ios-skin/vendor/Ooyala/OoyalaSDK-iOS",
+					"$(PROJECT_DIR)/VendorLibraries/**",
+					"$(inherited)/**",
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
