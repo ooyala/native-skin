@@ -153,6 +153,7 @@ var OoyalaSkin = React.createClass({
       playhead: e.playhead,
       duration: e.duration,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
+      rate: e.rate
     });
 
     if(this.state.screenType == SCREEN_TYPES.VIDEO_SCREEN || this.state.screenType == SCREEN_TYPES.END_SCREEN){
@@ -211,7 +212,7 @@ var OoyalaSkin = React.createClass({
   },
 
   onStateChange: function(e) {
-    console.log("state changed")
+    console.log("state changed: " + e.state);
     switch (e.state) {
       case "paused": this.setState({rate:0}); break;
       case "playing":

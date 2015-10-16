@@ -132,7 +132,7 @@ var VideoViewPlayPause = React.createClass({
   },
 
   _renderLoading: function() {
-    if((this.props.rate <= 0 || this.props.playhead == 0) && !this.props.showButton && !this.state.controlPlaying) {
+    if(this.props.playhead == 0 && !this.props.showButton && !this.state.controlPlaying) {
       return (
         <View style={styles.loading}>
           <ActivityIndicatorIOS
