@@ -412,7 +412,9 @@ var OoyalaSkin = React.createClass({
         width={this.state.width}
         height={this.state.height}
         alertTitle={this.state.alertTitle}
-        alertMessage={this.state.alertMessage}/>);
+        alertMessage={this.state.alertMessage}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale} />);
   },
 
   _renderDiscoveryPanel: function() {
