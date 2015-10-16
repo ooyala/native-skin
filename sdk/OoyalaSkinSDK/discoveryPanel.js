@@ -29,6 +29,8 @@ var animationDuration = 1000;
 
 var DiscoveryPanel = React.createClass({
   propTypes: {
+    localizableStrings: React.PropTypes.object,
+    locale: React.PropTypes.string,
     dataSource: React.PropTypes.array,
     onRowAction: React.PropTypes.func,
     config: React.PropTypes.object,
@@ -134,7 +136,7 @@ var DiscoveryPanel = React.createClass({
       if (this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage) {
         return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.panelTitle.imageUri}} />);
       } else if (this.props.config.panelTitle.text) {
-        title = this.props.config.panelTitle.text;
+        title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
       }
     }
     return (

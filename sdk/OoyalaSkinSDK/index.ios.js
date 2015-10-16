@@ -425,6 +425,8 @@ var OoyalaSkin = React.createClass({
     return (
       <DiscoveryPanel
         config={this.props.discoveryScreen}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale}
         dataSource={this.state.discoveryResults}
         onRowAction={(info) => this.onDiscoveryRow(info)}
         width={this.state.width}
