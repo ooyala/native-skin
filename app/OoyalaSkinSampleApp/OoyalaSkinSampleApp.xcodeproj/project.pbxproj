@@ -28,7 +28,6 @@
 		0BFFF7B61B3A225E00D72444 /* WidePlayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0BFFF7B51B3A225E00D72444 /* WidePlayerView.xib */; };
 		2F12FF394E8985621462AB52 /* alice.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F12F9F14C5661D0AE78BEC3 /* alice.ttf */; };
 		5EFDD1D71B4F48BD00A61DC2 /* skin.json in Resources */ = {isa = PBXBuildFile; fileRef = 5EFDD19B1B4F486300A61DC2 /* skin.json */; };
-		970B1F9A1B97B357008046C1 /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 970B1F991B97B357008046C1 /* OoyalaSkinSDK.framework */; };
 		972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED77D1AE184CE005043DC /* libz.dylib */; };
 		976F26691B56F7F2005CFA66 /* en.json in Resources */ = {isa = PBXBuildFile; fileRef = 976F26661B56F7F2005CFA66 /* en.json */; };
 		976F266A1B56F7F2005CFA66 /* es.json in Resources */ = {isa = PBXBuildFile; fileRef = 976F26671B56F7F2005CFA66 /* es.json */; };
@@ -46,9 +45,11 @@
 		97930C701B6988FF009B3512 /* OoyalaIMASDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930C5C1B6988FE009B3512 /* OoyalaIMASDK.framework */; };
 		97930E271B699595009B3512 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E261B699595009B3512 /* EventKit.framework */; };
 		97930E291B6995CB009B3512 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97930E281B6995CB009B3512 /* WebKit.framework */; };
+		97B22E4E1BD05D1900D89589 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B22E4D1BD05D1900D89589 /* AdSupport.framework */; };
 		97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27AF1B212BC00071DBFE /* libc++abi.dylib */; };
 		97DE27B21B212BCD0071DBFE /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B11B212BCD0071DBFE /* libc++.dylib */; };
 		97DE27B41B212BD90071DBFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 97DE27B31B212BD90071DBFE /* libxml2.dylib */; };
+		CA97FA691BD6DA6600EB81AE /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 970B1F991B97B357008046C1 /* OoyalaSkinSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +119,7 @@
 		97930C5C1B6988FE009B3512 /* OoyalaIMASDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaIMASDK.framework; path = "../../../vendor/Ooyala/OoyalaIMASDK-iOS/OoyalaIMASDK.framework"; sourceTree = "<group>"; };
 		97930E261B699595009B3512 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		97930E281B6995CB009B3512 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		97B22E4D1BD05D1900D89589 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		97DE27AF1B212BC00071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27B11B212BCD0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27B31B212BD90071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -128,6 +130,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97B22E4E1BD05D1900D89589 /* AdSupport.framework in Frameworks */,
 				97930E291B6995CB009B3512 /* WebKit.framework in Frameworks */,
 				97930E271B699595009B3512 /* EventKit.framework in Frameworks */,
 				9771E31A1B71664E009FDE85 /* libGoogleIMA3.a in Frameworks */,
@@ -136,9 +139,9 @@
 				97DE27B01B212BC00071DBFE /* libc++abi.dylib in Frameworks */,
 				972ED77E1AE184CE005043DC /* libz.dylib in Frameworks */,
 				0BD9FCAA1B4DEE91001E0CAB /* OoyalaSDK.framework in Frameworks */,
+				CA97FA691BD6DA6600EB81AE /* OoyalaSkinSDK.framework in Frameworks */,
 				97930C6F1B6988FF009B3512 /* OoyalaFreewheelSDK.framework in Frameworks */,
 				97930C701B6988FF009B3512 /* OoyalaIMASDK.framework in Frameworks */,
-				970B1F9A1B97B357008046C1 /* OoyalaSkinSDK.framework in Frameworks */,
 				9771E2DE1B716643009FDE85 /* AdManager.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -257,6 +260,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				97B22E4D1BD05D1900D89589 /* AdSupport.framework */,
 				97930E281B6995CB009B3512 /* WebKit.framework */,
 				97930E261B699595009B3512 /* EventKit.framework */,
 				0B345ADB1B5626ED006CD3B0 /* OoyalaSkinSDK.xcassets */,
