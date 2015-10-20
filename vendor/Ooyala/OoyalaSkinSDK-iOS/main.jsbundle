@@ -1666,7 +1666,8 @@ var listenerDefinitions=[
 ['postShareAlert',function(event){return _this.onPostShareAlert(event);}],
 ['error',function(event){return _this.onError(event);}]];
 
-for(var d of listenerDefinitions) {
+for(var i=0;i < listenerDefinitions.length;i++) {
+var d=listenerDefinitions[i];
 this.listeners.push(DeviceEventEmitter.addListener(d[0],d[1]));}},
 
 
@@ -1676,8 +1677,8 @@ eventBridge.queryState();},
 
 
 componentWillUnmount:function(){
-for(var l of this.listeners) {
-l.remove;}
+for(var i=0;i < this.listeners.length;i++) {
+this.listeners[i].remove;}
 
 this.listeners = [];},
 
@@ -1808,7 +1809,9 @@ onSocialButtonPress:function(socialType){return _this6.onSocialButtonPress(socia
 width:this.state.width,
 height:this.state.height,
 alertTitle:this.state.alertTitle,
-alertMessage:this.state.alertMessage}));},
+alertMessage:this.state.alertMessage,
+localizableStrings:this.props.localizableStrings,
+locale:this.props.locale}));},
 
 
 _renderDiscoveryPanel:function(){var _this7=this;
@@ -1819,6 +1822,8 @@ return null;}
 return (
 React.createElement(DiscoveryPanel,{
 config:this.props.discoveryScreen,
+localizableStrings:this.props.localizableStrings,
+locale:this.props.locale,
 dataSource:this.state.discoveryResults,
 onRowAction:function(info){return _this7.onDiscoveryRow(info);},
 width:this.state.width,
@@ -54025,6 +54030,8 @@ var animationDuration=1000;
 
 var DiscoveryPanel=React.createClass({
 propTypes:{
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string,
 dataSource:React.PropTypes.array,
 onRowAction:React.PropTypes.func,
 config:React.PropTypes.object,
@@ -54130,7 +54137,7 @@ if(this.props.config.panelTitle){
 if(this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage){
 return React.createElement(Image,{style:styles.waterMarkImage,source:{uri:this.props.config.panelTitle.imageUri}});}else 
 if(this.props.config.panelTitle.text){
-title = this.props.config.panelTitle.text;}}
+title = Utils.localizedString(this.props.locale,"Discover",this.props.localizableStrings);}}
 
 
 return (
@@ -54599,7 +54606,9 @@ onSocialButtonPress:React.PropTypes.func,
 width:React.PropTypes.number,
 height:React.PropTypes.number,
 alertTitle:React.PropTypes.string,
-alertMessage:React.PropTypes.string},
+alertMessage:React.PropTypes.string,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
 
 
 getInitialState:function(){
@@ -54675,7 +54684,7 @@ var itemPanelHeight=this.props.height - 30;
 return (
 React.createElement(Animated.View,{style:[styles.container,animationStyle]},
 React.createElement(View,{style:styles.sharePanelTitleRow},
-React.createElement(Text,{style:styles.sharePanelTitle},"Social")),
+React.createElement(Text,{style:styles.sharePanelTitle},Utils.localizedString(this.props.locale,"Share",this.props.localizableStrings))),
 
 postShareSuccessAlert,
 React.createElement(ResponsiveList,{
