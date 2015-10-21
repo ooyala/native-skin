@@ -12,6 +12,7 @@ var {
 } = React;
 
 var indexIos = require('./index.ios.js');
+var Log = require('./log');
 var Utils = require('./utils');
 var Constants = require('./constants');
 var RectButton = require('./widgets/RectButton');
@@ -124,7 +125,7 @@ var MoreOptionScreen = React.createClass({
 
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if( buttonOpacity === undefined || buttonIcon === undefined || buttonStyle === undefined ) {
-        console.log( "ERROR: skipping unsupported More Options button ", button );
+        Log.error( "ERROR: skipping unsupported More Options button ", button );
         continue;
       }
 

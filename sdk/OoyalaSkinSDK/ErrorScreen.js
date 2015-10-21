@@ -7,6 +7,7 @@ var {
   View
 } = React;
 
+var Log = require('./log');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
 
@@ -36,7 +37,7 @@ var ErrorScreen = React.createClass({
     if (this.props.error && this.props.error.description) {
       var localizedDescription = 
         Utils.localizedString(this.props.locale, this.props.error.description, this.props.localizableStrings);
-      console.log("localized desc:"+ localizedDescription);
+      Log.error("localized desc:"+ localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription} 

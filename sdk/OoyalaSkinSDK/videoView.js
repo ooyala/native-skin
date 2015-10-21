@@ -21,6 +21,7 @@ var UpNext = require('./upNext');
 var RectButton = require('./widgets/RectButton');
 var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
 var Constants = require('./constants');
+var Log = require('./log');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 
@@ -80,7 +81,7 @@ var VideoView = React.createClass({
   },
 
   onGoLive: function() {
-    console.log("onGoLive");
+    Log.log("onGoLive");
     if (this.props.onScrub) {
       this.props.onScrub(1);
     }

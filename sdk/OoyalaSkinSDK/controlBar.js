@@ -21,6 +21,7 @@ var {
   UI_SIZES
 } = Constants;
 
+var Log = require('./log');
 var Utils = require('./utils');
 var ControlBarWidget = require('./widgets/controlBarWidgets');
 var CollapsingBarUtils = require('./collapsingBarUtils');
@@ -150,10 +151,11 @@ var ControlBar = React.createClass({
       }
     };
 
-    console.log("Control Bar Width: " + this.props.width);
+    Log.log("Control Bar Width: " + this.props.width);
 
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
-    console.log(itemCollapsingResults);
+    // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
+    
     for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
       controlBarWidgets.push(<ControlBarWidget

@@ -13,6 +13,7 @@ var {
   TouchableHighlight
 } = React;
 var VolumeView = require('./VolumeView');
+var Log = require('../log');
 
 var Constants = require('./../constants');
 var {
@@ -146,7 +147,7 @@ var controlBarWidget = React.createClass({
       return widgetsMap[this.props.widgetType.name](widgetOptions);
     }
     else {
-      console.log( "WARNING: unsupported widget name: " + this.props.widgetType.name );
+      Log.warn( "WARNING: unsupported widget name: " + this.props.widgetType.name );
       return <View></View>;
     }
   }
