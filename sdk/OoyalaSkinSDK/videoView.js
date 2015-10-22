@@ -99,6 +99,9 @@ var VideoView = React.createClass({
     }
     else if (name == BUTTON_NAMES.RESET_AUTOHIDE) {
       this.state.showControls = true;
+    } 
+    else if (name == BUTTON_NAMES.LEARNMORE) {
+      this.state.showControls = true;
     }
     this.props.onPress(name);
   },
@@ -256,7 +259,7 @@ var VideoView = React.createClass({
     var adBar = null;
     if (this.props.ad) {
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null; 
-      if(this.props.config.adScreen.showControlBar == false) {
+      if(this.props.config.adScreen.showControlBar == false && this.state.showControls == false) {
         return adBar;
       }
     }
