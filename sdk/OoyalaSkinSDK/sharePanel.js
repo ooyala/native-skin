@@ -7,6 +7,7 @@ var {
   ListView,
   Image,
   TouchableHighlight,
+  AlertIOS,
 } = React;
 
 var Utils = require('./utils');
@@ -20,7 +21,11 @@ var SharePanel = React.createClass ({
 		socialButtons: React.PropTypes.array,
 		onSocialButtonPress: React.PropTypes.func,
 		width: React.PropTypes.number,
-    height: React.PropTypes.number,
+		height: React.PropTypes.number,
+		alertTitle: React.PropTypes.string,
+		alertMessage: React.PropTypes.string,
+		localizableStrings: React.PropTypes.object,
+		locale: React.PropTypes.string
 	},
 
 	getInitialState: function() {
@@ -32,12 +37,12 @@ var SharePanel = React.createClass ({
   componentDidMount:function () {
     this.state.opacity.setValue(0);
     Animated.parallel([
-      Animated.timing(                      
-        this.state.opacity,                 
+      Animated.timing(
+        this.state.opacity,
         {
-          toValue: 1,                         
+          toValue: 1,
           duration: animationDuration,
-          delay: 0  
+          delay: 0
         }),
     ]).start();
   },
@@ -49,7 +54,19 @@ var SharePanel = React.createClass ({
 	render: function() {
 		var sharePanel;
 		var socialButtons = [];
-		
+
+		var postShareSuccessAlert;
+
+		if(this.props.alertTitle != ""){
+			postShareSuccessAlert = AlertIOS.alert(
+				this.props.alertTitle,
+  			this.props.alertMessage,
+  			[
+    			{text: 'Ok', onPress: () => console.log('Ok Pressed!')},
+  			]
+			);
+		}
+
 		for (var i = 0; i < this.props.socialButtons.length; i++){
 
 			var socialButton;
@@ -84,8 +101,9 @@ var SharePanel = React.createClass ({
 		return (
 		<Animated.View style={[styles.container, animationStyle]}>
 			<View style={styles.sharePanelTitleRow}>
-				<Text style={styles.sharePanelTitle}>{"Social"}</Text>
+				<Text style={styles.sharePanelTitle}>{Utils.localizedString(this.props.locale, "Share", this.props.localizableStrings)}</Text>
 			</View>
+			{postShareSuccessAlert}
 			<ResponsiveList
           horizontal={false}
           data={socialButtons}
@@ -100,7 +118,7 @@ var SharePanel = React.createClass ({
 
 	renderItem: function(item: object, itemId: number) {
 		return (
-      <TouchableHighlight 
+      <TouchableHighlight
         style={styles.item}
         onPress={() => this.onSocialButtonPress(item)}>
         <View style = {styles.socialButton}>

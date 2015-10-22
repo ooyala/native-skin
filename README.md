@@ -1,64 +1,54 @@
 # ios-skin
 
-The Alice redesign for the iOS SDK.
+This is the repository that contains all information regarding the new iOS Skin. This repo is the source for all things related to the new Ooyala SDK User Interface ('skin').  
 
-##Prerequisites
+**The sample application will not run without configuration. Please conslult the First Steps for setup**
 
-In order to be successful running this sample app, you are expected to understand the following:
+# First Steps: iOS Getting Started Guide
 
-  1. An understanding of the Apple Developer ecosystem, with an understanding of building, running, and provisioning applications
-  2. An understanding of the Core Ooyala SDK, how to configure and run simple Ooyala integrations (see https://github.com/ooyala/ios-sample-apps)
-  3. A passing understanding of brew, git, and node
+Trying things for the first time? [Check out the iOS Skin Getting Started Guide](dev_docs/README-ios.md) to try the sample application, while getting a better understanding of the new iOS Skin, OoyakaSkinSDK-iOS, and OoyalaSkinSampleApp
 
-##In order to run the sample app, please first install React's required installs
+### TL;DR: How to Run the Sample Application
 
-For more details please refer to: https://facebook.github.io/react-native/docs/getting-started.html#content
+This will be the first four steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
 
-  1. install xcode
-  2. install homebrew
-  3. brew install node
-  4. brew install watchman
+1. `git clone https://github.com/ooyala/ios-skin`
+2. `cd ios-skin && git submodule update --init`
+3. `open app/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
+4. Run the application
 
-##Clone this repo and update submodule:
 
-  1. git clone git@github.com:ooyala/ios-skin.git
-  2. git submodule init
-  3. git submodule update
+# Overview
 
-##Now install react-native:
+This project focuses on the creation of Ooyala's new Player UI for the native Ooyala SDKs. This new UI must...
 
-  1. cd sdk/OoyalaSkinSDK
-  2. npm install
+1. be visually consistent with the Ooyala Web UI.  
+2. be easily integratable with existing Ooyala SDK applications
+3. be easily configurable with customization that supports a majority of use cases.
+4. be easily modifiable for larger interface changes that some developers may need to make.
 
-##Now you should be able to run the sample app
+This project relies on __React Native__, a UI Framework that allows for similar code to be run for all of Web, Android, and iOS SDKs.
 
-  1. go to repo root
-  2. open OoyalaSkin.xcworkspace
-  3. launch OoyalaSkin
+- (iOS) However, in most cases you do not necessarily need to install any React Native dependencies
 
-##Run sample app on device without a service
+# Definitions
 
-  1. on terminal go to sdk/OoyalaSkinSDK
-  2. run "react-native bundle" (note: react-native bundle --minify does not work) 
-  3. run "cp iOS/main.jsbundle ../../app/OoyalaSkinSampleApp/OoyalaSkinSampleApp/main.jsbundle"
-  4. in DefaultSkinPlayerViewController.m comment out "NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];"
-  5. uncomment "NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];"
-  6. now you should be able to run the app on device.
+- **OoyalaSkinSDK.zip**: The zip package that contains all libraries, resources, and auxilary files that are necessary to add the Skin UI to an application
+- **OoyalaSkinSDK**: This can refer to two different things:
+    1. *Compiled Skin SDK*: This is the OoyalaSkinSDK.framework or OoyalaSkinSDK.jar which you can embed into your application directly
+    2. *Source Code SDK*: This is the raw source code that would compile into (1).  You can link this directly into your application as an alternative to (1)
+- **OoyalaSkinSampleApp**: The Android or iOS Sample Application that highlights scenarios which demonstrate various features of the Skin UI
+- **React Native Javascript**: The javscript that is written with the React Native framework. This code defines the entire UI interface.  This can be delivered to the application in two ways:
+    1. *JSBundle*: This refers to the method where you pre-package all of your javascript files into one (called the jsbundle), and you physically insert that into your application (for example, added into the iOS application through the application's bundle).
+    2. *Local Hosting*: React Native provides a way to quickly debug and test javascript code by hosting a Node server that packages all of our javascript files on the fly, and put it into the sample app
+- **Skin Config**: A series of JSON files that can be found at [https://github.com/ooyala/skin-config](https://github.com/ooyala/skin-config). These files define:
+    1. *skin.json*: A configuration that is applied to the OoyalaSkinSDK, which outlines the desired look and feel of the user interface.
+    2. *skin-schema.json*: A JSON schema that defines all of the possible options for the skin.json
+    3. *[language].json*: A series of files that represent the localization of all strings used in our Skin UI (i.e. en.json, zh.json)
 
-##Generate ipa for distribution
+## Other Developer notes
 
-  1. Follow the steps in previous section to run sample app on device
-  2. With a provisioned device connected, select OoyalaSkinSampleApp schema and the connected device in Xcode.
-  3. From Xcode menu, choose "Product->Archive"
-  4. From Xcode orgnizer, choose "Export"
-  5. Select "Save for enterprise" and follow the instructions to generate ipa file. 
-
-##Build the OoyalaSkinSDK.framework
-
-  1. xcodebuild -project sdk/OoyalaSkinSDK/OoyalaSkinSDK.xcodeproj/ -sdk iphonesimulator -target OoyalaSkinSDKUniversal
-  2. find OoyalaSkinSDK.framework in sdk/OoyalaSkinSDK/build/
-
-##Running Unit Tests
+### Running Unit Tests
 
   1. Some of the JavaScript components have unit tests in their file. It is possible
      to run them using the [Node REPL](https://nodejs.org/api/repl.html).

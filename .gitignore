@@ -3,3 +3,12 @@ sdk/OoyalaSkinSDK/node_modules
 .idea/
 **/build/
 **/iOS/
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+
+# OS X
+.DS_Store

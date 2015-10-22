@@ -45,6 +45,7 @@ static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 static NSString *kLocalizableStrings = @"localizableStrings";
 static NSString *kLocale = @"locale";
+static NSDictionary *kSkinCofig;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)skinOptions
@@ -59,6 +60,7 @@ static NSString *kLocale = @"locale";
                                           launchOptions:nil];
     _skinConfig = [self getReactViewInitialProperties];
     _reactView.initialProperties = _skinConfig;
+    kSkinCofig = _skinConfig;
     
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
@@ -144,6 +146,7 @@ static NSString *kLocale = @"locale";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
   }
 }
 
@@ -200,6 +203,16 @@ static NSString *kLocale = @"locale";
 - (void) bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
   NSDictionary *eventBody = @{@"state":stateString};
+
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeErrorNotification:(NSNotification *)notification {
+  OOOoyalaError *error = _player.error;
+  int errorCode = error ? error.code : -1;
+  NSNumber *code = [NSNumber numberWithInt:errorCode];
+  NSString *detail = _player.error.description ? _player.error.description : @"";
+  NSDictionary *eventBody = @{@"code":code,@"description":detail};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
@@ -400,6 +413,46 @@ static NSString *kLocale = @"locale";
 
 - (NSString *) version {
   return OO_SKIN_VERSION;
+}
+
+- (void)queryState {
+  if (_player.state == OOOoyalaPlayerStateError) {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerErrorNotification object:nil];
+    [self bridgeErrorNotification:notification];
+  } else {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
+    [self bridgeStateChangedNotification:notification];
+  }
+}
+
++ (NSDictionary *)getTextForSocialType: (NSString *)socialType {
+  NSDictionary *dictSocial;
+  
+  NSString *social_unavailable;
+  NSString *social_success;
+  NSString *post_title = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Post Title"];
+  NSString *account_configure =[OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Account Configure"];
+  
+  if ([socialType isEqual:@"Facebook"]) {
+    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Unavailable"];
+    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Success"];
+    
+    dictSocial = @{@"Facebook Unavailable": social_unavailable,
+                   @"Facebook Success": social_success,
+                   @"Post Title": post_title,
+                   @"Account Configure": account_configure};
+    
+  } else if ([socialType isEqual: @"Twitter"]) {
+    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Unavailable"];
+    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Success"];
+    
+    dictSocial = @{@"Twitter Unavailable": social_unavailable,
+                   @"Twitter Success": social_success,
+                   @"Post Title": post_title,
+                   @"Account Configure": account_configure};
+  }
+  
+  return dictSocial;
 }
 
 @end

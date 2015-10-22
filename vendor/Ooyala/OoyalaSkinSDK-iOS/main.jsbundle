@@ -1395,7 +1395,7 @@ throw new TypeError(
 
 var index=findIndex.call(this,predicate,context);
 return index === -1?undefined:this[index];}});}})();
-__d('OoyalaSkin/index.ios.js',["NativeModules","NativeModules","react-native/Libraries/react-native/react-native.js","OoyalaSkin/StartScreen.js","OoyalaSkin/EndScreen.js","OoyalaSkin/discoveryPanel.js","OoyalaSkin/MoreOptionScreen.js","OoyalaSkin/sharePanel.js","OoyalaSkin/constants.js","OoyalaSkin/videoView.js","OoyalaSkin/languageSelectionPanel.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+__d('OoyalaSkin/index.ios.js',["NativeModules","NativeModules","react-native/Libraries/react-native/react-native.js","OoyalaSkin/StartScreen.js","OoyalaSkin/EndScreen.js","OoyalaSkin/ErrorScreen.js","OoyalaSkin/discoveryPanel.js","OoyalaSkin/MoreOptionScreen.js","OoyalaSkin/sharePanel.js","OoyalaSkin/constants.js","OoyalaSkin/videoView.js","OoyalaSkin/languageSelectionPanel.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
 
 
@@ -1417,6 +1417,7 @@ var eventBridge=require('NativeModules').OOReactBridge;
 var OOSocialShare=require('NativeModules').OOReactSocialShare;
 var StartScreen=require('OoyalaSkin/StartScreen.js');
 var EndScreen=require('OoyalaSkin/EndScreen.js');
+var ErrorScreen=require('OoyalaSkin/ErrorScreen.js');
 var DiscoveryPanel=require('OoyalaSkin/discoveryPanel.js');
 var MoreOptionScreen=require('OoyalaSkin/MoreOptionScreen.js');
 var SharePanel=require('OoyalaSkin/sharePanel.js');
@@ -1442,6 +1443,7 @@ screenType:SCREEN_TYPES.LOADING_SCREEN,
 title:'',
 description:'',
 promoUrl:'',
+hostedAtUrl:'',
 playhead:0,
 duration:1,
 rate:0,
@@ -1453,7 +1455,10 @@ showPlayButton:true,
 
 
 
-buttonSelected:"None"};},
+buttonSelected:"None",
+alertTitle:'',
+alertMessage:'',
+error:null};},
 
 
 
@@ -1465,7 +1470,7 @@ onSocialButtonPress:function(socialType){
 OOSocialShare.onSocialButtonPress({
 'socialType':socialType,
 'text':this.state.title,
-'link':'https://www.ooyala.com'},
+'link':this.state.hostedAtUrl},
 
 function(results){
 console.log(results);});},
@@ -1576,6 +1581,7 @@ description:e.description,
 duration:e.duration,
 live:e.live,
 promoUrl:e.promoUrl,
+hostedAtUrl:e.hostedAtUrl,
 width:e.width,
 height:e.height});
 if(!this.state.autoPlay){
@@ -1613,6 +1619,11 @@ default:break;}},
 
 
 
+onError:function(e){
+console.log("onError received");
+this.setState({screenType:SCREEN_TYPES.ERROR_SCREEN,error:e});},
+
+
 onUpNextDismissed:function(e){
 this.setState({upNextDismissed:e.upNextDismissed});},
 
@@ -1628,6 +1639,11 @@ this.setState({selectedLanguage:e});},
 
 shouldShowLandscape:function(){
 return this.state.width > this.state.height;},
+
+
+onPostShareAlert:function(e){
+this.setState({alertTitle:e.title});
+this.setState({alertMessage:e.message});},
 
 
 componentWillMount:function(){var _this=this;
@@ -1646,26 +1662,35 @@ var listenerDefinitions=[
 ['adPodCompleted',function(event){return _this.onAdPodCompleted(event);}],
 ['setNextVideo',function(event){return _this.onSetNextVideo(event);}],
 ['upNextDismissed',function(event){return _this.onUpNextDismissed(event);}],
-['playStarted',function(event){return _this.onPlayStarted(event);}]];
+['playStarted',function(event){return _this.onPlayStarted(event);}],
+['postShareAlert',function(event){return _this.onPostShareAlert(event);}],
+['error',function(event){return _this.onError(event);}]];
 
-for(var d of listenerDefinitions) {
+for(var i=0;i < listenerDefinitions.length;i++) {
+var d=listenerDefinitions[i];
 this.listeners.push(DeviceEventEmitter.addListener(d[0],d[1]));}},
 
 
 
+componentDidMount:function(){
+eventBridge.queryState();},
+
+
 componentWillUnmount:function(){
-for(var l of this.listeners) {
-l.remove;}
+for(var i=0;i < this.listeners.length;i++) {
+this.listeners[i].remove;}
 
 this.listeners = [];},
 
 
 render:function(){
+console.log("screentype:" + this.state.screenType);
 switch(this.state.screenType){
 case SCREEN_TYPES.START_SCREEN:return this._renderStartScreen();break;
 case SCREEN_TYPES.END_SCREEN:return this._renderEndScreen();break;
 case SCREEN_TYPES.LOADING_SCREEN:return this._renderLoadingScreen();break;
 case SCREEN_TYPES.MOREOPTION_SCREEN:return this._renderMoreOptionScreen();break;
+case SCREEN_TYPES.ERROR_SCREEN:return this._renderErrorScreen();break;
 default:return this._renderVideoView();break;}},
 
 
@@ -1687,7 +1712,6 @@ onPress:function(name){return _this2.handlePress(name);}}));},
 
 
 _renderEndScreen:function(){var _this3=this;
-
 return (
 React.createElement(EndScreen,{
 config:{
@@ -1708,8 +1732,16 @@ onSocialButtonPress:function(socialType){return _this3.onSocialButtonPress(socia
 
 
 
-_renderVideoView:function(){var _this4=this;
+_renderErrorScreen:function(){
+console.log("render error screen");
+return (
+React.createElement(ErrorScreen,{
+error:this.state.error,
+localizableStrings:this.props.localizableStrings,
+locale:this.props.locale}));},
 
+
+_renderVideoView:function(){var _this4=this;
 return (
 React.createElement(VideoView,{
 rate:this.state.rate,
@@ -1733,7 +1765,8 @@ config:{
 controlBar:this.props.controlBar,
 buttons:this.props.buttons.mobileContent,
 upNextScreen:this.props.upNextScreen,
-icons:this.props.icons},
+icons:this.props.icons,
+adScreen:this.props.adScreen},
 
 nextVideo:this.state.nextVideo,
 upNextDismissed:this.state.upNextDismissed,
@@ -1772,13 +1805,25 @@ _renderSocialOptions:function(){var _this6=this;
 return (
 React.createElement(SharePanel,{
 socialButtons:this.props.sharing,
-onSocialButtonPress:function(socialType){return _this6.onSocialButtonPress(socialType);}}));},
+onSocialButtonPress:function(socialType){return _this6.onSocialButtonPress(socialType);},
+width:this.state.width,
+height:this.state.height,
+alertTitle:this.state.alertTitle,
+alertMessage:this.state.alertMessage,
+localizableStrings:this.props.localizableStrings,
+locale:this.props.locale}));},
 
 
 _renderDiscoveryPanel:function(){var _this7=this;
+if(!this.state.discoveryResults){
+return null;}
+
+
 return (
 React.createElement(DiscoveryPanel,{
 config:this.props.discoveryScreen,
+localizableStrings:this.props.localizableStrings,
+locale:this.props.locale,
 dataSource:this.state.discoveryResults,
 onRowAction:function(info){return _this7.onDiscoveryRow(info);},
 width:this.state.width,
@@ -26972,10 +27017,22 @@ var _requestAnimationFrame=setter(GLOBAL.requestAnimationFrame,_cancelAnimationF
 
 var TimerMixin={
 componentWillUnmount:function(){
-this[_timeouts] && this[_timeouts].forEach(this.clearTimeout);
-this[_intervals] && this[_intervals].forEach(this.clearInterval);
-this[_immediates] && this[_immediates].forEach(this.clearImmediate);
-this[_rafs] && this[_rafs].forEach(this.cancelAnimationFrame);},
+this[_timeouts] && this[_timeouts].forEach(function(id){
+GLOBAL.clearTimeout(id);});
+
+this[_timeouts] = null;
+this[_intervals] && this[_intervals].forEach(function(id){
+GLOBAL.clearInterval(id);});
+
+this[_intervals] = null;
+this[_immediates] && this[_immediates].forEach(function(id){
+GLOBAL.clearImmediate(id);});
+
+this[_immediates] = null;
+this[_rafs] && this[_rafs].forEach(function(id){
+GLOBAL.cancelAnimationFrame(id);});
+
+this[_rafs] = null;},
 
 
 setTimeout:_setTimeout,
@@ -52188,7 +52245,56 @@ if(localizableStrings[defaultLocale] && localizableStrings[defaultLocale][string
 return localizableStrings[defaultLocale][stringId];}
 
 
-return stringId;}};
+return stringId;},
+
+
+stringForErrorCode:function(errorCode){
+switch(errorCode){
+case 0:
+return "Authorization Failed";
+case 1:
+return "Authorization Response invalid";
+case 2:
+return "Heartbeat failed";
+case 3:
+return "Content Tree Response invalid";
+case 4:
+return "The signature of the Authorization Response is invalid";
+case 5:
+return "Content Tree Next failed";
+case 6:
+return "AVPlayer Failed";
+case 7:
+return "The asset is not encoded for iOS";
+case 8:
+return "An Internal iOS Error. Check the error property.";
+case 9:
+return "Metadata Response invalid";
+case 10:
+return "During DRM Rights Acquisition, the rights server reported an invalid token";
+case 11:
+return "During DRM Rights Acquisition, the server reported that the device limit has been reached";
+case 12:
+return "During DRM Rights Acquisition, the server reported that device binding failed";
+case 13:
+return "During DRM Rights Acquisition, the server reported the device id was too long";
+case 14:
+return "There was some unknown error during the DRM workflow";
+case 15:
+return "Failed to download a required file during the DRM workflow";
+case 16:
+return "Failed to complete device personalization during the DRM workflow";
+case 17:
+return "Failed to get rights for asset during the DRM workflow";
+case 18:
+return "The expected discovery parameters are not provided";
+case 19:
+return "The discovery response is not received due to network errors";
+case 20:
+return "The discovery reponse is received and an error occured on server side";
+default:
+return "This is not working";}}};
+
 
 
 
@@ -52277,7 +52383,8 @@ __d('OoyalaSkin/constants.js',[],function(global, require, requireDynamic, requi
 VIDEOVIEW_PLAYPAUSE:60,
 CONTROLBAR_HEIGHT:75,
 CONTROLBAR_ICONSIZE:20,
-CONTROLBAR_LABELSIZE:16};
+CONTROLBAR_LABELSIZE:16,
+CC_PREVIEW_HEIGHT:80};
 
 
 var BUTTON_NAMES={
@@ -52315,7 +52422,8 @@ START_SCREEN:'start',
 END_SCREEN:'end',
 PAUSE_SCREEN:'pause',
 AD_SCREEN:'ad',
-MOREOPTION_SCREEN:'moreOption'};
+MOREOPTION_SCREEN:'moreOption',
+ERROR_SCREEN:'error'};
 
 
 var OOSTATES={
@@ -52644,7 +52752,7 @@ pauseButton))));}});
 
 module.exports = VideoViewPlayPause;
 });
-__d('OoyalaSkin/EndScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/endScreenStyles.json","OoyalaSkin/progressBar.js","OoyalaSkin/controlBar.js","OoyalaSkin/waterMark.js","OoyalaSkin/infoPanel.js","OoyalaSkin/sharePanel.js","OoyalaSkin/constants.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+__d('OoyalaSkin/EndScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/endScreenStyles.json","OoyalaSkin/progressBar.js","OoyalaSkin/controlBar.js","OoyalaSkin/waterMark.js","OoyalaSkin/infoPanel.js","OoyalaSkin/constants.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
 
 
 StyleSheet=
@@ -52661,14 +52769,14 @@ var ProgressBar=require('OoyalaSkin/progressBar.js');
 var ControlBar=require('OoyalaSkin/controlBar.js');
 var WaterMark=require('OoyalaSkin/waterMark.js');
 var InfoPanel=require('OoyalaSkin/infoPanel.js');
-var SharePanel=require('OoyalaSkin/sharePanel.js');
-
 var Constants=require('OoyalaSkin/constants.js');var 
 
 
 BUTTON_NAMES=
 
 Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
+
+var leftMargin=20;
 
 var EndScreen=React.createClass({
 getInitialState:function(){
@@ -52685,10 +52793,10 @@ duration:React.PropTypes.number,
 description:React.PropTypes.string,
 promoUrl:React.PropTypes.string,
 onPress:React.PropTypes.func,
-onSocialButtonPress:React.PropTypes.func,
 width:React.PropTypes.number,
 height:React.PropTypes.number,
-discoveryPanel:React.PropTypes.object},
+discoveryPanel:React.PropTypes.object,
+socialPanel:React.PropTypes.object},
 
 
 handleClick:function(name){
@@ -52707,14 +52815,18 @@ handleTouchEnd:function(event){
 this.toggleControlBar();},
 
 
-render:function(){var _this=this;
+_renderDiscoveryScreen:function(progressBar,controlBar){
+return (
+React.createElement(View,{style:styles.fullscreenContainer},
+this.props.discoveryPanel,
+progressBar,
+controlBar));},
+
+
+
+_renderDefaultScreen:function(progressBar,controlBar){var _this=this;
 var fullscreenPromoImage=this.props.config.endScreen.mode == 'default';
 var replaybuttonLocation=styles.replaybuttonCenter;
-var socialButtonsArray=[{buttonName:BUTTON_NAMES.TWITTER,imgUrl:IMG_URLS.TWITTER},
-{buttonName:BUTTON_NAMES.FACEBOOK,imgUrl:IMG_URLS.FACEBOOK}];
-
-
-
 var replaybutton;
 if(this.props.config.endScreen.showReplayButton){
 var fontFamilyStyle={fontFamily:this.props.config.icons.replay.fontFamilyName};
@@ -52730,75 +52842,54 @@ React.createElement(Text,{style:[styles.replaybutton,fontFamilyStyle]},this.prop
 
 var title=this.props.config.endScreen.showTitle?this.props.title:null;
 var description=this.props.config.endScreen.showDescription?this.props.description:null;
+var infoPanel=
+React.createElement(InfoPanel,{title:title,description:description});
 
-var infoPanel;
-infoPanel = React.createElement(InfoPanel,{title:title,description:description});
+return (
+React.createElement(Image,{
+source:{uri:this.props.promoUrl},
+style:styles.fullscreenContainer,
+resizeMode:Image.resizeMode.contain},
+React.createElement(View,{
+style:styles.fullscreenContainer},
+infoPanel,
+this.props.sharePanel,
+React.createElement(View,{style:replaybuttonLocation},
+replaybutton)),
 
-var sharePanel;
-sharePanel = React.createElement(SharePanel,{
-ref:'sharePanel',
-isShow:this.state.showSharePanel,
-socialButtons:socialButtonsArray,
-onSocialButtonPress:function(socialType){return _this.onSocialButtonPress(socialType);}});
 
-var progressBar;
-progressBar = React.createElement(ProgressBar,{
+progressBar,
+controlBar));},
+
+
+
+
+render:function(){var _this2=this;
+var progressBar=React.createElement(ProgressBar,{
 ref:'progressBar',
 playhead:this.props.duration,
 duration:this.props.duration,
 isShow:this.state.showControls});
 
-var controlBar;
-controlBar = React.createElement(ControlBar,{
+var controlBar=React.createElement(ControlBar,{
 ref:'controlBar',
 primaryButton:'replay',
 height:this.props.height,
-width:this.props.width,
+width:this.props.width - leftMargin * 2,
 isShow:'true',
 playhead:this.props.duration,
 duration:this.props.duration,
-onPress:function(name){return _this.handleClick(name);},
+onPress:function(name){return _this2.handleClick(name);},
 config:{
 controlBar:this.props.config.controlBar,
 buttons:this.props.config.buttons,
 icons:this.props.config.icons}});
 
-
-var waterMark=React.createElement(WaterMark,null);
-
-switch(this.props.config.endScreen.screenToShowOnEnd){
-case 'discovery':
-return (
-React.createElement(View,{style:styles.fullscreenContainer},
-this.props.discoveryPanel,
-progressBar,
-controlBar));
-
-
-default:
-return (
-
-React.createElement(Image,{
-source:{uri:this.props.promoUrl},
-style:styles.fullscreenContainer,
-resizeMode:Image.resizeMode.contain},
-
-React.createElement(View,{
-style:styles.fullscreenContainer},
-infoPanel,
-sharePanel,
-React.createElement(View,{style:replaybuttonLocation},
-replaybutton),
-
-waterMark),
-
-progressBar,
-controlBar));}}});
-
-
-
-
-
+if(this.props.config.endScreen.screenToShowOnEnd == 'discovery' && 
+this.props.discoveryPanel){
+return this._renderDiscoveryScreen(progressBar,controlBar);}else 
+{
+return this._renderDefaultScreen(progressBar,controlBar);}}});
 
 
 
@@ -53057,8 +53148,7 @@ resizeMode:Image.resizeMode.contain}};
 
 
 
-
-console.log("Width: " + this.props.width);
+console.log("Control Bar Width: " + this.props.width);
 
 var itemCollapsingResults=CollapsingBarUtils.collapse(this.props.width,this.props.config.buttons);
 console.log(itemCollapsingResults);
@@ -53245,6 +53335,7 @@ var React=require('react-native/Libraries/react-native/react-native.js');var
 
 requireNativeComponent=
 React.requireNativeComponent;
+
 
 module.exports = requireNativeComponent('OOVolumeView',null);
 });
@@ -53814,134 +53905,99 @@ __d('OoyalaSkin/style/infoPanelStyles.json',[],function(global, require, require
   }
 };
 });
-__d('OoyalaSkin/sharePanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/sharePanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
-
-Animated=
-
+__d('OoyalaSkin/ErrorScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/errorScreenStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var 
+React=require('react-native/Libraries/react-native/react-native.js');var 
 
 
+StyleSheet=
 
 
-React.Animated;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;
+React.StyleSheet;var Text=React.Text;var View=React.View;
 
 var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/errorScreenStyles.json'));
 
-var styles=Utils.getStyles(require('OoyalaSkin/style/sharePanelStyles.json'));
-var animationDuration=1000;
-
-var SharePanel=React.createClass({
+var ErrorScreen=React.createClass({
 propTypes:{
-socialButtons:React.PropTypes.array,
-onSocialButtonPress:React.PropTypes.func},
+error:React.PropTypes.object,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
 
 
-getInitialState:function(){
-return {
-opacity:new Animated.Value(0)};},
+getTitle:function(){
+var errorCode=-1;
+if(this.props.error && this.props.error.code){
+errorCode = this.props.error.code;}
+
+var title=Utils.stringForErrorCode(errorCode).toUpperCase();
+var localizedTitle=
+Utils.localizedString(this.props.locale,title,this.props.localizableStrings);
+
+return (
+React.createElement(Text,{style:styles.title},
+localizedTitle));},
 
 
 
-componentDidMount:function(){
-this.state.opacity.setValue(0);
-Animated.parallel([
-Animated.timing(
-this.state.opacity,
-{
-toValue:1,
-duration:animationDuration,
-delay:0})]).
-
-start();},
+getDescription:function(){
+if(this.props.error && this.props.error.description){
+var localizedDescription=
+Utils.localizedString(this.props.locale,this.props.error.description,this.props.localizableStrings);
+console.log("localized desc:" + localizedDescription);
+return (
+React.createElement(Text,{style:styles.description},
+localizedDescription));}
 
 
-onSocialButtonPress:function(serviceType){
-this.props.onSocialButtonPress(serviceType);},
+return null;},
 
 
 render:function(){
-var sharePanel;
-var socialButtons=[];
-
-for(var i=0;i < this.props.socialButtons.length;i++) {
-
-var socialButton;
-var buttonName=this.props.socialButtons[i].buttonName;
-var buttonFont={fontFamily:this.props.socialButtons[i].icon.fontFamilyName,color:"white",fontSize:50,margin:10};
-var buttonIcon=this.props.socialButtons[i].icon.fontString;
-
-
-var onPressButton=(function(buttonName,f){
-return function(){
-f(buttonName);};})(
-
-buttonName,this.onSocialButtonPress);
-
-socialButton = 
-React.createElement(TouchableHighlight,{
-onPress:onPressButton,
-underlayColor:'transparent',
-activeOpacity:0.5},
-React.createElement(Text,{
-style:buttonFont},
-buttonIcon));
-
-
-
-
-socialButtons.push(socialButton);}
-
-var animationStyle={opacity:this.state.opacity};
+var title=this.getTitle();
+var description=this.getDescription();
 return (
-React.createElement(Animated.View,{style:(styles.container,animationStyle)},
-
-React.createElement(View,{style:styles.sharePanelNW},
-React.createElement(Text,{style:styles.sharePanelTitle},"Check out this video"),
-
-React.createElement(View,{style:styles.sharePanelButtonRow},
-socialButtons))));}});
+React.createElement(View,{style:styles.container},
+React.createElement(View,{style:styles.wrapper},
+title,
+description)));}});
 
 
 
 
 
 
-module.exports = SharePanel;
+module.exports = ErrorScreen;
 });
-__d('OoyalaSkin/style/sharePanelStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
-  container: {
-    flexDirection: 'column',
-    alignItems: 'center'
+__d('OoyalaSkin/style/errorScreenStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
+  "container": {
+    "flex": 1,
+    "alignItems": "center",
+    "backgroundColor": "#000000",
   },
 
-  sharePanelNW: {
-    flexDirection: 'column',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+  "wrapper": {
+    "flex":1,
+    "justifyContent": "center",
   },
 
-  sharePanelTitle: {
-    textAlign: 'center',
-    fontSize: 18,
-    fontFamily: 'Arial-BoldMT',
-    color: 'white',
-    margin: 20
+  "title": {
+    "fontSize": 40,
+    "fontFamily": "GillSans-Bold",
+    "color":"#FFFFFF",
+    "textAlign": "left",
+    "marginHorizontal": 10,
   },
 
-  sharePanelButtonRow: {
-    flexDirection:'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: 'transparent',
-    margin: 20
-  },
-
-  socialButton: {
-    width: 54,
-    height: 54,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    margin: 10
+  "description": {
+    "fontSize": 24,
+    "fontFamily": "GillSans",
+    "color": "#FFFFFF",
+    "textAlign": "left",
+    "marginHorizontal": 20,
+    "marginVertical": 20
   }
-};
+}
+;
 });
 __d('OoyalaSkin/discoveryPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/style/discoveryPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
@@ -53974,6 +54030,8 @@ var animationDuration=1000;
 
 var DiscoveryPanel=React.createClass({
 propTypes:{
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string,
 dataSource:React.PropTypes.array,
 onRowAction:React.PropTypes.func,
 config:React.PropTypes.object,
@@ -54079,7 +54137,7 @@ if(this.props.config.panelTitle){
 if(this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage){
 return React.createElement(Image,{style:styles.waterMarkImage,source:{uri:this.props.config.panelTitle.imageUri}});}else 
 if(this.props.config.panelTitle.text){
-title = this.props.config.panelTitle.text;}}
+title = Utils.localizedString(this.props.locale,"Discover",this.props.localizableStrings);}}
 
 
 return (
@@ -54091,7 +54149,7 @@ React.createElement(Text,{style:[styles.panelTitleText,this.props.config.titleFo
 
 module.exports = DiscoveryPanel;
 });
-__d('OoyalaSkin/widgets/ResponsiveList.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/gradientView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/ResponsiveListStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+__d('OoyalaSkin/widgets/ResponsiveList.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/ResponsiveListStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
 
 StyleSheet=
 
@@ -54099,7 +54157,6 @@ StyleSheet=
 
 React.StyleSheet;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ScrollView=React.ScrollView;
 
-var GradientView=require('OoyalaSkin/gradientView.js');
 var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/ResponsiveListStyles.json'));
 var placeHolderItem="ResponsiveListPlaceHolder";
 var ResponsiveList=React.createClass({
@@ -54146,11 +54203,6 @@ render:function(){
 var slices=this.getSlices();
 var listBound=this.props.horizontal?this.props.width:this.props.height;
 var itemBound=this.props.horizontal?this.props.itemWidth:this.props.itemHeight;
-var gradientView;
-console.log("numberOfSlices" + slices.length + "listBound" + listBound + "itemBound" + itemBound);
-if(slices.length * itemBound > listBound){
-gradientView = React.createElement(GradientView,{style:{position:"absolute",width:this.props.width,height:this.props.height}});}
-
 
 return (
 React.createElement(View,{style:{flex:1}},
@@ -54159,9 +54211,8 @@ style:{position:"absolute",width:this.props.width,height:this.props.height},
 horizontal:this.props.horizontal,
 directionalLockEnabled:true,
 showsHorizontalScrollIndicator:false},
-slices.map(this.renderSlice)),
+slices.map(this.renderSlice))));},
 
-gradientView));},
 
 
 
@@ -54176,7 +54227,7 @@ slice.map(this.renderItem));},
 
 renderItem:function(item,i){
 var placeHolderStyle=
-{backgroundColor:"transparent",width:this.props.itemWidth,height:this.props.itemHeight};
+{flex:1,backgroundColor:"transparent",width:this.props.itemWidth,height:this.props.itemHeight};
 if(item === placeHolderItem){
 return React.createElement(View,{style:placeHolderStyle});}else 
 {
@@ -54186,23 +54237,6 @@ return this.props.itemRender(item,i);}}});
 
 
 module.exports = ResponsiveList;
-});
-__d('OoyalaSkin/gradientView.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}
-
-var React=require('react-native/Libraries/react-native/react-native.js');var 
-
-requireNativeComponent=
-React.requireNativeComponent;var 
-
-GradientView=(function(_React$Component){_inherits(GradientView,_React$Component);function GradientView(){_classCallCheck(this,GradientView);_get(Object.getPrototypeOf(GradientView.prototype),'constructor',this).apply(this,arguments);}_createClass(GradientView,[{key:'render',value:
-function render(){
-return React.createElement(OOGradientView,_extends({},this.props,{pointerEvents:'none'}));}}]);return GradientView;})(React.Component);
-
-
-
-GradientView.propTypes = {};
-var OOGradientView=requireNativeComponent('OOGradientView',GradientView);
-module.exports = GradientView;
 });
 __d('OoyalaSkin/widgets/style/ResponsiveListStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "row": {  
@@ -54461,7 +54495,7 @@ render:function(){
 var moreOptionButtons=[];
 this._renderMoreOptionButtons(moreOptionButtons);
 
-var dismissButton=this._renderButton(styles.iconBright,this.props.config.icons.dismiss.fontString,this.onDismissPress,dismissButtonSize,this.props.config.moreOptions.color,this.props.config.icons.dismiss.fontFamilyName);
+var dismissButton=this._renderButton(styles.iconDismiss,this.props.config.icons.dismiss.fontString,this.onDismissPress,dismissButtonSize,this.props.config.moreOptions.color,this.props.config.icons.dismiss.fontFamilyName);
 
 var moreOptionRow;
 var rowAnimationStyle={transform:[{translateY:this.state.translateY}],opacity:this.state.buttonOpacity};
@@ -54510,15 +54544,15 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',[],function(global, require, 
 
   "dismissButtonTopRight":{
     "position": "absolute",
-    "top": 15,
-    "right": 15,
+    "top": 0,
+    "right": 0
   },
 
   "rowCenter": {
     "flex": 1,
     "flexDirection": "row",
     "alignSelf": "center",
-    "backgroundColor": "transparent",
+    "backgroundColor": "transparent"
   },
 
   "rowBottom": {
@@ -54526,7 +54560,7 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',[],function(global, require, 
     "flexDirection": "row",
     "alignSelf": "center",
     "alignItems": "flex-end",
-    "backgroundColor": "transparent",
+    "backgroundColor": "transparent"
   },
 
   "icon": {
@@ -54534,11 +54568,203 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',[],function(global, require, 
     "margin": 15
   },
 
+  "iconDismiss": {
+    "textAlign": "center",
+    "padding": 25
+  },
+
   "closeIconStyle": {
     "fontSize": 20,
     "textAlign": "center",
     "color": "#8E8E8E",
     "fontFamily": "fontawesome",
+  },
+};
+});
+__d('OoyalaSkin/sharePanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/style/sharePanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+
+
+
+
+
+React.Animated;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var ListView=React.ListView;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;var AlertIOS=React.AlertIOS;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/sharePanelStyles.json'));
+var animationDuration=1000;
+
+var SharePanel=React.createClass({
+propTypes:{
+socialButtons:React.PropTypes.array,
+onSocialButtonPress:React.PropTypes.func,
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+alertTitle:React.PropTypes.string,
+alertMessage:React.PropTypes.string,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
+
+
+getInitialState:function(){
+return {
+opacity:new Animated.Value(0)};},
+
+
+
+componentDidMount:function(){
+this.state.opacity.setValue(0);
+Animated.parallel([
+Animated.timing(
+this.state.opacity,
+{
+toValue:1,
+duration:animationDuration,
+delay:0})]).
+
+start();},
+
+
+onSocialButtonPress:function(serviceType){
+this.props.onSocialButtonPress(serviceType);},
+
+
+render:function(){
+var sharePanel;
+var socialButtons=[];
+
+var postShareSuccessAlert;
+
+if(this.props.alertTitle != ""){
+postShareSuccessAlert = AlertIOS.alert(
+this.props.alertTitle,
+this.props.alertMessage,
+[
+{text:'Ok',onPress:function(){return console.log('Ok Pressed!');}}]);}
+
+
+
+
+for(var i=0;i < this.props.socialButtons.length;i++) {
+
+var socialButton;
+var buttonName=this.props.socialButtons[i].buttonName;
+var buttonFont={fontFamily:this.props.socialButtons[i].icon.fontFamilyName,color:"white",fontSize:50,margin:10};
+var buttonIcon=this.props.socialButtons[i].icon.fontString;
+
+
+var onPressButton=(function(buttonName,f){
+return function(){
+f(buttonName);};})(
+
+buttonName,this.onSocialButtonPress);
+
+socialButton = 
+React.createElement(TouchableHighlight,{
+onPress:onPressButton,
+underlayColor:'transparent',
+activeOpacity:0.5},
+React.createElement(Text,{
+style:buttonFont},
+buttonIcon));
+
+
+
+
+socialButtons.push(socialButton);}
+
+var animationStyle={opacity:this.state.opacity};
+
+var itemPanelHeight=this.props.height - 30;
+return (
+React.createElement(Animated.View,{style:[styles.container,animationStyle]},
+React.createElement(View,{style:styles.sharePanelTitleRow},
+React.createElement(Text,{style:styles.sharePanelTitle},Utils.localizedString(this.props.locale,"Share",this.props.localizableStrings))),
+
+postShareSuccessAlert,
+React.createElement(ResponsiveList,{
+horizontal:false,
+data:socialButtons,
+itemRender:this.renderItem,
+width:this.props.width,
+height:itemPanelHeight,
+itemWidth:90,
+itemHeight:54})));},
+
+
+
+
+renderItem:function(item,itemId){var _this=this;
+return (
+React.createElement(TouchableHighlight,{
+style:styles.item,
+onPress:function(){return _this.onSocialButtonPress(item);}},
+React.createElement(View,{style:styles.socialButton},
+item)));}});
+
+
+
+
+
+
+module.exports = SharePanel;
+});
+__d('OoyalaSkin/style/sharePanelStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
+  "container": {
+    "marginTop": 50,
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "stretch",
+  },
+  "sharePanelNW": {
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.5)",
+  },
+  "sharePanelTitleRow": {
+    "height": 30,
+    "flexDirection": "row",
+    "alignItems": "center",
+  },
+  "sharePanelTitle": {
+    "flex": 1,
+    "fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
+    "textAlign": "left",
+    "color": "white",
+    "padding": 20
+  },
+  "sharePanelButtonRow": {
+    "flexDirection":"row",
+    "alignItems": "center",
+    "alignSelf": "center",
+    "backgroundColor": "transparent",
+    "margin": 20
+  },
+  "socialButton": {
+    "width": 70,
+    "height": 54,
+    "flex": 1
+  },
+  "button": {
+    "backgroundColor": "transparent",
+    "padding": 6,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
+    "borderRadius": 5,
+    "width": 120,
+    "height": 54
+  },
+  "item": {
+    "flex": 1,
+    "width": 90,
+    "height": 54,
+    "margin": 15
   },
 };
 });
@@ -54608,10 +54834,6 @@ nextVideo:React.PropTypes.object,
 upNextDismissed:React.PropTypes.bool,
 localizableStrings:React.PropTypes.object,
 locale:React.PropTypes.string},
-
-
-shouldShowDiscovery:function(){
-return this.state.showDiscoveryPanel && this.props.discovery;},
 
 
 generateLiveObject:function(){
@@ -54801,18 +55023,22 @@ this.toggleBottomOverlay();},
 
 
 render:function(){
-
+var adBar=null;
 if(this.props.ad){
-return this.props.ad.requireAdBar?this._renderAdBar():null;}else 
-{
+adBar = this.props.ad.requireAdBar?this._renderAdBar():null;
+if(this.props.config.adScreen.showControlBar == false){
+return adBar;}}
+
+
 return (
 React.createElement(View,{
 style:styles.container},
+adBar,
 this._renderPlaceholder(),
 this._renderClosedCaptions(),
 this._renderPlayPause(),
 this._renderUpNext(),
-this._renderBottomOverlay()));}}});
+this._renderBottomOverlay()));}});
 
 
 
@@ -54855,6 +55081,7 @@ var topMargin=16;
 var leftMargin=20;
 var progressBarHeight=6;
 var scrubberSize=18;
+var scrubTouchableDistance=45;
 var BottomOverlay=React.createClass({
 
 propTypes:{
@@ -54878,7 +55105,7 @@ getInitialState:function(){
 return {
 touch:false,
 opacity:new Animated.Value(0),
-height:new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT))};},
+height:new Animated.Value(0)};},
 
 
 
@@ -54970,7 +55197,8 @@ return percent;},
 
 
 handleTouchStart:function(event){
-if(this.props.height - event.nativeEvent.pageY < 50){
+var touchableDistance=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,scrubTouchableDistance);
+if(this.props.height - event.nativeEvent.pageY < touchableDistance){
 return;}
 
 this.setState({touch:true,x:event.nativeEvent.pageX});
@@ -55462,7 +55690,7 @@ __d('OoyalaSkin/style/videoViewStyles.json',[],function(global, require, require
 }
 ;
 });
-__d('OoyalaSkin/languageSelectionPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/ToggleSwitch.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+__d('OoyalaSkin/languageSelectionPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/ToggleSwitch.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/languageSelectionPreview.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
 
 
 
@@ -55489,6 +55717,7 @@ var ToggleSwitch=require('OoyalaSkin/widgets/ToggleSwitch.js');
 var ClosedCaptionsView=require('OoyalaSkin/closedCaptionsView.js');
 var Utils=require('OoyalaSkin/utils.js');
 var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
+var PreviewWidget=require('OoyalaSkin/languageSelectionPreview.js');
 var LanguageSelectionPanel=React.createClass({
 propTypes:{
 languages:React.PropTypes.array,
@@ -55540,29 +55769,16 @@ onTouchEnd:function(event){},
 
 
 
-getPreview:function(){
-return (
-React.createElement(View,{style:styles.previewPanel},
-React.createElement(View,{style:styles.splitter}),
-React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,"CLOSE CAPTION PREVIEW",this.props.config.localizableStrings)),
-React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,"Sample Text",this.props.config.localizableStrings))));},
-
-
-
-
 render:function(){var _this=this;
-var ds=new ListView.DataSource({rowHasChanged:function(r1,r2){return r1 !== r2;}});
 var hasCC=false;
 if(this.props.selectedLanguage && this.props.selectedLanguage !== ''){
 hasCC = true;}
 
-var previewPanel;
-if(hasCC){
-previewPanel = this.getPreview();}
 
 
 var itemPanelHeight=this.props.height - 30 - 30 - 60;
 var animationStyle={opacity:this.state.opacity};
+
 return (
 React.createElement(Animated.View,{style:[styles.panelContainer,animationStyle]},
 React.createElement(View,{style:styles.panelTitleRow},
@@ -55570,6 +55786,7 @@ React.createElement(Text,{style:styles.panelTitle},Utils.localizedString(this.pr
 
 React.createElement(ToggleSwitch,{
 switchOn:hasCC,
+areClosedCaptionsAvailable:this.props.languages.length > 0,
 onValueChanged:function(value){return _this.onSwitchToggled(value);},
 switchOnText:Utils.localizedString(this.props.config.locale,"On",this.props.config.localizableStrings),
 switchOffText:Utils.localizedString(this.props.config.locale,"Off",this.props.config.localizableStrings),
@@ -55581,10 +55798,13 @@ data:this.props.languages,
 itemRender:this.renderItem,
 width:this.props.width,
 height:itemPanelHeight,
-itemWidth:100,
-itemHeight:65}),
+itemWidth:160,
+itemHeight:88}),
 
-previewPanel));},
+React.createElement(PreviewWidget,{
+isVisible:hasCC,
+config:this.props.config})));},
+
 
 
 
@@ -55615,11 +55835,12 @@ __d('OoyalaSkin/widgets/ToggleSwitch.js',["react-native/Libraries/react-native/r
 
 var React=require('react-native/Libraries/react-native/react-native.js');var 
 
-StyleSheet=
+SwitchIOS=
 
 
 
-React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+React.SwitchIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
 
 var Constants=require('OoyalaSkin/constants.js');
 
@@ -55628,8 +55849,9 @@ var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/
 var ToggleSwitch=React.createClass({
 propTypes:{
 switchOn:React.PropTypes.bool,
-swithOnText:React.PropTypes.string,
-swithOffText:React.PropTypes.string,
+areClosedCaptionsAvailable:React.PropTypes.bool,
+switchOnText:React.PropTypes.string,
+switchOffText:React.PropTypes.string,
 onValueChanged:React.PropTypes.func,
 config:React.PropTypes.object},
 
@@ -55641,18 +55863,11 @@ this.props.onValueChanged(!this.props.switchOn);},
 render:function(){
 var onTextStyle=this.props.switchOn?styles.highlightedText:styles.grayedText;
 var offTextStyle=this.props.switchOn?styles.grayedText:styles.highlightedText;
-var switchIcon=this.props.switchOn?this.props.config.icons.toggleOn.fontString:this.props.config.icons.toggleOff.fontString;
-var switchStyle=this.props.switchOn?
-[styles.buttonText,{fontFamily:this.props.config.icons.toggleOn.fontFamilyName}]:
-[styles.buttonText,{fontFamily:this.props.config.icons.toggleOff.fontFamilyName}];
 return (
-React.createElement(TouchableHighlight,{
-onPress:this.onSwitchToggled},
 React.createElement(View,{style:styles.container},
 React.createElement(Text,{style:offTextStyle},this.props.switchOffText),
-React.createElement(Text,{style:switchStyle},switchIcon),
-React.createElement(Text,{style:onTextStyle},this.props.switchOnText))));}});
-
+React.createElement(SwitchIOS,{value:this.props.switchOn,onValueChange:this.onSwitchToggled,disabled:!this.props.areClosedCaptionsAvailable}),
+React.createElement(Text,{style:onTextStyle},this.props.switchOnText)));}});
 
 
 
@@ -55665,6 +55880,7 @@ __d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, requi
     "height": 30,
     "flexDirection": "row",
     "alignItems": "center",
+    "marginLeft": 16,
   },
   "grayedText": {
     "textAlign": "center",
@@ -55678,24 +55894,81 @@ __d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, requi
     "fontSize": 12,
     "padding": 6,
   },
-  "buttonText": {
-    "textAlign": "center",
-    "color": "green",
-    "fontSize": 16,
-    "margin": 10,
-  },
 };
+});
+__d('OoyalaSkin/languageSelectionPreview.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json","OoyalaSkin/constants.js"],function(global, require, requireDynamic, requireLazy, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+React.Animated;var Text=React.Text;var View=React.View;
+
+var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/languageSelectionPanelStyles.json'));
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+UI_SIZES=
+Constants.UI_SIZES;
+
+var LanguageSelectionPreview=React.createClass({
+propTypes:{
+config:React.PropTypes.object,
+isVisible:React.PropTypes.bool},
+
+
+getInitialState:function(){
+return {
+height:new Animated.Value(0)};},
+
+
+
+componentDidUpdate:function(prevProps,prevState){
+if(prevProps.isVisible != this.props.isVisible){
+this.state.height.setValue(this.props.isVisible?0:UI_SIZES.CC_PREVIEW_HEIGHT);
+Animated.timing(this.state.height,{
+toValue:this.props.isVisible?UI_SIZES.CC_PREVIEW_HEIGHT:0,
+duration:300,
+delay:0}).
+start();}},
+
+
+
+_getStyle:function(){
+return [
+styles.previewPanel,
+{
+'height':this.state.height}];},
+
+
+
+
+render:function(){
+return (
+React.createElement(Animated.View,{style:this._getStyle()},
+React.createElement(View,{style:styles.splitter}),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'CLOSE CAPTION PREVIEW',this.props.config.localizableStrings)),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'Sample Text',this.props.config.localizableStrings))));}});
+
+
+
+
+
+module.exports = LanguageSelectionPreview;
 });
 __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, require, requireDynamic, requireLazy, module, exports) {  module.exports = {
   "panelContainer": {
+    "marginTop": 50,
     "flex": 1,
     "flexDirection": "column",
-    "alignItems": "stretch",
+    "alignItems": "stretch"
   },
   "item": {
     "flex": 1,
-    "width": 100,
-    "height": 65
+    "width": 160,
+    "height": 88
   },
   "panelTitleRow": {
     "height": 30,
@@ -55705,6 +55978,8 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
   "panelTitle": {
   	"flex": 1,
   	"fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20
@@ -55725,34 +56000,37 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
   "button": {
     "backgroundColor": "#333333",
     "padding": 6,
-    "margin": 10,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
     "borderRadius": 5,
-    "width": 80,
-    "height": 45
+    "width": 120,
+    "height": 48
   },
   "selectedButton": {
     "backgroundColor": "#498DFC",
     "padding": 6,
-    "margin": 10,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
     "borderRadius": 5,
-    "width": 80,
-    "height": 45
+    "width": 120,
+    "height": 48
   },
   "buttonText": {
     "textAlign": "center",
     "color": "white",
     "fontSize": 16,
-    "fontFamily": "fontawesome",
+    "fontFamily": "Helvetica",
     "margin": 10,
+    "backgroundColor": "transparent"
   },
   "splitter": {
     "height": 1,
     "alignSelf": "stretch",
-    "backgroundColor": "#585858",
+    "backgroundColor": "#585858"
   },
-  "previewPanel": { 
+  "previewPanel": {
     "alignItems":"flex-start",
-    "height": 60
+    "backgroundColor": "black"
   },
   "closedCaptionStyle": {
     "textAlign":"left",

@@ -50,5 +50,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>VolumeThumbImage</key>
+	<string>VolumeThumb</string>
 </dict>
 </plist>

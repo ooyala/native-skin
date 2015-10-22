@@ -4,8 +4,9 @@
 //
 
 #import "OOFacebookSharePlugin.h"
+#import "OOSkinViewController.h"
+#import "OOReactBridge.h"
 #import <Social/Social.h>
-
 
 @implementation OOFacebookSharePlugin
 
@@ -14,7 +15,6 @@
 
     // Add an observer that listens to when the share button is pressed
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(share:) name:@"socialButtonPressed" object:nil];
-
   }
   return self;
 }
@@ -27,7 +27,13 @@
     NSString *link = [notification.userInfo objectForKey:@"link"];
     NSString *imageLink = [notification.userInfo objectForKey:@"imageLink"];
     NSString *text = [notification.userInfo objectForKey:@"text"];
-
+    
+    NSDictionary *dictSocial = [OOSkinViewController getTextForSocialType:@"Facebook"];
+    NSString *facebook_unavailable = [dictSocial objectForKey:@"Facebook Unavailable"];
+    NSString *facebook_success = [dictSocial objectForKey:@"Facebook Success"];
+    NSString *post_title =  [dictSocial objectForKey:@"Post Title"];
+    NSString *account_configure =  [dictSocial objectForKey:@"Account Configure"];
+    
     UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
 
     if([SLComposeViewController isAvailableForServiceType:serviceType]) {
@@ -47,14 +53,20 @@
       }
 
       [ctrl presentViewController:composeCtl animated:YES completion: nil];
+      composeCtl.completionHandler = ^(SLComposeViewControllerResult result) {
+        switch(result) {
+          //  This means the user cancelled without sending the Tweet
+          case SLComposeViewControllerResultCancelled:
+          break;
+          case SLComposeViewControllerResultDone:
+          [OOReactBridge sendDeviceEventWithName:@"postShareAlert" body:@{@"title": post_title, @"message": facebook_success}];
+          break;
+        }
+      };
     }
     else{
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Social share not available"
-                                                      message:@"You may need to sign in your account in settings"
-                                                     delegate:ctrl
-                                            cancelButtonTitle:@"OK"
-                                            otherButtonTitles:nil];
-      [alert show];
+      [OOReactBridge sendDeviceEventWithName:@"postShareAlert" body:@{@"title": facebook_unavailable, @"message": account_configure}];
+      // body {event："facebook_unavilable"
     }
   }
 }
