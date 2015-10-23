@@ -39,6 +39,13 @@
                                                                 pcode:@"Vpd3E6BNabnn09G72IWye5O2RzN1"
                                                          playerDomain:@"http://www.ooyala.com"
                                                        viewController:[DefaultSkinPlayerViewController class] nib: @"WidePlayerView"]];
+  [self insertNewObject: [[PlayerSelectionOption alloc] initWithTitle:@"Small VOD with CCs"
+                                                            embedCode:@"92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww"
+                                                                pcode:@"Vpd3E6BNabnn09G72IWye5O2RzN1"
+                                                         playerDomain:@"http://www.ooyala.com"
+                                                       viewController:[DefaultSkinPlayerViewController class] nib: @"SmallSkinPlayerView"]];
+
+
 
 
 }
