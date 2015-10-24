@@ -3,7 +3,8 @@ UI_SIZES = {
   VIDEOVIEW_PLAYPAUSE: 60,
   CONTROLBAR_HEIGHT: 75,
   CONTROLBAR_ICONSIZE: 20,
-  CONTROLBAR_LABELSIZE: 16
+  CONTROLBAR_LABELSIZE: 16,
+  CC_PREVIEW_HEIGHT: 80
 };
 
 var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
@@ -42,6 +43,7 @@ var SCREEN_TYPES = {
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
   MOREOPTION_SCREEN: 'moreOption',
+  ERROR_SCREEN: 'error'
 };
 
 var OOSTATES = {

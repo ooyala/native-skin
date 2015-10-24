@@ -4,19 +4,16 @@
  */
 
 #import <Foundation/Foundation.h>
-
 #import <OoyalaSDK/OOAdPlugin.h>
-#import "IMAAd.h"
-#import "IMAAdEvent.h"
-#import "IMAAdsLoader.h"
+#import <UIKit/UIKit.h>
 
-@class OOOoyalaPlayerViewController;
+@protocol IMAAdPlaybackInfo;
+
 @class OOStateNotifier;
 @class OOOoyalaPlayer;
 
 @protocol OOIMAManagerDelegate
 -(void)adsReady;
--(void)playStarted; // as opposed to the play being queued up for later.
 -(void)onError;
 @end
 
@@ -24,7 +21,6 @@
 
 @property(nonatomic, weak) id<OOIMAManagerDelegate> delegate;
 @property(nonatomic, readonly) id<IMAAdPlaybackInfo> adPlaybackInfo;
-@property(nonatomic, readonly) UIView *imaAdView;
 @property(readonly) OOStateNotifier *stateNotifier;
 
 /**

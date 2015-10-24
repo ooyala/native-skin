@@ -5,6 +5,7 @@
   "panelTitleText": {
     "padding": 10,
     "textAlign": "left",
+    "margin": 10
   },
   "container": {
     "flex": 1,

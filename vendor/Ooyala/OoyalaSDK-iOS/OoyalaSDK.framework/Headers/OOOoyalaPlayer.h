@@ -33,7 +33,6 @@
 @class OOFCCTVRating;
 @class OOOptions;
 @class OOManagedAdsPlugin;
-
 /**
  * Defines player behavior after video playback has ended, defaults to OOOoyalaPlayerActionAtEndContinue
  */
@@ -133,7 +132,14 @@ extern NSString *const OOLiveClosedCaptionsLanguage; /** the string for live clo
 
 @property (nonatomic) BOOL allowsExternalPlayback;
 @property (nonatomic) float playbackRate; /** the rate of playback. 1 is the normal speed.  Set to .5 for half speed, 2 for double speed, etc. */
-@property (readonly, nonatomic) NSString *authToken;
+@property (readonly, nonatomic) NSString *authToken; /** The Auth Token provided by Ooyala Authorization, when using Ooyala Player Token */
+
+/**
+ * Checks the expiration of the authToken, and compares it to the current time.
+ * @returns YES if token is expired, NO otherwise
+ */
+- (BOOL) isAuthTokenExpired;
+
 @property (nonatomic) NSString *customDrmData;
 @property (nonatomic, readonly) OOStreamPlayerMapping *streamPlayerMapping;
 @property (nonatomic, readonly) NSString *pcode;
@@ -274,6 +280,11 @@ embedTokenGenerator:(id<OOEmbedTokenGenerator>)embedTokenGenerator
 - (BOOL)changeCurrentItemToVideo:(OOVideo *)video;
 
 /**
+ * Performs authorization on the current item, refreshing teh auth token if necessary
+ * @returns an OOAsyncTask that can be cancelled if necessary
+ */
+- (id)reauthorizeCurrentItemWithCallback:(OOAuthorizeCallback)callback;
+/**
  * Gets the current playhead time (the part of the video currently being accessed).
  * @returns the current playhead time, in milliseconds
  */
@@ -365,6 +376,13 @@ embedTokenGenerator:(id<OOEmbedTokenGenerator>)embedTokenGenerator
  * @returns an NSArray containing the available closed captions languages as NSStrings
  */
 - (NSArray *)availableClosedCaptionsLanguages;
+
+/**
+ * Get the short code from the natural language name. Example: name="english", code="en".
+ * @param name is the long name, from availableClosedCaptionsLanguages.
+ * @return the short cc code. If the reverse mapping fails, the original name parameter value is returned.
+ */
+-(NSString*)languageNameToLanguageCode:(NSString*)name;
 
 /**
  * Get the current bitrate
@@ -469,11 +487,5 @@ embedTokenGenerator:(id<OOEmbedTokenGenerator>)embedTokenGenerator
  * Return an OoyalaAPIClient
  */
 - (OOOoyalaAPIClient *)api;
-
-/**
- * destroy the player, stop all ads and content play
- * NOTE: the ooyalaplayer is no longer userful after this call
- */
-- (void)destroy;
 
 @end

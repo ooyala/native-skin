@@ -1,9 +1,9 @@
 {
   "panelContainer": {
-    "marginTop": 50,
+    "marginTop": 16,
     "flex": 1,
     "flexDirection": "column",
-    "alignItems": "stretch",
+    "alignItems": "stretch"
   },
   "item": {
     "flex": 1,
@@ -19,6 +19,7 @@
   	"flex": 1,
   	"fontSize": 20,
     "fontFamily": "Helvetica",
+    "fontWeight": "bold",
   	"textAlign": "left",
   	"color": "white",
   	"padding": 20
@@ -60,15 +61,16 @@
     "fontSize": 16,
     "fontFamily": "Helvetica",
     "margin": 10,
+    "backgroundColor": "transparent"
   },
   "splitter": {
     "height": 1,
     "alignSelf": "stretch",
-    "backgroundColor": "#585858",
+    "backgroundColor": "#585858"
   },
-  "previewPanel": { 
+  "previewPanel": {
     "alignItems":"flex-start",
-    "height": 60
+    "backgroundColor": "black"
   },
   "closedCaptionStyle": {
     "textAlign":"left",

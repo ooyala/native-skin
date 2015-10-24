@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class OOOoyalaPlayer;
+@class OOCastPlayer;
 @protocol OOEmbedTokenGenerator;
 @class OOCastModeOptions;
 
@@ -21,7 +22,7 @@
 /**
  *  Return the castPlayer related to this OOCastManager
  */
-- (id)getCastPlayer;
+@property (nonatomic, readonly) OOCastPlayer *castPlayer;
 
 /**
  * Register the OOCastManager to ooyalaPlayer
@@ -31,7 +32,7 @@
 /**
  * Return YES if is in castMode
  */
-- (BOOL)isInCastMode;
+@property(nonatomic, readonly) BOOL isInCastMode;
 
 /**
  * Enter cast mode with given OOCastModeOptions object

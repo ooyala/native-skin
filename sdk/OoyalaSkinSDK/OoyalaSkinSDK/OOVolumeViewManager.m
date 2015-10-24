@@ -13,10 +13,16 @@
 
 RCT_EXPORT_MODULE();
 
+// React automatically resolves this class as "OOVolumeView"
 -(UIView *)view {
   MPVolumeView *v = [MPVolumeView new];
   v.showsRouteButton = NO;
   v.showsVolumeSlider = YES;
+  
+  NSDictionary *infoPlist = [[NSBundle mainBundle] infoDictionary];
+  
+  [v setVolumeThumbImage:[UIImage imageNamed:infoPlist[@"VolumeThumbImage"]] forState:UIControlStateNormal];
+  
   return v;
 }
 

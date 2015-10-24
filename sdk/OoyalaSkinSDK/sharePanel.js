@@ -4,12 +4,15 @@ var {
 	StyleSheet,
   Text,
   View,
+  ListView,
   Image,
   TouchableHighlight,
+  AlertIOS,
 } = React;
 
 var Utils = require('./utils');
 
+var ResponsiveList = require('./widgets/ResponsiveList');
 var styles = Utils.getStyles(require('./style/sharePanelStyles.json'));
 var animationDuration = 1000;
 
@@ -17,6 +20,12 @@ var SharePanel = React.createClass ({
 	propTypes: {
 		socialButtons: React.PropTypes.array,
 		onSocialButtonPress: React.PropTypes.func,
+		width: React.PropTypes.number,
+		height: React.PropTypes.number,
+		alertTitle: React.PropTypes.string,
+		alertMessage: React.PropTypes.string,
+		localizableStrings: React.PropTypes.object,
+		locale: React.PropTypes.string
 	},
 
 	getInitialState: function() {
@@ -28,12 +37,12 @@ var SharePanel = React.createClass ({
   componentDidMount:function () {
     this.state.opacity.setValue(0);
     Animated.parallel([
-      Animated.timing(                      
-        this.state.opacity,                 
+      Animated.timing(
+        this.state.opacity,
         {
-          toValue: 1,                         
+          toValue: 1,
           duration: animationDuration,
-          delay: 0  
+          delay: 0
         }),
     ]).start();
   },
@@ -45,7 +54,19 @@ var SharePanel = React.createClass ({
 	render: function() {
 		var sharePanel;
 		var socialButtons = [];
-		
+
+		var postShareSuccessAlert;
+
+		if(this.props.alertTitle != ""){
+			postShareSuccessAlert = AlertIOS.alert(
+				this.props.alertTitle,
+  			this.props.alertMessage,
+  			[
+    			{text: 'Ok', onPress: () => console.log('Ok Pressed!')},
+  			]
+			);
+		}
+
 		for (var i = 0; i < this.props.socialButtons.length; i++){
 
 			var socialButton;
@@ -75,18 +96,37 @@ var SharePanel = React.createClass ({
 			socialButtons.push(socialButton);
 		}
 		var animationStyle = {opacity:this.state.opacity};
+		// screen height - title
+		var itemPanelHeight = this.props.height  - 30;
 		return (
-		<Animated.View style={styles.container, animationStyle}>
-
-			<View style={styles.sharePanelNW}>
-				<Text style={styles.sharePanelTitle}>{"Check out this video"}</Text>
-
-				<View style={styles.sharePanelButtonRow}>
-					{socialButtons}
-				</View>
+		<Animated.View style={[styles.container, animationStyle]}>
+			<View style={styles.sharePanelTitleRow}>
+				<Text style={styles.sharePanelTitle}>{Utils.localizedString(this.props.locale, "Share", this.props.localizableStrings)}</Text>
 			</View>
+			{postShareSuccessAlert}
+			<ResponsiveList
+          horizontal={false}
+          data={socialButtons}
+          itemRender={this.renderItem}
+          width={this.props.width}
+          height={itemPanelHeight}
+          itemWidth={90}
+          itemHeight={54}>
+      </ResponsiveList>
 		</Animated.View>);
-	}
+	},
+
+	renderItem: function(item: object, itemId: number) {
+		return (
+      <TouchableHighlight
+        style={styles.item}
+        onPress={() => this.onSocialButtonPress(item)}>
+        <View style = {styles.socialButton}>
+        	{item}
+        </View>
+      </TouchableHighlight>
+    );
+	},
 });
 
 module.exports = SharePanel;

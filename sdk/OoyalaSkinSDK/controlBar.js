@@ -150,8 +150,7 @@ var ControlBar = React.createClass({
       }
     };
 
-
-    console.log("Width: " + this.props.width);
+    console.log("Control Bar Width: " + this.props.width);
 
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     console.log(itemCollapsingResults);

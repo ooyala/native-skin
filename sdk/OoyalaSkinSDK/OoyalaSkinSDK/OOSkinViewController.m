@@ -45,6 +45,7 @@ static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 static NSString *kLocalizableStrings = @"localizableStrings";
 static NSString *kLocale = @"locale";
+static NSDictionary *kSkinCofig;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)skinOptions
@@ -54,11 +55,12 @@ static NSString *kLocale = @"locale";
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
     [self setPlayer:player];
     _skinOptions = skinOptions;
+    _skinConfig = [self getReactViewInitialProperties];
+    kSkinCofig = _skinConfig;
     _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                              moduleName:@"OoyalaSkin"
+                                      initialProperties:_skinConfig
                                           launchOptions:nil];
-    _skinConfig = [self getReactViewInitialProperties];
-    _reactView.initialProperties = _skinConfig;
     
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
@@ -144,6 +146,7 @@ static NSString *kLocale = @"locale";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
   }
 }
 
@@ -174,6 +177,7 @@ static NSString *kLocale = @"locale";
   NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
   NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
   NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+  NSString *hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
   NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
   NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
@@ -184,6 +188,7 @@ static NSString *kLocale = @"locale";
   @{@"title":title,
     @"description":itemDescription,
     @"promoUrl":promoUrl,
+    @"hostedAtUrl": hostedAtUrl,
     @"duration":durationNumber,
     @"live":live,
     @"languages":closedCaptionsLanguages,
@@ -198,6 +203,16 @@ static NSString *kLocale = @"locale";
 - (void) bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
   NSDictionary *eventBody = @{@"state":stateString};
+
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeErrorNotification:(NSNotification *)notification {
+  OOOoyalaError *error = _player.error;
+  int errorCode = error ? error.code : -1;
+  NSNumber *code = [NSNumber numberWithInt:errorCode];
+  NSString *detail = _player.error.description ? _player.error.description : @"";
+  NSDictionary *eventBody = @{@"code":code,@"description":detail};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
@@ -270,16 +285,19 @@ static NSString *kLocale = @"locale";
     if (error) {
       LOG(@"discovery request failed, error is %@", error.description);
     } else {
-      [self handleDiscoveryResults:results];
+      [self handleDiscoveryResults:results embedCode:embedCode];
     }
   }];
 }
 
-- (void)handleDiscoveryResults:(NSArray *)results {
+- (void)handleDiscoveryResults:(NSArray *)results embedCode:(NSString *)currentEmbedCode {
   NSMutableArray *discoveryArray = [NSMutableArray new];
-  for (NSDictionary *dict in results) { 
-    NSString *name = [dict objectForKey:@"name" ];
+  for (NSDictionary *dict in results) {
     NSString *embedCode = [dict objectForKey:@"embed_code"];
+    if ([embedCode isEqualToString:currentEmbedCode]) {
+      continue;
+    }
+    NSString *name = [dict objectForKey:@"name" ];
     NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
     NSNumber *duration = [NSNumber numberWithDouble:[[dict objectForKey:@"duration"] doubleValue] / 1000];
     NSString *bucketInfo = [dict objectForKey:@"bucket_info"];
@@ -398,6 +416,46 @@ static NSString *kLocale = @"locale";
 
 - (NSString *) version {
   return OO_SKIN_VERSION;
+}
+
+- (void)queryState {
+  if (_player.state == OOOoyalaPlayerStateError) {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerErrorNotification object:nil];
+    [self bridgeErrorNotification:notification];
+  } else {
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
+    [self bridgeStateChangedNotification:notification];
+  }
+}
+
++ (NSDictionary *)getTextForSocialType: (NSString *)socialType {
+  NSDictionary *dictSocial;
+  
+  NSString *social_unavailable;
+  NSString *social_success;
+  NSString *post_title = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Post Title"];
+  NSString *account_configure =[OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Account Configure"];
+  
+  if ([socialType isEqual:@"Facebook"]) {
+    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Unavailable"];
+    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Success"];
+    
+    dictSocial = @{@"Facebook Unavailable": social_unavailable,
+                   @"Facebook Success": social_success,
+                   @"Post Title": post_title,
+                   @"Account Configure": account_configure};
+    
+  } else if ([socialType isEqual: @"Twitter"]) {
+    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Unavailable"];
+    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Success"];
+    
+    dictSocial = @{@"Twitter Unavailable": social_unavailable,
+                   @"Twitter Success": social_success,
+                   @"Post Title": post_title,
+                   @"Account Configure": account_configure};
+  }
+  
+  return dictSocial;
 }
 
 @end

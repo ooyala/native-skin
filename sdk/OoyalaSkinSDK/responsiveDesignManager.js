@@ -8,7 +8,7 @@ var ResponsiveDesignManager = {
 
   // Default threshold and multiplier
   threshold: [320, 860],
-  multiplier: [0.8, 1, 1.2],
+  multiplier: [0.7, 1, 1.2],
 
   /**
    * getSize takes the width and the threshold and returns an integer

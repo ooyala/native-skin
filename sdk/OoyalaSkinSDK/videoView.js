@@ -23,6 +23,7 @@ var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
 var Constants = require('./constants');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var autohideDelay = 5000;
 
@@ -64,10 +65,6 @@ var VideoView = React.createClass({
     upNextDismissed: React.PropTypes.bool,
     localizableStrings: React.PropTypes.object,
     locale: React.PropTypes.string
-  },
-
-  shouldShowDiscovery: function() {
-    return this.state.showDiscoveryPanel && this.props.discovery;
   },
 
   generateLiveObject: function() {
@@ -197,6 +194,7 @@ var VideoView = React.createClass({
   _renderPlayPause: function() {
 
     var buttonOpacity;
+    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     if(this.controlsVisible()) {
       buttonOpacity = 1;
     }
@@ -221,9 +219,9 @@ var VideoView = React.createClass({
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
-        buttonWidth={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
-        buttonHeight={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
-        fontSize={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
+        buttonWidth={iconFontSize}
+        buttonHeight={iconFontSize}
+        fontSize={iconFontSize}
         opacity={buttonOpacity}
         showButton={this.controlsVisible()}
         rate={this.props.rate}
@@ -257,21 +255,25 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-
+    var adBar = null;
     if (this.props.ad) {
-      return this.props.ad.requireAdBar ? this._renderAdBar() : null;
-    } else {
-      return (
-        <View
-          style={styles.container}>
-          {this._renderPlaceholder()}
-          {this._renderClosedCaptions()}
-          {this._renderPlayPause()}
-          {this._renderUpNext()}
-          {this._renderBottomOverlay()}
-        </View>
-      );
+      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null; 
+      if(this.props.config.adScreen.showControlBar == false) {
+        return adBar;
+      }
     }
+    return (
+      <View
+        style={styles.container}>
+        {adBar}
+        {this._renderPlaceholder()}
+        {this._renderClosedCaptions()}
+        {this._renderPlayPause()}
+        {this._renderUpNext()}
+        {this._renderBottomOverlay()}
+      </View>
+    );
+      
   }
 });
 
