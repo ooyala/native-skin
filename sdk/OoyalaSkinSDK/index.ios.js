@@ -121,9 +121,6 @@ var OoyalaSkin = React.createClass({
         break;
       case BUTTON_NAMES.PLAY_PAUSE:
         this.setState({showPlayButton: !this.state.showPlayButton});
-      case BUTTON_NAMES.LEARNMORE:
-        this.setState({rate: 0});
-        this.setState({showPlayButton: true});
       default:
         eventBridge.onPress({name:n});
         break;
