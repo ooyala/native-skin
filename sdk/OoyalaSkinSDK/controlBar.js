@@ -43,6 +43,7 @@ var ControlBar = React.createClass({
     fullscreen: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
+    volume: React.PropTypes.number,
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     live: React.PropTypes.object, // a label to display and a function to handle golive.
@@ -109,8 +110,10 @@ var ControlBar = React.createClass({
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
-        icon: this.props.config.icons.volume,
+        iconOn: this.props.config.icons.volumeOn,
+        iconOff: this.props.config.icons.volumeOff,
         showVolume: this.state.showVolume,
+        volume: this.props.volume,
         scrubberStyle: styles.volumeSlider
       },
       timeDuration: {

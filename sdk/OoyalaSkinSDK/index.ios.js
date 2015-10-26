@@ -61,7 +61,8 @@ var OoyalaSkin = React.createClass({
       buttonSelected: "None",
       alertTitle: '',
       alertMessage: '',
-      error: null
+      error: null,
+      volume: 0,          // between 0 and 1
     };
   },
 
@@ -250,8 +251,7 @@ var OoyalaSkin = React.createClass({
   },
 
   onVolumeChange: function(e) {
-    console.log('onVolumeChange');
-    console.log(e);
+    this.setState({volume: e.volume});
   },
 
   componentWillMount: function() {
@@ -361,6 +361,7 @@ var OoyalaSkin = React.createClass({
         live ={this.state.live}
         width={this.state.width}
         height={this.state.height}
+        volume={this.state.volume}
         fullscreen={this.state.fullscreen}
         onPress={(value) => this.handlePress(value)}
         onScrub={(value) => this.handleScrub(value)}

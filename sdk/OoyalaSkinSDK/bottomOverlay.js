@@ -42,6 +42,7 @@ var BottomOverlay = React.createClass({
     fullscreen: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
+    volume: React.PropTypes.number,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
@@ -114,6 +115,7 @@ var BottomOverlay = React.createClass({
       primaryButton={this.props.primaryButton}
       playhead={this.props.playhead}
       duration={this.props.duration}
+      volume={this.props.volume}
       live={this.props.live}
       width={this.props.width - 2 * leftMargin}
       height={this.props.height}
