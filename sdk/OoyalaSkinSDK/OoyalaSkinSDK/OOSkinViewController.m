@@ -328,7 +328,8 @@ static NSDictionary *kSkinCofig;
     NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
     [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
-    NSLog(@"volume changed: %f", [change[NSKeyValueChangeNewKey] floatValue]);
+    NSDictionary *eventBody = @{@"volume": @([change[NSKeyValueChangeNewKey] floatValue])};
+    [OOReactBridge sendDeviceEventWithName:@"volumeChange" body:eventBody];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }

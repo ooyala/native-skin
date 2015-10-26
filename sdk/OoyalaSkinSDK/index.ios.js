@@ -249,6 +249,11 @@ var OoyalaSkin = React.createClass({
     this.setState({alertMessage: e.message});
   },
 
+  onVolumeChange: function(e) {
+    console.log('onVolumeChange');
+    console.log(e);
+  },
+
   componentWillMount: function() {
     console.log("componentWillMount");
     this.listeners = [];
@@ -268,6 +273,7 @@ var OoyalaSkin = React.createClass({
       [ 'playStarted',              (event) => this.onPlayStarted(event) ],
       [ 'postShareAlert',           (event) => this.onPostShareAlert(event) ],
       [ 'error',                    (event) => this.onError(event) ],
+      [ 'volumeChange',             (event) => this.onVolumeChange(event) ],
     ];
     for (var i = 0; i < listenerDefinitions.length; i++) {
       var d = listenerDefinitions[i];
