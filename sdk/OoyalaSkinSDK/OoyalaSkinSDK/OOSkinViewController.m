@@ -13,6 +13,9 @@
 #import "OOLocaleHelper.h"
 #import "OOSkinOptions.h"
 #import "OOSharePlugin.h"
+
+#import <AVFoundation/AVAudioSession.h>
+
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -41,6 +44,7 @@
 
 @implementation OOSkinViewController
 
+static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 static NSString *kLocalizableStrings = @"localizableStrings";
@@ -74,6 +78,8 @@ static NSDictionary *kSkinCofig;
     [self.view addSubview:_player.view];
     [self.view addSubview:_reactView];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
+    
+    [[AVAudioSession sharedInstance] addObserver:self forKeyPath:outputVolumeKey options:NSKeyValueObservingOptionNew context:nil];
     
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
@@ -321,6 +327,8 @@ static NSDictionary *kSkinCofig;
     
     NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
     [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
+  } else if ([keyPath isEqualToString:outputVolumeKey]) {
+    NSLog(@"volume changed: %f", [change[NSKeyValueChangeNewKey] floatValue]);
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
@@ -328,6 +336,7 @@ static NSDictionary *kSkinCofig;
 
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
+  [[AVAudioSession sharedInstance] removeObserver:self forKeyPath:outputVolumeKey];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
 }
