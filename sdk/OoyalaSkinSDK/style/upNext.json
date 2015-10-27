@@ -39,6 +39,7 @@
   dismissButton: {
     fontSize: 15,
     fontWeight: 'bold',
-    marginRight: 15
+    marginRight: 15,
+    padding: 25
   }
 }

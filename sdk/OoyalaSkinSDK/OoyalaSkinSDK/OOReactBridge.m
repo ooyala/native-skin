@@ -101,6 +101,7 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 
 - (void)handleLearnMore {
   [sharedController.player clickAd];
+  [sharedController.player pause];
 }
 
 - (void)handleMoreOption {
