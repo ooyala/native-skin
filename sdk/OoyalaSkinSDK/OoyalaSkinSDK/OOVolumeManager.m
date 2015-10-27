@@ -24,7 +24,7 @@ NSString *const VolumeChangeKey = @"volumeChange";
 
 + (void)removeVolumeObserver:(NSObject *)observer
 {
-  [[AVAudioSession sharedInstance] addObserver:observer forKeyPath:VolumePropertyKey options:NSKeyValueObservingOptionNew context:nil];
+  [[AVAudioSession sharedInstance] removeObserver:observer forKeyPath:VolumePropertyKey];
 }
 
 + (void)sendVolumeChangeEvent:(float)volume
