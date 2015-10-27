@@ -55,12 +55,12 @@ static NSDictionary *kSkinCofig;
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
     [self setPlayer:player];
     _skinOptions = skinOptions;
+    _skinConfig = [self getReactViewInitialProperties];
+    kSkinCofig = _skinConfig;
     _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                              moduleName:@"OoyalaSkin"
+                                      initialProperties:_skinConfig
                                           launchOptions:nil];
-    _skinConfig = [self getReactViewInitialProperties];
-    _reactView.initialProperties = _skinConfig;
-    kSkinCofig = _skinConfig;
     
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
@@ -285,16 +285,19 @@ static NSDictionary *kSkinCofig;
     if (error) {
       LOG(@"discovery request failed, error is %@", error.description);
     } else {
-      [self handleDiscoveryResults:results];
+      [self handleDiscoveryResults:results embedCode:embedCode];
     }
   }];
 }
 
-- (void)handleDiscoveryResults:(NSArray *)results {
+- (void)handleDiscoveryResults:(NSArray *)results embedCode:(NSString *)currentEmbedCode {
   NSMutableArray *discoveryArray = [NSMutableArray new];
-  for (NSDictionary *dict in results) { 
-    NSString *name = [dict objectForKey:@"name" ];
+  for (NSDictionary *dict in results) {
     NSString *embedCode = [dict objectForKey:@"embed_code"];
+    if ([embedCode isEqualToString:currentEmbedCode]) {
+      continue;
+    }
+    NSString *name = [dict objectForKey:@"name" ];
     NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
     NSNumber *duration = [NSNumber numberWithDouble:[[dict objectForKey:@"duration"] doubleValue] / 1000];
     NSString *bucketInfo = [dict objectForKey:@"bucket_info"];

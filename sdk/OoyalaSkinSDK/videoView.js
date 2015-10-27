@@ -24,6 +24,7 @@ var Constants = require('./constants');
 var Log = require('./log');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var autohideDelay = 5000;
 
@@ -194,6 +195,7 @@ var VideoView = React.createClass({
   _renderPlayPause: function() {
 
     var buttonOpacity;
+    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     if(this.controlsVisible()) {
       buttonOpacity = 1;
     }
@@ -218,9 +220,9 @@ var VideoView = React.createClass({
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
-        buttonWidth={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
-        buttonHeight={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
-        fontSize={UI_SIZES.VIDEOVIEW_PLAYPAUSE}
+        buttonWidth={iconFontSize}
+        buttonHeight={iconFontSize}
+        fontSize={iconFontSize}
         opacity={buttonOpacity}
         showButton={this.controlsVisible()}
         rate={this.props.rate}
