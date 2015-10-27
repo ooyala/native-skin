@@ -1,32 +1,44 @@
 package com.ooyala.android.ooyalaskinsdk;
 
 import android.graphics.Typeface;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.view.Gravity;
+import android.widget.TextView;
 
+import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
+import com.facebook.react.common.annotations.VisibleForTesting;
+import com.facebook.react.uimanager.BaseViewManager;
 import com.facebook.react.uimanager.CatalystStylesDiffMap;
+import com.facebook.react.uimanager.PixelUtil;
+import com.facebook.react.uimanager.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIProp;
+import com.facebook.react.uimanager.ViewDefaults;
+import com.facebook.react.uimanager.ViewProps;
+import com.facebook.react.views.text.ReactTextShadowNode;
+import com.facebook.react.views.text.ReactTextView;
 import com.ooyala.android.util.DebugMode;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by zchen on 10/26/15.
  */
-public class IconTextViewManager extends SimpleViewManager<IconTextView> {
+public class IconTextViewManager extends BaseViewManager<IconTextView, ReactTextShadowNode> {
+  @VisibleForTesting
   public static final String REACT_CLASS = "RCTIconTextView";
 
-//  @UIProp(UIProp.Type.STRING)
-//  public static final String PROP_TEXT = "text";
-//  @UIProp(UIProp.Type.STRING)
-//  public static final String PROP_FONT_FAMILY = "fontFamily";
-//  @UIProp(UIProp.Type.NUMBER)
-//  public static final String PROP_FONT_SIZE = "fontSize";
+  @UIProp(UIProp.Type.STRING)
+  public static final String PROP_FONT_FAMILY = ViewProps.FONT_FAMILY;
 
   private static Map<String, Typeface> typefaceMap;
   private static final String TAG = "IconTextViewManager";
-
+  private static final String FONTFILE_SUFFIX =".ttf";
   private ThemedReactContext context;
 
   @Override
@@ -37,33 +49,43 @@ public class IconTextViewManager extends SimpleViewManager<IconTextView> {
   @Override
   public IconTextView createViewInstance(ThemedReactContext context) {
     this.context = context;
-    IconTextView view =  new IconTextView(context);
-    view.setText("A");
-    Typeface tf = this.getFontFromString("alice");
-    view.setTypeface(tf);
-    return view;
+    return new IconTextView(context);
+  }
+
+  @ReactProp(name = ViewProps.TEXT_ALIGN)
+  public void setTextAlign(IconTextView view, @Nullable String textAlign) {
+    if (textAlign == null || "auto".equals(textAlign)) {
+      view.setGravity(Gravity.NO_GRAVITY);
+    } else if ("left".equals(textAlign)) {
+      view.setGravity(Gravity.LEFT);
+    } else if ("right".equals(textAlign)) {
+      view.setGravity(Gravity.RIGHT);
+    } else if ("center".equals(textAlign)) {
+      view.setGravity(Gravity.CENTER_HORIZONTAL);
+    } else {
+      throw new JSApplicationIllegalArgumentException("Invalid textAlign: " + textAlign);
+    }
+  }
+
+  @ReactProp(name = ViewProps.FONT_FAMILY)
+  public void setFontFamily(IconTextView view, @Nullable String fontFamily) {
+    if (fontFamily != null) {
+      Typeface font = this.getFontFromString(fontFamily + FONTFILE_SUFFIX);
+      if (font != null) {
+        view.setTypeface(font);
+        view.invalidate();
+      }
+    }
   }
 
   @Override
-  public void updateView(final IconTextView view,
-                         final CatalystStylesDiffMap props) {
-    super.updateView(view, props);
-//    if (props.hasKey(PROP_TEXT)) {
-//      String text = props.getString(PROP_TEXT);
-//      if (text != null) {
-//        view.setText(text);
-//      }
-//    }
-//    if (props.hasKey(PROP_FONT_FAMILY)) {
-//      Typeface font = this.getFontFromString(props.getString(PROP_FONT_FAMILY));
-//      if (font != null) {
-//        view.setTypeface(font);
-//      }
-//    }
-//    if (props.hasKey(PROP_FONT_SIZE)) {
-//      float fontSize = props.getFloat(PROP_FONT_SIZE, 16);
-//      view.setTextSize(fontSize);
-//    }
+  public void updateExtraData(IconTextView view, Object extraData) {
+    view.setText((Spanned) extraData);
+  }
+
+  @Override
+  public ReactTextShadowNode createCSSNodeInstance() {
+    return new ReactTextShadowNode(false);
   }
 
   private Typeface getFontFromString(String fontFamily) {
@@ -77,12 +99,14 @@ public class IconTextViewManager extends SimpleViewManager<IconTextView> {
     }
 
     if (!typefaceMap.containsKey(fontFamily)) {
-      Typeface font = Typeface.createFromAsset(this.context.getAssets(), fontFamily);
+      Typeface font = null;
+      try {
+        font = Typeface.createFromAsset(this.context.getAssets(), fontFamily);
+      } catch (RuntimeException e) {
+        DebugMode.logE(TAG, e.getMessage());
+      }
       if (font != null) {
         typefaceMap.put(fontFamily, font);
-      } else {
-        DebugMode.logE(TAG, "cannot create font " + fontFamily + " from assets");
-        return null;
       }
     }
     return typefaceMap.get(fontFamily);

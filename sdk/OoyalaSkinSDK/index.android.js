@@ -37,19 +37,12 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    var text = "State :" + this.state.playerState;
-    var iconText = "A";
+    var iconText = "g";
     var fontFamily = "alice";
     var fontSize = 32;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          {text}
-        </Text>
-        <TouchableHighlight
-          onPress={this.play}>
-          <IconTextView >{"A"}</IconTextView>
-        </TouchableHighlight>
+          <IconTextView fontFamily={fontFamily}>{iconText}</IconTextView>
       </View>
     );
   }
