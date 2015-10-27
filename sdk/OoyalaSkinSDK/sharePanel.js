@@ -11,6 +11,7 @@ var {
 } = React;
 
 var Utils = require('./utils');
+var Log = require('./log');
 
 var ResponsiveList = require('./widgets/ResponsiveList');
 var styles = Utils.getStyles(require('./style/sharePanelStyles.json'));
@@ -62,7 +63,7 @@ var SharePanel = React.createClass ({
 				this.props.alertTitle,
   			this.props.alertMessage,
   			[
-    			{text: 'Ok', onPress: () => console.log('Ok Pressed!')},
+    			{text: 'Ok', onPress: () => Log.log('Ok Pressed!')},
   			]
 			);
 		}

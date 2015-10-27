@@ -24,6 +24,7 @@ var ErrorScreen = require('./ErrorScreen');
 var DiscoveryPanel = require('./discoveryPanel');
 var MoreOptionScreen = require('./MoreOptionScreen');
 var SharePanel = require('./sharePanel');
+var Log = require('./log');
 var Constants = require('./constants');
 var {
   BUTTON_NAMES,
@@ -76,7 +77,7 @@ var OoyalaSkin = React.createClass({
         'link':this.state.hostedAtUrl,
       },
       (results) => {
-        console.log(results);
+        Log.log(results);
       }
     );
   },
@@ -162,22 +163,22 @@ var OoyalaSkin = React.createClass({
   },
 
   onAdStarted: function(e) {
-    console.log( "onAdStarted");
+    Log.log( "onAdStarted");
     this.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN});
   },
 
   onAdSwitched: function(e) {
-    console.log( "onAdSwitched");
+    Log.log( "onAdSwitched");
     this.setState({ad:e});
   },
 
   onAdPodCompleted: function(e) {
-    console.log( "onAdPodCompleted ");
+    Log.log( "onAdPodCompleted ");
     this.setState({ad: null});
   },
 
   onCurrentItemChange: function(e) {
-    console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+    Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
     this.setState({
       title:e.title,
       description:e.description,
@@ -193,25 +194,27 @@ var OoyalaSkin = React.createClass({
   },
 
   onFrameChange: function(e) {
-    console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
+    Log.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
     this.setState({width:e.width, height:e.height, fullscreen:e.fullscreen});
   },
 
   onPlayStarted: function(e) {
+    Log.log("Play Started received")
     this.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN, autoPlay: false});
   },
 
   onPlayComplete: function(e) {
+    Log.log("Play Complete received")
     this.setState({screenType: SCREEN_TYPES.END_SCREEN});
   },
 
   onDiscoveryResult: function(e) {
-    console.log("onDiscoveryResult results are:", e.results);
+    Log.log("onDiscoveryResult results are:", e.results);
     this.setState({discoveryResults:e.results});
   },
 
   onStateChange: function(e) {
-    console.log("state changed")
+    Log.log("State Changed received")
     switch (e.state) {
       case "paused": this.setState({rate:0}); break;
       case "playing":
@@ -223,20 +226,22 @@ var OoyalaSkin = React.createClass({
   },
 
   onError: function(e) {
-    console.log("onError received");
+    Log.error("Error received");
     this.setState({screenType:SCREEN_TYPES.ERROR_SCREEN, error:e});
   },
 
   onUpNextDismissed: function(e) {
+    Log.log("UpNextDismissed received");
     this.setState({upNextDismissed:e.upNextDismissed});
   },
 
   onSetNextVideo: function(e) {
+    Log.log("SetNextVideo received");
     this.setState({nextVideo:e.nextVideo});
   },
 
   onLanguageSelected: function(e) {
-    console.log('onLanguageSelected:'+e);
+    Log.log('onLanguageSelected:'+e);
     this.setState({selectedLanguage:e});
   },
 
@@ -250,7 +255,7 @@ var OoyalaSkin = React.createClass({
   },
 
   componentWillMount: function() {
-    console.log("componentWillMount");
+    Log.log("componentWillMount");
     this.listeners = [];
     var listenerDefinitions = [
       [ 'timeChanged',              (event) => this.onTimeChange(event) ],
@@ -287,7 +292,7 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    console.log("screentype:"+this.state.screenType);
+    Log.verbose("Rendering, Screentype: "+this.state.screenType);
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
@@ -336,7 +341,7 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderErrorScreen: function() {
-    console.log("render error screen");
+    Log.error("Rendering error screen");
     return (
       <ErrorScreen
         error={this.state.error}
@@ -435,7 +440,7 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderMoreOptionPanel: function() {
-    console.log("renderMoreOptionPanel:"+ this.state.buttonSelected);
+    Log.log("renderMoreOptionPanel:"+ this.state.buttonSelected);
     switch (this.state.buttonSelected) {
       case BUTTON_NAMES.DISCOVERY:
         return this._renderDiscoveryPanel();
@@ -457,7 +462,7 @@ var OoyalaSkin = React.createClass({
   },
 
   _renderMoreOptionScreen: function() {
-    console.log("renderMoreOptions buttonSelected" + this.state.buttonSelected);
+    Log.log("renderMoreOptions buttonSelected" + this.state.buttonSelected);
     var panel = this._renderMoreOptionPanel();
 
     return (
