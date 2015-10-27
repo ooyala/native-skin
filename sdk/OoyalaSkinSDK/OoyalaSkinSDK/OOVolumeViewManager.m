@@ -7,7 +7,7 @@
 //
 
 #import "OOVolumeViewManager.h"
-#import <MediaPlayer/MediaPlayer.h>
+#import <MediaPlayer/MPVolumeView.h>
 
 @implementation OOVolumeViewManager
 

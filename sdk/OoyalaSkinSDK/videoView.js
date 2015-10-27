@@ -52,6 +52,7 @@ var VideoView = React.createClass({
     ad: React.PropTypes.object,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
+    volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
@@ -72,10 +73,10 @@ var VideoView = React.createClass({
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
       return ({
-        label: 
+        label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
           Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
-        onGoLive: isLive? null : this.onGoLive});   
+        onGoLive: isLive? null : this.onGoLive});
     } else {
       return null;
     }
@@ -101,7 +102,7 @@ var VideoView = React.createClass({
     }
     else if (name == BUTTON_NAMES.RESET_AUTOHIDE) {
       this.state.showControls = true;
-    } 
+    }
     this.props.onPress(name);
   },
 
@@ -116,7 +117,8 @@ var VideoView = React.createClass({
       primaryButton={this.props.isPlay ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
       playhead={this.props.playhead}
-      duration={this.props.duration} 
+      duration={this.props.duration}
+      volume={this.props.volume}
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
@@ -135,7 +137,7 @@ var VideoView = React.createClass({
         ad={this.props.ad}
         playhead={this.props.playhead}
         duration={this.props.duration}
-        onPress={this.handlePress} 
+        onPress={this.handlePress}
         width={this.props.width}
         localizableStrings={this.props.localizableStrings}
         locale={this.props.locale} />
@@ -264,7 +266,7 @@ var VideoView = React.createClass({
         this.state.showControls = false;
       }
 
-      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null; 
+      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
       if(this.props.config.adScreen.showControlBar == false && this.state.showControls == false) {
         return adBar;
       }
@@ -280,7 +282,7 @@ var VideoView = React.createClass({
         {this._renderBottomOverlay()}
       </View>
     );
-      
+
   }
 });
 

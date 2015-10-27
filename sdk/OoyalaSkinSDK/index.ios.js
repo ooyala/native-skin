@@ -62,7 +62,8 @@ var OoyalaSkin = React.createClass({
       buttonSelected: "None",
       alertTitle: '',
       alertMessage: '',
-      error: null
+      error: null,
+      volume: 0,          // between 0 and 1
     };
   },
 
@@ -254,6 +255,10 @@ var OoyalaSkin = React.createClass({
     this.setState({alertMessage: e.message});
   },
 
+  onVolumeChange: function(e) {
+    this.setState({volume: e.volume});
+  },
+
   componentWillMount: function() {
     Log.log("componentWillMount");
     this.listeners = [];
@@ -273,6 +278,7 @@ var OoyalaSkin = React.createClass({
       [ 'playStarted',              (event) => this.onPlayStarted(event) ],
       [ 'postShareAlert',           (event) => this.onPostShareAlert(event) ],
       [ 'error',                    (event) => this.onError(event) ],
+      [ 'volumeChange',             (event) => this.onVolumeChange(event) ],
     ];
     for (var i = 0; i < listenerDefinitions.length; i++) {
       var d = listenerDefinitions[i];
@@ -360,6 +366,7 @@ var OoyalaSkin = React.createClass({
         live ={this.state.live}
         width={this.state.width}
         height={this.state.height}
+        volume={this.state.volume}
         fullscreen={this.state.fullscreen}
         onPress={(value) => this.handlePress(value)}
         onScrub={(value) => this.handleScrub(value)}
