@@ -14,8 +14,6 @@
 #import "OOSkinOptions.h"
 #import "OOSharePlugin.h"
 
-#import <AVFoundation/AVAudioSession.h>
-
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOModule.h>
@@ -24,6 +22,7 @@
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OOOptions.h>
 #import "OOConstant.h"
+#import "OOVolumeManager.h"
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -79,13 +78,13 @@ static NSDictionary *kSkinCofig;
     [self.view addSubview:_reactView];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
     
-    [[AVAudioSession sharedInstance] addObserver:self forKeyPath:outputVolumeKey options:NSKeyValueObservingOptionNew context:nil];
+    [OOVolumeManager addVolumeObserver:self];
+    
     
     [OOReactBridge registerController:self];
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
-    
     
     _movieFullScreenView = [[UIView alloc] init];
     _movieFullScreenView.alpha = 0.f;
@@ -328,8 +327,7 @@ static NSDictionary *kSkinCofig;
     NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
     [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
-    NSDictionary *eventBody = @{@"volume": @([change[NSKeyValueChangeNewKey] floatValue])};
-    [OOReactBridge sendDeviceEventWithName:@"volumeChange" body:eventBody];
+    [OOVolumeManager sendVolumeChangeEvent:[change[NSKeyValueChangeNewKey] floatValue]];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
@@ -337,7 +335,7 @@ static NSDictionary *kSkinCofig;
 
 - (void)dealloc {
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
-  [[AVAudioSession sharedInstance] removeObserver:self forKeyPath:outputVolumeKey];
+  [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
 }
@@ -435,6 +433,9 @@ static NSDictionary *kSkinCofig;
   } else {
     NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
     [self bridgeStateChangedNotification:notification];
+    
+    // send current volume level the at load
+    [OOVolumeManager sendVolumeChangeEvent:[OOVolumeManager getCurrentVolume]];
   }
 }
 
