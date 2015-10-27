@@ -1392,7 +1392,7 @@ GLOBAL.document.createElement = null;}
 
 GLOBAL.MutationObserver = undefined;})(
 this);
-__d('OoyalaSkin/index.android.js',["RCTDeviceEventEmitter","NativeModules","react-native/Libraries/react-native/react-native.js"],function(global, require, module, exports) {  'use strict';
+__d('OoyalaSkin/index.android.js',["react-native/Libraries/react-native/react-native.js","RCTDeviceEventEmitter","NativeModules","OoyalaSkin/androidNative/iconTextView.js"],function(global, require, module, exports) {  'use strict';
 
 
 
@@ -1409,6 +1409,7 @@ React.AppRegistry;var StyleSheet=React.StyleSheet;var Text=React.Text;var Toucha
 
 var RCTDeviceEventEmitter=require('RCTDeviceEventEmitter');
 var LayoutController=require('NativeModules').OoyalaSkinLayoutController;
+var Icon=require('OoyalaSkin/androidNative/iconTextView.js');
 
 var OoyalaSkin=React.createClass({displayName:'OoyalaSkin',
 componentWillMount:function(){
@@ -1430,14 +1431,18 @@ LayoutController.play();},
 
 
 render:function(){
-var text="State :" + this.state.playerState + " Touch to play";
+var text="State :" + this.state.playerState;
+var iconText="A";
+var fontFamily="alice";
+var fontSize=32;
 return (
 React.createElement(View,{style:styles.container},
+React.createElement(Text,{style:styles.welcome},
+text),
+
 React.createElement(TouchableHighlight,{
 onPress:this.play},
-React.createElement(Text,{style:styles.welcome},
-text))));}});
-
+React.createElement(Icon,null))));}});
 
 
 
@@ -5175,7 +5180,7 @@ NodeHandle.injection.injectImplementation(UniversalWorkerNodeHandle);}
 module.exports = {
 inject:inject};
 });
-__d('InitializeJavaScriptAppEngine',["RCTDebugComponentOwnership","RCTDeviceEventEmitter","PerformanceLogger","ExceptionsManager","ErrorUtils","ExceptionsManager","Platform","checkFlowAtRuntime","JSTimers","NativeModules","Promise","XMLHttpRequest","FormData","fetch","Geolocation","WebSocket","BridgeProfiling","regenerator/runtime.js"],function(global, require, module, exports) {  require(
+__d('InitializeJavaScriptAppEngine',["RCTDebugComponentOwnership","RCTDeviceEventEmitter","PerformanceLogger","regenerator/runtime.js","ExceptionsManager","ErrorUtils","ExceptionsManager","Platform","checkFlowAtRuntime","JSTimers","NativeModules","Promise","XMLHttpRequest","FormData","fetch","Geolocation","WebSocket","BridgeProfiling"],function(global, require, module, exports) {  require(
 
 
 
@@ -29593,7 +29598,7 @@ this.emit(arg.eventType,arg.data,arg.didEmitCallback);}}}]);return NavigationEve
 
 module.exports = NavigationEventEmitter;
 });
-__d('NavigatorBreadcrumbNavigationBar',["NavigatorBreadcrumbNavigationBarStyles","NavigatorNavigationBarStyles","React","StaticContainer.react","StyleSheet","View","invariant","immutable/dist/immutable.js"],function(global, require, module, exports) {  'use strict';
+__d('NavigatorBreadcrumbNavigationBar',["NavigatorBreadcrumbNavigationBarStyles","NavigatorNavigationBarStyles","React","StaticContainer.react","StyleSheet","View","immutable/dist/immutable.js","invariant"],function(global, require, module, exports) {  'use strict';
 
 
 
@@ -50515,6 +50520,16 @@ Object.keys(componentOrElement));}
 
 
 module.exports = findDOMNode;
+});
+__d('OoyalaSkin/androidNative/iconTextView.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, module, exports) {  var _require=
+
+require('react-native/Libraries/react-native/react-native.js');var requireNativeComponent=_require.requireNativeComponent;
+
+var icon={
+name:'IconTextView'};
+
+
+module.exports = requireNativeComponent('RCTIconTextView',icon);
 });
 ;require("OoyalaSkin/index.android.js");
 //@ sourceMappingURL=/index.android.map

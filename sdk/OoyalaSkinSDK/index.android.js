@@ -15,6 +15,7 @@ var {
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 var LayoutController = require('NativeModules').OoyalaSkinLayoutController;
+var IconTextView = require('./androidNative/iconTextView');
 
 var OoyalaSkin = React.createClass({
   componentWillMount: function() {
@@ -36,14 +37,18 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    var text = "State :" + this.state.playerState + " Touch to play";
+    var text = "State :" + this.state.playerState;
+    var iconText = "A";
+    var fontFamily = "alice";
+    var fontSize = 32;
     return (
       <View style={styles.container}>
-        <TouchableHighlight
-          onPress={this.play}>
         <Text style={styles.welcome}>
           {text}
         </Text>
+        <TouchableHighlight
+          onPress={this.play}>
+          <IconTextView >{"A"}</IconTextView>
         </TouchableHighlight>
       </View>
     );
