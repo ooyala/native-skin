@@ -4,7 +4,4 @@
    <FileRef
       location = "group:ios-sdk/sdk/../../sdk/OoyalaSkinSDK/OoyalaSkinSDK.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:app/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj">
-   </FileRef>
 </Workspace>
