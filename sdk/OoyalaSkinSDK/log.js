@@ -9,7 +9,7 @@ var {
   LOG_LEVEL,
 } = Constants;
 
-var level = LOG_LEVEL.INFO;:
+var level = LOG_LEVEL.INFO;
 
 var Log = {
   setLogLevel: function(l){
@@ -22,7 +22,7 @@ var Log = {
       level = l;
       break;
       default:
-      console.error("Invalid Warning Level: " + l)
+      console.error("Invalid Warning Level: " + l);
       break;
     }
   },
