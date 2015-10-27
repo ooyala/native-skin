@@ -23,7 +23,7 @@ var LanguageSelectionPreview = React.createClass({
 
   getInitialState() {
     return {
-      height: new Animated.Value(0)
+      height: new Animated.Value(this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT: 0)
     };
   },
 
@@ -37,7 +37,6 @@ var LanguageSelectionPreview = React.createClass({
   },
 
   _getStyle() {
-    this.state.height.setValue(this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT: 0);
     return [
       styles.previewPanel,
       {
