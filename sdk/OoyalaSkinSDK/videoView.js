@@ -43,7 +43,7 @@ var VideoView = React.createClass({
 
   propTypes: {
     rate: React.PropTypes.number,
-    showPlay: React.PropTypes.bool,
+    isPlay: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
@@ -96,7 +96,7 @@ var VideoView = React.createClass({
     if (name == "LIVE") {
       this.props.onScrub(1);
     }
-    else if (name == BUTTON_NAMES.PLAY_PAUSE && this.props.showPlay) {
+    else if (name == BUTTON_NAMES.PLAY_PAUSE && this.props.isPlay) {
       this.state.showControls = false;
     }
     else if (name == BUTTON_NAMES.RESET_AUTOHIDE) {
@@ -113,7 +113,7 @@ var VideoView = React.createClass({
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
-      primaryButton={this.props.showPlay ? "play" : "pause"}
+      primaryButton={this.props.isPlay ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
       playhead={this.props.playhead}
       duration={this.props.duration}
@@ -194,7 +194,6 @@ var VideoView = React.createClass({
   },
 
   _renderPlayPause: function() {
-
     var buttonOpacity;
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     if(this.controlsVisible()) {
@@ -217,7 +216,7 @@ var VideoView = React.createClass({
           }
         }}
         position={"center"}
-        playing={this.props.showPlay}
+        playing={this.props.isPlay}
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
@@ -240,7 +239,7 @@ var VideoView = React.createClass({
   },
 
   getDefaultProps: function() {
-    return {showPlay: true, playhead: 0, buffered: 0, duration: 1};
+    return {isPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
   controlsVisible: function() {
@@ -258,9 +257,16 @@ var VideoView = React.createClass({
 
   render: function() {
     var adBar = null;
+
     if (this.props.ad) {
+      if (this.props.rate == 0) {
+        this.state.showControls = true;
+      } else {
+        this.state.showControls = false;
+      }
+
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
-      if(this.props.config.adScreen.showControlBar == false) {
+      if(this.props.config.adScreen.showControlBar == false && this.state.showControls == false) {
         return adBar;
       }
     }
