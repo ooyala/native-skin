@@ -110,7 +110,7 @@ var ControlBar = React.createClass({
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
-        iconOn: this.props.config.icons.volumeOn,
+        iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         showVolume: this.state.showVolume,
         volume: this.props.volume,
