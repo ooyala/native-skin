@@ -38,7 +38,9 @@ public class IconTextViewManager extends BaseViewManager<IconTextView, ReactText
 
   private static Map<String, Typeface> typefaceMap;
   private static final String TAG = "IconTextViewManager";
-  private static final String FONTFILE_SUFFIX =".ttf";
+  static final String FONTFILE_PREFIX ="fonts/";
+  static final String FONTFILE_SUFFIX =".ttf";
+
   private ThemedReactContext context;
 
   @Override
@@ -70,7 +72,7 @@ public class IconTextViewManager extends BaseViewManager<IconTextView, ReactText
   @ReactProp(name = ViewProps.FONT_FAMILY)
   public void setFontFamily(IconTextView view, @Nullable String fontFamily) {
     if (fontFamily != null) {
-      Typeface font = this.getFontFromString(fontFamily + FONTFILE_SUFFIX);
+      Typeface font = this.getFontFromString(fontFamily);
       if (font != null) {
         view.setTypeface(font);
         view.invalidate();
@@ -80,7 +82,9 @@ public class IconTextViewManager extends BaseViewManager<IconTextView, ReactText
 
   @Override
   public void updateExtraData(IconTextView view, Object extraData) {
-    view.setText((Spanned) extraData);
+    String icon_id = "ic_" + extraData;
+    int resourceId = context.getResources().getIdentifier(icon_id, "string", context.getPackageName());
+    view.setText(context.getString(resourceId));
   }
 
   @Override
@@ -94,6 +98,7 @@ public class IconTextViewManager extends BaseViewManager<IconTextView, ReactText
       return null;
     }
 
+    String fullFontPath = FONTFILE_PREFIX + fontFamily + FONTFILE_SUFFIX;
     if (typefaceMap == null) {
       typefaceMap = new HashMap<String, Typeface>();
     }
@@ -101,9 +106,9 @@ public class IconTextViewManager extends BaseViewManager<IconTextView, ReactText
     if (!typefaceMap.containsKey(fontFamily)) {
       Typeface font = null;
       try {
-        font = Typeface.createFromAsset(this.context.getAssets(), fontFamily);
+        font = Typeface.createFromAsset(this.context.getAssets(), fullFontPath);
       } catch (RuntimeException e) {
-        DebugMode.logE(TAG, e.getMessage());
+        DebugMode.logE(TAG, "Failed to load font " + fontFamily, e);
       }
       if (font != null) {
         typefaceMap.put(fontFamily, font);

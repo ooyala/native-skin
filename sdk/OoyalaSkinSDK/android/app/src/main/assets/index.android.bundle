@@ -1448,8 +1448,8 @@ LayoutController.play();},
 
 
 render:function(){
-var iconText="Hello world1234567890";
-var fontFamily="alice";
+var iconText="play";
+var fontFamily="fontawesome";
 var fontSize=32;
 return (
 React.createElement(View,{style:styles.container},
