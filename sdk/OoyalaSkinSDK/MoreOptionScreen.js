@@ -54,7 +54,7 @@ var MoreOptionScreen = React.createClass({
       Animated.timing(                      
         this.state.translateY,                 
         {
-          toValue: 0,                         
+          toValue: this.props.height / 2 - this.props.config.moreOptions.iconSize,                         
           duration: 700,
           delay: 0  
         }),
@@ -119,9 +119,9 @@ var MoreOptionScreen = React.createClass({
       var button = buttons[i];
 
       var moreOptionButton;
-      var buttonOpacity = this._renderOpacity(this.props.buttonSelected, button.name);
+      var buttonOpacity = this.props.config.moreOptions.iconStyle.opacity;
       var buttonIcon = this._renderIcon(button.name);
-      var buttonStyle = [styles.icon, buttonOpacity];
+      var buttonStyle = [styles.icon, this.props.config.moreOptions.iconStyle, buttonOpacity];
 
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if( buttonOpacity === undefined || buttonIcon === undefined || buttonStyle === undefined ) {
@@ -135,21 +135,10 @@ var MoreOptionScreen = React.createClass({
         };
       }(button.name, this.onOptionPress);
 
-      moreOptionButton = this._renderButton([buttonStyle, this.props.config.moreOptions.iconStyle], buttonIcon.fontString, onOptionPress, this.props.config.moreOptions.iconSize, this.props.config.moreOptions.color, buttonIcon.fontFamilyName);
+      moreOptionButton = this._renderButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptions.iconSize, this.props.config.moreOptions.color, buttonIcon.fontFamilyName);
 
       moreOptionButtons.push(moreOptionButton);
     }
-  },
-
-  _renderOpacity: function(buttonSelected, buttonName){
-    var buttonOpacity;
-    if(buttonSelected == BUTTON_NAMES.NONE || buttonSelected == buttonName){
-      buttonOpacity = this.props.config.moreOptions.brightOpacity;
-    }else{
-      buttonOpacity = this.props.config.moreOptions.darkOpacity;
-    }
-
-    return {opacity: buttonOpacity};
   },
 
   _renderIcon: function(buttonName){
