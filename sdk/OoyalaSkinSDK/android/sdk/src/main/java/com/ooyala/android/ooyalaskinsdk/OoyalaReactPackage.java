@@ -40,6 +40,9 @@ class OoyalaReactPackage extends MainReactPackage {
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-    return super.createViewManagers(reactContext);
+    List<ViewManager> managers = new ArrayList<>();
+    managers.addAll(super.createViewManagers(reactContext));
+    managers.add(new IconTextViewManager());
+    return managers;
   }
 }
