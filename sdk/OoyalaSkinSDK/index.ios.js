@@ -379,7 +379,7 @@ var OoyalaSkin = React.createClass({
         config={{
           controlBar: this.props.controlBar,
           buttons: this.props.buttons.mobileContent,
-          upNext: this.props.upNext,
+          upNextScreen: this.props.upNextScreen,
           icons: this.props.icons,
           adScreen: this.props.adScreen
         }}
