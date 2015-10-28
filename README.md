@@ -10,12 +10,11 @@ Trying things for the first time? [Check out the iOS Skin Getting Started Guide]
 
 ### TL;DR: How to Run the Sample Application
 
-This will be the first four steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
+Note, the Sample app is *Not part of this repository*.  You have to go to the [ios-sample-apps](https://github.com/ooyala/ios-sample-apps) repo to see the OoyalaSkinSampleApp. This will be the first four steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
 
-1. `git clone https://github.com/ooyala/ios-skin`
-2. `cd ios-skin && git submodule update --init`
-3. `open app/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
-4. Run the application
+1. `git clone https://github.com/ooyala/ios-sample-apps`
+2. `open ios-sample-apps/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
+3. Run the application
 
 
 # Overview
