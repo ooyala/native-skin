@@ -24,7 +24,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0B8E7F351BDFFC610078155C /* OoyalaSkinSDK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */; settings = {ASSET_TAGS = (); }; };
+		0B8E7F351BDFFC610078155C /* OoyalaSkinSDK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */; };
 		2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F12F1DD13DF180E7A362A54 /* CircularStatus.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD93ED5833DE8530A46A /* CircularStatus.json */; };
 		2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F497D5615098F00D7BCE /* upNext.js */; };
@@ -113,6 +113,10 @@
 		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
 		CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */; };
 		CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */; };
+		CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA742B581BE279040056784E /* NSString+Utils.h */; };
+		CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B591BE279040056784E /* NSString+Utils.m */; };
+		CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */; };
+		CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -299,6 +303,10 @@
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeManager.h; sourceTree = "<group>"; };
 		CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeManager.m; sourceTree = "<group>"; };
+		CA742B581BE279040056784E /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Utils.h"; path = "Utils/NSString+Utils.h"; sourceTree = "<group>"; };
+		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Utils.m"; path = "Utils/NSString+Utils.m"; sourceTree = "<group>"; };
+		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+Utils.h"; path = "Utils/NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
+		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+Utils.m"; path = "Utils/NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -452,6 +460,7 @@
 		972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
+				CA742B4E1BE2761D0056784E /* Utils */,
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				979B012E1B910A040032F5CF /* OOConstant.h */,
@@ -529,6 +538,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CA742B4E1BE2761D0056784E /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				CA742B581BE279040056784E /* NSString+Utils.h */,
+				CA742B591BE279040056784E /* NSString+Utils.m */,
+				CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */,
+				CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		FF12905E1AEABA9B00664374 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -552,7 +572,9 @@
 			files = (
 				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
+				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
+				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
@@ -792,6 +814,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */,
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 				97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */,
@@ -799,6 +822,7 @@
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
 				CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */,
 				2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */,
+				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
