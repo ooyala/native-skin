@@ -68,8 +68,6 @@ OoyalaSkinCore.prototype.unmount = function() {
     this.listeners[i].remove;
   }
   this.listeners = [];
-  this.skin = null;
-  this.bridge = null;
 };
 
 // event handlers.
@@ -254,19 +252,6 @@ OoyalaSkinCore.prototype.onPostShareAlert = function(e) {
   this.skin.setState({alertMessage: e.message});
 };
 
-OoyalaSkinCore.prototype.renderIos = function() {
-  console.log("screentype:"+this.skin.state.screenType);
-  switch (this.skin.state.screenType) {
-    case SCREEN_TYPES.START_SCREEN: return this.renderStartScreen(); break;
-    case SCREEN_TYPES.END_SCREEN:   return this.renderEndScreen();   break;
-    case SCREEN_TYPES.LOADING_SCREEN: return this.renderLoadingScreen(); break;
-    case SCREEN_TYPES.MOREOPTION_SCREEN:  return this.renderMoreOptionScreen();  break;
-    case SCREEN_TYPES.ERROR_SCREEN: return this.renderErrorScreen(); break;
-    default:      
-      return this.renderVideoView();   break;
-  }
-};
-
 OoyalaSkinCore.prototype.renderStartScreen = function() {
   return (
     <StartScreen
@@ -348,16 +333,6 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
   );
 };
 
-OoyalaSkinCore.prototype.renderLoadingScreen = function() {
-  return (
-    <View style={styles.loading}>
-      <ActivityIndicatorIOS
-        animating={true}
-        size="large">
-      </ActivityIndicatorIOS>
-    </View>);
-};
-
 OoyalaSkinCore.prototype.renderCCOptions = function() {
   return (
     <LanguageSelectionPanel
@@ -432,7 +407,7 @@ OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
-      onDismiss={this.onOptionDismissed}
+      onDismiss={() => this.onOptionDismissed()}
       panel={panel}
       buttonSelected={this.skin.state.buttonSelected}
       onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)}
@@ -446,14 +421,5 @@ OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
     </MoreOptionScreen>
   );
 };
-
-var styles = StyleSheet.create({
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 200
-  },
-});
 
 module.exports = OoyalaSkinCore;

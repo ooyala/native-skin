@@ -7,29 +7,24 @@
 var React = require('react-native');
 var {
   AppRegistry,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
   ProgressBarAndroid,
-  View,
+  StyleSheet,
+  View
 } = React;
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
-var LayoutController = require('NativeModules').OoyalaSkinLayoutController;
-var IconTextView = require('./androidNative/iconTextView');
+var eventBridge = require('NativeModules').OoyalaSkinLayoutController;
 var Constants = require('./constants');
 var {
-  BUTTON_NAMES,
   SCREEN_TYPES,
-  OOSTATES,
 } = Constants;
-var ProgressBar = require('ProgressBarAndroid');
 
+var OoyalaSkinCore = require('./ooyalaSkinCore');
+var OoyalaSkinCoreInstance;
 var OoyalaSkin = React.createClass({
-  componentWillMount: function() {
-    RCTDeviceEventEmitter.addListener('stateChanged',this.onStateChanged);
-  },
-
+  // note/todo: some of these are more like props, expected to be over-ridden/updated
+  // by the native bridge, and others are used purely on the non-native side.
+  // consider using a leading underscore, or something?
   getInitialState: function() {
     return {
       // states from react
@@ -53,26 +48,41 @@ var OoyalaSkin = React.createClass({
       buttonSelected: "None",
       alertTitle: '',
       alertMessage: '',
-      error: null,
-      playerState: 'None'
+      error: null
     };
   },
 
-  onStateChanged: function(e: Event) {
-    this.setState({playerState:e.playerState});
- 
+  componentWillMount: function() {
+    console.log("componentWillMount");
+    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
+    OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
   },
 
-  play: function() {
-    LayoutController.play();
+  componentDidMount: function() {
+    // eventBridge.queryState();
   },
-  _renderLoadingScreen: function() {
+
+  componentWillUnmount: function() {
+    console.log("componentWillUnmount");
+    OoyalaSkinCoreInstance.unmount();
+  },
+
+
+  renderLoadingScreen: function() {
      return (
        <View style={styles.loading}>
          <ProgressBar styleAttr="Small"/>
       </View>
     );     
-},
+  },
+
+  renderVideoView:function() {
+    return (
+      <View style={styles.container}>
+          <Text>{this.state.playerState}</Text>
+      </View>); 
+  },
+
   render: function() {
     var iconText = "loading inside else loop";
     var fontFamily = "alice";
@@ -80,14 +90,14 @@ var OoyalaSkin = React.createClass({
     switch (this.state.screenType) {
       // case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
       // case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
-      case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
+      case SCREEN_TYPES.LOADING_SCREEN: 
+        return this.renderLoadingScreen(); 
+        break;
       // case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
       // case SCREEN_TYPES.ERROR_SCREEN: return this._renderErrorScreen(); break;
-      default:      return (
-      <View style={styles.container}>
-          <Text>{this.state.playerState}</Text>
-      </View>
-      );  break;
+      default: 
+        return this.renderVideoView();     
+         break;
     }
   }
 });
@@ -105,12 +115,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     height: 200
   },
-  welcome: {
-    fontSize: 20,
-    fontFamily: 'roboto-regular',
-    textAlign: 'center',
-    margin: 10,
-  }
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
