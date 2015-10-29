@@ -60,11 +60,7 @@ var ControlBar = React.createClass({
     if (this.props.live) {
       return this.props.live.label;
     } else {
-      var durationString = Utils.secondsToString(this.props.playhead);
-      if (this.props.width > UI_SIZES.CONTROLBAR_ALL_CONTROLS_MIN_WIDTH) {
-        durationString += '/' + Utils.secondsToString(this.props.duration);
-      }
-      return durationString;
+      return Utils.secondsToString(this.props.playhead) + "/" + Utils.secondsToString(this.props.duration);
     }
   },
 
