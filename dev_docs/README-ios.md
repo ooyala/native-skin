@@ -23,10 +23,9 @@ it's *highly* reccomended that you attempt these use cases in order, to have a c
 
 This will be the first four steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
 
-1. `git clone https://github.com/ooyala/ios-skin`
-2. `cd ios-skin && git submodule update --init`
-3. `open app/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
-4. Run the application
+1. `git clone https://github.com/ooyala/ios-sample-apps`
+2. `open ios-sample-apps/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
+3. Run the application
 
 
 # How to Perform Simple Customizations to the Sample Application
@@ -47,7 +46,6 @@ Just like all other sample applications, you can modify the ListViewController w
 2. Modify OoyalaSkinSampleApp/players/BasicTestsListViewController.m
 3. Re-run the application
 
-
 # How to Perform Complex Modifications to the Sample Application
 
 The following will run you through linking the OoyalaSkinSDK source code to the OoyalaSkinSampleApp.  This will allow you to do cool things, like modify the UI code and add your own features
@@ -56,7 +54,7 @@ You will need to perform a number of steps to succeed here:
 
 ### Setup React Native Dependencies
 
-Please follow the requirements sectiion of the following site: [http://facebook.github.io/react-native/docs/getting-started.html#requirements](http://facebook.github.io/react-native/docs/getting-started.html#requirements)
+Please follow the requirements section of the following site: [http://facebook.github.io/react-native/docs/getting-started.html#requirements](http://facebook.github.io/react-native/docs/getting-started.html#requirements)
 
 ### Configure OoyalaSkinSDK.xcodeproj
 
@@ -64,10 +62,14 @@ run `npm install` in the Ooyala Skin SDK
 
     cd ios-skin/sdk/OoyalaSkinSDK/ && npm install
 
+run `git submodule update --init` to initialize the skin-config
+
 ### Connect OoyalaSkinSDK to OoyalaSkinSampleApp
 
 1. Open OoyalaSkin.xcworkspace
-2. In Sample App Project Settings, remove existing OoyalaSkinSDK and add the Workspace version
+2. Add the OoyalaSkinSampleApp.xcodeproj into OoyalaSkin.xcworkspace
+3. In OoyalaSkinSampleApp Project Settings, remove existing OoyalaSkinSDK and add the Workspace version
+
 3. Modify Sample App Players to point to React-Native server
 
     Comment out the original jsCodeLocation that points to the compiled bundle, and point it to the server that will be started by React Native
@@ -77,6 +79,15 @@ run `npm install` in the Ooyala Skin SDK
 4. Run the Ooyala Skin Sample App in a Simulator
 
 In order to run the Sample App on the device,  you will need to provide a url that would be accessible by the physical hardware device (i.e. the local ip of the dev computer)
+
+### Connect correct skin-config to OoyalaSkinSampleApp
+
+The Skin-config may have been updated since the last release, and if you are using the OoyalaSkinSDK source code, you will have to reference the correct version of the skin-config.
+
+Assuming you have connected the OoyalaSkinSDK to the OoyalaSkinSampleApp:
+
+1. Delete the existing 'skin-config' folder from OoyalaSkinSampleApp project
+2. Add the new 'skin-config' files from ios-skin/skin-config
 
 # How to Update an Existing Application with the iOS Skin
 
@@ -94,7 +105,7 @@ If you'd like to take another extra step, try _following these steps to update t
     * Default localization files (Add to app bundle)
     * Default skin-config.json (Add to app bundle)
     * main.jsbundle (Add to app bundle)
-3. Link JavascriptCore library to your binary
+3. Link JavascriptCore, Social, and MessageUI Frameworks to your binary
 4. In Build Settings, ensure the Other Linker Flag "-ObjC" is enabled
 
 5. Modify your PlayerViewController to use the new OOSkinViewController

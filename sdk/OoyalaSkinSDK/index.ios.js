@@ -47,7 +47,8 @@ var OoyalaSkin = React.createClass({
       buttonSelected: "None",
       alertTitle: '',
       alertMessage: '',
-      error: null
+      error: null,
+      volume: 0,          // between 0 and 1
     };
   },
 
@@ -62,7 +63,7 @@ var OoyalaSkin = React.createClass({
   },
 
   componentWillUnmount: function() {
-    console.log("componentWillUnmount");
+    Log.log("componentWillUnmount");
     OoyalaSkinCoreInstance.unmount();
   },
   
@@ -77,7 +78,7 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    console.log("screentype:"+this.state.screenType);
+    Log.verbose("Rendering, Screentype: "+this.state.screenType);
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: 
         return OoyalaSkinCoreInstance.renderStartScreen(); 

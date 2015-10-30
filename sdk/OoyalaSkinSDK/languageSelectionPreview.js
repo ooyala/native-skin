@@ -23,19 +23,17 @@ var LanguageSelectionPreview = React.createClass({
 
   getInitialState() {
     return {
-      height: new Animated.Value(0)
+      height: new Animated.Value(this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT: 0)
     };
   },
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevProps.isVisible != this.props.isVisible) {
-      this.state.height.setValue(this.props.isVisible ? 0 : UI_SIZES.CC_PREVIEW_HEIGHT);
-      Animated.timing(this.state.height, {
-        toValue: this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT : 0,
-        duration: 300,
-        delay: 0
-      }).start();
-    }
+    this.state.height.setValue(this.props.isVisible ? 0 : UI_SIZES.CC_PREVIEW_HEIGHT);
+    Animated.timing(this.state.height, {
+      toValue: this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT : 0,
+      duration: 300,
+      delay: 0
+    }).start(); 
   },
 
   _getStyle() {

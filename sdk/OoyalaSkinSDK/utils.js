@@ -10,6 +10,7 @@ var {
 } = React;
 
 
+var Log = require('./log');
 var Utils = {
 
   shouldShowLandscape: function(width, height) {
@@ -66,7 +67,7 @@ var Utils = {
   },
 
   localizedString: function(preferredLocale, stringId, localizableStrings) {
-    console.log("preferredLocale" + preferredLocale + "stringId" + stringId + "localizableStrings" + localizableStrings);
+    Log.verbose("preferredLocale" + preferredLocale + "stringId" + stringId + "localizableStrings" + localizableStrings);
     var defaultLocale = localizableStrings["default"] ? localizableStrings["defaultLanguage"] : "en";
     
     if (localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {

@@ -50,4 +50,13 @@ var OOSTATES = {
   PAUSED: 'paused',
 };
 
-module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES};
+
+var LOG_LEVEL = {
+  VERBOSE: 4,
+  INFO: 3,
+  WARN: 2,
+  ERROR: 1,
+  NONE: 0
+};
+
+module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, LOG_LEVEL};

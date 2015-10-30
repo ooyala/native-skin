@@ -21,6 +21,7 @@ var {
   UI_SIZES
 } = Constants;
 
+var Log = require('./log');
 var Utils = require('./utils');
 var ControlBarWidget = require('./widgets/controlBarWidgets');
 var CollapsingBarUtils = require('./collapsingBarUtils');
@@ -43,6 +44,7 @@ var ControlBar = React.createClass({
     fullscreen: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
+    volume: React.PropTypes.number,
     onPress: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     live: React.PropTypes.object, // a label to display and a function to handle golive.
@@ -109,8 +111,10 @@ var ControlBar = React.createClass({
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
-        icon: this.props.config.icons.volume,
+        iconOn: this.props.config.icons.volume,
+        iconOff: this.props.config.icons.volumeOff,
         showVolume: this.state.showVolume,
+        volume: this.props.volume,
         scrubberStyle: styles.volumeSlider
       },
       timeDuration: {
@@ -150,10 +154,9 @@ var ControlBar = React.createClass({
       }
     };
 
-    console.log("Control Bar Width: " + this.props.width);
-
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
-    console.log(itemCollapsingResults);
+    // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
+
     for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
       controlBarWidgets.push(<ControlBarWidget

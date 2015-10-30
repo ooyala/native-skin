@@ -24,6 +24,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0B8E7F351BDFFC610078155C /* OoyalaSkinSDK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */; settings = {ASSET_TAGS = (); }; };
 		2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2F12F1DD13DF180E7A362A54 /* CircularStatus.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F12FD93ED5833DE8530A46A /* CircularStatus.json */; };
 		2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F497D5615098F00D7BCE /* upNext.js */; };
@@ -110,6 +111,8 @@
 		97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
 		97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */; };
 		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
+		CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */; };
+		CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,6 +201,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OoyalaSkinSDK.xcassets; path = ../../OoyalaSkinSDK.xcassets; sourceTree = "<group>"; };
 		2F12F0F86E9018349754D604 /* CircularStatus.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CircularStatus.js; sourceTree = "<group>"; };
 		2F12F176F6D6B61ED0A63C85 /* controlBarStyles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = controlBarStyles.json; sourceTree = "<group>"; };
 		2F12F1B4D41FD66245F2C579 /* styles.json */ = {isa = PBXFileReference; lastKnownFileType = file.json; path = styles.json; sourceTree = "<group>"; };
@@ -293,6 +297,8 @@
 		97DE27A51B212B4A0071DBFE /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		97DE27AB1B212B520071DBFE /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeManager.h; sourceTree = "<group>"; };
+		CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -431,6 +437,7 @@
 				972ED88F1AE6F6A5005043DC /* Libraries */,
 				972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */,
 				972ED84C1AE6EEEB005043DC /* Products */,
+				0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */,
 			);
 			sourceTree = "<group>";
 		};
@@ -468,6 +475,8 @@
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
 				97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */,
 				97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */,
+				CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */,
+				CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */,
 				9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
@@ -547,6 +556,7 @@
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
+				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
 				2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */,
 				2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */,
 				976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */,
@@ -696,6 +706,7 @@
 				5EEDC9D51B0E7B9000A3AD27 /* PauseScreen.js in Resources */,
 				5E1173591B5EEE3D00454C55 /* ToggleSwitchStyles.json in Resources */,
 				978C86811B3B8726009E1A16 /* utils.js in Resources */,
+				0B8E7F351BDFFC610078155C /* OoyalaSkinSDK.xcassets in Resources */,
 				978C86801B3B8726009E1A16 /* index.ios.js in Resources */,
 				5E1173461B5EEE3D00454C55 /* languageSelectionPanel.js in Resources */,
 				5EEDC9D11B0E7B9000A3AD27 /* controlBar.js in Resources */,
@@ -786,6 +797,7 @@
 				97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
+				CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */,
 				2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
@@ -954,6 +966,7 @@
 		972ED8621AE6EEEB005043DC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -964,6 +977,7 @@
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
@@ -976,6 +990,7 @@
 		972ED8631AE6EEEB005043DC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = NO;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -986,6 +1001,7 @@
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				PRODUCT_NAME = "$(TARGET_NAME)";

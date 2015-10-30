@@ -22,6 +22,7 @@ var ErrorScreen = require('./ErrorScreen');
 var DiscoveryPanel = require('./discoveryPanel');
 var MoreOptionScreen = require('./MoreOptionScreen');
 var SharePanel = require('./sharePanel');
+var Log = require('./log');
 var Constants = require('./constants');
 var {
   BUTTON_NAMES,
@@ -81,7 +82,7 @@ OoyalaSkinCore.prototype.onSocialButtonPress = function(socialType) {
     'text':this.skin.state.title,
     'link':this.skin.state.hostedAtUrl,
   },
-  (results) => {console.log(results);});
+  (results) => {Log.log(results);});
 };
 
 OoyalaSkinCore.prototype.pauseOnOptions = function() {
@@ -158,29 +159,30 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
   });
 
-  if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN || this.skin.state.screenType == SCREEN_TYPES.END_SCREEN){
+  if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN || 
+     this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {
     this.previousScreenType = this.skin.state.screenType;
   }
   this.updateClosedCaptions();
 };
 
 OoyalaSkinCore.prototype.onAdStarted = function(e) {
-  console.log( "onAdStarted");
+  Log.log( "onAdStarted");
   this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN});
 };
 
 OoyalaSkinCore.prototype.onAdSwitched = function(e) {
-  console.log( "onAdSwitched");
+  Log.log( "onAdSwitched");
   this.skin.setState({ad:e});
 };
 
 OoyalaSkinCore.prototype.onAdPodCompleted = function(e) {
-  console.log( "onAdPodCompleted ");
+  Log.log( "onAdPodCompleted ");
   this.skin.setState({ad: null});
 };
 
 OoyalaSkinCore.prototype.onCurrentItemChange = function(e) {
-  console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+  Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
   this.skin.setState({
     title:e.title,
     description:e.description,
@@ -196,25 +198,27 @@ OoyalaSkinCore.prototype.onCurrentItemChange = function(e) {
 };
 
 OoyalaSkinCore.prototype.onFrameChange = function(e) {
-  console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
+  Log.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
   this.skin.setState({width:e.width, height:e.height, fullscreen:e.fullscreen});
 };
 
 OoyalaSkinCore.prototype.onPlayStarted = function(e) {
+  Log.log("Play Started received")
   this.skin.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN, autoPlay: false});
 };
 
 OoyalaSkinCore.prototype.onPlayComplete = function(e) {
+  Log.log("Play Complete received")
   this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
 };
 
 OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
-  console.log("onDiscoveryResult results are:", e.results);
+  Log.log("onDiscoveryResult results are:", e.results);
   this.skin.setState({discoveryResults:e.results});
 };
 
 OoyalaSkinCore.prototype.onStateChange = function(e) {
-  console.log("state changed to:" + e.state)
+  Log.log("state changed to:" + e.state)
   switch (e.state) {
     case "paused": this.skin.setState({rate:0}); break;
     case "playing":
@@ -226,20 +230,22 @@ OoyalaSkinCore.prototype.onStateChange = function(e) {
 };
 
 OoyalaSkinCore.prototype.onError = function(e) {
-  console.log("onError received");
+  Log.log("Error received");
   this.skin.setState({screenType:SCREEN_TYPES.ERROR_SCREEN, error:e});
 };
 
 OoyalaSkinCore.prototype.onUpNextDismissed = function(e) {
+  Log.log("SetNextVideo received");
   this.skin.setState({upNextDismissed:e.upNextDismissed});
 };
 
 OoyalaSkinCore.prototype.onSetNextVideo = function(e) {
+  Log.log("SetNextVideo received");
   this.skin.setState({nextVideo:e.nextVideo});
 };
 
 OoyalaSkinCore.prototype.onLanguageSelected = function(e) {
-  console.log('onLanguageSelected:'+e);
+  Log.log('onLanguageSelected:'+e);
   this.skin.setState({selectedLanguage:e});
 };
 
@@ -250,6 +256,10 @@ OoyalaSkinCore.prototype.shouldShowLandscape = function() {
 OoyalaSkinCore.prototype.onPostShareAlert = function(e) {
   this.skin.setState({alertTitle: e.title});
   this.skin.setState({alertMessage: e.message});
+};
+
+OoyalaSkinCore.prototype.onVolumeChange = function(e) {
+  this.skin.setState({volume: e.volume});
 };
 
 OoyalaSkinCore.prototype.renderStartScreen = function() {

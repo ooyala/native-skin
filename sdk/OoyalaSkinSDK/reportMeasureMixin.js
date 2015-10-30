@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react-native');
+var Log = require('./log');
 
 var ReportMeasureMixin = {
   propTypes: {
@@ -12,12 +13,12 @@ var ReportMeasureMixin = {
   },
 
   _requestMeasure: function() {
-    console.log( "_requestMeasure" );
+    Log.verbose( "_requestMeasure" );
     this.refs.myself.measure( this._onMeasure );
   },
 
   _onMeasure: function( ox, oy, width, height, px, py ) {
-    console.log( "_onMeasure " + this.props.onMeasure );
+    Log.verbose( "_onMeasure " + this.props.onMeasure );
     this.props.onMeasure && this.props.onMeasure( ox, oy, width, height, px, py );
   },
 };

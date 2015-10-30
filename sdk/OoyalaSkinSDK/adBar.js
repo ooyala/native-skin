@@ -12,6 +12,7 @@ var {
   View
 } = React;
 
+var Log = require('./log');
 var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/adBarStyles.json'));
@@ -58,21 +59,21 @@ var AdBar = React.createClass({
       allowedTextLength -= this.props.ad.measures.learnmore + 32;
     }
 
-    console.log("width"+this.props.width + "allowed"+allowedTextLength+ "learnmore"+this.props.ad.measures.learnmore);
-    console.log("duration"+ this.props.ad.measures.duration+
-      "count"+this.props.ad.measures.count+"title"+this.props.ad.measures.title+"prefix"+this.props.ad.measures.prefix);
+    Log.verbose("width: "+this.props.width + ". allowed: "+allowedTextLength+ ". learnmore: "+this.props.ad.measures.learnmore);
+    Log.verbose(". duration: "+ this.props.ad.measures.duration+
+      ". count: "+this.props.ad.measures.count+". title: "+this.props.ad.measures.title+". prefix: "+this.props.ad.measures.prefix);
     if (this.props.ad.measures.duration <= allowedTextLength) {
       textString = remainingString;
       allowedTextLength -= this.props.ad.measures.duration;
-      console.log("allowedAfterDuration"+allowedTextLength);
+      Log.verbose("allowedAfterDuration: "+allowedTextLength);
       if (this.props.ad.measures.count <= allowedTextLength) {
         textString = countString + textString;
         allowedTextLength -= this.props.ad.measures.count;
-        console.log("allowedAfterCount"+allowedTextLength);
+        Log.verbose("allowedAfterCount: "+allowedTextLength);
         if (this.props.ad.measures.title <= allowedTextLength) {
           textString = this.props.ad.title + textString;
           allowedTextLength -= this.props.ad.measures.title;
-          console.log("allowedAfterTitle"+allowedTextLength);
+          Log.verbose("allowedAfterTitle: "+allowedTextLength);
           if (this.props.ad.measures.prefix <= allowedTextLength) {
             textString = prefixString + textString;
           }

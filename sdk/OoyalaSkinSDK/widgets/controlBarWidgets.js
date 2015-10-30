@@ -13,6 +13,7 @@ var {
   TouchableHighlight
 } = React;
 var VolumeView = require('./VolumeView');
+var Log = require('../log');
 
 var Constants = require('./../constants');
 var {
@@ -46,11 +47,13 @@ var controlBarWidget = React.createClass({
     if (options.showVolume) {
       volumeScrubber = <VolumeView style={options.scrubberStyle} />;
     }
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+
+    var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
+    var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
       <View style={{flexDirection: 'row'}}>
         <TouchableHighlight onPress={options.onPress}>
-          <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
+          <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
         {volumeScrubber}
       </View>
@@ -66,7 +69,7 @@ var controlBarWidget = React.createClass({
     } else {
       return (<Text style={options.style}>{options.durationString}</Text>);
     }
-    
+
   },
 
   flexibleSpaceWidget: function (options) {
@@ -146,7 +149,7 @@ var controlBarWidget = React.createClass({
       return widgetsMap[this.props.widgetType.name](widgetOptions);
     }
     else {
-      console.log( "WARNING: unsupported widget name: " + this.props.widgetType.name );
+      Log.warn( "WARNING: unsupported widget name: " + this.props.widgetType.name );
       return <View></View>;
     }
   }

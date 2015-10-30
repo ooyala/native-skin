@@ -16,6 +16,7 @@
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
+#import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
@@ -101,6 +102,7 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 
 - (void)handleLearnMore {
   [sharedController.player clickAd];
+  [sharedController.player pause];
 }
 
 - (void)handleMoreOption {
@@ -161,7 +163,7 @@ RCT_EXPORT_METHOD(queryState) {
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
-  NSLog(@"sendDeviceEventWithName: %@", eventName);
+  LOG(@"sendDeviceEventWithName: %@", eventName);
   [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
 

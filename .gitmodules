@@ -1,3 +1,3 @@
-[submodule "sdk/OoyalaSkinSDK/skin-config"]
-	path = app/OoyalaSkinSampleApp/skin-config
-	url = https://github.com/ooyala/skin-config.git 
+[submodule "skin-config"]
+	path = skin-config
+	url = https://github.com/ooyala/skin-config.git
