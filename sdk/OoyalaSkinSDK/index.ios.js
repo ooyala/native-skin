@@ -11,7 +11,7 @@ var {
   StyleSheet,
   View,
 } = React;
-
+var Log = require('./log');
 var Constants = require('./constants');
 var {
   SCREEN_TYPES
