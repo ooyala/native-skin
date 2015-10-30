@@ -5,10 +5,13 @@
 'use strict';
 var React = require('react-native');
 var {
+  ActivityIndicatorIOS,
   AppRegistry,
   DeviceEventEmitter,
+  StyleSheet,
   View,
 } = React;
+
 var Constants = require('./constants');
 var {
   SCREEN_TYPES
@@ -62,10 +65,48 @@ var OoyalaSkin = React.createClass({
     console.log("componentWillUnmount");
     OoyalaSkinCoreInstance.unmount();
   },
+  
+  renderLoadingScreen: function() {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicatorIOS
+          animating={true}
+          size="large">
+        </ActivityIndicatorIOS>
+      </View>);
+  },
 
   render: function() {
-    return OoyalaSkinCoreInstance.renderIos();
+    console.log("screentype:"+this.state.screenType);
+    switch (this.state.screenType) {
+      case SCREEN_TYPES.START_SCREEN: 
+        return OoyalaSkinCoreInstance.renderStartScreen(); 
+        break;
+      case SCREEN_TYPES.END_SCREEN:   
+        return OoyalaSkinCoreInstance.renderEndScreen();   
+        break;
+      case SCREEN_TYPES.LOADING_SCREEN: 
+        return this.renderLoadingScreen(); 
+        break;
+      case SCREEN_TYPES.MOREOPTION_SCREEN:  
+        return OoyalaSkinCoreInstance.renderMoreOptionScreen();  
+        break;
+      case SCREEN_TYPES.ERROR_SCREEN: 
+        return OoyalaSkinCoreInstance.renderErrorScreen(); 
+        break;
+      default:      
+        return OoyalaSkinCoreInstance.renderVideoView();   
+        break;
+    }
   }
 });
 
+var styles = StyleSheet.create({
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 200
+  },
+});
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

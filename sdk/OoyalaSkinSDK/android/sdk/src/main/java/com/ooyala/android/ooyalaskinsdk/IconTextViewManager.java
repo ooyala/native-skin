@@ -80,6 +80,13 @@ public class IconTextViewManager extends BaseViewManager<IconTextView, ReactText
     }
   }
 
+  @ReactProp(name = ViewProps.FONT_SIZE, defaultFloat = Float.NaN)
+  public void setFontSize(IconTextView view, float fontSize) {
+    if (fontSize != Float.NaN ) {
+      view.setTextSize(fontSize);
+    }
+  }
+
   @Override
   public void updateExtraData(IconTextView view, Object extraData) {
     String icon_id = "ic_" + extraData;

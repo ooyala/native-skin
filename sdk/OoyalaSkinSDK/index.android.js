@@ -7,29 +7,26 @@
 var React = require('react-native');
 var {
   AppRegistry,
+  ProgressBarAndroid,
   StyleSheet,
   Text,
   TouchableHighlight,
-  ProgressBarAndroid,
-  View,
+  View
 } = React;
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
-var LayoutController = require('NativeModules').OoyalaSkinLayoutController;
-var IconTextView = require('./androidNative/iconTextView');
+var eventBridge = require('NativeModules').OoyalaSkinLayoutController;
 var Constants = require('./constants');
 var {
-  BUTTON_NAMES,
   SCREEN_TYPES,
-  OOSTATES,
 } = Constants;
-var ProgressBar = require('ProgressBarAndroid');
-
+var IconTextView = require('./androidNative/iconTextView');
+var OoyalaSkinCore = require('./ooyalaSkinCore');
+var OoyalaSkinCoreInstance;
 var OoyalaSkin = React.createClass({
-  componentWillMount: function() {
-    RCTDeviceEventEmitter.addListener('stateChanged',this.onStateChanged);
-  },
-
+  // note/todo: some of these are more like props, expected to be over-ridden/updated
+  // by the native bridge, and others are used purely on the non-native side.
+  // consider using a leading underscore, or something?
   getInitialState: function() {
     return {
       // states from react
@@ -53,41 +50,80 @@ var OoyalaSkin = React.createClass({
       buttonSelected: "None",
       alertTitle: '',
       alertMessage: '',
-      error: null,
-      playerState: 'None'
+      error: null
     };
   },
 
-  onStateChanged: function(e: Event) {
-    this.setState({playerState:e.playerState});
- 
+  componentWillMount: function() {
+    console.log("componentWillMount");
+    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
+    OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
   },
 
-  play: function() {
-    LayoutController.play();
+  componentDidMount: function() {
+    // eventBridge.queryState();
   },
-  _renderLoadingScreen: function() {
+
+  componentWillUnmount: function() {
+    console.log("componentWillUnmount");
+    OoyalaSkinCoreInstance.unmount();
+  },
+
+  onPress: function() {
+    eventBridge.onPress({"name":"Play"});
+  },
+
+  renderLoadingScreen: function() {
      return (
        <View style={styles.loading}>
-         <ProgressBar styleAttr="Small"/>
+         <ProgressBarAndroid styleAttr="Small"/>
       </View>
     );     
-},
+  },
+
+  renderVideoView: function() {
+    return (
+      <View style={styles.container}>
+          <Text>{this.state.playerState}</Text>
+      </View>); 
+  },
+
+  renderStartScreen: function() {
+    var icon = "play";
+    var fontSize = 32.0;
+    var fontFamily = "fontawesome";
+    return (
+      <View style={styles.container}>
+      <Text>{this.state.title}</Text>
+      <TouchableHighlight  
+          onPress={() => this.onPress()}
+          underlayColor="transparent">
+          <IconTextView 
+            fontFamily={fontFamily}
+            fontSize={fontSize}>
+            {icon}
+          </IconTextView>
+        </TouchableHighlight>
+      </View>);
+  },
+
   render: function() {
     var iconText = "loading inside else loop";
     var fontFamily = "alice";
     var fontSize = 32;
     switch (this.state.screenType) {
-      // case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
+      case SCREEN_TYPES.START_SCREEN: 
+        return this.renderStartScreen(); 
+        break;
       // case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
-      case SCREEN_TYPES.LOADING_SCREEN: return this._renderLoadingScreen(); break;
+      case SCREEN_TYPES.LOADING_SCREEN: 
+        return this.renderLoadingScreen(); 
+        break;
       // case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
       // case SCREEN_TYPES.ERROR_SCREEN: return this._renderErrorScreen(); break;
-      default:      return (
-      <View style={styles.container}>
-          <Text>{this.state.playerState}</Text>
-      </View>
-      );  break;
+      default: 
+        return this.renderVideoView();     
+         break;
     }
   }
 });
@@ -105,12 +141,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     height: 200
   },
-  welcome: {
-    fontSize: 20,
-    fontFamily: 'roboto-regular',
-    textAlign: 'center',
-    margin: 10,
-  }
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);
