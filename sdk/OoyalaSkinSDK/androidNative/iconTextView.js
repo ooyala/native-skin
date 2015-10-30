@@ -7,6 +7,7 @@ var icon = {
   name: 'IconTextView',
   propTypes: {
     fontFamily: React.PropTypes.string,
+    fontSize: React.PropTypes.number,
     scaleX: 	React.PropTypes.number,
     scaleY: 	React.PropTypes.number,
     translateX: React.PropTypes.number,

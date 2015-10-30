@@ -10,10 +10,12 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.item.Video;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 
@@ -28,6 +30,23 @@ class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements L
   private OoyalaSkinLayout _layout;
   private OoyalaPlayer _player;
   private FCCTVRatingUI _tvRatingUI;
+
+  private static final String BUTTON_PLAYPAUSE = "PlayPause";
+  private static final String BUTTON_PLAY = "Play";
+  private static final String BUTTON_SOCIALSHARE = "SocialShare";
+  private static final String BUTTON_FULLSCREEN = "Fullscreen";
+  private static final String BUTTON_LEARNMORE = "LearnMore";
+  private static final String BUTTON_MORE_OPTION = "More";
+  private static final String BUTTON_UPNEXT_DISMISS = "upNextDismiss";
+  private static final String BUTTON_UPNEXT_CLICK = "upNextClick";
+
+  private static final String KEY_NAME = "name";
+  private static final String KEY_EMBEDCODE = "embedCode";
+  private static final String KEY_PERCENTAG = "percentage";
+  private static final String KEY_LANGUAGE = "language";
+  private static final String KEY_BUCKETINFO = "bucketInfo";
+  private static final String KEY_ACTION = "action";
+  private static final String KEY_STATE = "state";
 
   @Override
   public String getName() {
@@ -71,20 +90,20 @@ class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements L
 
   public void addVideoView(View videoView) {
     removeVideoView();
-    if( videoView != null ) {
-      _tvRatingUI = new FCCTVRatingUI( _player, videoView, getLayout(), _player.getOptions().getTVRatingConfiguration() );
+    if (videoView != null) {
+      _tvRatingUI = new FCCTVRatingUI(_player, videoView, getLayout(), _player.getOptions().getTVRatingConfiguration());
     }
   }
 
   public void removeVideoView() {
-    if( _tvRatingUI != null ) {
+    if (_tvRatingUI != null) {
       _tvRatingUI.destroy();
       _tvRatingUI = null;
     }
   }
 
   public void reshowTVRating() {
-    if( _tvRatingUI != null ) {
+    if (_tvRatingUI != null) {
       _tvRatingUI.reshow();
     }
   }
@@ -94,29 +113,79 @@ class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements L
   }
 
   @ReactMethod
-  public void play() {
-    Log.d(TAG, "play called from javascript");
-    this.getReactApplicationContext().runOnUiQueueThread(new Runnable() {
-      @Override
-      public void run() {
-        if (_player.isPlaying()) {
-          _player.pause();
-        } else {
-          _player.play();
+  public void onPress(ReadableMap parameters) {
+    final String buttonName = parameters.getString("name");
+    if (buttonName != null) {
+      Log.d(TAG, "onPress with buttonName:" + buttonName);
+      this.getReactApplicationContext().runOnUiQueueThread(new Runnable() {
+        @Override
+        public void run() {
+          if (buttonName.equals(BUTTON_PLAY)) {
+            handlePlay();
+          } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
+            handlePlayPause();
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   @Override
   public void update(Observable arg0, Object arg1) {
     if (arg1 == OoyalaPlayer.STATE_CHANGED_NOTIFICATION) {
-      WritableMap params = Arguments.createMap();
-      params.putString("playerState", _player.getState().toString());
-
-      this.getReactApplicationContext()
-          .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-          .emit("stateChanged", params);
+      bridgeStateChangedNotification();
+    } else if (arg1 == OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION) {
+      bridgeCurrentItemChangedNotification();
     }
+  }
+
+  // private methods
+  private void handlePlay() {
+    _player.play();
+  }
+
+  private void handlePlayPause() {
+    if (_player.isPlaying()) {
+      _player.pause();
+    } else {
+      _player.play();
+    }
+  }
+
+  // notification bridges
+  private void bridgeCurrentItemChangedNotification() {
+    WritableMap params = Arguments.createMap();
+    Video currentItem = _player.getCurrentItem();
+    if (currentItem != null) {
+      String title = currentItem.getTitle();
+//      NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
+//      NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
+//      NSString *hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
+//      NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
+//      NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
+//      NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
+//      NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
+//      NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
+      if (title != null) {
+        params.putString("title", title);
+      }
+    }
+
+    this.getReactApplicationContext()
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
+
+//    if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
+//      [self loadDiscovery:_player.currentItem.embedCode];
+//    }
+  }
+
+  private void bridgeStateChangedNotification() {
+    WritableMap params = Arguments.createMap();
+    params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
+
+    this.getReactApplicationContext()
+        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+        .emit(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
   }
 }

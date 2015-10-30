@@ -1409,7 +1409,7 @@ GLOBAL.document.createElement = null;}
 
 GLOBAL.MutationObserver = undefined;})(
 this);
-__d('OoyalaSkin/index.android.js',["react-native/Libraries/react-native/react-native.js","RCTDeviceEventEmitter","NativeModules","OoyalaSkin/androidNative/iconTextView.js"],function(global, require, module, exports) {  'use strict';
+__d('OoyalaSkin/index.android.js',["react-native/Libraries/react-native/react-native.js","RCTDeviceEventEmitter","NativeModules","OoyalaSkin/constants.js","OoyalaSkin/androidNative/iconTextView.js","OoyalaSkin/ooyalaSkinCore.js"],function(global, require, module, exports) {  'use strict';
 
 
 
@@ -1422,39 +1422,119 @@ AppRegistry=
 
 
 
-React.AppRegistry;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+React.AppRegistry;var ProgressBarAndroid=React.ProgressBarAndroid;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
 
 var RCTDeviceEventEmitter=require('RCTDeviceEventEmitter');
-var LayoutController=require('NativeModules').OoyalaSkinLayoutController;
-var IconTextView=require('OoyalaSkin/androidNative/iconTextView.js');
+var eventBridge=require('NativeModules').OoyalaSkinLayoutController;
+var Constants=require('OoyalaSkin/constants.js');var 
 
+SCREEN_TYPES=
+Constants.SCREEN_TYPES;
+var IconTextView=require('OoyalaSkin/androidNative/iconTextView.js');
+var OoyalaSkinCore=require('OoyalaSkin/ooyalaSkinCore.js');
+var OoyalaSkinCoreInstance;
 var OoyalaSkin=React.createClass({displayName:'OoyalaSkin',
-componentWillMount:function(){
-RCTDeviceEventEmitter.addListener('stateChanged',this.onStateChanged);},
+
 
 
 getInitialState:function(){
 return {
-playerState:'None'};},
+
+screenType:SCREEN_TYPES.LOADING_SCREEN,
+
+title:'',
+description:'',
+promoUrl:'',
+hostedAtUrl:'',
+playhead:0,
+duration:1,
+rate:0,
+fullscreen:false,
+lastPressedTime:new Date().getTime(),
+upNextDismissed:false,
+showPlayButton:true,
 
 
 
-onStateChanged:function(e){
-this.setState({playerState:e.playerState});},
+
+buttonSelected:"None",
+alertTitle:'',
+alertMessage:'',
+error:null};},
 
 
-play:function(){
-LayoutController.play();},
+
+componentWillMount:function(){
+console.log("componentWillMount");
+OoyalaSkinCoreInstance = new OoyalaSkinCore(this,eventBridge);
+OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);},
+
+
+componentDidMount:function(){},
+
+
+
+componentWillUnmount:function(){
+console.log("componentWillUnmount");
+OoyalaSkinCoreInstance.unmount();},
+
+
+onPress:function(){
+eventBridge.onPress({"name":"Play"});},
+
+
+renderLoadingScreen:function(){
+return (
+React.createElement(View,{style:styles.loading},
+React.createElement(ProgressBarAndroid,{styleAttr:'Small'})));},
+
+
+
+
+renderVideoView:function(){
+return (
+React.createElement(View,{style:styles.container},
+React.createElement(Text,null,this.state.playerState)));},
+
+
+
+renderStartScreen:function(){var _this=this;
+var icon="play";
+var fontSize=32.0;
+var fontFamily="fontawesome";
+return (
+React.createElement(View,{style:styles.container},
+React.createElement(Text,null,this.state.title),
+React.createElement(TouchableHighlight,{
+onPress:function(){return _this.onPress();},
+underlayColor:'transparent'},
+React.createElement(IconTextView,{
+fontFamily:fontFamily,
+fontSize:fontSize},
+icon))));},
+
+
+
 
 
 render:function(){
-var iconText="play";
-var fontFamily="fontawesome";
+var iconText="loading inside else loop";
+var fontFamily="alice";
 var fontSize=32;
-return (
-React.createElement(View,{style:styles.container},
-React.createElement(IconTextView,{fontFamily:fontFamily},iconText)));}});
+switch(this.state.screenType){
+case SCREEN_TYPES.START_SCREEN:
+return this.renderStartScreen();
+break;
 
+case SCREEN_TYPES.LOADING_SCREEN:
+return this.renderLoadingScreen();
+break;
+
+
+default:
+return this.renderVideoView();
+break;}}});
 
 
 
@@ -1466,11 +1546,11 @@ justifyContent:'center',
 alignItems:'center',
 backgroundColor:'transparent'},
 
-welcome:{
-fontSize:20,
-fontFamily:'roboto-regular',
-textAlign:'center',
-margin:10}});
+loading:{
+flex:1,
+alignItems:'center',
+justifyContent:'center',
+height:200}});
 
 
 
@@ -52882,6 +52962,60 @@ Object.keys(componentOrElement));}
 
 module.exports = findDOMNode;
 });
+__d('OoyalaSkin/constants.js',[],function(global, require, module, exports) {  UI_SIZES = 
+{
+VIDEOVIEW_PLAYPAUSE:60,
+CONTROLBAR_HEIGHT:75,
+CONTROLBAR_ICONSIZE:20,
+CONTROLBAR_LABELSIZE:16,
+CC_PREVIEW_HEIGHT:80};
+
+
+var BUTTON_NAMES={
+PLAY_PAUSE:'PlayPause',
+FULLSCREEN:'Fullscreen',
+MORE:'More',
+TWITTER:'Twitter',
+FACEBOOK:'Facebook',
+GOOGLEPLUS:'GooglePlus',
+EMAIL:'Email',
+LEARNMORE:'LearnMore',
+
+DISCOVERY:'discovery',
+QUALITY:'quality',
+CLOSED_CAPTIONS:'closedCaption',
+SHARE:'share',
+SETTING:'settings',
+NONE:'None',
+
+RESET_AUTOHIDE:'ResetAutoHide'};
+
+
+var IMG_URLS={
+FACEBOOK:'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png',
+TWITTER:'https://g.twimg.com/ios_homescreen_icon.png',
+GOOGLEPLUS:'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300',
+EMAIL:'http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png',
+OOYALA_LOGO:'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'};
+
+
+var SCREEN_TYPES={
+LOADING_SCREEN:'loading',
+VIDEO_SCREEN:'video',
+START_SCREEN:'start',
+END_SCREEN:'end',
+PAUSE_SCREEN:'pause',
+AD_SCREEN:'ad',
+MOREOPTION_SCREEN:'moreOption',
+ERROR_SCREEN:'error'};
+
+
+var OOSTATES={
+PAUSED:'paused'};
+
+
+module.exports = {UI_SIZES:UI_SIZES,BUTTON_NAMES:BUTTON_NAMES,IMG_URLS:IMG_URLS,SCREEN_TYPES:SCREEN_TYPES,OOSTATES:OOSTATES};
+});
 __d('OoyalaSkin/androidNative/iconTextView.js',["react-native/Libraries/react-native/react-native.js","react-native/Libraries/react-native/react-native.js"],function(global, require, module, exports) {  var _require=
 
 require('react-native/Libraries/react-native/react-native.js');var requireNativeComponent=_require.requireNativeComponent;
@@ -52891,6 +53025,7 @@ var icon={
 name:'IconTextView',
 propTypes:{
 fontFamily:React.PropTypes.string,
+fontSize:React.PropTypes.number,
 scaleX:React.PropTypes.number,
 scaleY:React.PropTypes.number,
 translateX:React.PropTypes.number,
@@ -52902,6 +53037,4519 @@ backgroundColor:React.PropTypes.number}};
 
 
 module.exports = requireNativeComponent('RCTIconTextView',icon);
+});
+__d('OoyalaSkin/ooyalaSkinCore.js',["react-native/Libraries/react-native/react-native.js","NativeModules","OoyalaSkin/StartScreen.js","OoyalaSkin/EndScreen.js","OoyalaSkin/ErrorScreen.js","OoyalaSkin/discoveryPanel.js","OoyalaSkin/MoreOptionScreen.js","OoyalaSkin/sharePanel.js","OoyalaSkin/constants.js","OoyalaSkin/videoView.js","OoyalaSkin/languageSelectionPanel.js"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+ActivityIndicatorIOS=
+
+
+
+
+
+
+React.ActivityIndicatorIOS;var SliderIOS=React.SliderIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;
+
+var OOSocialShare=require('NativeModules').OOReactSocialShare;
+var StartScreen=require('OoyalaSkin/StartScreen.js');
+var EndScreen=require('OoyalaSkin/EndScreen.js');
+var ErrorScreen=require('OoyalaSkin/ErrorScreen.js');
+var DiscoveryPanel=require('OoyalaSkin/discoveryPanel.js');
+var MoreOptionScreen=require('OoyalaSkin/MoreOptionScreen.js');
+var SharePanel=require('OoyalaSkin/sharePanel.js');
+var Constants=require('OoyalaSkin/constants.js');var 
+
+BUTTON_NAMES=
+
+
+Constants.BUTTON_NAMES;var SCREEN_TYPES=Constants.SCREEN_TYPES;var OOSTATES=Constants.OOSTATES;
+var VideoView=require('OoyalaSkin/videoView.js');
+var LanguageSelectionPanel=require('OoyalaSkin/languageSelectionPanel.js');
+var previousScreenType;
+
+var OoyalaSkinCore=function(ooyalaSkin,eventBridge){
+this.skin = ooyalaSkin;
+this.bridge = eventBridge;};
+
+
+OoyalaSkinCore.prototype.mount = function(eventEmitter){var _this=this;
+this.listeners = [];
+var listenerDefinitions=[
+['timeChanged',function(event){return _this.onTimeChange(event);}],
+['currentItemChanged',function(event){return _this.onCurrentItemChange(event);}],
+['frameChanged',function(event){return _this.onFrameChange(event);}],
+['playCompleted',function(event){return _this.onPlayComplete(event);}],
+['stateChanged',function(event){return _this.onStateChange(event);}],
+['discoveryResultsReceived',function(event){return _this.onDiscoveryResult(event);}],
+['onClosedCaptionUpdate',function(event){return _this.onClosedCaptionUpdate(event);}],
+['adStarted',function(event){return _this.onAdStarted(event);}],
+['adSwitched',function(event){return _this.onAdSwitched(event);}],
+['adPodCompleted',function(event){return _this.onAdPodCompleted(event);}],
+['setNextVideo',function(event){return _this.onSetNextVideo(event);}],
+['upNextDismissed',function(event){return _this.onUpNextDismissed(event);}],
+['playStarted',function(event){return _this.onPlayStarted(event);}],
+['postShareAlert',function(event){return _this.onPostShareAlert(event);}],
+['error',function(event){return _this.onError(event);}]];
+
+
+for(var i=0;i < listenerDefinitions.length;i++) {
+var d=listenerDefinitions[i];
+this.listeners.push(eventEmitter.addListener(d[0],d[1]));}};
+
+
+
+OoyalaSkinCore.prototype.unmount = function(){
+for(var i=0;i < this.listeners.length;i++) {
+this.listeners[i].remove;}
+
+this.listeners = [];};
+
+
+
+OoyalaSkinCore.prototype.onOptionButtonPress = function(buttonName){
+this.skin.setState({buttonSelected:buttonName,screenType:SCREEN_TYPES.MOREOPTION_SCREEN});};
+
+
+OoyalaSkinCore.prototype.onSocialButtonPress = function(socialType){
+OOSocialShare.onSocialButtonPress({
+'socialType':socialType,
+'text':this.skin.state.title,
+'link':this.skin.state.hostedAtUrl},
+
+function(results){console.log(results);});};
+
+
+OoyalaSkinCore.prototype.pauseOnOptions = function(){
+if(this.skin.state.screenType != SCREEN_TYPES.MOREOPTION_SCREEN){
+this.previousScreenType = this.skin.state.screenType;}
+
+
+if(this.skin.state.rate > 0){
+this.skin.setState({pausedByOverlay:true});
+this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});}};
+
+
+
+OoyalaSkinCore.prototype.onOptionDismissed = function(){
+if(this.skin.state.screenType == SCREEN_TYPES.MOREOPTION_SCREEN){
+this.skin.setState({screenType:this.previousScreenType});}
+
+this.skin.setState({buttonSelected:"None"});
+if(this.skin.state.pausedByOverlay){
+this.skin.setState({pausedByOverlay:false});
+this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});}};
+
+
+
+OoyalaSkinCore.prototype.handlePress = function(n){
+this.skin.setState({lastPressedTime:new Date().getTime()});
+switch(n){
+case BUTTON_NAMES.MORE:
+n = "None";
+
+case BUTTON_NAMES.DISCOVERY:
+case BUTTON_NAMES.QUALITY:
+case BUTTON_NAMES.CLOSED_CAPTIONS:
+case BUTTON_NAMES.SHARE:
+case BUTTON_NAMES.SETTING:
+this.pauseOnOptions();
+this.onOptionButtonPress(n);
+break;
+case BUTTON_NAMES.RESET_AUTOHIDE:
+break;
+case BUTTON_NAMES.PLAY_PAUSE:
+this.skin.setState({showPlayButton:!this.skin.state.showPlayButton});
+default:
+this.bridge.onPress({name:n});
+break;}};
+
+
+
+OoyalaSkinCore.prototype.handleScrub = function(value){
+this.bridge.onScrub({percentage:value});};
+
+
+OoyalaSkinCore.prototype.updateClosedCaptions = function(){
+if(this.skin.state.selectedLanguage){
+this.bridge.onClosedCaptionUpdateRequested({language:this.skin.state.selectedLanguage});}};
+
+
+
+OoyalaSkinCore.prototype.onClosedCaptionUpdate = function(e){
+this.skin.setState({captionJSON:e});};
+
+
+OoyalaSkinCore.prototype.onDiscoveryRow = function(info){
+if(info.action && info.action === "click"){
+this.skin.setState({screenType:SCREEN_TYPES.LOADING_SCREEN,autoPlay:true});}
+
+this.bridge.onDiscoveryRow(info);};
+
+
+OoyalaSkinCore.prototype.onTimeChange = function(e){
+this.skin.setState({
+playhead:e.playhead,
+duration:e.duration,
+availableClosedCaptionsLanguages:e.availableClosedCaptionsLanguages});
+
+
+if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN || this.skin.state.screenType == SCREEN_TYPES.END_SCREEN){
+this.previousScreenType = this.skin.state.screenType;}
+
+this.updateClosedCaptions();};
+
+
+OoyalaSkinCore.prototype.onAdStarted = function(e){
+console.log("onAdStarted");
+this.skin.setState({ad:e,screenType:SCREEN_TYPES.VIDEO_SCREEN});};
+
+
+OoyalaSkinCore.prototype.onAdSwitched = function(e){
+console.log("onAdSwitched");
+this.skin.setState({ad:e});};
+
+
+OoyalaSkinCore.prototype.onAdPodCompleted = function(e){
+console.log("onAdPodCompleted ");
+this.skin.setState({ad:null});};
+
+
+OoyalaSkinCore.prototype.onCurrentItemChange = function(e){
+console.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+this.skin.setState({
+title:e.title,
+description:e.description,
+duration:e.duration,
+live:e.live,
+promoUrl:e.promoUrl,
+hostedAtUrl:e.hostedAtUrl,
+width:e.width,
+height:e.height});
+if(!this.skin.state.autoPlay){
+this.skin.setState({screenType:SCREEN_TYPES.START_SCREEN});}
+;};
+
+
+OoyalaSkinCore.prototype.onFrameChange = function(e){
+console.log("receive frameChange, frame width is" + e.width + " height is" + e.height);
+this.skin.setState({width:e.width,height:e.height,fullscreen:e.fullscreen});};
+
+
+OoyalaSkinCore.prototype.onPlayStarted = function(e){
+this.skin.setState({screenType:SCREEN_TYPES.VIDEO_SCREEN,autoPlay:false});};
+
+
+OoyalaSkinCore.prototype.onPlayComplete = function(e){
+this.skin.setState({screenType:SCREEN_TYPES.END_SCREEN});};
+
+
+OoyalaSkinCore.prototype.onDiscoveryResult = function(e){
+console.log("onDiscoveryResult results are:",e.results);
+this.skin.setState({discoveryResults:e.results});};
+
+
+OoyalaSkinCore.prototype.onStateChange = function(e){
+console.log("state changed to" + e.state);
+switch(e.state){
+case "paused":this.skin.setState({rate:0});break;
+case "playing":
+this.skin.setState({rate:1});
+this.skin.setState({screenType:SCREEN_TYPES.VIDEO_SCREEN});
+break;
+default:break;}};
+
+
+
+OoyalaSkinCore.prototype.onError = function(e){
+console.log("onError received");
+this.skin.setState({screenType:SCREEN_TYPES.ERROR_SCREEN,error:e});};
+
+
+OoyalaSkinCore.prototype.onUpNextDismissed = function(e){
+this.skin.setState({upNextDismissed:e.upNextDismissed});};
+
+
+OoyalaSkinCore.prototype.onSetNextVideo = function(e){
+this.skin.setState({nextVideo:e.nextVideo});};
+
+
+OoyalaSkinCore.prototype.onLanguageSelected = function(e){
+console.log('onLanguageSelected:' + e);
+this.skin.setState({selectedLanguage:e});};
+
+
+OoyalaSkinCore.prototype.shouldShowLandscape = function(){
+return this.skin.state.width > this.skin.state.height;};
+
+
+OoyalaSkinCore.prototype.onPostShareAlert = function(e){
+this.skin.setState({alertTitle:e.title});
+this.skin.setState({alertMessage:e.message});};
+
+
+OoyalaSkinCore.prototype.renderStartScreen = function(){var _this2=this;
+return (
+React.createElement(StartScreen,{
+config:{
+startScreen:this.skin.props.startScreen,
+icons:this.skin.props.icons},
+
+title:this.skin.state.title,
+description:this.skin.state.description,
+promoUrl:this.skin.state.promoUrl,
+width:this.skin.state.width,
+height:this.skin.state.height,
+onPress:function(name){return _this2.handlePress(name);}}));};
+
+
+
+OoyalaSkinCore.prototype.renderEndScreen = function(){var _this3=this;
+return (
+React.createElement(EndScreen,{
+config:{
+endScreen:this.skin.props.endScreen,
+controlBar:this.skin.props.controlBar,
+buttons:this.skin.props.buttons.mobileContent,
+icons:this.skin.props.icons},
+
+title:this.skin.state.title,
+width:this.skin.state.width,
+height:this.skin.state.height,
+discoveryPanel:this.renderDiscoveryPanel(),
+description:this.skin.state.description,
+promoUrl:this.skin.state.promoUrl,
+duration:this.skin.state.duration,
+onPress:function(name){return _this3.handlePress(name);},
+onSocialButtonPress:function(socialType){return _this3.onSocialButtonPress(socialType);}}));};
+
+
+
+OoyalaSkinCore.prototype.renderErrorScreen = function(){
+console.log("render error screen");
+return (
+React.createElement(ErrorScreen,{
+error:this.skin.state.error,
+localizableStrings:this.skin.props.localizableStrings,
+locale:this.skin.props.locale}));};
+
+
+OoyalaSkinCore.prototype.renderVideoView = function(){var _this4=this;
+return (
+React.createElement(VideoView,{
+rate:this.skin.state.rate,
+showPlay:this.skin.state.showPlayButton,
+playhead:this.skin.state.playhead,
+duration:this.skin.state.duration,
+ad:this.skin.state.ad,
+live:this.skin.state.live,
+width:this.skin.state.width,
+height:this.skin.state.height,
+fullscreen:this.skin.state.fullscreen,
+onPress:function(value){return _this4.handlePress(value);},
+onScrub:function(value){return _this4.handleScrub(value);},
+closedCaptionsLanguage:this.skin.state.selectedLanguage,
+
+availableClosedCaptionsLanguages:this.skin.state.availableClosedCaptionsLanguages,
+captionJSON:this.skin.state.captionJSON,
+onSocialButtonPress:function(socialType){return _this4.onSocialButtonPress(socialType);},
+lastPressedTime:this.skin.state.lastPressedTime,
+config:{
+controlBar:this.skin.props.controlBar,
+buttons:this.skin.props.buttons.mobileContent,
+upNextScreen:this.skin.props.upNextScreen,
+icons:this.skin.props.icons,
+adScreen:this.skin.props.adScreen},
+
+nextVideo:this.skin.state.nextVideo,
+upNextDismissed:this.skin.state.upNextDismissed,
+localizableStrings:this.skin.props.localizableStrings,
+locale:this.skin.props.locale}));};
+
+
+
+
+OoyalaSkinCore.prototype.renderCCOptions = function(){var _this5=this;
+return (
+React.createElement(LanguageSelectionPanel,{
+languages:this.skin.state.availableClosedCaptionsLanguages,
+selectedLanguage:this.skin.state.selectedLanguage,
+onSelect:function(value){return _this5.onLanguageSelected(value);},
+onDismiss:this.onOverlayDismissed,
+width:this.skin.state.width,
+height:this.skin.state.height,
+config:{localizableStrings:this.skin.props.localizableStrings,
+locale:this.skin.props.locale,
+icons:this.skin.props.icons}}));};
+
+
+
+OoyalaSkinCore.prototype.renderSocialOptions = function(){var _this6=this;
+return (
+React.createElement(SharePanel,{
+socialButtons:this.skin.props.sharing,
+onSocialButtonPress:function(socialType){return _this6.onSocialButtonPress(socialType);},
+width:this.skin.state.width,
+height:this.skin.state.height,
+alertTitle:this.skin.state.alertTitle,
+alertMessage:this.skin.state.alertMessage,
+localizableStrings:this.skin.props.localizableStrings,
+locale:this.skin.props.locale}));},
+
+
+OoyalaSkinCore.prototype.renderDiscoveryPanel = function(){var _this7=this;
+if(!this.skin.state.discoveryResults){
+return null;}
+
+
+return (
+React.createElement(DiscoveryPanel,{
+config:this.skin.props.discoveryScreen,
+localizableStrings:this.skin.props.localizableStrings,
+locale:this.skin.props.locale,
+dataSource:this.skin.state.discoveryResults,
+onRowAction:function(info){return _this7.onDiscoveryRow(info);},
+width:this.skin.state.width,
+height:this.skin.state.height}));};
+
+
+
+OoyalaSkinCore.prototype.renderMoreOptionPanel = function(){
+console.log("renderMoreOptionPanel:" + this.skin.state.buttonSelected);
+switch(this.skin.state.buttonSelected){
+case BUTTON_NAMES.DISCOVERY:
+return this.renderDiscoveryPanel();
+break;
+case BUTTON_NAMES.QUALITY:
+break;
+case BUTTON_NAMES.CLOSED_CAPTIONS:
+return this.renderCCOptions();
+break;
+case BUTTON_NAMES.SHARE:
+return this.renderSocialOptions();
+break;
+case BUTTON_NAMES.SETTING:
+break;
+default:
+break;}
+
+return null;};
+
+
+OoyalaSkinCore.prototype.renderMoreOptionScreen = function(){var _this8=this;
+console.log("renderMoreOptions buttonSelected" + this.skin.state.buttonSelected);
+var panel=this.renderMoreOptionPanel();
+
+return (
+React.createElement(MoreOptionScreen,{
+height:this.skin.state.height,
+onDismiss:function(){return _this8.onOptionDismissed();},
+panel:panel,
+buttonSelected:this.skin.state.buttonSelected,
+onOptionButtonPress:function(buttonName){return _this8.onOptionButtonPress(buttonName);},
+config:{
+moreOptions:this.skin.props.moreOptions,
+buttons:this.skin.props.buttons.mobileContent,
+icons:this.skin.props.icons,
+
+controlBarWidth:this.skin.state.width}}));};
+
+
+
+
+
+module.exports = OoyalaSkinCore;
+});
+__d('OoyalaSkin/StartScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/startScreenStyles.json","OoyalaSkin/constants.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/VideoViewPlayPause.js","OoyalaSkin/responsiveDesignManager.js"],function(global, require, module, exports) {  var 
+React=require('react-native/Libraries/react-native/react-native.js');var 
+
+
+StyleSheet=
+
+
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var styles=Utils.getStyles(require('OoyalaSkin/style/startScreenStyles.json'));
+var Constants=require('OoyalaSkin/constants.js');var 
+
+IMG_URLS=
+
+Constants.IMG_URLS;var UI_SIZES=Constants.UI_SIZES;
+
+var RectButton=require('OoyalaSkin/widgets/RectButton.js');
+var VideoViewPlayPause=require('OoyalaSkin/widgets/VideoViewPlayPause.js');
+var ResponsiveDesignManager=require('OoyalaSkin/responsiveDesignManager.js');
+
+var StartScreen=React.createClass({displayName:'StartScreen',
+propTypes:{
+config:React.PropTypes.object,
+title:React.PropTypes.string,
+description:React.PropTypes.string,
+promoUrl:React.PropTypes.string,
+onPress:React.PropTypes.func,
+width:React.PropTypes.number,
+height:React.PropTypes.number},
+
+
+handleClick:function(){
+this.props.onPress('PlayPause');},
+
+
+
+getPlayButton:function(){
+var iconFontSize=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+
+if(this.props.config.startScreen.showPlayButton){
+return (
+React.createElement(VideoViewPlayPause,{
+icons:{
+play:{
+icon:this.props.config.icons.play.fontString,
+fontFamily:this.props.config.icons.play.fontFamilyName},
+
+pause:{
+icon:this.props.config.icons.pause.fontString,
+fontFamily:this.props.config.icons.pause.fontFamilyName}},
+
+
+position:this.props.config.startScreen.playButtonPosition,
+onPress:this.handleClick,
+buttonStyle:this.props.config.startScreen.playIconStyle,
+frameWidth:this.props.width,
+frameHeight:this.props.height,
+buttonWidth:iconFontSize,
+buttonHeight:iconFontSize,
+fontSize:iconFontSize,
+playing:false,
+showButton:true,
+isStartScreen:true}));}
+
+
+return null;},
+
+
+
+getInfoPanel:function(){
+var infoPanelTitle;
+if(this.props.config.startScreen.showTitle){
+infoPanelTitle = React.createElement(Text,{style:[styles.infoPanelTitle,this.props.config.startScreen.titleFont]},this.props.title);}
+
+var infoPanelDescription;
+if(this.props.config.startScreen.showDescription){
+infoPanelDescription = React.createElement(Text,{style:[styles.infoPanelDescription,this.props.config.startScreen.descriptionFont]},this.props.description);}
+
+
+var infoPanelLocation;
+switch(this.props.config.startScreen.infoPanelPosition){
+case "topLeft":
+infoPanelLocation = styles.infoPanelNW;
+break;
+case "bottomLeft":
+infoPanelLocation = styles.infoPanelSW;
+break;
+default:
+throw "Invalid infoPanel location " + this.props.config.startScreen.infoPanelPosition;}
+
+
+return (
+React.createElement(View,{style:infoPanelLocation},
+infoPanelTitle,
+infoPanelDescription));},
+
+
+
+
+getPromoImage:function(){
+if(this.props.config.startScreen.showPromo && this.props.promoUrl){
+var fullscreen=this.props.config.startScreen.promoImageSize == 'default';
+
+return (
+React.createElement(Image,{
+source:{uri:this.props.promoUrl},
+style:fullscreen?
+{position:'absolute',top:0,left:0,width:this.props.width,height:this.props.height}:
+styles.promoImageSmall,
+resizeMode:Image.resizeMode.contain}));}
+
+
+
+
+return null;},
+
+
+getWaterMark:function(){
+var waterMarkImageLocation=styles.waterMarkImageSE;
+return (
+React.createElement(Image,{style:[styles.waterMarkImage,waterMarkImageLocation],
+source:{uri:IMG_URLS.OOYALA_LOGO},
+resizeMode:Image.resizeMode.contain}));},
+
+
+
+
+render:function(){
+var promoImage=this.getPromoImage();
+var playButton=this.getPlayButton();
+var infoPanel=this.getInfoPanel();
+var waterMarkImage=this.getWaterMark();
+
+return (
+React.createElement(View,{style:styles.container},
+promoImage,
+waterMarkImage,
+infoPanel,
+playButton));}});
+
+
+
+
+
+module.exports = StartScreen;
+});
+__d('OoyalaSkin/utils.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/style/styles.json"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+React.StyleSheet;
+
+
+var Utils={
+
+shouldShowLandscape:function(width,height){
+return width > height;},
+
+
+
+
+getStyles:function(specificStyles){
+var globalStyles=require('OoyalaSkin/style/styles.json');
+
+if(specificStyles == undefined){
+specificStyles = {};}
+
+
+var styles={};
+for(var attrname in globalStyles) {styles[attrname] = globalStyles[attrname];}
+for(var attrname in specificStyles) {styles[attrname] = specificStyles[attrname];}
+
+return React.StyleSheet.create(styles);},
+
+
+isPlaying:function(rate){
+return rate > 0;},
+
+
+isPaused:function(rate){
+return rate == 0;},
+
+
+secondsToString:function(seconds){
+var minus='';
+if(seconds < 0){
+minus = "-";
+seconds = -seconds;}
+
+var date=new Date(seconds * 1000);
+var hh=date.getUTCHours();
+var mm=date.getUTCMinutes();
+var ss=date.getSeconds();
+if(ss < 10){
+ss = "0" + ss;}
+
+if(mm == 0){
+mm = "00";}else 
+if(mm < 10){
+mm = "0" + mm;}
+
+var t=mm + ":" + ss;
+if(hh > 0){
+t = hh + ":" + t;}
+
+return minus + t;},
+
+
+localizedString:function(preferredLocale,stringId,localizableStrings){
+console.log("preferredLocale" + preferredLocale + "stringId" + stringId + "localizableStrings" + localizableStrings);
+var defaultLocale=localizableStrings["default"]?localizableStrings["defaultLanguage"]:"en";
+
+if(localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]){
+return localizableStrings[preferredLocale][stringId];}
+
+
+if(localizableStrings[defaultLocale] && localizableStrings[defaultLocale][stringId]){
+return localizableStrings[defaultLocale][stringId];}
+
+
+return stringId;},
+
+
+stringForErrorCode:function(errorCode){
+switch(errorCode){
+case 0:
+return "Authorization Failed";
+case 1:
+return "Authorization Response invalid";
+case 2:
+return "Heartbeat failed";
+case 3:
+return "Content Tree Response invalid";
+case 4:
+return "The signature of the Authorization Response is invalid";
+case 5:
+return "Content Tree Next failed";
+case 6:
+return "AVPlayer Failed";
+case 7:
+return "The asset is not encoded for iOS";
+case 8:
+return "An Internal iOS Error. Check the error property.";
+case 9:
+return "Metadata Response invalid";
+case 10:
+return "During DRM Rights Acquisition, the rights server reported an invalid token";
+case 11:
+return "During DRM Rights Acquisition, the server reported that the device limit has been reached";
+case 12:
+return "During DRM Rights Acquisition, the server reported that device binding failed";
+case 13:
+return "During DRM Rights Acquisition, the server reported the device id was too long";
+case 14:
+return "There was some unknown error during the DRM workflow";
+case 15:
+return "Failed to download a required file during the DRM workflow";
+case 16:
+return "Failed to complete device personalization during the DRM workflow";
+case 17:
+return "Failed to get rights for asset during the DRM workflow";
+case 18:
+return "The expected discovery parameters are not provided";
+case 19:
+return "The discovery response is not received due to network errors";
+case 20:
+return "The discovery reponse is received and an error occured on server side";
+default:
+return "This is not working";}}};
+
+
+
+
+
+module.exports = Utils;
+});
+__d('OoyalaSkin/style/styles.json',[],function(global, require, module, exports) {  module.exports = {
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  waterMarkContainer: {
+    flexDirection: 'row', 
+    height: 8
+  },
+
+  waterMarkImageSW: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+  },
+
+  waterMarkImageNE: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+
+  waterMarkImageSE: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
+
+  waterMarkImage: {
+    width:160,
+    height: 24,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 10
+  },
+
+  infoPanelNW: {
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+  },
+
+  infoPanelSW: {
+    position: 'absolute',    
+    bottom: 0,
+    left: 0
+  },
+
+  infoPanelTitle: {
+    textAlign: 'left',
+    marginTop: 20,
+    marginLeft: 10
+  },
+
+  infoPanelDescription: {
+    textAlign: 'left',
+    margin: 10
+  }
+}
+;
+});
+__d('OoyalaSkin/style/startScreenStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "flex-start"
+  },
+
+  "promoImageSmall": {
+    "width": 180,
+    "height": 90,
+    "margin": 20,
+  },
+}
+;
+});
+__d('OoyalaSkin/widgets/RectButton.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/RectButtonStyles.json"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;var TouchableHighlight=React.TouchableHighlight;
+
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/RectButtonStyles.json'));
+
+var RectButton=React.createClass({displayName:'RectButton',
+propTypes:{
+icon:React.PropTypes.string,
+position:React.PropTypes.string,
+onPress:React.PropTypes.func,
+opacity:React.PropTypes.number,
+frameWidth:React.PropTypes.number,
+frameHeight:React.PropTypes.number,
+buttonWidth:React.PropTypes.number,
+buttonHeight:React.PropTypes.number,
+buttonColor:React.PropTypes.string,
+buttonStyle:React.PropTypes.object,
+fontSize:React.PropTypes.number,
+fontFamily:React.PropTypes.string,
+style:React.PropTypes.object},
+
+
+
+render:function(){
+var fontStyle={fontSize:this.props.fontSize,fontFamily:this.props.fontFamily};
+var sizeStyle={width:this.props.buttonWidth,height:this.props.buttonHeight};
+var buttonColor={color:this.props.buttonColor == null?"white":this.props.buttonColor};
+var positionStyle;
+
+if(this.props.style != null){
+positionStyle = this.props.style;}else 
+if(this.props.position == "center"){
+var topOffset=Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
+var leftOffset=Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
+
+positionStyle = 
+{position:'absolute',top:topOffset,left:leftOffset};}else 
+{
+positionStyle = styles[this.props.position];}
+
+return (
+React.createElement(TouchableHighlight,{
+style:positionStyle,
+onPress:this.props.onPress,
+underlayColor:'transparent',
+activeOpacity:this.props.opacity},
+React.createElement(View,{style:[styles.buttonArea,sizeStyle]},
+React.createElement(Text,{style:[styles.buttonTextStyle,fontStyle,buttonColor,this.props.buttonStyle]},this.props.icon))));}});
+
+
+
+
+
+module.exports = RectButton;
+});
+__d('OoyalaSkin/widgets/style/RectButtonStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "topRight": {  
+    "position": "absolute",
+    "top": 10,
+    "right": 10,
+  },
+
+  "topLeft": {
+    "position": "absolute",  
+    "top": 10,
+    "left": 10,
+  },
+
+  "bottomRight": { 
+    "position": "absolute",
+    "bottom": 10,
+    "right": 10,
+  },
+
+  "bottomLeft": {  
+    "position": "absolute",
+    "bottom": 10,
+    "left": 10,
+  },
+
+  "buttonArea": {
+    "flex": 1,
+    "flexDirection": "row",
+    "alignSelf": "center",
+  },
+
+  "buttonTextStyle": {
+    "flex": 1,
+    "alignSelf": "center",
+    "textAlign": "center",
+    "color": "white",
+    "fontFamily": "fontawesome",
+  }
+};
+});
+__d('OoyalaSkin/widgets/VideoViewPlayPause.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/RectButtonStyles.json"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+ActivityIndicatorIOS=
+
+
+
+
+
+React.ActivityIndicatorIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var Animated=React.Animated;
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+BUTTON_NAMES=
+Constants.BUTTON_NAMES;
+
+
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/RectButtonStyles.json'));
+var PLAY="play";
+var PAUSE="pause";
+
+var VideoViewPlayPause=React.createClass({displayName:'VideoViewPlayPause',
+propTypes:{
+icons:React.PropTypes.object,
+position:React.PropTypes.string,
+onPress:React.PropTypes.func,
+opacity:React.PropTypes.number,
+frameWidth:React.PropTypes.number,
+frameHeight:React.PropTypes.number,
+buttonWidth:React.PropTypes.number,
+buttonHeight:React.PropTypes.number,
+buttonColor:React.PropTypes.string,
+buttonStyle:React.PropTypes.object,
+fontSize:React.PropTypes.number,
+style:React.PropTypes.object,
+showButton:React.PropTypes.bool,
+playing:React.PropTypes.bool,
+isStartScreen:React.PropTypes.bool,
+rate:React.PropTypes.number,
+playhead:React.PropTypes.number},
+
+
+getInitialState:function(){
+return {
+play:{
+animationScale:new Animated.Value(1),
+animationOpacity:new Animated.Value(1)},
+
+pause:{
+animationScale:new Animated.Value(1),
+animationOpacity:new Animated.Value(0)},
+
+widget:{
+animationOpacity:new Animated.Value(1)},
+
+controlPlaying:true};},
+
+
+
+componentWillMount:function(){
+if(this.isInitialVideoPlay() || this.isVideoRemount(PLAY)){
+this.playPauseAction(PLAY);
+this.setState({controlPlaying:false});}
+
+if(this.isVideoRemount(PAUSE)){
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);}},
+
+
+
+isInitialVideoPlay:function(){
+return !this.props.isStartScreen && this.props.playhead == 0;},
+
+
+isVideoRemount:function(state){
+if(!this.props.isStartScreen && this.props.playhead != 0){
+if(state == PLAY){
+return !this.props.playing;}
+
+if(state == PAUSE){
+return this.props.playing;}}
+
+
+return false;},
+
+
+onPress:function(){
+if(this.props.showButton){
+
+this.setState({controlPlaying:!this.state.controlPlaying});
+if(this.props.rate <= 0 != this.state.controlPlaying && !this.props.isStartScreen){
+this.playPauseAction(PAUSE);}else 
+
+{
+this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+this.playPauseAction(this.state.controlPlaying?PLAY:PAUSE);}}else 
+
+
+{
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);}},
+
+
+
+
+playPauseAction:function(name){
+if(name == PLAY){
+this.state.play.animationScale.setValue(1);
+this.state.play.animationOpacity.setValue(1);
+Animated.parallel([
+Animated.timing(this.state.play.animationOpacity,{
+toValue:0}),
+
+Animated.timing(this.state.play.animationScale,{
+toValue:2}),
+
+Animated.timing(this.state.pause.animationOpacity,{
+toValue:1,
+duration:100,
+delay:1200})]).
+
+start();}
+
+if(name == PAUSE){
+this.state.pause.animationOpacity.setValue(0);
+this.state.play.animationOpacity.setValue(1);
+this.state.play.animationScale.setValue(1);}},
+
+
+
+componentDidUpdate:function(prevProps,prevState){
+if(prevProps.playing != this.props.playing && this.props.rate <= 0 == this.state.controlPlaying){
+this.playPauseAction(this.props.playing?PAUSE:PLAY);}},
+
+
+
+_renderLoading:function(){
+if((this.props.rate <= 0 || this.props.playhead == 0) && !this.props.showButton && !this.state.controlPlaying){
+return (
+React.createElement(View,{style:styles.loading},
+React.createElement(ActivityIndicatorIOS,{
+animating:true,
+size:'large'})));}},
+
+
+
+
+
+_renderButton:function(name){
+var fontStyle={fontSize:this.props.fontSize,fontFamily:this.props.icons[name].fontFamily};
+
+var opacity={opacity:this.state[name].animationOpacity};
+var animate={transform:[{scale:this.state[name].animationScale}]};
+var buttonColor={color:this.props.buttonColor == null?"white":this.props.buttonColor};
+
+var size={position:'absolute'};
+
+return (
+React.createElement(Animated.Text,{
+style:[styles.buttonTextStyle,fontStyle,buttonColor,this.props.buttonStyle,animate,opacity,size]},
+this.props.icons[name].icon));},
+
+
+
+
+
+render:function(){var _this=this;
+
+if(this.props.style != null){
+positionStyle = this.props.style;}else 
+
+if(this.props.position == "center"){
+var topOffset=Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
+var leftOffset=Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
+
+positionStyle = {
+position:'absolute',top:topOffset,left:leftOffset};}else 
+
+{
+positionStyle = styles[this.props.position];}
+
+var sizeStyle={width:this.props.buttonWidth,height:this.props.buttonHeight};
+var opacity={opacity:this.state.widget.animationOpacity};
+
+var playButton=this._renderButton(PLAY);
+var pauseButton=this._renderButton(PAUSE);
+var loading=this._renderLoading();
+
+if(this.props.showButton){
+Animated.timing(this.state.widget.animationOpacity,{
+toValue:1,
+duration:400}).
+start();}else 
+
+{
+Animated.timing(this.state.widget.animationOpacity,{
+toValue:0,
+duration:400}).
+start();}
+
+return (
+React.createElement(TouchableHighlight,{
+onPress:function(){return _this.onPress();},
+style:[positionStyle],
+underlayColor:'transparent',
+activeOpacity:this.props.opacity},
+React.createElement(View,null,
+React.createElement(Animated.View,{style:[styles.buttonArea,sizeStyle,{position:'absolute'}]},
+loading),
+
+React.createElement(Animated.View,{style:[styles.buttonArea,sizeStyle,opacity,{position:'absolute'}]},
+playButton,
+pauseButton))));}});
+
+
+
+
+
+
+
+
+module.exports = VideoViewPlayPause;
+});
+__d('OoyalaSkin/responsiveDesignManager.js',[],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var ResponsiveDesignManager={
+
+
+threshold:[320,860],
+multiplier:[0.7,1,1.2],
+
+
+
+
+
+
+
+
+
+getSize:function(width,threshold){
+var threshold=threshold?threshold:this.threshold;
+for(var i=0;i < threshold.length;i++) {
+if(width <= threshold[i]){
+return parseInt(i);}}
+
+
+return threshold.length;},
+
+
+
+
+
+
+
+
+
+
+
+
+makeResponsiveMultiplier:function(width,baseSize,multiplier,threshold){
+var size=this.getSize(width,threshold);
+var multipliers=multiplier?multiplier:this.multiplier;
+
+if(typeof baseSize === "number" && typeof multipliers === "object" && multipliers.length > 0){
+if(size >= multipliers.length){
+console.log("Warning: No multiplier value available for size " + size + " in multiplier array [" + multipliers + "], falling back to the largest multiplier value available. Length of multiplier array should be one more than the length of the threshold array.");
+return baseSize * multipliers[multipliers.length - 1];}
+
+return baseSize * multipliers[size];}
+
+if(typeof baseSize !== "number"){
+console.log("Warning: baseSize must be a number.");}
+
+if(typeof multipliers !== "object" || multipliers.length <= 0){
+console.log("Warning: multiplier must be a non empty array.");}
+
+return 0;},
+
+
+
+
+
+
+
+
+
+
+
+makeResponsiveValues:function(width,values,threshold){
+var size=this.getSize(width,threshold);
+
+if(typeof values === "object" && values.length > 0){
+if(size >= values.length){
+console.log("Warning: No value available for size " + size + " in values array [" + values + "], falling back to the largest value available. Length of values array should be one more than the length of the threshold array.");
+return values[values.length - 1];}
+
+return values[size];}
+
+console.log("Warning: values must be a non empty array.");
+return 0;},
+
+
+
+
+
+TestSuite:{
+
+Assert:function(){
+var b=arguments[0];
+if(!b){
+throw new Error('ASSERTION FAILED: ' + JSON.stringify(arguments));}},
+
+
+AssertStrictEquals:function(){
+var o1=arguments[0];
+var o2=arguments[1];
+if(o1 !== o2){
+var errorMessage='ASSERTION FAILED: ' + JSON.stringify(o1) + ' !== ' + JSON.stringify(o2);
+if(arguments.length > 2){
+errorMessage += " (" + JSON.stringify(Array.prototype.slice.call(arguments,2)) + ")";}
+
+throw new Error(errorMessage);}},
+
+
+
+TestResponsive_multiplier_medium:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveMultiplier(500,100,[1,2,3],[200,800]);
+this.AssertStrictEquals(responsive,200,responsive);},
+
+
+TestResponsive_multiplier_medium_default:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveMultiplier(500,100);
+this.AssertStrictEquals(responsive,100,responsive);},
+
+
+TestResponsive_multiplier_small:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveMultiplier(100,100,[1,2,3],[200,800]);
+this.AssertStrictEquals(responsive,100,responsive);},
+
+
+TestResponsive_multiplier_small_border:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveMultiplier(200,100,[1,2,3],[200,800]);
+this.AssertStrictEquals(responsive,100,responsive);},
+
+
+TestResponsive_multiplier_large_border:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveMultiplier(800,100,[1,2,3],[200,800]);
+this.AssertStrictEquals(responsive,200,responsive);},
+
+
+TestResponsive_multiplier_large:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveMultiplier(900,100,[1,2,3],[200,800]);
+this.AssertStrictEquals(responsive,300,responsive);},
+
+
+TestResponsive_multiplier_overflow:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveMultiplier(900,100,[1],[200,800]);
+this.AssertStrictEquals(responsive,100,responsive);},
+
+
+TestResponsive_values_medium:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveValues(500,[200,300,400],[200,800]);
+this.AssertStrictEquals(responsive,300,responsive);},
+
+
+TestResponsive_values_overflow:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveValues(500,[200],[200,800]);
+this.AssertStrictEquals(responsive,200,responsive);},
+
+
+TestResponsive_values_empty_array:function(){
+var responsive=ResponsiveDesignManager.makeResponsiveValues(500,[],[200,800]);
+this.AssertStrictEquals(responsive,0,responsive);},
+
+
+Run:function(){
+var keys=Object.keys(this).sort();
+for(var i=0;i < keys.length;++i) {
+var k=keys[i];
+var isFunction=typeof this[k] == "function";
+var isTest=k.indexOf("Test") == 0;
+if(isFunction && isTest){
+console.log("+++",k);
+this[k]();
+console.log("---",k,"PASS!");}}
+
+
+console.log("ran",keys.length,"tests.");}}};
+
+
+
+
+
+module.exports = ResponsiveDesignManager;
+});
+__d('OoyalaSkin/EndScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/endScreenStyles.json","OoyalaSkin/progressBar.js","OoyalaSkin/controlBar.js","OoyalaSkin/waterMark.js","OoyalaSkin/infoPanel.js","OoyalaSkin/constants.js"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+
+StyleSheet=
+
+
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var styles=Utils.getStyles(require('OoyalaSkin/style/endScreenStyles.json'));
+var ProgressBar=require('OoyalaSkin/progressBar.js');
+var ControlBar=require('OoyalaSkin/controlBar.js');
+var WaterMark=require('OoyalaSkin/waterMark.js');
+var InfoPanel=require('OoyalaSkin/infoPanel.js');
+var Constants=require('OoyalaSkin/constants.js');var 
+
+
+BUTTON_NAMES=
+
+Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
+
+var leftMargin=20;
+
+var EndScreen=React.createClass({displayName:'EndScreen',
+getInitialState:function(){
+return {
+showControls:true,
+showSharePanel:false};},
+
+
+
+propTypes:{
+config:React.PropTypes.object,
+title:React.PropTypes.string,
+duration:React.PropTypes.number,
+description:React.PropTypes.string,
+promoUrl:React.PropTypes.string,
+onPress:React.PropTypes.func,
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+discoveryPanel:React.PropTypes.object,
+socialPanel:React.PropTypes.object},
+
+
+handleClick:function(name){
+if(name === "SocialShare"){
+this.setState({showSharePanel:!this.state.showSharePanel});}else 
+{
+this.props.onPress(name);}},
+
+
+
+onSocialButtonPress:function(socialType){
+this.props.onSocialButtonPress(socialType);},
+
+
+handleTouchEnd:function(event){
+this.toggleControlBar();},
+
+
+_renderDiscoveryScreen:function(progressBar,controlBar){
+return (
+React.createElement(View,{style:styles.fullscreenContainer},
+this.props.discoveryPanel,
+progressBar,
+controlBar));},
+
+
+
+_renderDefaultScreen:function(progressBar,controlBar){var _this=this;
+var fullscreenPromoImage=this.props.config.endScreen.mode == 'default';
+var replaybuttonLocation=styles.replaybuttonCenter;
+var replaybutton;
+if(this.props.config.endScreen.showReplayButton){
+var fontFamilyStyle={fontFamily:this.props.config.icons.replay.fontFamilyName};
+replaybutton = 
+React.createElement(TouchableHighlight,{
+onPress:function(name){return _this.handleClick('PlayPause');},
+underlayColor:'transparent',
+activeOpacity:0.5},
+React.createElement(Text,{style:[styles.replaybutton,fontFamilyStyle]},this.props.config.icons.replay.fontString));}
+
+
+
+
+var title=this.props.config.endScreen.showTitle?this.props.title:null;
+var description=this.props.config.endScreen.showDescription?this.props.description:null;
+var infoPanel=
+React.createElement(InfoPanel,{title:title,description:description});
+
+return (
+React.createElement(Image,{
+source:{uri:this.props.promoUrl},
+style:styles.fullscreenContainer,
+resizeMode:Image.resizeMode.contain},
+React.createElement(View,{
+style:styles.fullscreenContainer},
+infoPanel,
+this.props.sharePanel,
+React.createElement(View,{style:replaybuttonLocation},
+replaybutton)),
+
+
+progressBar,
+controlBar));},
+
+
+
+
+render:function(){var _this2=this;
+var progressBar=React.createElement(ProgressBar,{
+ref:'progressBar',
+playhead:this.props.duration,
+duration:this.props.duration,
+isShow:this.state.showControls});
+
+var controlBar=React.createElement(ControlBar,{
+ref:'controlBar',
+primaryButton:'replay',
+height:this.props.height,
+width:this.props.width - leftMargin * 2,
+isShow:'true',
+playhead:this.props.duration,
+duration:this.props.duration,
+onPress:function(name){return _this2.handleClick(name);},
+config:{
+controlBar:this.props.config.controlBar,
+buttons:this.props.config.buttons,
+icons:this.props.config.icons}});
+
+if(this.props.config.endScreen.screenToShowOnEnd == 'discovery' && 
+this.props.discoveryPanel){
+return this._renderDiscoveryScreen(progressBar,controlBar);}else 
+{
+return this._renderDefaultScreen(progressBar,controlBar);}}});
+
+
+
+
+module.exports = EndScreen;
+});
+__d('OoyalaSkin/style/endScreenStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+
+  fullscreenContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+  },
+
+  promoImageSmall: {
+    width: 180,
+    height: 90,
+    margin: 20,
+  },
+
+  replaybuttonCenter: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+
+  replaybuttonSE: {
+    position: 'absolute',    
+    bottom: 0,
+    right: 0
+  },
+
+  replaybuttonSW: {
+    position: 'absolute',    
+    bottom: 0,
+    left: 0
+  },
+
+  replaybutton: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'white',
+    fontFamily: 'fontawesome',
+    margin: 10
+  },
+};
+});
+__d('OoyalaSkin/progressBar.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/progressBarStyles.json"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+View=
+
+
+React.View;var StyleSheet=React.StyleSheet;var LayoutAnimation=React.LayoutAnimation;
+
+var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/progressBarStyles.json'));
+
+var ProgressBar=React.createClass({displayName:'ProgressBar',
+propTypes:{
+percent:React.PropTypes.number},
+
+
+render:function(){
+var playedPercent=this.props.percent;
+var bufferedPercent=0;
+var unbufferedPercent=1 - playedPercent - bufferedPercent;
+
+var playedStyle={backgroundColor:'#4389FF',flex:playedPercent};
+var bufferedStyle={backgroundColor:'#7F7F7F',flex:bufferedPercent};
+var unbufferedStyle={backgroundColor:'#AFAFAF',flex:unbufferedPercent};
+
+var progressStyles=StyleSheet.create({played:playedStyle,buffered:bufferedStyle,unbuffered:unbufferedStyle});
+return (
+React.createElement(View,{style:styles.container},
+React.createElement(View,{style:progressStyles.played}),
+React.createElement(View,{style:progressStyles.buffered}),
+React.createElement(View,{style:progressStyles.unbuffered})));}});
+
+
+
+
+
+module.exports = ProgressBar;
+});
+__d('OoyalaSkin/style/progressBarStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+  	"flexDirection": "row",
+    "height": 6,
+    "marginVertical": 16,
+    "marginHorizontal": 20,
+  }
+};
+});
+__d('OoyalaSkin/controlBar.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/controlBarWidgets.js","OoyalaSkin/collapsingBarUtils.js","OoyalaSkin/widgets/VolumeView.js","OoyalaSkin/responsiveDesignManager.js","OoyalaSkin/style/controlBarStyles.json"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+
+
+
+React.StyleSheet;var Text=React.Text;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;var View=React.View;var LayoutAnimation=React.LayoutAnimation;
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+BUTTON_NAMES=
+
+
+Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;var UI_SIZES=Constants.UI_SIZES;
+
+var Utils=require('OoyalaSkin/utils.js');
+var ControlBarWidget=require('OoyalaSkin/widgets/controlBarWidgets.js');
+var CollapsingBarUtils=require('OoyalaSkin/collapsingBarUtils.js');
+var VolumeView=require('OoyalaSkin/widgets/VolumeView.js');
+var ResponsiveDesignManager=require('OoyalaSkin/responsiveDesignManager.js');
+
+var styles=Utils.getStyles(require('OoyalaSkin/style/controlBarStyles.json'));
+
+var ControlBar=React.createClass({displayName:'ControlBar',
+getInitialState:function(){
+return {
+showVolume:false};},
+
+
+
+propTypes:{
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+primaryButton:React.PropTypes.string,
+fullscreen:React.PropTypes.bool,
+playhead:React.PropTypes.number,
+duration:React.PropTypes.number,
+onPress:React.PropTypes.func,
+showClosedCaptionsButton:React.PropTypes.bool,
+live:React.PropTypes.object,
+shouldShowLandscape:React.PropTypes.bool,
+config:React.PropTypes.object},
+
+
+getDefaultProps:function(){
+return {playhead:0,duration:0};},
+
+
+getDurationString:function(){
+if(this.props.live){
+return this.props.live.label;}else 
+{
+return Utils.secondsToString(this.props.playhead) + "/" + Utils.secondsToString(this.props.duration);}},
+
+
+
+onPlayPausePress:function(){
+this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);},
+
+
+onVolumePress:function(){
+this.setState({showVolume:!this.state.showVolume});},
+
+
+onSocialSharePress:function(){
+this.props.onPress && this.props.onPress(BUTTON_NAMES.SHARE);},
+
+
+onClosedCaptionsPress:function(){
+this.props.onPress && this.props.onPress(BUTTON_NAMES.CLOSED_CAPTIONS);},
+
+
+onDiscoveryPress:function(){
+this.props.onPress && this.props.onPress(BUTTON_NAMES.DISCOVERY);},
+
+
+onFullscreenPress:function(){
+this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);},
+
+
+onMorePress:function(){
+this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);},
+
+
+render:function(){
+
+var iconFontSize=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_ICONSIZE);
+var labelFontSize=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_LABELSIZE);
+
+var controlBarWidgets=[];
+
+var widgetOptions={
+playPause:{
+onPress:this.onPlayPausePress,
+style:[styles.icon,{"fontSize":iconFontSize},this.props.config.controlBar.iconStyle],
+playIcon:this.props.config.icons.play,
+pauseIcon:this.props.config.icons.pause,
+replayIcon:this.props.config.icons.replay,
+primaryActionButton:this.props.primaryButton},
+
+volume:{
+onPress:this.onVolumePress,
+style:this.state.showVolume?[styles.icon,{"fontSize":iconFontSize},styles.iconHighlighted,this.props.config.controlBar.iconStyle]:[styles.icon,{"fontSize":iconFontSize},this.props.config.controlBar.iconStyle],
+icon:this.props.config.icons.volume,
+showVolume:this.state.showVolume,
+scrubberStyle:styles.volumeSlider},
+
+timeDuration:{
+onPress:this.props.live?this.props.live.onGoLive:null,
+style:[styles.label,{"fontSize":labelFontSize}],
+durationString:this.getDurationString()},
+
+fullscreen:{
+onPress:this.onFullscreenPress,
+style:[styles.icon,{"fontSize":iconFontSize},this.props.config.controlBar.iconStyle],
+icon:this.props.fullscreen?this.props.config.icons.compress:this.props.config.icons.expand},
+
+moreOptions:{
+onPress:this.onMorePress,
+style:[styles.icon,{"fontSize":iconFontSize},this.props.config.controlBar.iconStyle],
+icon:this.props.config.icons.ellipsis},
+
+discovery:{
+onPress:this.onDiscoveryPress,
+style:[styles.icon,{"fontSize":iconFontSize},this.props.config.controlBar.iconStyle],
+icon:this.props.config.icons.discovery},
+
+share:{
+onPress:this.onSocialSharePress,
+style:[styles.icon,{"fontSize":iconFontSize},this.props.config.controlBar.iconStyle],
+icon:this.props.config.icons.share},
+
+closedCaption:{
+onPress:this.onClosedCaptionsPress,
+style:[styles.icon,{"fontSize":iconFontSize},this.props.config.controlBar.iconStyle],
+icon:this.props.config.icons.cc},
+
+watermark:{
+shouldShow:Utils.shouldShowLandscape(this.props.width,this.props.height),
+style:styles.waterMarkImage,
+resizeMode:Image.resizeMode.contain}};
+
+
+
+console.log("Control Bar Width: " + this.props.width);
+
+var itemCollapsingResults=CollapsingBarUtils.collapse(this.props.width,this.props.config.buttons);
+console.log(itemCollapsingResults);
+for(var i=0;i < itemCollapsingResults.fit.length;i++) {
+var widget=itemCollapsingResults.fit[i];
+controlBarWidgets.push(React.createElement(ControlBarWidget,{
+widgetType:widget,
+options:widgetOptions}));}
+
+
+var paddingTopStyle=ResponsiveDesignManager.makeResponsiveValues(this.props.width,[17,12,6]);
+
+var widthStyle={width:this.props.width};
+return (
+React.createElement(View,{style:[styles.container,{bottom:paddingTopStyle},widthStyle]},
+controlBarWidgets));}});
+
+
+
+
+
+module.exports = ControlBar;
+});
+__d('OoyalaSkin/widgets/controlBarWidgets.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/widgets/VolumeView.js","OoyalaSkin/constants.js"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Text=
+
+
+
+
+
+React.Text;var View=React.View;var Image=React.Image;var StyleSheet=React.StyleSheet;var SliderIOS=React.SliderIOS;var TouchableHighlight=React.TouchableHighlight;
+var VolumeView=require('OoyalaSkin/widgets/VolumeView.js');
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+BUTTON_NAMES=
+
+Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
+
+var controlBarWidget=React.createClass({displayName:'controlBarWidget',
+
+propTypes:{
+widgetType:React.PropTypes.string,
+options:React.PropTypes.object},
+
+
+playPauseWidget:function(options){
+var iconMap={
+"play":options.playIcon,
+"pause":options.pauseIcon,
+"replay":options.replayIcon};
+
+var fontFamilyStyle={fontFamily:iconMap[options.primaryActionButton].fontFamilyName};
+return (
+React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:[options.style,fontFamilyStyle]},iconMap[options.primaryActionButton].fontString)));},
+
+
+
+
+volumeWidget:function(options){
+var volumeScrubber=null;
+if(options.showVolume){
+volumeScrubber = React.createElement(VolumeView,{style:options.scrubberStyle});}
+
+var fontFamilyStyle={fontFamily:options.icon.fontFamilyName};
+return (
+React.createElement(View,{style:{flexDirection:'row'}},
+React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:[options.style,fontFamilyStyle]},options.icon.fontString)),
+
+volumeScrubber));},
+
+
+
+
+timeDurationWidget:function(options){
+if(options.onPress){
+return (
+React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:options.style},options.durationString)));}else 
+
+{
+return React.createElement(Text,{style:options.style},options.durationString);}},
+
+
+
+
+flexibleSpaceWidget:function(options){
+return React.createElement(View,{style:{flex:1}});},
+
+
+discoveryWidget:function(options){
+var fontFamilyStyle={fontFamily:options.icon.fontFamilyName};
+return React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:[options.style,fontFamilyStyle]},options.icon.fontString));
+
+return null;},
+
+
+fullscreenWidget:function(options){
+var fontFamilyStyle={fontFamily:options.icon.fontFamilyName};
+return React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:[options.style,fontFamilyStyle]},options.icon.fontString));},
+
+
+
+moreOptionsWidget:function(options){
+var fontFamilyStyle={fontFamily:options.icon.fontFamilyName};
+return React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:[options.style,fontFamilyStyle]},options.icon.fontString));},
+
+
+
+watermarkWidget:function(options){
+if(options.shouldShow){
+return React.createElement(Image,{style:options.style,
+source:{uri:IMG_URLS.OOYALA_LOGO},
+resizeMode:options.resizeMode});}else 
+
+
+{
+return null;}},
+
+
+
+shareWidget:function(options){
+var fontFamilyStyle={fontFamily:options.icon.fontFamilyName};
+return React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:[options.style,fontFamilyStyle]},options.icon.fontString));},
+
+
+
+closedCaptionWidget:function(options){
+var fontFamilyStyle={fontFamily:options.icon.fontFamilyName};
+return React.createElement(TouchableHighlight,{onPress:options.onPress},
+React.createElement(Text,{style:[options.style,fontFamilyStyle]},options.icon.fontString));},
+
+
+
+bitrateSelectorWidget:function(options){
+
+return null;},
+
+
+render:function(){
+
+var widgetsMap={
+"playPause":this.playPauseWidget,
+"volume":this.volumeWidget,
+"timeDuration":this.timeDurationWidget,
+"flexibleSpace":this.flexibleSpaceWidget,
+"discovery":this.discoveryWidget,
+"fullscreen":this.fullscreenWidget,
+"moreOptions":this.moreOptionsWidget,
+"watermark":this.watermarkWidget,
+"share":this.shareWidget,
+"closedCaption":this.closedCaptionWidget,
+"bitrateSelector":this.bitrateSelectorWidget};
+
+if(this.props.widgetType.name in widgetsMap){
+var widgetOptions=this.props.options[this.props.widgetType.name];
+return widgetsMap[this.props.widgetType.name](widgetOptions);}else 
+
+{
+console.log("WARNING: unsupported widget name: " + this.props.widgetType.name);
+return React.createElement(View,null);}}});
+
+
+
+
+
+module.exports = controlBarWidget;
+});
+__d('OoyalaSkin/widgets/VolumeView.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+requireNativeComponent=
+React.requireNativeComponent;
+
+
+module.exports = requireNativeComponent('OOVolumeView',null);
+});
+__d('OoyalaSkin/collapsingBarUtils.js',[],function(global, require, module, exports) {  'use strict';
+
+var CollapsingBarUtils={
+
+
+
+
+
+collapse:function(barWidth,orderedItems){
+if(isNaN(barWidth) || barWidth === undefined){return orderedItems;}
+if(!orderedItems){return [];}
+var self=this;
+var validItems=orderedItems.filter(function(item){return self._isValid(item);});
+var r=this._collapse(barWidth,validItems);
+return r;},
+
+
+_isValid:function(item){
+var valid=
+item && 
+item.location == "moreOptions" || 
+item.location == "controlBar" && 
+item.whenDoesNotFit && 
+item.minWidth !== undefined && 
+item.minWidth >= 0;
+
+return valid;},
+
+
+_collapse:function(barWidth,orderedItems){
+var r={fit:orderedItems.slice(),overflow:[]};
+var usedWidth=orderedItems.reduce(function(p,c,i,a){return p + c.minWidth;},0);
+for(var i=orderedItems.length - 1;i >= 0;--i) {
+var item=orderedItems[i];
+if(this._isOnlyInMoreOptions(item)){
+usedWidth = this._collapseLastItemMatching(r,item,usedWidth);}
+
+if(usedWidth > barWidth && this._isCollapsable(item)){
+usedWidth = this._collapseLastItemMatching(r,item,usedWidth);}}
+
+
+return r;},
+
+
+_isOnlyInMoreOptions:function(item){
+var must=item.location == "moreOptions";
+return must;},
+
+
+_isCollapsable:function(item){
+var collapsable=item.location == "controlBar" && item.whenDoesNotFit && item.whenDoesNotFit != "keep";
+return collapsable;},
+
+
+_collapseLastItemMatching:function(results,item,usedWidth){
+var i=results.fit.lastIndexOf(item);
+if(i > -1){
+results.fit.splice(i,1);
+results.overflow.unshift(item);
+if(item.minWidth){
+usedWidth -= item.minWidth;}}
+
+
+return usedWidth;},
+
+
+_isOverflow:function(item){
+return item.whenDoesNotFit && item.whenDoesNotFit == "moveToMoreOptions";},
+
+
+TestSuite:{
+Assert:function(){
+var b=arguments[0];
+if(!b){
+throw new Error('ASSERTION FAILED: ' + JSON.stringify(arguments));}},
+
+
+AssertStrictEquals:function(){
+var o1=arguments[0];
+var o2=arguments[1];
+if(o1 !== o2){
+var errorMessage='ASSERTION FAILED: ' + JSON.stringify(o1) + ' !== ' + JSON.stringify(o2);
+if(arguments.length > 2){
+errorMessage += " (" + JSON.stringify(Array.prototype.slice.call(arguments,2)) + ")";}
+
+throw new Error(errorMessage);}},
+
+
+
+
+
+B1_Fixed100:{name:"b1",location:"controlBar",whenDoesNotFit:"keep",minWidth:100},
+B2_Fixed1:{name:"b2",location:"controlBar",whenDoesNotFit:"keep",minWidth:1},
+B3_Fixed1:{name:"b3",location:"controlBar",whenDoesNotFit:"keep",minWidth:1},
+B4_Collapsing100:{name:"b4",location:"controlBar",whenDoesNotFit:"moveToMoreOptions",minWidth:100},
+B5_Collapsing1:{name:"b5",location:"controlBar",whenDoesNotFit:"moveToMoreOptions",minWidth:1},
+B6_Collapsing1:{name:"b6",location:"controlBar",whenDoesNotFit:"moveToMoreOptions",minWidth:1},
+B7_MoreOptions100:{name:"b7",location:"moreOptions",minWidth:100},
+B8_None100:{name:"b7",location:"",minWidth:100},
+
+TestOverflow_overflowMoreOptionsDoesntCount:function(){
+var oi=[this.B5_Collapsing1,this.B7_MoreOptions100];
+var results=CollapsingBarUtils.collapse(100,oi);
+this.AssertStrictEquals(results.overflow.length,1,results);
+this.AssertStrictEquals(results.overflow[0],this.B7_MoreOptions100,results);},
+
+
+TestOverflow_overflowMoreOptionsFits:function(){
+var oi=[this.B7_MoreOptions100];
+var results=CollapsingBarUtils.collapse(100,oi);
+this.AssertStrictEquals(results.overflow.toString(),oi.toString(),results);},
+
+
+TestOverflow_overflowMoreOptionsDoesNotFit:function(){
+var oi=[this.B7_MoreOptions100];
+var results=CollapsingBarUtils.collapse(1,oi);
+this.AssertStrictEquals(results.overflow.toString(),oi.toString(),results);},
+
+
+TestOverflow_overflowAppearanceNoneFits:function(){
+var oi=[this.B8_None100];
+var results=CollapsingBarUtils.collapse(100,oi);
+this.AssertStrictEquals(results.overflow.length,0,results);},
+
+
+TestOverflow_overflowAppearanceNoneDoesNotFit:function(){
+var oi=[this.B8_None100];
+var results=CollapsingBarUtils.collapse(1,oi);
+this.AssertStrictEquals(results.overflow.length,0,results);},
+
+
+TestOverflow_overflowAliasOnlyOnce:function(){
+var oi=[this.B5_Collapsing1,this.B6_Collapsing1,this.B5_Collapsing1];
+var results=CollapsingBarUtils.collapse(2,oi);
+this.AssertStrictEquals(results.overflow.length,1,results);
+this.AssertStrictEquals(results.overflow[0],this.B5_Collapsing1,results);},
+
+
+TestOverflow_overflowFixedMixed:function(){
+var oi=[this.B1_Fixed100,this.B5_Collapsing1];
+var results=CollapsingBarUtils.collapse(1,oi);
+this.AssertStrictEquals(results.overflow.length,1,results);
+this.AssertStrictEquals(results.overflow[0],this.B5_Collapsing1,results);},
+
+
+TestOverflow_overflowFixedSingle:function(){
+var oi=[this.B1_Fixed100];
+var results=CollapsingBarUtils.collapse(1,oi);
+this.AssertStrictEquals(results.overflow.length,0,results);},
+
+
+TestFit_fixedPreferred:function(){
+var oi=[this.B2_Fixed1,this.B5_Collapsing1,this.B3_Fixed1];
+var results=CollapsingBarUtils.collapse(2,oi);
+this.AssertStrictEquals(results.fit.length,2,results);
+this.Assert(results.fit.indexOf(this.B5_Collapsing1) == -1,results);},
+
+
+TestFit_merging:function(){
+var oi=[this.B2_Fixed1,this.B5_Collapsing1,this.B3_Fixed1];
+var results=CollapsingBarUtils.collapse(100,oi);
+this.AssertStrictEquals(results.fit.length,3,results);
+this.AssertStrictEquals(results.fit.toString(),oi.toString(),results);},
+
+
+TestFit_revKeepFixed:function(){
+var results=CollapsingBarUtils.collapse(100,[this.B4_Collapsing100,this.B1_Fixed100]);
+this.AssertStrictEquals(results.fit.length,1,results);
+this.AssertStrictEquals(results.fit[0],this.B1_Fixed100,results);},
+
+
+TestFit_keepFixed:function(){
+var results=CollapsingBarUtils.collapse(100,[this.B1_Fixed100,this.B4_Collapsing100]);
+this.AssertStrictEquals(results.fit.length,1,results);
+this.AssertStrictEquals(results.fit[0],this.B1_Fixed100,results);},
+
+
+TestFit_revOneCollapsableFits:function(){
+var results=CollapsingBarUtils.collapse(100,[this.B5_Collapsing1,this.B4_Collapsing100]);
+this.AssertStrictEquals(results.fit.length,1,results);
+this.AssertStrictEquals(results.fit[0],this.B5_Collapsing1,results);},
+
+
+TestFit_oneCollapsableFits:function(){
+var results=CollapsingBarUtils.collapse(100,[this.B4_Collapsing100,this.B5_Collapsing1]);
+this.AssertStrictEquals(results.fit.length,1,results);
+this.AssertStrictEquals(results.fit[0],this.B4_Collapsing100,results);},
+
+
+TestFit_collapsableFits:function(){
+var results=CollapsingBarUtils.collapse(100,[this.B4_Collapsing100]);
+this.AssertStrictEquals(results.fit.length,1,results);
+this.AssertStrictEquals(results.fit[0],this.B4_Collapsing100,results);},
+
+
+TestFit_allFixedFit:function(){
+var results=CollapsingBarUtils.collapse(100,[this.B2_Fixed1,this.B3_Fixed1]);
+this.AssertStrictEquals(results.fit.length,2,results);
+this.AssertStrictEquals(results.fit[0],this.B2_Fixed1,results);
+this.AssertStrictEquals(results.fit[1],this.B3_Fixed1,results);},
+
+
+TestFit_revOneFixedFits_twoFixed:function(){
+var oi=[this.B2_Fixed1,this.B1_Fixed100];
+var results=CollapsingBarUtils.collapse(100,oi);
+this.AssertStrictEquals(results.fit.length,2,results);
+this.AssertStrictEquals(results.fit.toString(),oi.toString(),results);},
+
+
+TestFit_oneFixedFits_twoFixed:function(){
+var oi=[this.B1_Fixed100,this.B2_Fixed1];
+var results=CollapsingBarUtils.collapse(100,oi);
+this.AssertStrictEquals(results.fit.length,2,results);
+this.AssertStrictEquals(results.fit.toString(),oi.toString(),results);},
+
+
+TestFit_keepItemMeetingSpec:function(){
+var results=CollapsingBarUtils.collapse(100,[this.B2_Fixed1]);
+this.AssertStrictEquals(results.fit.length,1,results);},
+
+
+TestFit_discardInvalidItem_overflow:function(){
+var results=CollapsingBarUtils.collapse(100,[{name:"b1",appearance:"controlBar"}]);
+this.AssertStrictEquals(results.overflow.length,0,results);},
+
+
+TestFit_discardInvalidItem_fit:function(){
+var results=CollapsingBarUtils.collapse(100,[{name:"b1",appearance:"controlBar"}]);
+this.AssertStrictEquals(results.fit.length,0,results);},
+
+
+TestFit_discardInvalidItemsInZeroSpace:function(){
+var results=CollapsingBarUtils.collapse(0,[this.B2_Fixed1,{name:"b1",appearance:"controlBar"}]);
+this.AssertStrictEquals(results.fit.length,1,results);},
+
+
+TestFit_variousEdgeCasesDoNotExplode:function(){
+var sizes=[undefined,null,-1,0,-4096,4096];
+var items=[undefined,null,[],["foo"]];
+for(var si=0;si < sizes.length;++si) {
+for(var ii=0;ii < items.length;++ii) {
+
+CollapsingBarUtils.collapse(sizes[si],items[ii]);}}},
+
+
+
+
+Run:function(){
+var keys=Object.keys(this).sort();
+for(var i=0;i < keys.length;++i) {
+var k=keys[i];
+var isFunction=typeof this[k] == "function";
+var isTest=k.indexOf("Test") == 0;
+if(isFunction && isTest){
+console.log("+++",k);
+this[k]();
+console.log("---",k,"PASS!");}}
+
+
+console.log("ran",keys.length,"tests.");}}};
+
+
+
+
+module.exports = CollapsingBarUtils;
+});
+__d('OoyalaSkin/style/controlBarStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "flexDirection": "row",
+    "marginHorizontal": 20,
+    "bottom": 0,
+  },
+  "containerHidden": {
+    "flexDirection": "row",
+    "backgroundColor": "rgba(0,0,0,0.5)",
+    "height": 0,
+    "overflow": "hidden",
+  },
+  "icon": {
+    "textAlign": "center",
+    "color": "#8E8E8E",
+    "margin": 10,
+    "padding": 2,
+  },
+  "label": {
+    "textAlign": "center",
+    "color": "white",
+    "margin": 10,
+    "padding": 2,
+    "fontFamily": "AvenirNext-DemiBold",
+  },
+  "iconHighlighted": {
+    "color": "#E6E6E6",
+  },
+  "volumeSlider": {
+    "height": 20,
+    "width": 100,
+    "marginLeft": 10,
+    "alignSelf": "center",
+  },
+  "placeholder": {
+    "flex": 1,
+  },
+
+  "waterMarkImage": {
+    "width": 120,
+    "height": 18,
+    "alignItems": "center",
+    "backgroundColor": "transparent",
+    "margin": 10
+  }
+};
+});
+__d('OoyalaSkin/waterMark.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+
+
+React.StyleSheet;var SliderIOS=React.SliderIOS;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles();
+
+var WaterMark=React.createClass({displayName:'WaterMark',
+render:function(){
+var waterMarkImageLocation=styles.waterMarkImageSE;
+var waterMarkImage=
+React.createElement(Image,{style:[styles.waterMarkImage,waterMarkImageLocation],
+source:{uri:this.props.general.watermark.url},
+resizeMode:Image.resizeMode.contain});
+
+
+
+return (
+React.createElement(View,{style:styles.waterMarkContainer},
+waterMarkImage));}});
+
+
+
+
+
+module.exports = WaterMark;
+});
+__d('OoyalaSkin/infoPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/infoPanelStyles.json"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var styles=Utils.getStyles(require('OoyalaSkin/style/infoPanelStyles.json'));
+
+var InfoPanel=React.createClass({displayName:'InfoPanel',
+propTypes:{
+title:React.PropTypes.string,
+description:React.PropTypes.string},
+
+
+render:function(){
+var infoPanel;
+
+infoPanel = 
+React.createElement(View,{style:styles.infoPanelNW},
+React.createElement(Text,{style:styles.infoPanelTitle},this.props.title),
+React.createElement(Text,{style:styles.infoPanelDescription},this.props.description));
+
+
+
+return (
+React.createElement(View,{style:styles.container},
+infoPanel));}});
+
+
+
+
+
+
+module.exports = InfoPanel;
+});
+__d('OoyalaSkin/style/infoPanelStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  container: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  }
+};
+});
+__d('OoyalaSkin/ErrorScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/errorScreenStyles.json"],function(global, require, module, exports) {  var 
+React=require('react-native/Libraries/react-native/react-native.js');var 
+
+
+StyleSheet=
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;
+
+var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/errorScreenStyles.json'));
+
+var ErrorScreen=React.createClass({displayName:'ErrorScreen',
+propTypes:{
+error:React.PropTypes.object,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
+
+
+getTitle:function(){
+var errorCode=-1;
+if(this.props.error && this.props.error.code){
+errorCode = this.props.error.code;}
+
+var title=Utils.stringForErrorCode(errorCode).toUpperCase();
+var localizedTitle=
+Utils.localizedString(this.props.locale,title,this.props.localizableStrings);
+
+return (
+React.createElement(Text,{style:styles.title},
+localizedTitle));},
+
+
+
+getDescription:function(){
+if(this.props.error && this.props.error.description){
+var localizedDescription=
+Utils.localizedString(this.props.locale,this.props.error.description,this.props.localizableStrings);
+console.log("localized desc:" + localizedDescription);
+return (
+React.createElement(Text,{style:styles.description},
+localizedDescription));}
+
+
+return null;},
+
+
+render:function(){
+var title=this.getTitle();
+var description=this.getDescription();
+return (
+React.createElement(View,{style:styles.container},
+React.createElement(View,{style:styles.wrapper},
+title,
+description)));}});
+
+
+
+
+
+
+module.exports = ErrorScreen;
+});
+__d('OoyalaSkin/style/errorScreenStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "flex": 1,
+    "alignItems": "center",
+    "backgroundColor": "#000000",
+  },
+
+  "wrapper": {
+    "flex":1,
+    "justifyContent": "center",
+  },
+
+  "title": {
+    "fontSize": 40,
+    "fontFamily": "GillSans-Bold",
+    "color":"#FFFFFF",
+    "textAlign": "left",
+    "marginHorizontal": 10,
+  },
+
+  "description": {
+    "fontSize": 24,
+    "fontFamily": "GillSans",
+    "color": "#FFFFFF",
+    "textAlign": "left",
+    "marginHorizontal": 20,
+    "marginVertical": 20
+  }
+}
+;
+});
+__d('OoyalaSkin/discoveryPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/style/discoveryPanelStyles.json"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+
+
+
+
+
+React.Animated;var Image=React.Image;var ListView=React.ListView;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;var ScrollView=React.ScrollView;
+
+var Utils=require('OoyalaSkin/utils.js');
+var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/discoveryPanelStyles.json'));
+
+var itemRect;
+var thumbnailStyle;
+var columnContainerStyle;
+var widthPortrait=375;
+var animationDuration=1000;
+
+
+var DiscoveryPanel=React.createClass({displayName:'DiscoveryPanel',
+propTypes:{
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string,
+dataSource:React.PropTypes.array,
+onRowAction:React.PropTypes.func,
+config:React.PropTypes.object,
+width:React.PropTypes.number,
+height:React.PropTypes.number},
+
+
+getInitialState:function(){
+return {
+opacity:new Animated.Value(0)};},
+
+
+
+componentDidMount:function(){
+this.state.opacity.setValue(0);
+Animated.parallel([
+Animated.timing(
+this.state.opacity,
+{
+toValue:1,
+duration:animationDuration,
+delay:0})]).
+
+start();},
+
+
+onRowSelected:function(row){
+if(this.props.onRowAction){
+this.props.onRowAction({action:"click",embedCode:row.embedCode,bucketInfo:row.bucketInfo});}},
+
+
+
+onRowImpressed:function(row){
+if(this.props.onRowAction){
+this.props.onRowAction({action:"impress",embedCode:row.embedCode,bucketInfo:row.bucketInfo});}},
+
+
+
+render:function(){
+var panelHeight=this.props.height - 40;
+
+if(this.props.width <= widthPortrait){
+itemRect = {width:186,height:164};
+thumbnailStyle = styles.thumbnailPortrait;
+columnContainerStyle = styles.columnContainerPortrait;}else 
+{
+itemRect = {width:166,height:154};
+thumbnailStyle = styles.thumbnailLandscape;
+columnContainerStyle = styles.columnContainerLandscape;}
+
+
+var animationStyle={opacity:this.state.opacity};
+return (
+React.createElement(Animated.View,{style:[styles.panel,animationStyle]},
+this.renderHeader(),
+React.createElement(ResponsiveList,{
+horizontal:false,
+data:this.props.dataSource,
+itemRender:this.renderItem,
+width:this.props.width,
+height:panelHeight,
+itemWidth:itemRect.width,
+itemHeight:itemRect.height})));},
+
+
+
+
+
+renderItem:function(item,sectionID,itemID){var _this=this;
+var title;
+if(this.props.config.contentTitle && this.props.config.contentTitle.show){
+title = React.createElement(Text,{style:[styles.contentText,this.props.config.contentTitle.font],numberOfLines:1},item.name);}
+
+var duration;
+if(this.props.config.contentDuration && this.props.config.contentDuration.show){
+duration = React.createElement(Text,{style:[styles.contentText,this.props.config.contentDuration.font],numberOfLines:1},Utils.secondsToString(item.duration));}
+;
+
+var thumbnail=
+React.createElement(Image,{
+source:{uri:item.imageUrl},
+style:thumbnailStyle});
+
+this.onRowImpressed(item);
+
+return (
+React.createElement(TouchableHighlight,{
+underlayColor:'#37455B',
+onPress:function(){return _this.onRowSelected(item);},
+style:itemRect},
+React.createElement(View,{style:columnContainerStyle},
+thumbnail,
+title,
+duration)));},
+
+
+
+
+
+renderHeader:function(){
+var title;
+if(this.props.config.panelTitle){
+if(this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage){
+return React.createElement(Image,{style:styles.waterMarkImage,source:{uri:this.props.config.panelTitle.imageUri}});}else 
+if(this.props.config.panelTitle.text){
+title = Utils.localizedString(this.props.locale,"Discover",this.props.localizableStrings);}}
+
+
+return (
+React.createElement(View,{style:styles.panelTitle},
+React.createElement(Text,{style:[styles.panelTitleText,this.props.config.titleFont]},title)));}});
+
+
+
+
+module.exports = DiscoveryPanel;
+});
+__d('OoyalaSkin/widgets/ResponsiveList.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/ResponsiveListStyles.json"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+
+React.StyleSheet;var View=React.View;var TouchableHighlight=React.TouchableHighlight;var ScrollView=React.ScrollView;
+
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/ResponsiveListStyles.json'));
+var placeHolderItem="ResponsiveListPlaceHolder";
+var ResponsiveList=React.createClass({displayName:'ResponsiveList',
+propTypes:{
+horizontal:React.PropTypes.bool,
+data:React.PropTypes.array,
+itemRender:React.PropTypes.func,
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+itemWidth:React.PropTypes.number,
+itemHeight:React.PropTypes.number},
+
+
+getSlices:function(){
+var listMeasure=this.props.horizontal?this.props.height:this.props.width;
+var itemMeasure=this.props.horizontal?this.props.itemHeight:this.props.itemWidth;
+var itemsPerSlice=Math.floor(listMeasure / itemMeasure);
+var itemsPerSliceCap=5;
+
+if(itemsPerSlice <= 0){
+itemsPerSlice = 1;}else 
+if(itemsPerSlice > itemsPerSliceCap){
+itemsPerSlice = itemsPerSliceCap;}
+
+var slices=[];
+if(this.props.data != null){
+var numberOfSlices=Math.ceil(this.props.data.length / itemsPerSlice);
+for(var i=0;i < numberOfSlices;i++) {
+slices[i] = [];
+for(var j=0;j < itemsPerSlice;j++) {
+if(i * itemsPerSlice + j < this.props.data.length){
+slices[i][j] = this.props.data[i * itemsPerSlice + j];}else 
+{
+slices[i][j] = placeHolderItem;}}}}
+
+
+
+
+
+return slices;},
+
+
+render:function(){
+var slices=this.getSlices();
+var listBound=this.props.horizontal?this.props.width:this.props.height;
+var itemBound=this.props.horizontal?this.props.itemWidth:this.props.itemHeight;
+
+return (
+React.createElement(View,{style:{flex:1}},
+React.createElement(ScrollView,{
+style:{position:"absolute",width:this.props.width,height:this.props.height},
+horizontal:this.props.horizontal,
+directionalLockEnabled:true,
+showsHorizontalScrollIndicator:false},
+slices.map(this.renderSlice))));},
+
+
+
+
+renderSlice:function(slice,i){
+var sliceStyle=this.props.horizontal?styles.column:styles.row;
+return React.createElement(View,{
+key:i,
+style:sliceStyle},
+slice.map(this.renderItem));},
+
+
+
+renderItem:function(item,i){
+var placeHolderStyle=
+{flex:1,backgroundColor:"transparent",width:this.props.itemWidth,height:this.props.itemHeight};
+if(item === placeHolderItem){
+return React.createElement(View,{style:placeHolderStyle});}else 
+{
+return this.props.itemRender(item,i);}}});
+
+
+
+
+module.exports = ResponsiveList;
+});
+__d('OoyalaSkin/widgets/style/ResponsiveListStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "row": {  
+    "flex": 1,
+    "flexDirection": "row",
+  },
+
+  "column": {
+    "flex": 1,  
+    "flexDirection": "column",
+  },
+  "container" : {
+    "flex": 1
+  }
+};
+});
+__d('OoyalaSkin/style/discoveryPanelStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "panelTitle": {
+    "height": 40
+  },
+  "panelTitleText": {
+    "padding": 10,
+    "textAlign": "left",
+    "margin": 10
+  },
+  "container": {
+    "flex": 1,
+    "flexDirection": "row",
+    "justifyContent": "center",
+    "alignItems": "center",
+    "backgroundColor": "transparent",
+    "marginBottom": 6,
+    "marginTop": 6,
+    "marginLeft": 12,
+    "width":360,
+    "height":64
+  },
+  "rightContainer": {
+    "flex": 1,
+    "marginLeft": 8
+  },
+  "contentText": {
+    "marginTop": 8,
+    "textAlign": "left",
+  },
+  "thumbnailPortrait": {
+    "width": 148,
+    "height": 88,
+  },
+  "thumbnailLandscape": {
+    "width": 128,
+    "height": 88,
+  },
+  "panel": {
+    "flex": 1,
+  },
+  "columnContainerPortrait": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "alignItems": "center",
+    "padding": 5,
+    "width": 186,
+    "height": 144,
+    "marginTop": 20
+  },
+  "columnContainerLandscape": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "alignItems": "center",
+    "padding": 4,
+    "width": 166,
+    "height": 134,
+    "marginTop": 20
+  },
+};
+});
+__d('OoyalaSkin/MoreOptionScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/index.ios.js","OoyalaSkin/utils.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/style/moreOptionScreenStyles.json","OoyalaSkin/collapsingBarUtils.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+
+
+
+
+React.Animated;var Image=React.Image;var ListView=React.ListView;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+var indexIos=require('OoyalaSkin/index.ios.js');
+var Utils=require('OoyalaSkin/utils.js');
+var Constants=require('OoyalaSkin/constants.js');
+var RectButton=require('OoyalaSkin/widgets/RectButton.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/moreOptionScreenStyles.json'));
+var CollapsingBarUtils=require('OoyalaSkin/collapsingBarUtils.js');var 
+
+
+BUTTON_NAMES=
+
+Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
+
+var dismissButtonSize=20;
+
+var MoreOptionScreen=React.createClass({displayName:'MoreOptionScreen',
+propTypes:{
+height:React.PropTypes.number,
+onDismiss:React.PropTypes.func,
+onSocialButtonPress:React.PropTypes.func,
+panel:React.PropTypes.object,
+buttonSelected:React.PropTypes.string,
+onOptionButtonPress:React.PropTypes.func,
+config:React.PropTypes.object,
+controlBarWidth:React.PropTypes.number},
+
+
+getInitialState:function(){
+return {
+translateY:new Animated.Value(this.props.height),
+opacity:new Animated.Value(0),
+buttonOpacity:new Animated.Value(1),
+button:''};},
+
+
+
+componentDidMount:function(){
+this.state.translateY.setValue(this.props.height);
+this.state.opacity.setValue(0);
+Animated.parallel([
+Animated.timing(
+this.state.translateY,
+{
+toValue:0,
+duration:700,
+delay:0}),
+
+Animated.timing(
+this.state.opacity,
+{
+toValue:1,
+duration:500,
+delay:0})]).
+
+start();},
+
+
+onOptionBtnPress:function(){
+this.props.onOptionButtonPress(this.state.button);},
+
+
+onOptionPress:function(buttonName){
+this.setState({button:buttonName});
+Animated.timing(
+this.state.buttonOpacity,
+{
+toValue:0,
+duration:200,
+delay:0}).
+
+start(this.onOptionBtnPress);},
+
+
+onDismissBtnPress:function(){
+this.props.onDismiss();},
+
+
+onDismissPress:function(){
+Animated.timing(
+this.state.opacity,
+{
+toValue:0,
+duration:500,
+delay:0}).
+
+start(this.onDismissBtnPress);},
+
+
+_renderButton:function(style,icon,func,size,color,fontFamily){
+return (
+React.createElement(RectButton,{
+icon:icon,
+onPress:func,
+fontSize:size,
+fontFamily:fontFamily,
+style:style,
+buttonColor:color}));},
+
+
+
+
+_renderMoreOptionButtons:function(moreOptionButtons){
+var itemCollapsingResults=CollapsingBarUtils.collapse(this.props.config.controlBarWidth,this.props.config.buttons);
+var buttons=itemCollapsingResults.overflow;
+for(var i=0;i < buttons.length;i++) {
+var button=buttons[i];
+
+var moreOptionButton;
+var buttonOpacity=this._renderOpacity(this.props.buttonSelected,button.name);
+var buttonIcon=this._renderIcon(button.name);
+var buttonStyle=[styles.icon,buttonOpacity];
+
+
+if(buttonOpacity === undefined || buttonIcon === undefined || buttonStyle === undefined){
+console.log("ERROR: skipping unsupported More Options button ",button);
+continue;}
+
+
+var onOptionPress=(function(buttonName,f){
+return function(){
+f(buttonName);};})(
+
+button.name,this.onOptionPress);
+
+moreOptionButton = this._renderButton([buttonStyle,this.props.config.moreOptions.iconStyle],buttonIcon.fontString,onOptionPress,this.props.config.moreOptions.iconSize,this.props.config.moreOptions.color,buttonIcon.fontFamilyName);
+
+moreOptionButtons.push(moreOptionButton);}},
+
+
+
+_renderOpacity:function(buttonSelected,buttonName){
+var buttonOpacity;
+if(buttonSelected == BUTTON_NAMES.NONE || buttonSelected == buttonName){
+buttonOpacity = this.props.config.moreOptions.brightOpacity;}else 
+{
+buttonOpacity = this.props.config.moreOptions.darkOpacity;}
+
+
+return {opacity:buttonOpacity};},
+
+
+_renderIcon:function(buttonName){
+var buttonIcon;
+switch(buttonName){
+case BUTTON_NAMES.DISCOVERY:
+buttonIcon = this.props.config.icons.discovery;
+break;
+case BUTTON_NAMES.QUALITY:
+buttonIcon = this.props.config.icons.quality;
+break;
+case BUTTON_NAMES.CLOSED_CAPTIONS:
+buttonIcon = this.props.config.icons.cc;
+break;
+case BUTTON_NAMES.SHARE:
+buttonIcon = this.props.config.icons.share;
+break;
+case BUTTON_NAMES.SETTING:
+buttonIcon = this.props.config.icons.setting;
+break;
+default:
+break;}
+
+return buttonIcon;},
+
+
+render:function(){
+var moreOptionButtons=[];
+this._renderMoreOptionButtons(moreOptionButtons);
+
+var dismissButton=this._renderButton(styles.iconDismiss,this.props.config.icons.dismiss.fontString,this.onDismissPress,dismissButtonSize,this.props.config.moreOptions.color,this.props.config.icons.dismiss.fontFamilyName);
+
+var moreOptionRow;
+var rowAnimationStyle={transform:[{translateY:this.state.translateY}],opacity:this.state.buttonOpacity};
+if(!this.props.buttonSelected || this.props.buttonSelected == BUTTON_NAMES.NONE){
+
+moreOptionRow = 
+React.createElement(Animated.View,{
+ref:'moreOptionRow',
+style:[styles.rowCenter,rowAnimationStyle]},
+moreOptionButtons);}
+
+
+
+var dismissButtonRow=
+React.createElement(View,{style:styles.dismissButtonTopRight},
+dismissButton);
+
+
+var animationStyle={opacity:this.state.opacity};
+var moreOptionScreen=
+React.createElement(Animated.View,{style:[styles.fullscreenContainer,animationStyle]},
+moreOptionRow,
+this.props.panel,
+dismissButtonRow);
+
+
+
+return moreOptionScreen;}});
+
+
+
+module.exports = MoreOptionScreen;
+});
+__d('OoyalaSkin/index.ios.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","NativeModules","OoyalaSkin/ooyalaSkinCore.js"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+ActivityIndicatorIOS=
+
+
+
+
+React.ActivityIndicatorIOS;var AppRegistry=React.AppRegistry;var DeviceEventEmitter=React.DeviceEventEmitter;var StyleSheet=React.StyleSheet;var View=React.View;
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+SCREEN_TYPES=
+Constants.SCREEN_TYPES;
+var OoyalaSkinCore=require('OoyalaSkin/ooyalaSkinCore.js');
+var eventBridge=require('NativeModules').OOReactBridge;
+
+var OoyalaSkinCoreInstance;
+var OoyalaSkin=React.createClass({displayName:'OoyalaSkin',
+
+
+
+getInitialState:function(){
+return {
+
+screenType:SCREEN_TYPES.LOADING_SCREEN,
+
+title:'',
+description:'',
+promoUrl:'',
+hostedAtUrl:'',
+playhead:0,
+duration:1,
+rate:0,
+fullscreen:false,
+lastPressedTime:new Date().getTime(),
+upNextDismissed:false,
+showPlayButton:true,
+
+
+
+
+buttonSelected:"None",
+alertTitle:'',
+alertMessage:'',
+error:null};},
+
+
+
+componentWillMount:function(){
+console.log("componentWillMount");
+OoyalaSkinCoreInstance = new OoyalaSkinCore(this,eventBridge);
+OoyalaSkinCoreInstance.mount(DeviceEventEmitter);},
+
+
+componentDidMount:function(){
+eventBridge.queryState();},
+
+
+componentWillUnmount:function(){
+console.log("componentWillUnmount");
+OoyalaSkinCoreInstance.unmount();},
+
+
+renderLoadingScreen:function(){
+return (
+React.createElement(View,{style:styles.loading},
+React.createElement(ActivityIndicatorIOS,{
+animating:true,
+size:'large'})));},
+
+
+
+
+render:function(){
+console.log("screentype:" + this.state.screenType);
+switch(this.state.screenType){
+case SCREEN_TYPES.START_SCREEN:
+return OoyalaSkinCoreInstance.renderStartScreen();
+break;
+case SCREEN_TYPES.END_SCREEN:
+return OoyalaSkinCoreInstance.renderEndScreen();
+break;
+case SCREEN_TYPES.LOADING_SCREEN:
+return this.renderLoadingScreen();
+break;
+case SCREEN_TYPES.MOREOPTION_SCREEN:
+return OoyalaSkinCoreInstance.renderMoreOptionScreen();
+break;
+case SCREEN_TYPES.ERROR_SCREEN:
+return OoyalaSkinCoreInstance.renderErrorScreen();
+break;
+default:
+return OoyalaSkinCoreInstance.renderVideoView();
+break;}}});
+
+
+
+
+var styles=StyleSheet.create({
+loading:{
+flex:1,
+alignItems:'center',
+justifyContent:'center',
+height:200}});
+
+
+AppRegistry.registerComponent('OoyalaSkin',function(){return OoyalaSkin;});
+});
+__d('OoyalaSkin/style/moreOptionScreenStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "fullscreenContainer": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0, 0, 0, 0.8)"
+  },
+  
+  "container": {
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "flex-end"
+  },
+
+  "dismissButtonTopRight":{
+    "position": "absolute",
+    "top": 0,
+    "right": 0
+  },
+
+  "rowCenter": {
+    "flex": 1,
+    "flexDirection": "row",
+    "alignSelf": "center",
+    "backgroundColor": "transparent"
+  },
+
+  "rowBottom": {
+    "flex":1,
+    "flexDirection": "row",
+    "alignSelf": "center",
+    "alignItems": "flex-end",
+    "backgroundColor": "transparent"
+  },
+
+  "icon": {
+    "textAlign": "center",
+    "margin": 15
+  },
+
+  "iconDismiss": {
+    "textAlign": "center",
+    "padding": 25
+  },
+
+  "closeIconStyle": {
+    "fontSize": 20,
+    "textAlign": "center",
+    "color": "#8E8E8E",
+    "fontFamily": "fontawesome",
+  },
+};
+});
+__d('OoyalaSkin/sharePanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/style/sharePanelStyles.json"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+
+
+
+
+
+React.Animated;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var ListView=React.ListView;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;var AlertIOS=React.AlertIOS;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/sharePanelStyles.json'));
+var animationDuration=1000;
+
+var SharePanel=React.createClass({displayName:'SharePanel',
+propTypes:{
+socialButtons:React.PropTypes.array,
+onSocialButtonPress:React.PropTypes.func,
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+alertTitle:React.PropTypes.string,
+alertMessage:React.PropTypes.string,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
+
+
+getInitialState:function(){
+return {
+opacity:new Animated.Value(0)};},
+
+
+
+componentDidMount:function(){
+this.state.opacity.setValue(0);
+Animated.parallel([
+Animated.timing(
+this.state.opacity,
+{
+toValue:1,
+duration:animationDuration,
+delay:0})]).
+
+start();},
+
+
+onSocialButtonPress:function(serviceType){
+this.props.onSocialButtonPress(serviceType);},
+
+
+render:function(){
+var sharePanel;
+var socialButtons=[];
+
+var postShareSuccessAlert;
+
+if(this.props.alertTitle != ""){
+postShareSuccessAlert = AlertIOS.alert(
+this.props.alertTitle,
+this.props.alertMessage,
+[
+{text:'Ok',onPress:function(){return console.log('Ok Pressed!');}}]);}
+
+
+
+
+for(var i=0;i < this.props.socialButtons.length;i++) {
+
+var socialButton;
+var buttonName=this.props.socialButtons[i].buttonName;
+var buttonFont={fontFamily:this.props.socialButtons[i].icon.fontFamilyName,color:"white",fontSize:50,margin:10};
+var buttonIcon=this.props.socialButtons[i].icon.fontString;
+
+
+var onPressButton=(function(buttonName,f){
+return function(){
+f(buttonName);};})(
+
+buttonName,this.onSocialButtonPress);
+
+socialButton = 
+React.createElement(TouchableHighlight,{
+onPress:onPressButton,
+underlayColor:'transparent',
+activeOpacity:0.5},
+React.createElement(Text,{
+style:buttonFont},
+buttonIcon));
+
+
+
+
+socialButtons.push(socialButton);}
+
+var animationStyle={opacity:this.state.opacity};
+
+var itemPanelHeight=this.props.height - 30;
+return (
+React.createElement(Animated.View,{style:[styles.container,animationStyle]},
+React.createElement(View,{style:styles.sharePanelTitleRow},
+React.createElement(Text,{style:styles.sharePanelTitle},Utils.localizedString(this.props.locale,"Share",this.props.localizableStrings))),
+
+postShareSuccessAlert,
+React.createElement(ResponsiveList,{
+horizontal:false,
+data:socialButtons,
+itemRender:this.renderItem,
+width:this.props.width,
+height:itemPanelHeight,
+itemWidth:90,
+itemHeight:54})));},
+
+
+
+
+renderItem:function(item,itemId){var _this=this;
+return (
+React.createElement(TouchableHighlight,{
+style:styles.item,
+onPress:function(){return _this.onSocialButtonPress(item);}},
+React.createElement(View,{style:styles.socialButton},
+item)));}});
+
+
+
+
+
+
+module.exports = SharePanel;
+});
+__d('OoyalaSkin/style/sharePanelStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "marginTop": 18,
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "stretch",
+  },
+  "sharePanelNW": {
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.5)",
+  },
+  "sharePanelTitleRow": {
+    "height": 30,
+    "flexDirection": "row",
+    "alignItems": "center",
+  },
+  "sharePanelTitle": {
+    "flex": 1,
+    "fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
+    "textAlign": "left",
+    "color": "white",
+    "padding": 20
+  },
+  "sharePanelButtonRow": {
+    "flexDirection":"row",
+    "alignItems": "center",
+    "alignSelf": "center",
+    "backgroundColor": "transparent",
+    "margin": 20
+  },
+  "socialButton": {
+    "width": 70,
+    "height": 54,
+    "flex": 1
+  },
+  "button": {
+    "backgroundColor": "transparent",
+    "padding": 6,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
+    "borderRadius": 5,
+    "width": 120,
+    "height": 54
+  },
+  "item": {
+    "flex": 1,
+    "width": 90,
+    "height": 54,
+    "margin": 15
+  },
+};
+});
+__d('OoyalaSkin/videoView.js',["react-native/Libraries/react-native/react-native.js","Dimensions","OoyalaSkin/bottomOverlay.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/sharePanel.js","OoyalaSkin/adBar.js","OoyalaSkin/upNext.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/VideoViewPlayPause.js","OoyalaSkin/constants.js","OoyalaSkin/utils.js","OoyalaSkin/style/videoViewStyles.json","OoyalaSkin/responsiveDesignManager.js"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Text=
+
+
+React.Text;var View=React.View;var StyleSheet=React.StyleSheet;
+
+var Dimensions=require('Dimensions');
+var windowSize=Dimensions.get('window');
+var BottomOverlay=require('OoyalaSkin/bottomOverlay.js');
+var ClosedCaptionsView=require('OoyalaSkin/closedCaptionsView.js');
+var SharePanel=require('OoyalaSkin/sharePanel.js');
+var AdBar=require('OoyalaSkin/adBar.js');
+var UpNext=require('OoyalaSkin/upNext.js');
+var RectButton=require('OoyalaSkin/widgets/RectButton.js');
+var VideoViewPlayPause=require('OoyalaSkin/widgets/VideoViewPlayPause.js');
+var Constants=require('OoyalaSkin/constants.js');
+var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/videoViewStyles.json'));
+var ResponsiveDesignManager=require('OoyalaSkin/responsiveDesignManager.js');
+
+var autohideDelay=5000;var 
+
+
+BUTTON_NAMES=
+
+
+Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;var UI_SIZES=Constants.UI_SIZES;
+
+var VideoView=React.createClass({displayName:'VideoView',
+getInitialState:function(){
+return {
+showControls:false,
+showSharePanel:false};},
+
+
+
+propTypes:{
+rate:React.PropTypes.number,
+showPlay:React.PropTypes.bool,
+playhead:React.PropTypes.number,
+buffered:React.PropTypes.number,
+duration:React.PropTypes.number,
+live:React.PropTypes.bool,
+ad:React.PropTypes.object,
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+fullscreen:React.PropTypes.bool,
+onPress:React.PropTypes.func,
+onScrub:React.PropTypes.func,
+closedCaptionsLanguage:React.PropTypes.string,
+availableClosedCaptionsLanguages:React.PropTypes.array,
+captionJSON:React.PropTypes.object,
+onSocialButtonPress:React.PropTypes.func,
+showWatermark:React.PropTypes.bool,
+lastPressedTime:React.PropTypes.number,
+config:React.PropTypes.object,
+nextVideo:React.PropTypes.object,
+upNextDismissed:React.PropTypes.bool,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
+
+
+generateLiveObject:function(){
+if(this.props.live){
+var isLive=this.props.playhead >= this.props.duration * 0.95;
+return {
+label:
+isLive?Utils.localizedString(this.props.locale,"LIVE",this.props.localizableStrings):
+Utils.localizedString(this.props.locale,"GO LIVE",this.props.localizableStrings),
+onGoLive:isLive?null:this.onGoLive};}else 
+{
+return null;}},
+
+
+
+onGoLive:function(){
+console.log("onGoLive");
+if(this.props.onScrub){
+this.props.onScrub(1);}},
+
+
+
+onSocialButtonPress:function(socialType){
+this.props.onSocialButtonPress(socialType);},
+
+
+handlePress:function(name){
+if(name == "LIVE"){
+this.props.onScrub(1);}else 
+
+if(name == BUTTON_NAMES.PLAY_PAUSE && this.props.showPlay){
+this.state.showControls = false;}else 
+
+if(name == BUTTON_NAMES.RESET_AUTOHIDE){
+this.state.showControls = true;}
+
+this.props.onPress(name);},
+
+
+_renderBottomOverlay:function(){var _this=this;
+var shouldShowClosedCaptionsButton=
+this.props.availableClosedCaptionsLanguages && 
+this.props.availableClosedCaptionsLanguages.length > 0;
+
+return React.createElement(BottomOverlay,{
+width:this.props.width,
+height:this.props.height,
+primaryButton:this.props.showPlay?"play":"pause",
+fullscreen:this.props.fullscreen,
+playhead:this.props.playhead,
+duration:this.props.duration,
+live:this.generateLiveObject(),
+onPress:function(name){return _this.handlePress(name);},
+onScrub:function(value){return _this.handleScrub(value);},
+showClosedCaptionsButton:shouldShowClosedCaptionsButton,
+showWatermark:this.props.showWatermark,
+isShow:this.controlsVisible(),
+config:{
+controlBar:this.props.config.controlBar,
+buttons:this.props.config.buttons,
+icons:this.props.config.icons}});},
+
+
+
+_renderAdBar:function(){
+return React.createElement(AdBar,{
+ad:this.props.ad,
+playhead:this.props.playhead,
+duration:this.props.duration,
+onPress:this.handlePress,
+width:this.props.width,
+localizableStrings:this.props.localizableStrings,
+locale:this.props.locale});},
+
+
+
+_renderPlaceholder:function(){var _this2=this;
+var placeholder;
+if(this.state.showSharePanel){
+var socialButtonsArray=this.props.sharing;
+placeholder = 
+React.createElement(View,{
+style:styles.fullscreenContainer},
+React.createElement(SharePanel,{
+isShow:this.state.showSharePanel,
+socialButtons:socialButtonsArray,
+onSocialButtonPress:function(socialType){return _this2.onSocialButtonPress(socialType);}}));}else 
+
+
+{
+placeholder = 
+React.createElement(View,{
+style:styles.placeholder,
+onTouchEnd:function(event){return _this2.handleTouchEnd(event);}});}
+
+
+return placeholder;},
+
+
+_renderClosedCaptions:function(){var _this3=this;
+var ccOpacity=this.props.closedCaptionsLanguage?1:0;
+return React.createElement(ClosedCaptionsView,{
+style:[styles.closedCaptionStyle,{opacity:ccOpacity}],
+captionJSON:this.props.captionJSON,
+onTouchEnd:function(event){return _this3.handleTouchEnd(event);}});},
+
+
+_renderUpNext:function(){var _this4=this;
+if(this.props.live){
+return null;}
+
+
+return React.createElement(UpNext,{
+config:{
+upNext:this.props.config.upNextScreen,
+icons:this.props.config.icons},
+
+ad:this.props.ad,
+playhead:this.props.playhead,
+duration:this.props.duration,
+nextVideo:this.props.nextVideo,
+upNextDismissed:this.props.upNextDismissed,
+onPress:function(value){return _this4.handlePress(value);},
+width:this.props.width});},
+
+
+_renderPlayPause:function(){var _this5=this;
+
+var buttonOpacity;
+var iconFontSize=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+if(this.controlsVisible()){
+buttonOpacity = 1;}else 
+
+{
+buttonOpacity = 0;}
+
+
+return (
+React.createElement(VideoViewPlayPause,{
+icons:{
+play:{
+icon:this.props.config.icons.play.fontString,
+fontFamily:this.props.config.icons.play.fontFamilyName},
+
+pause:{
+icon:this.props.config.icons.pause.fontString,
+fontFamily:this.props.config.icons.pause.fontFamilyName}},
+
+
+position:"center",
+playing:this.props.showPlay,
+onPress:function(name){return _this5.handlePress(name);},
+frameWidth:this.props.width,
+frameHeight:this.props.height,
+buttonWidth:iconFontSize,
+buttonHeight:iconFontSize,
+fontSize:iconFontSize,
+opacity:buttonOpacity,
+showButton:this.controlsVisible(),
+rate:this.props.rate,
+playhead:this.props.playhead}));},
+
+
+
+_handleSocialShare:function(){
+this.setState({showSharePanel:!this.state.showSharePanel});},
+
+
+handleScrub:function(value){
+this.props.onScrub(value);},
+
+
+getDefaultProps:function(){
+return {showPlay:true,playhead:0,buffered:0,duration:1};},
+
+
+controlsVisible:function(){
+return this.state.showControls && new Date().getTime() < this.props.lastPressedTime + autohideDelay;},
+
+
+toggleBottomOverlay:function(){
+this.setState({showControls:!this.controlsVisible()});
+this.props.onPress();},
+
+
+handleTouchEnd:function(event){
+this.toggleBottomOverlay();},
+
+
+render:function(){
+var adBar=null;
+if(this.props.ad){
+adBar = this.props.ad.requireAdBar?this._renderAdBar():null;
+if(this.props.config.adScreen.showControlBar == false){
+return adBar;}}
+
+
+return (
+React.createElement(View,{
+style:styles.container},
+adBar,
+this._renderPlaceholder(),
+this._renderClosedCaptions(),
+this._renderPlayPause(),
+this._renderUpNext(),
+this._renderBottomOverlay()));}});
+
+
+
+
+
+
+module.exports = VideoView;
+});
+__d('OoyalaSkin/bottomOverlay.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/utils.js","OoyalaSkin/progressBar.js","OoyalaSkin/controlBar.js","OoyalaSkin/responsiveDesignManager.js","OoyalaSkin/style/bottomOverlayStyles.json","OoyalaSkin/style/progressBarStyles.json"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+
+
+
+React.Animated;var Image=React.Image;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+BUTTON_NAMES=
+
+
+Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;var UI_SIZES=Constants.UI_SIZES;
+
+var Utils=require('OoyalaSkin/utils.js');
+var ProgressBar=require('OoyalaSkin/progressBar.js');
+var ControlBar=require('OoyalaSkin/controlBar.js');
+var ResponsiveDesignManager=require('OoyalaSkin/responsiveDesignManager.js');
+
+var styles=Utils.getStyles(require('OoyalaSkin/style/bottomOverlayStyles.json'));
+var progressBarStyles=Utils.getStyles(require('OoyalaSkin/style/progressBarStyles.json'));
+var topMargin=16;
+var leftMargin=20;
+var progressBarHeight=6;
+var scrubberSize=18;
+var scrubTouchableDistance=45;
+var BottomOverlay=React.createClass({displayName:'BottomOverlay',
+
+propTypes:{
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+primaryButton:React.PropTypes.string,
+fullscreen:React.PropTypes.bool,
+playhead:React.PropTypes.number,
+duration:React.PropTypes.number,
+onPress:React.PropTypes.func,
+onScrub:React.PropTypes.func,
+showClosedCaptionsButton:React.PropTypes.bool,
+isShow:React.PropTypes.bool,
+live:React.PropTypes.object,
+shouldShowLandscape:React.PropTypes.bool,
+shouldShowCCOptions:React.PropTypes.bool,
+config:React.PropTypes.object},
+
+
+getInitialState:function(){
+return {
+touch:false,
+opacity:new Animated.Value(0),
+height:new Animated.Value(0)};},
+
+
+
+componentDidUpdate:function(prevProps,prevState){
+if(prevProps.width != this.props.width && this.props.isShow){
+this.state.height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT));}
+
+if(prevProps.isShow != this.props.isShow){
+this.state.opacity.setValue(this.props.isShow?0:1);
+this.state.height.setValue(this.props.isShow?0:ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT));
+Animated.parallel([
+Animated.timing(
+this.state.opacity,
+{
+toValue:this.props.isShow?1:0,
+duration:500,
+delay:0}),
+
+Animated.timing(
+this.state.height,
+{
+toValue:this.props.isShow?ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,UI_SIZES.CONTROLBAR_HEIGHT):0,
+duration:500,
+delay:0})]).
+
+start();}},
+
+
+
+handleProgress:function(touch,percent){
+this.setState({touch:touch,percent:percent});
+if(!touch && this.onScrub){
+this.onScrub(this.state.percent);}},
+
+
+
+_renderProgressScrubber:function(percent){
+var topOffset=topMargin + progressBarHeight / 2 - scrubberSize / 2;
+var progressBarWidth=this.props.width - 2 * leftMargin;
+var leftOffset=leftMargin + percent * progressBarWidth - scrubberSize / 2;
+var positionStyle={top:topOffset,left:leftOffset};
+
+return (
+React.createElement(Text,{style:[styles.progressScrubber,positionStyle]},"\uf111"));},
+
+
+
+_renderProgressBar:function(percent){
+return React.createElement(ProgressBar,{ref:'progressBar',percent:percent});},
+
+
+_renderControlBar:function(){
+return React.createElement(ControlBar,{
+ref:'controlBar',
+primaryButton:this.props.primaryButton,
+playhead:this.props.playhead,
+duration:this.props.duration,
+live:this.props.live,
+width:this.props.width - 2 * leftMargin,
+height:this.props.height,
+fullscreen:this.props.fullscreen,
+onPress:this.props.onPress,
+showClosedCaptionsButton:this.props.showClosedCaptionsButton,
+showWatermark:this.props.showWatermark,
+config:this.props.config});},
+
+
+playedPercent:function(playhead,duration){
+if(this.props.duration == 0){
+return 0;}
+
+var percent=playhead / duration;
+if(percent > 1){
+percent = 1;}else 
+if(percent < 0){
+percent = 0;}
+
+return percent;},
+
+
+touchPercent:function(x){
+var percent=(x - leftMargin) / (this.props.width - 2 * leftMargin);
+if(percent > 1){
+percent = 1;}else 
+if(percent < 0){
+percent = 0;}
+
+return percent;},
+
+
+handleTouchStart:function(event){
+var touchableDistance=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,scrubTouchableDistance);
+if(this.props.height - event.nativeEvent.pageY < touchableDistance){
+return;}
+
+this.setState({touch:true,x:event.nativeEvent.pageX});
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);},
+
+
+handleTouchMove:function(event){
+this.setState({x:event.nativeEvent.pageX});
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);},
+
+
+handleTouchEnd:function(event){
+if(this.state.touch && this.props.onScrub){
+this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));}
+
+this.setState({touch:false,x:null});
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);},
+
+
+render:function(){var _this=this;
+var playedPercent=this.playedPercent(this.props.playhead,this.props.duration);
+var widthStyle={width:this.props.width,opacity:this.state.opacity};
+return (
+React.createElement(Animated.View,{style:[styles.container,widthStyle,{"height":this.state.height}],
+onTouchStart:function(event){return _this.handleTouchStart(event);},
+onTouchMove:function(event){return _this.handleTouchMove(event);},
+onTouchEnd:function(event){return _this.handleTouchEnd(event);}},
+this._renderProgressBar(playedPercent),
+this._renderControlBar(),
+this._renderProgressScrubber(this.state.touch?this.touchPercent(this.state.x):playedPercent)));}});
+
+
+
+
+
+module.exports = BottomOverlay;
+});
+__d('OoyalaSkin/style/bottomOverlayStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.3)",
+  },
+
+  "progressScrubber": {
+  	"position": "absolute",
+  	"fontSize": 18,
+  	"fontFamily": "fontawesome",
+  	"color": "white"
+  }
+};
+});
+__d('OoyalaSkin/closedCaptionsView.js',["react-native/Libraries/react-native/react-native.js"],function(global, require, module, exports) {  'use strict';var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+requireNativeComponent=
+React.requireNativeComponent;var 
+
+ClosedCaptionsView=(function(_React$Component){_inherits(ClosedCaptionsView,_React$Component);function ClosedCaptionsView(){_classCallCheck(this,ClosedCaptionsView);_get(Object.getPrototypeOf(ClosedCaptionsView.prototype),'constructor',this).apply(this,arguments);}_createClass(ClosedCaptionsView,[{key:'render',value:
+function render(){
+if(this.props.captionJSON){
+return React.createElement(OOClosedCaptionsView,
+this.props);}else 
+
+{
+return null;}}}]);return ClosedCaptionsView;})(React.Component);
+
+
+
+ClosedCaptionsView.propTypes = {
+captionJSON:React.PropTypes.object};
+
+
+var OOClosedCaptionsView=requireNativeComponent('OOClosedCaptionsView',ClosedCaptionsView);
+module.exports = ClosedCaptionsView;
+});
+__d('OoyalaSkin/adBar.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/adBarStyles.json","OoyalaSkin/constants.js","OoyalaSkin/utils.js"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+
+React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var styles=Utils.getStyles(require('OoyalaSkin/style/adBarStyles.json'));
+var Constants=require('OoyalaSkin/constants.js');var 
+
+BUTTON_NAMES=
+Constants.BUTTON_NAMES;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var AdBar=React.createClass({displayName:'AdBar',
+propTypes:{
+ad:React.PropTypes.object,
+playhead:React.PropTypes.number,
+duration:React.PropTypes.number,
+onPress:React.PropTypes.func,
+width:React.PropTypes.number,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
+
+
+onLearnMore:function(){
+this.props.onPress(BUTTON_NAMES.LEARNMORE);},
+
+
+generateResponsiveText:function(showLearnMore){
+var textString;
+var adTitle=this.props.ad.title?this.props.ad.title + " ":" ";
+var count=this.props.ad.count?this.props.ad.count:1;
+var unplayed=this.props.ad.unplayedCount?this.props.ad.unplayedCount:0;
+
+var remainingString=
+Utils.secondsToString(this.props.duration - this.props.playhead);
+
+var prefixString=Utils.localizedString(this.props.locale,"Ad Playing",this.props.localizableStrings);
+if(this.props.ad.title && this.props.ad.title.length > 0){
+prefixString = prefixString + ":";}
+
+
+var countString="(" + (count - unplayed) + "/" + count + ")";
+
+var allowedTextLength=this.props.width - 32;
+if(showLearnMore){
+allowedTextLength -= this.props.ad.measures.learnmore + 32;}
+
+
+console.log("width" + this.props.width + "allowed" + allowedTextLength + "learnmore" + this.props.ad.measures.learnmore);
+console.log("duration" + this.props.ad.measures.duration + 
+"count" + this.props.ad.measures.count + "title" + this.props.ad.measures.title + "prefix" + this.props.ad.measures.prefix);
+if(this.props.ad.measures.duration <= allowedTextLength){
+textString = remainingString;
+allowedTextLength -= this.props.ad.measures.duration;
+console.log("allowedAfterDuration" + allowedTextLength);
+if(this.props.ad.measures.count <= allowedTextLength){
+textString = countString + textString;
+allowedTextLength -= this.props.ad.measures.count;
+console.log("allowedAfterCount" + allowedTextLength);
+if(this.props.ad.measures.title <= allowedTextLength){
+textString = this.props.ad.title + textString;
+allowedTextLength -= this.props.ad.measures.title;
+console.log("allowedAfterTitle" + allowedTextLength);
+if(this.props.ad.measures.prefix <= allowedTextLength){
+textString = prefixString + textString;}}}}
+
+
+
+
+
+return textString;},
+
+
+render:function(){
+var learnMoreButton;
+var showLearnMore=this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
+var textString=this.generateResponsiveText(showLearnMore);
+var learnMoreText=Utils.localizedString(this.props.locale,"Learn More",this.props.localizableStrings);
+
+if(showLearnMore){
+learnMoreButton = 
+React.createElement(TouchableHighlight,{
+onPress:this.onLearnMore},
+React.createElement(View,{style:styles.button},
+React.createElement(Text,{style:styles.buttonText},learnMoreText)));}
+
+
+
+return (
+React.createElement(View,{style:styles.container},
+React.createElement(Text,{allowFontScaling:true,style:styles.label},textString),
+React.createElement(View,{style:styles.placeholder}),
+learnMoreButton));}});
+
+
+
+
+
+module.exports = AdBar;
+});
+__d('OoyalaSkin/style/adBarStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "flexDirection": "row",
+    "alignItems": "center",
+    "backgroundColor": "rgba(0,0,0,0.5)",
+  },
+  "label": {
+    "textAlign": "center",
+    "color": "white",
+    "fontSize": 16,
+    "margin": 10,
+    "padding": 6,
+    "fontFamily": "AvenirNext-DemiBold",
+  },
+  "placeholder": {
+    "flex": 1,
+  },
+  "button": {
+    "backgroundColor": "#F9F4F6",
+    "padding": 6,
+    "margin": 10,
+    "borderRadius": 5,
+  },
+  "buttonText": {
+    "textAlign": "center",
+    "color": "#030303",
+    "fontSize": 16,
+    "fontFamily": "AvenirNext-DemiBold",
+  },
+}
+;
+});
+__d('OoyalaSkin/upNext.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/upNext.json","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/CircularStatus.js","OoyalaSkin/responsiveDesignManager.js"],function(global, require, module, exports) {  var 
+React=require('react-native/Libraries/react-native/react-native.js');var 
+
+
+StyleSheet=
+
+
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;
+
+var Utils=require('OoyalaSkin/utils.js');
+
+var styles=Utils.getStyles(require('OoyalaSkin/style/upNext.json'));
+var RectButton=require('OoyalaSkin/widgets/RectButton.js');
+var CircularStatus=require('OoyalaSkin/widgets/CircularStatus.js');
+var ResponsiveDesignManager=require('OoyalaSkin/responsiveDesignManager.js');
+
+var descriptionMinWidth=140;
+var thumbnailWidth=175;
+var dismissButtonWidth=10;
+
+var UpNext=React.createClass({displayName:'UpNext',
+propTypes:{
+config:React.PropTypes.object,
+playhead:React.PropTypes.number,
+duration:React.PropTypes.number,
+ad:React.PropTypes.object,
+nextVideo:React.PropTypes.object,
+onPress:React.PropTypes.func,
+upNextDismissed:React.PropTypes.bool,
+width:React.PropTypes.number},
+
+
+dismissUpNext:function(){
+this.props.onPress("upNextDismiss");},
+
+
+clickUpNext:function(){
+this.props.onPress("upNextClick");},
+
+
+upNextDuration:function(){
+
+if(this.props.config.upNext.timeToShow.indexOf('%') >= 0){
+return this.props.duration - parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) * this.props.duration;}else 
+
+
+{
+return parseInt(this.props.config.upNext.timeToShow);}},
+
+
+
+isWithinShowUpNextBounds:function(){
+return parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;},
+
+
+render:function(){
+
+if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null){
+var upNextWidth=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,thumbnailWidth,[0.8,1],[520]);
+
+var upNextImage=
+React.createElement(TouchableHighlight,{style:[styles.thumbnailContainer,{width:upNextWidth}],
+onPress:this.clickUpNext},
+React.createElement(Image,{
+source:{uri:this.props.nextVideo.imageUrl},
+style:[styles.thumbnail,{width:upNextWidth}]},
+React.createElement(Text,{style:[{fontFamily:this.props.config.icons.play.fontFamilyName,color:"white"},styles.countdownText]},this.props.config.icons.play.fontString)));
+
+
+
+var upNextDescription=
+React.createElement(View,{style:styles.textContainer},
+React.createElement(View,{style:styles.titleContainer},
+React.createElement(CircularStatus,{total:this.upNextDuration(),current:this.props.duration - this.props.playhead,thickness:2,diameter:26}),
+React.createElement(Text,{style:styles.title},'Up next: ',
+this.props.nextVideo.name)),
+
+
+React.createElement(Text,{style:styles.description},Utils.secondsToString(this.props.nextVideo.duration)));
+
+
+var upNextDismissButton=
+React.createElement(RectButton,{
+icon:"X",
+onPress:this.dismissUpNext,
+style:[styles.dismissButton,{width:dismissButtonWidth}]});
+
+
+
+if(this.props.width < descriptionMinWidth + upNextWidth + dismissButtonWidth){
+return (
+React.createElement(View,{style:styles.container},
+upNextImage,
+React.createElement(View,{style:{flex:5}}),
+upNextDismissButton));}else 
+
+
+
+{
+return (
+React.createElement(View,{style:styles.container},
+upNextImage,
+upNextDescription,
+upNextDismissButton));}}
+
+
+
+
+
+return null;}});
+
+
+
+module.exports = UpNext;
+});
+__d('OoyalaSkin/style/upNext.json',[],function(global, require, module, exports) {  module.exports = {
+  container: {
+    backgroundColor: 'rgba(22,22,22,0.9)',
+    flexDirection: 'row',
+    height: 100
+  },
+  thumbnailContainer: {
+    marginRight: 15
+  },
+  thumbnail: {
+    height: 100
+  },
+  countdownText: {
+    marginTop: 40,
+    fontWeight: 'bold',
+    fontSize: 25,
+    textAlign: 'center',
+    color: 'white'
+  },
+  textContainer: {
+    flex: 5,
+    paddingTop: 15,
+    marginRight: 15,
+    overflow: 'hidden'
+  },
+  titleContainer: {
+    flexDirection: 'row'
+  },
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginTop: 6,
+    marginLeft: 10
+  },
+  description: {
+    color: 'white',
+    marginTop: 15
+  },
+  dismissButton: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    marginRight: 15
+  }
+}
+;
+});
+__d('OoyalaSkin/widgets/CircularStatus.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/CircularStatus.json"],function(global, require, module, exports) {  var 
+
+
+
+React=require('react-native/Libraries/react-native/react-native.js');var 
+
+StyleSheet=
+
+
+
+React.StyleSheet;var Text=React.Text;var View=React.View;var TouchableHighlight=React.TouchableHighlight;
+
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/CircularStatus.json'));
+
+var CircularStatus=React.createClass({displayName:'CircularStatus',
+propTypes:{
+current:React.PropTypes.number,
+total:React.PropTypes.number,
+diameter:React.PropTypes.number,
+thickness:React.PropTypes.number},
+
+
+render:function(){
+
+var edges=this.props.diameter;
+var segment_length=this.props.diameter * Math.PI * 1.1 / edges;
+var circleSegments=[];
+var segmentangle=-360 / edges * (Math.PI / 180);
+var radius=this.props.diameter / 2;
+var progress=this.props.current / this.props.total * edges;
+
+for(var i=0;i < edges;i++) {
+var radians=i * segmentangle + Math.PI / 2;
+var color=progress < i?"gray":"white";
+circleSegments.push(
+React.createElement(View,{style:{
+"position":"absolute",
+"top":-Math.sin(radians) * radius + radius,
+"left":-Math.cos(radians) * radius + radius,
+"height":this.props.thickness,
+"width":segment_length,
+"backgroundColor":color,
+"transform":[{
+"rotate":radians + Math.PI / 2 + "rad"}]}}));}
+
+
+
+
+
+return React.createElement(View,{style:{
+"height":this.props.diameter,
+"width":this.props.diameter}},
+
+circleSegments,
+React.createElement(Text,{style:{
+"color":"white",
+"position":"absolute",
+"top":this.props.diameter / 4,
+"right":this.props.diameter / 4,
+"fontSize":this.props.diameter / 2}},
+
+Math.floor(this.props.current)));}});
+
+
+
+
+
+module.exports = CircularStatus;
+});
+__d('OoyalaSkin/widgets/style/CircularStatus.json',[],function(global, require, module, exports) {  module.exports = {
+  "circle": {
+    "height": 28,
+    "width": 28,
+    //"borderRadius": 14,
+    "backgroundColor": "white",
+    "transform": [
+      {
+        "rotate": "45deg"
+      }
+    ]
+  }
+};
+});
+__d('OoyalaSkin/style/videoViewStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "fullscreenContainer": {
+    "flex": 1,
+    "justifyContent": "center",
+    "alignItems": "center"
+  },
+  "container": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "overflow": "hidden"
+  },
+  "placeholder" : {
+    "flex": 1,
+    "alignItems": "stretch",
+    "backgroundColor": "transparent"
+  },
+  "closedCaptionStyle": {
+    "flex": 1,
+    "alignItems": "flex-end",
+    "backgroundColor": "transparent"
+  }
+}
+;
+});
+__d('OoyalaSkin/languageSelectionPanel.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/ToggleSwitch.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/ResponsiveList.js","OoyalaSkin/languageSelectionPreview.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+
+
+
+
+React.Animated;var ListView=React.ListView;var StyleSheet=React.StyleSheet;var SwitchIOS=React.SwitchIOS;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+var animationDuration=1000;
+var Constants=require('OoyalaSkin/constants.js');var 
+
+ICONS=
+Constants.ICONS;
+
+var ToggleSwitch=require('OoyalaSkin/widgets/ToggleSwitch.js');
+var ClosedCaptionsView=require('OoyalaSkin/closedCaptionsView.js');
+var Utils=require('OoyalaSkin/utils.js');
+var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
+var PreviewWidget=require('OoyalaSkin/languageSelectionPreview.js');
+var LanguageSelectionPanel=React.createClass({displayName:'LanguageSelectionPanel',
+propTypes:{
+languages:React.PropTypes.array,
+selectedLanguage:React.PropTypes.string,
+onSelect:React.PropTypes.func,
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+config:React.PropTypes.object},
+
+
+getInitialState:function(){
+return {
+opacity:new Animated.Value(0)};},
+
+
+
+componentDidMount:function(){
+this.state.opacity.setValue(0);
+Animated.parallel([
+Animated.timing(
+this.state.opacity,
+{
+toValue:1,
+duration:animationDuration,
+delay:0})]).
+
+start();},
+
+
+isSelected:function(name){
+return name && name !== '' && name == this.props.selectedLanguage;},
+
+
+onSelected:function(name){
+if(this.props.selectedLanguage !== name){
+this.props.onSelect(name);}},
+
+
+
+onSwitchToggled:function(switchOn){
+if(switchOn){
+this.onSelected(this.props.languages[0]);}else 
+{
+this.onSelected('');}},
+
+
+
+onTouchEnd:function(event){},
+
+
+
+render:function(){var _this=this;
+var hasCC=false;
+if(this.props.selectedLanguage && this.props.selectedLanguage !== ''){
+hasCC = true;}
+
+
+
+var itemPanelHeight=this.props.height - 30 - 30 - 60;
+var animationStyle={opacity:this.state.opacity};
+
+return (
+React.createElement(Animated.View,{style:[styles.panelContainer,animationStyle]},
+React.createElement(View,{style:styles.panelTitleRow},
+React.createElement(Text,{style:styles.panelTitle},Utils.localizedString(this.props.config.locale,"CC Options",this.props.config.localizableStrings))),
+
+React.createElement(ToggleSwitch,{
+switchOn:hasCC,
+areClosedCaptionsAvailable:this.props.languages.length > 0,
+onValueChanged:function(value){return _this.onSwitchToggled(value);},
+switchOnText:Utils.localizedString(this.props.config.locale,"On",this.props.config.localizableStrings),
+switchOffText:Utils.localizedString(this.props.config.locale,"Off",this.props.config.localizableStrings),
+config:this.props.config}),
+
+React.createElement(ResponsiveList,{
+horizontal:false,
+data:this.props.languages,
+itemRender:this.renderItem,
+width:this.props.width,
+height:itemPanelHeight,
+itemWidth:160,
+itemHeight:88}),
+
+React.createElement(PreviewWidget,{
+isVisible:hasCC,
+config:this.props.config})));},
+
+
+
+
+
+renderItem:function(item,itemId){var _this2=this;
+var itemStyle=this.isSelected(item)?styles.selectedButton:styles.button;
+return (
+React.createElement(TouchableHighlight,{
+style:styles.item,
+onPress:function(){return _this2.onSelected(item);}},
+React.createElement(View,{style:itemStyle},
+React.createElement(Text,{style:styles.buttonText},item))));}});
+
+
+
+
+
+
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/style/languageSelectionPanelStyles.json'));
+
+module.exports = LanguageSelectionPanel;
+});
+__d('OoyalaSkin/widgets/ToggleSwitch.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/ToggleSwitchStyles.json"],function(global, require, module, exports) {  'use strict';
+
+
+
+
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+SwitchIOS=
+
+
+
+
+React.SwitchIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+
+var Constants=require('OoyalaSkin/constants.js');
+
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/ToggleSwitchStyles.json'));
+
+var ToggleSwitch=React.createClass({displayName:'ToggleSwitch',
+propTypes:{
+switchOn:React.PropTypes.bool,
+areClosedCaptionsAvailable:React.PropTypes.bool,
+switchOnText:React.PropTypes.string,
+switchOffText:React.PropTypes.string,
+onValueChanged:React.PropTypes.func,
+config:React.PropTypes.object},
+
+
+onSwitchToggled:function(){
+this.props.onValueChanged(!this.props.switchOn);},
+
+
+render:function(){
+var onTextStyle=this.props.switchOn?styles.highlightedText:styles.grayedText;
+var offTextStyle=this.props.switchOn?styles.grayedText:styles.highlightedText;
+return (
+React.createElement(View,{style:styles.container},
+React.createElement(Text,{style:offTextStyle},this.props.switchOffText),
+React.createElement(SwitchIOS,{value:this.props.switchOn,onValueChange:this.onSwitchToggled,disabled:!this.props.areClosedCaptionsAvailable}),
+React.createElement(Text,{style:onTextStyle},this.props.switchOnText)));}});
+
+
+
+
+
+module.exports = ToggleSwitch;
+});
+__d('OoyalaSkin/widgets/style/ToggleSwitchStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "height": 30,
+    "flexDirection": "row",
+    "alignItems": "center",
+    "marginLeft": 16,
+  },
+  "grayedText": {
+    "textAlign": "center",
+    "color": "#363636",
+    "fontSize": 12,
+    "padding": 6,
+  },
+  "highlightedText": {
+    "textAlign": "center",
+    "color": "#FFFFFF",
+    "fontSize": 12,
+    "padding": 6,
+  },
+};
+});
+__d('OoyalaSkin/languageSelectionPreview.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/languageSelectionPanelStyles.json","OoyalaSkin/constants.js"],function(global, require, module, exports) {  'use strict';
+
+var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+React.Animated;var Text=React.Text;var View=React.View;
+
+var Utils=require('OoyalaSkin/utils.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/languageSelectionPanelStyles.json'));
+
+var Constants=require('OoyalaSkin/constants.js');var 
+
+UI_SIZES=
+Constants.UI_SIZES;
+
+var LanguageSelectionPreview=React.createClass({displayName:'LanguageSelectionPreview',
+propTypes:{
+config:React.PropTypes.object,
+isVisible:React.PropTypes.bool},
+
+
+getInitialState:function(){
+return {
+height:new Animated.Value(0)};},
+
+
+
+componentDidUpdate:function(prevProps,prevState){
+if(prevProps.isVisible != this.props.isVisible){
+this.state.height.setValue(this.props.isVisible?0:UI_SIZES.CC_PREVIEW_HEIGHT);
+Animated.timing(this.state.height,{
+toValue:this.props.isVisible?UI_SIZES.CC_PREVIEW_HEIGHT:0,
+duration:300,
+delay:0}).
+start();}},
+
+
+
+_getStyle:function(){
+return [
+styles.previewPanel,
+{
+'height':this.state.height}];},
+
+
+
+
+render:function(){
+return (
+React.createElement(Animated.View,{style:this._getStyle()},
+React.createElement(View,{style:styles.splitter}),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'CLOSE CAPTION PREVIEW',this.props.config.localizableStrings)),
+React.createElement(Text,{style:styles.buttonText},Utils.localizedString(this.props.config.locale,'Sample Text',this.props.config.localizableStrings))));}});
+
+
+
+
+
+module.exports = LanguageSelectionPreview;
+});
+__d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "panelContainer": {
+    "marginTop": 16,
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "stretch"
+  },
+  "item": {
+    "flex": 1,
+    "width": 160,
+    "height": 88
+  },
+  "panelTitleRow": {
+    "height": 30,
+    "flexDirection": "row",
+    "alignItems": "center",
+  },
+  "panelTitle": {
+  	"flex": 1,
+  	"fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
+  	"textAlign": "left",
+  	"color": "white",
+  	"padding": 20
+  },
+  "container": {
+    "flex": 1,
+    "flexDirection": "row",
+    "justifyContent": "center",
+    "alignItems": "center",
+    "backgroundColor": "transparent",
+    "marginBottom": 6,
+    "marginTop": 6,
+    "marginLeft": 12,
+  },
+  "listView": {
+    "backgroundColor": "#000000",
+  },
+  "button": {
+    "backgroundColor": "#333333",
+    "padding": 6,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
+    "borderRadius": 5,
+    "width": 120,
+    "height": 48
+  },
+  "selectedButton": {
+    "backgroundColor": "#498DFC",
+    "padding": 6,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
+    "borderRadius": 5,
+    "width": 120,
+    "height": 48
+  },
+  "buttonText": {
+    "textAlign": "center",
+    "color": "white",
+    "fontSize": 16,
+    "fontFamily": "Helvetica",
+    "margin": 10,
+    "backgroundColor": "transparent"
+  },
+  "splitter": {
+    "height": 1,
+    "alignSelf": "stretch",
+    "backgroundColor": "#585858"
+  },
+  "previewPanel": {
+    "alignItems":"flex-start",
+    "backgroundColor": "black"
+  },
+  "closedCaptionStyle": {
+    "textAlign":"left",
+    "width": 60,
+    "height": 20,
+    "alignItems":"flex-end",
+    "backgroundColor": "red"
+  }
+};
 });
 ;require("OoyalaSkin/index.android.js");
 //@ sourceMappingURL=/index.android.map?platform=android

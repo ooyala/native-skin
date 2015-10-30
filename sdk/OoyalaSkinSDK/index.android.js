@@ -9,6 +9,8 @@ var {
   AppRegistry,
   ProgressBarAndroid,
   StyleSheet,
+  Text,
+  TouchableHighlight,
   View
 } = React;
 
@@ -18,7 +20,7 @@ var Constants = require('./constants');
 var {
   SCREEN_TYPES,
 } = Constants;
-
+var IconTextView = require('./androidNative/iconTextView');
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance;
 var OoyalaSkin = React.createClass({
@@ -67,20 +69,42 @@ var OoyalaSkin = React.createClass({
     OoyalaSkinCoreInstance.unmount();
   },
 
+  onPress: function() {
+    eventBridge.onPress({"name":"Play"});
+  },
 
   renderLoadingScreen: function() {
      return (
        <View style={styles.loading}>
-         <ProgressBar styleAttr="Small"/>
+         <ProgressBarAndroid styleAttr="Small"/>
       </View>
     );     
   },
 
-  renderVideoView:function() {
+  renderVideoView: function() {
     return (
       <View style={styles.container}>
           <Text>{this.state.playerState}</Text>
       </View>); 
+  },
+
+  renderStartScreen: function() {
+    var icon = "play";
+    var fontSize = 32.0;
+    var fontFamily = "fontawesome";
+    return (
+      <View style={styles.container}>
+      <Text>{this.state.title}</Text>
+      <TouchableHighlight  
+          onPress={() => this.onPress()}
+          underlayColor="transparent">
+          <IconTextView 
+            fontFamily={fontFamily}
+            fontSize={fontSize}>
+            {icon}
+          </IconTextView>
+        </TouchableHighlight>
+      </View>);
   },
 
   render: function() {
@@ -88,7 +112,9 @@ var OoyalaSkin = React.createClass({
     var fontFamily = "alice";
     var fontSize = 32;
     switch (this.state.screenType) {
-      // case SCREEN_TYPES.START_SCREEN: return this._renderStartScreen(); break;
+      case SCREEN_TYPES.START_SCREEN: 
+        return this.renderStartScreen(); 
+        break;
       // case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
       case SCREEN_TYPES.LOADING_SCREEN: 
         return this.renderLoadingScreen(); 

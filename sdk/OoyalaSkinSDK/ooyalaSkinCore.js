@@ -214,7 +214,7 @@ OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
 };
 
 OoyalaSkinCore.prototype.onStateChange = function(e) {
-  console.log("state changed")
+  console.log("state changed to:" + e.state)
   switch (e.state) {
     case "paused": this.skin.setState({rate:0}); break;
     case "playing":
