@@ -24,6 +24,9 @@
 #import "OOConstant.h"
 #import "OOVolumeManager.h"
 
+#import "NSString+Utils.h"
+#import "NSMutableDictionary+Utils.h"
+
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
 #define FULLSCREEN_ANIMATION_DELAY 0
@@ -127,7 +130,7 @@ static NSDictionary *kSkinCofig;
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
   [dict setObject:localeId forKey:kLocale];
   
-  [self mergeDictionary:dict with:self.skinOptions.overrideConfigs];
+  [dict mergeWith:self.skinOptions.overrideConfigs];
   return dict;
 }
 
@@ -254,11 +257,11 @@ static NSDictionary *kSkinCofig;
   NSString *durationString = @"00:00";
   NSString *learnMoreString = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Learn More"];
   
-  CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
-  CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
-  CGSize countSize = [self textSize:countString withFontFamily:adFontFamily size:adFontSize];
-  CGSize durationSize = [self textSize:durationString withFontFamily:adFontFamily size:adFontSize];
-  CGSize learnMoreSize = [self textSize:learnMoreString withFontFamily:adFontFamily size:adFontSize];
+  CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize countSize = [countString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize durationSize = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize learnMoreSize = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
                              @"duration":[NSNumber numberWithFloat:durationSize.width],
                              @"count":[NSNumber numberWithFloat:countSize.width],
@@ -338,29 +341,6 @@ static NSDictionary *kSkinCofig;
   [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
-}
-
-#pragma mark utils
-- (CGSize)textSize:(NSString *)text withFontFamily:(NSString *)fontFamily size:(NSUInteger)fontSize {
-  // given an array of strings and other settings, compute the width of the strings to assist correct layout.
-  NSArray *fontArray = [UIFont fontNamesForFamilyName:fontFamily];
-  NSString *fontName = fontArray.count > 0 ? fontArray[0] : fontFamily;
-  UIFont *font = [UIFont fontWithName:fontName size:fontSize];
-  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
-  return textSize;
-}
-
-- (void)mergeDictionary:(NSMutableDictionary *)dict with:(NSDictionary *)otherDict {
-  for (id key in [otherDict allKeys]) {
-    NSObject *value = [dict objectForKey:key];
-    if ([value isKindOfClass:[NSDictionary class]]) {
-      NSMutableDictionary *subDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)value];
-      [self mergeDictionary:subDict with:[otherDict objectForKey:key]];
-      [dict setObject:subDict forKey:key];
-    } else {
-      [dict setObject:[otherDict objectForKey:key] forKey:key];
-    }
-  }
 }
 
 @end

@@ -29,7 +29,10 @@ var CollapsingBarUtils = {
 
   _collapse: function( barWidth, orderedItems ) {
     var r = { fit : orderedItems.slice(), overflow : [] };
-    var usedWidth = orderedItems.reduce( function(p,c,i,a) { return p+c.minWidth; }, 0 );
+    var usedWidth = orderedItems.reduce( function(p,c,i,a) {
+      if (c.minWidth) return p+c.minWidth;
+      return p;
+    }, 0 );
     for( var i = orderedItems.length-1; i >= 0; --i ) {
       var item = orderedItems[ i ];
       if( this._isOnlyInMoreOptions(item) ) {
