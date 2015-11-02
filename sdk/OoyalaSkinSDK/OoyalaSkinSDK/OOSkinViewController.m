@@ -155,6 +155,7 @@ static NSDictionary *kSkinCofig;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
   }
 }
 
@@ -275,6 +276,19 @@ static NSDictionary *kSkinCofig;
   if (![adInfo[@"requireAdBar"] boolValue]) {
     _reactView.userInteractionEnabled = NO;
   }
+}
+
+- (void) bridgeAdTappedNotification:(NSNotification *)notification {
+  // Note: This is for IMA ad playback only.
+  // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
+  // toggle play/pause as if the alice ui is clicked.
+  if (!_reactView.userInteractionEnabled) {
+    if (_player.state == OOOoyalaPlayerStatePlaying) {
+      [_player pause];
+    } else {
+      [_player play];
+    }
+  };
 }
 
 - (void) bridgeAdPodCompleteNotification:(NSNotification *)notification {
