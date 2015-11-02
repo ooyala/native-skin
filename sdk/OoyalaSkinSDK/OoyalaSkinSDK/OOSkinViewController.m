@@ -276,6 +276,9 @@ static NSDictionary *kSkinCofig;
 }
 
 - (void) bridgeAdTappedNotification:(NSNotification *)notification {
+  // Note: This is for IMA ad playback only.
+  // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
+  // toggle play/pause as if the alice ui is clicked.
   if (!_reactView.userInteractionEnabled) {
     if (_player.state == OOOoyalaPlayerStatePlaying) {
       [_player pause];
