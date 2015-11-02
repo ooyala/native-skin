@@ -33,7 +33,7 @@ var VideoView = require('./videoView');
 var LanguageSelectionPanel = require('./languageSelectionPanel.js');
 var previousScreenType;
 
-var OoyalaSkinCore = function(ooyalaSkin, eventBridge) { 
+var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
   this.skin = ooyalaSkin;
   this.bridge = eventBridge;
 };
@@ -57,7 +57,7 @@ OoyalaSkinCore.prototype.mount = function(eventEmitter) {
     [ 'postShareAlert',           (event) => this.onPostShareAlert(event) ],
     [ 'error',                    (event) => this.onError(event) ],
   ];
-    
+
   for (var i = 0; i < listenerDefinitions.length; i++) {
     var d = listenerDefinitions[i];
     this.listeners.push(eventEmitter.addListener( d[0], d[1] ) );
@@ -159,7 +159,7 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
   });
 
-  if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN || 
+  if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
      this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {
     this.previousScreenType = this.skin.state.screenType;
   }
@@ -422,7 +422,7 @@ OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
       buttonSelected={this.skin.state.buttonSelected}
       onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)}
       config={{
-        moreOptions: this.skin.props.moreOptions,
+        moreOptions: this.skin.props.moreOptionsScreen,
         buttons: this.skin.props.buttons.mobileContent,
         icons: this.skin.props.icons,
         // TODO: assumes this is how control bar width is calculated everywhere.

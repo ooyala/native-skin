@@ -51,19 +51,19 @@ var MoreOptionScreen = React.createClass({
     this.state.translateY.setValue(this.props.height);
     this.state.opacity.setValue(0);
     Animated.parallel([
-      Animated.timing(                      
-        this.state.translateY,                 
+      Animated.timing(
+        this.state.translateY,
         {
           toValue: (this.props.height - this.props.config.moreOptions.iconSize) / 2,
           duration: 700,
-          delay: 0  
+          delay: 0
         }),
-      Animated.timing(                      
-        this.state.opacity,                 
+      Animated.timing(
+        this.state.opacity,
         {
-          toValue: 1,                         
+          toValue: 1,
           duration: 500,
-          delay: 0  
+          delay: 0
         }),
     ]).start();
   },
@@ -77,11 +77,11 @@ var MoreOptionScreen = React.createClass({
     Animated.timing(
       this.state.buttonOpacity,
       {
-        toValue: 0,                         
+        toValue: 0,
         duration: 200,
-        delay: 0 
+        delay: 0
       }
-    ).start(this.onOptionBtnPress);  
+    ).start(this.onOptionBtnPress);
   },
 
   onDismissBtnPress: function() {
@@ -92,9 +92,9 @@ var MoreOptionScreen = React.createClass({
     Animated.timing(
       this.state.opacity,
       {
-        toValue: 0,                         
+        toValue: 0,
         duration: 500,
-        delay: 0 
+        delay: 0
       }
     ).start(this.onDismissBtnPress);
   },
@@ -119,7 +119,7 @@ var MoreOptionScreen = React.createClass({
       var button = buttons[i];
 
       var moreOptionButton;
-      var buttonOpacity = this.props.config.moreOptions.iconStyle.opacity;
+      var buttonOpacity = this.props.config.moreOptions.iconStyle.inactive.opacity;
       var buttonIcon = this._renderIcon(button.name);
       var buttonStyle = [styles.icon, this.props.config.moreOptions.iconStyle, buttonOpacity];
 
@@ -168,7 +168,7 @@ var MoreOptionScreen = React.createClass({
 	render: function() {
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
-    
+
     var dismissButton = this._renderButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptions.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow;
@@ -177,12 +177,12 @@ var MoreOptionScreen = React.createClass({
 
       moreOptionRow = (
       <Animated.View
-        ref='moreOptionRow' 
+        ref='moreOptionRow'
         style={[styles.rowCenter, rowAnimationStyle]}>
         {moreOptionButtons}
       </Animated.View>);
     }
-    
+
     var dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
         {dismissButton}
