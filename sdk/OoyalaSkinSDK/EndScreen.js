@@ -65,8 +65,6 @@ var EndScreen = React.createClass({
     return (
       <View style={styles.fullscreenContainer}>
         {this.props.discoveryPanel}
-        {progressBar}
-        {controlBar}
       </View>);
   },
 
