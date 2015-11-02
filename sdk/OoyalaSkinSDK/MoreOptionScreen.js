@@ -125,7 +125,7 @@ var MoreOptionScreen = React.createClass({
 
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if( buttonOpacity === undefined || buttonIcon === undefined || buttonStyle === undefined ) {
-        Log.error( "ERROR: skipping unsupported More Options button ", button );
+        Log.warn( "Warning: skipping unsupported More Options button ", button );
         continue;
       }
 
