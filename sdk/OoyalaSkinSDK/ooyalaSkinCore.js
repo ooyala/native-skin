@@ -304,7 +304,7 @@ OoyalaSkinCore.prototype.renderErrorScreen = function() {
   return (
     <ErrorScreen
       error={this.skin.state.error}
-      localizableStrings={this.skin.props.localizableStrings}
+      localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale} />);
 };
 
@@ -331,13 +331,13 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       config={{
         controlBar: this.skin.props.controlBar,
         buttons: this.skin.props.buttons.mobileContent,
-        upNextScreen: this.skin.props.upNextScreen,
+        upNext: this.skin.props.upNext,
         icons: this.skin.props.icons,
         adScreen: this.skin.props.adScreen
       }}
       nextVideo={this.skin.state.nextVideo}
       upNextDismissed={this.skin.state.upNextDismissed}
-      localizableStrings={this.skin.props.localizableStrings}
+      localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}>
     </VideoView>
   );
@@ -352,7 +352,7 @@ OoyalaSkinCore.prototype.renderCCOptions = function() {
       onDismiss={this.onOverlayDismissed}
       width={this.skin.state.width}
       height={this.skin.state.height}
-      config={{localizableStrings:this.skin.props.localizableStrings,
+      config={{localizableStrings:this.skin.props.localization,
                locale:this.skin.props.locale,
                icons:this.skin.props.icons}}>
     </LanguageSelectionPanel>);
@@ -361,13 +361,13 @@ OoyalaSkinCore.prototype.renderCCOptions = function() {
 OoyalaSkinCore.prototype.renderSocialOptions = function() {
   return (
     <SharePanel
-      socialButtons={this.skin.props.sharing}
+      socialButtons={this.skin.props.shareScreen}
       onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
       width={this.skin.state.width}
       height={this.skin.state.height}
       alertTitle={this.skin.state.alertTitle}
       alertMessage={this.skin.state.alertMessage}
-      localizableStrings={this.skin.props.localizableStrings}
+      localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale} />);
 },
 
@@ -379,7 +379,7 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
   return (
     <DiscoveryPanel
       config={this.skin.props.discoveryScreen}
-      localizableStrings={this.skin.props.localizableStrings}
+      localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       dataSource={this.skin.state.discoveryResults}
       onRowAction={(info) => this.onDiscoveryRow(info)}
@@ -422,7 +422,7 @@ OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
       buttonSelected={this.skin.state.buttonSelected}
       onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)}
       config={{
-        moreOptions: this.skin.props.moreOptions,
+        moreOptionsScreen: this.skin.props.moreOptionsScreen,
         buttons: this.skin.props.buttons.mobileContent,
         icons: this.skin.props.icons,
         // TODO: assumes this is how control bar width is calculated everywhere.

@@ -147,12 +147,12 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     var placeholder;
     if(this.state.showSharePanel){
-      var socialButtonsArray =this.props.sharing;
+      var socialButtonsArray=this.props.shareScreen;
       placeholder = (
         <View
           style={styles.fullscreenContainer}>
           <SharePanel
-          isShow= {this.state.showSharePanel}
+          isShow={this.state.showSharePanel}
           socialButtons={socialButtonsArray}
           onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
         </View>
@@ -182,7 +182,7 @@ var VideoView = React.createClass({
 
     return <UpNext
       config={{
-        upNext: this.props.config.upNextScreen,
+        upNext: this.props.config.upNext,
         icons: this.props.config.icons
       }}
       ad={this.props.ad}
