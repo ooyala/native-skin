@@ -61,12 +61,10 @@ var EndScreen = React.createClass({
     this.toggleControlBar();
   },
 
-  _renderDiscoveryScreen: function(progressBar, controlBar) {
+  _renderDiscoveryScreen: function() {
     return (
       <View style={styles.fullscreenContainer}>
         {this.props.discoveryPanel}
-        {progressBar}
-        {controlBar}
       </View>);
   },
 
@@ -133,7 +131,7 @@ var EndScreen = React.createClass({
       }}/>);
     if (this.props.config.endScreen.screenToShowOnEnd == 'discovery' &&
       this.props.discoveryPanel) {
-      return this._renderDiscoveryScreen(progressBar, controlBar);
+      return this._renderDiscoveryScreen();
     } else {
       return this._renderDefaultScreen(progressBar, controlBar);
     }
