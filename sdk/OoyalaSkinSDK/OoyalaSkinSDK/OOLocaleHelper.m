@@ -25,7 +25,7 @@
     return key;
   }
 
-  NSString *defaultLocale = [localizableStrings objectForKey:@"default"];
+  NSString *defaultLocale = [localizableStrings objectForKey:@"defaultLanguage"];
   if (!defaultLocale) {
     defaultLocale = @"";
   }

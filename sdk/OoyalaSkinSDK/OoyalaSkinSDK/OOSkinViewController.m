@@ -49,7 +49,7 @@
 static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
-static NSString *kLocalizableStrings = @"localizableStrings";
+static NSString *kLocalizableStrings = @"localization";
 static NSString *kLocale = @"locale";
 static NSDictionary *kSkinCofig;
 
