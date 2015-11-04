@@ -331,9 +331,9 @@
 			children = (
 				2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */,
 				2F12F3005C36BADE48917092 /* OOFacebookSharePlugin.m */,
+				2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */,
 				2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */,
 				2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */,
-				2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */,
 				2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */,
 				2F12FA4EC7B6C67EFF3C5E67 /* OOTwitterSharePlugin.m */,
 			);
@@ -460,7 +460,6 @@
 		972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
-				CA742B4E1BE2761D0056784E /* Utils */,
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				979B012E1B910A040032F5CF /* OOConstant.h */,
@@ -489,6 +488,7 @@
 				9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
+				CA742B4E1BE2761D0056784E /* Utils */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
