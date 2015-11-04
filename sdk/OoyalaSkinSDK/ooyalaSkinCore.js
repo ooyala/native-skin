@@ -225,9 +225,6 @@ OoyalaSkinCore.prototype.onStateChange = function(e) {
       this.skin.setState({rate:1});
       this.skin.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
       break;
-      case "loading":
-      this.skin.setState({screenType: SCREEN_TYPES.LOADING_SCREEN});
-      break;
     default: break;
   }
 };
