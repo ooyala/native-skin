@@ -1,5 +1,6 @@
 **/xcuserdata
 sdk/OoyalaSkinSDK/node_modules
+sdk/OoyalaSkinSDK/coverage
 **/build/
 **/iOS/
 

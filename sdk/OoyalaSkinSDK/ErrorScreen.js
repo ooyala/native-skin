@@ -37,7 +37,7 @@ var ErrorScreen = React.createClass({
     if (this.props.error && this.props.error.description) {
       var localizedDescription = 
         Utils.localizedString(this.props.locale, this.props.error.description, this.props.localizableStrings);
-      Log.error("localized desc:"+ localizedDescription);
+      Log.warn("ERROR: localized description:"+ localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription} 

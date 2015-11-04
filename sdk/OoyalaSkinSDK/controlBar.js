@@ -102,7 +102,7 @@ var ControlBar = React.createClass({
     var widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
@@ -110,7 +110,7 @@ var ControlBar = React.createClass({
       },
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
+        style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         showVolume: this.state.showVolume,
@@ -124,27 +124,27 @@ var ControlBar = React.createClass({
       },
       fullscreen: {
         onPress: this.onFullscreenPress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
       },
       moreOptions: {
         onPress: this.onMorePress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis
       },
       discovery: {
         onPress: this.onDiscoveryPress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.discovery
       },
       share: {
         onPress: this.onSocialSharePress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       },
       closedCaption: {
         onPress: this.onClosedCaptionsPress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle],
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.cc
       },
       watermark: {

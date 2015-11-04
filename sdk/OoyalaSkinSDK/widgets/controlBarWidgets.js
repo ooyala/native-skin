@@ -129,6 +129,10 @@ var controlBarWidget = React.createClass({
     return null;
   },
 
+  liveWidget: function(options) {
+    // TODO implement
+    return null;
+  },
   render: function() {
 
     var widgetsMap = {
@@ -142,7 +146,8 @@ var controlBarWidget = React.createClass({
       "watermark": this.watermarkWidget,
       "share": this.shareWidget,
       "closedCaption": this.closedCaptionWidget,
-      "bitrateSelector": this.bitrateSelectorWidget
+      "bitrateSelector": this.bitrateSelectorWidget,
+      "live": this.liveWidget
     };
     if( this.props.widgetType.name in widgetsMap ) {
       var widgetOptions = this.props.options[this.props.widgetType.name];

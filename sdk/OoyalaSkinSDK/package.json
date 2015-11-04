@@ -3,7 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node_modules/react-native/packager/packager.sh"
+    "start": "node_modules/react-native/packager/packager.sh",
+    "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": ["es6", "js"],
+    "moduleFileExtensions": ["js", "json", "es6"],
+    "collectCoverage": true
+  },
+  "devDependencies": {
+    "babel-jest": "*",
+    "jest-cli": "~0.7.0"
   },
   "dependencies": {
     "react-native": "^0.13.2"

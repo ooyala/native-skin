@@ -24,6 +24,9 @@
 #import "OOConstant.h"
 #import "OOVolumeManager.h"
 
+#import "NSString+Utils.h"
+#import "NSMutableDictionary+Utils.h"
+
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
 #define FULLSCREEN_ANIMATION_DELAY 0
@@ -46,7 +49,7 @@
 static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
-static NSString *kLocalizableStrings = @"localizableStrings";
+static NSString *kLocalizableStrings = @"localization";
 static NSString *kLocale = @"locale";
 static NSDictionary *kSkinCofig;
 
@@ -127,7 +130,7 @@ static NSDictionary *kSkinCofig;
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
   [dict setObject:localeId forKey:kLocale];
   
-  [self mergeDictionary:dict with:self.skinOptions.overrideConfigs];
+  [dict mergeWith:self.skinOptions.overrideConfigs];
   return dict;
 }
 
@@ -152,6 +155,7 @@ static NSDictionary *kSkinCofig;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
   }
 }
 
@@ -254,11 +258,11 @@ static NSDictionary *kSkinCofig;
   NSString *durationString = @"00:00";
   NSString *learnMoreString = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Learn More"];
   
-  CGSize titleSize = [self textSize:adTitle withFontFamily:adFontFamily size:adFontSize];
-  CGSize titlePrefixSize = [self textSize:titlePrefix withFontFamily:adFontFamily size:adFontSize];
-  CGSize countSize = [self textSize:countString withFontFamily:adFontFamily size:adFontSize];
-  CGSize durationSize = [self textSize:durationString withFontFamily:adFontFamily size:adFontSize];
-  CGSize learnMoreSize = [self textSize:learnMoreString withFontFamily:adFontFamily size:adFontSize];
+  CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize countSize = [countString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize durationSize = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize learnMoreSize = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
                              @"duration":[NSNumber numberWithFloat:durationSize.width],
                              @"count":[NSNumber numberWithFloat:countSize.width],
@@ -272,6 +276,19 @@ static NSDictionary *kSkinCofig;
   if (![adInfo[@"requireAdBar"] boolValue]) {
     _reactView.userInteractionEnabled = NO;
   }
+}
+
+- (void) bridgeAdTappedNotification:(NSNotification *)notification {
+  // Note: This is for IMA ad playback only.
+  // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
+  // toggle play/pause as if the alice ui is clicked.
+  if (!_reactView.userInteractionEnabled) {
+    if (_player.state == OOOoyalaPlayerStatePlaying) {
+      [_player pause];
+    } else {
+      [_player play];
+    }
+  };
 }
 
 - (void) bridgeAdPodCompleteNotification:(NSNotification *)notification {
@@ -338,29 +355,6 @@ static NSDictionary *kSkinCofig;
   [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
-}
-
-#pragma mark utils
-- (CGSize)textSize:(NSString *)text withFontFamily:(NSString *)fontFamily size:(NSUInteger)fontSize {
-  // given an array of strings and other settings, compute the width of the strings to assist correct layout.
-  NSArray *fontArray = [UIFont fontNamesForFamilyName:fontFamily];
-  NSString *fontName = fontArray.count > 0 ? fontArray[0] : fontFamily;
-  UIFont *font = [UIFont fontWithName:fontName size:fontSize];
-  CGSize textSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
-  return textSize;
-}
-
-- (void)mergeDictionary:(NSMutableDictionary *)dict with:(NSDictionary *)otherDict {
-  for (id key in [otherDict allKeys]) {
-    NSObject *value = [dict objectForKey:key];
-    if ([value isKindOfClass:[NSDictionary class]]) {
-      NSMutableDictionary *subDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)value];
-      [self mergeDictionary:subDict with:[otherDict objectForKey:key]];
-      [dict setObject:subDict forKey:key];
-    } else {
-      [dict setObject:[otherDict objectForKey:key] forKey:key];
-    }
-  }
 }
 
 @end
