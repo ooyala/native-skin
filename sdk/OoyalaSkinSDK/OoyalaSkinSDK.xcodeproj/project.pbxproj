@@ -113,6 +113,13 @@
 		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
 		CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */; };
 		CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */; };
+		CA2C6FB21BEA8599006B86BC /* OoyalaSkinSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2C6FB11BEA8599006B86BC /* OoyalaSkinSDKTests.m */; };
+		CA2C6FB41BEA8599006B86BC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
+		CA2C6FBD1BEA8A69006B86BC /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8AA1AE7011D005043DC /* MediaPlayer.framework */; };
+		CA2C6FBE1BEA8A9F006B86BC /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
+		CA2C6FC01BEA8C01006B86BC /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2C6FBF1BEA8C01006B86BC /* MediaAccessibility.framework */; };
+		CA2C6FC21BEA8C13006B86BC /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2C6FC11BEA8C13006B86BC /* Social.framework */; };
+		CA2C6FC61BEA8C53006B86BC /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2C6FC51BEA8C53006B86BC /* libz.tbd */; };
 		CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA742B581BE279040056784E /* NSString+Utils.h */; };
 		CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B591BE279040056784E /* NSString+Utils.m */; };
 		CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */; };
@@ -189,6 +196,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
+		};
+		CA2C6FB51BEA8599006B86BC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8421AE6EEEB005043DC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 972ED84A1AE6EEEB005043DC;
+			remoteInfo = OoyalaSkinSDK;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -303,6 +317,13 @@
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeManager.h; sourceTree = "<group>"; };
 		CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeManager.m; sourceTree = "<group>"; };
+		CA2C6FAF1BEA8599006B86BC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA2C6FB11BEA8599006B86BC /* OoyalaSkinSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OoyalaSkinSDKTests.m; sourceTree = "<group>"; };
+		CA2C6FB31BEA8599006B86BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA2C6FBF1BEA8C01006B86BC /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
+		CA2C6FC11BEA8C13006B86BC /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		CA2C6FC31BEA8C26006B86BC /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		CA2C6FC51BEA8C53006B86BC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CA742B581BE279040056784E /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Utils.h"; path = "Utils/NSString+Utils.h"; sourceTree = "<group>"; };
 		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Utils.m"; path = "Utils/NSString+Utils.m"; sourceTree = "<group>"; };
 		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+Utils.h"; path = "Utils/NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
@@ -320,6 +341,19 @@
 				972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */,
 				45ED117A1B9F637C004968DE /* libRCTNetwork.a in Frameworks */,
 				972ED8A71AE6FCAB005043DC /* libReact.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CA2C6FAC1BEA8599006B86BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA2C6FC61BEA8C53006B86BC /* libz.tbd in Frameworks */,
+				CA2C6FC21BEA8C13006B86BC /* Social.framework in Frameworks */,
+				CA2C6FC01BEA8C01006B86BC /* MediaAccessibility.framework in Frameworks */,
+				CA2C6FBE1BEA8A9F006B86BC /* OoyalaSDK.framework in Frameworks */,
+				CA2C6FBD1BEA8A69006B86BC /* MediaPlayer.framework in Frameworks */,
+				CA2C6FB41BEA8599006B86BC /* OoyalaSkinSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				97CF89F01B50642C008E0470 /* OoyalaSDK.framework */,
+				CA2C6FB01BEA8599006B86BC /* OoyalaSkinSDKTests */,
 				FF12905E1AEABA9B00664374 /* Frameworks */,
 				5EEDC9C31B0E7B8100A3AD27 /* JSX */,
 				972ED88F1AE6F6A5005043DC /* Libraries */,
@@ -453,6 +488,7 @@
 			isa = PBXGroup;
 			children = (
 				972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */,
+				CA2C6FAF1BEA8599006B86BC /* OoyalaSkinSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -538,6 +574,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CA2C6FB01BEA8599006B86BC /* OoyalaSkinSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				CA2C6FB11BEA8599006B86BC /* OoyalaSkinSDKTests.m */,
+				CA2C6FB31BEA8599006B86BC /* Info.plist */,
+			);
+			path = OoyalaSkinSDKTests;
+			sourceTree = "<group>";
+		};
 		CA742B4E1BE2761D0056784E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -552,6 +597,10 @@
 		FF12905E1AEABA9B00664374 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CA2C6FC51BEA8C53006B86BC /* libz.tbd */,
+				CA2C6FC31BEA8C26006B86BC /* MessageUI.framework */,
+				CA2C6FC11BEA8C13006B86BC /* Social.framework */,
+				CA2C6FBF1BEA8C01006B86BC /* MediaAccessibility.framework */,
 				45ED116B1B9F6229004968DE /* RCTNetworking.h */,
 				97DE27A51B212B4A0071DBFE /* libc++.dylib */,
 				97DE27AB1B212B520071DBFE /* libc++abi.dylib */,
@@ -619,6 +668,24 @@
 			productReference = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		CA2C6FAE1BEA8599006B86BC /* OoyalaSkinSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CA2C6FB91BEA8599006B86BC /* Build configuration list for PBXNativeTarget "OoyalaSkinSDKTests" */;
+			buildPhases = (
+				CA2C6FAB1BEA8599006B86BC /* Sources */,
+				CA2C6FAC1BEA8599006B86BC /* Frameworks */,
+				CA2C6FAD1BEA8599006B86BC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CA2C6FB61BEA8599006B86BC /* PBXTargetDependency */,
+			);
+			name = OoyalaSkinSDKTests;
+			productName = OoyalaSkinSDKTests;
+			productReference = CA2C6FAF1BEA8599006B86BC /* OoyalaSkinSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -633,6 +700,9 @@
 					};
 					972ED84A1AE6EEEB005043DC = {
 						CreatedOnToolsVersion = 6.2;
+					};
+					CA2C6FAE1BEA8599006B86BC = {
+						CreatedOnToolsVersion = 7.1;
 					};
 				};
 			};
@@ -672,6 +742,7 @@
 			targets = (
 				972ED84A1AE6EEEB005043DC /* OoyalaSkinSDK */,
 				0BD9FC641B4D9E83001E0CAB /* OoyalaSkinSDKUniversal */,
+				CA2C6FAE1BEA8599006B86BC /* OoyalaSkinSDKTests */,
 			);
 		};
 /* End PBXProject section */
@@ -765,6 +836,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CA2C6FAD1BEA8599006B86BC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -841,6 +919,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		CA2C6FAB1BEA8599006B86BC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CA2C6FB21BEA8599006B86BC /* OoyalaSkinSDKTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -868,6 +954,11 @@
 			isa = PBXTargetDependency;
 			name = RCTNetwork;
 			targetProxy = 4588D98F1B9F7F7200B44883 /* PBXContainerItemProxy */;
+		};
+		CA2C6FB61BEA8599006B86BC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 972ED84A1AE6EEEB005043DC /* OoyalaSkinSDK */;
+			targetProxy = CA2C6FB51BEA8599006B86BC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1034,6 +1125,43 @@
 			};
 			name = Release;
 		};
+		CA2C6FB71BEA8599006B86BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VendorLibraries/**",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = OoyalaSkinSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaSkinSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CA2C6FB81BEA8599006B86BC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_TESTABILITY = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VendorLibraries/**",
+				);
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = OoyalaSkinSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaSkinSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1063,6 +1191,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		CA2C6FB91BEA8599006B86BC /* Build configuration list for PBXNativeTarget "OoyalaSkinSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CA2C6FB71BEA8599006B86BC /* Debug */,
+				CA2C6FB81BEA8599006B86BC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
