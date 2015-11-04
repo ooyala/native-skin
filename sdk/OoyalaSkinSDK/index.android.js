@@ -113,7 +113,7 @@ var OoyalaSkin = React.createClass({
     var fontSize = 32;
     switch (this.state.screenType) {
       case SCREEN_TYPES.START_SCREEN: 
-        return this.renderStartScreen(); 
+        return OoyalaSkinCoreInstance.renderStartScreen(); 
         break;
       // case SCREEN_TYPES.END_SCREEN:   return this._renderEndScreen();   break;
       case SCREEN_TYPES.LOADING_SCREEN: 

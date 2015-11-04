@@ -11,6 +11,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.OoyalaPlayer;
@@ -18,6 +19,7 @@ import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.item.Video;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
+import com.ooyala.android.util.DebugMode;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -116,7 +118,7 @@ class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements L
   public void onPress(ReadableMap parameters) {
     final String buttonName = parameters.getString("name");
     if (buttonName != null) {
-      Log.d(TAG, "onPress with buttonName:" + buttonName);
+      DebugMode.logD(TAG, "onPress with buttonName:" + buttonName);
       this.getReactApplicationContext().runOnUiQueueThread(new Runnable() {
         @Override
         public void run() {
@@ -158,16 +160,25 @@ class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements L
     Video currentItem = _player.getCurrentItem();
     if (currentItem != null) {
       String title = currentItem.getTitle();
-//      NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
-//      NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
-//      NSString *hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
-//      NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
-//      NSNumber *frameWidth = [NSNumber numberWithFloat:self.view.frame.size.width];
-//      NSNumber *frameHeight = [NSNumber numberWithFloat:self.view.frame.size.height];
-//      NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
-//      NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
-      if (title != null) {
-        params.putString("title", title);
+      params.putString("title", title != null ? title : "");
+
+      String description = currentItem.getDescription();
+      params.putString("description", description != null ? description : "");
+
+      String promoUrl = currentItem.getPromoImageURL(2000, 2000);
+      params.putString("promoUrl", promoUrl != null ? promoUrl : "");
+
+//      String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
+      Double duration = currentItem.getDuration() / 1000.0;
+      params.putDouble("duration", duration);
+      params.putBoolean("live", currentItem.isLive());
+
+      if (currentItem.hasClosedCaptions()) {
+        WritableArray languages = Arguments.createArray();
+        for (String s : currentItem.getClosedCaptions().getLanguages()) {
+          languages.pushString(s);
+        }
+        params.putArray("languages", languages);
       }
     }
 
@@ -183,7 +194,7 @@ class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements L
   private void bridgeStateChangedNotification() {
     WritableMap params = Arguments.createMap();
     params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
-
+    DebugMode.logD(TAG, "state change event params are" + params.toString());
     this.getReactApplicationContext()
         .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
         .emit(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
