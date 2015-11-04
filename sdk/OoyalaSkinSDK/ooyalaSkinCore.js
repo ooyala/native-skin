@@ -85,6 +85,11 @@ OoyalaSkinCore.prototype.onSocialButtonPress = function(socialType) {
   (results) => {Log.log(results);});
 };
 
+OoyalaSkinCore.prototype.onSocialAlertDismiss = function() {
+  this.skin.setState({alertTitle: ''});
+  this.skin.setState({alertMessage: ''});
+};
+
 OoyalaSkinCore.prototype.pauseOnOptions = function() {
   if (this.skin.state.screenType != SCREEN_TYPES.MOREOPTION_SCREEN) {
     this.previousScreenType = this.skin.state.screenType;
@@ -363,6 +368,7 @@ OoyalaSkinCore.prototype.renderSocialOptions = function() {
     <SharePanel
       socialButtons={this.skin.props.shareScreen}
       onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+      onSocialAlertDismiss={() => this.onSocialAlertDismiss()}
       width={this.skin.state.width}
       height={this.skin.state.height}
       alertTitle={this.skin.state.alertTitle}
