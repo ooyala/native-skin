@@ -27,7 +27,7 @@ import java.util.Observer;
 /**
  * Created by zchen on 9/21/15.
  */
-class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer {
+public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer {
   final String TAG = this.getClass().toString();
   private OoyalaSkinLayout _layout;
   private OoyalaPlayer _player;
