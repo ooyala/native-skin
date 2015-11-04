@@ -19,12 +19,7 @@
 @implementation NSString_UtilsTests
 
 - (void)setUp {
-  NSLog(@"%@ setUp", self.name);
   testCase = @"testCase";
-}
-
-- (void)tearDown {
-  NSLog(@"%@ tearDown", self.name);
 }
 
 - (void)testFontFamilyDoesNotExist {
