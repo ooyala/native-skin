@@ -56,6 +56,7 @@ OoyalaSkinCore.prototype.mount = function(eventEmitter) {
     [ 'playStarted',              (event) => this.onPlayStarted(event) ],
     [ 'postShareAlert',           (event) => this.onPostShareAlert(event) ],
     [ 'error',                    (event) => this.onError(event) ],
+    [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ]
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -121,8 +122,6 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       this.pauseOnOptions();
       this.onOptionButtonPress(n);
       break;
-    case BUTTON_NAMES.RESET_AUTOHIDE:
-      break;
     case BUTTON_NAMES.PLAY_PAUSE:
       this.skin.setState({showPlayButton: !this.skin.state.showPlayButton});
     default:
@@ -146,9 +145,6 @@ OoyalaSkinCore.prototype.onClosedCaptionUpdate = function(e) {
 };
 
 OoyalaSkinCore.prototype.onDiscoveryRow = function(info) {
-  if (info.action && info.action === "click") {
-    this.skin.setState({screenType: SCREEN_TYPES.LOADING_SCREEN, autoPlay: true})
-  }
   this.bridge.onDiscoveryRow(info);
 };
 
@@ -219,19 +215,28 @@ OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
 
 OoyalaSkinCore.prototype.onStateChange = function(e) {
   Log.log("state changed to:" + e.state)
+  var isLoading = false;
   switch (e.state) {
     case "paused": this.skin.setState({rate:0}); break;
     case "playing":
-      this.skin.setState({rate:1});
-      this.skin.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+      this.skin.setState({rate:1, screenType: SCREEN_TYPES.VIDEO_SCREEN});
+      break;
+    case "loading": 
+      isLoading = true;
       break;
     default: break;
   }
+  this.skin.setState({isLoading:isLoading});
 };
 
 OoyalaSkinCore.prototype.onError = function(e) {
   Log.log("Error received");
   this.skin.setState({screenType:SCREEN_TYPES.ERROR_SCREEN, error:e});
+};
+
+OoyalaSkinCore.prototype.onError = function(e) {
+  Log.log("EmbedCodeSet received");
+  this.skin.setState({screenType:SCREEN_TYPES.LOADING_SCREEN});
 };
 
 OoyalaSkinCore.prototype.onUpNextDismissed = function(e) {
@@ -338,7 +343,8 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       nextVideo={this.skin.state.nextVideo}
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
-      locale={this.skin.props.locale}>
+      locale={this.skin.props.locale}
+      isLoading={this.skin.state.isLoading}>
     </VideoView>
   );
 };

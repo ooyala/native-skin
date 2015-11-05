@@ -66,7 +66,8 @@ var VideoView = React.createClass({
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
     localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string
+    locale: React.PropTypes.string,
+    isLoading: React.PropTypes.bool
   },
 
   generateLiveObject: function() {
@@ -227,7 +228,8 @@ var VideoView = React.createClass({
         opacity={buttonOpacity}
         showButton={this.controlsVisible()}
         rate={this.props.rate}
-        playhead={this.props.playhead}>
+        playhead={this.props.playhead}
+        isLoading={this.props.isLoading}>
       </VideoViewPlayPause>);
   },
 

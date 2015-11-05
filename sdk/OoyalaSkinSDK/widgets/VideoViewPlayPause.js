@@ -132,14 +132,14 @@ var VideoViewPlayPause = React.createClass({
   },
 
   _renderLoading: function() {
-    if((this.props.rate <= 0 || this.props.playhead == 0) && !this.props.showButton && !this.state.controlPlaying) {
+    if(this.props.isLoading) {
       return (
-        <View style={styles.loading}>
+        <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle,{position: 'absolute'}]}>
           <ActivityIndicatorIOS
             animating={true}
             size="large">
           </ActivityIndicatorIOS>
-        </View>);
+        </Animated.View>);
     }
   },
 
@@ -162,7 +162,6 @@ var VideoViewPlayPause = React.createClass({
 
   // Gets the play button based on the current config settings
   render: function() {
-
     if(this.props.style != null) {
       positionStyle = this.props.style;
     }
@@ -212,7 +211,6 @@ var VideoViewPlayPause = React.createClass({
         </View>
       </TouchableHighlight>
     );
-
   }
 });
 
