@@ -163,7 +163,9 @@ RCT_EXPORT_METHOD(queryState) {
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
-  LOG(@"sendDeviceEventWithName: %@", eventName);
+  if (![eventName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
+    LOG(@"sendDeviceEventWithName: %@", eventName);
+  }
   [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
 
