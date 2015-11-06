@@ -220,16 +220,21 @@ OoyalaSkinCore.prototype.onStateChange = function(e) {
     case "paused":
     case "ready":
       this.skin.setState({
-        playing: false
+        playing: false,
+        loading: false
       });
       break;
     case "playing":
       this.skin.setState({
-        playing:true,
+        playing: true,
+        loading: false,
         initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false, 
         screenType: SCREEN_TYPES.VIDEO_SCREEN});
       break;
     case "loading":
+      this.skin.setState({
+        loading: true
+      })
       break;
     default:
       break;
@@ -350,6 +355,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       playing={this.skin.state.playing}
+      loading={this.skin.state.loading}
       initialPlay={this.skin.state.initialPlay}>
     </VideoView>
   );

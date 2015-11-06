@@ -25,7 +25,6 @@ var Log = require('./log');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var ResponsiveDesignManager = require('./responsiveDesignManager');
-
 var autohideDelay = 5000;
 
 var {
@@ -59,6 +58,7 @@ var VideoView = React.createClass({
     localizableStrings: React.PropTypes.object,
     locale: React.PropTypes.string,
     playing: React.PropTypes.bool,
+    loading: React.PropTypes.bool,
     initialPlay: React.PropTypes.bool
   },
 
@@ -235,7 +235,8 @@ var VideoView = React.createClass({
         fontSize={iconFontSize}
         showButton={show}
         rate={this.props.rate}
-        plyaing={this.props.playing}
+        playing={this.props.playing}
+        loading={this.props.loading}
         initialPlay={this.props.initialPlay}>
       </VideoViewPlayPause>);
   },
@@ -259,7 +260,6 @@ var VideoView = React.createClass({
 
   render: function() {
     var showPlayPauseButton = this.state.showControls;
-
     var adBar = null;
     if (this.props.ad) {
       if (!this.props.playing) {
