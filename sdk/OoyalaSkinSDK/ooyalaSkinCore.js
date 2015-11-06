@@ -217,7 +217,7 @@ OoyalaSkinCore.prototype.onStateChange = function(e) {
     case "completed":
     case "error":
     case "init":
-    case "puased":
+    case "paused":
     case "ready":
       this.skin.setState({
         playing: false
