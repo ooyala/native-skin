@@ -131,10 +131,10 @@ var VideoViewPlayPause = React.createClass({
     }
   },
 
-  _renderLoading: function() {
+  _renderLoading: function(sizeStyle) {
     if(this.props.isLoading) {
       return (
-        <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle,{position: 'absolute'}]}>
+        <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle, {position: 'absolute'}]}>
           <ActivityIndicatorIOS
             animating={true}
             size="large">
@@ -180,7 +180,7 @@ var VideoViewPlayPause = React.createClass({
 
     var playButton = this._renderButton(PLAY);
     var pauseButton = this._renderButton(PAUSE);
-    var loading = this._renderLoading();
+    var loading = this._renderLoading(sizeStyle);
 
     if(this.props.showButton) {
       Animated.timing(this.state.widget.animationOpacity, {
@@ -201,9 +201,7 @@ var VideoViewPlayPause = React.createClass({
         underlayColor="transparent"
         activeOpacity={this.props.opacity}>
         <View>
-          <Animated.View style={[styles.buttonArea, sizeStyle, {position: 'absolute'}]}>
-            {loading}
-          </Animated.View>
+          {loading}
           <Animated.View style={[styles.buttonArea, sizeStyle, opacity, {position: 'absolute'}]}>
             {playButton}
             {pauseButton}

@@ -109,7 +109,6 @@ OoyalaSkinCore.prototype.onOptionDismissed = function() {
 };
 
 OoyalaSkinCore.prototype.handlePress = function(n) {
-  this.skin.setState({lastPressedTime: (new Date).getTime()});
   switch(n) {
     case BUTTON_NAMES.MORE:
       n="None";
@@ -122,8 +121,6 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       this.pauseOnOptions();
       this.onOptionButtonPress(n);
       break;
-    case BUTTON_NAMES.PLAY_PAUSE:
-      this.skin.setState({showPlayButton: !this.skin.state.showPlayButton});
     default:
       this.bridge.onPress({name:n});
       break;
@@ -317,7 +314,6 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
   return (
     <VideoView
       rate={this.skin.state.rate}
-      showPlay={this.skin.state.showPlayButton}
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
       ad ={this.skin.state.ad}
@@ -332,7 +328,6 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
       captionJSON={this.skin.state.captionJSON}
       onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-      lastPressedTime={this.skin.state.lastPressedTime}
       config={{
         controlBar: this.skin.props.controlBar,
         buttons: this.skin.props.buttons.mobileContent,
