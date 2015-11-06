@@ -44,6 +44,7 @@ OoyalaSkinCore.prototype.mount = function(eventEmitter) {
     [ 'timeChanged',              (event) => this.onTimeChange(event) ],
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
+    [ 'volumeChanged',            (event) => this.onVolumeChanged(event) ],
     [ 'playCompleted',            (event) => this.onPlayComplete(event) ],
     [ 'stateChanged',             (event) => this.onStateChange(event) ],
     [ 'discoveryResultsReceived', (event) => this.onDiscoveryResult(event) ],
@@ -263,7 +264,7 @@ OoyalaSkinCore.prototype.onPostShareAlert = function(e) {
   this.skin.setState({alertMessage: e.message});
 };
 
-OoyalaSkinCore.prototype.onVolumeChange = function(e) {
+OoyalaSkinCore.prototype.onVolumeChanged = function(e) {
   this.skin.setState({volume: e.volume});
 };
 
@@ -324,6 +325,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       live ={this.skin.state.live}
       width={this.skin.state.width}
       height={this.skin.state.height}
+      volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       onPress={(value) => this.handlePress(value)}
       onScrub={(value) => this.handleScrub(value)}
