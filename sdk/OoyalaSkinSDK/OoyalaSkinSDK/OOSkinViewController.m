@@ -25,7 +25,7 @@
 #import "OOVolumeManager.h"
 
 #import "NSString+Utils.h"
-#import "NSMutableDictionary+Utils.h"
+#import "NSDictionary+Utils.h"
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -61,7 +61,8 @@ static NSDictionary *kSkinCofig;
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
     [self setPlayer:player];
     _skinOptions = skinOptions;
-    _skinConfig = [self getReactViewInitialProperties];
+    _skinConfig = [NSDictionary dictionaryFromSkinConfigFile:_skinOptions.configFileName
+                                                  mergedWith:_skinOptions.overrideConfigs];
     kSkinCofig = _skinConfig;
     _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                              moduleName:@"OoyalaSkin"
@@ -96,42 +97,6 @@ static NSDictionary *kSkinCofig;
     
   }
   return self;
-}
-
-- (NSDictionary *)dictionaryFromJson:(NSString *)filename {
-  NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:@"json"];
-  NSData *data = [NSData dataWithContentsOfFile:filePath];
-  if (data) {
-    NSError* error = nil;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    if( error == nil ) {
-      return dict;
-    }
-  }
-  
-  return nil;
-}
-
-- (NSDictionary*) getReactViewInitialProperties {
-  NSDictionary *d = [self dictionaryFromJson:self.skinOptions.configFileName];
-  ASSERT(d != nil, @"missing skin configuration json" );
-  
-  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
-  NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
-  NSArray *languages = localizableStrings[@"languages"];
-  for (NSString *locale in languages) {
-    d = [self dictionaryFromJson:locale];
-    if (d) {
-      [localizableStrings setObject:d forKey:locale];
-    }
-  }
-  
-  [dict setObject:localizableStrings forKey:kLocalizableStrings];
-  NSString *localeId = [OOLocaleHelper preferredLanguageId];
-  [dict setObject:localeId forKey:kLocale];
-  
-  [dict mergeWith:self.skinOptions.overrideConfigs];
-  return dict;
 }
 
 - (void)viewDidLoad {
