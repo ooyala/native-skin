@@ -58,7 +58,8 @@ var VideoView = React.createClass({
     upNextDismissed: React.PropTypes.bool,
     localizableStrings: React.PropTypes.object,
     locale: React.PropTypes.string,
-    isLoading: React.PropTypes.bool
+    playing: React.PropTypes.bool,
+    initialPlay: React.PropTypes.bool
   },
 
   componentWillReceiveProps: function(nextProps) {
@@ -101,18 +102,29 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
-    if (name == "LIVE") {
-      this.props.onScrub(1);
-    }
-
+    this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
-      var currentTime = new Date().getTime();
-      this.setState({lastPressedTime: currentTime});
-    }
-    this.props.onPress(name);
+      if (name == "LIVE") {
+        this.props.onScrub(1);
+      } else {
+        this.props.onPress(name);
+      } 
+    } else {
+      this.toggleControls();
+    } 
   },
 
-  _renderBottomOverlay: function() {
+  toggleControls: function() {
+    var nextShowControls = !this.state.showControls;
+    if (this.props.ad) {
+      if (!this.props.config.adScreen.showControlBar) {
+        nextShowControls = false;
+      }
+    }
+    this.setState({showControls:nextShowControls});
+  },
+
+  _renderBottomOverlay: function(show) {
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -130,7 +142,7 @@ var VideoView = React.createClass({
       onScrub={(value)=>this.handleScrub(value)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.state.showControls}
+      isShow={show}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -201,13 +213,7 @@ var VideoView = React.createClass({
   },
 
   _renderPlayPause: function(show) {
-    if (!show) {
-      return null;
-    }
-
-    var buttonOpacity = this.state.showControls ? 1 : 0;
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-
     return (
       <VideoViewPlayPause
         icons={{
@@ -221,18 +227,16 @@ var VideoView = React.createClass({
           }
         }}
         position={"center"}
-        playing={this.props.isPlay}
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
         fontSize={iconFontSize}
-        opacity={buttonOpacity}
         showButton={show}
         rate={this.props.rate}
-        playhead={this.props.playhead}
-        isLoading={this.props.isLoading}>
+        plyaing={this.props.playing}
+        initialPlay={this.props.initialPlay}>
       </VideoViewPlayPause>);
   },
 
@@ -249,19 +253,21 @@ var VideoView = React.createClass({
   },
 
   handleTouchEnd: function(event) {
-    var shouldShow = !this.state.showControls;
-    console.log("handleTouchEnd showControls:" + shouldShow);
-    this.setState({showControls:shouldShow});
+    this.setState({lastPressedTime: new Date().getTime()});
+    this.toggleControls();
   },
 
   render: function() {
     var showPlayPauseButton = this.state.showControls;
-    var adBar = null;
 
+    var adBar = null;
     if (this.props.ad) {
-      showPlayPauseButton = this.props.config.adScreen.showControlBar || (this.props.rate > 0);      
+      if (!this.props.playing) {
+        showPlayPauseButton = true;
+      }
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
     }
+    console.log("showPlayPause"+showPlayPauseButton+ " playing" + this.props.playing)
     return (
       <View
         style={styles.container}>
@@ -270,7 +276,7 @@ var VideoView = React.createClass({
         {this._renderClosedCaptions()}
         {this._renderPlayPause(showPlayPauseButton)}
         {this._renderUpNext()}
-        {this._renderBottomOverlay()}
+        {this._renderBottomOverlay(this.state.showControls)}
       </View>
     );
   }

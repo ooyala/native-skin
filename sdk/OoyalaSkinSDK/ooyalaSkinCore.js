@@ -149,6 +149,7 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
   this.skin.setState({
     playhead: e.playhead,
     duration: e.duration,
+    initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
   });
 
@@ -212,18 +213,27 @@ OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
 
 OoyalaSkinCore.prototype.onStateChange = function(e) {
   Log.log("state changed to:" + e.state)
-  var isLoading = false;
   switch (e.state) {
-    case "paused": this.skin.setState({rate:0}); break;
+    case "completed":
+    case "error":
+    case "init":
+    case "puased":
+    case "ready":
+      this.skin.setState({
+        playing: false
+      });
+      break;
     case "playing":
-      this.skin.setState({rate:1, screenType: SCREEN_TYPES.VIDEO_SCREEN});
+      this.skin.setState({
+        playing:true,
+        initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false, 
+        screenType: SCREEN_TYPES.VIDEO_SCREEN});
       break;
-    case "loading": 
-      isLoading = true;
+    case "loading":
       break;
-    default: break;
+    default:
+      break;
   }
-  this.skin.setState({isLoading:isLoading});
 };
 
 OoyalaSkinCore.prototype.onError = function(e) {
@@ -339,7 +349,8 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
-      isLoading={this.skin.state.isLoading}>
+      playing={this.skin.state.playing}
+      initialPlay={this.skin.state.initialPlay}>
     </VideoView>
   );
 };

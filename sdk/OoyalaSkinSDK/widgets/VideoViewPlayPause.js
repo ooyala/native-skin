@@ -34,9 +34,8 @@ var VideoViewPlayPause = React.createClass({
     style:React.PropTypes.object,
     showButton: React.PropTypes.bool,
     playing: React.PropTypes.bool,
-    isStartScreen: React.PropTypes.bool,
     rate: React.PropTypes.number,
-    playhead: React.PropTypes.number
+    initialPlay: React.PropTypes.bool,
   },
 
   getInitialState: function() {
@@ -52,56 +51,49 @@ var VideoViewPlayPause = React.createClass({
       widget: {
         animationOpacity: new Animated.Value(1)
       },
-      controlPlaying: true
+      showInitialPlayAnimation: this.props.initialPlay,
+      inAnimation: false
     };
   },
 
-  componentWillMount: function () {
-    if(this.isInitialVideoPlay() || this.isVideoRemount(PLAY)) {
+  componentDidMount: function () {
+    if (this.state.showInitialPlayAnimation) {
       this.playPauseAction(PLAY);
-      this.setState({controlPlaying: false});
-    }
-    if(this.isVideoRemount(PAUSE)) {
-      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   },
 
-  isInitialVideoPlay: function() {
-    return (!this.props.isStartScreen && this.props.playhead == 0);
-  },
+  componentWillReceiveProps: function(nextProps) {
+    if (!this.state.inAnimation) {
+      if (nextProps.playing) {
 
-  isVideoRemount: function(state) {
-    if(!this.props.isStartScreen && this.props.playhead != 0) {
-      if(state == PLAY) {
-        return (!this.props.playing);
-      }
-      if(state == PAUSE) {
-        return (this.props.playing);
+      } else {
+
       }
     }
-    return false;
   },
 
   onPress: function() {
     if(this.props.showButton) {
-      // Sets controlPlaying if video is paused by user
-      this.setState({controlPlaying: !this.state.controlPlaying});
-      if(this.props.rate <= 0 != this.state.controlPlaying && !this.props.isStartScreen) {
+      if (this.props.playing) {
         this.playPauseAction(PAUSE);
       }
       else {
         this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
-        this.playPauseAction((this.state.controlPlaying) ? PLAY : PAUSE);
+        this.playPauseAction(PLAY);
       }
-    }
-    else {
+    } else {
       this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   },
 
+  onAnimationCompleted: function() {
+    this.setState({inAnimation: false});
+  },
+
   // Animations for play/pause transition
-  playPauseAction(name) {
+  playPauseAction: function(name) {
     if(name == PLAY) {
+      this.setState({inAnimation: true});
       this.state.play.animationScale.setValue(1);
       this.state.play.animationOpacity.setValue(1);
       Animated.parallel([
@@ -116,18 +108,12 @@ var VideoViewPlayPause = React.createClass({
           duration: 100,
           delay: 1200
         })
-      ]).start();
+      ]).start(this.onAnimationCompleted);
     }
     if(name == PAUSE) {
       this.state.pause.animationOpacity.setValue(0);
       this.state.play.animationOpacity.setValue(1);
       this.state.play.animationScale.setValue(1);
-    }
-  },
-
-  componentDidUpdate(prevProps, prevState) {
-    if(prevProps.playing != this.props.playing && (this.props.rate <= 0) == this.state.controlPlaying) {
-      this.playPauseAction(this.props.playing ? PAUSE : PLAY);
     }
   },
 
