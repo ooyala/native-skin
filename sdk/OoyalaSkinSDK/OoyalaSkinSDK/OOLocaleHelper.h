@@ -12,6 +12,6 @@
 
 + (NSString *)preferredLanguageId;
 
-+ (NSString *)localizedString:(NSDictionary *)localizableStrings locale:(NSString *)locale forKey:(NSString *)key;
++ (NSString *)localizedStringFromDictionary:(NSDictionary *)config forKey:(NSString *)key;
 
 @end

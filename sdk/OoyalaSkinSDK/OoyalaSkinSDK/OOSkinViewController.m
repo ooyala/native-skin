@@ -216,12 +216,12 @@ static NSDictionary *kSkinCofig;
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
   NSString *title = adInfo[@"title"];
   NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
-  NSString *titlePrefix = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Ad Playing"];
+  NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.skinConfig forKey:@"Ad Playing"];
   if (title.length > 0) {
     titlePrefix = [titlePrefix stringByAppendingString:@":"];
   }
   NSString *durationString = @"00:00";
-  NSString *learnMoreString = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Learn More"];
+  NSString *learnMoreString = [OOLocaleHelper localizedStringFromDictionary:self.skinConfig forKey:@"Learn More"];
   
   CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
@@ -403,12 +403,12 @@ static NSDictionary *kSkinCofig;
   
   NSString *social_unavailable;
   NSString *social_success;
-  NSString *post_title = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Post Title"];
-  NSString *account_configure =[OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Account Configure"];
+  NSString *post_title = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Post Title"];
+  NSString *account_configure =[OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Account Configure"];
   
   if ([socialType isEqual:@"Facebook"]) {
-    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Unavailable"];
-    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Success"];
+    social_unavailable = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Facebook Unavailable"];
+    social_success = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Facebook Success"];
     
     dictSocial = @{@"Facebook Unavailable": social_unavailable,
                    @"Facebook Success": social_success,
@@ -416,8 +416,8 @@ static NSDictionary *kSkinCofig;
                    @"Account Configure": account_configure};
     
   } else if ([socialType isEqual: @"Twitter"]) {
-    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Unavailable"];
-    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Success"];
+    social_unavailable = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Twitter Unavailable"];
+    social_success = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Twitter Success"];
     
     dictSocial = @{@"Twitter Unavailable": social_unavailable,
                    @"Twitter Success": social_success,
