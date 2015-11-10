@@ -8,8 +8,6 @@
 
 #import "OOLocaleHelper.h"
 
-#import "OOSkinViewController.h"
-
 NSString * const kLocalizableStrings = @"localization";
 NSString * const kLocale = @"locale";
 
