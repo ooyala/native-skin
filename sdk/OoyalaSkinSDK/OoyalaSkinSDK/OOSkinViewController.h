@@ -11,9 +11,6 @@
 @class OOOoyalaPlayer;
 @class OOSkinOptions;
 
-FOUNDATION_EXPORT NSString * const kLocalizableStrings;
-FOUNDATION_EXPORT NSString * const kLocale;
-
 @interface OOSkinViewController : UIViewController
 
 @property (nonatomic, readonly) OOOoyalaPlayer *player;

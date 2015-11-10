@@ -49,8 +49,6 @@
 static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
-NSString * const kLocalizableStrings = @"localization";
-NSString * const kLocale = @"locale";
 static NSDictionary *kSkinCofig;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player

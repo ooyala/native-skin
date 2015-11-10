@@ -10,6 +10,9 @@
 
 #import "OOSkinViewController.h"
 
+NSString * const kLocalizableStrings = @"localization";
+NSString * const kLocale = @"locale";
+
 @implementation OOLocaleHelper
 
 + (NSString *)preferredLanguageId {

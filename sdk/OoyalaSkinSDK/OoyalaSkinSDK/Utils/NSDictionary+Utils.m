@@ -8,7 +8,6 @@
 
 #import "NSDictionary+Utils.h"
 
-#import "OOSkinViewController.h"
 #import <OoyalaSDK/OODebugMode.h>
 #import "OOLocaleHelper.h"
 #import "NSMutableDictionary+Utils.h"
