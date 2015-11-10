@@ -117,6 +117,8 @@
 		CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B591BE279040056784E /* NSString+Utils.m */; };
 		CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */; };
 		CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */; };
+		CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */; };
+		CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -307,6 +309,8 @@
 		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Utils.m"; path = "Utils/NSString+Utils.m"; sourceTree = "<group>"; };
 		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+Utils.h"; path = "Utils/NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
 		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+Utils.m"; path = "Utils/NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
+		CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Utils.h"; path = "Utils/NSDictionary+Utils.h"; sourceTree = "<group>"; };
+		CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Utils.m"; path = "Utils/NSDictionary+Utils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -545,6 +549,8 @@
 				CA742B591BE279040056784E /* NSString+Utils.m */,
 				CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */,
 				CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */,
+				CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */,
+				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -573,6 +579,7 @@
 				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
+				CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
 				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
@@ -824,6 +831,7 @@
 				2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
+				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
 				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,

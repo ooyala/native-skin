@@ -25,7 +25,7 @@
 #import "OOVolumeManager.h"
 
 #import "NSString+Utils.h"
-#import "NSMutableDictionary+Utils.h"
+#import "NSDictionary+Utils.h"
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -49,8 +49,6 @@
 static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
-static NSString *kLocalizableStrings = @"localization";
-static NSString *kLocale = @"locale";
 static NSDictionary *kSkinCofig;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
@@ -61,7 +59,8 @@ static NSDictionary *kSkinCofig;
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
     [self setPlayer:player];
     _skinOptions = skinOptions;
-    _skinConfig = [self getReactViewInitialProperties];
+    _skinConfig = [NSDictionary dictionaryFromSkinConfigFile:_skinOptions.configFileName
+                                                  mergedWith:_skinOptions.overrideConfigs];
     kSkinCofig = _skinConfig;
     _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                              moduleName:@"OoyalaSkin"
@@ -96,42 +95,6 @@ static NSDictionary *kSkinCofig;
     
   }
   return self;
-}
-
-- (NSDictionary *)dictionaryFromJson:(NSString *)filename {
-  NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:@"json"];
-  NSData *data = [NSData dataWithContentsOfFile:filePath];
-  if (data) {
-    NSError* error = nil;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    if( error == nil ) {
-      return dict;
-    }
-  }
-  
-  return nil;
-}
-
-- (NSDictionary*) getReactViewInitialProperties {
-  NSDictionary *d = [self dictionaryFromJson:self.skinOptions.configFileName];
-  ASSERT(d != nil, @"missing skin configuration json" );
-  
-  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
-  NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
-  NSArray *languages = localizableStrings[@"languages"];
-  for (NSString *locale in languages) {
-    d = [self dictionaryFromJson:locale];
-    if (d) {
-      [localizableStrings setObject:d forKey:locale];
-    }
-  }
-  
-  [dict setObject:localizableStrings forKey:kLocalizableStrings];
-  NSString *localeId = [OOLocaleHelper preferredLanguageId];
-  [dict setObject:localeId forKey:kLocale];
-  
-  [dict mergeWith:self.skinOptions.overrideConfigs];
-  return dict;
 }
 
 - (void)viewDidLoad {
@@ -251,12 +214,12 @@ static NSDictionary *kSkinCofig;
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
   NSString *title = adInfo[@"title"];
   NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
-  NSString *titlePrefix = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Ad Playing"];
+  NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.skinConfig forKey:@"Ad Playing"];
   if (title.length > 0) {
     titlePrefix = [titlePrefix stringByAppendingString:@":"];
   }
   NSString *durationString = @"00:00";
-  NSString *learnMoreString = [OOLocaleHelper localizedString:self.skinConfig[kLocalizableStrings] locale:self.skinConfig[kLocale] forKey:@"Learn More"];
+  NSString *learnMoreString = [OOLocaleHelper localizedStringFromDictionary:self.skinConfig forKey:@"Learn More"];
   
   CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
@@ -438,12 +401,12 @@ static NSDictionary *kSkinCofig;
   
   NSString *social_unavailable;
   NSString *social_success;
-  NSString *post_title = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Post Title"];
-  NSString *account_configure =[OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Account Configure"];
+  NSString *post_title = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Post Title"];
+  NSString *account_configure =[OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Account Configure"];
   
   if ([socialType isEqual:@"Facebook"]) {
-    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Unavailable"];
-    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Facebook Success"];
+    social_unavailable = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Facebook Unavailable"];
+    social_success = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Facebook Success"];
     
     dictSocial = @{@"Facebook Unavailable": social_unavailable,
                    @"Facebook Success": social_success,
@@ -451,8 +414,8 @@ static NSDictionary *kSkinCofig;
                    @"Account Configure": account_configure};
     
   } else if ([socialType isEqual: @"Twitter"]) {
-    social_unavailable = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Unavailable"];
-    social_success = [OOLocaleHelper localizedString:kSkinCofig[kLocalizableStrings] locale:kSkinCofig[kLocale] forKey:@"Twitter Success"];
+    social_unavailable = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Twitter Unavailable"];
+    social_success = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Twitter Success"];
     
     dictSocial = @{@"Twitter Unavailable": social_unavailable,
                    @"Twitter Success": social_success,
