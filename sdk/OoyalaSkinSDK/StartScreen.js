@@ -15,7 +15,8 @@ var styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 var Constants = require('./constants');
 var {
   IMG_URLS,
-  UI_SIZES
+  UI_SIZES,
+  BUTTON_NAMES,
 } = Constants;
 
 var RectButton = require('./widgets/RectButton');
@@ -34,7 +35,7 @@ var StartScreen = React.createClass({
   },
 
   handleClick: function() {
-    this.props.onPress('PlayPause');
+    this.props.onPress(BUTTON_NAMES.PLAY);
   },
 
   // Gets the play button based on the current config settings

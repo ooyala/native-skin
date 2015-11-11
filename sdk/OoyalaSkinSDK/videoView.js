@@ -25,7 +25,6 @@ var Log = require('./log');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var ResponsiveDesignManager = require('./responsiveDesignManager');
-
 var autohideDelay = 5000;
 
 var {
@@ -35,21 +34,13 @@ var {
 } = Constants;
 
 var VideoView = React.createClass({
-  getInitialState: function() {
-    return {
-      showControls: false,
-      showSharePanel: false,
-    };
-  },
-
   propTypes: {
     rate: React.PropTypes.number,
-    isPlay: React.PropTypes.bool,
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
-    live: React.PropTypes.bool,
     ad: React.PropTypes.object,
+    live: React.PropTypes.bool,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     volume: React.PropTypes.number,
@@ -61,12 +52,29 @@ var VideoView = React.createClass({
     captionJSON: React.PropTypes.object,
     onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
-    lastPressedTime: React.PropTypes.number,
     config: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
     localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string
+    locale: React.PropTypes.string,
+    playing: React.PropTypes.bool,
+    loading: React.PropTypes.bool,
+    initialPlay: React.PropTypes.bool
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    if (this.state.showControls) {
+      if ((new Date).getTime() - this.state.lastPressedTime > autohideDelay) {
+        this.setState({showControls: false});
+      }
+    }
+  },
+
+  getInitialState: function() {
+    return {
+      showControls: false,
+      showSharePanel: false,
+    };
   },
 
   generateLiveObject: function() {
@@ -94,19 +102,29 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
-    if (name == "LIVE") {
-      this.props.onScrub(1);
-    }
-    else if (name == BUTTON_NAMES.PLAY_PAUSE && this.props.isPlay) {
-      this.state.showControls = false;
-    }
-    else if (name == BUTTON_NAMES.RESET_AUTOHIDE) {
-      this.state.showControls = true;
-    }
-    this.props.onPress(name);
+    this.setState({lastPressedTime: new Date().getTime()});
+    if (this.state.showControls) {
+      if (name == "LIVE") {
+        this.props.onScrub(1);
+      } else {
+        this.props.onPress(name);
+      } 
+    } else {
+      this.toggleControls();
+    } 
   },
 
-  _renderBottomOverlay: function() {
+  toggleControls: function() {
+    var nextShowControls = !this.state.showControls;
+    if (this.props.ad) {
+      if (!this.props.config.adScreen.showControlBar) {
+        nextShowControls = false;
+      }
+    }
+    this.setState({showControls:nextShowControls});
+  },
+
+  _renderBottomOverlay: function(show) {
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -124,7 +142,7 @@ var VideoView = React.createClass({
       onScrub={(value)=>this.handleScrub(value)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.controlsVisible()}
+      isShow={show}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -194,16 +212,8 @@ var VideoView = React.createClass({
       width={this.props.width}/>;
   },
 
-  _renderPlayPause: function() {
-    var buttonOpacity;
+  _renderPlayPause: function(show) {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-    if(this.controlsVisible()) {
-      buttonOpacity = 1;
-    }
-    else {
-      buttonOpacity = 0;
-    }
-
     return (
       <VideoViewPlayPause
         icons={{
@@ -217,17 +227,17 @@ var VideoView = React.createClass({
           }
         }}
         position={"center"}
-        playing={this.props.isPlay}
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
         fontSize={iconFontSize}
-        opacity={buttonOpacity}
-        showButton={this.controlsVisible()}
+        showButton={show}
         rate={this.props.rate}
-        playhead={this.props.playhead}>
+        playing={this.props.playing}
+        loading={this.props.loading}
+        initialPlay={this.props.initialPlay}>
       </VideoViewPlayPause>);
   },
 
@@ -243,46 +253,32 @@ var VideoView = React.createClass({
     return {isPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
-  controlsVisible: function() {
-    return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + autohideDelay;
-  },
-
-  toggleBottomOverlay: function() {
-    this.setState({showControls:!this.controlsVisible()});
-    this.props.onPress();
-  },
-
   handleTouchEnd: function(event) {
-    this.toggleBottomOverlay();
+    this.setState({lastPressedTime: new Date().getTime()});
+    this.toggleControls();
   },
 
   render: function() {
+    var showPlayPauseButton = this.state.showControls;
     var adBar = null;
-
     if (this.props.ad) {
-      if (this.props.rate == 0) {
-        this.state.showControls = true;
-      } else {
-        this.state.showControls = false;
+      if (!this.props.playing) {
+        showPlayPauseButton = true;
       }
-
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
-      if(this.props.config.adScreen.showControlBar == false && this.state.showControls == false) {
-        return adBar;
-      }
     }
+    console.log("showPlayPause"+showPlayPauseButton+ " playing" + this.props.playing)
     return (
       <View
         style={styles.container}>
         {adBar}
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
-        {this._renderPlayPause()}
+        {this._renderPlayPause(showPlayPauseButton)}
         {this._renderUpNext()}
-        {this._renderBottomOverlay()}
+        {this._renderBottomOverlay(this.state.showControls)}
       </View>
     );
-
   }
 });
 
