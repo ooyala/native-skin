@@ -67,12 +67,16 @@ var Utils = {
   },
 
   localizedString: function(preferredLocale, stringId, localizableStrings) {
+    if (typeof stringId !== 'string') return null;
+    if (typeof preferredLocale !== 'string') preferredLocale = undefined;
+    if (typeof localizableStrings !== 'object' || localizableStrings === null) localizableStrings = {};
+
     Log.verbose("preferredLocale: " + preferredLocale + ", stringId: " + stringId + ", localizableStrings:");
     Log.verbose(localizableStrings);
 
-    var defaultLocale = localizableStrings["defaultLanguage"] ? localizableStrings["defaultLanguage"] : "en";
+    var defaultLocale = localizableStrings['defaultLanguage'] ? localizableStrings['defaultLanguage'] : 'en';
 
-    if (localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
+    if (preferredLocale && localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
       return localizableStrings[preferredLocale][stringId];
     }
 
