@@ -7,13 +7,22 @@
     "test": "jest"
   },
   "jest": {
-    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "testFileExtensions": ["es6", "js"],
+    "scriptPreprocessor": "node_modules/react-native/jestSupport/preprocessor.js",
+    "setupEnvScriptFile": "node_modules/react-native/jestSupport/env.js",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testFileExtensions": [
+      "js"
+    ],
+    "unmockedModulePathPatterns": [
+      "promise",
+      "source-map"
+    ],
     "moduleFileExtensions": ["js", "json", "es6"],
     "collectCoverage": true
   },
   "devDependencies": {
-    "babel-jest": "*",
     "jest-cli": "~0.7.0"
   },
   "dependencies": {
