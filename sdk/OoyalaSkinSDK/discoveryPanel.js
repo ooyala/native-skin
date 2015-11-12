@@ -47,12 +47,12 @@ var DiscoveryPanel = React.createClass({
   componentDidMount:function () {
     this.state.opacity.setValue(0);
     Animated.parallel([
-      Animated.timing(                      
-        this.state.opacity,                 
+      Animated.timing(
+        this.state.opacity,
         {
-          toValue: 1,                         
+          toValue: 1,
           duration: animationDuration,
-          delay: 0  
+          delay: 0
         }),
     ]).start();
   },
@@ -81,7 +81,7 @@ var DiscoveryPanel = React.createClass({
       thumbnailStyle = styles.thumbnailLandscape;
       columnContainerStyle = styles.columnContainerLandscape;
     }
-    
+
     var animationStyle = {opacity:this.state.opacity};
     return (
       <Animated.View style={[styles.panel, animationStyle]}>
@@ -118,6 +118,7 @@ var DiscoveryPanel = React.createClass({
 
     return (
     <TouchableHighlight
+      key={sectionID}
       underlayColor='#37455B'
       onPress={() => this.onRowSelected(item)}
       style={itemRect}>
