@@ -20,13 +20,16 @@ var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
 var CircularStatus = require('./widgets/CircularStatus');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
+var Constants = require('./constants');
+var {
+  SCREEN_TYPES,
+} = Constants;
 // TODO: read this from config.
 var itemRect;
 var thumbnailStyle;
 var columnContainerStyle;
 var widthPortrait = 375;
 var animationDuration = 1000;
-
 
 var DiscoveryPanel = React.createClass({
   propTypes: {
@@ -36,12 +39,16 @@ var DiscoveryPanel = React.createClass({
     onRowAction: React.PropTypes.func,
     config: React.PropTypes.object,
     width: React.PropTypes.number,
-    height: React.PropTypes.number
+    height: React.PropTypes.number,
+    screenType: React.PropTypes.string,
   },
 
   getInitialState: function() {
     return {
-      opacity: new Animated.Value(0)
+      opacity: new Animated.Value(0),
+      showCircularStatus: false,
+      currentCounterVal: 0,
+      counterLimit: 0,
     };
   },
 
@@ -56,6 +63,10 @@ var DiscoveryPanel = React.createClass({
           delay: 0
         }),
     ]).start();
+
+    if (this.props.screenType === SCREEN_TYPES.END_SCREEN && this.props.config.showCountDownTimerOnEndScreen) {
+      this.setCounterTime(parseInt(this.props.config.countDownTime));
+    }
   },
 
   onRowSelected: function(row) {
@@ -70,8 +81,28 @@ var DiscoveryPanel = React.createClass({
     }
   },
 
-  onPress: function() {
-    console.log('pressed it');
+  setCounterTime: function(time) {
+    this.setState({
+      currentCounterVal: time,
+      counterLimit: time,
+      showCircularStatus: true,
+    });
+  },
+
+  onStatusPressed: function() {
+    this.setState({showCircularStatus: false});
+  },
+
+  updateTimer: function(row) {
+    if (this.state.currentCounterVal == 0) {
+      this.onRowSelected(row);
+    } else {
+      var self = this;
+      setTimeout(function() {
+        self.setState({currentCounterVal: self.state.currentCounterVal - 1});
+        self = null;
+      }, 1000);
+    }
   },
 
   render: function() {
@@ -114,16 +145,25 @@ var DiscoveryPanel = React.createClass({
       duration = <Text style={[styles.contentText, this.props.config.contentDuration.font]} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
     };
 
+    var circularStatus;
+    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCircularStatus) {
+      circularStatus = (
+        <CircularStatus
+          onPress={() => this.onStatusPressed()}
+          total={this.state.counterLimit}
+          current={this.state.currentCounterVal}
+          thickness={2}
+          diameter={44} />
+      );
+
+      this.updateTimer(item);
+    }
+
     var thumbnail = (
       <Image
         source={{uri:item.imageUrl}}
         style={[thumbnailStyle, styles.thumbnailContainer]}>
-        <CircularStatus
-          onPress={() => this.onPress()}
-          total={10}
-          current={4}
-          thickness={2}
-          diameter={44} />
+        {circularStatus}
       </Image>);
     this.onRowImpressed(item);
 

@@ -1,0 +1,3 @@
+[PBA-2767] Implement countdown timer in discovery end screen
+
+Made a first version of a countdown timer. Modified the discoveryPanel API a bit. I feel the implementation may need to be changed, maybe into it's own isolated component, as I don't know how we would perform unit/UI testing on it.
