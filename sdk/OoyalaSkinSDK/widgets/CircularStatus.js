@@ -17,10 +17,11 @@ var CircularStatus = React.createClass({
     current: React.PropTypes.number,
     total: React.PropTypes.number,
     diameter: React.PropTypes.number,
-    thickness: React.PropTypes.number
+    thickness: React.PropTypes.number,
+    onPress: React.PropTypes.func,
   },
 
-  render: function() {
+  renderCircularStatus: function() {
 
     var edges = this.props.diameter;
     var segment_length = (this.props.diameter * Math.PI * 1.1) / edges;
@@ -62,7 +63,23 @@ var CircularStatus = React.createClass({
         {Math.floor(this.props.current)}
       </Text>}
     </View>);
-  }
+  },
+
+  renderClickableCircularStatus: function() {
+    return (<TouchableHighlight
+      underlayColor='transparent'
+      onPress={() => this.props.onPress()}>
+      {this.renderCircularStatus()}
+    </TouchableHighlight>);
+  },
+
+  render: function() {
+    if (this.props.onPress) {
+    return this.renderClickableCircularStatus();
+    } else {
+      return this.renderCircularStatus();
+    }
+  },
 });
 
 module.exports = CircularStatus;

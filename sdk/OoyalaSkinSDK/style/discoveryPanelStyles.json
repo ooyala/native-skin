@@ -29,6 +29,11 @@
     "marginTop": 8,
     "textAlign": "left",
   },
+  "thumbnailContainer": {
+    "flex": 1,
+    "alignItems": "center",
+    "justifyContent": "center",
+  },
   "thumbnailPortrait": {
     "width": 148,
     "height": 88,

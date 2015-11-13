@@ -18,6 +18,7 @@ var {
 
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
+var CircularStatus = require('./widgets/CircularStatus');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 // TODO: read this from config.
 var itemRect;
@@ -69,6 +70,10 @@ var DiscoveryPanel = React.createClass({
     }
   },
 
+  onPress: function() {
+    console.log('pressed it');
+  },
+
   render: function() {
     var panelHeight = this.props.height - 40;
 
@@ -112,7 +117,13 @@ var DiscoveryPanel = React.createClass({
     var thumbnail = (
       <Image
         source={{uri:item.imageUrl}}
-        style={thumbnailStyle} >
+        style={[thumbnailStyle, styles.thumbnailContainer]}>
+        <CircularStatus
+          onPress={() => this.onPress()}
+          total={10}
+          current={4}
+          thickness={2}
+          diameter={44} />
       </Image>);
     this.onRowImpressed(item);
 
