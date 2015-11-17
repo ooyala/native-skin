@@ -392,7 +392,8 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
       dataSource={this.skin.state.discoveryResults}
       onRowAction={(info) => this.onDiscoveryRow(info)}
       width={this.skin.state.width}
-      height={this.skin.state.height}>
+      height={this.skin.state.height}
+      screenType={this.skin.state.screenType}>
     </DiscoveryPanel>);
 };
 
