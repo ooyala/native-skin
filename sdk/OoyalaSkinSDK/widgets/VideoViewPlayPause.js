@@ -35,7 +35,7 @@ var VideoViewPlayPause = React.createClass({
     showButton: React.PropTypes.bool,
     playing: React.PropTypes.bool,
     loading: React.PropTypes.bool,
-    initialPlay: React.PropTypes.bool,
+    initialPlay: React.PropTypes.bool
   },
 
   getInitialState: function() {

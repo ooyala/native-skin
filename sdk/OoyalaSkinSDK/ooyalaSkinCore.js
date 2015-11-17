@@ -246,7 +246,7 @@ OoyalaSkinCore.prototype.onError = function(e) {
   this.skin.setState({screenType:SCREEN_TYPES.ERROR_SCREEN, error:e});
 };
 
-OoyalaSkinCore.prototype.onError = function(e) {
+OoyalaSkinCore.prototype.onEmbedCodeSet = function(e) {
   Log.log("EmbedCodeSet received");
   this.skin.setState({screenType:SCREEN_TYPES.LOADING_SCREEN});
 };
