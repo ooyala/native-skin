@@ -68,7 +68,7 @@ var ResponsiveList = React.createClass({
   renderSlice: function(slice: object, i: number) {
     var sliceStyle = this.props.horizontal ? styles.column : styles.row;
 
-    renderItem = this.renderItem;
+    var renderItem = this.renderItem;
     var renderedItem = slice.map(function(item, idx, arr) {
       return renderItem(item, idx, i * arr.length + idx);
     });
