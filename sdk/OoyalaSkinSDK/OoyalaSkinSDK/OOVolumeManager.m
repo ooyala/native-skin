@@ -13,7 +13,7 @@
 #import "OOReactBridge.h"
 
 NSString *const VolumePropertyKey = @"outputVolume";
-NSString *const VolumeChangeKey = @"volumeChange";
+NSString *const VolumeChangeKey = @"volumeChanged";
 
 @implementation OOVolumeManager
 

@@ -135,13 +135,13 @@ var DiscoveryPanel = React.createClass({
     if (this.props.config.panelTitle) {
       if (this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage) {
         return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.panelTitle.imageUri}} />);
-      } else if (this.props.config.panelTitle.text) {
-        title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
       }
     }
+
+    title = Utils.localizedString(this.props.locale, "Discovery", this.props.localizableStrings);
     return (
       <View style={styles.panelTitle}>
-        <Text style={[styles.panelTitleText,this.props.config.titleFont]}>{title}</Text>
+        <Text style={[styles.panelTitleText,this.props.config.panelTitle.titleFont]}>{title}</Text>
       </View>);
   },
 });

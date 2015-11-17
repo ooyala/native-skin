@@ -8,6 +8,9 @@
 
 #import "OOLocaleHelper.h"
 
+NSString * const kLocalizableStrings = @"localization";
+NSString * const kLocale = @"locale";
+
 @implementation OOLocaleHelper
 
 + (NSString *)preferredLanguageId {
@@ -20,19 +23,20 @@
   return preferredLanguageId;
 }
 
-+ (NSString *)localizedString:(NSDictionary *)localizableStrings locale:(NSString *)locale forKey:(NSString *)key {
++ (NSString *)localizedStringFromDictionary:(NSDictionary *)config forKey:(NSString *)key
+{
   if (key.length <= 0) {
     return key;
   }
 
-  NSString *defaultLocale = [localizableStrings objectForKey:@"defaultLanguage"];
+  NSString *defaultLocale = [config[kLocalizableStrings] objectForKey:@"defaultLanguage"];
   if (!defaultLocale) {
     defaultLocale = @"";
   }
 
-  NSArray *preferredOrder = [NSArray arrayWithObjects:locale, defaultLocale, @"en", nil];
+  NSArray *preferredOrder = [NSArray arrayWithObjects:config[kLocale], defaultLocale, @"en", nil];
   for (int i = 0; i < preferredOrder.count; ++i ) {
-    NSDictionary *stringTable = [localizableStrings objectForKey:preferredOrder[i]];
+    NSDictionary *stringTable = [config[kLocalizableStrings] objectForKey:preferredOrder[i]];
     if (stringTable && [stringTable objectForKey:key]) {
       return [stringTable objectForKey:key];
     }
