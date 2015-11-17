@@ -81,16 +81,16 @@ var DiscoveryPanel = React.createClass({
     }
   },
 
+  onStatusPressed: function() {
+    this.setState({showCircularStatus: false});
+  },
+
   setCounterTime: function(time) {
     this.setState({
       currentCounterVal: time,
       counterLimit: time,
       showCircularStatus: true,
     });
-  },
-
-  onStatusPressed: function() {
-    this.setState({showCircularStatus: false});
   },
 
   updateTimer: function(row) {
@@ -135,6 +135,16 @@ var DiscoveryPanel = React.createClass({
     );
   },
 
+  renderCircularStatus: function() {
+    return (
+      <CircularStatus
+        onPress={() => this.onStatusPressed()}
+        total={this.state.counterLimit}
+        current={this.state.currentCounterVal}
+        thickness={2}
+        diameter={44} />);
+  },
+
   renderItem: function(item: object, sectionID: number, itemID: number) {
     var title;
     if (this.props.config.contentTitle && this.props.config.contentTitle.show) {
@@ -147,15 +157,7 @@ var DiscoveryPanel = React.createClass({
 
     var circularStatus;
     if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCircularStatus) {
-      circularStatus = (
-        <CircularStatus
-          onPress={() => this.onStatusPressed()}
-          total={this.state.counterLimit}
-          current={this.state.currentCounterVal}
-          thickness={2}
-          diameter={44} />
-      );
-
+      circularStatus = this.renderCircularStatus();
       this.updateTimer(item);
     }
 
