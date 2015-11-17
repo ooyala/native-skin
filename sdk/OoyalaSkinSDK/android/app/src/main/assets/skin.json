@@ -2,6 +2,14 @@
   "general": {
     "watermark": {"imageResource": {"url": "assets/images/ooyala-watermark.png" } }
   },
+  "localization": {
+    "defaultLanguage": "en",
+    "availableLanguageFile": [
+      {"language": "en", "languageFile": "config/en.json"},
+      {"language": "es", "languageFile": "config/es.json"},
+      {"language": "zh", "languageFile": "config/zh.json"}
+    ]
+  },
   "startScreen": {
     "promoImageSize": "default",
     "showPlayButton": true,
@@ -76,6 +84,24 @@
     "showCountDownTimerOnEndScreen": true,
     "countDownTime": "10"
   },
+  "shareScreen": [
+    {
+      "buttonName": "Facebook",
+      "icon": {
+        "fontFamilyName": "fontawesome",
+        "fontString": "\uf230",
+        "fontStyleClass": "icon icon-facebook"
+      }
+    },
+    {
+      "buttonName": "Twitter",
+      "icon": {
+        "fontFamilyName": "fontawesome",
+        "fontString": "\uf099",
+        "fontStyleClass": "icon icon-twitter"
+      }
+    }
+  ],
   "moreOptionsScreen": {
     "brightOpacity": 1.0,
     "darkOpacity": 0.4,
@@ -94,7 +120,8 @@
   },
   "closedCaptionOptions": {
     "defaultEnabled": true,
-    "defaultLanguage": "en"
+    "defaultLanguage": "en",
+    "availableLanguages": []
   },
   "upNext": {
     "showUpNext": true,
@@ -118,6 +145,46 @@
       "width": 500,
       "height": 81
     }
+  },
+  "buttons": {
+    "desktopContent": [
+      {"name":"playPause", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":35 },
+      {"name":"volume", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":105 },
+      {"name":"live", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":35},
+      {"name":"timeDuration", "location":"controlBar", "whenDoesNotFit":"drop", "minWidth":145 },
+      {"name":"flexibleSpace", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":1 },
+      {"name":"share", "location":"controlBar", "whenDoesNotFit":"moveToMoreOptions", "minWidth":35 },
+      {"name":"discovery", "location":"controlBar", "whenDoesNotFit":"moveToMoreOptions", "minWidth":35 },
+      {"name":"closedCaption", "location":"controlBar", "whenDoesNotFit":"moveToMoreOptions", "minWidth":35 },
+      {"name":"watermark", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":130 },
+      {"name":"fullscreen", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":35 },
+      {"name":"moreOptions", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":35 }
+    ],
+    "desktopAd": [
+      {"name":"playPause", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":25 },
+      {"name":"volume", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":100 },
+      {"name":"flexibleSpace", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":1 },
+      {"name":"watermark", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":120 },
+      {"name":"fullscreen", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":25 },
+      {"name":"moreOptions", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":25 }
+    ],
+    "mobileContent": [
+      {"name":"volume", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":40 },
+      {"name":"live", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":35},
+      {"name":"timeDuration", "location":"controlBar", "whenDoesNotFit":"drop", "minWidth":100 },
+      {"name":"flexibleSpace", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":1 },
+      {"name":"share", "location":"moreOptions" },
+      {"name":"discovery", "location":"moreOptions" },
+      {"name":"closedCaption", "location":"moreOptions" },
+      {"name":"fullscreen", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":40 },
+      {"name":"moreOptions", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":40 }
+    ],
+    "mobileAd": [
+      {"name":"volume", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":40 },
+      {"name":"flexibleSpace", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":1 },
+      {"name":"fullscreen", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":40 },
+      {"name":"moreOptions", "location":"controlBar", "whenDoesNotFit":"keep", "minWidth":40 }
+    ]
   },
   "icons": {
     "play": {"fontFamilyName": "alice", "fontString": "\u0068", "fontStyleClass": "icon icon-play"},
