@@ -14,7 +14,8 @@ var {
 var Log = require('./log');
 var Constants = require('./constants');
 var {
-  SCREEN_TYPES
+  SCREEN_TYPES,
+  PLATFORMS
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var eventBridge = require('NativeModules').OOReactBridge;
@@ -49,6 +50,7 @@ var OoyalaSkin = React.createClass({
       alertMessage: '',
       error: null,
       volume: 0,          // between 0 and 1
+      platform:PLATFORMS.IOS,
     };
   },
 

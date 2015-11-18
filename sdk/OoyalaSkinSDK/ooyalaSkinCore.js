@@ -14,7 +14,7 @@ var {
   Image,
   TouchableHighlight,
 } = React;
-
+var Dimensions = require('Dimensions');
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
@@ -196,6 +196,7 @@ OoyalaSkinCore.prototype.onCurrentItemChange = function(e) {
     live:e.live,
     promoUrl:e.promoUrl,
     hostedAtUrl: e.hostedAtUrl,
+    playhead:e.playhead,
     width:e.width,
     height:e.height});
   if (!this.skin.state.autoPlay) {
@@ -280,6 +281,8 @@ OoyalaSkinCore.prototype.renderStartScreen = function() {
       promoUrl={this.skin.state.promoUrl}
       width={this.skin.state.width}
       height={this.skin.state.height}
+      platform={this.skin.state.platform}
+      playhead={this.skin.state.playhead}
       onPress={(name) => this.handlePress(name)}/>
   );
 };
@@ -294,8 +297,8 @@ OoyalaSkinCore.prototype.renderEndScreen = function() {
         icons: this.skin.props.icons
       }}
       title={this.skin.state.title}
-      width={this.skin.state.width}
-      height={this.skin.state.height}
+      width={Dimensions.get('window').width}
+      height={Dimensions.get('window').height}
       discoveryPanel={this.renderDiscoveryPanel()}
       description={this.skin.state.description}
       promoUrl={this.skin.state.promoUrl}
@@ -306,7 +309,6 @@ OoyalaSkinCore.prototype.renderEndScreen = function() {
 };
 
 OoyalaSkinCore.prototype.renderErrorScreen = function() {
-  console.log("render error screen");
   return (
     <ErrorScreen
       error={this.skin.state.error}
@@ -323,8 +325,9 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       duration={this.skin.state.duration}
       ad ={this.skin.state.ad}
       live ={this.skin.state.live}
-      width={this.skin.state.width}
-      height={this.skin.state.height}
+      platform={this.skin.state.platform}
+      width={Dimensions.get('window').width}
+      height={Dimensions.get('window').height}
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       onPress={(value) => this.handlePress(value)}
@@ -349,7 +352,6 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
     </VideoView>
   );
 };
-
 OoyalaSkinCore.prototype.renderCCOptions = function() {
   return (
     <LanguageSelectionPanel
@@ -397,7 +399,6 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
 };
 
 OoyalaSkinCore.prototype.renderMoreOptionPanel = function() {
-  console.log("renderMoreOptionPanel:"+ this.skin.state.buttonSelected);
   switch (this.skin.state.buttonSelected) {
     case BUTTON_NAMES.DISCOVERY:
       return this.renderDiscoveryPanel();
@@ -419,7 +420,6 @@ OoyalaSkinCore.prototype.renderMoreOptionPanel = function() {
 };
 
 OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
-  console.log("renderMoreOptions buttonSelected" + this.skin.state.buttonSelected);
   var panel = this.renderMoreOptionPanel();
 
   return (
