@@ -119,13 +119,11 @@ var VideoViewPlayPauseAndroid = React.createClass({
 // Animations for play/pause transition
   playPauseAction(name) {
     if(name == PLAY) {
-      console.log("play pause action play loop")
       //need to do something
 
     }
     if(name == PAUSE) {
       //need to do something
-      console.log("pause loop")
     }
   },
 
