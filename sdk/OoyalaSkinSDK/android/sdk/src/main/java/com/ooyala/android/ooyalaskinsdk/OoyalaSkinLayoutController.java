@@ -1,6 +1,5 @@
 package com.ooyala.android.ooyalaskinsdk;
 
-
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -61,7 +60,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   public OoyalaSkinLayoutController(
-          ReactApplicationContext c, OoyalaSkinLayout l, OoyalaPlayer p) {
+    ReactApplicationContext c, OoyalaSkinLayout l, OoyalaPlayer p) {
     super(c);
     _layout = l;
     _player = p;
@@ -75,8 +74,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   public void setFullscreen(boolean fullscreen) {
-    //System.out.println("a value "+a+"full screen boolean"+fullscreen);
-    //int isFull;
     if(fullscreen) {
       _layout.setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -89,11 +86,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
     else
     {
-      System.out.println(" in else loop");
-              _layout.setSystemUiVisibility(
-                      View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                              | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+      _layout.setSystemUiVisibility(
+              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
   }
@@ -163,7 +159,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             handlePlay();
           } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
             handlePlayPause();
-          }else if(buttonName.equals(BUTTON_FULLSCREEN)){
+          } else if(buttonName.equals(BUTTON_FULLSCREEN)){
             _isFullscreen = !isFullscreen();
               setFullscreen(_isFullscreen);
             }
@@ -211,13 +207,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onScrub(ReadableMap percentage) {
-    //System.out.println("percentage" + percentage);
     double percentValue = percentage.getDouble("percentage");
-    //System.out.println("percent double value" + percentValue);
     percentValue = percentValue * 100;
     int percent = ((int) percentValue);
-    //System.out.println("percentage int value " + percent);
-//percent= percent*100;
     _player.seekToPercent(percent);
   }
 

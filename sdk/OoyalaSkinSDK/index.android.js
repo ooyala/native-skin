@@ -29,7 +29,7 @@ var {
 } = Constants;
 var IconTextView = require('./androidNative/iconTextView');
 var OoyalaSkinCore = require('./ooyalaSkinCore');
-var OoyalaSkinCoreInstance,OoyalaSkinCoreInstanceSocial ;
+var OoyalaSkinCoreInstance, OoyalaSkinCoreInstanceSocial;
 
 var OoyalaSkin = React.createClass({
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -79,12 +79,7 @@ var OoyalaSkin = React.createClass({
     OoyalaSkinCoreInstance.unmount();
   },
 
-  onPress: function() {
-    eventBridge.onPress({"name":"play"});
-  },
-
   onSocialButtonPress: function(buttonName) {
-    console.log(" in index on social button")
     eventBridgeSocial.onSocialButtonPress({"name":buttonName});
   },
 

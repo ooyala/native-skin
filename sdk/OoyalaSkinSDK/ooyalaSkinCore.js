@@ -15,7 +15,6 @@ var {
   TouchableHighlight,
 } = React;
 var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');

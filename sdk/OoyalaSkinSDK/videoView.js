@@ -72,7 +72,6 @@ var VideoView = React.createClass({
   },
 
   generateLiveObject: function() {
-    //console.log("in generate method");
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
       return ({
@@ -86,7 +85,6 @@ var VideoView = React.createClass({
   },
 
   onGoLive: function() {
-    console.log("in onGoLive")
     Log.log("onGoLive");
     if (this.props.onScrub) {
       this.props.onScrub(1);
@@ -94,23 +92,16 @@ var VideoView = React.createClass({
   },
 
   onSocialButtonPress: function(socialType){
-    console.log("on onSocialButtonPress")
     this.props.onSocialButtonPress(socialType);
   },
 
   handlePress: function(name) {
-    //console.log("in handle press");
     console.log("in handle press"+name);
-    // console.log("in handle press play pause"+BUTTON_NAMES.PLAY_PAUSE);
-    // console.log("in handle press auto hide"+BUTTON_NAMES.RESET_AUTOHIDE);
-    // console.log("in handle press props play"+this.props.isPlay);
-
-
     if (name == "LIVE") {
       this.props.onScrub(1);
     }
     else if (name == BUTTON_NAMES.PLAY_PAUSE && this.props.isPlay) {
-      this.state.showControls = true;
+      this.state.showControls = false;
     }
     else if (name == BUTTON_NAMES.RESET_AUTOHIDE) {
       this.state.showControls = true;
@@ -119,7 +110,6 @@ var VideoView = React.createClass({
   },
 
   _renderBottomOverlay: function() {
-    //console.log("bottomOverlay");
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -146,7 +136,6 @@ var VideoView = React.createClass({
   },
 
   _renderAdBar: function() {
-    console.log("in _renderAdBar method")
     return (<AdBar
         ad={this.props.ad}
         playhead={this.props.playhead}
@@ -213,7 +202,6 @@ var VideoView = React.createClass({
 
   _renderPlayPause: function() {
     var buttonOpacity;
-    var os=this.props.platform;
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     if(this.controlsVisible()) {
       buttonOpacity = 1;
@@ -221,7 +209,7 @@ var VideoView = React.createClass({
     else {
       buttonOpacity = 0;
     }
-    if(os=="android")
+    if(this.props.platform == Constants.PLATFORMS.ANDROID)
     {
       return (
       <VideoViewPlayPauseAndroid
@@ -249,7 +237,7 @@ var VideoView = React.createClass({
         playhead={this.props.playhead}>
       </VideoViewPlayPauseAndroid>);
     }
-    else if(os == "ios")
+    else if(this.props.platform == Constants.PLATFORMS.IOS)
     {
 
     return (
@@ -287,33 +275,27 @@ var VideoView = React.createClass({
   },
 
   handleScrub: function(value) {
-    console.log("in handleScrub method")
     this.props.onScrub(value);
   },
 
   getDefaultProps: function() {
-    console.log("in getDefaultProps method")
     return {isPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
   controlsVisible: function() {
-    //console.log("in controlsVisible method")
     return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + autohideDelay;
   },
 
   toggleBottomOverlay: function() {
-    console.log("in toggleBottomOverlay method")
     this.setState({showControls:!this.controlsVisible()});
     this.props.onPress();
   },
 
   handleTouchEnd: function(event) {
-    console.log("in handleTouchEnd method")
     this.toggleBottomOverlay();
   },
 
   render: function() {
-    //console.log("in VideoView render method")
     var adBar = null;
 
     if (this.props.ad) {

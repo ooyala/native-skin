@@ -2,7 +2,6 @@
 var React = require('react-native');
 
 var {
-  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -14,8 +13,8 @@ var Utils = require('./utils');
 var Log = require('./log');
 var styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 var Constants = require('./constants');
-var IconTextView = require('./androidNative/iconTextView');
 var {
+  PLATFORMS,
   IMG_URLS,
   UI_SIZES
 } = Constants;
@@ -43,42 +42,38 @@ var StartScreen = React.createClass({
   },
   // Gets the play button based on the current config settings
   getPlayButton: function() {
-  var os=this.props.platform;
-  var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-  if(this.props.config.startScreen.showPlayButton) {
-    if(os == "android")
-      {
-      
-        return (
-        <VideoViewPlayPauseAndroid
-          icons={{
-            play: {
-              icon: this.props.config.icons.play.fontString,
-              fontFamily: this.props.config.icons.play.fontFamilyName
-            },
-            pause: {
-              icon: this.props.config.icons.pause.fontString,
-              fontFamily: this.props.config.icons.pause.fontFamilyName
-            }
-          }}
-          position={this.props.config.startScreen.playButtonPosition}
-          onPress={this.handleClick}
-          buttonStyle={this.props.config.startScreen.playIconStyle}
-          frameWidth={this.props.width}
-          frameHeight={this.props.height}
-          playhead={this.props.playhead}
-          buttonWidth={iconFontSize}
-          buttonHeight={iconFontSize}
-          fontSize={iconFontSize}
-          playing={false}
-          showButton={true}
-          isStartScreen={true}>
-        </VideoViewPlayPauseAndroid>)
+    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+      if(this.props.config.startScreen.showPlayButton) {
+        if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+          return (
+          <VideoViewPlayPauseAndroid
+            icons={{
+              play: {
+                icon: this.props.config.icons.play.fontString,
+                fontFamily: this.props.config.icons.play.fontFamilyName
+              },
+              pause: {
+                icon: this.props.config.icons.pause.fontString,
+                fontFamily: this.props.config.icons.pause.fontFamilyName
+              }
+            }}
+            position={this.props.config.startScreen.playButtonPosition}
+            onPress={this.handleClick}
+            buttonStyle={this.props.config.startScreen.playIconStyle}
+            frameWidth={this.props.width}
+            frameHeight={this.props.height}
+            playhead={this.props.playhead}
+            buttonWidth={iconFontSize}
+            buttonHeight={iconFontSize}
+            fontSize={iconFontSize}
+            playing={false}
+            showButton={true}
+            isStartScreen={true}>
+          </VideoViewPlayPauseAndroid>)
     }
-    else if(os == "ios")
-      {
+    else if(this.props.platform == Constants.PLATFORMS.IOS){
         return (
-        <VideoViewPlayPause
+          <VideoViewPlayPause
           icons={{
             play: {
               icon: this.props.config.icons.play.fontString,
@@ -168,17 +163,17 @@ var StartScreen = React.createClass({
 
   render: function() {  
     var promoImage = this.getPromoImage();
-    var PlayButton = this.getPlayButton();
+    var playButton = this.getPlayButton();
     var infoPanel = this.getInfoPanel();
     var waterMarkImage = this.getWaterMark();
  
 
-return (
+    return (
      <View style={styles.container}>
        {promoImage}
        {waterMarkImage}
        {infoPanel} 
-      {PlayButton}
+       {playButton}
       </View>
    );
 
