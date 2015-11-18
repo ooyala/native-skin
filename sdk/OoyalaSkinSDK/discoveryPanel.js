@@ -15,6 +15,7 @@ var {
   View,
   ScrollView
 } = React;
+var TimerMixin = require('react-timer-mixin');
 
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
@@ -32,6 +33,8 @@ var widthPortrait = 375;
 var animationDuration = 1000;
 
 var DiscoveryPanel = React.createClass({
+  mixins: [TimerMixin],
+
   propTypes: {
     localizableStrings: React.PropTypes.object,
     locale: React.PropTypes.string,
@@ -49,6 +52,7 @@ var DiscoveryPanel = React.createClass({
       showCircularStatus: false,
       currentCounterVal: 0,
       counterLimit: 0,
+      timeout: null,
     };
   },
 
@@ -94,14 +98,14 @@ var DiscoveryPanel = React.createClass({
   },
 
   updateTimer: function(row) {
-    if (this.state.currentCounterVal == 0) {
+    if (this.state.currentCounterVal === 0) {
       this.onRowSelected(row);
-    } else {
-      var self = this;
-      setTimeout(function() {
-        self.setState({currentCounterVal: self.state.currentCounterVal - 1});
-        self = null;
+    } else if (!this.state.timeout) {
+      var timeout = this.setTimeout(() => {
+        this.setState({currentCounterVal: this.state.currentCounterVal - 1});
+        this.setState({timeout: null});
       }, 1000);
+      this.setState({timeout: timeout});
     }
   },
 

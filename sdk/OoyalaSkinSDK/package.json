@@ -19,13 +19,18 @@
       "promise",
       "source-map"
     ],
-    "moduleFileExtensions": ["js", "json", "es6"],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ],
     "collectCoverage": true
   },
   "devDependencies": {
     "jest-cli": "~0.7.0"
   },
   "dependencies": {
-    "react-native": "^0.13.2"
+    "react-native": "^0.13.2",
+    "react-timer-mixin": "^0.13.3"
   }
 }
