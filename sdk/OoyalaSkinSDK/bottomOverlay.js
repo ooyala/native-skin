@@ -161,6 +161,7 @@ var BottomOverlay = React.createClass({
   handleTouchMove: function(event) {
     this.setState({x:event.nativeEvent.pageX});
     this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+    this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
   },
 
   handleTouchEnd: function(event) {

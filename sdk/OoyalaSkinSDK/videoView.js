@@ -20,6 +20,7 @@ var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var RectButton = require('./widgets/RectButton');
 var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
+var VideoViewPlayPauseAndroid = require('./widgets/VideoViewPlayPauseAndroid');
 var Constants = require('./constants');
 var Log = require('./log');
 var Utils = require('./utils');
@@ -66,6 +67,7 @@ var VideoView = React.createClass({
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
     localizableStrings: React.PropTypes.object,
+    platform: React.PropTypes.string,
     locale: React.PropTypes.string
   },
 
@@ -203,6 +205,36 @@ var VideoView = React.createClass({
     else {
       buttonOpacity = 0;
     }
+    if(this.props.platform == Constants.PLATFORMS.ANDROID)
+    {
+      return (
+      <VideoViewPlayPauseAndroid
+        icons={{
+          play: {
+            icon: this.props.config.icons.play.fontString,
+            fontFamily: this.props.config.icons.play.fontFamilyName
+          },
+          pause: {
+            icon: this.props.config.icons.pause.fontString,
+            fontFamily: this.props.config.icons.pause.fontFamilyName
+          }
+        }}
+        position={"center"}
+        playing={this.props.isPlay}
+        onPress={(name) => this.handlePress(name)}
+        frameWidth={this.props.width}
+        frameHeight={this.props.height}
+        buttonWidth={iconFontSize}
+        buttonHeight={iconFontSize}
+        fontSize={iconFontSize}
+        opacity={buttonOpacity}
+        showButton={this.controlsVisible()}
+        rate={this.props.rate}
+        playhead={this.props.playhead}>
+      </VideoViewPlayPauseAndroid>);
+    }
+    else if(this.props.platform == Constants.PLATFORMS.IOS)
+    {
 
     return (
       <VideoViewPlayPause
@@ -229,6 +261,8 @@ var VideoView = React.createClass({
         rate={this.props.rate}
         playhead={this.props.playhead}>
       </VideoViewPlayPause>);
+  }
+  return null;
   },
 
   _handleSocialShare: function() {
