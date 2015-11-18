@@ -125,6 +125,8 @@
 		CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B591BE279040056784E /* NSString+Utils.m */; };
 		CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */; };
 		CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */; };
+		CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */; };
+		CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -330,6 +332,8 @@
 		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Utils.m"; path = "Utils/NSString+Utils.m"; sourceTree = "<group>"; };
 		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+Utils.h"; path = "Utils/NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
 		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+Utils.m"; path = "Utils/NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
+		CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Utils.h"; path = "Utils/NSDictionary+Utils.h"; sourceTree = "<group>"; };
+		CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Utils.m"; path = "Utils/NSDictionary+Utils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,9 +371,9 @@
 			children = (
 				2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */,
 				2F12F3005C36BADE48917092 /* OOFacebookSharePlugin.m */,
+				2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */,
 				2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */,
 				2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */,
-				2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */,
 				2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */,
 				2F12FA4EC7B6C67EFF3C5E67 /* OOTwitterSharePlugin.m */,
 			);
@@ -497,7 +501,6 @@
 		972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
-				CA742B4E1BE2761D0056784E /* Utils */,
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				979B012E1B910A040032F5CF /* OOConstant.h */,
@@ -526,6 +529,7 @@
 				9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
+				CA742B4E1BE2761D0056784E /* Utils */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
@@ -592,6 +596,8 @@
 				CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */,
 				CA742B581BE279040056784E /* NSString+Utils.h */,
 				CA742B591BE279040056784E /* NSString+Utils.m */,
+				CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */,
+				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -625,6 +631,7 @@
 				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
+				CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
 				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
@@ -905,6 +912,7 @@
 				2F12F1EF0BFF6C0F8A5555A0 /* upNext.js in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
+				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
 				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,

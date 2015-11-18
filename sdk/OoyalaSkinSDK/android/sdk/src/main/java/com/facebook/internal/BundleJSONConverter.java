@@ -27,7 +27,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -108,25 +107,32 @@ public class BundleJSONConverter {
         SETTERS.put(JSONArray.class, new Setter() {
             public void setOnBundle(Bundle bundle, String key, Object value) throws JSONException {
                 JSONArray jsonArray = (JSONArray)value;
-                ArrayList<String> stringArrayList = new ArrayList<String>();
+                int jsonArrayLength = jsonArray.length();
+
                 // Empty list, can't even figure out the type, assume an ArrayList<String>
-                if (jsonArray.length() == 0) {
-                    bundle.putStringArrayList(key, stringArrayList);
+                if (jsonArrayLength == 0) {
+                    String[] emptyStringArray = new String[0];
+                    bundle.putStringArray(key, emptyStringArray);
                     return;
                 }
 
-                // Only strings are supported for now
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    Object current = jsonArray.get(i);
-                    if (current instanceof String) {
-                        stringArrayList.add((String)current);
-                    } else {
-//                        throw new IllegalArgumentException("Unexpected type in an array: " + current.getClass());
-                        Log.d("BundleToJSON", "Unexpected type in an array: " + current.getClass() + " for key: " + key);
-                        continue;
+                Object firstObject = jsonArray.get(0);
+                if (firstObject instanceof String) {
+                    String[] stringArray = new String[jsonArrayLength];
+                    for (int i = 0; i < jsonArrayLength; ++i) {
+                        stringArray[i] = (String)jsonArray.get(i);
                     }
+                    bundle.putStringArray(key, stringArray);
+                } else if (firstObject instanceof JSONObject) {
+                    Bundle[] bundleArray = new Bundle[jsonArrayLength];
+                    for (int i = 0; i < jsonArrayLength; ++i) {
+                        JSONObject json = (JSONObject)jsonArray.get(i);
+                        bundleArray[i] = convertToBundle(json);
+                    }
+                    bundle.putParcelableArray(key, bundleArray);
+                } else {
+                    Log.d("BundleToJSON", "Unexpected type in an array: " + firstObject.getClass() + " for key: " + key);
                 }
-                bundle.putStringArrayList(key, stringArrayList);
             }
 
             @Override

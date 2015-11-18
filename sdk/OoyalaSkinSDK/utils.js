@@ -67,13 +67,19 @@ var Utils = {
   },
 
   localizedString: function(preferredLocale, stringId, localizableStrings) {
-    Log.verbose("preferredLocale" + preferredLocale + "stringId" + stringId + "localizableStrings" + localizableStrings);
-    var defaultLocale = localizableStrings["default"] ? localizableStrings["defaultLanguage"] : "en";
-    
-    if (localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
+    if (typeof stringId !== 'string') return null;
+    if (typeof preferredLocale !== 'string') preferredLocale = undefined;
+    if (typeof localizableStrings !== 'object' || localizableStrings === null) localizableStrings = {};
+
+    Log.verbose("preferredLocale: " + preferredLocale + ", stringId: " + stringId + ", localizableStrings:");
+    Log.verbose(localizableStrings);
+
+    var defaultLocale = localizableStrings['defaultLanguage'] ? localizableStrings['defaultLanguage'] : 'en';
+
+    if (preferredLocale && localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
       return localizableStrings[preferredLocale][stringId];
     }
-    
+
     if (localizableStrings[defaultLocale] && localizableStrings[defaultLocale][stringId]) {
       return localizableStrings[defaultLocale][stringId];
     }
@@ -89,7 +95,7 @@ var Utils = {
         return "Authorization Response invalid";
       case 2:
         return "Heartbeat failed"
-      case 3: 
+      case 3:
         return "Content Tree Response invalid";
       case 4 :
         return "The signature of the Authorization Response is invalid";
@@ -121,7 +127,7 @@ var Utils = {
         return "Failed to get rights for asset during the DRM workflow";
       case 18:
         return "The expected discovery parameters are not provided";
-      case 19: 
+      case 19:
         return "The discovery response is not received due to network errors";
       case 20:
         return "The discovery reponse is received and an error occured on server side";

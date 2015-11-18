@@ -48,18 +48,18 @@ var ResponsiveList = React.createClass({
     return slices;
   },
 
-  render: function() {  
+  render: function() {
     var slices = this.getSlices();
     var listBound = this.props.horizontal ? this.props.width : this.props.height;
     var itemBound = this.props.horizontal ? this.props.itemWidth : this.props.itemHeight;
 
     return (
       <View style={{flex: 1}}>
-        <ScrollView 
+        <ScrollView
           style={{position:"absolute", width:this.props.width, height:this.props.height}}
           horizontal={this.props.horizontal}
           directionalLockEnabled={true}
-          showsHorizontalScrollIndicator={false}> 
+          showsHorizontalScrollIndicator={false}>
           {slices.map(this.renderSlice)}
         </ScrollView>
       </View>);
@@ -67,20 +67,25 @@ var ResponsiveList = React.createClass({
 
   renderSlice: function(slice: object, i: number) {
     var sliceStyle = this.props.horizontal ? styles.column : styles.row;
+
+    var renderItem = this.renderItem;
+    var renderedItem = slice.map(function(item, idx, arr) {
+      return renderItem(item, idx, i * arr.length + idx);
+    });
+
     return (<View
-      key={i} 
+      key={i}
       style={sliceStyle}>
-      {slice.map(this.renderItem)}
+      {renderedItem}
     </View>);
   },
 
-  renderItem: function(item: object, i: number) {
-    var placeHolderStyle = 
-      {flex: 1, backgroundColor: "transparent", width:this.props.itemWidth, height: this.props.itemHeight};
+  renderItem: function(item: object, sectionId: number, i: number) {
+    var placeHolderStyle = {flex: 1, backgroundColor: "transparent", width:this.props.itemWidth, height: this.props.itemHeight};
     if (item === placeHolderItem) {
-      return (<View style={placeHolderStyle}></View>);
+      return (<View key={sectionId} style={placeHolderStyle}></View>);
     } else {
-      return this.props.itemRender(item, i);
+      return this.props.itemRender(item, sectionId, i);
     }
   }
 });
