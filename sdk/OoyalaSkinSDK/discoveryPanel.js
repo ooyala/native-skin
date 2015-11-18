@@ -97,6 +97,7 @@ var DiscoveryPanel = React.createClass({
 
   onStatusPressed: function() {
     this.setState({showCircularStatus: false});
+    this.clearTimer();
   },
 
   setCounterTime: function(time) {
