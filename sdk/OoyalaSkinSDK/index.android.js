@@ -64,10 +64,8 @@ var OoyalaSkin = React.createClass({
   },
   
   componentWillMount: function() {
-    console.log("componentWillMount");
     OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
     OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
-    console.log(" after mount RCT "+RCTDeviceEventEmitter+"  ooyalaSkinCore instance :"+OoyalaSkinCoreInstance)
   },
 
   componentDidMount: function() {
@@ -75,7 +73,6 @@ var OoyalaSkin = React.createClass({
   },
 
   componentWillUnmount: function() {
-    console.log("componentWillUnmount");
     OoyalaSkinCoreInstance.unmount();
   },
 
