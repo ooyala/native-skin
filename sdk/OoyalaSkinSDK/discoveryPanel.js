@@ -15,6 +15,7 @@ var {
   View,
   ScrollView
 } = React;
+var TimerMixin = require('react-timer-mixin');
 
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
@@ -32,6 +33,8 @@ var widthPortrait = 375;
 var animationDuration = 1000;
 
 var DiscoveryPanel = React.createClass({
+  mixins: [TimerMixin],
+
   propTypes: {
     localizableStrings: React.PropTypes.object,
     locale: React.PropTypes.string,
@@ -49,6 +52,7 @@ var DiscoveryPanel = React.createClass({
       showCircularStatus: false,
       currentCounterVal: 0,
       counterLimit: 0,
+      timer: null,
     };
   },
 
@@ -69,6 +73,16 @@ var DiscoveryPanel = React.createClass({
     }
   },
 
+  componentWillUnmount: function() {
+    this.clearTimer();
+  },
+
+  clearTimer: function() {
+    if (this.state.timer) {
+      this.clearInterval(this.state.timer);
+    }
+  },
+
   onRowSelected: function(row) {
   	if (this.props.onRowAction) {
   	  this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
@@ -83,6 +97,7 @@ var DiscoveryPanel = React.createClass({
 
   onStatusPressed: function() {
     this.setState({showCircularStatus: false});
+    this.clearTimer();
   },
 
   setCounterTime: function(time) {
@@ -91,17 +106,17 @@ var DiscoveryPanel = React.createClass({
       counterLimit: time,
       showCircularStatus: true,
     });
+
+    var timer = this.setInterval(() => {
+      this.setState({currentCounterVal: this.state.currentCounterVal - 1});
+    }, 1000);
+    this.setState({timer: timer});
   },
 
-  updateTimer: function(row) {
-    if (this.state.currentCounterVal == 0) {
+  checkTimer: function(row) {
+    if (this.state.currentCounterVal === 0) {
       this.onRowSelected(row);
-    } else {
-      var self = this;
-      setTimeout(function() {
-        self.setState({currentCounterVal: self.state.currentCounterVal - 1});
-        self = null;
-      }, 1000);
+      this.clearTimer();
     }
   },
 
@@ -158,7 +173,7 @@ var DiscoveryPanel = React.createClass({
     var circularStatus;
     if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCircularStatus) {
       circularStatus = this.renderCircularStatus();
-      this.updateTimer(item);
+      this.checkTimer(item);
     }
 
     var thumbnail = (
