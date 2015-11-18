@@ -309,7 +309,6 @@ OoyalaSkinCore.prototype.renderEndScreen = function() {
 };
 
 OoyalaSkinCore.prototype.renderErrorScreen = function() {
-  console.log("render error screen");
   return (
     <ErrorScreen
       error={this.skin.state.error}
@@ -400,7 +399,6 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
 };
 
 OoyalaSkinCore.prototype.renderMoreOptionPanel = function() {
-  console.log("renderMoreOptionPanel:"+ this.skin.state.buttonSelected);
   switch (this.skin.state.buttonSelected) {
     case BUTTON_NAMES.DISCOVERY:
       return this.renderDiscoveryPanel();
@@ -422,7 +420,6 @@ OoyalaSkinCore.prototype.renderMoreOptionPanel = function() {
 };
 
 OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
-  console.log("renderMoreOptions buttonSelected" + this.skin.state.buttonSelected);
   var panel = this.renderMoreOptionPanel();
 
   return (

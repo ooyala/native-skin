@@ -96,7 +96,6 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
-    console.log("in handle press"+name);
     if (name == "LIVE") {
       this.props.onScrub(1);
     }
@@ -148,7 +147,6 @@ var VideoView = React.createClass({
   },
 
   _renderPlaceholder: function() {
-    //console.log("in _renderPlaceholder method")
     var placeholder;
     if(this.state.showSharePanel){
       var socialButtonsArray=this.props.shareScreen;
@@ -172,7 +170,6 @@ var VideoView = React.createClass({
   },
 
   _renderClosedCaptions: function() {
-    //console.log("in _renderClosedCaptions method")
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
     return <ClosedCaptionsView
       style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
@@ -181,7 +178,6 @@ var VideoView = React.createClass({
   },
 
   _renderUpNext: function() {
-    //console.log("in upNext method")
     if (this.props.live) {
       return null;
     }
@@ -270,7 +266,6 @@ var VideoView = React.createClass({
   },
 
   _handleSocialShare: function() {
-    //console.log("in _handleSocialShare method")
     this.setState({showSharePanel:!this.state.showSharePanel});
   },
 

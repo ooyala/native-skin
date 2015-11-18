@@ -140,7 +140,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   @ReactMethod
   public void onPress(ReadableMap parameters) {
     final String buttonName;
-    System.out.println("in java class on press"+parameters.toString());
     if (parameters.hasKey("name")) {
 
       buttonName = parameters.getString("name");
@@ -149,7 +148,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     {
       buttonName = null;
     }
-    //System.out.println("afer if else"+buttonName);
     if (buttonName != null) {
       DebugMode.logD(TAG, "onPress with buttonName:" + buttonName);
       this.getReactApplicationContext().runOnUiQueueThread(new Runnable() {
