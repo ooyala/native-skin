@@ -1,6 +1,6 @@
 jest.dontMock( '../collapsingBarUtils.js' );
 
-describe( 'all tests', function() {
+describe( 'Collapsing Bar Utils', function() {
 
   var CollapsingBarUtils;
 

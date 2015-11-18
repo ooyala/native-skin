@@ -45,6 +45,7 @@ OoyalaSkinCore.prototype.mount = function(eventEmitter) {
     [ 'timeChanged',              (event) => this.onTimeChange(event) ],
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
+    [ 'volumeChanged',            (event) => this.onVolumeChanged(event) ],
     [ 'playCompleted',            (event) => this.onPlayComplete(event) ],
     [ 'stateChanged',             (event) => this.onStateChange(event) ],
     [ 'discoveryResultsReceived', (event) => this.onDiscoveryResult(event) ],
@@ -84,6 +85,11 @@ OoyalaSkinCore.prototype.onSocialButtonPress = function(socialType) {
     'link':this.skin.state.hostedAtUrl,
   },
   (results) => {Log.log(results);});
+};
+
+OoyalaSkinCore.prototype.onSocialAlertDismiss = function() {
+  this.skin.setState({alertTitle: ''});
+  this.skin.setState({alertMessage: ''});
 };
 
 OoyalaSkinCore.prototype.pauseOnOptions = function() {
@@ -260,7 +266,7 @@ OoyalaSkinCore.prototype.onPostShareAlert = function(e) {
   this.skin.setState({alertMessage: e.message});
 };
 
-OoyalaSkinCore.prototype.onVolumeChange = function(e) {
+OoyalaSkinCore.prototype.onVolumeChanged = function(e) {
   this.skin.setState({volume: e.volume});
 };
 
@@ -324,6 +330,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       platform={this.skin.state.platform}
       width={Dimensions.get('window').width}
       height={Dimensions.get('window').height}
+      volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       onPress={(value) => this.handlePress(value)}
       onScrub={(value) => this.handleScrub(value)}
@@ -367,6 +374,7 @@ OoyalaSkinCore.prototype.renderSocialOptions = function() {
     <SharePanel
       socialButtons={this.skin.props.shareScreen}
       onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+      onSocialAlertDismiss={() => this.onSocialAlertDismiss()}
       width={this.skin.state.width}
       height={this.skin.state.height}
       alertTitle={this.skin.state.alertTitle}

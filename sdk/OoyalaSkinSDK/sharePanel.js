@@ -21,12 +21,13 @@ var SharePanel = React.createClass ({
 	propTypes: {
 		socialButtons: React.PropTypes.array,
 		onSocialButtonPress: React.PropTypes.func,
+		onSocialAlertDismiss: React.PropTypes.func,
 		width: React.PropTypes.number,
 		height: React.PropTypes.number,
 		alertTitle: React.PropTypes.string,
 		alertMessage: React.PropTypes.string,
 		localizableStrings: React.PropTypes.object,
-		locale: React.PropTypes.string
+		locale: React.PropTypes.string,
 	},
 
 	getInitialState: function() {
@@ -52,19 +53,24 @@ var SharePanel = React.createClass ({
 		this.props.onSocialButtonPress(serviceType);
 	},
 
+	onSocialAlertDismiss: function() {
+		Log.log('Ok Pressed!');
+		this.props.onSocialAlertDismiss();
+	},
+
 	render: function() {
 		var sharePanel;
 		var socialButtons = [];
 
 		var postShareSuccessAlert;
 
-		if(this.props.alertTitle != ""){
+		if(this.props.alertTitle !== ""){
 			postShareSuccessAlert = AlertIOS.alert(
 				this.props.alertTitle,
-  			this.props.alertMessage,
-  			[
-    			{text: 'Ok', onPress: () => Log.log('Ok Pressed!')},
-  			]
+				this.props.alertMessage,
+				[
+					{ text: 'Ok', onPress: this.onSocialAlertDismiss },
+				]
 			);
 		}
 
