@@ -1203,6 +1203,7 @@
 				CA2C6FB81BEA8599006B86BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
