@@ -52,7 +52,7 @@ var DiscoveryPanel = React.createClass({
       showCircularStatus: false,
       currentCounterVal: 0,
       counterLimit: 0,
-      timeout: null,
+      timer: null,
     };
   },
 
@@ -78,8 +78,8 @@ var DiscoveryPanel = React.createClass({
   },
 
   clearTimer: function() {
-    if (this.state.timeout) {
-      this.clearTimeout(this.state.timeout);
+    if (this.state.timer) {
+      this.clearInterval(this.state.timer);
     }
   },
 
@@ -106,18 +106,17 @@ var DiscoveryPanel = React.createClass({
       counterLimit: time,
       showCircularStatus: true,
     });
+
+    var timer = this.setInterval(() => {
+      this.setState({currentCounterVal: this.state.currentCounterVal - 1});
+    }, 1000);
+    this.setState({timer: timer});
   },
 
-  updateTimer: function(row) {
+  checkTimer: function(row) {
     if (this.state.currentCounterVal === 0) {
       this.onRowSelected(row);
       this.clearTimer();
-    } else if (!this.state.timeout) {
-      var timeout = this.setTimeout(() => {
-        this.setState({currentCounterVal: this.state.currentCounterVal - 1});
-        this.setState({timeout: null});
-      }, 1000);
-      this.setState({timeout: timeout});
     }
   },
 
@@ -174,7 +173,7 @@ var DiscoveryPanel = React.createClass({
     var circularStatus;
     if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCircularStatus) {
       circularStatus = this.renderCircularStatus();
-      this.updateTimer(item);
+      this.checkTimer(item);
     }
 
     var thumbnail = (
