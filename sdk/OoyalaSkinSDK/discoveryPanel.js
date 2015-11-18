@@ -73,6 +73,16 @@ var DiscoveryPanel = React.createClass({
     }
   },
 
+  componentWillUnmount: function() {
+    this.clearTimer();
+  },
+
+  clearTimer: function() {
+    if (this.state.timeout) {
+      this.clearTimeout(this.state.timeout);
+    }
+  },
+
   onRowSelected: function(row) {
   	if (this.props.onRowAction) {
   	  this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
@@ -100,6 +110,7 @@ var DiscoveryPanel = React.createClass({
   updateTimer: function(row) {
     if (this.state.currentCounterVal === 0) {
       this.onRowSelected(row);
+      this.clearTimer();
     } else if (!this.state.timeout) {
       var timeout = this.setTimeout(() => {
         this.setState({currentCounterVal: this.state.currentCounterVal - 1});
