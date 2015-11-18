@@ -36,7 +36,7 @@
         android:layout_height="fill_parent"
         android:layout_above="@id/doubleLeftButton"
         android:layout_marginTop="20dp"
-        android:background="#666" >
+        android:background="#000000" >
     </com.ooyala.android.ooyalaskinsdk.OoyalaSkinLayout>
 
 

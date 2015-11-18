@@ -30,7 +30,7 @@ public class BasicPlaybackVideoPlayerActivity extends Activity implements Observ
   final String PCODE  = "R2d3I6s06RyB712DN0_2GsQS-R-Y";
   final String DOMAIN = "http://ooyala.com";
 
-  protected OoyalaPlayerLayoutController playerLayoutController;
+  protected OoyalaSkinLayoutController playerLayoutController;
   protected OoyalaPlayer player;
 
   /**
@@ -61,7 +61,7 @@ public class BasicPlaybackVideoPlayerActivity extends Activity implements Observ
 
 
     if (player.setEmbedCode(EMBED)) {
-      player.play();
+      //player.play();
     }
     else {
       Log.e(TAG, "Asset Failure");

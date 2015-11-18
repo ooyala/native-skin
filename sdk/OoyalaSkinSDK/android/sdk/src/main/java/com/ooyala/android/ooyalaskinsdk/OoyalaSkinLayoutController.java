@@ -1,13 +1,16 @@
 package com.ooyala.android.ooyalaskinsdk;
 
+
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+
 import android.widget.FrameLayout;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -28,12 +31,13 @@ import java.util.Observer;
 /**
  * Created by zchen on 9/21/15.
  */
+
 public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer {
   final String TAG = this.getClass().toString();
   private OoyalaSkinLayout _layout;
   private OoyalaPlayer _player;
   private FCCTVRatingUI _tvRatingUI;
-
+  private boolean _isFullscreen = false;
   private static final String BUTTON_PLAYPAUSE = "PlayPause";
   private static final String BUTTON_PLAY = "Play";
   private static final String BUTTON_SOCIALSHARE = "SocialShare";
@@ -57,7 +61,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   public OoyalaSkinLayoutController(
-      ReactApplicationContext c, OoyalaSkinLayout l, OoyalaPlayer p) {
+          ReactApplicationContext c, OoyalaSkinLayout l, OoyalaPlayer p) {
     super(c);
     _layout = l;
     _player = p;
@@ -71,11 +75,33 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   public void setFullscreen(boolean fullscreen) {
+    //System.out.println("a value "+a+"full screen boolean"+fullscreen);
+    //int isFull;
+    if(fullscreen) {
+      _layout.setSystemUiVisibility(
+              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                      | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                      | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+    }
+    else
+    {
+      System.out.println(" in else loop");
+              _layout.setSystemUiVisibility(
+                      View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                              | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                              | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+    }
 
   }
 
   public boolean isFullscreen() {
-    return false;
+
+    return _isFullscreen;
+
   }
 
   public void showClosedCaptionsMenu() {
@@ -117,7 +143,17 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onPress(ReadableMap parameters) {
-    final String buttonName = parameters.getString("name");
+    final String buttonName;
+    System.out.println("in java class on press"+parameters.toString());
+    if (parameters.hasKey("name")) {
+
+      buttonName = parameters.getString("name");
+    }
+    else
+    {
+      buttonName = null;
+    }
+    //System.out.println("afer if else"+buttonName);
     if (buttonName != null) {
       DebugMode.logD(TAG, "onPress with buttonName:" + buttonName);
       this.getReactApplicationContext().runOnUiQueueThread(new Runnable() {
@@ -127,7 +163,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             handlePlay();
           } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
             handlePlayPause();
-          }
+          }else if(buttonName.equals(BUTTON_FULLSCREEN)){
+            _isFullscreen = !isFullscreen();
+              setFullscreen(_isFullscreen);
+            }
         }
       });
     }
@@ -160,11 +199,26 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void handlePlayPause() {
+    //System.out.println("in handle playPause in java class");
     if (_player.isPlaying()) {
+      //System.out.println("in handle playPause java, paused");
       _player.pause();
+
     } else {
       _player.play();
     }
+  }
+
+  @ReactMethod
+  public void onScrub(ReadableMap percentage) {
+    //System.out.println("percentage" + percentage);
+    double percentValue = percentage.getDouble("percentage");
+    //System.out.println("percent double value" + percentValue);
+    percentValue = percentValue * 100;
+    int percent = ((int) percentValue);
+    //System.out.println("percentage int value " + percent);
+//percent= percent*100;
+    _player.seekToPercent(percent);
   }
 
   // notification bridges
@@ -196,8 +250,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
 
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
 
 //    if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
 //      [self loadDiscovery:_player.currentItem.embedCode];
@@ -209,8 +263,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
     DebugMode.logD(TAG, "state change event params are" + params.toString());
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
   }
 
   private void bridgeTimeChangedNotification() {
@@ -222,8 +276,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     params.putDouble("playhead", playhead);
 
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
   }
 
   private void bridgePlayCompletedNotification() {
@@ -245,14 +299,14 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
 
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);
   }
 
   private void bridgePlayStartedNotification() {
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.PLAY_STARTED_NOTIFICATION, null);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.PLAY_STARTED_NOTIFICATION, null);
   }
 
   private void bridgeErrorNotification() {
@@ -267,22 +321,22 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
 
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.ERROR_NOTIFICATION, params);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.ERROR_NOTIFICATION, params);
 
   }
 
   private void bridgeAdStartNotification() {
     WritableMap params = Arguments.createMap();
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
   }
 
   private void bridgeAdPodCompleteNotification() {
     WritableMap params = Arguments.createMap();
     this.getReactApplicationContext()
-        .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-        .emit(OoyalaPlayer.AD_COMPLETED_NOTIFICATION, params);
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit(OoyalaPlayer.AD_COMPLETED_NOTIFICATION, params);
   }
 }

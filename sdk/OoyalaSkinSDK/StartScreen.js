@@ -2,6 +2,7 @@
 var React = require('react-native');
 
 var {
+  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -10,9 +11,10 @@ var {
 } = React;
 
 var Utils = require('./utils');
-
+var Log = require('./log');
 var styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 var Constants = require('./constants');
+var IconTextView = require('./androidNative/iconTextView');
 var {
   IMG_URLS,
   UI_SIZES
@@ -20,6 +22,7 @@ var {
 
 var RectButton = require('./widgets/RectButton');
 var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
+var VideoViewPlayPauseAndroid = require('./widgets/VideoViewPlayPauseAndroid');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var StartScreen = React.createClass({
@@ -29,20 +32,52 @@ var StartScreen = React.createClass({
     description: React.PropTypes.string,
     promoUrl: React.PropTypes.string,
     onPress: React.PropTypes.func,
+    playhead: React.PropTypes.number,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
+    platform: React.PropTypes.string,
   },
 
   handleClick: function() {
     this.props.onPress('PlayPause');
   },
-
   // Gets the play button based on the current config settings
   getPlayButton: function() {
-    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-
-    if(this.props.config.startScreen.showPlayButton) {
-      return (
+  var os=this.props.platform;
+  var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+  if(this.props.config.startScreen.showPlayButton) {
+    if(os == "android")
+      {
+      
+        return (
+        <VideoViewPlayPauseAndroid
+          icons={{
+            play: {
+              icon: this.props.config.icons.play.fontString,
+              fontFamily: this.props.config.icons.play.fontFamilyName
+            },
+            pause: {
+              icon: this.props.config.icons.pause.fontString,
+              fontFamily: this.props.config.icons.pause.fontFamilyName
+            }
+          }}
+          position={this.props.config.startScreen.playButtonPosition}
+          onPress={this.handleClick}
+          buttonStyle={this.props.config.startScreen.playIconStyle}
+          frameWidth={this.props.width}
+          frameHeight={this.props.height}
+          playhead={this.props.playhead}
+          buttonWidth={iconFontSize}
+          buttonHeight={iconFontSize}
+          fontSize={iconFontSize}
+          playing={false}
+          showButton={true}
+          isStartScreen={true}>
+        </VideoViewPlayPauseAndroid>)
+    }
+    else if(os == "ios")
+      {
+        return (
         <VideoViewPlayPause
           icons={{
             play: {
@@ -59,18 +94,20 @@ var StartScreen = React.createClass({
           buttonStyle={this.props.config.startScreen.playIconStyle}
           frameWidth={this.props.width}
           frameHeight={this.props.height}
+          playhead={this.props.playhead}
           buttonWidth={iconFontSize}
           buttonHeight={iconFontSize}
           fontSize={iconFontSize}
           playing={false}
           showButton={true}
           isStartScreen={true}>
-        </VideoViewPlayPause>)
-    }
-    return null;
+        </VideoViewPlayPause>);
+      }
+  }
+  return null;
   },
 
-  // Gets the infoPanel based on the current config settings
+  //Gets the infoPanel based on the current config settings
   getInfoPanel: function() {
     var infoPanelTitle;
     if(this.props.config.startScreen.showTitle) {
@@ -131,19 +168,20 @@ var StartScreen = React.createClass({
 
   render: function() {  
     var promoImage = this.getPromoImage();
-    var playButton = this.getPlayButton();
+    var PlayButton = this.getPlayButton();
     var infoPanel = this.getInfoPanel();
     var waterMarkImage = this.getWaterMark();
+ 
 
-    return (
-      <View style={styles.container}>
-        {promoImage}
-        {waterMarkImage}
-        {infoPanel}
-        {playButton}
+return (
+     <View style={styles.container}>
+       {promoImage}
+       {waterMarkImage}
+       {infoPanel} 
+      {PlayButton}
       </View>
-    );
+   );
+
   },
 });
-
 module.exports = StartScreen;

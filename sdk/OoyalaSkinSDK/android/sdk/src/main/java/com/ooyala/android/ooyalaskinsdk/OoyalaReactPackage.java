@@ -30,6 +30,7 @@ class OoyalaReactPackage extends MainReactPackage {
     List<NativeModule> modules = new ArrayList<>();
     modules.addAll(super.createNativeModules(reactContext));
     modules.add(new OoyalaSkinLayoutController(reactContext, _layout, _player));
+    modules.add(new OOReactSocialShare(reactContext));
     return modules;
   }
 

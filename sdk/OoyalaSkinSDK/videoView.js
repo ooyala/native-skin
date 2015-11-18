@@ -20,6 +20,7 @@ var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var RectButton = require('./widgets/RectButton');
 var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
+var VideoViewPlayPauseAndroid = require('./widgets/VideoViewPlayPauseAndroid');
 var Constants = require('./constants');
 var Log = require('./log');
 var Utils = require('./utils');
@@ -66,10 +67,12 @@ var VideoView = React.createClass({
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
     localizableStrings: React.PropTypes.object,
+    platform: React.PropTypes.string,
     locale: React.PropTypes.string
   },
 
   generateLiveObject: function() {
+    //console.log("in generate method");
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
       return ({
@@ -83,6 +86,7 @@ var VideoView = React.createClass({
   },
 
   onGoLive: function() {
+    console.log("in onGoLive")
     Log.log("onGoLive");
     if (this.props.onScrub) {
       this.props.onScrub(1);
@@ -90,15 +94,23 @@ var VideoView = React.createClass({
   },
 
   onSocialButtonPress: function(socialType){
+    console.log("on onSocialButtonPress")
     this.props.onSocialButtonPress(socialType);
   },
 
   handlePress: function(name) {
+    //console.log("in handle press");
+    console.log("in handle press"+name);
+    // console.log("in handle press play pause"+BUTTON_NAMES.PLAY_PAUSE);
+    // console.log("in handle press auto hide"+BUTTON_NAMES.RESET_AUTOHIDE);
+    // console.log("in handle press props play"+this.props.isPlay);
+
+
     if (name == "LIVE") {
       this.props.onScrub(1);
     }
     else if (name == BUTTON_NAMES.PLAY_PAUSE && this.props.isPlay) {
-      this.state.showControls = false;
+      this.state.showControls = true;
     }
     else if (name == BUTTON_NAMES.RESET_AUTOHIDE) {
       this.state.showControls = true;
@@ -107,6 +119,7 @@ var VideoView = React.createClass({
   },
 
   _renderBottomOverlay: function() {
+    //console.log("bottomOverlay");
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -133,6 +146,7 @@ var VideoView = React.createClass({
   },
 
   _renderAdBar: function() {
+    console.log("in _renderAdBar method")
     return (<AdBar
         ad={this.props.ad}
         playhead={this.props.playhead}
@@ -145,6 +159,7 @@ var VideoView = React.createClass({
   },
 
   _renderPlaceholder: function() {
+    //console.log("in _renderPlaceholder method")
     var placeholder;
     if(this.state.showSharePanel){
       var socialButtonsArray=this.props.shareScreen;
@@ -168,6 +183,7 @@ var VideoView = React.createClass({
   },
 
   _renderClosedCaptions: function() {
+    //console.log("in _renderClosedCaptions method")
     var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
     return <ClosedCaptionsView
       style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
@@ -176,6 +192,7 @@ var VideoView = React.createClass({
   },
 
   _renderUpNext: function() {
+    //console.log("in upNext method")
     if (this.props.live) {
       return null;
     }
@@ -196,6 +213,7 @@ var VideoView = React.createClass({
 
   _renderPlayPause: function() {
     var buttonOpacity;
+    var os=this.props.platform;
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     if(this.controlsVisible()) {
       buttonOpacity = 1;
@@ -203,6 +221,36 @@ var VideoView = React.createClass({
     else {
       buttonOpacity = 0;
     }
+    if(os=="android")
+    {
+      return (
+      <VideoViewPlayPauseAndroid
+        icons={{
+          play: {
+            icon: this.props.config.icons.play.fontString,
+            fontFamily: this.props.config.icons.play.fontFamilyName
+          },
+          pause: {
+            icon: this.props.config.icons.pause.fontString,
+            fontFamily: this.props.config.icons.pause.fontFamilyName
+          }
+        }}
+        position={"center"}
+        playing={this.props.isPlay}
+        onPress={(name) => this.handlePress(name)}
+        frameWidth={this.props.width}
+        frameHeight={this.props.height}
+        buttonWidth={iconFontSize}
+        buttonHeight={iconFontSize}
+        fontSize={iconFontSize}
+        opacity={buttonOpacity}
+        showButton={this.controlsVisible()}
+        rate={this.props.rate}
+        playhead={this.props.playhead}>
+      </VideoViewPlayPauseAndroid>);
+    }
+    else if(os == "ios")
+    {
 
     return (
       <VideoViewPlayPause
@@ -229,34 +277,43 @@ var VideoView = React.createClass({
         rate={this.props.rate}
         playhead={this.props.playhead}>
       </VideoViewPlayPause>);
+  }
+  return null;
   },
 
   _handleSocialShare: function() {
+    //console.log("in _handleSocialShare method")
     this.setState({showSharePanel:!this.state.showSharePanel});
   },
 
   handleScrub: function(value) {
+    console.log("in handleScrub method")
     this.props.onScrub(value);
   },
 
   getDefaultProps: function() {
+    console.log("in getDefaultProps method")
     return {isPlay: true, playhead: 0, buffered: 0, duration: 1};
   },
 
   controlsVisible: function() {
+    //console.log("in controlsVisible method")
     return this.state.showControls && (new Date).getTime() < this.props.lastPressedTime + autohideDelay;
   },
 
   toggleBottomOverlay: function() {
+    console.log("in toggleBottomOverlay method")
     this.setState({showControls:!this.controlsVisible()});
     this.props.onPress();
   },
 
   handleTouchEnd: function(event) {
+    console.log("in handleTouchEnd method")
     this.toggleBottomOverlay();
   },
 
   render: function() {
+    //console.log("in VideoView render method")
     var adBar = null;
 
     if (this.props.ad) {

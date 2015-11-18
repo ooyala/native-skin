@@ -27,6 +27,11 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   RESET_AUTOHIDE: 'ResetAutoHide',
 };
 
+var PLATFORMS = { 
+  ANDROID:'android',
+  IOS: 'ios',
+};
+
 var IMG_URLS = {
   FACEBOOK: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png',
   TWITTER: 'https://g.twimg.com/ios_homescreen_icon.png',
@@ -59,4 +64,4 @@ var LOG_LEVEL = {
   NONE: 0
 };
 
-module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, LOG_LEVEL};
+module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, LOG_LEVEL, PLATFORMS};
