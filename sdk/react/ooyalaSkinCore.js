@@ -297,8 +297,8 @@ OoyalaSkinCore.prototype.renderEndScreen = function() {
         icons: this.skin.props.icons
       }}
       title={this.skin.state.title}
-      width={Dimensions.get('window').width}
-      height={Dimensions.get('window').height}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
       discoveryPanel={this.renderDiscoveryPanel()}
       description={this.skin.state.description}
       promoUrl={this.skin.state.promoUrl}
@@ -326,8 +326,8 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       ad ={this.skin.state.ad}
       live ={this.skin.state.live}
       platform={this.skin.state.platform}
-      width={Dimensions.get('window').width}
-      height={Dimensions.get('window').height}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       onPress={(value) => this.handlePress(value)}
