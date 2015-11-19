@@ -60,7 +60,7 @@ Please follow the requirements section of the following site: [http://facebook.g
 
 run `npm install` in the Ooyala Skin SDK
 
-    cd ios-skin/sdk/OoyalaSkinSDK/ && npm install
+    cd ios-skin/sdk/react/ && npm install
 
 run `git submodule update --init` to initialize the skin-config
 

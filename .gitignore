@@ -1,8 +1,8 @@
 **/xcuserdata
-sdk/OoyalaSkinSDK/node_modules
-sdk/OoyalaSkinSDK/coverage
+sdk/react/node_modules
+sdk/react/coverage
 **/build/
-**/iOS/
+**/react/iOS/
 
 ## Other
 *.xccheckout
