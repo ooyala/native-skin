@@ -1,0 +1,68 @@
+{
+  "panelTitle": {
+    "height": 40
+  },
+  "panelTitleText": {
+    "padding": 10,
+    "textAlign": "left",
+    "margin": 10,
+    "fontWeight": "bold",
+    "textAlign": "left"
+  },
+  "container": {
+    "flex": 1,
+    "flexDirection": "row",
+    "justifyContent": "center",
+    "alignItems": "center",
+    "backgroundColor": "transparent",
+    "marginBottom": 6,
+    "marginTop": 6,
+    "marginLeft": 12,
+    "width":360,
+    "height":64
+  },
+  "rightContainer": {
+    "flex": 1,
+    "marginLeft": 8
+  },
+  "contentText": {
+    "marginTop": 8,
+    "textAlign": "left",
+  },
+  "thumbnailContainer": {
+    "flex": 1,
+    "alignItems": "center",
+    "justifyContent": "center",
+  },
+  "thumbnailPortrait": {
+    "width": 148,
+    "height": 88,
+  },
+  "thumbnailLandscape": {
+    "width": 128,
+    "height": 88,
+  },
+  "panel": {
+    "flex": 1,
+  },
+  "columnContainerPortrait": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "alignItems": "center",
+    "padding": 5,
+    "width": 186,
+    "height": 144,
+    "marginTop": 20
+  },
+  "columnContainerLandscape": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "alignItems": "center",
+    "padding": 4,
+    "width": 166,
+    "height": 134,
+    "marginTop": 20
+  },
+}
