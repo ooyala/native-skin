@@ -109,6 +109,10 @@ var VideoView = React.createClass({
   },
 
   _renderBottomOverlay: function() {
+    if (this.props.ad) {
+      return;
+    }
+
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
