@@ -64,6 +64,10 @@
 		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
 		CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */; };
 		CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */; };
+		CA13DDBE1C0E08DF00A7B311 /* CountdownView.h in Headers */ = {isa = PBXBuildFile; fileRef = CA13DDBA1C0E08DF00A7B311 /* CountdownView.h */; };
+		CA13DDBF1C0E08DF00A7B311 /* CountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA13DDBB1C0E08DF00A7B311 /* CountdownView.m */; };
+		CA13DDC01C0E08DF00A7B311 /* CountdownViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA13DDBC1C0E08DF00A7B311 /* CountdownViewManager.h */; };
+		CA13DDC11C0E08DF00A7B311 /* CountdownViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA13DDBD1C0E08DF00A7B311 /* CountdownViewManager.m */; };
 		CA2C6FB41BEA8599006B86BC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		CA2C6FBD1BEA8A69006B86BC /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8AA1AE7011D005043DC /* MediaPlayer.framework */; };
 		CA2C6FBE1BEA8A9F006B86BC /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
@@ -221,6 +225,10 @@
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeManager.h; sourceTree = "<group>"; };
 		CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeManager.m; sourceTree = "<group>"; };
+		CA13DDBA1C0E08DF00A7B311 /* CountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownView.h; sourceTree = "<group>"; };
+		CA13DDBB1C0E08DF00A7B311 /* CountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownView.m; sourceTree = "<group>"; };
+		CA13DDBC1C0E08DF00A7B311 /* CountdownViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownViewManager.h; sourceTree = "<group>"; };
+		CA13DDBD1C0E08DF00A7B311 /* CountdownViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownViewManager.m; sourceTree = "<group>"; };
 		CA2C6FAF1BEA8599006B86BC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2C6FB31BEA8599006B86BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA2C6FBF1BEA8C01006B86BC /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
@@ -321,6 +329,10 @@
 		972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
+				CA13DDBA1C0E08DF00A7B311 /* CountdownView.h */,
+				CA13DDBB1C0E08DF00A7B311 /* CountdownView.m */,
+				CA13DDBC1C0E08DF00A7B311 /* CountdownViewManager.h */,
+				CA13DDBD1C0E08DF00A7B311 /* CountdownViewManager.m */,
 				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
 				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				979B012E1B910A040032F5CF /* OOConstant.h */,
@@ -451,9 +463,11 @@
 				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
 				CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */,
+				CA13DDC01C0E08DF00A7B311 /* CountdownViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
 				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
+				CA13DDBE1C0E08DF00A7B311 /* CountdownView.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
 				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
@@ -687,7 +701,9 @@
 				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
 				CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
+				CA13DDC11C0E08DF00A7B311 /* CountdownViewManager.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
+				CA13DDBF1C0E08DF00A7B311 /* CountdownView.m in Sources */,
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
