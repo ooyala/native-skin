@@ -1,5 +1,6 @@
 package com.ooyala.android.ooyalaskinsdk;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -39,6 +40,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private boolean _isFullscreen = false;
   private static final String BUTTON_PLAYPAUSE = "PlayPause";
   private static final String BUTTON_PLAY = "Play";
+  private static final String BUTTON_SHARE = "Share";
   private static final String BUTTON_SOCIALSHARE = "SocialShare";
   private static final String BUTTON_FULLSCREEN = "Fullscreen";
   private static final String BUTTON_LEARNMORE = "LearnMore";
@@ -157,10 +159,12 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             handlePlay();
           } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
             handlePlayPause();
-          } else if(buttonName.equals(BUTTON_FULLSCREEN)){
+          } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
             _isFullscreen = !isFullscreen();
-              setFullscreen(_isFullscreen);
-            }
+            setFullscreen(_isFullscreen);
+          } else if (buttonName.equals(BUTTON_SHARE)) {
+            handleShare();
+          }
         }
       });
     }
@@ -193,7 +197,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void handlePlayPause() {
-    //System.out.println("in handle playPause in java class");
     if (_player.isPlaying()) {
       //System.out.println("in handle playPause java, paused");
       _player.pause();
@@ -203,6 +206,16 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
   }
 
+  private void handleShare() {
+    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    shareIntent.setType("text/html");
+    shareIntent.putExtra(Intent.EXTRA_SUBJECT, "subject");
+    shareIntent.putExtra(Intent.EXTRA_TEXT,     "http://www.ooyala.com");
+    Intent chooserIntent = Intent.createChooser(shareIntent, "share to");
+    chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    getReactApplicationContext().startActivity(chooserIntent);
+  }
+
   @ReactMethod
   public void onScrub(ReadableMap percentage) {
     double percentValue = percentage.getDouble("percentage");
@@ -210,7 +223,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     int percent = ((int) percentValue);
     _player.seekToPercent(percent);
   }
-
+  
   // notification bridges
   private void bridgeCurrentItemChangedNotification() {
     WritableMap params = Arguments.createMap();
