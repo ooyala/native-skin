@@ -57,7 +57,6 @@ var VideoView = React.createClass({
     nextVideo: React.PropTypes.object,
     upNextDismissed: React.PropTypes.bool,
     localizableStrings: React.PropTypes.object,
-<<<<<<< HEAD:sdk/OoyalaSkinSDK/videoView.js
     locale: React.PropTypes.string,
     playing: React.PropTypes.bool,
     loading: React.PropTypes.bool,
@@ -77,10 +76,6 @@ var VideoView = React.createClass({
       showControls: false,
       showSharePanel: false,
     };
-=======
-    platform: React.PropTypes.string,
-    locale: React.PropTypes.string
->>>>>>> dev:sdk/react/videoView.js
   },
 
   generateLiveObject: function() {
@@ -220,14 +215,7 @@ var VideoView = React.createClass({
 
   _renderPlayPause: function(show) {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-<<<<<<< HEAD:sdk/OoyalaSkinSDK/videoView.js
-=======
-    if(this.controlsVisible()) {
-      buttonOpacity = 1;
-    }
-    else {
-      buttonOpacity = 0;
-    }
+    
     if(this.props.platform == Constants.PLATFORMS.ANDROID)
     {
       return (
@@ -250,16 +238,16 @@ var VideoView = React.createClass({
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
         fontSize={iconFontSize}
-        opacity={buttonOpacity}
         showButton={this.controlsVisible()}
         rate={this.props.rate}
-        playhead={this.props.playhead}>
+        playing={this.props.playing}
+        loading={this.props.loading}
+        initialPlay={this.props.initialPlay}>
       </VideoViewPlayPauseAndroid>);
     }
     else if(this.props.platform == Constants.PLATFORMS.IOS)
     {
 
->>>>>>> dev:sdk/react/videoView.js
     return (
       <VideoViewPlayPause
         icons={{
