@@ -14,10 +14,20 @@
 @property (strong, nonatomic) UILabel *timerLabel;
 @property (strong, nonatomic) NSTimer *timer;
 @property (nonatomic) float timeLeft;
+@property (nonatomic) BOOL canceled;
 
 @end
 
 @implementation CountdownView
+
+- (instancetype)init
+{
+  self = [super init];
+  if (self) {
+    self.canceled = NO;
+  }
+  return self;
+}
 
 - (CAShapeLayer *)circleLayer
 {
@@ -41,6 +51,15 @@
   self.timeLeft = _time;
   if (!self.timer) {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTimer:) userInfo:nil repeats:YES];
+  }
+}
+
+- (void)setCanceled:(BOOL)canceled
+{
+  _canceled = canceled;
+  if (_canceled && self.timer) {
+    [self removeCircleLayer];
+    [self.timer invalidate];
   }
 }
 
@@ -140,27 +159,8 @@
 {
   [self.circleLayer removeAnimationForKey:@"strokeEnd"];
   [self.circleLayer removeFromSuperlayer];
-}
-
-- (void)viewTapped:(UITapGestureRecognizer *)sender
-{
-  if (sender.state == UIGestureRecognizerStateEnded) {
-    if (self.tapCancel) {
-      [self removeCircleLayer];
-      [self.timer invalidate];
-    }
-    
-    if (self.onPress) {
-      self.onPress(@{@"timeLeft": @(self.timeLeft)});
-    }
-  }
-}
-
-- (void)didMoveToWindow
-{
-  [super didMoveToWindow];
-  UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
-  [self addGestureRecognizer:tapGesture];
+  
+  [self.timerLabel removeFromSuperview];
 }
 
 - (void)layoutSubviews

@@ -27,9 +27,8 @@ RCT_EXPORT_VIEW_PROPERTY(radius, CGFloat)
 RCT_EXPORT_VIEW_PROPERTY(fillColor, UIColor)
 RCT_EXPORT_VIEW_PROPERTY(fillAlpha, float)
 RCT_EXPORT_VIEW_PROPERTY(strokeColor, UIColor)
-RCT_EXPORT_VIEW_PROPERTY(tapCancel, BOOL)
+RCT_EXPORT_VIEW_PROPERTY(canceled, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(onTimerUpdate, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onTimerCompleted, RCTBubblingEventBlock)
-RCT_EXPORT_VIEW_PROPERTY(onPress, RCTBubblingEventBlock)
 
 @end

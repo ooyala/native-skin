@@ -13,10 +13,8 @@
 
 @property (nonatomic, copy) RCTBubblingEventBlock onTimerUpdate;
 @property (nonatomic, copy) RCTBubblingEventBlock onTimerCompleted;
-@property (nonatomic, copy) RCTBubblingEventBlock onPress;
 
 @property (nonatomic) float time;
-@property (nonatomic) BOOL tapCancel;
 @property (nonatomic) CGFloat radius;
 @property (strong, nonatomic) UIColor *fillColor;
 @property (nonatomic) float fillAlpha;
