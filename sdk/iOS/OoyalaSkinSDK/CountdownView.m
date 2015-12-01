@@ -14,6 +14,7 @@
 @property (strong, nonatomic) UILabel *timerLabel;
 @property (strong, nonatomic) NSTimer *timer;
 @property (nonatomic) BOOL canceled;
+@property (nonatomic) float fontSize;
 
 @end
 
@@ -70,8 +71,19 @@
 - (void)setTimeLeft:(float)timeLeft
 {
   _timeLeft = timeLeft;
+  self.timerLabel.font = [self.timerLabel.font fontWithSize:self.fontSize];
   self.timerLabel.text = [NSString stringWithFormat:@"%.0f", _timeLeft];
   self.circleLayer.strokeEnd = (self.time - self.timeLeft) / self.time;
+}
+
+- (void)setRadius:(CGFloat)radius
+{
+  _radius = radius;
+  if (_radius <= 15) {
+    self.fontSize = 10.0;
+  } else {
+    self.fontSize = 16.0;
+  }
 }
 
 - (void)updateTimer:(NSTimer *)timer
@@ -126,7 +138,7 @@
 {
   self.timerLabel.textColor = [UIColor whiteColor];
   self.timerLabel.textAlignment = NSTextAlignmentCenter;
-  self.timerLabel.font = [UIFont fontWithName:@"Helvetica" size:10.0];
+  self.timerLabel.font = [UIFont fontWithName:@"Helvetica" size:self.fontSize];
   self.timerLabel.translatesAutoresizingMaskIntoConstraints = NO;
   [self addSubview:self.timerLabel];
   
