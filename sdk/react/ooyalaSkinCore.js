@@ -28,6 +28,7 @@ var {
   BUTTON_NAMES,
   SCREEN_TYPES,
   OOSTATES,
+  PLATFORMS
 } = Constants;
 var VideoView = require('./videoView');
 var LanguageSelectionPanel = require('./languageSelectionPanel.js');
@@ -368,24 +369,29 @@ OoyalaSkinCore.prototype.renderCCOptions = function() {
 };
 
 OoyalaSkinCore.prototype.renderSocialOptions = function() {
-  return (
-    <SharePanel
-      socialButtons={this.skin.props.shareScreen}
-      onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-      onSocialAlertDismiss={() => this.onSocialAlertDismiss()}
-      width={this.skin.state.width}
-      height={this.skin.state.height}
-      alertTitle={this.skin.state.alertTitle}
-      alertMessage={this.skin.state.alertMessage}
-      localizableStrings={this.skin.props.localization}
-      locale={this.skin.props.locale} />);
+  if(this.skin.state.platform == Constants.PLATFORMS.ANDROID) {
+    this.bridge.shareTitle({shareTitle:this.skin.state.title});
+    this.bridge.onPress({name:"Share"});
+  }
+  else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
+    return (
+      <SharePanel
+        socialButtons={this.skin.props.shareScreen}
+        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+        onSocialAlertDismiss={() => this.onSocialAlertDismiss()}
+        width={this.skin.state.width}
+        height={this.skin.state.height}
+        alertTitle={this.skin.state.alertTitle}
+        alertMessage={this.skin.state.alertMessage}
+        localizableStrings={this.skin.props.localization}
+        locale={this.skin.props.locale} />);
+  }
 },
 
 OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
   if (!this.skin.state.discoveryResults) {
     return null;
   }
-
   return (
     <DiscoveryPanel
       config={this.skin.props.discoveryScreen}
@@ -422,7 +428,6 @@ OoyalaSkinCore.prototype.renderMoreOptionPanel = function() {
 
 OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
   var panel = this.renderMoreOptionPanel();
-
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
