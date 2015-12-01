@@ -49,6 +49,11 @@
 {
   _time = time;
   self.timeLeft = _time;
+  if (self.timer) {
+    [self.timer invalidate];
+    self.timer = nil;
+  }
+  
   if (!self.timer) {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTimer:) userInfo:nil repeats:YES];
   }
