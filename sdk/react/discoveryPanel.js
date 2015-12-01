@@ -165,10 +165,6 @@ var DiscoveryPanel = React.createClass({
     if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
       title = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
     }
-  	var duration;
-    if (this.props.config.discoveryScreen.contentDuration && this.props.config.discoveryScreen.contentDuration.show) {
-      duration = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentDuration.font]} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
-    };
 
     var circularStatus;
     if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCircularStatus) {
@@ -193,7 +189,6 @@ var DiscoveryPanel = React.createClass({
       <View style={columnContainerStyle}>
         {thumbnail}
         {title}
-        {duration}
       </View>
      </TouchableHighlight>
     );
