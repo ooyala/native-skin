@@ -71,9 +71,14 @@
 - (void)setTimeLeft:(float)timeLeft
 {
   _timeLeft = timeLeft;
-  self.timerLabel.font = [self.timerLabel.font fontWithSize:self.fontSize];
   self.timerLabel.text = [NSString stringWithFormat:@"%.0f", _timeLeft];
   self.circleLayer.strokeEnd = (self.time - self.timeLeft) / self.time;
+}
+
+- (void)setFontSize:(float)fontSize
+{
+  _fontSize = fontSize;
+  self.timerLabel.font = [self.timerLabel.font fontWithSize:_fontSize];
 }
 
 - (void)setRadius:(CGFloat)radius
@@ -82,7 +87,7 @@
   if (_radius <= 15) {
     self.fontSize = 10.0;
   } else {
-    self.fontSize = 16.0;
+    self.fontSize = 14.0;
   }
 }
 
