@@ -1,0 +1,13 @@
+{
+  "container": {
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "flex-start"
+  },
+
+  "promoImageSmall": {
+    "width": 180,
+    "height": 90,
+    "margin": 20,
+  },
+}

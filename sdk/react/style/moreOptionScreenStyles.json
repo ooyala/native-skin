@@ -1,0 +1,51 @@
+{
+  "fullscreenContainer": {
+    "flex": 1,
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0, 0, 0, 0.8)"
+  },
+  
+  "container": {
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "flex-end"
+  },
+
+  "dismissButtonTopRight":{
+    "position": "absolute",
+    "top": 0,
+    "right": 0
+  },
+
+  "rowCenter": {
+    "height": 40,
+    "flexDirection": "row",
+    "alignSelf": "center",
+    "backgroundColor": "transparent"
+  },
+
+  "rowBottom": {
+    "flex":1,
+    "flexDirection": "row",
+    "alignSelf": "center",
+    "alignItems": "flex-end",
+    "backgroundColor": "transparent"
+  },
+
+  "icon": {
+    "textAlign": "center",
+    "margin": 15
+  },
+
+  "iconDismiss": {
+    "textAlign": "center",
+    "padding": 25
+  },
+
+  "closeIconStyle": {
+    "fontSize": 20,
+    "textAlign": "center",
+    "color": "#8E8E8E",
+    "fontFamily": "fontawesome",
+  },
+}

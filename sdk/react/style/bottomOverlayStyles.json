@@ -1,0 +1,13 @@
+{
+  "container": {
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.3)",
+  },
+
+  "progressScrubber": {
+  	"position": "absolute",
+  	"fontSize": 18,
+  	"fontFamily": "fontawesome",
+  	"color": "white"
+  }
+}

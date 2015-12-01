@@ -1,6 +1,0 @@
-{
-  container: {
-    flexDirection: 'column',
-    alignItems: 'center',
-  }
-}

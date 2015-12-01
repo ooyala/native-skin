@@ -1,0 +1,53 @@
+{
+  "container": {
+    "marginTop": 18,
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "stretch",
+  },
+  "sharePanelNW": {
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.5)",
+  },
+  "sharePanelTitleRow": {
+    "height": 30,
+    "flexDirection": "row",
+    "alignItems": "center",
+  },
+  "sharePanelTitle": {
+    "flex": 1,
+    "fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
+    "textAlign": "left",
+    "color": "white",
+    "padding": 20
+  },
+  "sharePanelButtonRow": {
+    "flexDirection":"row",
+    "alignItems": "center",
+    "alignSelf": "center",
+    "backgroundColor": "transparent",
+    "margin": 20
+  },
+  "socialButton": {
+    "width": 70,
+    "height": 54,
+    "flex": 1
+  },
+  "button": {
+    "backgroundColor": "transparent",
+    "padding": 6,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
+    "borderRadius": 5,
+    "width": 120,
+    "height": 54
+  },
+  "item": {
+    "flex": 1,
+    "width": 90,
+    "height": 54,
+    "margin": 15
+  },
+}
