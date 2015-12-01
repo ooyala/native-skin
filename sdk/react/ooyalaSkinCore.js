@@ -388,7 +388,10 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
 
   return (
     <DiscoveryPanel
-      config={this.skin.props.discoveryScreen}
+      config={{
+        discoveryScreen: this.skin.props.discoveryScreen,
+        icons: this.skin.props.icons,
+      }}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       dataSource={this.skin.state.discoveryResults}

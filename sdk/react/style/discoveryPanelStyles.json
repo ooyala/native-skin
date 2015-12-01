@@ -2,6 +2,11 @@
   "panelTitle": {
     "height": 40
   },
+  "icon": {
+    "textAlign": "left",
+    "fontFamily": "alice",
+    "fontSize": 10
+  },
   "panelTitleText": {
     "padding": 10,
     "textAlign": "left",

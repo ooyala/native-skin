@@ -68,8 +68,8 @@ var DiscoveryPanel = React.createClass({
         }),
     ]).start();
 
-    if (this.props.screenType === SCREEN_TYPES.END_SCREEN && this.props.config.showCountDownTimerOnEndScreen) {
-      this.setCounterTime(parseInt(this.props.config.countDownTime));
+    if (this.props.screenType === SCREEN_TYPES.END_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
+      this.setCounterTime(parseInt(this.props.config.discoveryScreen.countDownTime));
     }
   },
 
@@ -162,12 +162,12 @@ var DiscoveryPanel = React.createClass({
 
   renderItem: function(item: object, sectionID: number, itemID: number) {
     var title;
-    if (this.props.config.contentTitle && this.props.config.contentTitle.show) {
-      title = <Text style={[styles.contentText, this.props.config.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
+    if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
+      title = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
     }
   	var duration;
-    if (this.props.config.contentDuration && this.props.config.contentDuration.show) {
-      duration = <Text style={[styles.contentText, this.props.config.contentDuration.font]} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
+    if (this.props.config.discoveryScreen.contentDuration && this.props.config.discoveryScreen.contentDuration.show) {
+      duration = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentDuration.font]} numberOfLines={1}>{Utils.secondsToString(item.duration)}</Text>;
     };
 
     var circularStatus;
@@ -201,16 +201,18 @@ var DiscoveryPanel = React.createClass({
 
   renderHeader: function() {
     var title;
-    if (this.props.config.panelTitle) {
-      if (this.props.config.panelTitle.imageUri && this.props.config.panelTitle.showImage) {
-        return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.panelTitle.imageUri}} />);
+    if (this.props.config.discoveryScreen.panelTitle) {
+      if (this.props.config.discoveryScreen.panelTitle.imageUri && this.props.config.discoveryScreen.panelTitle.showImage) {
+        return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.discoveryScreen.panelTitle.imageUri}} />);
       }
     }
 
     title = Utils.localizedString(this.props.locale, "Discovery", this.props.localizableStrings);
     return (
       <View style={styles.panelTitle}>
-        <Text style={[styles.panelTitleText,this.props.config.panelTitle.titleFont]}>{title}</Text>
+        <Text style={[styles.panelTitleText,this.props.config.discoveryScreen.panelTitle.titleFont]}>
+        {title} <Text style={styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
+        </Text>
       </View>);
   },
 });
