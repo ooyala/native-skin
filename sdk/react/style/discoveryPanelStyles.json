@@ -5,7 +5,7 @@
   "icon": {
     "textAlign": "left",
     "fontFamily": "alice",
-    "fontSize": 10
+    "fontSize": 16
   },
   "panelTitleText": {
     "padding": 10,
@@ -49,6 +49,8 @@
   },
   "panel": {
     "flex": 1,
+    "backgroundColor": "rgba(0, 0, 0, 0.7)",
+
   },
   "columnContainerPortrait": {
     "flex": 1,
