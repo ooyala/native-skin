@@ -15,9 +15,11 @@
 @property (nonatomic, copy) RCTBubblingEventBlock onTimerCompleted;
 
 @property (nonatomic) float time;
+@property (nonatomic) float timeLeft;
 @property (nonatomic) CGFloat radius;
 @property (strong, nonatomic) UIColor *fillColor;
 @property (nonatomic) float fillAlpha;
 @property (strong, nonatomic) UIColor *strokeColor;
+@property (nonatomic) BOOL automatic;
 
 @end

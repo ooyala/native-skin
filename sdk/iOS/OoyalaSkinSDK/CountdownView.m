@@ -13,7 +13,6 @@
 @property (strong, nonatomic) CAShapeLayer *circleLayer;
 @property (strong, nonatomic) UILabel *timerLabel;
 @property (strong, nonatomic) NSTimer *timer;
-@property (nonatomic) float timeLeft;
 @property (nonatomic) BOOL canceled;
 
 @end
@@ -48,13 +47,13 @@
 - (void)setTime:(float)time
 {
   _time = time;
-  self.timeLeft = _time;
-  if (self.timer) {
-    [self.timer invalidate];
-    self.timer = nil;
-  }
+}
+
+- (void)setAutomatic:(BOOL)automatic
+{
+  _automatic = automatic;
   
-  if (!self.timer) {
+  if (_automatic && !self.timer) {
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTimer:) userInfo:nil repeats:YES];
   }
 }
@@ -174,6 +173,11 @@
   self.circleLayer.frame = self.bounds;
   [self configure];
   self.circleLayer.path = [[self circlePath] CGPath];
+}
+
+- (void)dealloc
+{
+  [self.timer invalidate];
 }
 
 @end

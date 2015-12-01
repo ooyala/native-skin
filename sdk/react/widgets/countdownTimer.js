@@ -14,11 +14,13 @@ var CountdownView = React.createClass({
 		...View.propTypes,
 
 		time: React.PropTypes.number,
+    timeLeft: React.PropTypes.number,
 		radius: React.PropTypes.number,
 		fillColor: React.PropTypes.string,
 		fillAlpha: React.PropTypes.number,
 		strokeColor: React.PropTypes.string,
 		tapCancel: React.PropTypes.bool,
+    automatic: React.PropTypes.bool,
 
 		onTimerUpdate: React.PropTypes.func,
 		onTimerCompleted: React.PropTypes.func,
@@ -33,6 +35,8 @@ var CountdownView = React.createClass({
       fillAlpha: 1.0,
       strokeColor: '#ffffff',
       tapCancel: false,
+      automatic: true,
+      timeLeft: 10,
 		};
 	},
 

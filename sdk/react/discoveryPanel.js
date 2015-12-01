@@ -125,7 +125,9 @@ var DiscoveryPanel = React.createClass({
   renderCountdownTimer: function(item) {
     return (
       <CountdownView
+        automatic={true}
         time={this.state.counterLimit}
+        timeLeft={this.state.counterLimit}
         radius={22}
         fillColor={'#000000'}
         strokeColor={'#ffffff'}
