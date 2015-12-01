@@ -97,7 +97,7 @@ OoyalaSkinCore.prototype.pauseOnOptions = function() {
     this.previousScreenType = this.skin.state.screenType;
   }
 
-  if (this.skin.state.rate > 0) {
+  if (this.skin.state.playing) {
     this.skin.setState({pausedByOverlay:true});
     this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
   }
@@ -115,6 +115,7 @@ OoyalaSkinCore.prototype.onOptionDismissed = function() {
 };
 
 OoyalaSkinCore.prototype.handlePress = function(n) {
+  console.log("handlePress+buttonName:"+n);
   switch(n) {
     case BUTTON_NAMES.MORE:
       n="None";
