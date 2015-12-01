@@ -40,6 +40,7 @@ var VideoView = React.createClass({
     return {
       showControls: false,
       showSharePanel: false,
+      showBottomOverlay: true,
     };
   },
 
@@ -109,10 +110,6 @@ var VideoView = React.createClass({
   },
 
   _renderBottomOverlay: function() {
-    if (this.props.ad) {
-      return;
-    }
-
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -130,7 +127,7 @@ var VideoView = React.createClass({
       onScrub={(value)=>this.handleScrub(value)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.controlsVisible()}
+      isShow={this.controlsVisible() && this.state.showBottomOverlay}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -296,10 +293,12 @@ var VideoView = React.createClass({
 
   render: function() {
     var adBar = null;
-
+    this.state.showBottomOverlay = true;
+    
     if (this.props.ad) {
       if (this.props.rate == 0) {
         this.state.showControls = true;
+        this.state.showBottomOverlay = false;
       } else {
         this.state.showControls = false;
       }
