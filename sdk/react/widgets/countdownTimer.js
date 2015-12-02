@@ -66,7 +66,6 @@ var CountdownView = React.createClass({
 		return <NativeCountdownView
 			{...this.props}
       canceled={this.state.canceled}
-      style={styles.countdown}
 			onTimerUpdate={this._onTimerUpdate}
 			onTimerCompleted={this._onTimerCompleted} />
 	},
@@ -94,13 +93,6 @@ var NativeCountdownView = requireNativeComponent('CountdownView', CountdownView,
 		onTimerCompleted: true,
     canceled: true,
 	},
-});
-
-var styles = StyleSheet.create({
-  countdown: {
-    height: 50,
-    width: 50,
-  }
 });
 
 module.exports = CountdownView;

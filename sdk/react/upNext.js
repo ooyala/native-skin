@@ -73,7 +73,15 @@ var UpNext = React.createClass({
       var upNextDescription = (
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
-            <CountdownView automatic={false} time={this.upNextDuration()} timeLeft={this.props.duration - this.props.playhead} radius={13} fillAlpha={0.7} />
+            <CountdownView style={{
+              width: 26,
+              height: 26,
+            }}
+            automatic={false}
+            time={this.upNextDuration()}
+            timeLeft={this.props.duration - this.props.playhead}
+            radius={13}
+            fillAlpha={0.7} />
             <Text style={styles.title}>
               Up next: {this.props.nextVideo.name}
             </Text>

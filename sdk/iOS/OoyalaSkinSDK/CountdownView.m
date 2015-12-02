@@ -163,17 +163,13 @@
                                                     constant:0.0]];
 }
 
-- (CGRect)circleFrame
-{
-  CGRect circleFrame = CGRectMake(0, 0, self.radius * 2, self.radius * 2);
-  circleFrame.origin.x = CGRectGetMidX(self.circleLayer.bounds) - CGRectGetMidX(circleFrame);
-  circleFrame.origin.y = CGRectGetMidY(self.circleLayer.bounds) - CGRectGetMidY(circleFrame);
-  return circleFrame;
-}
-
 - (UIBezierPath *)circlePath
 {
-  return [UIBezierPath bezierPathWithOvalInRect:[self circleFrame]];
+  return [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.radius, self.radius)
+                                        radius:self.radius
+                                    startAngle:(-M_PI/2)
+                                      endAngle:(3*M_PI/2)
+                                     clockwise:YES];
 }
 
 - (void)removeCircleLayer
@@ -187,7 +183,6 @@
 - (void)layoutSubviews
 {
   [super layoutSubviews];
-  self.circleLayer.frame = self.bounds;
   [self configure];
   self.circleLayer.path = [[self circlePath] CGPath];
 }
