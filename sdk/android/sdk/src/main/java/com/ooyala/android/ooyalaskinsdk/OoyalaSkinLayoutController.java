@@ -1,12 +1,12 @@
 package com.ooyala.android.ooyalaskinsdk;
 
+import android.content.Intent;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
-
 import android.widget.FrameLayout;
-
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -23,7 +23,6 @@ import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 import com.ooyala.android.OoyalaException;
-
 import java.util.Observable;
 import java.util.Observer;
 
@@ -39,6 +38,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private boolean _isFullscreen = false;
   private static final String BUTTON_PLAYPAUSE = "PlayPause";
   private static final String BUTTON_PLAY = "Play";
+  private static final String BUTTON_SHARE = "Share";
   private static final String BUTTON_SOCIALSHARE = "SocialShare";
   private static final String BUTTON_FULLSCREEN = "Fullscreen";
   private static final String BUTTON_LEARNMORE = "LearnMore";
@@ -53,6 +53,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
   private static final String KEY_STATE = "state";
+  private int width,height;
+  private String shareTitle;
 
   @Override
   public String getName() {
@@ -64,9 +66,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     super(c);
     _layout = l;
     _player = p;
-
     _player.setLayoutController(this);
     _player.addObserver(this);
+    DisplayMetrics metrics = c.getResources().getDisplayMetrics();
+    float dpi = metrics.densityDpi;
+    float cal = 160/dpi;
+    height = Math.round(_layout.getViewHeight()*cal);
+    width = Math.round(_layout.getViewWidth()*cal);
   }
 
   public FrameLayout getLayout() {
@@ -157,14 +163,30 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             handlePlay();
           } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
             handlePlayPause();
-          } else if(buttonName.equals(BUTTON_FULLSCREEN)){
+          } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
             _isFullscreen = !isFullscreen();
               setFullscreen(_isFullscreen);
-            }
+          } else if (buttonName.equals(BUTTON_SHARE)) {
+            handleShare();
+          }
         }
       });
     }
   }
+    @ReactMethod
+    public void shareTitle(ReadableMap parameters) {
+        shareTitle = parameters.getString("shareTitle");
+    }
+
+    private void handleShare() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
+        shareIntent.putExtra(Intent.EXTRA_TEXT,     "http://www.ooyala.com");
+        Intent chooserIntent = Intent.createChooser(shareIntent, "share to");
+        chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getReactApplicationContext().startActivity(chooserIntent);
+    }
 
   @Override
   public void update(Observable arg0, Object arg1) {
@@ -210,6 +232,32 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     int percent = ((int) percentValue);
     _player.seekToPercent(percent);
   }
+  @ReactMethod
+  public void onDiscoveryRow(ReadableMap parameters) {
+  }
+
+  private WritableMap getDiscovery() {
+      WritableMap discoveryresults = Arguments.createMap();
+      WritableArray results = Arguments.createArray();
+      WritableMap argumn1 = Arguments.createMap();
+      WritableMap argumn2 = Arguments.createMap();
+      argumn1.putString(" \"bucketInfo\"", "1{\\\"encoded\\\":\\\"eNpNkN0KgzAMRt8l1zKa2lrny0jR4gr+lDYTxPnui5uKdzlfTtKSFYKNbqR6\\\\\\\\nDrVvoQLx0apEBRm4ec9pCQ4qzCC42HBgux0fIgPbd1P09Brq0Q4cAvGiNsG9\\\\\\\\nw8vtkKBaoYt2fPeW44XVnC3yvymuUjNFd7wENAWOeJA8+WlMu7JlEF1T9z4R\\\\\\\\nI2pdoMTy/9NKilJqVYgLjdEGi3u3kKeca9xtcyBqoYzIxYVKPrE8b7B9ASdO\\\\\\\\nU+k=\\\",\\\"position\\\":0}\"");
+      argumn1.putString("embedCode", "k4MXhjYTrxnFXdBMq95IMeNZVGs-a1kt");
+      argumn1.putString("name", "RTMP movie-only ");
+      argumn1.putString("imageUrl", "http://ak.c.ooyala.com/k4MXhjYTrxnFXdBMq95IMeNZVGs-a1kt/Ut_HKthATH4eww8X4yMDoxOjBhO4VMwE");
+      argumn1.putDouble("duration", 124.708);
+      results.pushMap(argumn1);
+
+      argumn2.putString("\"bucketInfo\"", "\"1{\\\"encoded\\\":\\\"eNpNkN0KgzAMRt8l1zKa2lrny0jR4gr+lDYTxPnui5uKdzlfTtKSFYKNbqR6\\\\\\\\nDrVvoQLx0apEBRm4ec9pCQ4qzCC42HBgux0fIgPbd1P09Brq0Q4cAvGiNsG9\\\\\\\\nw8vtkKBaoYt2fPeW44XVnC3yvymuUjNFd7wENAWOeJA8+WlMu7JlEF1T9z4R\\\\\\\\nI2pdoMTy/9NKilJqVYgLjdEGi3u3kKeca9xtcyBqoYzIxYVKPrE8b7B9ASdO\\\\\\\\nU+k=\\\",\\\"position\\\":2}\"");
+      argumn2.putString("embedCode", "92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww");
+      argumn2.putString("name", "VOD with Closed Captions");
+      argumn2.putString("imageUrl", "http://ak.c.ooyala.com/92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww/promo260039831");
+      argumn2.putDouble("duration", 40.133);
+      results.pushMap(argumn2);
+
+      discoveryresults.putArray("results", results);
+      return discoveryresults;
+  }
 
   // notification bridges
   private void bridgeCurrentItemChangedNotification() {
@@ -218,7 +266,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     if (currentItem != null) {
       String title = currentItem.getTitle();
       params.putString("title", title != null ? title : "");
-
       String description = currentItem.getDescription();
       params.putString("description", description != null ? description : "");
 
@@ -229,7 +276,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       Double duration = currentItem.getDuration() / 1000.0;
       params.putDouble("duration", duration);
       params.putBoolean("live", currentItem.isLive());
-
+      params.putInt("width", width);
+      params.putInt("height", height);
       if (currentItem.hasClosedCaptions()) {
         WritableArray languages = Arguments.createArray();
         for (String s : currentItem.getClosedCaptions().getLanguages()) {
@@ -238,7 +286,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
         params.putArray("languages", languages);
       }
     }
-
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("discoveryResultsReceived", getDiscovery());
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
@@ -282,12 +332,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
       String promoUrl = currentItem.getPromoImageURL(2000, 2000);
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
-
-//      String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
+      //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : "";
       Double duration = currentItem.getDuration() / 1000.0;
       params.putDouble("duration", duration);
     }
-
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);

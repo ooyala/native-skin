@@ -110,8 +110,12 @@ var OoyalaSkin = React.createClass({
       case SCREEN_TYPES.END_SCREEN:   
         return OoyalaSkinCoreInstance.renderEndScreen();   
         break;
-      // case SCREEN_TYPES.MOREOPTION_SCREEN:  return this._renderMoreOptionScreen();  break;
-      // case SCREEN_TYPES.ERROR_SCREEN: return this._renderErrorScreen(); break;
+      case SCREEN_TYPES.MOREOPTION_SCREEN:
+        return OoyalaSkinCoreInstance._renderMoreOptionScreen();  
+        break;
+      case SCREEN_TYPES.ERROR_SCREEN:
+        return OoyalaSkinCoreInstance._renderErrorScreen();
+        break;
       default: 
         return OoyalaSkinCoreInstance.renderVideoView();     
          break;
