@@ -115,7 +115,6 @@ OoyalaSkinCore.prototype.onOptionDismissed = function() {
 };
 
 OoyalaSkinCore.prototype.handlePress = function(n) {
-  console.log("handlePress+buttonName:"+n);
   switch(n) {
     case BUTTON_NAMES.MORE:
       n="None";
