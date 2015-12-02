@@ -40,7 +40,6 @@ var VideoView = React.createClass({
     return {
       showControls: false,
       showSharePanel: false,
-      showBottomOverlay: true,
     };
   },
 
@@ -70,6 +69,16 @@ var VideoView = React.createClass({
     localizableStrings: React.PropTypes.object,
     platform: React.PropTypes.string,
     locale: React.PropTypes.string
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.ad) {
+      if (nextProps.rate == 0) {
+        this.setState({showControls: true});
+      } else {
+        this.setState({showControls: false});
+      }
+    }
   },
 
   generateLiveObject: function() {
@@ -127,7 +136,7 @@ var VideoView = React.createClass({
       onScrub={(value)=>this.handleScrub(value)}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
-      isShow={this.controlsVisible() && this.state.showBottomOverlay}
+      isShow={this.controlsVisible()}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -293,16 +302,8 @@ var VideoView = React.createClass({
 
   render: function() {
     var adBar = null;
-    this.state.showBottomOverlay = true;
     
     if (this.props.ad) {
-      if (this.props.rate == 0) {
-        this.state.showControls = true;
-        this.state.showBottomOverlay = false;
-      } else {
-        this.state.showControls = false;
-      }
-
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
       if(this.props.config.adScreen.showControlBar == false && this.state.showControls == false) {
         return adBar;
