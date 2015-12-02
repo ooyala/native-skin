@@ -58,7 +58,6 @@ var VideoViewPlayPause = React.createClass({
 
   componentWillMount: function() {
     // initialize animations.
-    console.log("componentwillmount initplay"+this.props.initialPlay +"playing"+this.props.playing);
     if (this.props.initialPlay) {
       this.state.widget.animationOpacity.setValue(1);
       this.state.play.animationOpacity.setValue(1);
@@ -71,7 +70,6 @@ var VideoViewPlayPause = React.createClass({
   },
 
   componentDidMount: function () {
-    console.log("componentdidmount");
     if (this.state.showInitialPlayAnimation) {
       this.animatePlayButton();
     }
@@ -106,7 +104,6 @@ var VideoViewPlayPause = React.createClass({
   },
 
   onAnimationCompleted: function(instance) {
-    console.log("animationcomplete");
     this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
     this.setState({inAnimation:false});
     this.syncButtons(this.props.playing);
