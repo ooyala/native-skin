@@ -71,6 +71,16 @@ var VideoView = React.createClass({
     locale: React.PropTypes.string
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.ad) {
+      if (nextProps.rate == 0) {
+        this.setState({showControls: true});
+      } else {
+        this.setState({showControls: false});
+      }
+    }
+  },
+
   generateLiveObject: function() {
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
@@ -292,14 +302,8 @@ var VideoView = React.createClass({
 
   render: function() {
     var adBar = null;
-
+    
     if (this.props.ad) {
-      if (this.props.rate == 0) {
-        this.state.showControls = true;
-      } else {
-        this.state.showControls = false;
-      }
-
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
       if(this.props.config.adScreen.showControlBar == false && this.state.showControls == false) {
         return adBar;
