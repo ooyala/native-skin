@@ -1,0 +1,36 @@
+{
+  "name": "OoyalaSkin",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node_modules/react-native/packager/packager.sh",
+    "test": "jest"
+  },
+  "jest": {
+    "scriptPreprocessor": "node_modules/react-native/jestSupport/preprocessor.js",
+    "setupEnvScriptFile": "node_modules/react-native/jestSupport/env.js",
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testFileExtensions": [
+      "js"
+    ],
+    "unmockedModulePathPatterns": [
+      "promise",
+      "source-map"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ],
+    "collectCoverage": true
+  },
+  "devDependencies": {
+    "jest-cli": "~0.7.0"
+  },
+  "dependencies": {
+    "react-native": "^0.13.2",
+    "react-timer-mixin": "^0.13.3"
+  }
+}

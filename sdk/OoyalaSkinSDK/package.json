@@ -17,6 +17,7 @@
     "jest-cli": "~0.7.0"
   },
   "dependencies": {
-    "react-native": "^0.13.2"
+    "react-native": "^0.13.2",
+    "react-native-cli": ">=0.1.7"
   }
 }
