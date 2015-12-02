@@ -300,9 +300,6 @@ var VideoView = React.createClass({
   render: function() {
     var adBar = null;
     if (this.props.ad) {
-      if (!this.props.playing) {
-        showPlayPauseButton = true;
-      }
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
     }
     return (
