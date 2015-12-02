@@ -119,6 +119,7 @@ static NSDictionary *kSkinCofig;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
   }
 }
 
@@ -260,6 +261,10 @@ static NSDictionary *kSkinCofig;
 }
 
 - (void) bridgePlayStartedNotification:(NSNotification *)notification {
+  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
+}
+
+- (void) bridgeEmbedCodeNotification:(NSNotification *)notification {
   [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
 }
 

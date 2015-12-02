@@ -16,7 +16,8 @@ var Constants = require('./constants');
 var {
   PLATFORMS,
   IMG_URLS,
-  UI_SIZES
+  UI_SIZES,
+  BUTTON_NAMES,
 } = Constants;
 
 var RectButton = require('./widgets/RectButton');
@@ -38,7 +39,7 @@ var StartScreen = React.createClass({
   },
 
   handleClick: function() {
-    this.props.onPress('PlayPause');
+    this.props.onPress(BUTTON_NAMES.PLAY);
   },
   // Gets the play button based on the current config settings
   getPlayButton: function() {
@@ -94,8 +95,7 @@ var StartScreen = React.createClass({
           buttonHeight={iconFontSize}
           fontSize={iconFontSize}
           playing={false}
-          showButton={true}
-          isStartScreen={true}>
+          showButton={true}>
         </VideoViewPlayPause>);
       }
   }

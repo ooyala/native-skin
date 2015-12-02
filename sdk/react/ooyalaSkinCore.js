@@ -57,6 +57,7 @@ OoyalaSkinCore.prototype.mount = function(eventEmitter) {
     [ 'playStarted',              (event) => this.onPlayStarted(event) ],
     [ 'postShareAlert',           (event) => this.onPostShareAlert(event) ],
     [ 'error',                    (event) => this.onError(event) ],
+    [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ]
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -96,7 +97,7 @@ OoyalaSkinCore.prototype.pauseOnOptions = function() {
     this.previousScreenType = this.skin.state.screenType;
   }
 
-  if (this.skin.state.rate > 0) {
+  if (this.skin.state.playing) {
     this.skin.setState({pausedByOverlay:true});
     this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
   }
@@ -114,7 +115,6 @@ OoyalaSkinCore.prototype.onOptionDismissed = function() {
 };
 
 OoyalaSkinCore.prototype.handlePress = function(n) {
-  this.skin.setState({lastPressedTime: (new Date).getTime()});
   switch(n) {
     case BUTTON_NAMES.MORE:
       n="None";
@@ -127,10 +127,6 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       this.pauseOnOptions();
       this.onOptionButtonPress(n);
       break;
-    case BUTTON_NAMES.RESET_AUTOHIDE:
-      break;
-    case BUTTON_NAMES.PLAY_PAUSE:
-      this.skin.setState({showPlayButton: !this.skin.state.showPlayButton});
     default:
       this.bridge.onPress({name:n});
       break;
@@ -152,9 +148,6 @@ OoyalaSkinCore.prototype.onClosedCaptionUpdate = function(e) {
 };
 
 OoyalaSkinCore.prototype.onDiscoveryRow = function(info) {
-  if (info.action && info.action === "click") {
-    this.skin.setState({screenType: SCREEN_TYPES.LOADING_SCREEN, autoPlay: true})
-  }
   this.bridge.onDiscoveryRow(info);
 };
 
@@ -162,6 +155,7 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
   this.skin.setState({
     playhead: e.playhead,
     duration: e.duration,
+    initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
   });
 
@@ -227,18 +221,41 @@ OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
 OoyalaSkinCore.prototype.onStateChange = function(e) {
   Log.log("state changed to:" + e.state)
   switch (e.state) {
-    case "paused": this.skin.setState({rate:0}); break;
-    case "playing":
-      this.skin.setState({rate:1});
-      this.skin.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN});
+    case "completed":
+    case "error":
+    case "init":
+    case "paused":
+    case "ready":
+      this.skin.setState({
+        playing: false,
+        loading: false
+      });
       break;
-    default: break;
+    case "playing":
+      this.skin.setState({
+        playing: true,
+        loading: false,
+        initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false, 
+        screenType: SCREEN_TYPES.VIDEO_SCREEN});
+      break;
+    case "loading":
+      this.skin.setState({
+        loading: true
+      })
+      break;
+    default:
+      break;
   }
 };
 
 OoyalaSkinCore.prototype.onError = function(e) {
   Log.log("Error received");
   this.skin.setState({screenType:SCREEN_TYPES.ERROR_SCREEN, error:e});
+};
+
+OoyalaSkinCore.prototype.onEmbedCodeSet = function(e) {
+  Log.log("EmbedCodeSet received");
+  this.skin.setState({screenType:SCREEN_TYPES.LOADING_SCREEN});
 };
 
 OoyalaSkinCore.prototype.onUpNextDismissed = function(e) {
@@ -320,7 +337,6 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
   return (
     <VideoView
       rate={this.skin.state.rate}
-      showPlay={this.skin.state.showPlayButton}
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
       ad ={this.skin.state.ad}
@@ -337,7 +353,6 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
       captionJSON={this.skin.state.captionJSON}
       onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-      lastPressedTime={this.skin.state.lastPressedTime}
       config={{
         controlBar: this.skin.props.controlBar,
         buttons: this.skin.props.buttons.mobileContent,
@@ -348,7 +363,10 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       nextVideo={this.skin.state.nextVideo}
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
-      locale={this.skin.props.locale}>
+      locale={this.skin.props.locale}
+      playing={this.skin.state.playing}
+      loading={this.skin.state.loading}
+      initialPlay={this.skin.state.initialPlay}>
     </VideoView>
   );
 };

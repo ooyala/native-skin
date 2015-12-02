@@ -34,12 +34,11 @@ var VideoViewPlayPause = React.createClass({
     style:React.PropTypes.object,
     showButton: React.PropTypes.bool,
     playing: React.PropTypes.bool,
-    isStartScreen: React.PropTypes.bool,
-    rate: React.PropTypes.number,
-    playhead: React.PropTypes.number
+    loading: React.PropTypes.bool,
+    initialPlay: React.PropTypes.bool
   },
 
-  getInitialState: function() {
+  getInitialState: function() {      
     return {
       play: {
         animationScale: new Animated.Value(1),
@@ -50,100 +49,106 @@ var VideoViewPlayPause = React.createClass({
         animationOpacity: new Animated.Value(0)
       },
       widget: {
-        animationOpacity: new Animated.Value(1)
+        animationOpacity: new Animated.Value(0)
       },
-      controlPlaying: true
+      showInitialPlayAnimation: this.props.initialPlay,
+      inAnimation: false
     };
   },
 
-  componentWillMount: function () {
-    if(this.isInitialVideoPlay() || this.isVideoRemount(PLAY)) {
-      this.playPauseAction(PLAY);
-      this.setState({controlPlaying: false});
-    }
-    if(this.isVideoRemount(PAUSE)) {
-      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+  componentWillMount: function() {
+    // initialize animations.
+    if (this.props.initialPlay) {
+      this.state.widget.animationOpacity.setValue(1);
+      this.state.play.animationOpacity.setValue(1);
+      this.state.pause.animationOpacity.setValue(0);
+    } else {
+      this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
+      this.state.play.animationOpacity.setValue(this.props.playing ? 0 : 1);
+      this.state.pause.animationOpacity.setValue(this.props.playing ? 1 : 0);
     }
   },
 
-  isInitialVideoPlay: function() {
-    return (!this.props.isStartScreen && this.props.playhead == 0);
+  componentDidMount: function () {
+    if (this.state.showInitialPlayAnimation) {
+      this.animatePlayButton();
+    }
   },
 
-  isVideoRemount: function(state) {
-    if(!this.props.isStartScreen && this.props.playhead != 0) {
-      if(state == PLAY) {
-        return (!this.props.playing);
-      }
-      if(state == PAUSE) {
-        return (this.props.playing);
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.showButton != this.props.showButton) {
+      var widgetOpacity = nextProps.showButton ? 1 : 0
+      Animated.timing(this.state.widget.animationOpacity, {
+        toValue: widgetOpacity,
+      }).start();
+    }
+
+    if (nextProps.playing != this.props.playing) {
+      if (!this.state.inAnimation) {
+        this.syncButtons(nextProps.playing);
       }
     }
-    return false;
   },
 
   onPress: function() {
     if(this.props.showButton) {
-      // Sets controlPlaying if video is paused by user
-      this.setState({controlPlaying: !this.state.controlPlaying});
-      if(this.props.rate <= 0 != this.state.controlPlaying && !this.props.isStartScreen) {
-        this.playPauseAction(PAUSE);
+      if (this.props.playing) {
+        this.showPlayButton();
+      } else {
+        this.animatePlayButton();
       }
-      else {
-        this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
-        this.playPauseAction((this.state.controlPlaying) ? PLAY : PAUSE);
-      }
-    }
-    else {
+      this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+    } else {
       this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   },
 
+  onAnimationCompleted: function(instance) {
+    this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
+    this.setState({inAnimation:false});
+    this.syncButtons(this.props.playing);
+  },
+
   // Animations for play/pause transition
-  playPauseAction(name) {
-    if(name == PLAY) {
-      this.state.play.animationScale.setValue(1);
-      this.state.play.animationOpacity.setValue(1);
-      Animated.parallel([
-        Animated.timing(this.state.play.animationOpacity, {
-          toValue: 0
-        }),
-        Animated.timing(this.state.play.animationScale, {
-          toValue: 2
-        }),
-        Animated.timing(this.state.pause.animationOpacity, {
-          toValue: 1,
-          duration: 100,
-          delay: 1200
-        })
-      ]).start();
-    }
-    if(name == PAUSE) {
-      this.state.pause.animationOpacity.setValue(0);
-      this.state.play.animationOpacity.setValue(1);
-      this.state.play.animationScale.setValue(1);
-    }
+  animatePlayButton: function() {
+    this.setState({inAnimation: true});
+    this.state.play.animationScale.setValue(1);
+    this.state.play.animationOpacity.setValue(1);
+
+    Animated.parallel([
+      Animated.timing(this.state.play.animationOpacity, {
+        toValue: 0
+      }),
+      Animated.timing(this.state.play.animationScale, {
+        toValue: 2
+      }),
+    ]).start(this.onAnimationCompleted);
   },
 
-  componentDidUpdate(prevProps, prevState) {
-    if(prevProps.playing != this.props.playing && (this.props.rate <= 0) == this.state.controlPlaying) {
-      this.playPauseAction(this.props.playing ? PAUSE : PLAY);
-    }
+  showPlayButton: function() {
+    this.state.pause.animationOpacity.setValue(0);
+    this.state.play.animationOpacity.setValue(1);
+    this.state.play.animationScale.setValue(1);
   },
 
-  _renderLoading: function() {
-    if((this.props.rate <= 0 || this.props.playhead == 0) && !this.props.showButton && !this.state.controlPlaying) {
+  showPauseButton: function() {
+    this.state.pause.animationOpacity.setValue(1);
+    this.state.play.animationOpacity.setValue(0);
+  },
+
+  _renderLoading: function(sizeStyle) {
+    if (this.props.loading) {
       return (
-        <View style={styles.loading}>
+        <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle, {position: 'absolute'}]}>
           <ActivityIndicatorIOS
             animating={true}
             size="large">
           </ActivityIndicatorIOS>
-        </View>);
+        </Animated.View>);
     }
   },
 
-  _renderButton(name) {
+  _renderButton: function(name) {
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
 
     var opacity = {opacity: this.state[name].animationOpacity};
@@ -160,9 +165,16 @@ var VideoViewPlayPause = React.createClass({
     );
   },
 
+  syncButtons: function(playing) {
+    if (playing) {
+      this.showPauseButton();
+    } else {
+      this.showPlayButton();
+    }
+  },
+
   // Gets the play button based on the current config settings
   render: function() {
-
     if(this.props.style != null) {
       positionStyle = this.props.style;
     }
@@ -176,25 +188,14 @@ var VideoViewPlayPause = React.createClass({
     } else {
       positionStyle = styles[this.props.position];
     }
+    
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     var opacity = {opacity: this.state.widget.animationOpacity};
 
     var playButton = this._renderButton(PLAY);
     var pauseButton = this._renderButton(PAUSE);
-    var loading = this._renderLoading();
-
-    if(this.props.showButton) {
-      Animated.timing(this.state.widget.animationOpacity, {
-        toValue: 1,
-        duration: 400
-      }).start();
-    }
-    else {
-      Animated.timing(this.state.widget.animationOpacity, {
-        toValue: 0,
-        duration: 400
-      }).start();
-    }
+    var loading = this._renderLoading(sizeStyle);
+    
     return (
       <TouchableHighlight
         onPress={() => this.onPress()}
@@ -202,9 +203,7 @@ var VideoViewPlayPause = React.createClass({
         underlayColor="transparent"
         activeOpacity={this.props.opacity}>
         <View>
-          <Animated.View style={[styles.buttonArea, sizeStyle, {position: 'absolute'}]}>
-            {loading}
-          </Animated.View>
+          {loading}
           <Animated.View style={[styles.buttonArea, sizeStyle, opacity, {position: 'absolute'}]}>
             {playButton}
             {pauseButton}
@@ -212,7 +211,6 @@ var VideoViewPlayPause = React.createClass({
         </View>
       </TouchableHighlight>
     );
-
   }
 });
 

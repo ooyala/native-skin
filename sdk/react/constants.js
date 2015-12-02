@@ -8,6 +8,7 @@ UI_SIZES = {
 };
 
 var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
+  PLAY: 'Play',
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'Fullscreen',
   MORE: 'More',
