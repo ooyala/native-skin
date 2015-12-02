@@ -26,7 +26,7 @@ public class OoyalaSkinLayout extends FrameLayout {
   private OoyalaPlayer _player;
   private ReactInstanceManager _reactInstanceManager;
   private ReactRootView _rootView;
-  int viewWidth,viewHeight;
+  private int viewWidth,viewHeight;
 
 
   /**
@@ -60,6 +60,14 @@ public class OoyalaSkinLayout extends FrameLayout {
       super.onSizeChanged(xNew, yNew, xOld, yOld);
       viewWidth = xNew;
       viewHeight = yNew;
+  }
+
+  public int getViewHeight() {
+    return viewHeight;
+  }
+
+  public int getViewWidth() {
+    return viewWidth;
   }
 
   public void setupViews(Application app, OoyalaPlayer p) {

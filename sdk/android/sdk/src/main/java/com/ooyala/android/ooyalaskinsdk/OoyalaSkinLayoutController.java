@@ -53,8 +53,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
   private static final String KEY_STATE = "state";
-  int width,height;
-  String shareTitle;
+  private int width,height;
+  private String shareTitle;
 
   @Override
   public String getName() {
@@ -71,8 +71,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     DisplayMetrics metrics = c.getResources().getDisplayMetrics();
     float dpi = metrics.densityDpi;
     float cal = 160/dpi;
-    height = Math.round(_layout.viewHeight*cal);
-    width = Math.round(_layout.viewWidth*cal);
+    height = Math.round(_layout.getViewHeight()*cal);
+    width = Math.round(_layout.getViewWidth()*cal);
   }
 
   public FrameLayout getLayout() {
@@ -303,7 +303,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
       String promoUrl = currentItem.getPromoImageURL(2000, 2000);
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
-      //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
+      //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : "";
       Double duration = currentItem.getDuration() / 1000.0;
       params.putDouble("duration", duration);
     }
