@@ -216,8 +216,7 @@ var VideoView = React.createClass({
   _renderPlayPause: function(show) {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     
-    if(this.props.platform == Constants.PLATFORMS.ANDROID)
-    {
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
       return (
       <VideoViewPlayPauseAndroid
         icons={{
@@ -238,43 +237,40 @@ var VideoView = React.createClass({
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
         fontSize={iconFontSize}
-        showButton={this.controlsVisible()}
-        rate={this.props.rate}
-        playing={this.props.playing}
-        loading={this.props.loading}
-        initialPlay={this.props.initialPlay}>
-      </VideoViewPlayPauseAndroid>);
-    }
-    else if(this.props.platform == Constants.PLATFORMS.IOS)
-    {
-
-    return (
-      <VideoViewPlayPause
-        icons={{
-          play: {
-            icon: this.props.config.icons.play.fontString,
-            fontFamily: this.props.config.icons.play.fontFamilyName
-          },
-          pause: {
-            icon: this.props.config.icons.pause.fontString,
-            fontFamily: this.props.config.icons.pause.fontFamilyName
-          }
-        }}
-        position={"center"}
-        onPress={(name) => this.handlePress(name)}
-        frameWidth={this.props.width}
-        frameHeight={this.props.height}
-        buttonWidth={iconFontSize}
-        buttonHeight={iconFontSize}
-        fontSize={iconFontSize}
         showButton={show}
         rate={this.props.rate}
         playing={this.props.playing}
         loading={this.props.loading}
         initialPlay={this.props.initialPlay}>
-      </VideoViewPlayPause>);
-  }
-  return null;
+      </VideoViewPlayPauseAndroid>);
+    } else if(this.props.platform == Constants.PLATFORMS.IOS) {
+      return (
+        <VideoViewPlayPause
+          icons={{
+            play: {
+              icon: this.props.config.icons.play.fontString,
+              fontFamily: this.props.config.icons.play.fontFamilyName
+            },
+            pause: {
+              icon: this.props.config.icons.pause.fontString,
+              fontFamily: this.props.config.icons.pause.fontFamilyName
+            }
+          }}
+          position={"center"}
+          onPress={(name) => this.handlePress(name)}
+          frameWidth={this.props.width}
+          frameHeight={this.props.height}
+          buttonWidth={iconFontSize}
+          buttonHeight={iconFontSize}
+          fontSize={iconFontSize}
+          showButton={show}
+          rate={this.props.rate}
+          playing={this.props.playing}
+          loading={this.props.loading}
+          initialPlay={this.props.initialPlay}>
+        </VideoViewPlayPause>);
+    }
+    return null;
   },
 
   _handleSocialShare: function() {
@@ -295,7 +291,6 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-    var showPlayPauseButton = this.state.showControls;
     var adBar = null;
     if (this.props.ad) {
       if (!this.props.playing) {
@@ -309,7 +304,7 @@ var VideoView = React.createClass({
         {adBar}
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
-        {this._renderPlayPause(showPlayPauseButton)}
+        {this._renderPlayPause(this.state.showControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(this.state.showControls)}
       </View>

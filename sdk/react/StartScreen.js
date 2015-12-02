@@ -95,8 +95,7 @@ var StartScreen = React.createClass({
           buttonHeight={iconFontSize}
           fontSize={iconFontSize}
           playing={false}
-          showButton={true}
-          isStartScreen={true}>
+          showButton={true}>
         </VideoViewPlayPause>);
       }
   }

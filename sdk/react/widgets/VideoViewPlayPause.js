@@ -38,7 +38,7 @@ var VideoViewPlayPause = React.createClass({
     initialPlay: React.PropTypes.bool
   },
 
-  getInitialState: function() {
+  getInitialState: function() {      
     return {
       play: {
         animationScale: new Animated.Value(1),
@@ -49,11 +49,25 @@ var VideoViewPlayPause = React.createClass({
         animationOpacity: new Animated.Value(0)
       },
       widget: {
-        animationOpacity: new Animated.Value(1)
+        animationOpacity: new Animated.Value(0)
       },
       showInitialPlayAnimation: this.props.initialPlay,
       inAnimation: false
     };
+  },
+
+  componentWillMount: function() {
+    // initialize animations.
+    console.log("componentwillmount initplay"+this.props.initialPlay +"playing"+this.props.playing);
+    if (this.props.initialPlay) {
+      this.state.widget.animationOpacity.setValue(1);
+      this.state.play.animationOpacity.setValue(1);
+      this.state.pause.animationOpacity.setValue(0);
+    } else {
+      this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
+      this.state.play.animationOpacity.setValue(this.props.playing ? 0 : 1);
+      this.state.pause.animationOpacity.setValue(this.props.playing ? 1 : 0);
+    }
   },
 
   componentDidMount: function () {
@@ -115,14 +129,12 @@ var VideoViewPlayPause = React.createClass({
   },
 
   showPlayButton: function() {
-    console.log("showPlayButton");
     this.state.pause.animationOpacity.setValue(0);
     this.state.play.animationOpacity.setValue(1);
     this.state.play.animationScale.setValue(1);
   },
 
   showPauseButton: function() {
-    console.log("showPauseButton");
     this.state.pause.animationOpacity.setValue(1);
     this.state.play.animationOpacity.setValue(0);
   },
@@ -179,6 +191,7 @@ var VideoViewPlayPause = React.createClass({
     } else {
       positionStyle = styles[this.props.position];
     }
+    
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     var opacity = {opacity: this.state.widget.animationOpacity};
 
