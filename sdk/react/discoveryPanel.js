@@ -15,11 +15,10 @@ var {
   View,
   ScrollView
 } = React;
-var TimerMixin = require('react-timer-mixin');
 
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
-var CircularStatus = require('./widgets/CircularStatus');
+var CountdownView = require('./widgets/countdownTimer');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 var Constants = require('./constants');
 var {
@@ -33,7 +32,6 @@ var widthPortrait = 375;
 var animationDuration = 1000;
 
 var DiscoveryPanel = React.createClass({
-  mixins: [TimerMixin],
 
   propTypes: {
     localizableStrings: React.PropTypes.object,
@@ -49,10 +47,8 @@ var DiscoveryPanel = React.createClass({
   getInitialState: function() {
     return {
       opacity: new Animated.Value(0),
-      showCircularStatus: false,
-      currentCounterVal: 0,
-      counterLimit: 0,
-      timer: null,
+      showCountdownTimer: false,
+      counterTime: 0,
     };
   },
 
@@ -73,16 +69,6 @@ var DiscoveryPanel = React.createClass({
     }
   },
 
-  componentWillUnmount: function() {
-    this.clearTimer();
-  },
-
-  clearTimer: function() {
-    if (this.state.timer) {
-      this.clearInterval(this.state.timer);
-    }
-  },
-
   onRowSelected: function(row) {
   	if (this.props.onRowAction) {
   	  this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
@@ -96,28 +82,14 @@ var DiscoveryPanel = React.createClass({
   },
 
   onStatusPressed: function() {
-    this.setState({showCircularStatus: false});
-    this.clearTimer();
+    this.setState({showCountdownTimer: false});
   },
 
   setCounterTime: function(time) {
     this.setState({
-      currentCounterVal: time,
-      counterLimit: time,
-      showCircularStatus: true,
+      counterTime: time,
+      showCountdownTimer: true,
     });
-
-    var timer = this.setInterval(() => {
-      this.setState({currentCounterVal: this.state.currentCounterVal - 1});
-    }, 1000);
-    this.setState({timer: timer});
-  },
-
-  checkTimer: function(row) {
-    if (this.state.currentCounterVal === 0) {
-      this.onRowSelected(row);
-      this.clearTimer();
-    }
   },
 
   render: function() {
@@ -150,14 +122,23 @@ var DiscoveryPanel = React.createClass({
     );
   },
 
-  renderCircularStatus: function() {
+  renderCountdownTimer: function(item) {
     return (
-      <CircularStatus
-        onPress={() => this.onStatusPressed()}
-        total={this.state.counterLimit}
-        current={this.state.currentCounterVal}
-        thickness={2}
-        diameter={44} />);
+      <CountdownView
+        style={{
+          width: 44,
+          height: 44,
+        }}
+        automatic={true}
+        time={this.state.counterLimit}
+        timeLeft={this.state.counterLimit}
+        radius={22}
+        fillColor={'#000000'}
+        strokeColor={'#ffffff'}
+        fillAlpha={0.7}
+        tapCancel={true}
+        onPress={this.onStatusPressed}
+        onTimerCompleted={() => this.onRowSelected(item)} />);
   },
 
   renderItem: function(item: object, sectionID: number, itemID: number) {
@@ -171,9 +152,8 @@ var DiscoveryPanel = React.createClass({
     };
 
     var circularStatus;
-    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCircularStatus) {
-      circularStatus = this.renderCircularStatus();
-      this.checkTimer(item);
+    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCountdownTimer) {
+      circularStatus = this.renderCountdownTimer(item);
     }
 
     var thumbnail = (

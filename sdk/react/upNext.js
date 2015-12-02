@@ -13,7 +13,7 @@ var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/upNext.json'));
 var RectButton = require('./widgets/RectButton');
-var CircularStatus = require('./widgets/CircularStatus');
+var CountdownView = require('./widgets/countdownTimer');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var descriptionMinWidth = 140;
@@ -73,7 +73,15 @@ var UpNext = React.createClass({
       var upNextDescription = (
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
-            <CircularStatus total={this.upNextDuration()} current={this.props.duration - this.props.playhead} thickness={2} diameter={26}></CircularStatus>
+            <CountdownView style={{
+              width: 26,
+              height: 26,
+            }}
+            automatic={false}
+            time={this.upNextDuration()}
+            timeLeft={this.props.duration - this.props.playhead}
+            radius={13}
+            fillAlpha={0.7} />
             <Text style={styles.title}>
               Up next: {this.props.nextVideo.name}
             </Text>
