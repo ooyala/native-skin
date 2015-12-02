@@ -69,6 +69,13 @@ var VideoView = React.createClass({
         this.setState({showControls: false});
       }
     }
+    if (nextProps.ad) {
+      if (nextProps.rate == 0) {
+        this.setState({showControls: true});
+      } else {
+        this.setState({showControls: false});
+      }
+    }
   },
 
   getInitialState: function() {
