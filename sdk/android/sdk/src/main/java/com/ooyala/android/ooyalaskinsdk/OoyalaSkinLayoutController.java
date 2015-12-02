@@ -232,6 +232,32 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     int percent = ((int) percentValue);
     _player.seekToPercent(percent);
   }
+  @ReactMethod
+  public void onDiscoveryRow(ReadableMap parameters) {
+  }
+
+  private WritableMap getDiscovery() {
+      WritableMap discoveryresults = Arguments.createMap();
+      WritableArray results = Arguments.createArray();
+      WritableMap argumn1 = Arguments.createMap();
+      WritableMap argumn2 = Arguments.createMap();
+      argumn1.putString(" \"bucketInfo\"", "1{\\\"encoded\\\":\\\"eNpNkN0KgzAMRt8l1zKa2lrny0jR4gr+lDYTxPnui5uKdzlfTtKSFYKNbqR6\\\\\\\\nDrVvoQLx0apEBRm4ec9pCQ4qzCC42HBgux0fIgPbd1P09Brq0Q4cAvGiNsG9\\\\\\\\nw8vtkKBaoYt2fPeW44XVnC3yvymuUjNFd7wENAWOeJA8+WlMu7JlEF1T9z4R\\\\\\\\nI2pdoMTy/9NKilJqVYgLjdEGi3u3kKeca9xtcyBqoYzIxYVKPrE8b7B9ASdO\\\\\\\\nU+k=\\\",\\\"position\\\":0}\"");
+      argumn1.putString("embedCode", "k4MXhjYTrxnFXdBMq95IMeNZVGs-a1kt");
+      argumn1.putString("name", "RTMP movie-only ");
+      argumn1.putString("imageUrl", "http://ak.c.ooyala.com/k4MXhjYTrxnFXdBMq95IMeNZVGs-a1kt/Ut_HKthATH4eww8X4yMDoxOjBhO4VMwE");
+      argumn1.putDouble("duration", 124.708);
+      results.pushMap(argumn1);
+
+      argumn2.putString("\"bucketInfo\"", "\"1{\\\"encoded\\\":\\\"eNpNkN0KgzAMRt8l1zKa2lrny0jR4gr+lDYTxPnui5uKdzlfTtKSFYKNbqR6\\\\\\\\nDrVvoQLx0apEBRm4ec9pCQ4qzCC42HBgux0fIgPbd1P09Brq0Q4cAvGiNsG9\\\\\\\\nw8vtkKBaoYt2fPeW44XVnC3yvymuUjNFd7wENAWOeJA8+WlMu7JlEF1T9z4R\\\\\\\\nI2pdoMTy/9NKilJqVYgLjdEGi3u3kKeca9xtcyBqoYzIxYVKPrE8b7B9ASdO\\\\\\\\nU+k=\\\",\\\"position\\\":2}\"");
+      argumn2.putString("embedCode", "92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww");
+      argumn2.putString("name", "VOD with Closed Captions");
+      argumn2.putString("imageUrl", "http://ak.c.ooyala.com/92cWp0ZDpDm4Q8rzHfVK6q9m6OtFP-ww/promo260039831");
+      argumn2.putDouble("duration", 40.133);
+      results.pushMap(argumn2);
+
+      discoveryresults.putArray("results", results);
+      return discoveryresults;
+  }
 
   // notification bridges
   private void bridgeCurrentItemChangedNotification() {
@@ -260,6 +286,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
         params.putArray("languages", languages);
       }
     }
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("discoveryResultsReceived", getDiscovery());
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
