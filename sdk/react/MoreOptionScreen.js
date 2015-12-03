@@ -15,7 +15,6 @@ var indexIos = require('./index.ios.js');
 var Log = require('./log');
 var Utils = require('./utils');
 var Constants = require('./constants');
-var RectButton = require('./widgets/RectButton');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
 var CollapsingBarUtils = require('./collapsingBarUtils');
 
@@ -99,19 +98,6 @@ var MoreOptionScreen = React.createClass({
     ).start(this.onDismissBtnPress);
   },
 
-  _renderButton: function(style, icon, func, size, color, fontFamily) {
-    return (
-      <RectButton
-        icon={icon}
-        onPress={func}
-        fontSize={size}
-        fontFamily={fontFamily}
-        style={style}
-        buttonColor={color}>
-      </RectButton>
-    );
-  },
-
   _renderMoreOptionButtons: function(moreOptionButtons){
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.config.controlBarWidth, this.props.config.buttons );
     var buttons = itemCollapsingResults.overflow;
@@ -135,7 +121,7 @@ var MoreOptionScreen = React.createClass({
         };
       }(button.name, this.onOptionPress);
 
-      moreOptionButton = this._renderButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName);
+      moreOptionButton = Utils.renderButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName);
 
       moreOptionButtons.push(moreOptionButton);
     }
@@ -168,7 +154,7 @@ var MoreOptionScreen = React.createClass({
 	render: function() {
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
-    var dismissButton = this._renderButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
+    var dismissButton = Utils.renderButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow;
     var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};

@@ -140,7 +140,7 @@ var VideoView = React.createClass({
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
-      primaryButton={this.props.isPlay ? "play" : "pause"}
+      primaryButton={this.props.playing ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
       playhead={this.props.playhead}
       duration={this.props.duration}
@@ -237,7 +237,6 @@ var VideoView = React.createClass({
           }
         }}
         position={"center"}
-        playing={this.props.isPlay}
         onPress={(name) => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
@@ -289,7 +288,7 @@ var VideoView = React.createClass({
   },
 
   getDefaultProps: function() {
-    return {isPlay: true, playhead: 0, buffered: 0, duration: 1};
+    return {playhead: 0, buffered: 0, duration: 1};
   },
 
   handleTouchEnd: function(event) {
