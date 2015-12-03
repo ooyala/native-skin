@@ -86,7 +86,6 @@ var UpNext = React.createClass({
               Up next: {this.props.nextVideo.name}
             </Text>
           </View>
-          <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
         </View>
       );
       var upNextDismissButton = (
