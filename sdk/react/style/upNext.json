@@ -29,8 +29,9 @@
   title: {
     color: 'white',
     fontWeight: 'bold',
-    marginTop: 6,
-    marginLeft: 10
+    marginLeft: 10,
+    fontSize: 18,
+    fontFamily: 'Roboto'
   },
   description: {
     color: 'white',
