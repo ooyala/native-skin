@@ -2,6 +2,11 @@
   "panelTitle": {
     "height": 40
   },
+  "icon": {
+    "textAlign": "left",
+    "fontFamily": "alice",
+    "fontSize": 16
+  },
   "panelTitleText": {
     "padding": 10,
     "textAlign": "left",
@@ -44,6 +49,8 @@
   },
   "panel": {
     "flex": 1,
+    "backgroundColor": "rgba(0, 0, 0, 0.7)",
+
   },
   "columnContainerPortrait": {
     "flex": 1,

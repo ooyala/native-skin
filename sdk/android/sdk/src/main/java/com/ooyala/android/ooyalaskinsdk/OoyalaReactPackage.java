@@ -30,7 +30,6 @@ class OoyalaReactPackage extends MainReactPackage {
     List<NativeModule> modules = new ArrayList<>();
     modules.addAll(super.createNativeModules(reactContext));
     modules.add(new OoyalaSkinLayoutController(reactContext, _layout, _player));
-    modules.add(new OOReactSocialShare(reactContext));
     return modules;
   }
 
@@ -43,7 +42,6 @@ class OoyalaReactPackage extends MainReactPackage {
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
     List<ViewManager> managers = new ArrayList<>();
     managers.addAll(super.createViewManagers(reactContext));
-    managers.add(new IconTextViewManager());
     return managers;
   }
 }
