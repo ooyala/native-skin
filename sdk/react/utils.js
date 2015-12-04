@@ -9,9 +9,23 @@ var {
   StyleSheet
 } = React;
 
-
 var Log = require('./log');
 var Utils = {
+
+  renderRectButton: function(style, icon, func, size, color, fontFamily) {
+    var RectButton = require('./widgets/RectButton');
+
+    return (
+      <RectButton
+        icon={icon}
+        onPress={func}
+        fontSize={size}
+        fontFamily={fontFamily}
+        style={style}
+        buttonColor={color}>
+      </RectButton>
+    );
+  },
 
   shouldShowLandscape: function(width, height) {
     return width > height;
