@@ -44,4 +44,15 @@
     fontFamily: 'fontawesome',
     margin: 10
   },
+
+  "iconDismiss": {
+    "textAlign": "center",
+    "padding": 25
+  },
+
+   "dismissButtonTopRight":{
+    "position": "absolute",
+    "top": 0,
+    "right": 0
+  },
 }
