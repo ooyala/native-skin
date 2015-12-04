@@ -43,7 +43,7 @@ class OoyalaReactPackage extends MainReactPackage {
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
     List<ViewManager> managers = new ArrayList<>();
     managers.addAll(super.createViewManagers(reactContext));
-    managers.add(new IconTextViewManager());
+    //managers.add(new IconTextViewManager());
     return managers;
   }
 }

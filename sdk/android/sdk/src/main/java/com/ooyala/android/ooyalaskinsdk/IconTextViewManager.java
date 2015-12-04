@@ -29,7 +29,7 @@ import javax.annotation.Nullable;
 /**
  * Created by zchen on 10/26/15.
  */
-public class IconTextViewManager extends BaseViewManager<IconTextView, ReactTextShadowNode> {
+public abstract class IconTextViewManager extends BaseViewManager<IconTextView, ReactTextShadowNode> {
   @VisibleForTesting
   public static final String REACT_CLASS = "RCTIconTextView";
 
@@ -94,10 +94,6 @@ public class IconTextViewManager extends BaseViewManager<IconTextView, ReactText
     view.setText(context.getString(resourceId));
   }
 
-  @Override
-  public ReactTextShadowNode createCSSNodeInstance() {
-    return new ReactTextShadowNode(false);
-  }
 
   private Typeface getFontFromString(String fontFamily) {
     if (fontFamily == null) {
