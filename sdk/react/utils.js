@@ -12,7 +12,7 @@ var {
 var Log = require('./log');
 var Utils = {
 
-  renderButton: function(style, icon, func, size, color, fontFamily) {
+  renderRectButton: function(style, icon, func, size, color, fontFamily) {
     var RectButton = require('./widgets/RectButton');
 
     return (

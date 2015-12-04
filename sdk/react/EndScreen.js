@@ -64,7 +64,7 @@ var EndScreen = React.createClass({
   },
 
   _renderDiscoveryScreen: function() {
-    var dismissButton = Utils.renderButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.endScreen.replayIconStyle.color, this.props.config.icons.dismiss.fontFamilyName);
+    var dismissButton = Utils.renderRectButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.endScreen.replayIconStyle.color, this.props.config.icons.dismiss.fontFamilyName);
      var dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
         {dismissButton}
