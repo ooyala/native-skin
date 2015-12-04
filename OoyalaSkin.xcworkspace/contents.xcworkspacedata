@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:ios-sdk/sdk/../../sdk/OoyalaSkinSDK/OoyalaSkinSDK.xcodeproj">
+      location = "group:../ios_sample_apps/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:sdk/iOS/OoyalaSkinSDK.xcodeproj">
    </FileRef>
 </Workspace>
