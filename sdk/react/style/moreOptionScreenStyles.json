@@ -18,7 +18,7 @@
   },
 
   "rowCenter": {
-    "height": 40,
+    "height": 60,
     "flexDirection": "row",
     "alignSelf": "center",
     "backgroundColor": "transparent"

@@ -71,8 +71,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     DisplayMetrics metrics = c.getResources().getDisplayMetrics();
     float dpi = metrics.densityDpi;
     float cal = 160/dpi;
-    height = Math.round(_layout.getViewHeight()*cal);
-    width = Math.round(_layout.getViewWidth()*cal);
+    height = Math.round(_layout.getResources().getDisplayMetrics().heightPixels * cal);
+    width = Math.round(_layout.getResources().getDisplayMetrics().widthPixels * cal);
   }
 
   public FrameLayout getLayout() {
