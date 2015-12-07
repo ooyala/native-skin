@@ -150,7 +150,7 @@ var VideoViewPlayPauseAndroid = React.createClass({
       );
     //as animations are not supported, we are using opacity value to hide the button.
     //in start screen, opacity will be undefined, hence we are not handling opacity value of 1.
-    if(this.props.opacity == 0)
+    if(!this.props.showButton)
     {
       return null;
     }
