@@ -24,7 +24,7 @@
     height: 18
   },
   textContainer: {
-    flex: 5,
+    flex: 1,
     paddingTop: 15,
     marginRight: 15,
     overflow: 'hidden'
@@ -37,7 +37,9 @@
     fontWeight: 'bold',
     marginLeft: 10,
     fontSize: 14,
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    backgroundColor: 'green',
+    flex: 1
   },
   description: {
     color: 'white',
