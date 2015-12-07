@@ -1,6 +1,5 @@
-__DEV__ =
+__DEV__ = 
 true;
-
 
 
 __BUNDLE_START_TIME__ = Date.now();
@@ -36,7 +35,6 @@ var modulesMap={},
 
 
 dependencyMap={},
-
 
 
 
@@ -1411,7 +1409,7 @@ GLOBAL.document.createElement = null;}
 
 GLOBAL.MutationObserver = undefined;})(
 this);
-__d('OoyalaSkin/index.android.js',["react-native/Libraries/react-native/react-native.js","RCTDeviceEventEmitter","NativeModules","NativeModules","OoyalaSkin/constants.js","OoyalaSkin/ooyalaSkinCore.js"],function(global, require, module, exports) {  'use strict';
+__d('OoyalaSkin/index.android.js',["react-native/Libraries/react-native/react-native.js","RCTDeviceEventEmitter","NativeModules","NativeModules","OoyalaSkin/constants.js","OoyalaSkin/androidNative/iconTextView.js","OoyalaSkin/ooyalaSkinCore.js"],function(global, require, module, exports) {  'use strict';
 
 
 
@@ -1440,6 +1438,7 @@ var Constants=require('OoyalaSkin/constants.js');var
 SCREEN_TYPES=
 
 Constants.SCREEN_TYPES;var PLATFORMS=Constants.PLATFORMS;
+var IconTextView=require('OoyalaSkin/androidNative/iconTextView.js');
 var OoyalaSkinCore=require('OoyalaSkin/ooyalaSkinCore.js');
 var OoyalaSkinCoreInstance,OoyalaSkinCoreInstanceSocial;
 
@@ -5271,7 +5270,7 @@ NodeHandle.injection.injectImplementation(UniversalWorkerNodeHandle);}
 module.exports = {
 inject:inject};
 });
-__d('InitializeJavaScriptAppEngine',["RCTDebugComponentOwnership","RCTDeviceEventEmitter","PerformanceLogger","regenerator/runtime.js","ExceptionsManager","ErrorUtils","ExceptionsManager","Platform","checkFlowAtRuntime","JSTimers","NativeModules","Promise","XMLHttpRequest","FormData","fetch","Geolocation","WebSocket","BridgeProfiling"],function(global, require, module, exports) {  var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};
+__d('InitializeJavaScriptAppEngine',["RCTDebugComponentOwnership","RCTDeviceEventEmitter","PerformanceLogger","ExceptionsManager","ErrorUtils","ExceptionsManager","Platform","checkFlowAtRuntime","JSTimers","NativeModules","Promise","XMLHttpRequest","FormData","fetch","Geolocation","WebSocket","BridgeProfiling","regenerator/runtime.js"],function(global, require, module, exports) {  var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};
 
 
 
@@ -14828,7 +14827,7 @@ _this.readyState === _this.OPEN && _this._closeWebSocket(id);})];}}]);return Web
 
 module.exports = WebSocket;
 });
-__d('WebSocketBase',["event-target-shim/lib/EventTarget.js"],function(global, require, module, exports) {  'use strict';var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}
+__d('WebSocketBase',["event-target-shim/lib/event-target.js"],function(global, require, module, exports) {  'use strict';var _createClass=(function(){function defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if('value' in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}return function(Constructor,protoProps,staticProps){if(protoProps)defineProperties(Constructor.prototype,protoProps);if(staticProps)defineProperties(Constructor,staticProps);return Constructor;};})();var _get=function get(object,property,receiver){if(object === null)object = Function.prototype;var desc=Object.getOwnPropertyDescriptor(object,property);if(desc === undefined){var parent=Object.getPrototypeOf(object);if(parent === null){return undefined;}else {return get(parent,property,receiver);}}else if('value' in desc){return desc.value;}else {var getter=desc.get;if(getter === undefined){return undefined;}return getter.call(receiver);}};function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}function _inherits(subClass,superClass){if(typeof superClass !== 'function' && superClass !== null){throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);}subClass.prototype = Object.create(superClass && superClass.prototype,{constructor:{value:subClass,enumerable:false,writable:true,configurable:true}});if(superClass)Object.setPrototypeOf?Object.setPrototypeOf(subClass,superClass):subClass.__proto__ = superClass;}
 
 
 
@@ -14840,7 +14839,7 @@ __d('WebSocketBase',["event-target-shim/lib/EventTarget.js"],function(global, re
 
 
 
-var EventTarget=require('event-target-shim/lib/EventTarget.js');var 
+var EventTarget=require('event-target-shim/lib/event-target.js');var 
 
 
 
@@ -14927,26 +14926,69 @@ throw new Error('Subclass must define sendArrayBufferImpl method');}}]);return W
 
 module.exports = WebSocketBase;
 });
-__d('event-target-shim/lib/EventTarget.js',["event-target-shim/lib/commons.js","event-target-shim/lib/CustomEventTarget.js","event-target-shim/lib/EventWrapper.js"],function(global, require, module, exports) {  "use strict";
-
-Object.defineProperty(exports,"__esModule",{
-value:true});
-
-exports["default"] = EventTarget;
-
-var _commons=require("event-target-shim/lib/commons.js");
-
-var _CustomEventTarget=require("event-target-shim/lib/CustomEventTarget.js");
-
-var _EventWrapper=require("event-target-shim/lib/EventWrapper.js");
-
-var HAS_EVENTTARGET_INTERFACE=typeof window !== "undefined" && typeof window.EventTarget !== "undefined";
-
-function EventTarget(){
-for(var _len=arguments.length,types=Array(_len),_key=0;_key < _len;_key++) {
-types[_key] = arguments[_key];}
+__d('event-target-shim/lib/event-target.js',["event-target-shim/lib/commons.js","event-target-shim/lib/custom-event-target.js","event-target-shim/lib/event-wrapper.js"],function(global, require, module, exports) {  "use strict";
 
 
+
+
+
+
+
+
+
+
+
+var Commons=require("event-target-shim/lib/commons.js");
+var CustomEventTarget=require("event-target-shim/lib/custom-event-target.js");
+var EventWrapper=require("event-target-shim/lib/event-wrapper.js");
+var LISTENERS=Commons.LISTENERS;
+var newNode=Commons.newNode;
+var defineCustomEventTarget=CustomEventTarget.defineCustomEventTarget;
+var createEventWrapper=EventWrapper.createEventWrapper;
+var STOP_IMMEDIATE_PROPAGATION_FLAG=EventWrapper.STOP_IMMEDIATE_PROPAGATION_FLAG;
+
+
+
+
+
+
+
+
+
+
+
+var HAS_EVENTTARGET_INTERFACE=
+typeof window !== "undefined" && 
+typeof window.EventTarget !== "undefined";
+
+
+
+
+
+
+
+
+var CAPTURE=1;
+
+
+
+
+
+
+
+var BUBBLE=2;
+
+
+
+
+
+
+
+
+
+
+
+var EventTarget=module.exports = function EventTarget(){
 if(this instanceof EventTarget){
 
 
@@ -14957,20 +14999,29 @@ if(this instanceof EventTarget){
 
 
 
-Object.defineProperty(this,_commons.LISTENERS,{value:Object.create(null)});}else 
-if(types.length > 0){
+Object.defineProperty(this,LISTENERS,{value:Object.create(null)});}else 
+
+if(arguments.length > 0){
+var types=Array(arguments.length);
+for(var i=0;i < arguments.length;++i) {
+types[i] = arguments[i];}
 
 
 
 
 
-return (0,_CustomEventTarget.defineCustomEventTarget)(EventTarget,types);}else 
+
+
+return defineCustomEventTarget(EventTarget,types);}else 
+
 {
-throw new TypeError("Cannot call a class as a function");}}
+throw new TypeError("Cannot call a class as a function");}};
 
 
 
-EventTarget.prototype = Object.create((HAS_EVENTTARGET_INTERFACE?window.EventTarget:Object).prototype,{
+EventTarget.prototype = Object.create(
+(HAS_EVENTTARGET_INTERFACE?window.EventTarget:Object).prototype,
+{
 constructor:{
 value:EventTarget,
 writable:true,
@@ -14978,9 +15029,7 @@ configurable:true},
 
 
 addEventListener:{
-value:function addEventListener(type,listener){
-var capture=arguments[2] === undefined?false:arguments[2];
-
+value:function addEventListener(type,listener,capture){
 if(listener == null){
 return false;}
 
@@ -14988,10 +15037,10 @@ if(typeof listener !== "function"){
 throw new TypeError("listener should be a function.");}
 
 
-var kind=capture?_commons.CAPTURE:_commons.BUBBLE;
-var node=this[_commons.LISTENERS][type];
+var kind=capture?CAPTURE:BUBBLE;
+var node=this[LISTENERS][type];
 if(node == null){
-this[_commons.LISTENERS][type] = (0,_commons.newNode)(listener,kind);
+this[LISTENERS][type] = newNode(listener,kind);
 return true;}
 
 
@@ -15005,7 +15054,7 @@ prev = node;
 node = node.next;}
 
 
-prev.next = (0,_commons.newNode)(listener,kind);
+prev.next = newNode(listener,kind);
 return true;},
 
 configurable:true,
@@ -15013,20 +15062,19 @@ writable:true},
 
 
 removeEventListener:{
-value:function removeEventListener(type,listener){
-var capture=arguments[2] === undefined?false:arguments[2];
-
+value:function removeEventListener(type,listener,capture){
 if(listener == null){
 return false;}
 
 
-var kind=capture?_commons.CAPTURE:_commons.BUBBLE;
+var kind=capture?CAPTURE:BUBBLE;
 var prev=null;
-var node=this[_commons.LISTENERS][type];
+var node=this[LISTENERS][type];
 while(node != null) {
 if(node.listener === listener && node.kind === kind){
 if(prev == null){
-this[_commons.LISTENERS][type] = node.next;}else 
+this[LISTENERS][type] = node.next;}else 
+
 {
 prev.next = node.next;}
 
@@ -15046,75 +15094,132 @@ writable:true},
 dispatchEvent:{
 value:function dispatchEvent(event){
 
-var node=this[_commons.LISTENERS][event.type];
+var node=this[LISTENERS][event.type];
 if(node == null){
 return true;}
 
 
 
-event = (0,_EventWrapper.createEventWrapper)(event,this);
+var wrapped=createEventWrapper(event,this);
 
 
 
 while(node != null) {
-node.listener.call(this,event);
-if(event[_EventWrapper.STOP_IMMEDIATE_PROPAGATION_FLAG]){
+node.listener.call(this,wrapped);
+if(wrapped[STOP_IMMEDIATE_PROPAGATION_FLAG]){
 break;}
 
 node = node.next;}
 
 
-return !event.defaultPrevented;},
+return !wrapped.defaultPrevented;},
 
 configurable:true,
 writable:true}});
-
-
-module.exports = exports["default"];
 });
 __d('event-target-shim/lib/commons.js',[],function(global, require, module, exports) {  "use strict";
 
-Object.defineProperty(exports,"__esModule",{
-value:true});
 
-exports.newNode = newNode;
-var symbol=typeof Symbol !== "undefined"?Symbol:function Symbol(name){
+
+
+
+
+
+
+
+
+
+
+
+
+var createUniqueKey=exports.createUniqueKey = typeof Symbol !== "undefined"?
+Symbol:
+function createUniqueKey(name){
 return "[[" + name + "_" + Math.random().toFixed(8).slice(2) + "]]";};
 
 
-exports.symbol = symbol;
-var LISTENERS=symbol("listeners");
-exports.LISTENERS = LISTENERS;
-var CAPTURE=1;
-exports.CAPTURE = CAPTURE;
-var BUBBLE=2;
-exports.BUBBLE = BUBBLE;
+
+
+
+
+
+
+exports.LISTENERS = createUniqueKey("listeners");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exports.newNode = function newNode(listener,kind){
+return {listener:listener,kind:kind,next:null};};
+});
+__d('event-target-shim/lib/custom-event-target.js',["event-target-shim/lib/commons.js"],function(global, require, module, exports) {  "use strict";
+
+
+
+
+
+
+
+
+
+
+
+var Commons=require("event-target-shim/lib/commons.js");
+var LISTENERS=Commons.LISTENERS;
+var newNode=Commons.newNode;
+
+
+
+
+
+
+
+
+
+
+
 var ATTRIBUTE=3;
 
-exports.ATTRIBUTE = ATTRIBUTE;
 
 
-function newNode(listener,kind){
-return {listener:listener,kind:kind,next:null};}
-});
-__d('event-target-shim/lib/CustomEventTarget.js',["event-target-shim/lib/commons.js"],function(global, require, module, exports) {  "use strict";
 
-Object.defineProperty(exports,"__esModule",{
-value:true});
 
-exports.defineCustomEventTarget = defineCustomEventTarget;
 
-var _commons=require("event-target-shim/lib/commons.js");
+
+
+
+
+
 
 function getAttributeListener(eventTarget,type){
-var node=eventTarget[_commons.LISTENERS][type];
+var node=eventTarget[LISTENERS][type];
 while(node != null) {
-if(node.kind === _commons.ATTRIBUTE){
+if(node.kind === ATTRIBUTE){
 return node.listener;}
 
 node = node.next;}
 
 return null;}
+
+
+
+
+
+
+
+
 
 
 function setAttributeListener(eventTarget,type,listener){
@@ -15123,14 +15228,16 @@ throw new TypeError("listener should be a function.");}
 
 
 var prev=null;
-var node=eventTarget[_commons.LISTENERS][type];
+var node=eventTarget[LISTENERS][type];
 while(node != null) {
-if(node.kind === _commons.ATTRIBUTE){
+if(node.kind === ATTRIBUTE){
 
 if(prev == null){
-eventTarget[_commons.LISTENERS][type] = node.next;}else 
+eventTarget[LISTENERS][type] = node.next;}else 
+
 {
 prev.next = node.next;}}else 
+
 
 {
 prev = node;}
@@ -15142,14 +15249,26 @@ node = node.next;}
 
 if(listener != null){
 if(prev == null){
-eventTarget[_commons.LISTENERS][type] = (0,_commons.newNode)(listener,_commons.ATTRIBUTE);}else 
+eventTarget[LISTENERS][type] = newNode(listener,ATTRIBUTE);}else 
+
 {
-prev.next = (0,_commons.newNode)(listener,_commons.ATTRIBUTE);}}}
+prev.next = newNode(listener,ATTRIBUTE);}}}
 
 
 
 
-function defineCustomEventTarget(EventTargetBase,types){
+
+
+
+
+
+
+
+
+
+
+
+exports.defineCustomEventTarget = function(EventTargetBase,types){
 function EventTarget(){
 EventTargetBase.call(this);}
 
@@ -15164,12 +15283,8 @@ writable:true}};
 
 types.forEach(function(type){
 descripter["on" + type] = {
-get:function get(){
-return getAttributeListener(this,type);},
-
-set:function set(listener){
-setAttributeListener(this,type,listener);},
-
+get:function(){return getAttributeListener(this,type);},
+set:function(listener){setAttributeListener(this,type,listener);},
 configurable:true,
 enumerable:true};});
 
@@ -15177,25 +15292,59 @@ enumerable:true};});
 
 EventTarget.prototype = Object.create(EventTargetBase.prototype,descripter);
 
-return EventTarget;}
+return EventTarget;};
 });
-__d('event-target-shim/lib/EventWrapper.js',["event-target-shim/lib/commons.js"],function(global, require, module, exports) {  "use strict";
+__d('event-target-shim/lib/event-wrapper.js',["event-target-shim/lib/commons.js"],function(global, require, module, exports) {  "use strict";
 
-Object.defineProperty(exports,"__esModule",{
-value:true});
 
-exports.createEventWrapper = createEventWrapper;
 
-var _commons=require("event-target-shim/lib/commons.js");
 
-var STOP_IMMEDIATE_PROPAGATION_FLAG=(0,_commons.symbol)("stop_immediate_propagation_flag");
 
-exports.STOP_IMMEDIATE_PROPAGATION_FLAG = STOP_IMMEDIATE_PROPAGATION_FLAG;
-var CANCELED_FLAG=(0,_commons.symbol)("canceled_flag");
-var ORIGINAL_EVENT=(0,_commons.symbol)("original_event");
 
-var wrapperPrototypeDefinition={
-stopPropagation:{
+
+
+
+
+
+var createUniqueKey=require("event-target-shim/lib/commons.js").createUniqueKey;
+
+
+
+
+
+
+
+
+
+
+
+var STOP_IMMEDIATE_PROPAGATION_FLAG=
+createUniqueKey("stop_immediate_propagation_flag");
+
+
+
+
+
+
+
+var CANCELED_FLAG=createUniqueKey("canceled_flag");
+
+
+
+
+
+
+
+var ORIGINAL_EVENT=createUniqueKey("original_event");
+
+
+
+
+
+
+
+var wrapperPrototypeDefinition=Object.freeze({
+stopPropagation:Object.freeze({
 value:function stopPropagation(){
 var e=this[ORIGINAL_EVENT];
 if(typeof e.stopPropagation === "function"){
@@ -15203,10 +15352,10 @@ e.stopPropagation();}},
 
 
 writable:true,
-configurable:true},
+configurable:true}),
 
 
-stopImmediatePropagation:{
+stopImmediatePropagation:Object.freeze({
 value:function stopImmediatePropagation(){
 this[STOP_IMMEDIATE_PROPAGATION_FLAG] = true;
 
@@ -15216,10 +15365,10 @@ e.stopImmediatePropagation();}},
 
 
 writable:true,
-configurable:true},
+configurable:true}),
 
 
-preventDefault:{
+preventDefault:Object.freeze({
 value:function preventDefault(){
 if(this.cancelable === true){
 this[CANCELED_FLAG] = true;}
@@ -15231,22 +15380,38 @@ e.preventDefault();}},
 
 
 writable:true,
-configurable:true},
+configurable:true}),
 
 
-defaultPrevented:{
-get:function get(){
-return this[CANCELED_FLAG];},
-
+defaultPrevented:Object.freeze({
+get:function defaultPrevented(){return this[CANCELED_FLAG];},
 enumerable:true,
-configurable:true}};
+configurable:true})});
 
 
 
-function createEventWrapper(event,eventTarget){
-var timeStamp=typeof event.timeStamp === "number"?event.timeStamp:Date.now();
 
-var props={
+
+
+
+exports.STOP_IMMEDIATE_PROPAGATION_FLAG = STOP_IMMEDIATE_PROPAGATION_FLAG;
+
+
+
+
+
+
+
+
+
+
+
+
+exports.createEventWrapper = function createEventWrapper(event,eventTarget){
+var timeStamp=
+typeof event.timeStamp === "number"?event.timeStamp:Date.now();
+
+var propertyDefinition={
 type:{value:event.type,enumerable:true},
 target:{value:eventTarget,enumerable:true},
 currentTarget:{value:eventTarget,enumerable:true},
@@ -15256,16 +15421,18 @@ cancelable:{value:Boolean(event.cancelable),enumerable:true},
 timeStamp:{value:timeStamp,enumerable:true},
 isTrusted:{value:false,enumerable:true}};
 
+propertyDefinition[STOP_IMMEDIATE_PROPAGATION_FLAG] = {value:false,writable:true};
+propertyDefinition[CANCELED_FLAG] = {value:false,writable:true};
+propertyDefinition[ORIGINAL_EVENT] = {value:event};
+
+
 if(typeof event.detail !== "undefined"){
-props.detail = {value:event.detail,enumerable:true};}
+propertyDefinition.detail = {value:event.detail,enumerable:true};}
 
 
-var retv=Object.create(Object.create(event,wrapperPrototypeDefinition),props);
-Object.defineProperty(retv,STOP_IMMEDIATE_PROPAGATION_FLAG,{value:false,writable:true});
-Object.defineProperty(retv,CANCELED_FLAG,{value:false,writable:true});
-Object.defineProperty(retv,ORIGINAL_EVENT,{value:event});
-
-return retv;}
+return Object.create(
+Object.create(event,wrapperPrototypeDefinition),
+propertyDefinition);};
 });
 __d('WebSocketEvent',[],function(global, require, module, exports) {  'use strict';function _classCallCheck(instance,Constructor){if(!(instance instanceof Constructor)){throw new TypeError('Cannot call a class as a function');}}var 
 
@@ -26718,7 +26885,7 @@ return dimensions[dim];}}]);return Dimensions;})();
 
 module.exports = Dimensions;
 });
-__d('ListView',["ListViewDataSource","React","NativeModules","NativeModules","ScrollView","ScrollResponder","StaticRenderer","react-timer-mixin/TimerMixin.js","isEmpty","logError","merge"],function(global, require, module, exports) {  'use strict';var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};function _objectWithoutProperties(obj,keys){var target={};for(var i in obj) {if(keys.indexOf(i) >= 0)continue;if(!Object.prototype.hasOwnProperty.call(obj,i))continue;target[i] = obj[i];}return target;}
+__d('ListView',["ListViewDataSource","React","NativeModules","NativeModules","ScrollView","ScrollResponder","StaticRenderer","isEmpty","logError","merge","react-timer-mixin/TimerMixin.js"],function(global, require, module, exports) {  'use strict';var _extends=Object.assign || function(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i];for(var key in source) {if(Object.prototype.hasOwnProperty.call(source,key)){target[key] = source[key];}}}return target;};function _objectWithoutProperties(obj,keys){var target={};for(var i in obj) {if(keys.indexOf(i) >= 0)continue;if(!Object.prototype.hasOwnProperty.call(obj,i))continue;target[i] = obj[i];}return target;}
 
 
 
@@ -31134,7 +31301,7 @@ this.emit(arg.eventType,arg.data,arg.didEmitCallback);}}}]);return NavigationEve
 
 module.exports = NavigationEventEmitter;
 });
-__d('NavigatorBreadcrumbNavigationBar',["NavigatorBreadcrumbNavigationBarStyles","NavigatorNavigationBarStylesAndroid","NavigatorNavigationBarStylesIOS","Platform","React","StyleSheet","View","immutable/dist/immutable.js","invariant"],function(global, require, module, exports) {  'use strict';
+__d('NavigatorBreadcrumbNavigationBar',["NavigatorBreadcrumbNavigationBarStyles","NavigatorNavigationBarStylesAndroid","NavigatorNavigationBarStylesIOS","Platform","React","StyleSheet","View","invariant","immutable/dist/immutable.js"],function(global, require, module, exports) {  'use strict';
 
 
 
@@ -53033,6 +53200,28 @@ NONE:0};
 
 module.exports = {UI_SIZES:UI_SIZES,BUTTON_NAMES:BUTTON_NAMES,IMG_URLS:IMG_URLS,SCREEN_TYPES:SCREEN_TYPES,OOSTATES:OOSTATES,LOG_LEVEL:LOG_LEVEL,PLATFORMS:PLATFORMS};
 });
+__d('OoyalaSkin/androidNative/iconTextView.js',["react-native/Libraries/react-native/react-native.js","react-native/Libraries/react-native/react-native.js"],function(global, require, module, exports) {  var _require=
+
+require('react-native/Libraries/react-native/react-native.js');var requireNativeComponent=_require.requireNativeComponent;
+var React=require('react-native/Libraries/react-native/react-native.js');
+
+var icon={
+name:'IconTextView',
+propTypes:{
+fontFamily:React.PropTypes.string,
+fontSize:React.PropTypes.number,
+scaleX:React.PropTypes.number,
+scaleY:React.PropTypes.number,
+translateX:React.PropTypes.number,
+translateY:React.PropTypes.number,
+rotation:React.PropTypes.number,
+opacity:React.PropTypes.number,
+backgroundColor:React.PropTypes.number}};
+
+
+
+module.exports = requireNativeComponent('RCTIconTextView',icon);
+});
 __d('OoyalaSkin/ooyalaSkinCore.js',["react-native/Libraries/react-native/react-native.js","Dimensions","NativeModules","OoyalaSkin/StartScreen.js","OoyalaSkin/EndScreen.js","OoyalaSkin/ErrorScreen.js","OoyalaSkin/discoveryPanel.js","OoyalaSkin/MoreOptionScreen.js","OoyalaSkin/sharePanel.js","OoyalaSkin/log.js","OoyalaSkin/constants.js","OoyalaSkin/videoView.js","OoyalaSkin/languageSelectionPanel.js"],function(global, require, module, exports) {  'use strict';
 
 
@@ -53504,7 +53693,7 @@ controlBarWidth:this.skin.state.width}}));};
 
 module.exports = OoyalaSkinCore;
 });
-__d('OoyalaSkin/StartScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/log.js","OoyalaSkin/style/startScreenStyles.json","OoyalaSkin/constants.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/VideoViewPlayPause.js","OoyalaSkin/responsiveDesignManager.js","OoyalaSkin/widgets/VideoViewPlayPauseAndroid.js"],function(global, require, module, exports) {  var 
+__d('OoyalaSkin/StartScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/log.js","OoyalaSkin/style/startScreenStyles.json","OoyalaSkin/constants.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/VideoViewPlayPause.js","OoyalaSkin/widgets/VideoViewPlayPauseAndroid.js","OoyalaSkin/responsiveDesignManager.js"],function(global, require, module, exports) {  var 
 React=require('react-native/Libraries/react-native/react-native.js');var 
 
 
@@ -53687,7 +53876,7 @@ playButton));}});
 
 module.exports = StartScreen;
 });
-__d('OoyalaSkin/utils.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/log.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/style/styles.json"],function(global, require, module, exports) {  'use strict';
+__d('OoyalaSkin/utils.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/log.js","OoyalaSkin/style/styles.json"],function(global, require, module, exports) {  'use strict';
 
 
 
@@ -53698,23 +53887,9 @@ var React=require('react-native/Libraries/react-native/react-native.js');var
 StyleSheet=
 React.StyleSheet;
 
+
 var Log=require('OoyalaSkin/log.js');
 var Utils={
-
-renderRectButton:function(style,icon,func,size,color,fontFamily){
-var RectButton=require('OoyalaSkin/widgets/RectButton.js');
-
-return (
-React.createElement(RectButton,{
-icon:icon,
-onPress:func,
-fontSize:size,
-fontFamily:fontFamily,
-style:style,
-buttonColor:color}));},
-
-
-
 
 shouldShowLandscape:function(width,height){
 return width > height;},
@@ -53896,6 +54071,83 @@ if(level >= LOG_LEVEL.VERBOSE)console.log(msg);}};
 
 module.exports = Log;
 });
+__d('OoyalaSkin/style/styles.json',[],function(global, require, module, exports) {  module.exports = {
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  waterMarkContainer: {
+    flexDirection: 'row', 
+    height: 8
+  },
+
+  waterMarkImageSW: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+  },
+
+  waterMarkImageNE: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
+
+  waterMarkImageSE: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+  },
+
+  waterMarkImage: {
+    width:160,
+    height: 24,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 10
+  },
+
+  infoPanelNW: {
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+  },
+
+  infoPanelSW: {
+    position: 'absolute',    
+    bottom: 0,
+    left: 0
+  },
+
+  infoPanelTitle: {
+    textAlign: 'left',
+    marginTop: 20,
+    marginLeft: 10
+  },
+
+  infoPanelDescription: {
+    textAlign: 'left',
+    margin: 10
+  }
+}
+;
+});
+__d('OoyalaSkin/style/startScreenStyles.json',[],function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "flex-start"
+  },
+
+  "promoImageSmall": {
+    "width": 180,
+    "height": 90,
+    "margin": 20,
+  },
+}
+;
+});
 __d('OoyalaSkin/widgets/RectButton.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/RectButtonStyles.json"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
 
 StyleSheet=
@@ -53995,83 +54247,6 @@ __d('OoyalaSkin/widgets/style/RectButtonStyles.json',[],function(global, require
     "fontFamily": "fontawesome",
   }
 };
-});
-__d('OoyalaSkin/style/styles.json',[],function(global, require, module, exports) {  module.exports = {
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-
-  waterMarkContainer: {
-    flexDirection: 'row', 
-    height: 8
-  },
-
-  waterMarkImageSW: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-  },
-
-  waterMarkImageNE: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-  },
-
-  waterMarkImageSE: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-  },
-
-  waterMarkImage: {
-    width:160,
-    height: 24,
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    margin: 10
-  },
-
-  infoPanelNW: {
-    flexDirection: 'column',
-    backgroundColor: 'transparent',
-  },
-
-  infoPanelSW: {
-    position: 'absolute',    
-    bottom: 0,
-    left: 0
-  },
-
-  infoPanelTitle: {
-    textAlign: 'left',
-    marginTop: 20,
-    marginLeft: 10
-  },
-
-  infoPanelDescription: {
-    textAlign: 'left',
-    margin: 10
-  }
-}
-;
-});
-__d('OoyalaSkin/style/startScreenStyles.json',[],function(global, require, module, exports) {  module.exports = {
-  "container": {
-    "flex": 1,
-    "flexDirection": "column",
-    "alignItems": "flex-start"
-  },
-
-  "promoImageSmall": {
-    "width": 180,
-    "height": 90,
-    "margin": 20,
-  },
-}
-;
 });
 __d('OoyalaSkin/widgets/VideoViewPlayPause.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/constants.js","OoyalaSkin/utils.js","OoyalaSkin/widgets/style/RectButtonStyles.json"],function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
 
@@ -54662,14 +54837,12 @@ BUTTON_NAMES=
 Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
 
 var leftMargin=20;
-var dismissButtonSize=20;
 
 var EndScreen=React.createClass({displayName:'EndScreen',
 getInitialState:function(){
 return {
 showControls:true,
-showSharePanel:false,
-showDiscoveryPanel:true};},
+showSharePanel:false};},
 
 
 
@@ -54703,17 +54876,9 @@ this.toggleControlBar();},
 
 
 _renderDiscoveryScreen:function(){
-var dismissButton=Utils.renderRectButton(styles.iconDismiss,this.props.config.icons.dismiss.fontString,this.onDismissPress,dismissButtonSize,this.props.config.endScreen.replayIconStyle.color,this.props.config.icons.dismiss.fontFamilyName);
-var dismissButtonRow=
-React.createElement(View,{style:styles.dismissButtonTopRight},
-dismissButton);
-
-
-
 return (
 React.createElement(View,{style:styles.fullscreenContainer},
-this.props.discoveryPanel,
-dismissButtonRow));},
+this.props.discoveryPanel));},
 
 
 
@@ -54757,10 +54922,6 @@ controlBar));},
 
 
 
-onDismissPress:function(){
-this.setState({showDiscoveryPanel:false});},
-
-
 render:function(){var _this2=this;
 var progressBar=React.createElement(ProgressBar,{
 ref:'progressBar',
@@ -54783,7 +54944,7 @@ buttons:this.props.config.buttons,
 icons:this.props.config.icons}});
 
 if(this.props.config.endScreen.screenToShowOnEnd == 'discovery' && 
-this.props.discoveryPanel && this.state.showDiscoveryPanel){
+this.props.discoveryPanel){
 return this._renderDiscoveryScreen();}else 
 {
 return this._renderDefaultScreen(progressBar,controlBar);}}});
@@ -54839,17 +55000,6 @@ __d('OoyalaSkin/style/endScreenStyles.json',[],function(global, require, module,
     fontFamily: 'fontawesome',
     margin: 10
   },
-
-  "iconDismiss": {
-    "textAlign": "center",
-    "padding": 25
-  },
-
-   "dismissButtonTopRight":{
-    "position": "absolute",
-    "top": 0,
-    "right": 0
-  },
 };
 });
 __d('OoyalaSkin/progressBar.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/utils.js","OoyalaSkin/style/progressBarStyles.json"],function(global, require, module, exports) {  'use strict';
@@ -54897,7 +55047,7 @@ module.exports = ProgressBar;
 });
 __d('OoyalaSkin/style/progressBarStyles.json',[],function(global, require, module, exports) {  module.exports = {
   "container": {
-   "flexDirection": "row",
+  	"flexDirection": "row",
     "height": 6,
     "marginVertical": 16,
     "marginHorizontal": 20,
@@ -56033,7 +56183,7 @@ __d('OoyalaSkin/style/discoveryPanelStyles.json',[],function(global, require, mo
   },
 };
 });
-__d('OoyalaSkin/MoreOptionScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/index.ios.js","OoyalaSkin/log.js","OoyalaSkin/utils.js","OoyalaSkin/constants.js","OoyalaSkin/collapsingBarUtils.js","OoyalaSkin/style/moreOptionScreenStyles.json"],function(global, require, module, exports) {  'use strict';
+__d('OoyalaSkin/MoreOptionScreen.js',["react-native/Libraries/react-native/react-native.js","OoyalaSkin/index.ios.js","OoyalaSkin/log.js","OoyalaSkin/utils.js","OoyalaSkin/constants.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/style/moreOptionScreenStyles.json","OoyalaSkin/collapsingBarUtils.js"],function(global, require, module, exports) {  'use strict';
 
 var React=require('react-native/Libraries/react-native/react-native.js');var 
 
@@ -56050,6 +56200,7 @@ var indexIos=require('OoyalaSkin/index.ios.js');
 var Log=require('OoyalaSkin/log.js');
 var Utils=require('OoyalaSkin/utils.js');
 var Constants=require('OoyalaSkin/constants.js');
+var RectButton=require('OoyalaSkin/widgets/RectButton.js');
 var styles=Utils.getStyles(require('OoyalaSkin/style/moreOptionScreenStyles.json'));
 var CollapsingBarUtils=require('OoyalaSkin/collapsingBarUtils.js');var 
 
@@ -56133,6 +56284,19 @@ delay:0}).
 start(this.onDismissBtnPress);},
 
 
+_renderButton:function(style,icon,func,size,color,fontFamily){
+return (
+React.createElement(RectButton,{
+icon:icon,
+onPress:func,
+fontSize:size,
+fontFamily:fontFamily,
+buttonColor:color,
+style:style}));},
+
+
+
+
 _renderMoreOptionButtons:function(moreOptionButtons){
 var itemCollapsingResults=CollapsingBarUtils.collapse(this.props.config.controlBarWidth,this.props.config.buttons);
 var buttons=itemCollapsingResults.overflow;
@@ -56155,7 +56319,7 @@ f(buttonName);};})(
 
 button.name,this.onOptionPress);
 
-moreOptionButton = Utils.renderRectButton(buttonStyle,buttonIcon.fontString,onOptionPress,this.props.config.moreOptionsScreen.iconSize,this.props.config.moreOptionsScreen.color,buttonIcon.fontFamilyName);
+moreOptionButton = this._renderButton(buttonStyle,buttonIcon.fontString,onOptionPress,this.props.config.moreOptionsScreen.iconSize,this.props.config.moreOptionsScreen.color,buttonIcon.fontFamilyName);
 
 moreOptionButtons.push(moreOptionButton);}},
 
@@ -56188,7 +56352,7 @@ return buttonIcon;},
 render:function(){
 var moreOptionButtons=[];
 this._renderMoreOptionButtons(moreOptionButtons);
-var dismissButton=Utils.renderRectButton(styles.iconDismiss,this.props.config.icons.dismiss.fontString,this.onDismissPress,dismissButtonSize,this.props.config.moreOptionsScreen.color,this.props.config.icons.dismiss.fontFamilyName);
+var dismissButton=this._renderButton(styles.iconDismiss,this.props.config.icons.dismiss.fontString,this.onDismissPress,dismissButtonSize,this.props.config.moreOptionsScreen.color,this.props.config.icons.dismiss.fontFamilyName);
 
 var moreOptionRow;
 var rowAnimationStyle={transform:[{translateY:this.state.translateY}],opacity:this.state.buttonOpacity};
@@ -56584,7 +56748,7 @@ __d('OoyalaSkin/style/sharePanelStyles.json',[],function(global, require, module
   },
 };
 });
-__d('OoyalaSkin/videoView.js',["react-native/Libraries/react-native/react-native.js","Dimensions","OoyalaSkin/bottomOverlay.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/sharePanel.js","OoyalaSkin/adBar.js","OoyalaSkin/upNext.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/VideoViewPlayPause.js","OoyalaSkin/constants.js","OoyalaSkin/log.js","OoyalaSkin/utils.js","OoyalaSkin/style/videoViewStyles.json","OoyalaSkin/responsiveDesignManager.js","OoyalaSkin/widgets/VideoViewPlayPauseAndroid.js"],function(global, require, module, exports) {  'use strict';
+__d('OoyalaSkin/videoView.js',["react-native/Libraries/react-native/react-native.js","Dimensions","OoyalaSkin/bottomOverlay.js","OoyalaSkin/closedCaptionsView.js","OoyalaSkin/sharePanel.js","OoyalaSkin/adBar.js","OoyalaSkin/upNext.js","OoyalaSkin/widgets/RectButton.js","OoyalaSkin/widgets/VideoViewPlayPause.js","OoyalaSkin/widgets/VideoViewPlayPauseAndroid.js","OoyalaSkin/constants.js","OoyalaSkin/log.js","OoyalaSkin/utils.js","OoyalaSkin/style/videoViewStyles.json","OoyalaSkin/responsiveDesignManager.js"],function(global, require, module, exports) {  'use strict';
 
 
 
@@ -57101,10 +57265,10 @@ __d('OoyalaSkin/style/bottomOverlayStyles.json',[],function(global, require, mod
   },
 
   "progressScrubber": {
-   "position": "absolute",
-   "fontSize": 18,
-   "fontFamily": "fontawesome",
-   "color": "white"
+  	"position": "absolute",
+  	"fontSize": 18,
+  	"fontFamily": "fontawesome",
+  	"color": "white"
   }
 };
 });
@@ -57759,13 +57923,13 @@ __d('OoyalaSkin/style/languageSelectionPanelStyles.json',[],function(global, req
     "alignItems": "center",
   },
   "panelTitle": {
-   "flex": 1,
-   "fontSize": 20,
+  	"flex": 1,
+  	"fontSize": 20,
     "fontFamily": "Helvetica",
     "fontWeight": "bold",
-   "textAlign": "left",
-   "color": "white",
-   "padding": 20
+  	"textAlign": "left",
+  	"color": "white",
+  	"padding": 20
   },
   "container": {
     "flex": 1,
