@@ -1,6 +1,7 @@
 var React = require('react-native');
 var {
   ActivityIndicatorIOS,
+  ProgressBarAndroid,
   StyleSheet,
   Text,
   View,
@@ -10,7 +11,8 @@ var {
 
 var Constants = require('../constants');
 var {
-  BUTTON_NAMES
+  BUTTON_NAMES,
+  PLATFORMS
 } = Constants;
 
 // Uses the rectbutton styles
@@ -138,13 +140,22 @@ var VideoViewPlayPause = React.createClass({
 
   _renderLoading: function(sizeStyle) {
     if (this.props.loading) {
-      return (
+      if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+        return (
+          <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle, {position: 'absolute'}]}>
+            <ProgressBarAndroid styleAttr="Small"/>
+          </Animated.View>
+        );     
+      }
+      else if(this.props.platform == Constants.PLATFORMS.IOS){
+        return (
         <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle, {position: 'absolute'}]}>
           <ActivityIndicatorIOS
             animating={true}
             size="large">
           </ActivityIndicatorIOS>
         </Animated.View>);
+      }
     }
   },
 
@@ -195,22 +206,47 @@ var VideoViewPlayPause = React.createClass({
     var playButton = this._renderButton(PLAY);
     var pauseButton = this._renderButton(PAUSE);
     var loading = this._renderLoading(sizeStyle);
-    
-    return (
-      <TouchableHighlight
-        onPress={() => this.onPress()}
-        style={[positionStyle]}
-        underlayColor="transparent"
-        activeOpacity={this.props.opacity}>
-        <View>
-          {loading}
-          <Animated.View style={[styles.buttonArea, sizeStyle, opacity, {position: 'absolute'}]}>
-            {playButton}
-            {pauseButton}
-          </Animated.View>
-        </View>
-      </TouchableHighlight>
-    );
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      if(!this.props.showButton)
+      {
+        return null;
+      }
+      else
+      {
+        return (
+          <TouchableHighlight
+            onPress={() => this.onPress()}
+            style={[positionStyle]}
+            underlayColor="transparent"
+            activeOpacity={this.props.opacity}>
+            <View>
+              {loading}
+              <Animated.View style={[styles.buttonArea, sizeStyle]}>
+                {playButton}
+                {pauseButton}
+              </Animated.View>
+            </View>
+          </TouchableHighlight>
+        );
+      }
+    }
+    else{
+      return (
+        <TouchableHighlight
+          onPress={() => this.onPress()}
+          style={[positionStyle]}
+          underlayColor="transparent"
+          activeOpacity={this.props.opacity}>
+          <View>
+            {loading}
+            <Animated.View style={[styles.buttonArea, sizeStyle, opacity, {position: 'absolute'}]}>
+              {playButton}
+              {pauseButton}
+            </Animated.View>
+          </View>
+        </TouchableHighlight>
+      );
+    }
   }
 });
 
