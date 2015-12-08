@@ -27,7 +27,6 @@ var {
   SCREEN_TYPES,
   PLATFORMS
 } = Constants;
-var IconTextView = require('./androidNative/iconTextView');
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance, OoyalaSkinCoreInstanceSocial;
 

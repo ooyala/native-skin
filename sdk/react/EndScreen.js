@@ -23,12 +23,14 @@ var {
 } = Constants;
 
 var leftMargin = 20;
+var dismissButtonSize = 20;
 
 var EndScreen = React.createClass({
 	getInitialState: function() {
     return {
       showControls:true,
-      showSharePanel:false
+      showSharePanel:false,
+      showDiscoveryPanel:true,
     };
   },
 
@@ -62,9 +64,17 @@ var EndScreen = React.createClass({
   },
 
   _renderDiscoveryScreen: function() {
+    var dismissButton = Utils.renderRectButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.endScreen.replayIconStyle.color, this.props.config.icons.dismiss.fontFamilyName);
+     var dismissButtonRow = (
+      <View style={styles.dismissButtonTopRight}>
+        {dismissButton}
+      </View>
+    );
+
     return (
       <View style={styles.fullscreenContainer}>
         {this.props.discoveryPanel}
+        {dismissButtonRow}
       </View>);
   },
 
@@ -108,6 +118,10 @@ var EndScreen = React.createClass({
     );
   },
 
+  onDismissPress: function() {
+    this.setState({showDiscoveryPanel: false});
+  },
+
   render: function() {
     var progressBar = (<ProgressBar
       ref='progressBar'
@@ -130,7 +144,7 @@ var EndScreen = React.createClass({
         icons: this.props.config.icons
       }}/>);
     if (this.props.config.endScreen.screenToShowOnEnd == 'discovery' &&
-      this.props.discoveryPanel) {
+      this.props.discoveryPanel && this.state.showDiscoveryPanel) {
       return this._renderDiscoveryScreen();
     } else {
       return this._renderDefaultScreen(progressBar, controlBar);
