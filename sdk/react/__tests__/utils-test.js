@@ -100,4 +100,39 @@ describe('utils test suite', function() {
     var result = Utils.localizedString('kr', 'Ad', localizableData);
     expect(result).toBe('Anuncio');
   });
+
+  it('tests shouldShowLandscape() with invalid arguments', function() {
+    var cases = [
+      [null, null],
+      [undefined, undefined],
+      [[], undefined],
+      [-12.12, {}],
+      ['number', ['x']],
+    ];
+
+    for (var i = 0; i < cases.length; i++) {
+      var result = Utils.shouldShowLandscape.apply(null, cases[i]);
+      expect(result).toBeNull();
+    }
+  });
+
+  it('tests shouldShowLandscape() with valid arguments', function() {
+    var result = Utils.shouldShowLandscape(-12,-14);
+    expect(result).toBeNull();
+
+    result = Utils.shouldShowLandscape(0, 0);
+    expect(result).toBeFalsy();
+
+    result = Utils.shouldShowLandscape(100, 101);
+    expect(result).toBeFalsy();
+
+    result = Utils.shouldShowLandscape(102, 101);
+    expect(result).toBeTruthy();
+
+    result = Utils.shouldShowLandscape(1280, 800);
+    expect(result).toBeTruthy();
+
+    result = Utils.shouldShowLandscape(800, 1280);
+    expect(result).toBeFalsy();
+  });
 });

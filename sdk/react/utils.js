@@ -28,6 +28,12 @@ var Utils = {
   },
 
   shouldShowLandscape: function(width, height) {
+    if (isNaN(width) || isNaN(height) ||
+        width === null || height === null ||
+        width < 0 || height < 0) {
+      return null;
+    }
+
     return width > height;
   },
 
