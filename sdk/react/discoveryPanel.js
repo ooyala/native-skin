@@ -28,8 +28,10 @@ var {
 var itemRect;
 var thumbnailStyle;
 var columnContainerStyle;
-var widthPortrait = 375;
 var animationDuration = 1000;
+
+var rectWidth = 176;
+var rectHeight = 160;
 
 var DiscoveryPanel = React.createClass({
 
@@ -92,17 +94,23 @@ var DiscoveryPanel = React.createClass({
     });
   },
 
+  setRectInRow: function(widthRect, heightRec, thumbnailStyleRec, columnContainerStyleRec) {
+    var numOfRectsInRow = Math.floor(this.props.width / widthRect);
+    itemRect = {width: this.props.width / numOfRectsInRow, height: heightRec};
+    thumbnailStyle = thumbnailStyleRec;
+    columnContainerStyle = columnContainerStyleRec;
+  },
+
   render: function() {
     var panelHeight = this.props.height - 40;
+    var margin;
 
-    if(this.props.width <= widthPortrait){
-      itemRect = {width: 186, height:164};
-      thumbnailStyle = styles.thumbnailPortrait;
-      columnContainerStyle = styles.columnContainerPortrait;
-    }else{
-      itemRect = {width: 166, height:154};
-      thumbnailStyle = styles.thumbnailLandscape;
-      columnContainerStyle = styles.columnContainerLandscape;
+    // landscape
+    if (this.props.width > this.props.height) {
+      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape); 
+    // portrait
+    } else {
+      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailPortrait, styles.columnContainerPortrait);
     }
 
     var animationStyle = {opacity:this.state.opacity};
