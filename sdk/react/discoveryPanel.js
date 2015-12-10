@@ -30,11 +30,8 @@ var thumbnailStyle;
 var columnContainerStyle;
 var animationDuration = 1000;
 
-var defaultWidthPortrait = 186;
-var defaultHeightPortrait = 164;
-
-var defaultWidthLandscape = 166;
-var defaultHeightLandscape = 154;
+var rectWidth = 176;
+var rectHeight = 160;
 
 var DiscoveryPanel = React.createClass({
 
@@ -106,13 +103,14 @@ var DiscoveryPanel = React.createClass({
 
   render: function() {
     var panelHeight = this.props.height - 40;
+    var margin;
 
     // landscape
     if (this.props.width > this.props.height) {
-      this.setRectInRow(defaultWidthLandscape, defaultHeightLandscape, styles.thumbnailLandscape, styles.columnContainerLandscape); 
+      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape); 
     // portrait
     } else {
-      this.setRectInRow(defaultWidthPortrait, defaultHeightPortrait, styles.thumbnailPortrait, styles.columnContainerPortrait);
+      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailPortrait, styles.columnContainerPortrait);
     }
 
     var animationStyle = {opacity:this.state.opacity};
