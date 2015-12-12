@@ -46,6 +46,7 @@ var VideoView = React.createClass({
     height: React.PropTypes.number,
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
+    cuePoints: React.PropTypes.array,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
@@ -142,6 +143,7 @@ var VideoView = React.createClass({
       height={this.props.height}
       primaryButton={this.props.playing ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
+      cuePoints = {this.props.cuePoints}
       playhead={this.props.playhead}
       duration={this.props.duration}
       volume={this.props.volume}
