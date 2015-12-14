@@ -117,10 +117,10 @@ var VideoView = React.createClass({
         this.props.onScrub(1);
       } else {
         this.props.onPress(name);
-      } 
+      }
     } else {
       this.toggleControls();
-    } 
+    }
   },
 
   toggleControls: function() {
@@ -155,7 +155,8 @@ var VideoView = React.createClass({
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
-        icons: this.props.config.icons
+        icons: this.props.config.icons,
+        live: this.props.config.live
       }} />);
   },
 

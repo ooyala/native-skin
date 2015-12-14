@@ -236,7 +236,7 @@ OoyalaSkinCore.prototype.onStateChange = function(e) {
       this.skin.setState({
         playing: true,
         loading: false,
-        initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false, 
+        initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false,
         screenType: SCREEN_TYPES.VIDEO_SCREEN});
       break;
     case "loading":
@@ -359,7 +359,8 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
         buttons: this.skin.props.buttons.mobileContent,
         upNext: this.skin.props.upNext,
         icons: this.skin.props.icons,
-        adScreen: this.skin.props.adScreen
+        adScreen: this.skin.props.adScreen,
+        live: this.skin.props.live
       }}
       nextVideo={this.skin.state.nextVideo}
       upNextDismissed={this.skin.state.upNextDismissed}

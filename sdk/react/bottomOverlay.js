@@ -171,9 +171,8 @@ var BottomOverlay = React.createClass({
     this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
   },
 
-  render: function() {
+  renderDefault: function(widthStyle) {
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-    var widthStyle = {width:this.props.width, opacity:this.state.opacity};
     return (
       <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}
         onTouchStart={(event) => this.handleTouchStart(event)}
@@ -184,7 +183,24 @@ var BottomOverlay = React.createClass({
         {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
       </Animated.View>
     );
-  }
+  },
+
+  renderLiveWithoutDVR: function(widthStyle) {
+    return (
+      <Animated.View style={[styles.container, widthStyle, {"height": this.state.height - 6}]}>
+        {this._renderControlBar()}
+      </Animated.View>
+    );
+  },
+
+  render: function() {
+    var widthStyle = {width:this.props.width, opacity:this.state.opacity};
+    if (this.props.live && !this.props.config.live.dvrEnabled) {
+      return this.renderLiveWithoutDVR(widthStyle);
+    }
+
+    return this.renderDefault(widthStyle);
+  },
 });
 
 module.exports = BottomOverlay;
