@@ -143,7 +143,8 @@ var BottomOverlay = React.createClass({
     var positionStyle;
     var cuePointView;
 
-    for (var cuePoint of cuePoints) {
+    for (var i = 0; i < cuePoints.length; i++) {
+      var cuePoint = cuePoints[i];
       leftOffset = this._getCuePointLeftOffset(cuePoint, progressBarWidth);
       positionStyle = {top:topOffset, left:leftOffset};
       cuePointView = (<Text style={[styles.cuePoint, positionStyle]} >{"\uf111"}
