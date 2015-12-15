@@ -158,6 +158,7 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
     duration: e.duration,
     initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
+    cuePoints: e.cuePoints,
   });
 
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
@@ -347,6 +348,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       height={this.skin.state.height}
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
+      cuePoints={this.skin.state.cuePoints}
       onPress={(value) => this.handlePress(value)}
       onScrub={(value) => this.handleScrub(value)}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}

@@ -33,6 +33,7 @@ var leftMargin = 20;
 var progressBarHeight = 6;
 var scrubberSize = 18;
 var scrubTouchableDistance = 45;
+var cuePointSize = 12;
 var BottomOverlay = React.createClass({
 
   propTypes: {
@@ -40,6 +41,7 @@ var BottomOverlay = React.createClass({
     height: React.PropTypes.number,
     primaryButton: React.PropTypes.string,
     fullscreen: React.PropTypes.bool,
+    cuePoints: React.PropTypes.array,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     volume: React.PropTypes.number,
@@ -94,10 +96,22 @@ var BottomOverlay = React.createClass({
     }
   },
 
+  _renderProgressBarWidth: function() {
+    return this.props.width - 2 * leftMargin;
+  },
+
+  _renderTopOffset: function(componentSize) {
+    return topMargin + progressBarHeight / 2 - componentSize / 2;
+  },
+
+  _renderLeftOffset: function(componentSize, percent, progressBarWidth) {
+    return leftMargin + percent * progressBarWidth - componentSize / 2
+  },
+
   _renderProgressScrubber: function(percent) {
-    var topOffset = topMargin + progressBarHeight / 2 - scrubberSize / 2;
-    var progressBarWidth = this.props.width - 2 * leftMargin;
-    var leftOffset = leftMargin + percent * progressBarWidth - scrubberSize / 2;
+    var progressBarWidth = this._renderProgressBarWidth();
+    var topOffset = this._renderTopOffset(scrubberSize);
+    var leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
     var positionStyle = {top:topOffset, left:leftOffset};
 
     return (
@@ -107,6 +121,38 @@ var BottomOverlay = React.createClass({
 
   _renderProgressBar: function(percent) {
     return (<ProgressBar ref='progressBar' percent={percent} />);
+  },
+
+  _getCuePointLeftOffset: function(cuePoint, progressBarWidth) {
+    var cuePointPercent = cuePoint / this.props.duration;
+    if (cuePointPercent > 1) {
+      cuePointPercent = 1;
+    }
+    if (cuePointPercent < 0) {
+      cuePointPercent = 0;
+    }
+    var leftOffset = this._renderLeftOffset(cuePointSize, cuePointPercent, progressBarWidth);
+    return leftOffset;
+  },
+
+  _renderCuePoints: function(cuePoints) {
+    var cuePointsView = [];
+    var progressBarWidth = this._renderProgressBarWidth();
+    var topOffset = this._renderTopOffset(cuePointSize);
+    var leftOffset = 0;
+    var positionStyle;
+    var cuePointView;
+
+    for (var i = 0; i < cuePoints.length; i++) {
+      var cuePoint = cuePoints[i];
+      leftOffset = this._getCuePointLeftOffset(cuePoint, progressBarWidth);
+      positionStyle = {top:topOffset, left:leftOffset};
+      cuePointView = (<Text style={[styles.cuePoint, positionStyle]} >{"\uf111"}
+                        </Text>);
+      cuePointsView.push(cuePointView);
+    }
+
+    return cuePointsView;
   },
 
   _renderControlBar: function() {
@@ -182,6 +228,7 @@ var BottomOverlay = React.createClass({
         {this._renderProgressBar(playedPercent)}
         {this._renderControlBar()}
         {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
+        {this._renderCuePoints(this.props.cuePoints)}
       </Animated.View>
     );
   }

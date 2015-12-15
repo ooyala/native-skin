@@ -138,11 +138,13 @@ static NSDictionary *kSkinCofig;
   NSNumber *playheadNumber = [NSNumber numberWithFloat:adjustedPlayhead];
   NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
+  NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
   NSDictionary *eventBody =
   @{@"duration":durationNumber,
     @"playhead":playheadNumber,
     @"rate":rateNumber,
-    @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages};
+    @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages,
+    @"cuePoints":cuePoints};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
