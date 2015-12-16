@@ -18,9 +18,11 @@
   },
 
   "rowCenter": {
-    "height": 60,
+    "flex": 1,
     "flexDirection": "row",
+    "alignItems": "center",
     "alignSelf": "center",
+    "justifyContent":"center",
     "backgroundColor": "transparent"
   },
 
