@@ -112,13 +112,13 @@ describe('utils test suite', function() {
 
     for (var i = 0; i < cases.length; i++) {
       var result = Utils.shouldShowLandscape.apply(null, cases[i]);
-      expect(result).toBeNull();
+      expect(result).toBeFalsy();
     }
   });
 
   it('tests shouldShowLandscape() with valid arguments', function() {
     var result = Utils.shouldShowLandscape(-12,-14);
-    expect(result).toBeNull();
+    expect(result).toBeFalsy();
 
     result = Utils.shouldShowLandscape(0, 0);
     expect(result).toBeFalsy();

@@ -31,7 +31,7 @@ var Utils = {
     if (isNaN(width) || isNaN(height) ||
         width === null || height === null ||
         width < 0 || height < 0) {
-      return null;
+      return false;
     }
 
     return width > height;

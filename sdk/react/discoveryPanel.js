@@ -93,10 +93,7 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    var renderHorizontal = false;
-    if (Utils.shouldShowLandscape(this.props.width, this.props.height)) {
-      renderHorizontal = true;
-    }
+    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
 
     var panelHeight = this.props.height - 40;
 
