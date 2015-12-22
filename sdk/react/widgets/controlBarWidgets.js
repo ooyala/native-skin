@@ -13,6 +13,7 @@ var {
   TouchableHighlight
 } = React;
 var VolumeView = require('./VolumeView');
+var styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 var Log = require('../log');
 
 var Constants = require('./../constants');
@@ -101,7 +102,7 @@ var controlBarWidget = React.createClass({
   watermarkWidget: function (options) {
     if(options.shouldShow) {
       return (
-        <View style={styles.container}>
+        <View style={styles.watermark}>
         <Image
         style={options.style}
         source={{uri: options.icon}}
@@ -162,15 +163,6 @@ var controlBarWidget = React.createClass({
     }
   }
 
-});
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
 });
 
 module.exports = controlBarWidget;
