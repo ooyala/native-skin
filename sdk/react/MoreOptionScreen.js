@@ -53,7 +53,7 @@ var MoreOptionScreen = React.createClass({
       Animated.timing(
         this.state.translateY,
         {
-          toValue: (this.props.height - this.props.config.moreOptionsScreen.iconSize) / 2,
+          toValue: 0,
           duration: 700,
           delay: 0
         }),
