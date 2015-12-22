@@ -100,10 +100,13 @@ var controlBarWidget = React.createClass({
 
   watermarkWidget: function (options) {
     if(options.shouldShow) {
-      return (<Image style={options.style}
-        source={{uri: IMG_URLS.OOYALA_LOGO}}
-        resizeMode={options.resizeMode}>
-      </Image>);
+      return (
+        <View style={styles.container}>
+        <Image
+        style={options.style}
+        source={{uri: options.icon}}
+        resizeMode={options.resizeMode}/>
+      </View>);
     }
     else {
       return null;
@@ -159,6 +162,15 @@ var controlBarWidget = React.createClass({
     }
   }
 
+});
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
 });
 
 module.exports = controlBarWidget;

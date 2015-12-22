@@ -150,6 +150,7 @@ var ControlBar = React.createClass({
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
+        icon:this.props.config.controlBar.watermark.imageResource.androidResource,
         resizeMode: Image.resizeMode.contain
       }
     };
