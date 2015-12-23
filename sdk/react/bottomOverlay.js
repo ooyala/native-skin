@@ -242,7 +242,7 @@ var BottomOverlay = React.createClass({
 
   render: function() {
     var widthStyle = {width:this.props.width, opacity:this.state.opacity};
-    if (this.props.live && !this.props.config.live.dvrEnabled) {
+    if (this.props.live && (this.props.config.live != null && !this.props.config.live.dvrEnabled)) {
       return this.renderLiveWithoutDVR(widthStyle);
     }
 
