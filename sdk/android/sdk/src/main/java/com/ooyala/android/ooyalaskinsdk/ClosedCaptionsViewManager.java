@@ -40,6 +40,11 @@ public class ClosedCaptionsViewManager extends SimpleViewManager<ClosedCaptionsV
     view.setCaption(c);
   }
 
+  @ReactProp(name = "videoWidth", defaultDouble = 0.0)
+  public void setCaption(ClosedCaptionsView view, double videoWidth) {
+    view.setVideoWidth(videoWidth);
+  }
+
   @ReactProp(name = "renderToHardwareTextureAndroid")
   public void setRenderToHardwareTextureAndroid(ClosedCaptionsView view, boolean b) {
     // do nothing.

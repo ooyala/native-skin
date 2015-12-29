@@ -5,7 +5,8 @@ var { requireNativeComponent, PropTypes } = require('react-native');
 var iface = {
   name: 'ClosedCaptionsView',
   propTypes: {
-    caption: PropTypes.object
+    caption: PropTypes.object,
+    videoWidth: PropTypes.number,
   },
 };
 

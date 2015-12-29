@@ -1311,8 +1311,8 @@ React.createElement(Text,null,this.state.playerState)));},
 render:function(){
 var caption={begin:0.0,end:5000.0,text:"testing"};
 return (
-React.createElement(View,null,
-React.createElement(ClosedCaptionsView,{caption:caption})));}});
+React.createElement(View,{style:styles.container},
+React.createElement(ClosedCaptionsView,{videoWidth:200.0,caption:caption})));}});
 
 
 
@@ -56802,7 +56802,8 @@ require('react-native/Libraries/react-native/react-native.js');var requireNative
 var iface={
 name:'ClosedCaptionsView',
 propTypes:{
-caption:PropTypes.object}};
+caption:PropTypes.object,
+videoWidth:PropTypes.number}};
 
 
 
