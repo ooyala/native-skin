@@ -16,6 +16,7 @@ var {
 } = React;
 var Dimensions = require('Dimensions');
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
+var ActivityView = require('NativeModules').OOActivityView;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var ErrorScreen = require('./ErrorScreen');
@@ -395,17 +396,18 @@ OoyalaSkinCore.prototype.renderSocialOptions = function() {
     this.bridge.onPress({name:"Share"});
   }
   else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
-    return (
-      <SharePanel
-        socialButtons={this.skin.props.shareScreen}
-        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-        onSocialAlertDismiss={() => this.onSocialAlertDismiss()}
-        width={this.skin.state.width}
-        height={this.skin.state.height}
-        alertTitle={this.skin.state.alertTitle}
-        alertMessage={this.skin.state.alertMessage}
-        localizableStrings={this.skin.props.localization}
-        locale={this.skin.props.locale} />);
+    ActivityView.show();
+    // return (
+    //   <SharePanel
+    //     socialButtons={this.skin.props.shareScreen}
+    //     onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
+    //     onSocialAlertDismiss={() => this.onSocialAlertDismiss()}
+    //     width={this.skin.state.width}
+    //     height={this.skin.state.height}
+    //     alertTitle={this.skin.state.alertTitle}
+    //     alertMessage={this.skin.state.alertMessage}
+    //     localizableStrings={this.skin.props.localization}
+    //     locale={this.skin.props.locale} />);
   }
 },
 
