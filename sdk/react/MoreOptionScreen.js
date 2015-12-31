@@ -73,14 +73,18 @@ var MoreOptionScreen = React.createClass({
 
   onOptionPress: function(buttonName) {
     this.setState({button: buttonName});
-    Animated.timing(
-      this.state.buttonOpacity,
-      {
-        toValue: 0,
-        duration: 200,
-        delay: 0
-      }
-    ).start(this.onOptionBtnPress);
+    if (BUTTON_NAMES.SHARE === buttonName) {
+      this.onOptionBtnPress();
+    } else {
+      Animated.timing(
+        this.state.buttonOpacity,
+        {
+          toValue: 0,
+          duration: 200,
+          delay: 0
+        }
+      ).start(this.onOptionBtnPress);
+    }
   },
 
   onDismissBtnPress: function() {
