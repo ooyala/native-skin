@@ -157,6 +157,7 @@ var MoreOptionScreen = React.createClass({
 
     var moreOptionRow;
     var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
+
     if (!this.props.buttonSelected || this.props.buttonSelected === BUTTON_NAMES.NONE || this.props.buttonSelected === BUTTON_NAMES.SHARE) {
 
       moreOptionRow = (

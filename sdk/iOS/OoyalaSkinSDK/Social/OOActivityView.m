@@ -17,9 +17,22 @@ RCT_EXPORT_MODULE();
   return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(show) {
-  NSString *text = @"Look at this";
-  NSArray * items = @[text];
+RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
+  
+  if (!options[@"text"] && !options[@"link"]) {
+    //TODO: Deal with this sceneario
+  }
+  
+  NSMutableArray *items = [NSMutableArray new];
+  
+  if (options[@"text"]) {
+    [items addObject:options[@"text"]];
+  }
+  
+  if (options[@"link"]) {
+    [items addObject:options[@"link"]];
+  }
+  
   UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
   activityVC.excludedActivityTypes = @[UIActivityTypeAddToReadingList,
                                        UIActivityTypeAirDrop,

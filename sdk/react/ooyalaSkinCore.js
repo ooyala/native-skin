@@ -396,7 +396,10 @@ OoyalaSkinCore.prototype.renderSocialOptions = function() {
     this.bridge.onPress({name:"Share"});
   }
   else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
-    ActivityView.show();
+    ActivityView.show({
+      'text':this.skin.state.title,
+      'link':this.skin.state.hostedAtUrl,
+    });
     // return (
     //   <SharePanel
     //     socialButtons={this.skin.props.shareScreen}
