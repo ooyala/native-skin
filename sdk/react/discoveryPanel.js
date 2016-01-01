@@ -126,6 +126,7 @@ var DiscoveryPanel = React.createClass({
           itemWidth={itemRect.width}
           itemHeight={itemRect.height}>
         </ResponsiveList>
+        {this.renderError()}
       </Animated.View>
     );
   },
@@ -197,6 +198,39 @@ var DiscoveryPanel = React.createClass({
         {title} <Text style={styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
         </Text>
       </View>);
+  },
+
+  renderError: function() {
+    var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
+    var errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
+    if (this.props.width < this.props.height) {
+      errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD\n BE VIDEOS HERE.";
+      errorContentText = "(Try Clicking The Discover Button Again On\n Reload Your Page)";
+    }
+
+    var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
+    var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
+    var warningIcon = this.props.config.icons.warning.fontString;
+    if (this.props.dataSource == null || this.props.dataSource.length == 0) {
+      return (
+        <View style={styles.panelErrorPanel}>
+          <View style={styles.panelErrorInfo}>
+            <Text style={styles.panelErrorTitleText}>
+              {errorTitle + '\n'}
+              <Text style={styles.panelErrorContentText}>
+                {errorContent}
+              </Text> 
+            </Text>
+          </View>
+
+          <View style={styles.panelWarning}>
+            <Text style={styles.warningIcon}>
+              {warningIcon}
+            </Text>
+          </View>
+        </View>
+      );
+    }
   },
 });
 

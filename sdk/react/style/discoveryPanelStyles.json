@@ -2,6 +2,23 @@
   "panelTitle": {
     "height": 40
   },
+  "panelErrorPanel": {
+    "flexDirection": "row",
+    "alignSelf": "flex-end",
+  },
+  "panelErrorInfo": {
+    "flexDirection": "column",
+    "alignSelf": "flex-start",
+    "backgroundColor": "black",
+    "marginBottom":10,
+    "marginRight":10
+  },
+  "panelWarning": {
+    "alignSelf": "flex-end",
+    "backgroundColor": "transparent",
+    "marginRight":10,
+    "marginBottom":10,
+  },
   "icon": {
     "textAlign": "left",
     "fontFamily": "alice",
@@ -14,6 +31,26 @@
     "fontWeight": "bold",
     "textAlign": "left"
   },
+  "panelErrorTitleText": {
+    "fontSize": 10,
+    "padding": 7,
+    "color": "white",
+    "fontWeight": "bold",
+    "textAlign": "center"
+  },
+  "panelErrorContentText": {
+    "fontSize": 9.8,
+    "padding": 7,
+    "color": "white",
+    "textAlign": "center"
+  },
+  "warningIcon": {
+    "fontSize": 20,
+    "color": "red",
+    "textAlign": "center",
+    "fontFamily": "fontawesome",
+  },
+  
   "container": {
     "flex": 1,
     "flexDirection": "row",
