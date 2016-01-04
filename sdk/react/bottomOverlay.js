@@ -34,6 +34,7 @@ var progressBarHeight = 6;
 var scrubberSize = 18;
 var scrubTouchableDistance = 45;
 var cuePointSize = 12;
+var mounted = false;
 var BottomOverlay = React.createClass({
 
   propTypes: {
@@ -59,8 +60,16 @@ var BottomOverlay = React.createClass({
     return {
       touch: false,
       opacity: new Animated.Value(0),
-      height: new Animated.Value(0)
+      height: new Animated.Value(0),
     };
+  },
+
+  componentDidMount: function() {
+    mounted = true;
+  },
+
+  componentWillUnmount: function() {
+    mounted = false;
   },
 
   componentDidUpdate: function(prevProps, prevState) {
@@ -196,25 +205,31 @@ var BottomOverlay = React.createClass({
   },
 
   handleTouchStart: function(event) {
-    var touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
-    if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
-      return;
+    if (mounted) {
+      var touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
+      if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
+        return;
+      }
+      this.setState({touch:true, x:event.nativeEvent.pageX});
+      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
-    this.setState({touch:true, x:event.nativeEvent.pageX});
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
   },
 
   handleTouchMove: function(event) {
-    this.setState({x:event.nativeEvent.pageX});
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+    if (mounted) {
+      this.setState({x:event.nativeEvent.pageX});
+      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+    }
   },
 
   handleTouchEnd: function(event) {
-    if (this.state.touch && this.props.onScrub) {
-      this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+    if (mounted) {
+      if (this.state.touch && this.props.onScrub) {
+        this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+      }
+      this.setState({touch:false, x:null});
+      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
-    this.setState({touch:false, x:null});
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
   },
 
   renderDefault: function(widthStyle) {
