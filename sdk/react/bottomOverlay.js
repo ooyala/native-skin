@@ -34,7 +34,6 @@ var progressBarHeight = 6;
 var scrubberSize = 18;
 var scrubTouchableDistance = 45;
 var cuePointSize = 12;
-var mounted = false;
 var BottomOverlay = React.createClass({
 
   propTypes: {
@@ -62,14 +61,6 @@ var BottomOverlay = React.createClass({
       opacity: new Animated.Value(0),
       height: new Animated.Value(0),
     };
-  },
-
-  componentDidMount: function() {
-    mounted = true;
-  },
-
-  componentWillUnmount: function() {
-    mounted = false;
   },
 
   componentDidUpdate: function(prevProps, prevState) {
@@ -205,7 +196,7 @@ var BottomOverlay = React.createClass({
   },
 
   handleTouchStart: function(event) {
-    if (mounted) {
+    if (this.isMounted()) {
       var touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
       if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
         return;
@@ -216,14 +207,14 @@ var BottomOverlay = React.createClass({
   },
 
   handleTouchMove: function(event) {
-    if (mounted) {
+    if (this.isMounted()) {
       this.setState({x:event.nativeEvent.pageX});
       this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   },
 
   handleTouchEnd: function(event) {
-    if (mounted) {
+    if (this.isMounted()) {
       if (this.state.touch && this.props.onScrub) {
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
       }
