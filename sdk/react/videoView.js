@@ -147,6 +147,7 @@ var VideoView = React.createClass({
       cuePoints = {this.props.cuePoints}
       playhead={this.props.playhead}
       duration={this.props.duration}
+      ad={this.props.ad}
       volume={this.props.volume}
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
