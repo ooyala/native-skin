@@ -25,7 +25,7 @@ var {
 var controlBarWidget = React.createClass({
 
   propTypes: {
-    widgetType: React.PropTypes.string,
+    widgetType: React.PropTypes.object,
     options: React.PropTypes.object
   },
 

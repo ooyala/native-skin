@@ -161,6 +161,7 @@ var ControlBar = React.createClass({
     for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
       controlBarWidgets.push(<ControlBarWidget
+        key={i}
         widgetType={widget}
         options={widgetOptions}/>);
     }
