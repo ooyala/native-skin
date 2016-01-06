@@ -4,7 +4,7 @@
     "flexDirection": "column",
     "backgroundColor": "rgba(0, 0, 0, 0.8)"
   },
-  
+
   "container": {
     "flex": 1,
     "flexDirection": "column",
@@ -18,9 +18,11 @@
   },
 
   "rowCenter": {
-    "height": 40,
+    "flex": 1,
     "flexDirection": "row",
+    "alignItems": "center",
     "alignSelf": "center",
+    "justifyContent":"center",
     "backgroundColor": "transparent"
   },
 
@@ -33,12 +35,10 @@
   },
 
   "icon": {
-    "textAlign": "center",
     "margin": 15
   },
 
   "iconDismiss": {
-    "textAlign": "center",
     "padding": 25
   },
 

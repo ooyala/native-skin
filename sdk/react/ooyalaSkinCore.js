@@ -16,12 +16,12 @@ var {
 } = React;
 var Dimensions = require('Dimensions');
 var OOSocialShare = require('NativeModules').OOReactSocialShare;
+var ActivityView = require('NativeModules').OOActivityView;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
 var ErrorScreen = require('./ErrorScreen');
 var DiscoveryPanel = require('./discoveryPanel');
 var MoreOptionScreen = require('./MoreOptionScreen');
-var SharePanel = require('./sharePanel');
 var Log = require('./log');
 var Constants = require('./constants');
 var {
@@ -158,6 +158,7 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
     duration: e.duration,
     initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
+    cuePoints: e.cuePoints,
   });
 
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
@@ -236,7 +237,7 @@ OoyalaSkinCore.prototype.onStateChange = function(e) {
       this.skin.setState({
         playing: true,
         loading: false,
-        initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false, 
+        initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false,
         screenType: SCREEN_TYPES.VIDEO_SCREEN});
       break;
     case "loading":
@@ -347,6 +348,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       height={this.skin.state.height}
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
+      cuePoints={this.skin.state.cuePoints}
       onPress={(value) => this.handlePress(value)}
       onScrub={(value) => this.handleScrub(value)}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
@@ -359,7 +361,8 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
         buttons: this.skin.props.buttons.mobileContent,
         upNext: this.skin.props.upNext,
         icons: this.skin.props.icons,
-        adScreen: this.skin.props.adScreen
+        adScreen: this.skin.props.adScreen,
+        live: this.skin.props.live
       }}
       nextVideo={this.skin.state.nextVideo}
       upNextDismissed={this.skin.state.upNextDismissed}
@@ -392,17 +395,10 @@ OoyalaSkinCore.prototype.renderSocialOptions = function() {
     this.bridge.onPress({name:"Share"});
   }
   else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
-    return (
-      <SharePanel
-        socialButtons={this.skin.props.shareScreen}
-        onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
-        onSocialAlertDismiss={() => this.onSocialAlertDismiss()}
-        width={this.skin.state.width}
-        height={this.skin.state.height}
-        alertTitle={this.skin.state.alertTitle}
-        alertMessage={this.skin.state.alertMessage}
-        localizableStrings={this.skin.props.localization}
-        locale={this.skin.props.locale} />);
+    ActivityView.show({
+      'text':this.skin.state.title,
+      'link':this.skin.state.hostedAtUrl,
+    });
   }
 },
 
@@ -412,7 +408,10 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
   }
   return (
     <DiscoveryPanel
-      config={this.skin.props.discoveryScreen}
+      config={{
+        discoveryScreen: this.skin.props.discoveryScreen,
+        icons: this.skin.props.icons,
+      }}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       dataSource={this.skin.state.discoveryResults}

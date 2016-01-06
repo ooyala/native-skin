@@ -9,5 +9,12 @@
   	"fontSize": 18,
   	"fontFamily": "fontawesome",
   	"color": "white"
+  },
+
+  "cuePoint": {
+    "position": "absolute",
+    "fontSize": 12,
+    "fontFamily": "fontawesome",
+    "color": "white"
   }
 }

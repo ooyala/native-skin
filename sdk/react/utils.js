@@ -9,11 +9,32 @@ var {
   StyleSheet
 } = React;
 
-
 var Log = require('./log');
 var Utils = {
 
+  renderRectButton: function(style, icon, func, size, color, fontFamily, key) {
+    var RectButton = require('./widgets/RectButton');
+
+    return (
+      <RectButton
+        key={key}
+        icon={icon}
+        onPress={func}
+        fontSize={size}
+        fontFamily={fontFamily}
+        style={style}
+        buttonColor={color}>
+      </RectButton>
+    );
+  },
+
   shouldShowLandscape: function(width, height) {
+    if (isNaN(width) || isNaN(height) ||
+        width === null || height === null ||
+        width < 0 || height < 0) {
+      return false;
+    }
+
     return width > height;
   },
 

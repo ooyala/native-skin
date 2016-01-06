@@ -33,6 +33,7 @@ var leftMargin = 20;
 var progressBarHeight = 6;
 var scrubberSize = 18;
 var scrubTouchableDistance = 45;
+var cuePointSize = 12;
 var BottomOverlay = React.createClass({
 
   propTypes: {
@@ -40,6 +41,7 @@ var BottomOverlay = React.createClass({
     height: React.PropTypes.number,
     primaryButton: React.PropTypes.string,
     fullscreen: React.PropTypes.bool,
+    cuePoints: React.PropTypes.array,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
     volume: React.PropTypes.number,
@@ -57,7 +59,7 @@ var BottomOverlay = React.createClass({
     return {
       touch: false,
       opacity: new Animated.Value(0),
-      height: new Animated.Value(0)
+      height: new Animated.Value(0),
     };
   },
 
@@ -94,10 +96,22 @@ var BottomOverlay = React.createClass({
     }
   },
 
+  _renderProgressBarWidth: function() {
+    return this.props.width - 2 * leftMargin;
+  },
+
+  _renderTopOffset: function(componentSize) {
+    return topMargin + progressBarHeight / 2 - componentSize / 2;
+  },
+
+  _renderLeftOffset: function(componentSize, percent, progressBarWidth) {
+    return leftMargin + percent * progressBarWidth - componentSize / 2
+  },
+
   _renderProgressScrubber: function(percent) {
-    var topOffset = topMargin + progressBarHeight / 2 - scrubberSize / 2;
-    var progressBarWidth = this.props.width - 2 * leftMargin;
-    var leftOffset = leftMargin + percent * progressBarWidth - scrubberSize / 2;
+    var progressBarWidth = this._renderProgressBarWidth();
+    var topOffset = this._renderTopOffset(scrubberSize);
+    var leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
     var positionStyle = {top:topOffset, left:leftOffset};
 
     return (
@@ -107,6 +121,38 @@ var BottomOverlay = React.createClass({
 
   _renderProgressBar: function(percent) {
     return (<ProgressBar ref='progressBar' percent={percent} />);
+  },
+
+  _getCuePointLeftOffset: function(cuePoint, progressBarWidth) {
+    var cuePointPercent = cuePoint / this.props.duration;
+    if (cuePointPercent > 1) {
+      cuePointPercent = 1;
+    }
+    if (cuePointPercent < 0) {
+      cuePointPercent = 0;
+    }
+    var leftOffset = this._renderLeftOffset(cuePointSize, cuePointPercent, progressBarWidth);
+    return leftOffset;
+  },
+
+  _renderCuePoints: function(cuePoints) {
+    var cuePointsView = [];
+    var progressBarWidth = this._renderProgressBarWidth();
+    var topOffset = this._renderTopOffset(cuePointSize);
+    var leftOffset = 0;
+    var positionStyle;
+    var cuePointView;
+
+    for (var i = 0; i < cuePoints.length; i++) {
+      var cuePoint = cuePoints[i];
+      leftOffset = this._getCuePointLeftOffset(cuePoint, progressBarWidth);
+      positionStyle = {top:topOffset, left:leftOffset};
+      cuePointView = (<Text key={i} style={[styles.cuePoint, positionStyle]} >{"\uf111"}
+                        </Text>);
+      cuePointsView.push(cuePointView);
+    }
+
+    return cuePointsView;
   },
 
   _renderControlBar: function() {
@@ -150,30 +196,35 @@ var BottomOverlay = React.createClass({
   },
 
   handleTouchStart: function(event) {
-    var touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
-    if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
-      return;
+    if (this.isMounted()) {
+      var touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
+      if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
+        return;
+      }
+      this.setState({touch:true, x:event.nativeEvent.pageX});
+      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
-    this.setState({touch:true, x:event.nativeEvent.pageX});
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
   },
 
   handleTouchMove: function(event) {
-    this.setState({x:event.nativeEvent.pageX});
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+    if (this.isMounted()) {
+      this.setState({x:event.nativeEvent.pageX});
+      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+    }
   },
 
   handleTouchEnd: function(event) {
-    if (this.state.touch && this.props.onScrub) {
-      this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+    if (this.isMounted()) {
+      if (this.state.touch && this.props.onScrub) {
+        this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+      }
+      this.setState({touch:false, x:null});
+      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
-    this.setState({touch:false, x:null});
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
   },
 
-  render: function() {
+  renderDefault: function(widthStyle) {
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-    var widthStyle = {width:this.props.width, opacity:this.state.opacity};
     return (
       <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}
         onTouchStart={(event) => this.handleTouchStart(event)}
@@ -182,9 +233,27 @@ var BottomOverlay = React.createClass({
         {this._renderProgressBar(playedPercent)}
         {this._renderControlBar()}
         {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
+        {this._renderCuePoints(this.props.cuePoints)}
       </Animated.View>
     );
-  }
+  },
+
+  renderLiveWithoutDVR: function(widthStyle) {
+    return (
+      <Animated.View style={[styles.container, widthStyle, {"height": this.state.height - 6}]}>
+        {this._renderControlBar()}
+      </Animated.View>
+    );
+  },
+
+  render: function() {
+    var widthStyle = {width:this.props.width, opacity:this.state.opacity};
+    if (this.props.live && (this.props.config.live != null && !this.props.config.live.dvrEnabled)) {
+      return this.renderLiveWithoutDVR(widthStyle);
+    }
+
+    return this.renderDefault(widthStyle);
+  },
 });
 
 module.exports = BottomOverlay;

@@ -36,6 +36,7 @@ var OoyalaSkin = React.createClass({
       hostedAtUrl: '',
       playhead: 0,
       duration: 1,
+      cuePoints: [],
       rate: 0,
       fullscreen: false,
       lastPressedTime: (new Date).getTime(),

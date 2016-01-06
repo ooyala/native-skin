@@ -27,7 +27,6 @@ var {
   SCREEN_TYPES,
   PLATFORMS
 } = Constants;
-var IconTextView = require('./androidNative/iconTextView');
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance, OoyalaSkinCoreInstanceSocial;
 
@@ -42,6 +41,7 @@ var OoyalaSkin = React.createClass({
       // states from native
       title: '',
       description: '',
+      cuePoints: [],
       promoUrl: '',
       hostedAtUrl: '',
       playhead: 0,

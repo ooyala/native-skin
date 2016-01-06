@@ -26,13 +26,13 @@
   },
 
   replaybuttonSE: {
-    position: 'absolute',    
+    position: 'absolute',
     bottom: 0,
     right: 0
   },
 
   replaybuttonSW: {
-    position: 'absolute',    
+    position: 'absolute',
     bottom: 0,
     left: 0
   },
@@ -43,5 +43,15 @@
     color: 'white',
     fontFamily: 'fontawesome',
     margin: 10
+  },
+
+  "iconDismiss": {
+    "padding": 25
+  },
+
+   "dismissButtonTopRight":{
+    "position": "absolute",
+    "top": 0,
+    "right": 0
   },
 }

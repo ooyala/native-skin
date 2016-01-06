@@ -20,7 +20,6 @@ var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var RectButton = require('./widgets/RectButton');
 var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
-var VideoViewPlayPauseAndroid = require('./widgets/VideoViewPlayPauseAndroid');
 var Constants = require('./constants');
 var Log = require('./log');
 var Utils = require('./utils');
@@ -30,6 +29,7 @@ var autohideDelay = 5000;
 
 var {
   BUTTON_NAMES,
+  PLATFORMS,
   IMG_URLS,
   UI_SIZES
 } = Constants;
@@ -37,6 +37,7 @@ var {
 var VideoView = React.createClass({
   propTypes: {
     rate: React.PropTypes.number,
+    platform: React.PropTypes.string,
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
@@ -46,6 +47,7 @@ var VideoView = React.createClass({
     height: React.PropTypes.number,
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
+    cuePoints: React.PropTypes.array,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
@@ -116,10 +118,10 @@ var VideoView = React.createClass({
         this.props.onScrub(1);
       } else {
         this.props.onPress(name);
-      } 
+      }
     } else {
       this.toggleControls();
-    } 
+    }
   },
 
   toggleControls: function() {
@@ -142,6 +144,7 @@ var VideoView = React.createClass({
       height={this.props.height}
       primaryButton={this.props.playing ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
+      cuePoints = {this.props.cuePoints}
       playhead={this.props.playhead}
       duration={this.props.duration}
       volume={this.props.volume}
@@ -154,7 +157,8 @@ var VideoView = React.createClass({
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
-        icons: this.props.config.icons
+        icons: this.props.config.icons,
+        live: this.props.config.live
       }} />);
   },
 
@@ -222,34 +226,6 @@ var VideoView = React.createClass({
 
   _renderPlayPause: function(show) {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-    
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      return (
-      <VideoViewPlayPauseAndroid
-        icons={{
-          play: {
-            icon: this.props.config.icons.play.fontString,
-            fontFamily: this.props.config.icons.play.fontFamilyName
-          },
-          pause: {
-            icon: this.props.config.icons.pause.fontString,
-            fontFamily: this.props.config.icons.pause.fontFamilyName
-          }
-        }}
-        position={"center"}
-        onPress={(name) => this.handlePress(name)}
-        frameWidth={this.props.width}
-        frameHeight={this.props.height}
-        buttonWidth={iconFontSize}
-        buttonHeight={iconFontSize}
-        fontSize={iconFontSize}
-        showButton={show}
-        rate={this.props.rate}
-        playing={this.props.playing}
-        loading={this.props.loading}
-        initialPlay={this.props.initialPlay}>
-      </VideoViewPlayPauseAndroid>);
-    } else if(this.props.platform == Constants.PLATFORMS.IOS) {
       return (
         <VideoViewPlayPause
           icons={{
@@ -268,6 +244,7 @@ var VideoView = React.createClass({
           frameHeight={this.props.height}
           buttonWidth={iconFontSize}
           buttonHeight={iconFontSize}
+          platform={this.props.platform}
           fontSize={iconFontSize}
           showButton={show}
           rate={this.props.rate}
@@ -275,8 +252,6 @@ var VideoView = React.createClass({
           loading={this.props.loading}
           initialPlay={this.props.initialPlay}>
         </VideoViewPlayPause>);
-    }
-    return null;
   },
 
   _handleSocialShare: function() {
