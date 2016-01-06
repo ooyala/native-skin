@@ -3,7 +3,6 @@
     "height": 40
   },
   "panelErrorPanel": {
-    "flexDirection": "row",
     "alignSelf": "flex-end",
   },
   "panelErrorInfo": {
@@ -32,6 +31,7 @@
     "textAlign": "left"
   },
   "panelErrorTitleText": {
+    "flex": 1,
     "fontSize": 10,
     "padding": 7,
     "color": "white",
@@ -39,6 +39,7 @@
     "textAlign": "center"
   },
   "panelErrorContentText": {
+    "flex": 1,
     "fontSize": 9.8,
     "padding": 7,
     "color": "white",
@@ -46,7 +47,7 @@
   },
   "warningIcon": {
     "fontSize": 20,
-    "color": "red",
+    "color": "FF3300",
     "textAlign": "center",
     "fontFamily": "fontawesome",
   },

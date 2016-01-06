@@ -32,6 +32,7 @@ var animationDuration = 1000;
 
 var rectWidth = 176;
 var rectHeight = 160;
+var widthThreshold = 300;
 
 var DiscoveryPanel = React.createClass({
 
@@ -102,7 +103,6 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    var panelHeight = this.props.height - 40;
     var margin;
 
     // landscape
@@ -117,6 +117,32 @@ var DiscoveryPanel = React.createClass({
     return (
       <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}
+        {this.renderList()}
+        {this.renderError()}
+      </Animated.View>
+    );
+  },
+
+  _isDicoveryError: function() {
+    return this.props.dataSource == null || this.props.dataSource.length == 0;
+  },
+
+  renderList: function() {
+    var panelHeight = this.props.height - 40;
+
+    if (this._isDicoveryError()) {
+      return (
+        <ResponsiveList
+          horizontal={false}
+          data={null}
+          itemRender={this.renderItem}
+          width={this.props.width}
+          height={panelHeight}
+          itemWidth={itemRect.width}
+          itemHeight={itemRect.height}>
+        </ResponsiveList>
+      );    } else {
+      return (
         <ResponsiveList
           horizontal={false}
           data={this.props.dataSource}
@@ -126,9 +152,8 @@ var DiscoveryPanel = React.createClass({
           itemWidth={itemRect.width}
           itemHeight={itemRect.height}>
         </ResponsiveList>
-        {this.renderError()}
-      </Animated.View>
-    );
+      );
+    }
   },
 
   renderCountdownTimer: function(item) {
@@ -203,20 +228,21 @@ var DiscoveryPanel = React.createClass({
   renderError: function() {
     var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
     var errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
-    if (this.props.width < this.props.height) {
-      errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD\n BE VIDEOS HERE.";
-      errorContentText = "(Try Clicking The Discover Button Again On\n Reload Your Page)";
+    var errorFlexDirectionStyle = {flexDirection: "row"};
+
+    if (this.props.width < widthThreshold) {
+      errorFlexDirectionStyle = {flexDirection: "column"};
     }
 
     var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
     var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
     var warningIcon = this.props.config.icons.warning.fontString;
-    if (this.props.dataSource == null || this.props.dataSource.length == 0) {
+    if (this._isDicoveryError()) {
       return (
-        <View style={styles.panelErrorPanel}>
+        <View style={[styles.panelErrorPanel, errorFlexDirectionStyle]}>
           <View style={styles.panelErrorInfo}>
             <Text style={styles.panelErrorTitleText}>
-              {errorTitle + '\n'}
+              {errorTitle + "\n"}
               <Text style={styles.panelErrorContentText}>
                 {errorContent}
               </Text> 
