@@ -314,15 +314,23 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     Double playhead = _player.getPlayheadTime() / 1000.0;
     WritableArray cuePoints = Arguments.createArray();
     Set<Integer> cuePointsPercentValues = _player.getCuePointsInPercentage();
-      for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
-          int cuePointLocation =(int) Math.round ((i.next()/100.0)*duration);
-          cuePoints.pushInt(cuePointLocation);
-      }
+    for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
+      int cuePointLocation =(int) Math.round ((i.next()/100.0)*duration);
+      cuePoints.pushInt(cuePointLocation);
+    }
+
+    WritableArray languages = Arguments.createArray();
+    Set<String> cclanguage = _player.getAvailableClosedCaptionsLanguages();
+    for (Iterator<String> j = cclanguage.iterator(); j.hasNext(); ) {
+      String languageItem=j.next();
+      languages.pushString(languageItem);
+    }
     WritableMap params = Arguments.createMap();
     params.putDouble("duration", duration);
     params.putDouble("playhead", playhead);
+    params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);
-
+    
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
