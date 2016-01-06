@@ -2,27 +2,26 @@ package com.ooyala.android.ooyalaskinsdk;
 
 import android.content.Intent;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.item.Video;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
-import com.ooyala.android.OoyalaException;
+
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -314,15 +313,22 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     Double playhead = _player.getPlayheadTime() / 1000.0;
     WritableArray cuePoints = Arguments.createArray();
     Set<Integer> cuePointsPercentValues = _player.getCuePointsInPercentage();
-      for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
-          int cuePointLocation =(int) Math.round ((i.next()/100.0)*duration);
-          cuePoints.pushInt(cuePointLocation);
-      }
+    for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
+      int cuePointLocation =(int) Math.round ((i.next()/100.0)*duration);
+      cuePoints.pushInt(cuePointLocation);
+    }
+
+    WritableArray languages = Arguments.createArray();
+    Set<String> cclanguage = _player.getAvailableClosedCaptionsLanguages();
+    for (Iterator<String> j = cclanguage.iterator(); j.hasNext(); ) {
+      String languageItem=j.next();
+      languages.pushString(languageItem);
+    }
     WritableMap params = Arguments.createMap();
     params.putDouble("duration", duration);
     params.putDouble("playhead", playhead);
+    params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);
-
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);

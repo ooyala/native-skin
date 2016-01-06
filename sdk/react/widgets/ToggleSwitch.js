@@ -6,7 +6,7 @@
 
 var React = require('react-native');
 var {
-  SwitchIOS,
+  Switch,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -37,7 +37,7 @@ var ToggleSwitch = React.createClass({
     return (
         <View style={styles.container}>
           <Text style={offTextStyle}>{this.props.switchOffText}</Text>
-            <SwitchIOS value={this.props.switchOn} onValueChange={this.onSwitchToggled} disabled={!this.props.areClosedCaptionsAvailable} />
+            <Switch value={this.props.switchOn} onValueChange={this.onSwitchToggled} disabled={!this.props.areClosedCaptionsAvailable} />
           <Text style={onTextStyle}>{this.props.switchOnText}</Text>
         </View>
     );
