@@ -23,8 +23,10 @@ import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 import com.ooyala.android.OoyalaException;
+import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 /**
  * Created by zchen on 9/21/15.
@@ -310,10 +312,16 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private void bridgeTimeChangedNotification() {
     Double duration = _player.getDuration() / 1000.0;
     Double playhead = _player.getPlayheadTime() / 1000.0;
-
+    WritableArray cuePoints = Arguments.createArray();
+    Set<Integer> cuePointsPercentValues = _player.getCuePointsInPercentage();
+      for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
+          int cuePointLocation =(int) Math.round ((i.next()/100.0)*duration);
+          cuePoints.pushInt(cuePointLocation);
+      }
     WritableMap params = Arguments.createMap();
     params.putDouble("duration", duration);
     params.putDouble("playhead", playhead);
+    params.putArray("cuePoints", cuePoints);
 
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
