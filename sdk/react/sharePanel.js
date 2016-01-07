@@ -126,6 +126,7 @@ var SharePanel = React.createClass ({
 	renderItem: function(item: object, itemId: number) {
 		return (
       <TouchableHighlight
+      	key={itemId}
         style={styles.item}
         onPress={() => this.onSocialButtonPress(item)}>
         <View style = {styles.socialButton}>

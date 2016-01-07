@@ -82,6 +82,8 @@
 		CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */; };
 		CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */; };
 		CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */; };
+		CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */ = {isa = PBXBuildFile; fileRef = CAF600E61C3307D800CBB708 /* OOActivityView.h */; };
+		CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF600E71C3307D800CBB708 /* OOActivityView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -243,6 +245,8 @@
 		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+Utils.m"; path = "Utils/NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
 		CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Utils.h"; path = "Utils/NSDictionary+Utils.h"; sourceTree = "<group>"; };
 		CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Utils.m"; path = "Utils/NSDictionary+Utils.m"; sourceTree = "<group>"; };
+		CAF600E61C3307D800CBB708 /* OOActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOActivityView.h; sourceTree = "<group>"; };
+		CAF600E71C3307D800CBB708 /* OOActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOActivityView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +289,8 @@
 				2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */,
 				2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */,
 				2F12FA4EC7B6C67EFF3C5E67 /* OOTwitterSharePlugin.m */,
+				CAF600E61C3307D800CBB708 /* OOActivityView.h */,
+				CAF600E71C3307D800CBB708 /* OOActivityView.m */,
 			);
 			path = Social;
 			sourceTree = "<group>";
@@ -471,6 +477,7 @@
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
 				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
+				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
 				2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */,
 				2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */,
 				976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */,
@@ -706,6 +713,7 @@
 				CA13DDBF1C0E08DF00A7B311 /* CountdownView.m in Sources */,
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
+				CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */,
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
 				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,
 				979B01311B910A040032F5CF /* OOConstant.m in Sources */,

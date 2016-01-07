@@ -150,6 +150,7 @@ var ControlBar = React.createClass({
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
+        icon:this.props.config.controlBar.watermark.imageResource.androidResource,
         resizeMode: Image.resizeMode.contain
       }
     };
@@ -160,6 +161,7 @@ var ControlBar = React.createClass({
     for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
       controlBarWidgets.push(<ControlBarWidget
+        key={i}
         widgetType={widget}
         options={widgetOptions}/>);
     }

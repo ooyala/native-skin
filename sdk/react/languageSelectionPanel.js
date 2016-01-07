@@ -121,6 +121,7 @@ var LanguageSelectionPanel = React.createClass({
     var itemStyle = this.isSelected(item) ? styles.selectedButton : styles.button;
     return (
       <TouchableHighlight
+        key={itemId}
         style={styles.item}
         onPress={() => this.onSelected(item)}>
         <View style={itemStyle}>
