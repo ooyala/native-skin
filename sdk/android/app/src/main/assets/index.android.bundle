@@ -1234,7 +1234,6 @@ var eventBridge=require('NativeModules').OoyalaSkinLayoutController;
 
 
 var eventBridgeSocial=require('NativeModules').OOReactSocialShare;
-var ClosedCaptionsView=require('OoyalaSkin/closedCaptionsViewAndroid.js');
 
 var Constants=require('OoyalaSkin/constants.js');var 
 
@@ -1255,6 +1254,7 @@ screenType:SCREEN_TYPES.LOADING_SCREEN,
 
 title:'',
 description:'',
+cuePoints:[],
 promoUrl:'',
 hostedAtUrl:'',
 playhead:0,
@@ -1309,34 +1309,29 @@ React.createElement(Text,null,this.state.playerState)));},
 
 
 render:function(){
-var caption={begin:0.0,end:5000.0,text:"testing",width:200.0};
-return (
-React.createElement(View,{style:styles.container},
-React.createElement(ClosedCaptionsView,{style:styles.text,caption:caption})));}});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+switch(this.state.screenType){
+case SCREEN_TYPES.START_SCREEN:
+return OoyalaSkinCoreInstance.renderStartScreen();
+break;
+case SCREEN_TYPES.LOADING_SCREEN:
+return this.renderLoadingScreen();
+break;
+case SCREEN_TYPES.MOREOPTION_SCREEN:
+return OoyalaSkinCoreInstance.renderMoreOptionScreen();
+break;
+case SCREEN_TYPES.END_SCREEN:
+return OoyalaSkinCoreInstance.renderEndScreen();
+break;
+case SCREEN_TYPES.MOREOPTION_SCREEN:
+return OoyalaSkinCoreInstance._renderMoreOptionScreen();
+break;
+case SCREEN_TYPES.ERROR_SCREEN:
+return OoyalaSkinCoreInstance._renderErrorScreen();
+break;
+default:
+return OoyalaSkinCoreInstance.renderVideoView();
+break;}}});
 
 
 
@@ -1352,13 +1347,7 @@ loading:{
 flex:1,
 alignItems:'center',
 justifyContent:'center',
-height:200},
-
-text:{
-width:200,
-height:60,
-backgroundColor:"red",
-margin:10}});
+height:200}});
 
 
 
@@ -56801,20 +56790,6 @@ Object.keys(componentOrElement));}
 
 module.exports=findDOMNode;
 });
-__d('OoyalaSkin/closedCaptionsViewAndroid.js',function(global, require, module, exports) {  'use strict';var _require=
-
-require('react-native/Libraries/react-native/react-native.js');var requireNativeComponent=_require.requireNativeComponent;var PropTypes=_require.PropTypes;
-
-var iface={
-name:'ClosedCaptionsView',
-propTypes:{
-caption:PropTypes.object,
-videoWidth:PropTypes.number}};
-
-
-
-module.exports=requireNativeComponent('RCTClosedCaptionsView',iface);
-});
 __d('OoyalaSkin/constants.js',function(global, require, module, exports) {  UI_SIZES=
 {
 VIDEOVIEW_PLAYPAUSE:60,
@@ -56902,12 +56877,12 @@ ActivityIndicatorIOS=
 React.ActivityIndicatorIOS;var SliderIOS=React.SliderIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;
 var Dimensions=require('Dimensions');
 var OOSocialShare=require('NativeModules').OOReactSocialShare;
+var ActivityView=require('NativeModules').OOActivityView;
 var StartScreen=require('OoyalaSkin/StartScreen.js');
 var EndScreen=require('OoyalaSkin/EndScreen.js');
 var ErrorScreen=require('OoyalaSkin/ErrorScreen.js');
 var DiscoveryPanel=require('OoyalaSkin/discoveryPanel.js');
 var MoreOptionScreen=require('OoyalaSkin/MoreOptionScreen.js');
-var SharePanel=require('OoyalaSkin/sharePanel.js');
 var Log=require('OoyalaSkin/log.js');
 var Constants=require('OoyalaSkin/constants.js');var 
 
@@ -57275,27 +57250,20 @@ icons:this.skin.props.icons}}));};
 
 
 
-OoyalaSkinCore.prototype.renderSocialOptions=function(){var _this6=this;
+OoyalaSkinCore.prototype.renderSocialOptions=function(){
 if(this.skin.state.platform==Constants.PLATFORMS.ANDROID){
 this.bridge.shareTitle({shareTitle:this.skin.state.title});
 this.bridge.onPress({name:"Share"});}else 
 
 if(this.skin.state.platform==Constants.PLATFORMS.IOS){
-return (
-React.createElement(SharePanel,{
-socialButtons:this.skin.props.shareScreen,
-onSocialButtonPress:function(socialType){return _this6.onSocialButtonPress(socialType);},
-onSocialAlertDismiss:function(){return _this6.onSocialAlertDismiss();},
-width:this.skin.state.width,
-height:this.skin.state.height,
-alertTitle:this.skin.state.alertTitle,
-alertMessage:this.skin.state.alertMessage,
-localizableStrings:this.skin.props.localization,
-locale:this.skin.props.locale}));}},
+ActivityView.show({
+'text':this.skin.state.title,
+'link':this.skin.state.hostedAtUrl});}},
 
 
 
-OoyalaSkinCore.prototype.renderDiscoveryPanel=function(){var _this7=this;
+
+OoyalaSkinCore.prototype.renderDiscoveryPanel=function(){var _this6=this;
 if(!this.skin.state.discoveryResults){
 return null;}
 
@@ -57308,7 +57276,7 @@ icons:this.skin.props.icons},
 localizableStrings:this.skin.props.localization,
 locale:this.skin.props.locale,
 dataSource:this.skin.state.discoveryResults,
-onRowAction:function(info){return _this7.onDiscoveryRow(info);},
+onRowAction:function(info){return _this6.onDiscoveryRow(info);},
 width:this.skin.state.width,
 height:this.skin.state.height,
 screenType:this.skin.state.screenType}));};
@@ -57336,15 +57304,15 @@ break;}
 return null;};
 
 
-OoyalaSkinCore.prototype.renderMoreOptionScreen=function(){var _this8=this;
+OoyalaSkinCore.prototype.renderMoreOptionScreen=function(){var _this7=this;
 var panel=this.renderMoreOptionPanel();
 return (
 React.createElement(MoreOptionScreen,{
 height:this.skin.state.height,
-onDismiss:function(){return _this8.onOptionDismissed();},
+onDismiss:function(){return _this7.onOptionDismissed();},
 panel:panel,
 buttonSelected:this.skin.state.buttonSelected,
-onOptionButtonPress:function(buttonName){return _this8.onOptionButtonPress(buttonName);},
+onOptionButtonPress:function(buttonName){return _this7.onOptionButtonPress(buttonName);},
 config:{
 moreOptionsScreen:this.skin.props.moreOptionsScreen,
 buttons:this.skin.props.buttons.mobileContent,
@@ -57525,11 +57493,12 @@ React.StyleSheet;
 var Log=require('OoyalaSkin/log.js');
 var Utils={
 
-renderRectButton:function(style,icon,func,size,color,fontFamily){
+renderRectButton:function(style,icon,func,size,color,fontFamily,key){
 var RectButton=require('OoyalaSkin/widgets/RectButton.js');
 
 return (
 React.createElement(RectButton,{
+key:key,
 icon:icon,
 onPress:func,
 fontSize:size,
@@ -57541,6 +57510,12 @@ buttonColor:color}));},
 
 
 shouldShowLandscape:function(width,height){
+if(isNaN(width)||isNaN(height)||
+width===null||height===null||
+width<0||height<0){
+return false;}
+
+
 return width>height;},
 
 
@@ -57744,7 +57719,7 @@ buttonColor:React.PropTypes.string,
 buttonStyle:React.PropTypes.object,
 fontSize:React.PropTypes.number,
 fontFamily:React.PropTypes.string,
-style:React.PropTypes.object},
+style:Text.propTypes.style},
 
 
 
@@ -58511,13 +58486,13 @@ __d('OoyalaSkin/style/endScreenStyles.json',function(global, require, module, ex
   },
 
   replaybuttonSE: {
-    position: 'absolute',    
+    position: 'absolute',
     bottom: 0,
     right: 0
   },
 
   replaybuttonSW: {
-    position: 'absolute',    
+    position: 'absolute',
     bottom: 0,
     left: 0
   },
@@ -58531,7 +58506,6 @@ __d('OoyalaSkin/style/endScreenStyles.json',function(global, require, module, ex
   },
 
   "iconDismiss": {
-    "textAlign": "center",
     "padding": 25
   },
 
@@ -58746,6 +58720,7 @@ icon:this.props.config.icons.cc},
 watermark:{
 shouldShow:Utils.shouldShowLandscape(this.props.width,this.props.height),
 style:styles.waterMarkImage,
+icon:this.props.config.controlBar.watermark.imageResource.androidResource,
 resizeMode:Image.resizeMode.contain}};
 
 
@@ -58756,6 +58731,7 @@ var itemCollapsingResults=CollapsingBarUtils.collapse(this.props.width,this.prop
 for(var i=0;i<itemCollapsingResults.fit.length;i++){
 var widget=itemCollapsingResults.fit[i];
 controlBarWidgets.push(React.createElement(ControlBarWidget,{
+key:i,
 widgetType:widget,
 options:widgetOptions}));}
 
@@ -58788,6 +58764,7 @@ Text=
 
 React.Text;var View=React.View;var Image=React.Image;var StyleSheet=React.StyleSheet;var SliderIOS=React.SliderIOS;var TouchableHighlight=React.TouchableHighlight;
 var VolumeView=require('OoyalaSkin/widgets/VolumeView.js');
+var styles=require('OoyalaSkin/utils.js').getStyles(require('OoyalaSkin/widgets/style/controlBarWidgetStyles.json'));
 var Log=require('OoyalaSkin/log.js');
 
 var Constants=require('OoyalaSkin/constants.js');var 
@@ -58799,7 +58776,7 @@ Constants.BUTTON_NAMES;var IMG_URLS=Constants.IMG_URLS;
 var controlBarWidget=React.createClass({displayName:'controlBarWidget',
 
 propTypes:{
-widgetType:React.PropTypes.string,
+widgetType:React.PropTypes.object,
 options:React.PropTypes.object},
 
 
@@ -58875,9 +58852,12 @@ React.createElement(Text,{style:[options.style,fontFamilyStyle]},options.icon.fo
 
 watermarkWidget:function(options){
 if(options.shouldShow){
-return React.createElement(Image,{style:options.style,
-source:{uri:IMG_URLS.OOYALA_LOGO},
-resizeMode:options.resizeMode});}else 
+return (
+React.createElement(View,{style:styles.watermark},
+React.createElement(Image,{
+style:options.style,
+source:{uri:options.icon},
+resizeMode:options.resizeMode})));}else 
 
 
 {
@@ -58947,6 +58927,15 @@ React.requireNativeComponent;
 
 
 module.exports=requireNativeComponent('OOVolumeView',null);
+});
+__d('OoyalaSkin/widgets/style/controlBarWidgetStyles.json',function(global, require, module, exports) {  module.exports = {
+  "watermark": {  
+   	"flex": 1,
+    "justifyContent": "center",
+    "alignItems": "center",
+    "backgroundColor": "transparent",
+  }
+};
 });
 __d('OoyalaSkin/collapsingBarUtils.js',function(global, require, module, exports) {  'use strict';
 
@@ -59347,6 +59336,8 @@ columnContainerStyle=columnContainerStyleRec;},
 
 
 render:function(){
+var renderHorizontal=Utils.shouldShowLandscape(this.props.width,this.props.height);
+
 var panelHeight=this.props.height-40;
 var margin;
 
@@ -59363,7 +59354,7 @@ return (
 React.createElement(Animated.View,{style:[styles.panel,animationStyle]},
 this.renderHeader(),
 React.createElement(ResponsiveList,{
-horizontal:false,
+horizontal:renderHorizontal,
 data:this.props.dataSource,
 itemRender:this.renderItem,
 width:this.props.width,
@@ -59802,6 +59793,9 @@ this.props.onOptionButtonPress(this.state.button);},
 
 onOptionPress:function(buttonName){
 this.setState({button:buttonName});
+if(BUTTON_NAMES.SHARE===buttonName){
+this.onOptionBtnPress();}else 
+{
 Animated.timing(
 this.state.buttonOpacity,
 {
@@ -59809,7 +59803,8 @@ toValue:0,
 duration:200,
 delay:0}).
 
-start(this.onOptionBtnPress);},
+start(this.onOptionBtnPress);}},
+
 
 
 onDismissBtnPress:function(){
@@ -59849,7 +59844,7 @@ f(buttonName);};})(
 
 button.name,this.onOptionPress);
 
-moreOptionButton=Utils.renderRectButton(buttonStyle,buttonIcon.fontString,onOptionPress,this.props.config.moreOptionsScreen.iconSize,this.props.config.moreOptionsScreen.color,buttonIcon.fontFamilyName);
+moreOptionButton=Utils.renderRectButton(buttonStyle,buttonIcon.fontString,onOptionPress,this.props.config.moreOptionsScreen.iconSize,this.props.config.moreOptionsScreen.color,buttonIcon.fontFamilyName,i);
 
 moreOptionButtons.push(moreOptionButton);}},
 
@@ -59886,7 +59881,8 @@ var dismissButton=Utils.renderRectButton(styles.iconDismiss,this.props.config.ic
 
 var moreOptionRow;
 var rowAnimationStyle={transform:[{translateY:this.state.translateY}],opacity:this.state.buttonOpacity};
-if(!this.props.buttonSelected||this.props.buttonSelected==BUTTON_NAMES.NONE){
+
+if(!this.props.buttonSelected||this.props.buttonSelected===BUTTON_NAMES.NONE||this.props.buttonSelected===BUTTON_NAMES.SHARE){
 
 moreOptionRow=
 React.createElement(Animated.View,{
@@ -60039,7 +60035,7 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',function(global, require, mod
     "flexDirection": "column",
     "backgroundColor": "rgba(0, 0, 0, 0.8)"
   },
-  
+
   "container": {
     "flex": 1,
     "flexDirection": "column",
@@ -60070,12 +60066,10 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',function(global, require, mod
   },
 
   "icon": {
-    "textAlign": "center",
     "margin": 15
   },
 
   "iconDismiss": {
-    "textAlign": "center",
     "padding": 25
   },
 
@@ -60084,200 +60078,6 @@ __d('OoyalaSkin/style/moreOptionScreenStyles.json',function(global, require, mod
     "textAlign": "center",
     "color": "#8E8E8E",
     "fontFamily": "fontawesome",
-  },
-};
-});
-__d('OoyalaSkin/sharePanel.js',function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
-
-Animated=
-
-
-
-
-
-
-
-React.Animated;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var ListView=React.ListView;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;var AlertIOS=React.AlertIOS;
-
-var Utils=require('OoyalaSkin/utils.js');
-var Log=require('OoyalaSkin/log.js');
-
-var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
-var styles=Utils.getStyles(require('OoyalaSkin/style/sharePanelStyles.json'));
-var animationDuration=1000;
-
-var SharePanel=React.createClass({displayName:'SharePanel',
-propTypes:{
-socialButtons:React.PropTypes.array,
-onSocialButtonPress:React.PropTypes.func,
-onSocialAlertDismiss:React.PropTypes.func,
-width:React.PropTypes.number,
-height:React.PropTypes.number,
-alertTitle:React.PropTypes.string,
-alertMessage:React.PropTypes.string,
-localizableStrings:React.PropTypes.object,
-locale:React.PropTypes.string},
-
-
-getInitialState:function(){
-return {
-opacity:new Animated.Value(0)};},
-
-
-
-componentDidMount:function(){
-this.state.opacity.setValue(0);
-Animated.parallel([
-Animated.timing(
-this.state.opacity,
-{
-toValue:1,
-duration:animationDuration,
-delay:0})]).
-
-start();},
-
-
-onSocialButtonPress:function(serviceType){
-this.props.onSocialButtonPress(serviceType);},
-
-
-onSocialAlertDismiss:function(){
-Log.log('Ok Pressed!');
-this.props.onSocialAlertDismiss();},
-
-
-render:function(){
-var sharePanel;
-var socialButtons=[];
-
-var postShareSuccessAlert;
-
-if(this.props.alertTitle!==""){
-postShareSuccessAlert=AlertIOS.alert(
-this.props.alertTitle,
-this.props.alertMessage,
-[
-{text:'Ok',onPress:this.onSocialAlertDismiss}]);}
-
-
-
-
-for(var i=0;i<this.props.socialButtons.length;i++){
-
-var socialButton;
-var buttonName=this.props.socialButtons[i].buttonName;
-var buttonFont={fontFamily:this.props.socialButtons[i].icon.fontFamilyName,color:"white",fontSize:50,margin:10};
-var buttonIcon=this.props.socialButtons[i].icon.fontString;
-
-
-var onPressButton=(function(buttonName,f){
-return function(){
-f(buttonName);};})(
-
-buttonName,this.onSocialButtonPress);
-
-socialButton=
-React.createElement(TouchableHighlight,{
-onPress:onPressButton,
-underlayColor:'transparent',
-activeOpacity:0.5},
-React.createElement(Text,{
-style:buttonFont},
-buttonIcon));
-
-
-
-
-socialButtons.push(socialButton);}
-
-var animationStyle={opacity:this.state.opacity};
-
-var itemPanelHeight=this.props.height-30;
-return (
-React.createElement(Animated.View,{style:[styles.container,animationStyle]},
-React.createElement(View,{style:styles.sharePanelTitleRow},
-React.createElement(Text,{style:styles.sharePanelTitle},Utils.localizedString(this.props.locale,"Share",this.props.localizableStrings))),
-
-postShareSuccessAlert,
-React.createElement(ResponsiveList,{
-horizontal:false,
-data:socialButtons,
-itemRender:this.renderItem,
-width:this.props.width,
-height:itemPanelHeight,
-itemWidth:90,
-itemHeight:54})));},
-
-
-
-
-renderItem:function(item,itemId){var _this=this;
-return (
-React.createElement(TouchableHighlight,{
-style:styles.item,
-onPress:function(){return _this.onSocialButtonPress(item);}},
-React.createElement(View,{style:styles.socialButton},
-item)));}});
-
-
-
-
-
-
-module.exports=SharePanel;
-});
-__d('OoyalaSkin/style/sharePanelStyles.json',function(global, require, module, exports) {  module.exports = {
-  "container": {
-    "marginTop": 18,
-    "flex": 1,
-    "flexDirection": "column",
-    "alignItems": "stretch",
-  },
-  "sharePanelNW": {
-    "flexDirection": "column",
-    "backgroundColor": "rgba(0,0,0,0.5)",
-  },
-  "sharePanelTitleRow": {
-    "height": 30,
-    "flexDirection": "row",
-    "alignItems": "center",
-  },
-  "sharePanelTitle": {
-    "flex": 1,
-    "fontSize": 20,
-    "fontFamily": "Helvetica",
-    "fontWeight": "bold",
-    "textAlign": "left",
-    "color": "white",
-    "padding": 20
-  },
-  "sharePanelButtonRow": {
-    "flexDirection":"row",
-    "alignItems": "center",
-    "alignSelf": "center",
-    "backgroundColor": "transparent",
-    "margin": 20
-  },
-  "socialButton": {
-    "width": 70,
-    "height": 54,
-    "flex": 1
-  },
-  "button": {
-    "backgroundColor": "transparent",
-    "padding": 6,
-    "marginVertical": 20,
-    "marginHorizontal": 20,
-    "borderRadius": 5,
-    "width": 120,
-    "height": 54
-  },
-  "item": {
-    "flex": 1,
-    "width": 90,
-    "height": 54,
-    "margin": 15
   },
 };
 });
@@ -60724,7 +60524,7 @@ for(var i=0;i<cuePoints.length;i++){
 var cuePoint=cuePoints[i];
 leftOffset=this._getCuePointLeftOffset(cuePoint,progressBarWidth);
 positionStyle={top:topOffset,left:leftOffset};
-cuePointView=React.createElement(Text,{style:[styles.cuePoint,positionStyle]},"\uf111");
+cuePointView=React.createElement(Text,{key:i,style:[styles.cuePoint,positionStyle]},"\uf111");
 
 cuePointsView.push(cuePointView);}
 
@@ -60773,25 +60573,31 @@ return percent;},
 
 
 handleTouchStart:function(event){
+if(this.isMounted()){
 var touchableDistance=ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,scrubTouchableDistance);
 if(this.props.height-event.nativeEvent.pageY<touchableDistance){
 return;}
 
 this.setState({touch:true,x:event.nativeEvent.pageX});
-this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);},
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);}},
+
 
 
 handleTouchMove:function(event){
+if(this.isMounted()){
 this.setState({x:event.nativeEvent.pageX});
-this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);},
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);}},
+
 
 
 handleTouchEnd:function(event){
+if(this.isMounted()){
 if(this.state.touch&&this.props.onScrub){
 this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));}
 
 this.setState({touch:false,x:null});
-this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);},
+this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);}},
+
 
 
 renderDefault:function(widthStyle){var _this=this;
@@ -60819,7 +60625,7 @@ this._renderControlBar()));},
 
 render:function(){
 var widthStyle={width:this.props.width,opacity:this.state.opacity};
-if(this.props.live&&!this.props.config.live.dvrEnabled){
+if(this.props.live&&this.props.config.live!=null&&!this.props.config.live.dvrEnabled){
 return this.renderLiveWithoutDVR(widthStyle);}
 
 
@@ -60874,6 +60680,201 @@ captionJSON:React.PropTypes.object};
 
 var OOClosedCaptionsView=requireNativeComponent('OOClosedCaptionsView',ClosedCaptionsView);
 module.exports=ClosedCaptionsView;
+});
+__d('OoyalaSkin/sharePanel.js',function(global, require, module, exports) {  var React=require('react-native/Libraries/react-native/react-native.js');var 
+
+Animated=
+
+
+
+
+
+
+
+React.Animated;var StyleSheet=React.StyleSheet;var Text=React.Text;var View=React.View;var ListView=React.ListView;var Image=React.Image;var TouchableHighlight=React.TouchableHighlight;var AlertIOS=React.AlertIOS;
+
+var Utils=require('OoyalaSkin/utils.js');
+var Log=require('OoyalaSkin/log.js');
+
+var ResponsiveList=require('OoyalaSkin/widgets/ResponsiveList.js');
+var styles=Utils.getStyles(require('OoyalaSkin/style/sharePanelStyles.json'));
+var animationDuration=1000;
+
+var SharePanel=React.createClass({displayName:'SharePanel',
+propTypes:{
+socialButtons:React.PropTypes.array,
+onSocialButtonPress:React.PropTypes.func,
+onSocialAlertDismiss:React.PropTypes.func,
+width:React.PropTypes.number,
+height:React.PropTypes.number,
+alertTitle:React.PropTypes.string,
+alertMessage:React.PropTypes.string,
+localizableStrings:React.PropTypes.object,
+locale:React.PropTypes.string},
+
+
+getInitialState:function(){
+return {
+opacity:new Animated.Value(0)};},
+
+
+
+componentDidMount:function(){
+this.state.opacity.setValue(0);
+Animated.parallel([
+Animated.timing(
+this.state.opacity,
+{
+toValue:1,
+duration:animationDuration,
+delay:0})]).
+
+start();},
+
+
+onSocialButtonPress:function(serviceType){
+this.props.onSocialButtonPress(serviceType);},
+
+
+onSocialAlertDismiss:function(){
+Log.log('Ok Pressed!');
+this.props.onSocialAlertDismiss();},
+
+
+render:function(){
+var sharePanel;
+var socialButtons=[];
+
+var postShareSuccessAlert;
+
+if(this.props.alertTitle!==""){
+postShareSuccessAlert=AlertIOS.alert(
+this.props.alertTitle,
+this.props.alertMessage,
+[
+{text:'Ok',onPress:this.onSocialAlertDismiss}]);}
+
+
+
+
+for(var i=0;i<this.props.socialButtons.length;i++){
+
+var socialButton;
+var buttonName=this.props.socialButtons[i].buttonName;
+var buttonFont={fontFamily:this.props.socialButtons[i].icon.fontFamilyName,color:"white",fontSize:50,margin:10};
+var buttonIcon=this.props.socialButtons[i].icon.fontString;
+
+
+var onPressButton=(function(buttonName,f){
+return function(){
+f(buttonName);};})(
+
+buttonName,this.onSocialButtonPress);
+
+socialButton=
+React.createElement(TouchableHighlight,{
+onPress:onPressButton,
+underlayColor:'transparent',
+activeOpacity:0.5},
+React.createElement(Text,{
+style:buttonFont},
+buttonIcon));
+
+
+
+
+socialButtons.push(socialButton);}
+
+var animationStyle={opacity:this.state.opacity};
+
+var itemPanelHeight=this.props.height-30;
+return (
+React.createElement(Animated.View,{style:[styles.container,animationStyle]},
+React.createElement(View,{style:styles.sharePanelTitleRow},
+React.createElement(Text,{style:styles.sharePanelTitle},Utils.localizedString(this.props.locale,"Share",this.props.localizableStrings))),
+
+postShareSuccessAlert,
+React.createElement(ResponsiveList,{
+horizontal:false,
+data:socialButtons,
+itemRender:this.renderItem,
+width:this.props.width,
+height:itemPanelHeight,
+itemWidth:90,
+itemHeight:54})));},
+
+
+
+
+renderItem:function(item,itemId){var _this=this;
+return (
+React.createElement(TouchableHighlight,{
+key:itemId,
+style:styles.item,
+onPress:function(){return _this.onSocialButtonPress(item);}},
+React.createElement(View,{style:styles.socialButton},
+item)));}});
+
+
+
+
+
+
+module.exports=SharePanel;
+});
+__d('OoyalaSkin/style/sharePanelStyles.json',function(global, require, module, exports) {  module.exports = {
+  "container": {
+    "marginTop": 18,
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "stretch",
+  },
+  "sharePanelNW": {
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.5)",
+  },
+  "sharePanelTitleRow": {
+    "height": 30,
+    "flexDirection": "row",
+    "alignItems": "center",
+  },
+  "sharePanelTitle": {
+    "flex": 1,
+    "fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
+    "textAlign": "left",
+    "color": "white",
+    "padding": 20
+  },
+  "sharePanelButtonRow": {
+    "flexDirection":"row",
+    "alignItems": "center",
+    "alignSelf": "center",
+    "backgroundColor": "transparent",
+    "margin": 20
+  },
+  "socialButton": {
+    "width": 70,
+    "height": 54,
+    "flex": 1
+  },
+  "button": {
+    "backgroundColor": "transparent",
+    "padding": 6,
+    "marginVertical": 20,
+    "marginHorizontal": 20,
+    "borderRadius": 5,
+    "width": 120,
+    "height": 54
+  },
+  "item": {
+    "flex": 1,
+    "width": 90,
+    "height": 54,
+    "margin": 15
+  },
+};
 });
 __d('OoyalaSkin/adBar.js',function(global, require, module, exports) {  'use strict';
 
@@ -61034,7 +61035,6 @@ React.StyleSheet;var Text=React.Text;var View=React.View;var Image=React.Image;v
 var Utils=require('OoyalaSkin/utils.js');
 
 var styles=Utils.getStyles(require('OoyalaSkin/style/upNext.json'));
-var RectButton=require('OoyalaSkin/widgets/RectButton.js');
 var CountdownView=require('OoyalaSkin/widgets/countdownTimer.js');
 var ResponsiveDesignManager=require('OoyalaSkin/responsiveDesignManager.js');
 
@@ -61077,6 +61077,18 @@ isWithinShowUpNextBounds:function(){
 return parseInt(this.upNextDuration())>this.props.duration-this.props.playhead;},
 
 
+_renderDismissButton:function(){
+return React.createElement(TouchableHighlight,{
+onPress:this.dismissUpNext,
+underlayColor:'transparent',
+style:styles.dismissButtonContainer},
+React.createElement(Text,{style:[
+styles.dismissButton,
+{fontFamily:this.props.config.icons.dismiss.fontFamilyName}]},
+this.props.config.icons.dismiss.fontString));},
+
+
+
 render:function(){
 
 if(this.isWithinShowUpNextBounds()&&!this.props.upNextDismissed&&this.props.config.upNext.showUpNext&&!this.props.ad&&this.props.nextVideo!=null){
@@ -61095,29 +61107,19 @@ React.createElement(Text,{style:[{fontFamily:this.props.config.icons.play.fontFa
 var upNextDescription=
 React.createElement(View,{style:styles.textContainer},
 React.createElement(View,{style:styles.titleContainer},
-React.createElement(CountdownView,{style:{
-width:26,
-height:26},
-
+React.createElement(CountdownView,{style:styles.countdownView,
 automatic:false,
 time:this.upNextDuration(),
 timeLeft:this.props.duration-this.props.playhead,
-radius:13,
+radius:9,
 fillAlpha:0.7}),
 React.createElement(Text,{style:styles.title},'Up next: ',
-this.props.nextVideo.name)),
+this.props.nextVideo.name)));
 
 
-React.createElement(Text,{style:styles.description},Utils.secondsToString(this.props.nextVideo.duration)));
 
 
-var upNextDismissButton=
-React.createElement(RectButton,{
-icon:"X",
-onPress:this.dismissUpNext,
-style:[styles.dismissButton,{width:dismissButtonWidth}]});
-
-
+var upNextDismissButton=this._renderDismissButton();
 
 if(this.props.width<descriptionMinWidth+upNextWidth+dismissButtonWidth){
 return (
@@ -61149,23 +61151,29 @@ __d('OoyalaSkin/style/upNext.json',function(global, require, module, exports) { 
   container: {
     backgroundColor: 'rgba(22,22,22,0.9)',
     flexDirection: 'row',
-    height: 100
+    height: 80
   },
   thumbnailContainer: {
     marginRight: 15
   },
   thumbnail: {
-    height: 100
+    height: 80,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   countdownText: {
-    marginTop: 40,
     fontWeight: 'bold',
-    fontSize: 25,
+    fontSize: 23,
     textAlign: 'center',
     color: 'white'
   },
+  countdownView: {
+    width: 18,
+    height: 18
+  },
   textContainer: {
-    flex: 5,
+    flex: 1,
     paddingTop: 15,
     marginRight: 15,
     overflow: 'hidden'
@@ -61176,18 +61184,22 @@ __d('OoyalaSkin/style/upNext.json',function(global, require, module, exports) { 
   title: {
     color: 'white',
     fontWeight: 'bold',
-    marginTop: 6,
-    marginLeft: 10
+    marginLeft: 10,
+    fontSize: 14,
+    fontFamily: 'Roboto',
+    flex: 1
   },
   description: {
     color: 'white',
     marginTop: 15
   },
+  dismissButtonContainer: {
+    marginTop: 20,
+    marginRight: 15
+  },
   dismissButton: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    marginRight: 15,
-    padding: 25
+    fontSize: 10,
+    color: 'white'
   }
 }
 ;
@@ -61340,6 +61352,7 @@ renderItem:function(item,itemId){var _this2=this;
 var itemStyle=this.isSelected(item)?styles.selectedButton:styles.button;
 return (
 React.createElement(TouchableHighlight,{
+key:itemId,
 style:styles.item,
 onPress:function(){return _this2.onSelected(item);}},
 React.createElement(View,{style:itemStyle},
@@ -61362,12 +61375,12 @@ __d('OoyalaSkin/widgets/ToggleSwitch.js',function(global, require, module, expor
 
 var React=require('react-native/Libraries/react-native/react-native.js');var 
 
-SwitchIOS=
+Switch=
 
 
 
 
-React.SwitchIOS;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
+React.Switch;var StyleSheet=React.StyleSheet;var Text=React.Text;var TouchableHighlight=React.TouchableHighlight;var View=React.View;
 
 var Constants=require('OoyalaSkin/constants.js');
 
@@ -61393,7 +61406,7 @@ var offTextStyle=this.props.switchOn?styles.grayedText:styles.highlightedText;
 return (
 React.createElement(View,{style:styles.container},
 React.createElement(Text,{style:offTextStyle},this.props.switchOffText),
-React.createElement(SwitchIOS,{value:this.props.switchOn,onValueChange:this.onSwitchToggled,disabled:!this.props.areClosedCaptionsAvailable}),
+React.createElement(Switch,{value:this.props.switchOn,onValueChange:this.onSwitchToggled,disabled:!this.props.areClosedCaptionsAvailable}),
 React.createElement(Text,{style:onTextStyle},this.props.switchOnText)));}});
 
 
