@@ -1309,10 +1309,10 @@ React.createElement(Text,null,this.state.playerState)));},
 
 
 render:function(){
-var caption={begin:0.0,end:5000.0,text:"testing"};
+var caption={begin:0.0,end:5000.0,text:"testing",width:200.0};
 return (
 React.createElement(View,{style:styles.container},
-React.createElement(ClosedCaptionsView,{videoWidth:200.0,caption:caption})));}});
+React.createElement(ClosedCaptionsView,{style:styles.text,caption:caption})));}});
 
 
 
@@ -1352,7 +1352,13 @@ loading:{
 flex:1,
 alignItems:'center',
 justifyContent:'center',
-height:200}});
+height:200},
+
+text:{
+width:200,
+height:60,
+backgroundColor:"red",
+margin:10}});
 
 
 
