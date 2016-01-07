@@ -52,7 +52,7 @@ public class BasicPlaybackVideoPlayerActivity extends Activity implements Observ
     OoyalaSkinLayout skinLayout = (OoyalaSkinLayout)findViewById(R.id.ooyalaSkin);
     PlayerDomain domain = new PlayerDomain(DOMAIN);
     Options options = new Options.Builder().setShowAdsControls(false)
-            .setShowCuePoints(false).setShowPromoImage(true)
+            .setShowCuePoints(true).setShowPromoImage(true)
             .setPreloadContent(false).build();
     player = new OoyalaPlayer(PCODE, domain, options);
     skinLayout.setupViews(getApplication(), player);

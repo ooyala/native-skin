@@ -102,6 +102,8 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
+    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+
     var panelHeight = this.props.height - 40;
     var margin;
 
@@ -118,7 +120,7 @@ var DiscoveryPanel = React.createClass({
       <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}
         <ResponsiveList
-          horizontal={false}
+          horizontal={renderHorizontal}
           data={this.props.dataSource}
           itemRender={this.renderItem}
           width={this.props.width}

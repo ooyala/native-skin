@@ -12,11 +12,12 @@ var {
 var Log = require('./log');
 var Utils = {
 
-  renderRectButton: function(style, icon, func, size, color, fontFamily) {
+  renderRectButton: function(style, icon, func, size, color, fontFamily, key) {
     var RectButton = require('./widgets/RectButton');
 
     return (
       <RectButton
+        key={key}
         icon={icon}
         onPress={func}
         fontSize={size}
@@ -28,6 +29,12 @@ var Utils = {
   },
 
   shouldShowLandscape: function(width, height) {
+    if (isNaN(width) || isNaN(height) ||
+        width === null || height === null ||
+        width < 0 || height < 0) {
+      return false;
+    }
+
     return width > height;
   },
 

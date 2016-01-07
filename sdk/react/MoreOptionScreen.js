@@ -73,14 +73,18 @@ var MoreOptionScreen = React.createClass({
 
   onOptionPress: function(buttonName) {
     this.setState({button: buttonName});
-    Animated.timing(
-      this.state.buttonOpacity,
-      {
-        toValue: 0,
-        duration: 200,
-        delay: 0
-      }
-    ).start(this.onOptionBtnPress);
+    if (BUTTON_NAMES.SHARE === buttonName) {
+      this.onOptionBtnPress();
+    } else {
+      Animated.timing(
+        this.state.buttonOpacity,
+        {
+          toValue: 0,
+          duration: 200,
+          delay: 0
+        }
+      ).start(this.onOptionBtnPress);
+    }
   },
 
   onDismissBtnPress: function() {
@@ -120,7 +124,7 @@ var MoreOptionScreen = React.createClass({
         };
       }(button.name, this.onOptionPress);
 
-      moreOptionButton = Utils.renderRectButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName);
+      moreOptionButton = Utils.renderRectButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName, i);
 
       moreOptionButtons.push(moreOptionButton);
     }
@@ -157,7 +161,8 @@ var MoreOptionScreen = React.createClass({
 
     var moreOptionRow;
     var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
-    if (!this.props.buttonSelected || this.props.buttonSelected == BUTTON_NAMES.NONE) {
+
+    if (!this.props.buttonSelected || this.props.buttonSelected === BUTTON_NAMES.NONE || this.props.buttonSelected === BUTTON_NAMES.SHARE) {
 
       moreOptionRow = (
       <Animated.View

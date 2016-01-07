@@ -13,6 +13,7 @@ var {
   TouchableHighlight
 } = React;
 var VolumeView = require('./VolumeView');
+var styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 var Log = require('../log');
 
 var Constants = require('./../constants');
@@ -24,7 +25,7 @@ var {
 var controlBarWidget = React.createClass({
 
   propTypes: {
-    widgetType: React.PropTypes.string,
+    widgetType: React.PropTypes.object,
     options: React.PropTypes.object
   },
 
@@ -100,10 +101,13 @@ var controlBarWidget = React.createClass({
 
   watermarkWidget: function (options) {
     if(options.shouldShow) {
-      return (<Image style={options.style}
-        source={{uri: IMG_URLS.OOYALA_LOGO}}
-        resizeMode={options.resizeMode}>
-      </Image>);
+      return (
+        <View style={styles.watermark}>
+        <Image
+        style={options.style}
+        source={{uri: options.icon}}
+        resizeMode={options.resizeMode}/>
+      </View>);
     }
     else {
       return null;
