@@ -158,8 +158,9 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   }
 }
 
-RCT_EXPORT_METHOD(queryState) {
-  [sharedController queryState];
+RCT_EXPORT_METHOD(onUIReady) {
+  // this is called when the core skin component is mounted, we need to initialize UI correctly here.
+  [sharedController onUIReady];
 }
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {

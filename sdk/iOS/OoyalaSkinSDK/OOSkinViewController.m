@@ -390,11 +390,17 @@ static NSDictionary *kSkinCofig;
   return OO_SKIN_VERSION;
 }
 
-- (void)queryState {
+- (void)onUIReady {
+  if (_player.currentItem) {
+    // embedcode already set, send current item information
+    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerCurrentItemChangedNotification object:nil];
+    [self bridgeErrorNotification:notification];
+  }
+
   if (_player.state == OOOoyalaPlayerStateError) {
     NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerErrorNotification object:nil];
     [self bridgeErrorNotification:notification];
-  } else {
+  } else if (_player.state != OOOoyalaPlayerStateReady) {
     NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
     [self bridgeStateChangedNotification:notification];
     
