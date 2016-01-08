@@ -11,6 +11,7 @@ android {
         versionCode 1
         versionName "1.0"
         ndk {
+            // React Native for Android is incompatible with 3rd-party 64-bit libraries.
             abiFilters "armeabi-v7a", "x86"
         }
     }
