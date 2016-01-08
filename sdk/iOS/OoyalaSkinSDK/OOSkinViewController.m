@@ -400,7 +400,7 @@ static NSDictionary *kSkinCofig;
   if (_player.state == OOOoyalaPlayerStateError) {
     NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerErrorNotification object:nil];
     [self bridgeErrorNotification:notification];
-  } else if (_player.state != OOOoyalaPlayerStateReady) {
+  } else if (_player.state == OOOoyalaPlayerStatePlaying || _player.state == OOOoyalaPlayerStatePaused) {
     NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
     [self bridgeStateChangedNotification:notification];
     
