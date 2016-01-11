@@ -41,6 +41,7 @@
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic) NSDictionary *skinConfig;
 @property (nonatomic) BOOL isFullscreen;
+@property (nonatomic) BOOL viewWillDisappear;
 
 @end
 
@@ -99,7 +100,26 @@ static NSDictionary *kSkinCofig;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+  [super viewDidAppear:animated];
   
+  if (self.viewWillDisappear && !self.player.isPlaying) {
+    [self.player play];
+    self.viewWillDisappear = NO;
+  }
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+  [super viewWillDisappear:animated];
+  
+  if (self.player.isPlaying) {
+    [self.player pause];
+    self.viewWillDisappear = YES;
+  }
 }
 
 - (void)setPlayer:(OOOoyalaPlayer *)player {
