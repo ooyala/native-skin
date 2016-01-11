@@ -14,7 +14,6 @@ import java.util.List;
 /**
  * Created by zchen on 9/21/15.
  */
-
 class OoyalaReactPackage extends MainReactPackage {
   private OoyalaSkinLayout _layout;
   private OoyalaPlayer _player;
@@ -43,7 +42,6 @@ class OoyalaReactPackage extends MainReactPackage {
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
     List<ViewManager> managers = new ArrayList<>();
     managers.addAll(super.createViewManagers(reactContext));
-    managers.add(new ClosedCaptionsViewManager());
     return managers;
   }
 }

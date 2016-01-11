@@ -3,10 +3,6 @@ sdk/react/node_modules
 sdk/react/coverage
 **/build/
 **/react/iOS/
-**/react/Android/
-
-**/.gradle/
-**/local.properties
 
 ## Other
 *.xccheckout
@@ -16,4 +12,4 @@ sdk/react/coverage
 
 # OS X
 .DS_Store
-OoyalaSkinSDK-*.zip
+OoyalaSkinSDK-iOS.zip
