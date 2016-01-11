@@ -1,5 +1,5 @@
 __DEV__=
-false;
+true;
 
 
 __BUNDLE_START_TIME__=Date.now();
@@ -59781,6 +59781,13 @@ var buttonIcon=this._renderIcon(button.name);
 var buttonStyle=[styles.icon,this.props.config.moreOptionsScreen.iconStyle.active];
 
 
+
+
+if(buttonStyle[1].color){
+delete buttonStyle[1].color;}
+
+
+
 if(buttonIcon===undefined||buttonStyle===undefined){
 Log.warn("Warning: skipping unsupported More Options button ",button);
 continue;}
@@ -59924,7 +59931,7 @@ OoyalaSkinCoreInstance.mount(DeviceEventEmitter);},
 
 
 componentDidMount:function(){
-eventBridge.queryState();},
+eventBridge.onUIReady();},
 
 
 componentWillUnmount:function(){
@@ -61298,7 +61305,8 @@ __d('OoyalaSkin/widgets/style/videoWaterMarkStyles.json',function(global, requir
     "flexDirection": "row",
     "alignSelf": "center",
   },
-};
+}
+;
 });
 __d('OoyalaSkin/languageSelectionPanel.js',function(global, require, module, exports) {  'use strict';
 
@@ -61385,6 +61393,8 @@ if(this.props.selectedLanguage&&this.props.selectedLanguage!==''){
 hasCC=true;}
 
 
+var renderHorizontal=Utils.shouldShowLandscape(this.props.width,this.props.height);
+
 
 var itemPanelHeight=this.props.height-30-30-60;
 var animationStyle={opacity:this.state.opacity};
@@ -61403,7 +61413,7 @@ switchOffText:Utils.localizedString(this.props.config.locale,"Off",this.props.co
 config:this.props.config}),
 
 React.createElement(ResponsiveList,{
-horizontal:false,
+horizontal:renderHorizontal,
 data:this.props.languages,
 itemRender:this.renderItem,
 width:this.props.width,
