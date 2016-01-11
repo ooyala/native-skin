@@ -45,6 +45,9 @@
 
 @end
 
+@interface OOSkinViewController (GestureDelegate) <UIGestureRecognizerDelegate>
+@end
+
 @implementation OOSkinViewController
 
 static NSString *outputVolumeKey = @"outputVolume";
@@ -100,15 +103,17 @@ static NSDictionary *kSkinCofig;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
   [super viewDidAppear:animated];
   
-  if (self.viewWillDisappear && !self.player.isPlaying) {
-    [self.player play];
-    self.viewWillDisappear = NO;
+  if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    self.navigationController.interactivePopGestureRecognizer.delegate = self;
   }
 }
 
@@ -116,9 +121,9 @@ static NSDictionary *kSkinCofig;
 {
   [super viewWillDisappear:animated];
   
-  if (self.player.isPlaying) {
-    [self.player pause];
-    self.viewWillDisappear = YES;
+  if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    self.navigationController.interactivePopGestureRecognizer.delegate = nil;
   }
 }
 
@@ -457,6 +462,15 @@ static NSDictionary *kSkinCofig;
   }
   
   return dictSocial;
+}
+
+@end
+
+@implementation OOSkinViewController (GestureDelegate)
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+  return NO;
 }
 
 @end
