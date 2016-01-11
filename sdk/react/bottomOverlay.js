@@ -159,6 +159,7 @@ var BottomOverlay = React.createClass({
     return (<ControlBar
       ref='controlBar'
       primaryButton={this.props.primaryButton}
+      platform={this.props.platform}
       playhead={this.props.playhead}
       duration={this.props.duration}
       volume={this.props.volume}

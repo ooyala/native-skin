@@ -358,6 +358,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
       config={{
         controlBar: this.skin.props.controlBar,
+        general: this.skin.props.general,
         buttons: this.skin.props.buttons.mobileContent,
         upNext: this.skin.props.upNext,
         icons: this.skin.props.icons,
