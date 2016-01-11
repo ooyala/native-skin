@@ -112,6 +112,13 @@ var MoreOptionScreen = React.createClass({
       var buttonIcon = this._renderIcon(button.name);
       var buttonStyle = [styles.icon, this.props.config.moreOptionsScreen.iconStyle.active];
 
+      // If a color style exists, we remove it as it is applied to a view, which doesn't support
+      // text color modification. Color key only applies to Text views.
+      // Deleting the color key removes unwanted warnings in the app.
+      if (buttonStyle[1].color) {
+        delete buttonStyle[1].color;
+      }
+
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if (buttonIcon === undefined || buttonStyle === undefined ) {
         Log.warn( "Warning: skipping unsupported More Options button ", button );
