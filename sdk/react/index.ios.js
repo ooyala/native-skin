@@ -62,7 +62,7 @@ var OoyalaSkin = React.createClass({
   },
 
   componentDidMount: function() {
-    eventBridge.queryState();
+    eventBridge.onUIReady();
   },
 
   componentWillUnmount: function() {
