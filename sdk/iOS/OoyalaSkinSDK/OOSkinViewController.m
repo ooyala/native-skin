@@ -41,7 +41,6 @@
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic) NSDictionary *skinConfig;
 @property (nonatomic) BOOL isFullscreen;
-@property (nonatomic) BOOL viewWillDisappear;
 
 @end
 
