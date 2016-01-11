@@ -83,6 +83,8 @@ var LanguageSelectionPanel = React.createClass({
       hasCC = true;
     }
 
+    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+
     // screen height - title - toggle switch - preview - option bar
     var itemPanelHeight = this.props.height  - 30 - 30 - 60;
     var animationStyle = {opacity:this.state.opacity};
@@ -101,7 +103,7 @@ var LanguageSelectionPanel = React.createClass({
           config={this.props.config}>
         </ToggleSwitch>
         <ResponsiveList
-          horizontal={false}
+          horizontal={renderHorizontal}
           data={this.props.languages}
           itemRender={this.renderItem}
           width={this.props.width}
