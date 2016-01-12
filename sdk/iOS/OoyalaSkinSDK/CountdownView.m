@@ -143,7 +143,7 @@
 {
   self.timerLabel.textColor = [UIColor whiteColor];
   self.timerLabel.textAlignment = NSTextAlignmentCenter;
-  self.timerLabel.font = [UIFont fontWithName:@"Helvetica" size:self.fontSize];
+  self.timerLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:self.fontSize];
   self.timerLabel.translatesAutoresizingMaskIntoConstraints = NO;
   [self addSubview:self.timerLabel];
   

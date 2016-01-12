@@ -103,8 +103,6 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    var margin;
-
     // landscape
     if (this.props.width > this.props.height) {
       this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape); 
@@ -129,7 +127,7 @@ var DiscoveryPanel = React.createClass({
 
   renderList: function() {
     var panelHeight = this.props.height - 40;
-
+    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     if (this._isDicoveryError()) {
       return (
         <ResponsiveList
@@ -144,7 +142,7 @@ var DiscoveryPanel = React.createClass({
       );    } else {
       return (
         <ResponsiveList
-          horizontal={false}
+          horizontal={renderHorizontal}
           data={this.props.dataSource}
           itemRender={this.renderItem}
           width={this.props.width}

@@ -12,7 +12,6 @@ var {
 var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/upNext.json'));
-var RectButton = require('./widgets/RectButton');
 var CountdownView = require('./widgets/countdownTimer');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
 
@@ -55,6 +54,18 @@ var UpNext = React.createClass({
     return parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;
   },
 
+  _renderDismissButton: function() {
+    return (<TouchableHighlight
+      onPress={this.dismissUpNext}
+      underlayColor='transparent'
+      style={styles.dismissButtonContainer}>
+      <Text style={[
+        styles.dismissButton,
+        {fontFamily: this.props.config.icons.dismiss.fontFamilyName}
+      ]}>{this.props.config.icons.dismiss.fontString}</Text>
+    </TouchableHighlight>);
+  },
+
   render: function() {
 
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null) {
@@ -73,29 +84,19 @@ var UpNext = React.createClass({
       var upNextDescription = (
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
-            <CountdownView style={{
-              width: 26,
-              height: 26,
-            }}
+            <CountdownView style={styles.countdownView}
             automatic={false}
             time={this.upNextDuration()}
             timeLeft={this.props.duration - this.props.playhead}
-            radius={13}
+            radius={9}
             fillAlpha={0.7} />
             <Text style={styles.title}>
               Up next: {this.props.nextVideo.name}
             </Text>
           </View>
-          <Text style={styles.description}>{Utils.secondsToString(this.props.nextVideo.duration)}</Text>
         </View>
       );
-      var upNextDismissButton = (
-        <RectButton
-          icon={"X"}
-          onPress={this.dismissUpNext}
-          style={[styles.dismissButton, {width: dismissButtonWidth}]}>
-        </RectButton>
-      );
+      var upNextDismissButton = this._renderDismissButton();
 
       if (this.props.width < descriptionMinWidth + upNextWidth + dismissButtonWidth) {
         return (
@@ -118,7 +119,7 @@ var UpNext = React.createClass({
 
     }
     return null;
-  }
+  },
 });
 
 module.exports = UpNext;
