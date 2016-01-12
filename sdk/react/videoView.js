@@ -271,7 +271,6 @@ var VideoView = React.createClass({
           frameHeight={this.props.height}
           buttonWidth={VideoWaterMarkSize}
           buttonHeight={VideoWaterMarkSize}
-          platform={this.props.platform}
           waterMarkName={waterMarkName}
           isShow={show} />
           );
