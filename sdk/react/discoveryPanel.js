@@ -121,14 +121,14 @@ var DiscoveryPanel = React.createClass({
     );
   },
 
-  _isDicoveryError: function() {
-    return this.props.dataSource == null || this.props.dataSource.length == 0;
+  _isDiscoveryError: function() {
+    return this.props.dataSource === null || this.props.dataSource.length === 0;
   },
 
   renderList: function() {
     var panelHeight = this.props.height - 40;
     var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
-    if (this._isDicoveryError()) {
+    if (this._isDiscoveryError()) {
       return (
         <ResponsiveList
           horizontal={false}
@@ -235,16 +235,16 @@ var DiscoveryPanel = React.createClass({
     var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
     var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
     var warningIcon = this.props.config.icons.warning.fontString;
-    if (this._isDicoveryError()) {
+    if (this._isDiscoveryError()) {
       return (
         <View style={[styles.panelErrorPanel, errorFlexDirectionStyle]}>
           <View style={styles.panelErrorInfo}>
             <Text style={styles.panelErrorTitleText}>
-              {errorTitle + "\n"}
-              <Text style={styles.panelErrorContentText}>
-                {errorContent}
-              </Text> 
+              {errorTitle}
             </Text>
+            <Text style={styles.panelErrorContentText}>
+              {errorContent}
+            </Text> 
           </View>
 
           <View style={styles.panelWarning}>
