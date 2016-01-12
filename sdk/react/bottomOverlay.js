@@ -44,6 +44,7 @@ var BottomOverlay = React.createClass({
     cuePoints: React.PropTypes.array,
     playhead: React.PropTypes.number,
     duration: React.PropTypes.number,
+    ad: React.PropTypes.object,
     volume: React.PropTypes.number,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
@@ -86,13 +87,6 @@ var BottomOverlay = React.createClass({
             delay: 0
           })
       ]).start();
-    }
-  },
-
-  handleProgress: function(touch, percent) {
-    this.setState({touch:touch, percent:percent});
-    if (!touch && this.onScrub) {
-      this.onScrub(this.state.percent);
     }
   },
 
@@ -232,7 +226,7 @@ var BottomOverlay = React.createClass({
         onTouchEnd={(event) => this.handleTouchEnd(event)}>
         {this._renderProgressBar(playedPercent)}
         {this._renderControlBar()}
-        {this._renderProgressScrubber(this.state.touch? this.touchPercent(this.state.x) : playedPercent)}
+        {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
         {this._renderCuePoints(this.props.cuePoints)}
       </Animated.View>
     );
