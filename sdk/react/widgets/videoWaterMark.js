@@ -23,7 +23,6 @@ var logo = React.createClass({
     frameHeight: React.PropTypes.number,
     buttonWidth: React.PropTypes.number,
     buttonHeight: React.PropTypes.number,
-    platform: React.PropTypes.string,
     waterMarkName: React.PropTypes.string,
     isShow: React.PropTypes.bool,
   },
@@ -41,7 +40,7 @@ getInitialState: function() {
       this.state.height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
     }
     if(prevProps.isShow != this.props.isShow ) {
-      this.state.opacity.setValue(this.props.isShow? 1 : 1);
+      this.state.opacity.setValue(1);
       this.state.height.setValue(this.props.isShow? 0 : ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
       Animated.parallel([
         Animated.timing(
