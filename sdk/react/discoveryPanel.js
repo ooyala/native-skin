@@ -105,7 +105,7 @@ var DiscoveryPanel = React.createClass({
   render: function() {
     // landscape
     if (this.props.width > this.props.height) {
-      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape); 
+      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape);
     // portrait
     } else {
       this.setRectInRow(rectWidth, rectHeight, styles.thumbnailPortrait, styles.columnContainerPortrait);
@@ -234,7 +234,7 @@ var DiscoveryPanel = React.createClass({
 
     var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
     var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
-    var warningIcon = this.props.config.icons.warning.fontString;
+    var warningIcon = this.props.config.icons.warning ? this.props.config.icons.warning.fontString : null;
     if (this._isDiscoveryError()) {
       return (
         <View style={[styles.panelErrorPanel, errorFlexDirectionStyle]}>
@@ -244,7 +244,7 @@ var DiscoveryPanel = React.createClass({
             </Text>
             <Text style={styles.panelErrorContentText}>
               {errorContent}
-            </Text> 
+            </Text>
           </View>
 
           <View style={styles.panelWarning}>
