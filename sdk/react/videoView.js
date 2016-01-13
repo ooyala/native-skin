@@ -25,6 +25,7 @@ var Log = require('./log');
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var ResponsiveDesignManager = require('./responsiveDesignManager');
+var VideoWaterMark = require('./widgets/videoWaterMark');
 var autohideDelay = 5000;
 
 var {
@@ -146,6 +147,7 @@ var VideoView = React.createClass({
       fullscreen = {this.props.fullscreen}
       cuePoints = {this.props.cuePoints}
       playhead={this.props.playhead}
+      platform={this.props.platform}
       duration={this.props.duration}
       ad={this.props.ad}
       volume={this.props.volume}
@@ -255,6 +257,26 @@ var VideoView = React.createClass({
         </VideoViewPlayPause>);
   },
 
+  _renderVideoWaterMark: function(show) {
+    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
+    var waterMarkName;
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
+    }
+    if(this.props.platform == Constants.PLATFORMS.IOS) {
+      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
+    }
+    return (
+        <VideoWaterMark
+          frameWidth={this.props.width}
+          frameHeight={this.props.height}
+          buttonWidth={VideoWaterMarkSize}
+          buttonHeight={VideoWaterMarkSize}
+          waterMarkName={waterMarkName}
+          isShow={show} />
+          );
+  },
+
   _handleSocialShare: function() {
     this.setState({showSharePanel:!this.state.showSharePanel});
   },
@@ -281,6 +303,7 @@ var VideoView = React.createClass({
       <View
         style={styles.container}>
         {adBar}
+        {this._renderVideoWaterMark(this.state.showControls)}
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
         {this._renderPlayPause(this.state.showControls)}
