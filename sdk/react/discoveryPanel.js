@@ -32,6 +32,7 @@ var animationDuration = 1000;
 
 var rectWidth = 176;
 var rectHeight = 160;
+var widthThreshold = 300;
 
 var DiscoveryPanel = React.createClass({
 
@@ -102,14 +103,9 @@ var DiscoveryPanel = React.createClass({
   },
 
   render: function() {
-    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
-
-    var panelHeight = this.props.height - 40;
-    var margin;
-
     // landscape
     if (this.props.width > this.props.height) {
-      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape); 
+      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape);
     // portrait
     } else {
       this.setRectInRow(rectWidth, rectHeight, styles.thumbnailPortrait, styles.columnContainerPortrait);
@@ -119,6 +115,32 @@ var DiscoveryPanel = React.createClass({
     return (
       <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}
+        {this.renderList()}
+        {this.renderError()}
+      </Animated.View>
+    );
+  },
+
+  _isDiscoveryError: function() {
+    return this.props.dataSource === null || this.props.dataSource.length === 0;
+  },
+
+  renderList: function() {
+    var panelHeight = this.props.height - 40;
+    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+    if (this._isDiscoveryError()) {
+      return (
+        <ResponsiveList
+          horizontal={false}
+          data={null}
+          itemRender={this.renderItem}
+          width={this.props.width}
+          height={panelHeight}
+          itemWidth={itemRect.width}
+          itemHeight={itemRect.height}>
+        </ResponsiveList>
+      );    } else {
+      return (
         <ResponsiveList
           horizontal={renderHorizontal}
           data={this.props.dataSource}
@@ -128,8 +150,8 @@ var DiscoveryPanel = React.createClass({
           itemWidth={itemRect.width}
           itemHeight={itemRect.height}>
         </ResponsiveList>
-      </Animated.View>
-    );
+      );
+    }
   },
 
   renderCountdownTimer: function(item) {
@@ -199,6 +221,40 @@ var DiscoveryPanel = React.createClass({
         {title} <Text style={styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
         </Text>
       </View>);
+  },
+
+  renderError: function() {
+    var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
+    var errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
+    var errorFlexDirectionStyle = {flexDirection: "row"};
+
+    if (this.props.width < widthThreshold) {
+      errorFlexDirectionStyle = {flexDirection: "column"};
+    }
+
+    var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
+    var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
+    var warningIcon = this.props.config.icons.warning ? this.props.config.icons.warning.fontString : null;
+    if (this._isDiscoveryError()) {
+      return (
+        <View style={[styles.panelErrorPanel, errorFlexDirectionStyle]}>
+          <View style={styles.panelErrorInfo}>
+            <Text style={styles.panelErrorTitleText}>
+              {errorTitle}
+            </Text>
+            <Text style={styles.panelErrorContentText}>
+              {errorContent}
+            </Text>
+          </View>
+
+          <View style={styles.panelWarning}>
+            <Text style={styles.warningIcon}>
+              {warningIcon}
+            </Text>
+          </View>
+        </View>
+      );
+    }
   },
 });
 
