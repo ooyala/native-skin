@@ -16,6 +16,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.ooyala.android.item.Caption;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.item.Video;
@@ -23,6 +24,7 @@ import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.captions.ClosedCaptionsView;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
@@ -55,6 +57,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
   private static final String KEY_STATE = "state";
+  private ClosedCaptionsView _closedCaptionsView;
   private int width,height;
   private String shareTitle;
 
@@ -146,6 +149,29 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   @ReactMethod
+  public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
+    final String languageName;
+    if (parameters.hasKey("language")) {
+      languageName = parameters.getString("language");
+    }
+    else
+    {
+      languageName = null;
+    }
+    Video currentItem = _player.getCurrentItem();
+      double currT = _player.getPlayheadTime() / 1000d;
+      Caption caption = currentItem.getClosedCaptions().getCaption(languageName, currT);
+      if (caption != null) {
+        WritableMap body = Arguments.createMap();
+        body.putString("text", caption.getText());
+        body.putDouble("end", caption.getEnd());
+        body.putDouble("begin", caption.getBegin());
+        this.getReactApplicationContext()
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("onClosedCaptionUpdate", body);
+    }
+  }
+  @ReactMethod
   public void onPress(ReadableMap parameters) {
     final String buttonName;
     if (parameters.hasKey("name")) {
@@ -208,6 +234,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgePlayStartedNotification();
     } else if (arg1 == OoyalaPlayer.ERROR_NOTIFICATION) {
       bridgeErrorNotification();
+    } else if (arg1 == OoyalaPlayer.CLOSED_CAPTIONS_LANGUAGE_CHANGED) {
+      onClosedCaptionChangeNotification();
     }
   }
 
@@ -261,6 +289,21 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       return discoveryresults;
   }
 
+  private void getClosedCaptionView() {
+    WritableMap params = Arguments.createMap();
+    Video currentItem = _player.getCurrentItem();
+    if (currentItem.hasClosedCaptions()) {
+      WritableArray languages = Arguments.createArray();
+      for (String s : currentItem.getClosedCaptions().getLanguages()) {
+        languages.pushString(s);
+      }
+      params.putArray("languages", languages);
+    }
+  }
+
+  private void onClosedCaptionChangeNotification() {
+  }
+
   // notification bridges
   private void bridgeCurrentItemChangedNotification() {
     WritableMap params = Arguments.createMap();
@@ -280,14 +323,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       params.putBoolean("live", currentItem.isLive());
       params.putInt("width", width);
       params.putInt("height", height);
-      if (currentItem.hasClosedCaptions()) {
-        WritableArray languages = Arguments.createArray();
-        for (String s : currentItem.getClosedCaptions().getLanguages()) {
-          languages.pushString(s);
-        }
-        params.putArray("languages", languages);
-      }
     }
+    getClosedCaptionView();
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit("discoveryResultsReceived", getDiscovery());
@@ -330,7 +367,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     params.putDouble("playhead", playhead);
     params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);
-    
+      
+    onClosedCaptionChangeNotification();
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
