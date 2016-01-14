@@ -22,7 +22,7 @@ var RectButton = React.createClass({
     buttonStyle: React.PropTypes.object,
     fontSize: React.PropTypes.number,
     fontFamily: React.PropTypes.string,
-    style:React.PropTypes.object,
+    style:Text.propTypes.style,
   },
 
   // Gets the play button based on the current config settings

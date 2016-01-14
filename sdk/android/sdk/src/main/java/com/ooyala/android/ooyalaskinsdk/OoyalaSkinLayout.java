@@ -3,6 +3,7 @@ package com.ooyala.android.ooyalaskinsdk;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
@@ -11,17 +12,21 @@ import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by zchen on 9/21/15.
  */
 public class OoyalaSkinLayout extends FrameLayout {
+  private static final String REACT_JS_SERVER = "127.0.0.1:8081";
   private FrameLayout _playerFrame;
   private OoyalaPlayer _player;
   private ReactInstanceManager _reactInstanceManager;
@@ -64,6 +69,8 @@ public class OoyalaSkinLayout extends FrameLayout {
     _playerFrame = new FrameLayout(getContext());
     this.addView(_playerFrame, frameLP);
 
+    ReactUtil.setJSServer(REACT_JS_SERVER, getContext());
+
     JSONObject configJson = loadInitialProperties();
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
@@ -85,6 +92,11 @@ public class OoyalaSkinLayout extends FrameLayout {
         .setInitialLifecycleState(LifecycleState.RESUMED)
 
         .build();
+
+    // Reload JS from the react server.
+    if(Settings.canDrawOverlays(getContext())) {
+        ReactUtil.reloadJs(_reactInstanceManager);
+    }
     _rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
     this.addView(_rootView, frameLP);
   }

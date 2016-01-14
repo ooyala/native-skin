@@ -41,6 +41,7 @@ var OoyalaSkin = React.createClass({
       // states from native
       title: '',
       description: '',
+      cuePoints: [],
       promoUrl: '',
       hostedAtUrl: '',
       playhead: 0,

@@ -96,7 +96,13 @@ var ControlBar = React.createClass({
 
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
     var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
-
+    var waterMarkName;
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      waterMarkName = this.props.config.controlBar.watermark.imageResource.androidResource;
+    }
+    if(this.props.platform == Constants.PLATFORMS.IOS) {
+      waterMarkName = this.props.config.controlBar.watermark.imageResource.iosResource;
+    }
     var controlBarWidgets = [];
 
     var widgetOptions = {
@@ -150,6 +156,7 @@ var ControlBar = React.createClass({
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
+        icon:waterMarkName,
         resizeMode: Image.resizeMode.contain
       }
     };
@@ -160,6 +167,7 @@ var ControlBar = React.createClass({
     for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
       controlBarWidgets.push(<ControlBarWidget
+        key={i}
         widgetType={widget}
         options={widgetOptions}/>);
     }

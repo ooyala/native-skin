@@ -1,0 +1,7 @@
+{
+  "buttonArea": {
+    "flex": 1,
+    "flexDirection": "row",
+    "alignSelf": "center",
+  },
+}
