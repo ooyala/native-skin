@@ -288,19 +288,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       discoveryresults.putArray("results", results);
       return discoveryresults;
   }
-
-  private void getClosedCaptionView() {
-    WritableMap params = Arguments.createMap();
-    Video currentItem = _player.getCurrentItem();
-    if (currentItem.hasClosedCaptions()) {
-      WritableArray languages = Arguments.createArray();
-      for (String s : currentItem.getClosedCaptions().getLanguages()) {
-        languages.pushString(s);
-      }
-      params.putArray("languages", languages);
-    }
-  }
-
   private void onClosedCaptionChangeNotification() {
   }
 
@@ -323,8 +310,14 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       params.putBoolean("live", currentItem.isLive());
       params.putInt("width", width);
       params.putInt("height", height);
+      if (currentItem.hasClosedCaptions()) {
+          WritableArray languages = Arguments.createArray();
+          for (String s : currentItem.getClosedCaptions().getLanguages()) {
+              languages.pushString(s);
+          }
+          params.putArray("languages", languages);
+      }
     }
-    getClosedCaptionView();
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit("discoveryResultsReceived", getDiscovery());
