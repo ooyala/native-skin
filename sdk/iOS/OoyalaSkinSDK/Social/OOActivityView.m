@@ -7,6 +7,8 @@
 //
 
 #import "OOActivityView.h"
+#import "RCTUtils.h"
+#import "RCTConvert.h"
 
 @implementation OOActivityView
 
@@ -19,35 +21,57 @@ RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
   
-  if (!options[@"text"] && !options[@"link"]) {
-    //TODO: Deal with this sceneario
-  }
-  
   NSMutableArray *items = [NSMutableArray new];
   
-  if (options[@"text"]) {
-    [items addObject:options[@"text"]];
+  NSString *text = [RCTConvert NSString:options[@"text"]];
+  if (text) {
+    [items addObject:text];
   }
   
-  if (options[@"link"]) {
-    [items addObject:options[@"link"]];
+  NSURL *url = [RCTConvert NSURL:options[@"link"]];
+  if (url) {
+    [items addObject:url];
+  }
+  
+  if (items.count == 0) {
+    RCTLogError(@"No 'text' or 'link' to share");
+    return;
   }
   
   UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:items applicationActivities:nil];
-  activityVC.excludedActivityTypes = @[UIActivityTypeAddToReadingList,
-                                       UIActivityTypeAirDrop,
-                                       UIActivityTypeAssignToContact,
-                                       UIActivityTypeCopyToPasteboard,
-                                       UIActivityTypeMessage,
-                                       UIActivityTypeOpenInIBooks,
-                                       UIActivityTypePostToFlickr,
-                                       UIActivityTypePostToTencentWeibo,
-                                       UIActivityTypePostToVimeo,
-                                       UIActivityTypePostToWeibo,
-                                       UIActivityTypePrint,
-                                       UIActivityTypeSaveToCameraRoll];
+
+  NSMutableArray *excludedActivities = [[NSMutableArray alloc] initWithArray:@[UIActivityTypeAddToReadingList,
+                                                                               UIActivityTypeAirDrop,
+                                                                               UIActivityTypeAssignToContact,
+                                                                               UIActivityTypeCopyToPasteboard,
+                                                                               UIActivityTypeMessage,
+                                                                               UIActivityTypePostToFlickr,
+                                                                               UIActivityTypePostToTencentWeibo,
+                                                                               UIActivityTypePostToVimeo,
+                                                                               UIActivityTypePostToWeibo,
+                                                                               UIActivityTypePrint,
+                                                                               UIActivityTypeSaveToCameraRoll]];
   
-  UIViewController *ctrl = [[[[UIApplication sharedApplication] delegate] window] rootViewController];
+  // ipad simulators with iOS 8 or lower versions crash with activity UIActivityTypeOpenInIBooks
+  // We only exclude this activity for iOS 9.
+  #if __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_9_0
+    [excludedActivities addObject:UIActivityTypeOpenInIBooks];
+  #endif
+  
+  activityVC.excludedActivityTypes = excludedActivities;
+  
+  // for mail subject
+  if (text) {
+    [activityVC setValue:text forKey:@"subject"];
+  }
+  
+  UIViewController *ctrl = RCTKeyWindow().rootViewController;
+  
+  // if it is an iPad and iOS 8+ device
+  activityVC.modalPresentationStyle = UIModalPresentationPopover;
+  activityVC.popoverPresentationController.permittedArrowDirections = 0;
+  activityVC.popoverPresentationController.sourceView = ctrl.view;
+  activityVC.popoverPresentationController.sourceRect = (CGRect) {ctrl.view.center, {1, 1}};
   
   [ctrl presentViewController:activityVC animated:YES completion:nil];
 }
