@@ -10,6 +10,8 @@
 #import "RCTUtils.h"
 #import "RCTConvert.h"
 
+static __weak UIViewController *presentingVC = nil;
+
 @implementation OOActivityView
 
 RCT_EXPORT_MODULE();
@@ -66,6 +68,9 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
   }
   
   UIViewController *ctrl = RCTKeyWindow().rootViewController;
+  if (presentingVC) {
+    ctrl = presentingVC;
+  }
   
   // if it is an iPad and iOS 8+ device
   activityVC.modalPresentationStyle = UIModalPresentationPopover;
@@ -74,6 +79,18 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
   activityVC.popoverPresentationController.sourceRect = (CGRect) {ctrl.view.center, {1, 1}};
   
   [ctrl presentViewController:activityVC animated:YES completion:nil];
+}
+
++ (void)setPresentingController:(UIViewController *)controller
+{
+  presentingVC = controller;
+}
+
++ (void)removePresentingController:(UIViewController *)controller
+{
+  if (presentingVC == controller) {
+    presentingVC = nil;
+  }
 }
 
 @end

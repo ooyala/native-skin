@@ -23,6 +23,7 @@
 #import <OoyalaSDK/OOOptions.h>
 #import "OOConstant.h"
 #import "OOVolumeManager.h"
+#import "OOActivityView.h"
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
@@ -81,9 +82,9 @@ static NSDictionary *kSkinCofig;
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
     
     [OOVolumeManager addVolumeObserver:self];
-    
-    
+    [OOActivityView setPresentingController:self];
     [OOReactBridge registerController:self];
+    
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
@@ -325,6 +326,7 @@ static NSDictionary *kSkinCofig;
   [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
+  [OOActivityView removePresentingController:self];
 }
 
 @end

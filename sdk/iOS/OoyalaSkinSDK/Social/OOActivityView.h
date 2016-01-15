@@ -11,4 +11,7 @@
 
 @interface OOActivityView : NSObject <RCTBridgeModule>
 
++ (void)setPresentingController:(UIViewController *)controller;
++ (void)removePresentingController:(UIViewController *)controller;
+
 @end
