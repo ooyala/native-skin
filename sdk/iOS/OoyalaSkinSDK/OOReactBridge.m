@@ -158,16 +158,13 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   }
 }
 
-RCT_EXPORT_METHOD(onUIReady) {
-  // this is called when the core skin component is mounted, we need to initialize UI correctly here.
-  [sharedController onUIReady];
-}
-
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
-  if (![eventName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
-    LOG(@"sendDeviceEventWithName: %@", eventName);
+  if ([sharedController isReactReady]) {
+    if (![eventName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
+      LOG(@"sendDeviceEventWithName: %@", eventName);
+    }
+    [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
   }
-  [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
 }
 
 - (RCTBridge *)bridge {
