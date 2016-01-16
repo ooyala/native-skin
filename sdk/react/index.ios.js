@@ -61,10 +61,6 @@ var OoyalaSkin = React.createClass({
     OoyalaSkinCoreInstance.mount(DeviceEventEmitter);
   },
 
-  componentDidMount: function() {
-    eventBridge.onUIReady();
-  },
-
   componentWillUnmount: function() {
     Log.log("componentWillUnmount");
     OoyalaSkinCoreInstance.unmount();

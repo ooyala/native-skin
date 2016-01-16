@@ -41,6 +41,7 @@
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic) NSDictionary *skinConfig;
 @property (nonatomic) BOOL isFullscreen;
+@property BOOL isReactReady;
 
 @end
 
@@ -62,6 +63,7 @@ static NSDictionary *kSkinCofig;
     _skinConfig = [NSDictionary dictionaryFromSkinConfigFile:_skinOptions.configFileName
                                                   mergedWith:_skinOptions.overrideConfigs];
     kSkinCofig = _skinConfig;
+    _isReactReady = NO;
     _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                              moduleName:@"OoyalaSkin"
                                       initialProperties:_skinConfig
@@ -120,6 +122,7 @@ static NSDictionary *kSkinCofig;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReactReady:) name:RCTContentDidAppearNotification object:_reactView];
   }
 }
 
@@ -390,7 +393,13 @@ static NSDictionary *kSkinCofig;
   return OO_SKIN_VERSION;
 }
 
-- (void)onUIReady {
+- (void)onReactReady:(NSNotification *)notification {
+  if (_isReactReady) {
+    LOG(@"received ReactReady notification after ready");
+    return;
+  }
+  _isReactReady = YES;
+
   if (_player.currentItem) {
     // embedcode already set, send current item information
     NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerCurrentItemChangedNotification object:nil];
