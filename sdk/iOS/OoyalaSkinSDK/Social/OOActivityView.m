@@ -10,8 +10,6 @@
 #import "RCTUtils.h"
 #import "RCTConvert.h"
 
-static __weak UIViewController *presentingVC = nil;
-
 @implementation OOActivityView
 
 RCT_EXPORT_MODULE();
@@ -67,29 +65,29 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
     [activityVC setValue:text forKey:@"subject"];
   }
   
-  UIViewController *ctrl = RCTKeyWindow().rootViewController;
-  if (presentingVC) {
-    ctrl = presentingVC;
-  }
+  UIViewController *presentingController = [self presentingViewController:RCTKeyWindow().rootViewController];
   
   // if it is an iPad and iOS 8+ device
   activityVC.modalPresentationStyle = UIModalPresentationPopover;
   activityVC.popoverPresentationController.permittedArrowDirections = 0;
-  activityVC.popoverPresentationController.sourceView = ctrl.view;
-  activityVC.popoverPresentationController.sourceRect = (CGRect) {ctrl.view.center, {1, 1}};
+  activityVC.popoverPresentationController.sourceView = presentingController.view;
+  activityVC.popoverPresentationController.sourceRect = (CGRect) {presentingController.view.center, {1, 1}};
   
-  [ctrl presentViewController:activityVC animated:YES completion:nil];
+  [presentingController presentViewController:activityVC animated:YES completion:nil];
 }
 
-+ (void)setPresentingController:(UIViewController *)controller
+- (UIViewController *)presentingViewController:(UIViewController *)root
 {
-  presentingVC = controller;
-}
-
-+ (void)removePresentingController:(UIViewController *)controller
-{
-  if (presentingVC == controller) {
-    presentingVC = nil;
+  if ([root isKindOfClass:[UITabBarController class]]) {
+    UITabBarController *tabBarController = (UITabBarController *) root;
+    return [self presentingViewController:tabBarController.selectedViewController];
+  } else if ([root isKindOfClass:[UINavigationController class]]) {
+    UINavigationController *navigationController = (UINavigationController *) root;
+    return [self presentingViewController:navigationController.visibleViewController];
+  } else if (root.presentedViewController) {
+    return [self presentingViewController:root.presentedViewController];
+  } else {
+    return root;
   }
 }
 

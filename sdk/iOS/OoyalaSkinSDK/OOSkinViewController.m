@@ -23,7 +23,6 @@
 #import <OoyalaSDK/OOOptions.h>
 #import "OOConstant.h"
 #import "OOVolumeManager.h"
-#import "OOActivityView.h"
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
@@ -82,7 +81,6 @@ static NSDictionary *kSkinCofig;
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
     
     [OOVolumeManager addVolumeObserver:self];
-    [OOActivityView setPresentingController:self];
     [OOReactBridge registerController:self];
     
     [_parentView addSubview:self.view];
@@ -326,7 +324,6 @@ static NSDictionary *kSkinCofig;
   [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
-  [OOActivityView removePresentingController:self];
 }
 
 @end
@@ -338,12 +335,13 @@ static NSDictionary *kSkinCofig;
   if( wasPlaying ) {
     [_player pause];
   }
-  
-  [self.view removeFromSuperview];
   _isFullscreen = !_isFullscreen;
   if (_isFullscreen) {
+    [self.view removeFromSuperview];
+    
     if(self.parentViewController){
       _parentViewController = self.parentViewController;
+      [_parentViewController presentViewController:[[UIViewController alloc] init] animated:NO completion:nil];
       [self removeFromParentViewController];
     }
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
@@ -366,10 +364,10 @@ static NSDictionary *kSkinCofig;
     [_parentView addSubview:self.view];
     [self.view setFrame:_parentView.bounds];
     
+    [_parentViewController dismissViewControllerAnimated:NO completion:nil];
     [_parentViewController addChildViewController:self];
     _parentViewController = nil;
     
-    [self.view setFrame:_parentView.bounds];
     self.view.alpha = 0.0f;
     
     [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
