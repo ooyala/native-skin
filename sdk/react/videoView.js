@@ -15,6 +15,7 @@ var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var BottomOverlay = require('./bottomOverlay');
 var ClosedCaptionsView = require('./closedCaptionsView');
+var ClosedCaptionsViewAndroid = require('./closedCaptionsViewAndroid');
 var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
 var UpNext = require('./upNext');
@@ -201,11 +202,25 @@ var VideoView = React.createClass({
   },
 
   _renderClosedCaptions: function() {
-    var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-    return <ClosedCaptionsView
-      style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
-      captionJSON={this.props.captionJSON}
-      onTouchEnd={(event) => this.handleTouchEnd(event)} />;
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      if (this.props.captionJSON) {
+      var caption= {end:this.props.captionJSON.end, begin:this.props.captionJSON.begin, text:this.props.captionJSON.text ,width:this.props.width}
+        return (<ClosedCaptionsViewAndroid
+          style={styles.closedCaptionAndroidStyle}
+          caption={caption} />
+        );
+    }
+    return null;
+    }
+    if(this.props.platform == Constants.PLATFORMS.IOS) {
+      var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
+      return (<ClosedCaptionsView
+        style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
+        captionJSON={this.props.captionJSON}
+        onTouchEnd={(event) => this.handleTouchEnd(event)} />
+      );
+    }
+    return null;
   },
 
   _renderUpNext: function() {
