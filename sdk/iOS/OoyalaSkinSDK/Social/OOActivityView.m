@@ -67,6 +67,11 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
   
   UIViewController *presentingController = [self presentingViewController:RCTKeyWindow().rootViewController];
   
+  // If another ActivityView is being presented, do nothing.
+  if ([presentingController isKindOfClass:[UIActivityViewController class]]) {
+    return;
+  }
+  
   // if it is an iPad and iOS 8+ device
   activityVC.modalPresentationStyle = UIModalPresentationPopover;
   activityVC.popoverPresentationController.permittedArrowDirections = 0;
