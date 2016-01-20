@@ -31,14 +31,14 @@ public class OoyalaSkinLayout extends FrameLayout {
   private OoyalaPlayer _player;
   private ReactInstanceManager _reactInstanceManager;
   private ReactRootView _rootView;
-  private int viewWidth,viewHeight;
-  private listnerFrame sizeChange;
+  private int viewWidth,viewHeight,prevWidth,prevHeight;
+  private FrameChangeListener frameChangeListener;
 
-  public interface listnerFrame{
-      public void onFrameChange(int width, int height);
+  public interface FrameChangeListener{
+      public void onFrameChange(int width, int height,int prevWidth,int prevHeight);
   }
-  public void setListner(listnerFrame sizeChange){
-      this.sizeChange=sizeChange;
+  public void setFrameChangeListener(FrameChangeListener frameChangeListener){
+      this.frameChangeListener=frameChangeListener;
   }
 
   /**
@@ -73,8 +73,10 @@ public class OoyalaSkinLayout extends FrameLayout {
       super.onSizeChanged(xNew, yNew, xOld, yOld);
       viewWidth = xNew;
       viewHeight = yNew;
+      prevWidth = xOld;
+      prevHeight = yOld;
       try {
-          sizeChange.onFrameChange(viewWidth, viewHeight);
+          frameChangeListener.onFrameChange(viewWidth, viewHeight,prevWidth,prevHeight);
       } catch (Exception e) {
           e.printStackTrace();
       }
