@@ -32,7 +32,14 @@ public class OoyalaSkinLayout extends FrameLayout {
   private ReactInstanceManager _reactInstanceManager;
   private ReactRootView _rootView;
   private int viewWidth,viewHeight;
+  private listnerFrame sizeChange;
 
+  public interface listnerFrame{
+      public void onFrameChange(int width, int height);
+  }
+  public void setListner(listnerFrame sizeChange){
+      this.sizeChange=sizeChange;
+  }
 
   /**
    * Initialize the OoyalaPlayerLayout with the given Context
@@ -59,6 +66,18 @@ public class OoyalaSkinLayout extends FrameLayout {
    */
   public OoyalaSkinLayout(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
+  }
+
+  @Override
+  protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
+      super.onSizeChanged(xNew, yNew, xOld, yOld);
+      viewWidth = xNew;
+      viewHeight = yNew;
+      try {
+          sizeChange.onFrameChange(viewWidth, viewHeight);
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
   }
 
   public void setupViews(Application app, OoyalaPlayer p) {
@@ -129,5 +148,13 @@ public class OoyalaSkinLayout extends FrameLayout {
       return null;
     }
     return jsonObject;
+  }
+
+  public int getViewWidth() {
+      return viewWidth;
+  }
+
+  public int getViewHeight() {
+      return viewHeight;
   }
 }
