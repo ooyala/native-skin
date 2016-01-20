@@ -32,7 +32,7 @@ import java.util.Set;
  * Created by zchen on 9/21/15.
  */
 
-public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer,OoyalaSkinLayout.listnerFrame {
+public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer,OoyalaSkinLayout.FrameChangeListener {
   final String TAG = this.getClass().toString();
   private OoyalaSkinLayout _layout;
   private OoyalaPlayer _player;
@@ -67,7 +67,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     ReactApplicationContext c, OoyalaSkinLayout l, OoyalaPlayer p) {
     super(c);
     _layout = l;
-    _layout.setListner(this);
+    _layout.setFrameChangeListener(this);
     _player = p;
     _player.setLayoutController(this);
     _player.addObserver(this);
@@ -393,7 +393,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   @Override
-  public void onFrameChange(int width, int height) {
+  public void onFrameChange(int width, int height, int prevWdith,int prevHeight) {
     height = Math.round(height * cal);
     width = Math.round(width * cal);
     this.width=width;

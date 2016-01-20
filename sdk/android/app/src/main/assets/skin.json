@@ -81,7 +81,7 @@
         "color": "white"
       }
     },
-    "showCountDownTimerOnEndScreen": false,
+    "showCountDownTimerOnEndScreen": true,
     "countDownTime": "10"
   },
   "shareScreen": [
