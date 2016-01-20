@@ -94,9 +94,7 @@ public class OoyalaSkinLayout extends FrameLayout {
         .build();
 
     // Reload JS from the react server.
-    if(Settings.canDrawOverlays(getContext())) {
-        ReactUtil.reloadJs(_reactInstanceManager);
-    }
+      ReactUtil.reloadJs(_reactInstanceManager);
     _rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
     this.addView(_rootView, frameLP);
   }
