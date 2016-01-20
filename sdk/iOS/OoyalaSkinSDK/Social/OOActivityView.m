@@ -28,8 +28,9 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
     [items addObject:text];
   }
   
-  NSURL *url = [RCTConvert NSURL:options[@"link"]];
-  if (url) {
+  NSString *urlStr = [RCTConvert NSString:options[@"link"]];
+  NSURL *url;
+  if (urlStr.length > 0 && (url = [RCTConvert NSURL:urlStr]) != nil) {
     [items addObject:url];
   }
   
