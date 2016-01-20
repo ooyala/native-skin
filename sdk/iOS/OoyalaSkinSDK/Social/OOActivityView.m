@@ -65,32 +65,32 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
     [activityVC setValue:text forKey:@"subject"];
   }
   
-  UIViewController *presentingController = [self presentingViewController:RCTKeyWindow().rootViewController];
+  UIViewController *controller = [self topMostViewController:RCTKeyWindow().rootViewController];
   
   // If another ActivityView is being presented, do nothing.
-  if ([presentingController isKindOfClass:[UIActivityViewController class]]) {
+  if ([controller isKindOfClass:[UIActivityViewController class]]) {
     return;
   }
   
   // if it is an iPad and iOS 8+ device
   activityVC.modalPresentationStyle = UIModalPresentationPopover;
   activityVC.popoverPresentationController.permittedArrowDirections = 0;
-  activityVC.popoverPresentationController.sourceView = presentingController.view;
-  activityVC.popoverPresentationController.sourceRect = (CGRect) {presentingController.view.center, {1, 1}};
+  activityVC.popoverPresentationController.sourceView = controller.view;
+  activityVC.popoverPresentationController.sourceRect = (CGRect) {controller.view.center, {1, 1}};
   
-  [presentingController presentViewController:activityVC animated:YES completion:nil];
+  [controller presentViewController:activityVC animated:YES completion:nil];
 }
 
-- (UIViewController *)presentingViewController:(UIViewController *)root
+- (UIViewController *)topMostViewController:(UIViewController *)root
 {
   if ([root isKindOfClass:[UITabBarController class]]) {
     UITabBarController *tabBarController = (UITabBarController *) root;
-    return [self presentingViewController:tabBarController.selectedViewController];
+    return [self topMostViewController:tabBarController.selectedViewController];
   } else if ([root isKindOfClass:[UINavigationController class]]) {
     UINavigationController *navigationController = (UINavigationController *) root;
-    return [self presentingViewController:navigationController.visibleViewController];
+    return [self topMostViewController:navigationController.visibleViewController];
   } else if (root.presentedViewController) {
-    return [self presentingViewController:root.presentedViewController];
+    return [self topMostViewController:root.presentedViewController];
   } else {
     return root;
   }
