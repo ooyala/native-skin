@@ -34,7 +34,7 @@ import java.util.Set;
  * Created by zchen on 9/21/15.
  */
 
-public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer {
+public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer,OoyalaSkinLayout.FrameChangeListener {
   final String TAG = this.getClass().toString();
   private OoyalaSkinLayout _layout;
   private OoyalaPlayer _player;
@@ -60,7 +60,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private ClosedCaptionsView _closedCaptionsView;
   private int width,height;
   private String shareTitle;
-
+  private float dpi,cal;
   @Override
   public String getName() {
     return "OoyalaSkinLayoutController";
@@ -70,14 +70,15 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     ReactApplicationContext c, OoyalaSkinLayout l, OoyalaPlayer p) {
     super(c);
     _layout = l;
+    _layout.setFrameChangeListener(this);
     _player = p;
     _player.setLayoutController(this);
     _player.addObserver(this);
     DisplayMetrics metrics = c.getResources().getDisplayMetrics();
-    float dpi = metrics.densityDpi;
-    float cal = 160/dpi;
-    height = Math.round(_layout.getResources().getDisplayMetrics().heightPixels * cal);
-    width = Math.round(_layout.getResources().getDisplayMetrics().widthPixels * cal);
+    dpi = metrics.densityDpi;
+    cal = 160/dpi;
+    width = Math.round(_layout.getViewWidth()*cal);
+    height = Math.round(_layout.getViewHeight() * cal);
   }
 
   public FrameLayout getLayout() {
@@ -245,11 +246,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void handlePlayPause() {
-    //System.out.println("in handle playPause in java class");
     if (_player.isPlaying()) {
-      //System.out.println("in handle playPause java, paused");
       _player.pause();
-
     } else {
       _player.play();
     }
@@ -423,5 +421,22 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.AD_COMPLETED_NOTIFICATION, params);
+  }
+
+  @Override
+  public void onFrameChange(int width, int height, int prevWdith,int prevHeight) {
+    height = Math.round(height * cal);
+    width = Math.round(width * cal);
+    this.width=width;
+    this.height=height;
+    WritableMap params = Arguments.createMap();
+    params.putInt("width", width);
+    params.putInt("height", height);
+    params.putBoolean("fullscreen",_isFullscreen);
+
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("frameChanged", params);
+
   }
 }

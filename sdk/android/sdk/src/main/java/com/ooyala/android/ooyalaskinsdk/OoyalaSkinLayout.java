@@ -31,8 +31,15 @@ public class OoyalaSkinLayout extends FrameLayout {
   private OoyalaPlayer _player;
   private ReactInstanceManager _reactInstanceManager;
   private ReactRootView _rootView;
-  private int viewWidth,viewHeight;
+  private int viewWidth,viewHeight,prevWidth,prevHeight;
+  private FrameChangeListener frameChangeListener;
 
+  public interface FrameChangeListener{
+      public void onFrameChange(int width, int height,int prevWidth,int prevHeight);
+  }
+  public void setFrameChangeListener(FrameChangeListener frameChangeListener){
+      this.frameChangeListener=frameChangeListener;
+  }
 
   /**
    * Initialize the OoyalaPlayerLayout with the given Context
@@ -59,6 +66,20 @@ public class OoyalaSkinLayout extends FrameLayout {
    */
   public OoyalaSkinLayout(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
+  }
+
+  @Override
+  protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
+      super.onSizeChanged(xNew, yNew, xOld, yOld);
+      viewWidth = xNew;
+      viewHeight = yNew;
+      prevWidth = xOld;
+      prevHeight = yOld;
+      try {
+          frameChangeListener.onFrameChange(viewWidth, viewHeight,prevWidth,prevHeight);
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
   }
 
   public void setupViews(Application app, OoyalaPlayer p) {
@@ -127,5 +148,13 @@ public class OoyalaSkinLayout extends FrameLayout {
       return null;
     }
     return jsonObject;
+  }
+
+  public int getViewWidth() {
+      return viewWidth;
+  }
+
+  public int getViewHeight() {
+      return viewHeight;
   }
 }
