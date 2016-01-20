@@ -65,15 +65,35 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
     [activityVC setValue:text forKey:@"subject"];
   }
   
-  UIViewController *ctrl = RCTKeyWindow().rootViewController;
+  UIViewController *controller = [self topMostViewController:RCTKeyWindow().rootViewController];
+  
+  // If another ActivityView is being presented, do nothing.
+  if ([controller isKindOfClass:[UIActivityViewController class]]) {
+    return;
+  }
   
   // if it is an iPad and iOS 8+ device
   activityVC.modalPresentationStyle = UIModalPresentationPopover;
   activityVC.popoverPresentationController.permittedArrowDirections = 0;
-  activityVC.popoverPresentationController.sourceView = ctrl.view;
-  activityVC.popoverPresentationController.sourceRect = (CGRect) {ctrl.view.center, {1, 1}};
+  activityVC.popoverPresentationController.sourceView = controller.view;
+  activityVC.popoverPresentationController.sourceRect = (CGRect) {controller.view.center, {1, 1}};
   
-  [ctrl presentViewController:activityVC animated:YES completion:nil];
+  [controller presentViewController:activityVC animated:YES completion:nil];
+}
+
+- (UIViewController *)topMostViewController:(UIViewController *)root
+{
+  if ([root isKindOfClass:[UITabBarController class]]) {
+    UITabBarController *tabBarController = (UITabBarController *) root;
+    return [self topMostViewController:tabBarController.selectedViewController];
+  } else if ([root isKindOfClass:[UINavigationController class]]) {
+    UINavigationController *navigationController = (UINavigationController *) root;
+    return [self topMostViewController:navigationController.visibleViewController];
+  } else if (root.presentedViewController) {
+    return [self topMostViewController:root.presentedViewController];
+  } else {
+    return root;
+  }
 }
 
 @end
