@@ -19,7 +19,8 @@ RCT_EXPORT_MODULE();
   return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
+RCT_EXPORT_METHOD(show:(NSDictionary *)options)
+{
   
   NSMutableArray *items = [NSMutableArray new];
   
@@ -28,7 +29,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
     [items addObject:text];
   }
   
-  NSURL *url = [RCTConvert NSURL:options[@"link"]];
+  NSURL *url = [self shareURL:options[@"link"]];
   if (url) {
     [items addObject:url];
   }
@@ -94,6 +95,20 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
   } else {
     return root;
   }
+}
+
+- (NSURL *)shareURL:(id)link
+{
+  NSString *urlStr = [RCTConvert NSString:link];
+  NSURL *url;
+  if (urlStr.length > 0 &&
+      (url = [RCTConvert NSURL:urlStr]) != nil &&
+      url.host &&
+      ([url.scheme isEqualToString:@"http"] || [url.scheme isEqualToString:@"https"])) {
+    return url;
+  }
+  
+  return nil;
 }
 
 @end
