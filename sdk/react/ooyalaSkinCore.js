@@ -393,6 +393,7 @@ OoyalaSkinCore.prototype.renderCCOptions = function() {
 OoyalaSkinCore.prototype.renderSocialOptions = function() {
   if(this.skin.state.platform == Constants.PLATFORMS.ANDROID) {
     this.bridge.shareTitle({shareTitle:this.skin.state.title});
+    this.bridge.shareUrl({shareUrl:this.skin.state.hostedAtUrl});
     this.bridge.onPress({name:"Share"});
   }
   else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
