@@ -70,7 +70,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @Override
   public void callback(Object results, OoyalaException error) {
-  JSONArray discoveryResult=(JSONArray)results;
+  JSONArray discoveryResult = (JSONArray) results;
     if(discoveryResult!=null) {
         WritableArray dresults = Arguments.createArray();
           for (int i = 0; i < discoveryResult.length(); i++) {
@@ -305,8 +305,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private void requestDiscovery() {
       DiscoveryManager.getResults(new DiscoveryOptions.Builder().build(),
          _player.getEmbedCode(),
-         "c0cTkxOqALQviQIGAHWY5hP0q9gU",
-         "9FC4CF54-3130-4DF1-B7CB-80D742CD8EDE", null,this);
+         _player.getPcode(),
+         ClientId.getId(), null,this);
   }
   private void onClosedCaptionChangeNotification() {
   }
