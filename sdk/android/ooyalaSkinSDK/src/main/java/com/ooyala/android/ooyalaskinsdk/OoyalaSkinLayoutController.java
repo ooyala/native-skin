@@ -19,10 +19,11 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.ClientId;
 import com.ooyala.android.item.Caption;
 import com.ooyala.android.item.Video;
-import com.ooyala.android.ooyalaskinsdk.discovery.DiscoveryManager;
-import com.ooyala.android.ooyalaskinsdk.discovery.DiscoveryOptions;
+import com.ooyala.android.discovery.DiscoveryManager;
+import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
@@ -306,7 +307,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       DiscoveryManager.getResults(new DiscoveryOptions.Builder().build(),
          _player.getEmbedCode(),
          _player.getPcode(),
-         ClientId.getId(), null,this);
+         ClientId.getId(_layout.getContext()), null, this);
   }
   private void onClosedCaptionChangeNotification() {
   }
