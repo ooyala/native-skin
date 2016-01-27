@@ -1,10 +1,11 @@
 'use strict';
 
-var { requireNativeComponent, PropTypes } = require('react-native');
+var {View, requireNativeComponent, PropTypes } = require('react-native');
 
 var iface = {
   name: 'ClosedCaptionsView',
   propTypes: {
+    ...View.propTypes,    
     caption: PropTypes.object
   },
 };

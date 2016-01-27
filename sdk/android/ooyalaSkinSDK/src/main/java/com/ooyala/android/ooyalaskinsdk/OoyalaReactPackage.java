@@ -44,6 +44,7 @@ class OoyalaReactPackage extends MainReactPackage {
     List<ViewManager> managers = new ArrayList<>();
     managers.addAll(super.createViewManagers(reactContext));
     managers.add(new ClosedCaptionsViewManager());
+    managers.add(new CountdownViewManager());
     return managers;
   }
 }
