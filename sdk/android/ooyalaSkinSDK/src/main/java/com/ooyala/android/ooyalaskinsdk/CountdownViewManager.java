@@ -56,7 +56,7 @@ public class CountdownViewManager extends SimpleViewManager<CountdownView> {
     }
 
     @ReactProp(name = "embedCode")
-    public void setVideoItem(final CountdownView view, String embedCode) {
+    public void setEmbedCode(final CountdownView view, String embedCode) {
         view.setEmbedCode(embedCode);
     }
 

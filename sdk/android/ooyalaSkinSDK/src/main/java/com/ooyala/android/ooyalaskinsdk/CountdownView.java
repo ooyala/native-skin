@@ -12,6 +12,7 @@ import android.view.View;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.facebook.react.uimanager.UIManagerModule;
 
 /**
  * Created by dkorobov on 1/13/16.
@@ -40,7 +41,6 @@ public class CountdownView extends View {
         super(context);
         initPaints();
     }
-
 
     private void initPaints() {
         textPaint = new TextPaint();
@@ -141,10 +141,9 @@ public class CountdownView extends View {
         }.start();
     }
 
-
-
     public void onReceiveNativeEvent() {
         ReactContext reactContext = (ReactContext)getContext();
+        reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher();
         reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit("onTimerCompleted", embedCode);
     }

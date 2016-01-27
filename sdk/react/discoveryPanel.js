@@ -57,7 +57,11 @@ var DiscoveryPanel = React.createClass({
       counterTime: 0,
     };
   },
-
+  
+  /*
+    onTimerCompleted is emitted by native CountdownViewAndroid component. 
+    Regular CountdownView uses onTimerCompleted callback defined in jsx
+  */
   onTimerCompleted: function(e: Event) {
     var item = {embedCode:e}
     item.embedCode = e
@@ -179,7 +183,7 @@ var DiscoveryPanel = React.createClass({
             countdown={{
               main_color:"#AAffffff",
               secondary_color:"#AA808080",
-              fill_color:"#AA000000",        
+              fill_color:"#AA000000",
               text_color:"#AAffffff",
               stroke_width:10,
               text_size:75,
