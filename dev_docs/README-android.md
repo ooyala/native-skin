@@ -18,13 +18,13 @@ This document will explain a number of different use cases:
 
 # How to update an existing Application with the Android Skin
 
-1. Copy *<alice>/build/intermediates/bundles/release/classes.jar* to *<myapp>/libs/classes.jar*
+1. Copy **<alice>/build/intermediates/bundles/release/classes.jar** to **<myapp>/libs/classes.jar**
 
-2. Rename <myapp>/libs/*classes.jar* to <myapp>/libs/*SkinSDK.jar*
+2. Rename <myapp>/libs/**classes.jar** to <myapp>/libs/**SkinSDK.jar**
 
 3. Modify your app Gradle build file configuration to include the SkinSDK library and React support as shown in the following Gradle build file snippet:
 
-{code:title=build.gradle}
+'''
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
@@ -48,29 +48,29 @@ dependencies {
     compile files('libs/OoyalaSDK.jar')
     compile files('libs/SkinSDK.jar')
     compile 'com.facebook.react:react-native:0.16.+'
-}	
-{code}
+}
+'''
 
-4. To let android use 32-bit libraries on 64-bit devices add the following property into the *gradle.properties*:
-{code:title=gradle.properties}
+4. To let android use 32-bit libraries on 64-bit devices add the following property into the **gradle.properties**:
+'''
 android.useDeprecatedNdk=true
-{code}
+'''
 
 
 
-5. Put *fonts*,*index.android.bundle* and *skin.json* into *<myapp>/src/main/assets*
+5. Put **fonts**,**index.android.bundle** and **skin.json** into **<myapp>/src/main/assets**
 
-6. Include *OoyalaSkinLayout* to *layout.xml* of activity that displays a player:
+6. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
 
-{code:title=layout.xml}
+'''
 <com.ooyala.android.ooyalaskinsdk.OoyalaSkinLayout
     android:id="@+id/ooyalaSkin"
 	...
 />
-{code}
+'''
 
-7. Modify your activity to use new *OoyalaSkinLayout*:
-{code:title=MyActivity.java}
+7. Modify your activity to use new **OoyalaSkinLayout**:
+'''
 public void onCreate(Bundle savedInstanceState) {
     ...
     
@@ -93,4 +93,4 @@ public void onCreate(Bundle savedInstanceState) {
 	
 	...
 }
-{code}
+'''
