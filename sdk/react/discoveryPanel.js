@@ -13,12 +13,14 @@ var {
   Text,
   TouchableHighlight,
   View,
-  ScrollView
+  ScrollView,
+  DeviceEventEmitter
 } = React;
 
 var Utils = require('./utils');
 var ResponsiveList = require('./widgets/ResponsiveList');
 var CountdownView = require('./widgets/countdownTimer');
+var CountdownViewAndroid = require('./widgets/countdownTimerAndroid');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 var Constants = require('./constants');
 var {
@@ -44,6 +46,7 @@ var DiscoveryPanel = React.createClass({
     config: React.PropTypes.object,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
+    platform: React.PropTypes.string,
     screenType: React.PropTypes.string,
   },
 
@@ -53,6 +56,24 @@ var DiscoveryPanel = React.createClass({
       showCountdownTimer: false,
       counterTime: 0,
     };
+  },
+  
+  /*
+    onTimerCompleted is emitted by native CountdownViewAndroid component. 
+    Regular CountdownView uses onTimerCompleted callback defined in jsx
+  */
+  onTimerCompleted: function(e: Event) {
+    var item = {embedCode:e}
+    item.embedCode = e
+    this.onRowSelected(item);
+  },
+
+  componentWillMount: function(e: Event) {
+    DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted)
+  },
+
+  componentWillUnMount: function() {
+    DeviceEventEmitter.removeListener('onTimerCompleted', this.onTimerCompleted);
   },
 
   componentDidMount:function () {
@@ -155,24 +176,42 @@ var DiscoveryPanel = React.createClass({
   },
 
   renderCountdownTimer: function(item) {
-    return (
-      <CountdownView
-        style={{
-          width: 44,
-          height: 44,
-        }}
-        automatic={true}
-        time={this.state.counterLimit}
-        timeLeft={this.state.counterLimit}
-        radius={22}
-        fillColor={'#000000'}
-        strokeColor={'#ffffff'}
-        fillAlpha={0.7}
-        tapCancel={true}
-        onPress={this.onStatusPressed}
-        onTimerCompleted={() => this.onRowSelected(item)} />);
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      return (
+          <CountdownViewAndroid 
+            style={{width:44,height:44}} 
+            countdown={{
+              main_color:"#AAffffff",
+              secondary_color:"#AA808080",
+              fill_color:"#AA000000",
+              text_color:"#AAffffff",
+              stroke_width:10,
+              text_size:75,
+              max_time:10,
+              progress:0}}
+            embedCode={item.embedCode}/>);
+    }
+    if(this.props.platform == Constants.PLATFORMS.IOS) {
+      return (
+           <CountdownView
+             style={{
+               width: 44,
+               height: 44,
+             }}
+             automatic={true}
+             time={this.state.counterLimit}
+             timeLeft={this.state.counterLimit}
+             radius={22}
+             fillColor={'#000000'}
+             strokeColor={'#ffffff'}
+             fillAlpha={0.7}
+             tapCancel={true}
+             onPress={this.onStatusPressed}
+             onTimerCompleted={() => this.onRowSelected(item)} />);
+    }
+                      
   },
-
+  
   renderItem: function(item: object, sectionID: number, itemID: number) {
     var title;
     if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
