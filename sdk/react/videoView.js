@@ -74,7 +74,7 @@ var VideoView = React.createClass({
       }
     }
     if (nextProps.ad) {
-      if (nextProps.rate == 0) {
+      if (!nextProps.playing) {
         this.setState({showControls: true});
       } else {
         this.setState({showControls: false});
