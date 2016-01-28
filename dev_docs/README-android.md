@@ -18,11 +18,11 @@ This document will explain a number of different use cases:
 
 # How to update an existing Application with the Android Skin
 
-1. Copy **<alice>/build/intermediates/bundles/release/classes.jar** to **<myapp>/libs/classes.jar**
+1. Download and unzip OoyalaSkinSDK.zip
 
-2. Rename <myapp>/libs/**classes.jar** to <myapp>/libs/**SkinSDK.jar**
+2. Copy **OoyalaSkinSDK.jar** into **libs/** directory of your app
 
-3. Modify your app Gradle build file configuration to include the SkinSDK library and React support as shown in the following Gradle build file snippet:
+3. Modify your app gradle build file configuration to include OoyalaSkinSDK and React support as shown in the following Gradle build file snippet:
 
     ```
     android {
@@ -56,7 +56,7 @@ This document will explain a number of different use cases:
   android.useDeprecatedNdk=true
   ```
 
-5. Put **fonts**,**index.android.bundle** and **skin.json** into **<myapp>/src/main/assets**
+5. Put **fonts**,**index.android.bundle** and **skin.json** into **src/main/assets**
 
 6. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
 
