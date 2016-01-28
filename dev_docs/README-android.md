@@ -43,8 +43,6 @@ This document will explain a number of different use cases:
     }
 
     dependencies {
-        compile files('libs/FWAdManager.jar')
-        compile files('libs/OoyalaFreewheelSDK.jar')
         compile files('libs/OoyalaSDK.jar')
         compile files('libs/SkinSDK.jar')
         compile 'com.facebook.react:react-native:0.16.+'
@@ -79,16 +77,15 @@ public void onCreate(Bundle savedInstanceState) {
     //Initialize the player
     OoyalaSkinLayout skinLayout = (OoyalaSkinLayout)findViewById(R.id.ooyalaSkin);
     PlayerDomain domain = new PlayerDomain(DOMAIN);
-    Options options = new Options.Builder().setShowAdsControls(false)
-              .setShowCuePoints(false).setShowPromoImage(true)
-              .setPreloadContent(false).build();
+    Options options = new Options.Builder()
+              .setShowAdsControls(false)
+              .setShowPromoImage(true)
+              .setPreloadContent(false)
+              .build();
     player = new OoyalaPlayer(PCODE, domain, options);
     skinLayout.setupViews(getApplication(), player);
 	
     ...
 
-    OoyalaFreewheelManager fwManager = new OoyalaFreewheelManager(this, skinLayout, player);
-	
-	...
 }
 ```
