@@ -24,7 +24,7 @@ This document will explain a number of different use cases:
 
 3. Modify your app Gradle build file configuration to include the SkinSDK library and React support as shown in the following Gradle build file snippet:
 
-'''
+```
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
@@ -49,12 +49,12 @@ dependencies {
     compile files('libs/SkinSDK.jar')
     compile 'com.facebook.react:react-native:0.16.+'
 }
-'''
+```
 
 4. To let android use 32-bit libraries on 64-bit devices add the following property into the **gradle.properties**:
-'''
+```
 android.useDeprecatedNdk=true
-'''
+```
 
 
 
@@ -62,15 +62,15 @@ android.useDeprecatedNdk=true
 
 6. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
 
-'''
+```
 <com.ooyala.android.ooyalaskinsdk.OoyalaSkinLayout
     android:id="@+id/ooyalaSkin"
 	...
 />
-'''
+```
 
 7. Modify your activity to use new **OoyalaSkinLayout**:
-'''
+```
 public void onCreate(Bundle savedInstanceState) {
     ...
     
@@ -93,4 +93,4 @@ public void onCreate(Bundle savedInstanceState) {
 	
 	...
 }
-'''
+```
