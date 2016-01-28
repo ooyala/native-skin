@@ -66,7 +66,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private static final String KEY_STATE = "state";
   private ClosedCaptionsView _closedCaptionsView;
   private int width,height;
-  private String shareTitle;
+  private String shareTitle,shareUrl;
   private float dpi,cal;
 
   @Override
@@ -244,13 +244,17 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     public void shareTitle(ReadableMap parameters) {
         shareTitle = parameters.getString("shareTitle");
     }
+    @ReactMethod
+    public void shareUrl(ReadableMap parameters) {
+        shareUrl = parameters.getString("shareUrl");
+    }
 
     private void handleShare() {
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
-        shareIntent.putExtra(Intent.EXTRA_TEXT,     "http://www.ooyala.com");
-        Intent chooserIntent = Intent.createChooser(shareIntent, "share to");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareTitle+"  "+shareUrl);
+        Intent chooserIntent = Intent.createChooser(shareIntent, "share via");
         chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getReactApplicationContext().startActivity(chooserIntent);
     }
@@ -325,7 +329,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       String promoUrl = currentItem.getPromoImageURL(2000, 2000);
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
 
-//      String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : @"";
+      String hostedAtUrl = _player.getCurrentItem().getHostedAtUrl();
+      params.putString("hostedAtUrl", hostedAtUrl != null ? hostedAtUrl : "");
+
       Double duration = currentItem.getDuration() / 1000.0;
       params.putDouble("duration", duration);
       params.putBoolean("live", currentItem.isLive());
