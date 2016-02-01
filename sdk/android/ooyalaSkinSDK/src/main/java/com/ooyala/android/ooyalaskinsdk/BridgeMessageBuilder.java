@@ -7,6 +7,10 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.item.Caption;
 import com.ooyala.android.item.Video;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Iterator;
 import java.util.Set;
 
@@ -104,6 +108,34 @@ class BridgeMessageBuilder {
         params.putDouble("end", caption.getEnd());
         params.putDouble("begin", caption.getBegin());
       }
+    }
+    return params;
+  }
+
+  public static WritableMap buildDiscoveryResultsReceivedParams(JSONArray results) {
+    WritableMap params = Arguments.createMap();
+
+    if(results!=null) {
+      WritableArray discoveryResults = Arguments.createArray();
+      for (int i = 0; i < results.length(); i++) {
+        JSONObject jsonObject = null;
+        try {
+          jsonObject = results.getJSONObject(i);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        WritableMap argument = Arguments.createMap();
+        int duration1 = Integer.parseInt(jsonObject.optString("duration").toString());
+        String embedCode = jsonObject.optString("embed_code").toString();
+        String imageUrl = jsonObject.optString("preview_image_url").toString();
+        String name = jsonObject.optString("name").toString();
+        argument.putString("name", name);
+        argument.putString("imageUrl", imageUrl);
+        argument.putInt("duration", duration1);
+        argument.putString("embedCode", embedCode);
+        discoveryResults.pushMap(argument);
+      }
+      params.putArray("results", discoveryResults);
     }
     return params;
   }

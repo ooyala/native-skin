@@ -11,7 +11,6 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.OoyalaException;
@@ -25,8 +24,6 @@ import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 import com.ooyala.android.captions.ClosedCaptionsView;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -64,33 +61,12 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @Override
   public void callback(Object results, OoyalaException error) {
-  JSONArray discoveryResult = (JSONArray) results;
-    if(discoveryResult!=null) {
-        WritableArray dresults = Arguments.createArray();
-          for (int i = 0; i < discoveryResult.length(); i++) {
-          JSONObject jsonObject = null;
-          try {
-            jsonObject = discoveryResult.getJSONObject(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-           WritableMap argument = Arguments.createMap();
-           int duration1 = Integer.parseInt(jsonObject.optString("duration").toString());
-           String embedCode = jsonObject.optString("embed_code").toString();
-           String imageUrl = jsonObject.optString("preview_image_url").toString();
-           String name = jsonObject.optString("name").toString();
-           argument.putString("name", name);
-           argument.putString("imageUrl", imageUrl);
-           argument.putInt("duration", duration1);
-           argument.putString("embedCode", embedCode);
-           dresults.pushMap(argument);
-          }
-            WritableMap discoveryresults1 = Arguments.createMap();
-            discoveryresults1.putArray("results", dresults);
-            this.getReactApplicationContext()
-                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit("discoveryResultsReceived", discoveryresults1);
-    }
+  JSONArray jsonResults = (JSONArray) results;
+  WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
+
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("discoveryResultsReceived", params);
   }
   @Override
   public String getName() {
@@ -102,13 +78,16 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     super(c);
     _layout = l;
     _layout.setFrameChangeListener(this);
+
     _player = p;
     _player.setLayoutController(this);
     _player.addObserver(this);
+
     DisplayMetrics metrics = c.getResources().getDisplayMetrics();
     dpi = metrics.densityDpi;
     cal = 160/dpi;
-    width = Math.round(_layout.getViewWidth()*cal);
+
+    width = Math.round(_layout.getViewWidth() * cal);
     height = Math.round(_layout.getViewHeight() * cal);
   }
 
@@ -151,7 +130,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     return false;
   }
 
-
   public boolean onKeyUp(int keyCode, KeyEvent event) {
     return false;
   }
@@ -182,16 +160,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
-    final String languageName;
-    if (parameters.hasKey("language")) {
-      languageName = parameters.getString("language");
-    }
-    else
-    {
-      languageName = null;
-    }
+    final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
     double curTime = _player.getPlayheadTime() / 1000d;
     WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
+
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit("onClosedCaptionUpdate", params);
@@ -199,15 +171,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onPress(ReadableMap parameters) {
-    final String buttonName;
-    if (parameters.hasKey("name")) {
-
-      buttonName = parameters.getString("name");
-    }
-    else
-    {
-      buttonName = null;
-    }
+    final String buttonName = parameters.hasKey("name") ? parameters.getString("name") : null;
     if (buttonName != null) {
       DebugMode.logD(TAG, "onPress with buttonName:" + buttonName);
       this.getReactApplicationContext().runOnUiQueueThread(new Runnable() {
@@ -219,7 +183,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             handlePlayPause();
           } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
             _isFullscreen = !isFullscreen();
-              setFullscreen(_isFullscreen);
+            setFullscreen(_isFullscreen);
           } else if (buttonName.equals(BUTTON_SHARE)) {
             handleShare();
           }
@@ -237,13 +201,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
 
     private void handleShare() {
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, shareTitle+"  "+shareUrl);
-        Intent chooserIntent = Intent.createChooser(shareIntent, "share via");
-        chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getReactApplicationContext().startActivity(chooserIntent);
+      Intent shareIntent = new Intent(Intent.ACTION_SEND);
+      shareIntent.setType("text/plain");
+      shareIntent.putExtra(Intent.EXTRA_SUBJECT, shareTitle);
+      shareIntent.putExtra(Intent.EXTRA_TEXT, shareTitle+"  "+shareUrl);
+      Intent chooserIntent = Intent.createChooser(shareIntent, "share via");
+      chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      getReactApplicationContext().startActivity(chooserIntent);
     }
 
   @Override
