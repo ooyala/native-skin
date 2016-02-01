@@ -170,7 +170,7 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
 
 OoyalaSkinCore.prototype.onAdStarted = function(e) {
   Log.log( "onAdStarted");
-  this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN});
+  this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, requireControls: e.requireControls});
 };
 
 OoyalaSkinCore.prototype.onAdSwitched = function(e) {
@@ -371,7 +371,8 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       locale={this.skin.props.locale}
       playing={this.skin.state.playing}
       loading={this.skin.state.loading}
-      initialPlay={this.skin.state.initialPlay}>
+      initialPlay={this.skin.state.initialPlay}
+      requireControls={this.skin.state.requireControls}>
     </VideoView>
   );
 };
