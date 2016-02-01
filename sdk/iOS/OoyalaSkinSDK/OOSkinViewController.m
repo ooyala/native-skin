@@ -236,14 +236,12 @@ static NSDictionary *kSkinCofig;
                              @"count":[NSNumber numberWithFloat:countSize.width],
                              @"title":[NSNumber numberWithFloat:titleSize.width],
                              @"prefix":[NSNumber numberWithFloat:titlePrefixSize.width]};
-   NSNumber *requireControls = [NSNumber numberWithBool:[adInfo[@"requireControls"]  boolValue]];
+  NSNumber *requireControls = [NSNumber numberWithBool:[adInfo[@"requireControls"]  boolValue]];
   
   NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
   [eventBody setObject:measures forKey:@"measures"];
   [eventBody setObject:adTitle forKey:@"title"];
- 
   [eventBody setObject:requireControls forKey:@"requireControls"];
-  
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   if (![adInfo[@"requireAdBar"] boolValue]) {
     _reactView.userInteractionEnabled = NO;
