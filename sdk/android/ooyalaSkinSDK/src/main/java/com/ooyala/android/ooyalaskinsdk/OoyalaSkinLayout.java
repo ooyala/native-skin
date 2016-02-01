@@ -3,7 +3,6 @@ package com.ooyala.android.ooyalaskinsdk;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
@@ -19,12 +18,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
-/**
- * Created by zchen on 9/21/15.
- */
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String REACT_JS_SERVER = "127.0.0.1:8081";
   private FrameLayout _playerFrame;
@@ -106,7 +100,7 @@ public class OoyalaSkinLayout extends FrameLayout {
     _rootView = new ReactRootView(getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
         .setApplication(app)
-        .setBundleAssetName("index.android.bundle")
+        .setBundleAssetName("index.android.jsbundle")
         .setJSMainModuleName("index.android")
         .addPackage(new OoyalaReactPackage(this, p))
         .setUseDeveloperSupport(BuildConfig.DEBUG)

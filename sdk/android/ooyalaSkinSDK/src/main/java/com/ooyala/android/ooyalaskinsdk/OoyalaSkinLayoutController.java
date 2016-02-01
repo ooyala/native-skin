@@ -2,14 +2,12 @@ package com.ooyala.android.ooyalaskinsdk;
 
 import android.content.Intent;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -20,22 +18,17 @@ import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.ClientId;
-import com.ooyala.android.item.Caption;
-import com.ooyala.android.item.Video;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
-import com.ooyala.android.OoyalaException;
 import com.ooyala.android.captions.ClosedCaptionsView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 /**
  * Created by zchen on 9/21/15.
@@ -197,19 +190,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     {
       languageName = null;
     }
-    Video currentItem = _player.getCurrentItem();
-      double currT = _player.getPlayheadTime() / 1000d;
-      Caption caption = currentItem.getClosedCaptions().getCaption(languageName, currT);
-      if (caption != null) {
-        WritableMap body = Arguments.createMap();
-        body.putString("text", caption.getText());
-        body.putDouble("end", caption.getEnd());
-        body.putDouble("begin", caption.getBegin());
-        this.getReactApplicationContext()
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("onClosedCaptionUpdate", body);
-    }
+    double curTime = _player.getPlayheadTime() / 1000d;
+    WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("onClosedCaptionUpdate", params);
   }
+
   @ReactMethod
   public void onPress(ReadableMap parameters) {
     final String buttonName;
@@ -318,33 +305,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   // notification bridges
   private void bridgeCurrentItemChangedNotification() {
-    WritableMap params = Arguments.createMap();
-    Video currentItem = _player.getCurrentItem();
-    if (currentItem != null) {
-      String title = currentItem.getTitle();
-      params.putString("title", title != null ? title : "");
-      String description = currentItem.getDescription();
-      params.putString("description", description != null ? description : "");
+    WritableMap params = BridgeMessageBuilder.buildCurrentItemChangedParams(_player, width, height);
 
-      String promoUrl = currentItem.getPromoImageURL(2000, 2000);
-      params.putString("promoUrl", promoUrl != null ? promoUrl : "");
-
-      String hostedAtUrl = _player.getCurrentItem().getHostedAtUrl();
-      params.putString("hostedAtUrl", hostedAtUrl != null ? hostedAtUrl : "");
-
-      Double duration = currentItem.getDuration() / 1000.0;
-      params.putDouble("duration", duration);
-      params.putBoolean("live", currentItem.isLive());
-      params.putInt("width", width);
-      params.putInt("height", height);
-      if (currentItem.hasClosedCaptions()) {
-          WritableArray languages = Arguments.createArray();
-          for (String s : currentItem.getClosedCaptions().getLanguages()) {
-              languages.pushString(s);
-          }
-          params.putArray("languages", languages);
-      }
-    }
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
@@ -357,33 +319,16 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private void bridgeStateChangedNotification() {
     WritableMap params = Arguments.createMap();
     params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
+
     DebugMode.logD(TAG, "state change event params are" + params.toString());
+
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
   }
 
   private void bridgeTimeChangedNotification() {
-    Double duration = _player.getDuration() / 1000.0;
-    Double playhead = _player.getPlayheadTime() / 1000.0;
-    WritableArray cuePoints = Arguments.createArray();
-    Set<Integer> cuePointsPercentValues = _player.getCuePointsInPercentage();
-    for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
-      int cuePointLocation =(int) Math.round ((i.next()/100.0)*duration);
-      cuePoints.pushInt(cuePointLocation);
-    }
-
-    WritableArray languages = Arguments.createArray();
-    Set<String> cclanguage = _player.getAvailableClosedCaptionsLanguages();
-    for (Iterator<String> j = cclanguage.iterator(); j.hasNext(); ) {
-      String languageItem=j.next();
-      languages.pushString(languageItem);
-    }
-    WritableMap params = Arguments.createMap();
-    params.putDouble("duration", duration);
-    params.putDouble("playhead", playhead);
-    params.putArray("availableClosedCaptionsLanguages", languages);
-    params.putArray("cuePoints", cuePoints);
+    WritableMap params = BridgeMessageBuilder.buildTimeChangedEvent(_player);
 
     onClosedCaptionChangeNotification();
     this.getReactApplicationContext()
@@ -392,21 +337,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void bridgePlayCompletedNotification() {
-    WritableMap params = Arguments.createMap();
-    Video currentItem = _player.getCurrentItem();
-    if (currentItem != null) {
-      String title = currentItem.getTitle();
-      params.putString("title", title != null ? title : "");
+    WritableMap params = BridgeMessageBuilder.buildPlayCompletedParams(_player);
 
-      String description = currentItem.getDescription();
-      params.putString("description", description != null ? description : "");
-
-      String promoUrl = currentItem.getPromoImageURL(2000, 2000);
-      params.putString("promoUrl", promoUrl != null ? promoUrl : "");
-      //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : "";
-      Double duration = currentItem.getDuration() / 1000.0;
-      params.putDouble("duration", duration);
-    }
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);
