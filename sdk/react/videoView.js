@@ -64,7 +64,8 @@ var VideoView = React.createClass({
     locale: React.PropTypes.string,
     playing: React.PropTypes.bool,
     loading: React.PropTypes.bool,
-    initialPlay: React.PropTypes.bool
+    initialPlay: React.PropTypes.bool,
+    requireControls: React.PropTypes.bool,
   },
 
   componentWillReceiveProps: function(nextProps) {
@@ -74,10 +75,11 @@ var VideoView = React.createClass({
       }
     }
     if (nextProps.ad) {
-      if (!nextProps.playing) {
-        this.setState({showControls: true});
-      } else {
+      if (!nextProps.requireControls || nextProps.playing) {
         this.setState({showControls: false});
+      }
+      else {
+        this.setState({showControls: true});
       }
     }
   },

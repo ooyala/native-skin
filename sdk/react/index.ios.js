@@ -52,6 +52,7 @@ var OoyalaSkin = React.createClass({
       error: null,
       volume: 0,          // between 0 and 1
       platform:PLATFORMS.IOS,
+      requireControls: true,
     };
   },
 
