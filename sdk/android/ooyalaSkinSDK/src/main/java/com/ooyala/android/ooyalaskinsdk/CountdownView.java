@@ -35,7 +35,11 @@ public class CountdownView extends View {
     private int fillColor;
     private float strokeWidth;
     private String text = null;
-    private String embedCode;
+    private WritableNativeMap data;
+
+    public void setData(WritableNativeMap data) {
+        this.data = data;
+    }
 
     public CountdownView(Context context) {
         super(context);
@@ -145,7 +149,7 @@ public class CountdownView extends View {
         ReactContext reactContext = (ReactContext)getContext();
         reactContext.getNativeModule(UIManagerModule.class).getEventDispatcher();
         reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit("onTimerCompleted", embedCode);
+                .emit("onTimerCompleted", data);
     }
 
     @Override
@@ -162,9 +166,5 @@ public class CountdownView extends View {
             float textHeight = textPaint.descent() + textPaint.ascent();
             canvas.drawText(text, (getWidth() - textPaint.measureText(this.text)) / 2.0f, (getWidth() - textHeight) / 2.0f, textPaint);
         }
-    }
-
-    public void setEmbedCode(String embedCode) {
-        this.embedCode = embedCode;
     }
 }

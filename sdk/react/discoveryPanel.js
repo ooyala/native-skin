@@ -63,9 +63,7 @@ var DiscoveryPanel = React.createClass({
     Regular CountdownView uses onTimerCompleted callback defined in jsx
   */
   onTimerCompleted: function(e: Event) {
-    var item = {embedCode:e}
-    item.embedCode = e
-    this.onRowSelected(item);
+    this.onRowSelected(e);
   },
 
   componentWillMount: function(e: Event) {
@@ -190,7 +188,7 @@ var DiscoveryPanel = React.createClass({
               max_time:10,
               progress:0,
               automatic:true}}
-            embedCode={item.embedCode}/>);
+              data={{embedCode:item.embedCode,bucketInfo:item.bucketInfo}}/>);
     }
     if(this.props.platform == Constants.PLATFORMS.IOS) {
       return (

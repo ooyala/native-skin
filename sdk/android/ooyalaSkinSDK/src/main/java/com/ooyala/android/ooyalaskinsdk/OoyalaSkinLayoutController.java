@@ -1,6 +1,7 @@
 package com.ooyala.android.ooyalaskinsdk;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -55,20 +56,25 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private OoyalaPlayer _player;
   private FCCTVRatingUI _tvRatingUI;
   private ClosedCaptionsView _closedCaptionsView;
+  private DiscoveryOptions discoveryOptions;
 
   private boolean _isFullscreen = false;
   private int width, height;
   private String shareTitle, shareUrl;
   private float dpi, cal;
 
+
   @Override
   public void callback(Object results, OoyalaException error) {
-  JSONArray jsonResults = (JSONArray) results;
-  WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
-
-  this.getReactApplicationContext()
-          .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-          .emit("discoveryResultsReceived", params);
+    if (results instanceof String && results.equals("OK")) {
+      DebugMode.logD(TAG,"feedback successful");
+    } else if (results instanceof JSONArray) {
+      JSONArray jsonResults = (JSONArray) results;
+      WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
+      this.getReactApplicationContext()
+              .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+              .emit("discoveryResultsReceived", params);
+    }
   }
   @Override
   public String getName() {
@@ -113,9 +119,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     else
     {
       _layout.setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+              View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
 
   }
@@ -357,10 +361,21 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onDiscoveryRow(ReadableMap parameters) {
+    String android_id = Settings.Secure.getString(getReactApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+    String bucketInfo=parameters.getString("bucketInfo");
+    String action=parameters.getString("action");
+    if (action.equals("click"))
+    {
+      DiscoveryManager.sendClick(discoveryOptions,bucketInfo,_player.getPcode(),android_id,null,this);
+    }
+    else if(action.equals("impress")){
+      DiscoveryManager.sendImpression(discoveryOptions,bucketInfo,_player.getPcode(),android_id,null,this);
+    }
   }
 
   private void requestDiscovery() {
-    DiscoveryManager.getResults(new DiscoveryOptions.Builder().build(),
+    discoveryOptions=new DiscoveryOptions.Builder().build();
+    DiscoveryManager.getResults(discoveryOptions,
             _player.getEmbedCode(),
             _player.getPcode(),
             ClientId.getId(_layout.getContext()), null, this);

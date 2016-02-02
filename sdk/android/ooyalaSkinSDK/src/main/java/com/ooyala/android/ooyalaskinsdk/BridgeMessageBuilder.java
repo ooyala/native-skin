@@ -129,6 +129,8 @@ class BridgeMessageBuilder {
         String embedCode = jsonObject.optString("embed_code").toString();
         String imageUrl = jsonObject.optString("preview_image_url").toString();
         String name = jsonObject.optString("name").toString();
+        String bucketInfo = jsonObject.optString("bucket_info").toString();
+        argument.putString("bucketInfo", bucketInfo);
         argument.putString("name", name);
         argument.putString("imageUrl", imageUrl);
         argument.putInt("duration", duration1);
