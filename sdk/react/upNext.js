@@ -13,7 +13,9 @@ var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/upNext.json'));
 var CountdownView = require('./widgets/countdownTimer');
+var CountdownViewAndroid = require('./widgets/countdownTimerAndroid');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
+var Constants = require('./constants');
 
 var descriptionMinWidth = 140;
 var thumbnailWidth = 175;
@@ -28,7 +30,8 @@ var UpNext = React.createClass({
     nextVideo: React.PropTypes.object,
     onPress: React.PropTypes.func,
     upNextDismissed: React.PropTypes.bool,
-    width: React.PropTypes.number
+    width: React.PropTypes.number,
+    platform:React.PropTypes.string
   },
 
   dismissUpNext: function() {
@@ -66,11 +69,37 @@ var UpNext = React.createClass({
     </TouchableHighlight>);
   },
 
+
+  renderCountdownTimer: function() {
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      return <CountdownViewAndroid style={styles.countdownView}
+        countdown={{
+          main_color:"#AAffffff",
+          secondary_color:"#AA808080",
+          fill_color:"#AA000000",
+          text_color:"#AAffffff",
+          stroke_width:5,
+          text_size:25,
+          max_time:this.upNextDuration(),
+          progress:parseInt((this.upNextDuration() - (this.props.duration-this.props.playhead))),
+          automatic:false}}/>
+    }
+    if(this.props.platform == Constants.PLATFORMS.IOS) {
+      return <CountdownView style={styles.countdownView}
+        automatic={false}
+        time={this.upNextDuration()}
+        timeLeft={this.props.duration - this.props.playhead}
+        radius={9}
+        fillAlpha={0.7} />
+    }
+  },
+
+
   render: function() {
 
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null) {
       var upNextWidth = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, thumbnailWidth, [0.8,1], [520]);
-
+      var countdown = this.renderCountdownTimer();
       var upNextImage = (
       <TouchableHighlight style={[styles.thumbnailContainer, {width: upNextWidth}]}
         onPress={this.clickUpNext}>
@@ -84,12 +113,7 @@ var UpNext = React.createClass({
       var upNextDescription = (
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
-            <CountdownView style={styles.countdownView}
-            automatic={false}
-            time={this.upNextDuration()}
-            timeLeft={this.props.duration - this.props.playhead}
-            radius={9}
-            fillAlpha={0.7} />
+            {countdown}
             <Text style={styles.title}>
               Up next: {this.props.nextVideo.name}
             </Text>

@@ -218,6 +218,9 @@ OoyalaSkinCore.prototype.onPlayComplete = function(e) {
 OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
   Log.log("onDiscoveryResult results are:", e.results);
   this.skin.setState({discoveryResults:e.results});
+  if(e.results) {
+    this.onSetNextVideo({nextVideo:e.results[0]})
+  }
 };
 
 OoyalaSkinCore.prototype.onStateChange = function(e) {

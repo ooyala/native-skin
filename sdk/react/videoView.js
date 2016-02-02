@@ -239,6 +239,7 @@ var VideoView = React.createClass({
       nextVideo={this.props.nextVideo}
       upNextDismissed={this.props.upNextDismissed}
       onPress={(value) => this.handlePress(value)}
+      platform={this.props.platform}
       width={this.props.width}/>;
   },
 

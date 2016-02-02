@@ -41,6 +41,7 @@ public class CountdownViewManager extends SimpleViewManager<CountdownView> {
         Integer textSize = countdown.getInt("text_size");
         Integer maxTime = countdown.getInt("max_time");
         Integer progress = countdown.getInt("progress");
+        Boolean automatic = countdown.getBoolean("automatic");
 
         view.setMaxTimeSec(maxTime);
         view.setTextSize(textSize);
@@ -51,8 +52,12 @@ public class CountdownViewManager extends SimpleViewManager<CountdownView> {
         view.setFillColor(Color.parseColor(fillColor));
         view.setText(String.valueOf(maxTime));
         view.setProgress(progress);
+        if(automatic) {
+            view.start();
+        } else {
+            view.setText(String.valueOf(maxTime - progress));
+        }
         view.invalidate();
-        view.start();
     }
 
     @ReactProp(name = "embedCode")
