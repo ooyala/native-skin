@@ -57,9 +57,9 @@ var DiscoveryPanel = React.createClass({
       counterTime: 0,
     };
   },
-  
+
   /*
-    onTimerCompleted is emitted by native CountdownViewAndroid component. 
+    onTimerCompleted is emitted by native CountdownViewAndroid component.
     Regular CountdownView uses onTimerCompleted callback defined in jsx
   */
   onTimerCompleted: function(e: Event) {
@@ -178,8 +178,8 @@ var DiscoveryPanel = React.createClass({
   renderCountdownTimer: function(item) {
     if(this.props.platform == Constants.PLATFORMS.ANDROID) {
       return (
-          <CountdownViewAndroid 
-            style={{width:44,height:44}} 
+          <CountdownViewAndroid
+            style={{width:44,height:44}}
             countdown={{
               main_color:"#AAffffff",
               secondary_color:"#AA808080",
@@ -188,7 +188,8 @@ var DiscoveryPanel = React.createClass({
               stroke_width:10,
               text_size:75,
               max_time:10,
-              progress:0}}
+              progress:0,
+              automatic:true}}
             embedCode={item.embedCode}/>);
     }
     if(this.props.platform == Constants.PLATFORMS.IOS) {
@@ -209,9 +210,9 @@ var DiscoveryPanel = React.createClass({
              onPress={this.onStatusPressed}
              onTimerCompleted={() => this.onRowSelected(item)} />);
     }
-                      
+
   },
-  
+
   renderItem: function(item: object, sectionID: number, itemID: number) {
     var title;
     if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
