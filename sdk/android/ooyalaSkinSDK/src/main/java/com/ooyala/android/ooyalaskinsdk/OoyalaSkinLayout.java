@@ -26,13 +26,13 @@ public class OoyalaSkinLayout extends FrameLayout {
   private ReactInstanceManager _reactInstanceManager;
   private ReactRootView _rootView;
   private int viewWidth,viewHeight,prevWidth,prevHeight;
-  private FrameChangeListener frameChangeListener;
+  private FrameChangeCallback frameChangeCallback;
 
-  public interface FrameChangeListener{
-      public void onFrameChange(int width, int height,int prevWidth,int prevHeight);
+  public interface FrameChangeCallback {
+      public void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
   }
-  public void setFrameChangeListener(FrameChangeListener frameChangeListener){
-      this.frameChangeListener=frameChangeListener;
+  public void setFrameChangeCallback(FrameChangeCallback fcCallback){
+      this.frameChangeCallback=fcCallback;
   }
 
   /**
@@ -70,7 +70,7 @@ public class OoyalaSkinLayout extends FrameLayout {
       prevWidth = xOld;
       prevHeight = yOld;
       try {
-          frameChangeListener.onFrameChange(viewWidth, viewHeight,prevWidth,prevHeight);
+        this.frameChangeCallback.onFrameChangeCallback(viewWidth, viewHeight, prevWidth, prevHeight);
       } catch (Exception e) {
           e.printStackTrace();
       }
