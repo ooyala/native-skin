@@ -14,6 +14,7 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
@@ -362,19 +363,27 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   @ReactMethod
   public void onDiscoveryRow(ReadableMap parameters) {
     String android_id = Settings.Secure.getString(getReactApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-    String bucketInfo=parameters.getString("bucketInfo");
-    String action=parameters.getString("action");
+    String bucketInfo = parameters.getString("bucketInfo");
+    String action = parameters.getString("action");
+    final String embedCode = parameters.getString("embedCode");
     if (action.equals("click"))
     {
-      DiscoveryManager.sendClick(discoveryOptions,bucketInfo,_player.getPcode(),android_id,null,this);
+      DiscoveryManager.sendClick(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          _player.setEmbedCode(embedCode);
+          _player.play();
+        }
+      });
     }
-    else if(action.equals("impress")){
-      DiscoveryManager.sendImpression(discoveryOptions,bucketInfo,_player.getPcode(),android_id,null,this);
+    else if(action.equals("impress")) {
+      DiscoveryManager.sendImpression(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
     }
   }
 
   private void requestDiscovery() {
-    discoveryOptions=new DiscoveryOptions.Builder().build();
+    discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
             _player.getEmbedCode(),
             _player.getPcode(),

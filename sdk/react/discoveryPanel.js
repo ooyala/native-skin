@@ -55,6 +55,7 @@ var DiscoveryPanel = React.createClass({
       opacity: new Animated.Value(0),
       showCountdownTimer: false,
       counterTime: 0,
+      impressed:false,
     };
   },
 
@@ -98,8 +99,9 @@ var DiscoveryPanel = React.createClass({
   },
 
   onRowImpressed: function(row) {
-    if (this.props.onRowAction) {
+    if (this.props.onRowAction && !this.state.impressed) {
       this.props.onRowAction({action:"impress", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.setImpressed(true);
     }
   },
 
@@ -111,6 +113,11 @@ var DiscoveryPanel = React.createClass({
     this.setState({
       counterTime: time,
       showCountdownTimer: true,
+    });
+  },
+  setImpressed: function(value) {
+    this.setState({
+      impressed:value,
     });
   },
 
