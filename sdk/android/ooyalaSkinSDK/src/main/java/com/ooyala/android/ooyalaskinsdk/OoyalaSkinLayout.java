@@ -11,7 +11,9 @@ import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.ooyalaskinsdk.util.JSONDeepMerge;
 import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
+import com.ooyala.android.util.DebugMode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class OoyalaSkinLayout extends FrameLayout {
+  private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
   private static final String REACT_JS_SERVER = "127.0.0.1:8081";
   private FrameLayout _playerFrame;
   private OoyalaPlayer _player;
@@ -76,7 +79,7 @@ public class OoyalaSkinLayout extends FrameLayout {
       }
   }
 
-  public void setupViews(Application app, OoyalaPlayer p) {
+  public void setupViews(Application app, OoyalaPlayer p, JSONObject skinOverrides) {
     FrameLayout.LayoutParams frameLP =
         new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -87,6 +90,8 @@ public class OoyalaSkinLayout extends FrameLayout {
     ReactUtil.setJSServer(REACT_JS_SERVER, getContext());
 
     JSONObject configJson = loadInitialProperties();
+    applySkinOverridesInPlace(configJson, skinOverrides);
+
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
       try {
@@ -142,6 +147,14 @@ public class OoyalaSkinLayout extends FrameLayout {
       return null;
     }
     return jsonObject;
+  }
+
+  private void applySkinOverridesInPlace(JSONObject initial, JSONObject skinOverrides) {
+    try {
+      JSONDeepMerge.inPlaceDeepMerge(initial, skinOverrides);
+    } catch (JSONException e) {
+      DebugMode.assertFail(TAG, "Could not apply skin overrides to the initial skin config!");
+    }
   }
 
   public int getViewWidth() {
