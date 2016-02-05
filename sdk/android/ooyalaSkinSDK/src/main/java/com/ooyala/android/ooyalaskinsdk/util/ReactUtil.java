@@ -21,6 +21,7 @@ public class ReactUtil {
         SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString("debug_http_host", host);
+        editor.putBoolean("js_dev_mode_debug", false);
         editor.apply();
     }
 

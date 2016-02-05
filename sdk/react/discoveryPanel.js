@@ -59,11 +59,13 @@ var DiscoveryPanel = React.createClass({
     };
   },
 
+
   /*
     onTimerCompleted is emitted by native CountdownViewAndroid component.
     Regular CountdownView uses onTimerCompleted callback defined in jsx
   */
   onTimerCompleted: function(e: Event) {
+   // timercompleted log
     this.onRowSelected(e);
   },
 
@@ -93,7 +95,8 @@ var DiscoveryPanel = React.createClass({
   },
 
   onRowSelected: function(row) {
-  	if (this.props.onRowAction) {
+  	if (this.props.onRowAction) {//log
+      console.log("when video clicked, playing discovery video");
   	  this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
   	}
   },
