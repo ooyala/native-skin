@@ -24,6 +24,7 @@ import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 import com.ooyala.android.captions.ClosedCaptionsView;
 import org.json.JSONArray;
+import org.json.JSONException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -57,9 +58,12 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private ClosedCaptionsView _closedCaptionsView;
 
   private boolean _isFullscreen = false;
+  private boolean _isUpNextDismiss = true;
   private int width, height;
   private String shareTitle, shareUrl;
   private float dpi, cal;
+  private WritableMap upNextParams=null;
+  private String upNextembedCode=null;
 
   @Override
   public void callback(Object results, OoyalaException error) {
@@ -69,7 +73,22 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   this.getReactApplicationContext()
           .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
           .emit("discoveryResultsReceived", params);
+
+    JSONArray nextVideo = null;
+    try {
+      nextVideo = jsonResults.getJSONArray(1);
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+    if (nextVideo != null ) {
+      upNextParams = BridgeMessageBuilder.buildUpnext(nextVideo);
+      upNextembedCode=BridgeMessageBuilder.getNextVideoEmbedCode();
+      this.getReactApplicationContext()
+              .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+              .emit("setNextVideo", upNextParams);
+    }
   }
+
   @Override
   public String getName() {
     return "OoyalaSkinLayoutController";
@@ -187,6 +206,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             setFullscreen(!isFullscreen());
           } else if (buttonName.equals(BUTTON_SHARE)) {
             handleShare();
+          } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
+            handleUpnextDismissed();
+          } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
+            handleUpnextClick();
           }
         }
       });
@@ -204,6 +227,21 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     } else {
       _player.play();
     }
+  }
+
+  private void handleUpnextDismissed() {
+    WritableMap body = Arguments.createMap();
+    body.putBoolean("upNextDismissed", _isUpNextDismiss);
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("upNextDismissed", body);
+  }
+
+  private void handleUpnextClick() {
+       if(BridgeMessageBuilder.getNextVideoEmbedCode()!=null) {
+          _player.setEmbedCode(BridgeMessageBuilder.getNextVideoEmbedCode());
+          _player.play();
+      }
   }
 
   @ReactMethod

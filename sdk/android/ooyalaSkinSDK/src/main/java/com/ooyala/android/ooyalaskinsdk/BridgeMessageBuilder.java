@@ -18,8 +18,8 @@ import java.util.Set;
  * Created by michael.len on 2/1/16.
  */
 class BridgeMessageBuilder {
-
-  public static WritableMap buildTimeChangedEvent (OoyalaPlayer player){
+  public static String nextVideoEmbedCode;
+  public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
     WritableMap params = Arguments.createMap();
 
     Double duration = player.getDuration() / 1000.0;
@@ -112,12 +112,44 @@ class BridgeMessageBuilder {
     return params;
   }
 
+    public static String getNextVideoEmbedCode(){
+        return nextVideoEmbedCode;
+    }
+
+
+  public static WritableMap buildUpnext (JSONArray results){
+    WritableMap params = Arguments.createMap();
+    if (results != null) {
+      WritableArray upNextResults = Arguments.createArray();
+      for (int i = 1; i < results.length(); i++) {
+        JSONObject jsonObject = null;
+        try {
+          jsonObject = results.getJSONObject(1);
+        } catch (JSONException e) {
+          e.printStackTrace();
+        }
+        WritableMap argument = Arguments.createMap();
+        int duration1 = Integer.parseInt(jsonObject.optString("duration").toString());
+        String embedCode=jsonObject.optString("embed_code").toString();
+        String imageUrl = jsonObject.optString("preview_image_url").toString();
+        String name = jsonObject.optString("name").toString();
+        argument.putString("name", name);
+          argument.putString("imageUrl", imageUrl);
+          argument.putInt("duration", duration1);
+          argument.putString("embedCode", embedCode);
+        upNextResults.pushMap(argument);
+      }
+      params.putArray("results", upNextResults);
+    }
+    return params;
+  }
+
+
   public static WritableMap buildDiscoveryResultsReceivedParams(JSONArray results) {
     WritableMap params = Arguments.createMap();
-
-    if(results!=null) {
+    if (results != null) {
       WritableArray discoveryResults = Arguments.createArray();
-      for (int i = 0; i < results.length(); i++) {
+      for (int i = 1; i < results.length(); i++) {
         JSONObject jsonObject = null;
         try {
           jsonObject = results.getJSONObject(i);
@@ -127,6 +159,8 @@ class BridgeMessageBuilder {
         WritableMap argument = Arguments.createMap();
         int duration1 = Integer.parseInt(jsonObject.optString("duration").toString());
         String embedCode = jsonObject.optString("embed_code").toString();
+          if(nextVideoEmbedCode==null)
+              nextVideoEmbedCode = jsonObject.optString("embed_code").toString();
         String imageUrl = jsonObject.optString("preview_image_url").toString();
         String name = jsonObject.optString("name").toString();
         argument.putString("name", name);
