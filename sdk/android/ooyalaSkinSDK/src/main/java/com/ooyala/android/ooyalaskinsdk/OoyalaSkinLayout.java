@@ -11,7 +11,10 @@ import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.ooyalaskinsdk.configuration.SkinOptions;
+import com.ooyala.android.ooyalaskinsdk.util.JSONDeepMerge;
 import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
+import com.ooyala.android.util.DebugMode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class OoyalaSkinLayout extends FrameLayout {
-  private static final String REACT_JS_SERVER = "127.0.0.1:8081";
+  private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
   private FrameLayout _playerFrame;
   private OoyalaPlayer _player;
   private ReactInstanceManager _reactInstanceManager;
@@ -76,7 +79,22 @@ public class OoyalaSkinLayout extends FrameLayout {
       }
   }
 
-  public void setupViews(Application app, OoyalaPlayer p) {
+  /**
+   * Initialize the Skin UI
+   * @param app The Application instance for your app
+   * @param p An initialized OoyalaPlayer
+   */
+  public void initializeSkin(Application app, OoyalaPlayer p) {
+    initializeSkin(app, p, new SkinOptions.Builder().build());
+  }
+
+  /**
+   * Initialize the Skin UI
+   * @param app The Application class for your app
+   * @param p An initialized OoyalaPlayer
+   * @param skinOptions a built SkinOptions instance for configuring the UI
+   */
+  public void initializeSkin(Application app, OoyalaPlayer p, SkinOptions skinOptions) {
     FrameLayout.LayoutParams frameLP =
         new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -84,9 +102,12 @@ public class OoyalaSkinLayout extends FrameLayout {
     _playerFrame = new FrameLayout(getContext());
     this.addView(_playerFrame, frameLP);
 
-    ReactUtil.setJSServer(REACT_JS_SERVER, getContext());
+    if (skinOptions.getEnableReactJSServer()) {
+      ReactUtil.setJSServer(skinOptions.getReactJSServerHost(), getContext());
+    }
+    JSONObject configJson = loadInitialProperties(skinOptions.getSkinConfigAssetName());
+    applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
 
-    JSONObject configJson = loadInitialProperties();
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
       try {
@@ -100,7 +121,7 @@ public class OoyalaSkinLayout extends FrameLayout {
     _rootView = new ReactRootView(getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
         .setApplication(app)
-        .setBundleAssetName("index.android.jsbundle")
+        .setBundleAssetName(skinOptions.getBundleAssetName())
         .setJSMainModuleName("index.android")
         .addPackage(new OoyalaReactPackage(this, p))
         .setUseDeveloperSupport(BuildConfig.DEBUG)
@@ -109,7 +130,9 @@ public class OoyalaSkinLayout extends FrameLayout {
         .build();
 
     // Reload JS from the react server.
+    if (skinOptions.getEnableReactJSServer()) {
       ReactUtil.reloadJs(_reactInstanceManager);
+    }
     _rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
     this.addView(_rootView, frameLP);
   }
@@ -118,11 +141,11 @@ public class OoyalaSkinLayout extends FrameLayout {
     return _playerFrame;
   }
 
-  private JSONObject loadInitialProperties() {
+  private JSONObject loadInitialProperties(String skinConfigAssetName) {
     String json = null;
     try {
 
-      InputStream is = getContext().getAssets().open("skin.json");
+      InputStream is = getContext().getAssets().open(skinConfigAssetName);
       int size = is.available();
       byte[] buffer = new byte[size];
       is.read(buffer);
@@ -142,6 +165,14 @@ public class OoyalaSkinLayout extends FrameLayout {
       return null;
     }
     return jsonObject;
+  }
+
+  private void applySkinOverridesInPlace(JSONObject initial, JSONObject skinOverrides) {
+    try {
+      JSONDeepMerge.inPlaceDeepMerge(initial, skinOverrides);
+    } catch (JSONException e) {
+      DebugMode.assertFail(TAG, "Could not apply skin overrides to the initial skin config!");
+    }
   }
 
   public int getViewWidth() {
