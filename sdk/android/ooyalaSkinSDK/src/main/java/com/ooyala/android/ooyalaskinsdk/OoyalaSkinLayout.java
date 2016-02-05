@@ -11,6 +11,7 @@ import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.ooyalaskinsdk.configuration.SkinOptions;
 import com.ooyala.android.ooyalaskinsdk.util.JSONDeepMerge;
 import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
 import com.ooyala.android.util.DebugMode;
@@ -23,7 +24,6 @@ import java.io.InputStream;
 
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
-  private static final String REACT_JS_SERVER = "127.0.0.1:8081";
   private FrameLayout _playerFrame;
   private OoyalaPlayer _player;
   private ReactInstanceManager _reactInstanceManager;
@@ -79,7 +79,11 @@ public class OoyalaSkinLayout extends FrameLayout {
       }
   }
 
-  public void setupViews(Application app, OoyalaPlayer p, JSONObject skinOverrides) {
+  public void setupViews(Application app, OoyalaPlayer p) {
+    setupViews(app, p, new SkinOptions.Builder().build());
+  }
+
+  public void setupViews(Application app, OoyalaPlayer p, SkinOptions skinOptions) {
     FrameLayout.LayoutParams frameLP =
         new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
@@ -87,10 +91,11 @@ public class OoyalaSkinLayout extends FrameLayout {
     _playerFrame = new FrameLayout(getContext());
     this.addView(_playerFrame, frameLP);
 
-    ReactUtil.setJSServer(REACT_JS_SERVER, getContext());
-
-    JSONObject configJson = loadInitialProperties();
-    applySkinOverridesInPlace(configJson, skinOverrides);
+    if (skinOptions.getEnableReactJSServer()) {
+      ReactUtil.setJSServer(skinOptions.getReactJSServerHost(), getContext());
+    }
+    JSONObject configJson = loadInitialProperties(skinOptions.getSkinConfigAssetName());
+    applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
 
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
@@ -105,7 +110,7 @@ public class OoyalaSkinLayout extends FrameLayout {
     _rootView = new ReactRootView(getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
         .setApplication(app)
-        .setBundleAssetName("index.android.jsbundle")
+        .setBundleAssetName(skinOptions.getBundleAssetName())
         .setJSMainModuleName("index.android")
         .addPackage(new OoyalaReactPackage(this, p))
         .setUseDeveloperSupport(BuildConfig.DEBUG)
@@ -114,7 +119,9 @@ public class OoyalaSkinLayout extends FrameLayout {
         .build();
 
     // Reload JS from the react server.
+    if (skinOptions.getEnableReactJSServer()) {
       ReactUtil.reloadJs(_reactInstanceManager);
+    }
     _rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
     this.addView(_rootView, frameLP);
   }
@@ -123,11 +130,11 @@ public class OoyalaSkinLayout extends FrameLayout {
     return _playerFrame;
   }
 
-  private JSONObject loadInitialProperties() {
+  private JSONObject loadInitialProperties(String skinConfigAssetName) {
     String json = null;
     try {
 
-      InputStream is = getContext().getAssets().open("skin.json");
+      InputStream is = getContext().getAssets().open(skinConfigAssetName);
       int size = is.available();
       byte[] buffer = new byte[size];
       is.read(buffer);
