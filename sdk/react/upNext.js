@@ -101,15 +101,16 @@ var UpNext = React.createClass({
       var upNextWidth = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, thumbnailWidth, [0.8,1], [520]);
       var countdown = this.renderCountdownTimer();
       var upNextImage = (
-      <TouchableHighlight style={[styles.thumbnailContainer, {width: upNextWidth}]}
-        onPress={this.clickUpNext}>
         <Image
           source={{uri: this.props.nextVideo.imageUrl}}
           style={[styles.thumbnail, {width: upNextWidth}]} >
-          <Text style={[{fontFamily: this.props.config.icons.play.fontFamilyName, color: "white"}, styles.countdownText]}>{this.props.config.icons.play.fontString}</Text>
+          <TouchableHighlight style={[styles.thumbnail, {width: upNextWidth}]}
+            onPress={this.clickUpNext}>
+            <Text style={[{fontFamily: this.props.config.icons.play.fontFamilyName, color: "white"}, styles.countdownText]}>{this.props.config.icons.play.fontString}</Text>
+          </TouchableHighlight>
         </Image>
-      </TouchableHighlight>
       );
+
       var upNextDescription = (
         <View style={styles.textContainer}>
           <View style={styles.titleContainer}>
