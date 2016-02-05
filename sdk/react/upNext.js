@@ -104,7 +104,7 @@ var UpNext = React.createClass({
         <Image
           source={{uri: this.props.nextVideo.imageUrl}}
           style={[styles.thumbnail, {width: upNextWidth}]} >
-          <TouchableHighlight style={[styles.thumbnailContainer, {width: upNextWidth}]}
+          <TouchableHighlight style={[styles.thumbnail, {width: upNextWidth}]}
             onPress={this.clickUpNext}>
             <Text style={[{fontFamily: this.props.config.icons.play.fontFamilyName, color: "white"}, styles.countdownText]}>{this.props.config.icons.play.fontString}</Text>
           </TouchableHighlight>

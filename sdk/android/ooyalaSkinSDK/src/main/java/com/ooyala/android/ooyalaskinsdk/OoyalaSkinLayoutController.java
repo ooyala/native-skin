@@ -64,29 +64,20 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private float dpi, cal;
   private WritableMap upNextParams=null;
   private String upNextembedCode=null;
+  private String nextVideoEmbedCode = null;
 
   @Override
   public void callback(Object results, OoyalaException error) {
   JSONArray jsonResults = (JSONArray) results;
+      try {
+        nextVideoEmbedCode = (String) jsonResults.getJSONObject(1).get("embed_code");
+      } catch (JSONException e) {
+          e.printStackTrace();
+      }
   WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
-
   this.getReactApplicationContext()
           .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
           .emit("discoveryResultsReceived", params);
-
-    JSONArray nextVideo = null;
-    try {
-      nextVideo = jsonResults.getJSONArray(1);
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-    if (nextVideo != null ) {
-      upNextParams = BridgeMessageBuilder.buildUpnext(nextVideo);
-      upNextembedCode=BridgeMessageBuilder.getNextVideoEmbedCode();
-      this.getReactApplicationContext()
-              .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-              .emit("setNextVideo", upNextParams);
-    }
   }
 
   @Override
@@ -238,10 +229,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void handleUpnextClick() {
-       if(BridgeMessageBuilder.getNextVideoEmbedCode()!=null) {
-          _player.setEmbedCode(BridgeMessageBuilder.getNextVideoEmbedCode());
-          _player.play();
-      }
+    if(nextVideoEmbedCode != null) {
+        _player.setEmbedCode(nextVideoEmbedCode);
+        _player.play();
+    }
   }
 
   @ReactMethod
