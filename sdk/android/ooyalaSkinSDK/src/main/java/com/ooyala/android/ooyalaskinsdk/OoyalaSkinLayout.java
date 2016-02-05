@@ -79,11 +79,22 @@ public class OoyalaSkinLayout extends FrameLayout {
       }
   }
 
-  public void setupViews(Application app, OoyalaPlayer p) {
-    setupViews(app, p, new SkinOptions.Builder().build());
+  /**
+   * Initialize the Skin UI
+   * @param app The Application instance for your app
+   * @param p An initialized OoyalaPlayer
+   */
+  public void initializeSkin(Application app, OoyalaPlayer p) {
+    initializeSkin(app, p, new SkinOptions.Builder().build());
   }
 
-  public void setupViews(Application app, OoyalaPlayer p, SkinOptions skinOptions) {
+  /**
+   * Initialize the Skin UI
+   * @param app The Application class for your app
+   * @param p An initialized OoyalaPlayer
+   * @param skinOptions a built SkinOptions instance for configuring the UI
+   */
+  public void initializeSkin(Application app, OoyalaPlayer p, SkinOptions skinOptions) {
     FrameLayout.LayoutParams frameLP =
         new FrameLayout.LayoutParams(
             FrameLayout.LayoutParams.MATCH_PARENT,
