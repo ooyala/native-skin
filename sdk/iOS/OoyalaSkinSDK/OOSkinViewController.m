@@ -380,6 +380,7 @@ static NSDictionary *kSkinCofig;
       self.view.alpha = 1.f;
     } completion:^(BOOL finished) {
       [_movieFullScreenView removeFromSuperview];
+      [_movieFullScreenView setFrame:CGRectZero];
     }];
   }
   if( wasPlaying ) {
