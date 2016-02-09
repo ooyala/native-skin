@@ -55,17 +55,18 @@ var DiscoveryPanel = React.createClass({
       opacity: new Animated.Value(0),
       showCountdownTimer: false,
       counterTime: 0,
+      impressed:true,
     };
   },
+
 
   /*
     onTimerCompleted is emitted by native CountdownViewAndroid component.
     Regular CountdownView uses onTimerCompleted callback defined in jsx
   */
   onTimerCompleted: function(e: Event) {
-    var item = {embedCode:e}
-    item.embedCode = e
-    this.onRowSelected(item);
+   // timercompleted log
+    this.onRowSelected(e);
   },
 
   componentWillMount: function(e: Event) {
@@ -94,14 +95,16 @@ var DiscoveryPanel = React.createClass({
   },
 
   onRowSelected: function(row) {
-  	if (this.props.onRowAction) {
+  	if (this.props.onRowAction) {//log
+      console.log("when video clicked, playing discovery video");
   	  this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
   	}
   },
 
   onRowImpressed: function(row) {
-    if (this.props.onRowAction) {
+    if (this.props.onRowAction && this.state.impressed) {
       this.props.onRowAction({action:"impress", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.setImpressed(false);
     }
   },
 
@@ -113,6 +116,11 @@ var DiscoveryPanel = React.createClass({
     this.setState({
       counterTime: time,
       showCountdownTimer: true,
+    });
+  },
+  setImpressed: function(value) {
+    this.setState({
+      impressed:value,
     });
   },
 
@@ -190,7 +198,7 @@ var DiscoveryPanel = React.createClass({
               max_time:10,
               progress:0,
               automatic:true}}
-            embedCode={item.embedCode}/>);
+              data={{embedCode:item.embedCode,bucketInfo:item.bucketInfo}}/>);
     }
     if(this.props.platform == Constants.PLATFORMS.IOS) {
       return (

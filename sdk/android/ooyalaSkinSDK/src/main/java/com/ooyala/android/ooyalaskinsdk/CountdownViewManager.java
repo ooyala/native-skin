@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -60,9 +61,14 @@ public class CountdownViewManager extends SimpleViewManager<CountdownView> {
         view.invalidate();
     }
 
-    @ReactProp(name = "embedCode")
-    public void setEmbedCode(final CountdownView view, String embedCode) {
-        view.setEmbedCode(embedCode);
+    @ReactProp(name = "data")
+    public void setData(final CountdownView view, ReadableMap data) {
+        WritableNativeMap argument = new WritableNativeMap();
+        String embedCode=data.getString("embedCode");
+        String bucketInfo=data.getString("bucketInfo");
+        argument.putString("embedCode",embedCode);
+        argument.putString("bucketInfo",bucketInfo);
+        view.setData(argument);
     }
 
 }

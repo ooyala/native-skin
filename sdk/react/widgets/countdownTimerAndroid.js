@@ -6,7 +6,7 @@ var iface = {
   propTypes: {
     ...View.propTypes,
     countdown: PropTypes.object,
-    embedCode: PropTypes.string,
+    data: PropTypes.object,
   }
 };
 

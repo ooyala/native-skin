@@ -35,6 +35,7 @@ var AdBar = React.createClass({
   },
 
   onLearnMore: function() { 
+    console.log(" on learnmore click");
     this.props.onPress(BUTTON_NAMES.LEARNMORE);
   }, 
 
@@ -85,6 +86,7 @@ var AdBar = React.createClass({
   },
 
   render: function() {
+    console.log("in ads render");
     var learnMoreButton;
     var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
     var textString = this.generateResponsiveText(showLearnMore);

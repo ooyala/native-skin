@@ -1,6 +1,7 @@
 package com.ooyala.android.ooyalaskinsdk;
 
 import android.content.Intent;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -13,7 +14,11 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
+
+import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.ClientId;
@@ -56,6 +61,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private OoyalaPlayer _player;
   private FCCTVRatingUI _tvRatingUI;
   private ClosedCaptionsView _closedCaptionsView;
+  private DiscoveryOptions discoveryOptions;
 
   private boolean _isFullscreen = false;
   private boolean _isUpNextDismiss = true;
@@ -66,18 +72,23 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private String upNextembedCode=null;
   private String nextVideoEmbedCode = null;
 
+
   @Override
   public void callback(Object results, OoyalaException error) {
-  JSONArray jsonResults = (JSONArray) results;
+    if (results instanceof String && results.equals("OK")) {
+      DebugMode.logD(TAG,"feedback successful");
+    } else if (results instanceof JSONArray) {
+      JSONArray jsonResults = (JSONArray) results;
       try {
         nextVideoEmbedCode = (String) jsonResults.getJSONObject(1).get("embed_code");
       } catch (JSONException e) {
-          e.printStackTrace();
+        e.printStackTrace();
       }
-  WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
-  this.getReactApplicationContext()
-          .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-          .emit("discoveryResultsReceived", params);
+      WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
+      this.getReactApplicationContext()
+              .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+              .emit("discoveryResultsReceived", params);
+    }
   }
 
   @Override
@@ -123,9 +134,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     else
     {
       _layout.setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+              View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
 
   }
@@ -201,6 +210,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             handleUpnextDismissed();
           } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
             handleUpnextClick();
+          } else if (buttonName.equals(BUTTON_LEARNMORE)) {
+            handleLearnMore();
           }
         }
       });
@@ -218,6 +229,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     } else {
       _player.play();
     }
+  }
+  private void handleLearnMore() {
+    //implment learn more
   }
 
   private void handleUpnextDismissed() {
@@ -241,7 +255,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
   @ReactMethod
   public void shareUrl(ReadableMap parameters) {
+
       shareUrl = parameters.getString("shareUrl");
+    System.out.println(" share url is " + shareUrl);
   }
 
   private void handleShare() {
@@ -272,8 +288,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgeTimeChangedNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION) {
       bridgePlayCompletedNotification();
-    } else if (arg1 == OoyalaPlayer.AD_STARTED_NOTIFICATION) {
-      bridgeAdStartNotification();
     } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION) {
       bridgeAdPodCompleteNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_STARTED_NOTIFICATION) {
@@ -283,6 +297,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgeErrorNotification();
     } else if (arg1 == OoyalaPlayer.CLOSED_CAPTIONS_LANGUAGE_CHANGED) {
       onClosedCaptionChangeNotification();
+    } else if (arg1 instanceof OoyalaNotification) {
+        String ooyalaNotification=((OoyalaNotification) arg1).getNotificationName();
+
+        if (ooyalaNotification == OoyalaPlayer.AD_STARTED_NOTIFICATION)
+        {
+            bridgeAdStartNotification(((OoyalaNotification) arg1).getData());
+        }
     }
   }
 
@@ -353,8 +374,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   }
 
-  private void bridgeAdStartNotification() {
-    WritableMap params = Arguments.createMap();
+  private void bridgeAdStartNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildAdsParams(data);
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
@@ -386,10 +407,30 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onDiscoveryRow(ReadableMap parameters) {
+    String android_id = Settings.Secure.getString(getReactApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+    String bucketInfo = parameters.getString("bucketInfo");
+    String action = parameters.getString("action");
+    final String embedCode = parameters.getString("embedCode");
+    if (action.equals("click"))
+    {
+      DiscoveryManager.sendClick(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          DebugMode.logD(TAG,"playing discovery video with embedCode "+embedCode);
+          _player.setEmbedCode(embedCode);
+          _player.play();
+        }
+      });
+    }
+    else if(action.equals("impress")) {
+      DiscoveryManager.sendImpression(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
+    }
   }
 
   private void requestDiscovery() {
-    DiscoveryManager.getResults(new DiscoveryOptions.Builder().build(),
+    discoveryOptions = new DiscoveryOptions.Builder().build();
+    DiscoveryManager.getResults(discoveryOptions,
             _player.getEmbedCode(),
             _player.getPcode(),
             ClientId.getId(_layout.getContext()), null, this);
