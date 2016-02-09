@@ -173,24 +173,24 @@ class BridgeMessageBuilder {
         Boolean controls=ad.isControls();
         params.putBoolean("requireControls", controls);
 
-        double title1=0;
+        //hard coded the values for learnMore for now to prevent from the crash and enabling the learnmore button.
+        double title1=74.672;
         argument.putDouble("title",title1);
 
-        double learnmore=0;
+        double learnmore=84.112;
         argument.putDouble("learnmore",learnmore);
 
-        double count=0;
+        double count=36.304;
         argument.putDouble("count",count);
 
-        double prefix=0;
+        double prefix=85.008;
         argument.putDouble("prefix",prefix);
 
-        double duration=0;
+        double duration=43.84;
         argument.putDouble("duration",duration);
 
         measures.pushMap(argument);
         params.putArray("measures", measures);
-
     }
     return params;
   }

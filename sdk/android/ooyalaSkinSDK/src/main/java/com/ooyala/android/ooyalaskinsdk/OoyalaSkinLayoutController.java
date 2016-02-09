@@ -195,6 +195,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             setFullscreen(!isFullscreen());
           } else if (buttonName.equals(BUTTON_SHARE)) {
             handleShare();
+          } else if (buttonName.equals(BUTTON_LEARNMORE)) {
+              handleLearnMore();
           }
         }
       });
@@ -214,6 +216,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
   }
 
+    private void handleLearnMore() {
+      //implment learn more
+    }
   @ReactMethod
   public void shareTitle(ReadableMap parameters) {
       shareTitle = parameters.getString("shareTitle");
