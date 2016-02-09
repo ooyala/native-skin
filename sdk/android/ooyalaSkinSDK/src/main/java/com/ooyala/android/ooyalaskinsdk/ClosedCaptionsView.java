@@ -1,24 +1,21 @@
 package com.ooyala.android.ooyalaskinsdk;
 
 import android.content.Context;
-import android.widget.TextView;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.accessibility.CaptioningManager;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
+import android.widget.TextView;
 
+import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Caption;
-import com.ooyala.android.captions.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,6 +53,7 @@ public class ClosedCaptionsView extends TextView {
   }
 
   public void setCaption(double begin, double end, String text, Double width) {
+    setTextColor(Color.GREEN);  //TODO: The TextColour was Transparent and captions are not visible so it has changed to Green for visibilty.
     caption = new Caption(begin, end, text);
     double preBegin = -1;
     if (this.caption != null) {

@@ -210,7 +210,11 @@ var VideoView = React.createClass({
   _renderClosedCaptions: function() {
     if(this.props.platform == Constants.PLATFORMS.ANDROID) {
       if (this.props.captionJSON) {
-      var caption= {end:this.props.captionJSON.end, begin:this.props.captionJSON.begin, text:this.props.captionJSON.text ,width:this.props.width}
+        var end = this.props.captionJSON.end == null ? 0.0 : this.props.captionJSON.end;
+        var begin = this.props.captionJSON.begin == null ? 0.0 : this.props.captionJSON.begin;
+        var text = this.props.captionJSON.text == null ? "" : this.props.captionJSON.text;
+        var caption = {end:end, begin:begin, text:text, width:this.props.width}
+        
         return (<ClosedCaptionsViewAndroid
           style={styles.closedCaptionAndroidStyle}
           caption={caption} />
