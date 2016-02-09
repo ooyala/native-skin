@@ -384,7 +384,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     WritableMap params = Arguments.createMap();
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.AD_COMPLETED_NOTIFICATION, params);
+            .emit(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
   }
 
   @Override
