@@ -19,8 +19,7 @@ import java.util.Set;
  * Created by michael.len on 2/1/16.
  */
 class BridgeMessageBuilder {
-
-  public static WritableMap buildTimeChangedEvent (OoyalaPlayer player){
+  public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
     WritableMap params = Arguments.createMap();
 
     Double duration = player.getDuration() / 1000.0;
@@ -115,10 +114,9 @@ class BridgeMessageBuilder {
 
   public static WritableMap buildDiscoveryResultsReceivedParams(JSONArray results) {
     WritableMap params = Arguments.createMap();
-
-    if(results!=null) {
+    if (results != null) {
       WritableArray discoveryResults = Arguments.createArray();
-      for (int i = 0; i < results.length(); i++) {
+      for (int i = 1; i < results.length(); i++) {
         JSONObject jsonObject = null;
         try {
           jsonObject = results.getJSONObject(i);

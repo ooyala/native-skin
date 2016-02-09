@@ -351,9 +351,8 @@ static NSDictionary *kSkinCofig;
     }
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     
-    if (CGRectEqualToRect(_movieFullScreenView.frame, CGRectZero)) {
-      [_movieFullScreenView setFrame:window.bounds];
-    }
+    [_movieFullScreenView setFrame:window.bounds];
+
     [window addSubview:_movieFullScreenView];
     [_movieFullScreenView addSubview:self.view];
     [self.view setFrame:window.bounds];

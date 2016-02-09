@@ -29,6 +29,7 @@ import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 import com.ooyala.android.captions.ClosedCaptionsView;
 import org.json.JSONArray;
+import org.json.JSONException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -63,9 +64,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private DiscoveryOptions discoveryOptions;
 
   private boolean _isFullscreen = false;
+  private boolean _isUpNextDismiss = true;
   private int width, height;
   private String shareTitle, shareUrl;
   private float dpi, cal;
+  private WritableMap upNextParams=null;
+  private String upNextembedCode=null;
+  private String nextVideoEmbedCode = null;
 
 
   @Override
@@ -74,12 +79,18 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       DebugMode.logD(TAG,"feedback successful");
     } else if (results instanceof JSONArray) {
       JSONArray jsonResults = (JSONArray) results;
+          try {
+            nextVideoEmbedCode = (String) jsonResults.getJSONObject(1).get("embed_code");
+          } catch (JSONException e) {
+              e.printStackTrace();
+          }
       WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
       this.getReactApplicationContext()
               .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
               .emit("discoveryResultsReceived", params);
     }
   }
+
   @Override
   public String getName() {
     return "OoyalaSkinLayoutController";
@@ -197,6 +208,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             handleShare();
           } else if (buttonName.equals(BUTTON_LEARNMORE)) {
               handleLearnMore();
+          } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
+            handleUpnextDismissed();
+          } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
+            handleUpnextClick();
           }
         }
       });
@@ -216,9 +231,25 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
   }
 
-    private void handleLearnMore() {
-      //implment learn more
+  private void handleLearnMore() {
+    //implment learn more
+  }
+  
+  private void handleUpnextDismissed() {
+    WritableMap body = Arguments.createMap();
+    body.putBoolean("upNextDismissed", _isUpNextDismiss);
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("upNextDismissed", body);
+  }
+
+  private void handleUpnextClick() {
+    if(nextVideoEmbedCode != null) {
+        _player.setEmbedCode(nextVideoEmbedCode);
+        _player.play();
     }
+  }
+
   @ReactMethod
   public void shareTitle(ReadableMap parameters) {
       shareTitle = parameters.getString("shareTitle");
