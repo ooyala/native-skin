@@ -53,7 +53,7 @@ public class ClosedCaptionsView extends TextView {
   }
 
   public void setCaption(double begin, double end, String text, Double width) {
-    setTextColor(Color.GREEN);
+    setTextColor(Color.GREEN);  //TODO: The TextColour was Transparent and captions are not visible so it has changed to Green for visibilty.
     caption = new Caption(begin, end, text);
     double preBegin = -1;
     if (this.caption != null) {
