@@ -15,7 +15,10 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
+
+import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.ClientId;
@@ -248,8 +251,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgeTimeChangedNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION) {
       bridgePlayCompletedNotification();
-    } else if (arg1 == OoyalaPlayer.AD_STARTED_NOTIFICATION) {
-      bridgeAdStartNotification();
     } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION) {
       bridgeAdPodCompleteNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_STARTED_NOTIFICATION) {
@@ -259,6 +260,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgeErrorNotification();
     } else if (arg1 == OoyalaPlayer.CLOSED_CAPTIONS_LANGUAGE_CHANGED) {
       onClosedCaptionChangeNotification();
+    } else if (arg1 instanceof OoyalaNotification) {
+        String ooyalaNotification=((OoyalaNotification) arg1).getNotificationName();
+
+        if (ooyalaNotification == OoyalaPlayer.AD_STARTED_NOTIFICATION)
+        {
+            bridgeAdStartNotification(((OoyalaNotification) arg1).getData());
+        }
     }
   }
 
@@ -329,8 +337,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   }
 
-  private void bridgeAdStartNotification() {
-    WritableMap params = Arguments.createMap();
+  private void bridgeAdStartNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildAdsParams(data);
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
@@ -372,6 +380,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
+          DebugMode.logD(TAG,"playing discovery video with embedCode "+embedCode);
           _player.setEmbedCode(embedCode);
           _player.play();
         }
