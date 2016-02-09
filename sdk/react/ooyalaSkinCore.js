@@ -170,6 +170,7 @@ OoyalaSkinCore.prototype.onTimeChange = function(e) { // todo: naming consistenc
 
 OoyalaSkinCore.prototype.onAdStarted = function(e) {
   Log.log( "onAdStarted");
+  Log.log(e);
   this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, requireControls: e.requireControls});
 };
 

@@ -68,21 +68,25 @@ var VideoView = React.createClass({
     requireControls: React.PropTypes.bool,
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    if (this.state.showControls) {
-      if ((new Date).getTime() - this.state.lastPressedTime > autohideDelay) {
-        this.setState({showControls: false});
-      }
-    }
-    if (nextProps.ad) {
-      if (!nextProps.requireControls || nextProps.playing) {
-        this.setState({showControls: false});
-      }
-      else {
-        this.setState({showControls: true});
-      }
-    }
-  },
+   componentWillReceiveProps: function(nextProps) {
+   if (this.state.showControls) {
+     if ((new Date).getTime() - this.state.lastPressedTime > autohideDelay) {
+       this.setState({showControls: false});
+     } else {
+       this.setState({showControls: true});
+     }
+   }
+   else if (nextProps.ad) {
+     if (!nextProps.requireControls || nextProps.playing) {
+       this.setState({showControls: false});
+     }
+     else {
+       this.setState({showControls: true});
+     }
+   } else {
+     this.setState({showControls: true});
+   }
+ },
 
   getInitialState: function() {
     return {

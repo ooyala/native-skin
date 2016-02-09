@@ -3,6 +3,7 @@ package com.ooyala.android.ooyalaskinsdk;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.item.Caption;
 import com.ooyala.android.item.Video;
@@ -127,6 +128,8 @@ class BridgeMessageBuilder {
         String embedCode = jsonObject.optString("embed_code").toString();
         String imageUrl = jsonObject.optString("preview_image_url").toString();
         String name = jsonObject.optString("name").toString();
+        String bucketInfo = jsonObject.optString("bucket_info").toString();
+        argument.putString("bucketInfo", bucketInfo);
         argument.putString("name", name);
         argument.putString("imageUrl", imageUrl);
         argument.putInt("duration", duration1);
@@ -134,6 +137,58 @@ class BridgeMessageBuilder {
         discoveryResults.pushMap(argument);
       }
       params.putArray("results", discoveryResults);
+    }
+    return params;
+  }
+
+  public static WritableMap buildAdsParams(Object data) {
+    WritableMap params = Arguments.createMap();
+    WritableArray measures = Arguments.createArray();
+    WritableMap argument = Arguments.createMap();
+
+    if(data != null)
+    {
+        AdPodInfo ad = (AdPodInfo) data;
+
+        String title = ad.getTitle();
+        params.putString("title", title != null ? title : "");
+
+        String description = ad.getDescription();
+        params.putString("description", description != null ? description : "");
+
+        String clickUrl = ad.getClickUrl();
+        params.putString("clickUrl", clickUrl != null ? clickUrl : "");
+
+        int adsCount = ad.getAdsCount();
+        params.putInt("count", adsCount);
+
+        int unplayedCount = ad.getUnplayedCount();
+        params.putInt("unplayedCount", unplayedCount);
+
+        Boolean adBar =ad.isAdbar();
+        params.putBoolean("requireAdBar", adBar);
+
+        Boolean controls=ad.isControls();
+        params.putBoolean("requireControls", controls);
+
+        //hard coded the values for learnMore for now to prevent from the crash and enabling the learnmore button.
+        double title1=74.672;
+        argument.putDouble("title",title1);
+
+        double learnmore=84.112;
+        argument.putDouble("learnmore",learnmore);
+
+        double count=36.304;
+        argument.putDouble("count",count);
+
+        double prefix=85.008;
+        argument.putDouble("prefix",prefix);
+
+        double duration=43.84;
+        argument.putDouble("duration",duration);
+
+        measures.pushMap(argument);
+        params.putArray("measures", measures);
     }
     return params;
   }

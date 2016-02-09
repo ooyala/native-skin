@@ -7,6 +7,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.uimanager.ViewManager;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.util.DebugMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,11 @@ import java.util.List;
  */
 
 class OoyalaReactPackage extends MainReactPackage {
+  private static final String TAG = OoyalaReactPackage.class.getSimpleName();
   private OoyalaSkinLayout _layout;
   private OoyalaPlayer _player;
   private ReactPackage _mainPackage;
+  private OoyalaSkinLayoutController _layoutcontroller;
 
   public OoyalaReactPackage(OoyalaSkinLayout l, OoyalaPlayer p) {
     super();
@@ -30,7 +33,12 @@ class OoyalaReactPackage extends MainReactPackage {
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
     modules.addAll(super.createNativeModules(reactContext));
-    modules.add(new OoyalaSkinLayoutController(reactContext, _layout, _player));
+    if (_layoutcontroller != null) {
+      DebugMode.logE(TAG, "createNativeModules called twice, trying to remove the older LayoutController");
+      _player.deleteObserver(_layoutcontroller);
+    }
+    _layoutcontroller = new OoyalaSkinLayoutController(reactContext, _layout, _player);
+    modules.add(_layoutcontroller);
     return modules;
   }
 
