@@ -72,19 +72,12 @@ var VideoView = React.createClass({
    if (this.state.showControls) {
      if ((new Date).getTime() - this.state.lastPressedTime > autohideDelay) {
        this.setState({showControls: false});
-     } else {
-       this.setState({showControls: true});
      }
    }
    else if (nextProps.ad) {
      if (!nextProps.requireControls || nextProps.playing) {
        this.setState({showControls: false});
      }
-     else {
-       this.setState({showControls: true});
-     }
-   } else {
-     this.setState({showControls: true});
    }
  },
 
