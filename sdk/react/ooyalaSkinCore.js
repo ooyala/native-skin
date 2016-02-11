@@ -375,8 +375,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       locale={this.skin.props.locale}
       playing={this.skin.state.playing}
       loading={this.skin.state.loading}
-      initialPlay={this.skin.state.initialPlay}
-      requireControls={this.skin.state.requireControls}>
+      initialPlay={this.skin.state.initialPlay}>
     </VideoView>
   );
 };
