@@ -1,8 +1,10 @@
 package com.ooyala.android.ooyalaskinsdk;
 
 import android.content.Context;
+import android.database.ContentObserver;
 import android.graphics.PorterDuff;
 import android.media.AudioManager;
+import android.os.Handler;
 import android.widget.SeekBar;
 
 /**
@@ -19,6 +21,16 @@ public class VolumeView extends SeekBar implements SeekBar.OnSeekBarChangeListen
         setProgress(audioManager.getStreamVolume(AudioManager.STREAM_MUSIC));
         setMax(audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC));
         setOnSeekBarChangeListener(this);
+
+        VolumeContentObserver volumeObserver = new VolumeContentObserver(context, new Handler(), new VolumeChangedListener() {
+            @Override
+            public void onVolumeChanged(int volume) {
+                setProgress(volume);
+            }
+        });
+
+        context.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, volumeObserver);
+
     }
 
     @Override
@@ -35,5 +47,41 @@ public class VolumeView extends SeekBar implements SeekBar.OnSeekBarChangeListen
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    /**
+     * Observes external volume change (e.g. hardware volume buttons)
+     * and sets new progress of VolumeView.
+     *
+     */
+    private class VolumeContentObserver extends ContentObserver {
+
+        private Context context;
+        private VolumeChangedListener listener;
+
+        public VolumeContentObserver(Context context, Handler handler, VolumeChangedListener listener) {
+            super(handler);
+            this.context = context;
+            this.listener = listener;
+        }
+
+        @Override
+        public boolean deliverSelfNotifications() {
+            return super.deliverSelfNotifications();
+        }
+
+        @Override
+        public void onChange(boolean selfChange) {
+            super.onChange(selfChange);
+            AudioManager audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
+            int volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            if(listener != null) {
+                listener.onVolumeChanged(volume);
+            }
+        }
+    }
+
+    private interface VolumeChangedListener {
+        void onVolumeChanged(int volume);
     }
 }

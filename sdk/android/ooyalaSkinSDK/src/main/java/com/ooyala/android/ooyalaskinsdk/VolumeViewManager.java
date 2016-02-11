@@ -24,14 +24,14 @@ public class VolumeViewManager extends SimpleViewManager<VolumeView> {
         return new VolumeView(context);
     }
 
-    @ReactProp(name = "volumeview")
-    public void setCaption(VolumeView view, ReadableMap params) {
-        String progressColor = params.getString("progressColor");
-        String thumbColor = params.getString("thumbColor");
+    @ReactProp(name = "progressColor")
+    public void setProgressColor(VolumeView view, String progressColor) {
         view.getProgressDrawable().setColorFilter(Color.parseColor(progressColor), PorterDuff.Mode.MULTIPLY);
-        view.getThumb().setColorFilter(Color.parseColor(thumbColor), PorterDuff.Mode.MULTIPLY);
     }
 
-
+    @ReactProp(name = "thumbColor")
+    public void setThumbColor(VolumeView view, String thumbColor) {
+        view.getThumb().setColorFilter(Color.parseColor(thumbColor), PorterDuff.Mode.SRC_IN);
+    }
 
 }
