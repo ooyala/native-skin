@@ -121,7 +121,7 @@ var ControlBar = React.createClass({
         iconOff: this.props.config.icons.volumeOff,
         showVolume: this.state.showVolume && this.props.platform !== Constants.PLATFORMS.ANDROID, //TODO: Hide volume until it is implemented
         volume: this.props.volume,
-        scrubberStyle: styles.volumeSlider,
+        scrubberStyle: styles.volumeSlider
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
