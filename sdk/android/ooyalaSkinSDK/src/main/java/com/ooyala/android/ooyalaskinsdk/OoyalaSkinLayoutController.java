@@ -409,6 +409,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     ReactContext context = this.getReactApplicationContext();
     if (context.hasActiveCatalystInstance()) {
       context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
+    } else {
+      DebugMode.logW("TAG", "Trying to send an event without an active Catalyst Instance: " + eventName + ", Params:" + params.toString());
     }
   }
 }
