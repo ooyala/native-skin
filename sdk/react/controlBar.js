@@ -122,8 +122,7 @@ var ControlBar = React.createClass({
         showVolume: this.state.showVolume,
         volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
-        progressColor:this.props.config.controlBar.volumeView.progressColor,
-        thumbColor:this.props.config.controlBar.volumeView.thumbColor
+        volumeControlColor:this.props.config.controlBar.volumeControl.color,
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
