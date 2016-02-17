@@ -181,15 +181,15 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
-    WritableMap params;
+
     // ignore the request if cc is not available
     if (_player == null || _player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
-       params = Arguments.createMap();
-    } else {
-      final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
-      double curTime = _player.getPlayheadTime() / 1000d;
-      params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
+      return;
     }
+
+    final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
+    double curTime = _player.getPlayheadTime() / 1000d;
+    WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
     sendEvent("onClosedCaptionUpdate", params);
   }
 

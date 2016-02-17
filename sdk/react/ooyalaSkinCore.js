@@ -195,7 +195,8 @@ OoyalaSkinCore.prototype.onCurrentItemChange = function(e) {
     hostedAtUrl: e.hostedAtUrl,
     playhead:e.playhead,
     width:e.width,
-    height:e.height});
+    height:e.height,
+    captionJSON:null});
   if (!this.skin.state.autoPlay) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
   };
