@@ -101,7 +101,7 @@ class BridgeMessageBuilder {
   public static WritableMap buildClosedCaptionUpdateParams(OoyalaPlayer player, String language, double currentTime) {
     WritableMap params = Arguments.createMap();
     Video currentItem = player.getCurrentItem();
-    if (currentItem != null) {
+    if (currentItem != null && currentItem.getClosedCaptions() != null) {
       Caption caption = currentItem.getClosedCaptions().getCaption(language, currentTime);
       if (caption != null) {
         params.putString("text", caption.getText());
