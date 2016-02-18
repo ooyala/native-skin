@@ -36,6 +36,7 @@ var rectWidth = 176;
 var rectHeight = 160;
 var widthThreshold = 300;
 
+var timerListenerAndroid;
 var DiscoveryPanel = React.createClass({
 
   propTypes: {
@@ -68,11 +69,11 @@ var DiscoveryPanel = React.createClass({
   },
 
   componentWillMount: function(e: Event) {
-    DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted)
+    timerListenerAndroid = DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted)
   },
 
   componentWillUnMount: function() {
-    DeviceEventEmitter.removeListener('onTimerCompleted', this.onTimerCompleted);
+    timerListenerAndroid.remove();
   },
 
   componentDidMount:function () {
@@ -94,7 +95,9 @@ var DiscoveryPanel = React.createClass({
 
   onRowSelected: function(row) {
   	if (this.props.onRowAction) {
-  	  this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+        this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+        this.setState({showCountdownTimer: false});
+        timerListenerAndroid.remove();
   	}
   },
 
