@@ -212,9 +212,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
           } else if (buttonName.equals(BUTTON_LEARNMORE)) {
               handleLearnMore();
           } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
-            handleUpnextDismissed();
+            handleUpNextDismissed();
           } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
-            handleUpnextClick();
+            handleUpNextClick();
           }
         }
       });
@@ -238,7 +238,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     //implement learn more
   }
   
-  private void handleUpnextDismissed() {
+  private void handleUpNextDismissed() {
     WritableMap body = Arguments.createMap();
     _isUpNextDismissed = true;
     body.putBoolean("upNextDismissed", _isUpNextDismissed);
@@ -247,7 +247,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             .emit("upNextDismissed", body);
   }
 
-  private void handleUpnextClick() {
+  private void handleUpNextClick() {
     if(nextVideoEmbedCode != null) {
         _player.setEmbedCode(nextVideoEmbedCode);
         _player.play();
@@ -293,7 +293,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgePlayCompletedNotification();
       if(!_isUpNextDismissed)
       {
-        handleUpnextClick();
+        handleUpNextClick();
       }
     } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION) {
       bridgeAdPodCompleteNotification();
