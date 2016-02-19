@@ -64,7 +64,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private DiscoveryOptions discoveryOptions;
 
   private boolean _isFullscreen = false;
-  private boolean _isUpNextDismiss = true;
+  private boolean _isUpNextDismiss = false;
   private int width, height;
   private String shareTitle, shareUrl;
   private float dpi, cal;
@@ -232,12 +232,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void handleLearnMore() {
-    //implment learn more
+    //implement learn more
   }
   
   private void handleUpnextDismissed() {
     WritableMap body = Arguments.createMap();
-    body.putBoolean("upNextDismissed", _isUpNextDismiss);
+    _isUpNextDismiss=true;
+    body.putBoolean("upNextDismissed",_isUpNextDismiss);
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit("upNextDismissed", body);
@@ -287,6 +288,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgeTimeChangedNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION) {
       bridgePlayCompletedNotification();
+      if(!_isUpNextDismiss)
+      {
+        handleUpnextClick();
+      }
     } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION) {
       bridgeAdPodCompleteNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_STARTED_NOTIFICATION) {
