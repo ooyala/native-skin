@@ -65,26 +65,16 @@ var VideoView = React.createClass({
     playing: React.PropTypes.bool,
     loading: React.PropTypes.bool,
     initialPlay: React.PropTypes.bool,
-    requireControls: React.PropTypes.bool,
   },
 
    componentWillReceiveProps: function(nextProps) {
-   if (this.state.showControls) {
-     if ((new Date).getTime() - this.state.lastPressedTime > autohideDelay) {
-       this.setState({showControls: false});
-     }
-   }
-   else if (nextProps.ad) {
-     if (!nextProps.requireControls || nextProps.playing) {
-       this.setState({showControls: false});
-     }
-   }
+
  },
 
   getInitialState: function() {
     return {
-      showControls: false,
       showSharePanel: false,
+      lastPressedTime: new Date(0)
     };
   },
 
@@ -113,6 +103,7 @@ var VideoView = React.createClass({
   },
 
   handlePress: function(name) {
+    Log.verbose("VideoView Handle Press: " + name);
     this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
       if (name == "LIVE") {
@@ -121,18 +112,8 @@ var VideoView = React.createClass({
         this.props.onPress(name);
       }
     } else {
-      this.toggleControls();
+      this.props.onPress(name);
     }
-  },
-
-  toggleControls: function() {
-    var nextShowControls = !this.state.showControls;
-    if (this.props.ad) {
-      if (!this.props.config.adScreen.showControlBar) {
-        nextShowControls = false;
-      }
-    }
-    this.setState({showControls:nextShowControls});
   },
 
   _renderBottomOverlay: function(show) {
@@ -309,25 +290,38 @@ var VideoView = React.createClass({
   },
 
   handleTouchEnd: function(event) {
-    this.setState({lastPressedTime: new Date().getTime()});
-    this.toggleControls();
+    var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
+    if (isPastAutoHideTime) {
+      this.setState({lastPressedTime: new Date().getTime()});
+    } else {
+      this.setState({lastPressedTime: new Date(0)})
+    }
   },
 
   render: function() {
+    var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
+    var doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
+    // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
+    // var isAdPaused = this.props.ad && !this.props.playing;
+    var isContent = !this.props.ad;
+
+    var shouldShowControls = !isPastAutoHideTime && (doesAdRequireControls || isContent);
+
     var adBar = null;
     if (this.props.ad) {
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
     }
+
     return (
       <View
         style={styles.container}>
         {adBar}
-        {this._renderVideoWaterMark(this.state.showControls)}
+        {this._renderVideoWaterMark(shouldShowControls)}
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
-        {this._renderPlayPause(this.state.showControls)}
+        {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
-        {this._renderBottomOverlay(this.state.showControls)}
+        {this._renderBottomOverlay(shouldShowControls)}
       </View>
     );
   }

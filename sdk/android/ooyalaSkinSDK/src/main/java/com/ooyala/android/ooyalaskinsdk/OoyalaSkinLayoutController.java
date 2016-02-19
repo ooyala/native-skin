@@ -9,29 +9,31 @@ import android.view.View;
 import android.widget.FrameLayout;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
-
-import com.ooyala.android.AdPodInfo;
+import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
-import com.ooyala.android.ClientId;
+import com.ooyala.android.captions.ClosedCaptionsView;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
-import com.ooyala.android.captions.ClosedCaptionsView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.util.Observable;
 import java.util.Observer;
+
+import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 /**
  * Created by zchen on 9/21/15.
@@ -64,7 +66,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private DiscoveryOptions discoveryOptions;
 
   private boolean _isFullscreen = false;
-  private boolean _isUpNextDismiss = false;
+  private boolean _isUpNextDismissed = false;
   private int width, height;
   private String shareTitle, shareUrl;
   private float dpi, cal;
@@ -85,9 +87,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
               e.printStackTrace();
           }
       WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
-      this.getReactApplicationContext()
-              .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-              .emit("discoveryResultsReceived", params);
+      sendEvent("discoveryResultsReceived", params);
     }
   }
 
@@ -181,13 +181,16 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   @ReactMethod
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
+
+    // ignore the request if cc is not available
+    if (_player == null || _player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
+      return;
+    }
+
     final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
     double curTime = _player.getPlayheadTime() / 1000d;
     WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
-
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit("onClosedCaptionUpdate", params);
+    sendEvent("onClosedCaptionUpdate", params);
   }
 
   @ReactMethod
@@ -237,8 +240,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   
   private void handleUpnextDismissed() {
     WritableMap body = Arguments.createMap();
-    _isUpNextDismiss=true;
-    body.putBoolean("upNextDismissed",_isUpNextDismiss);
+    _isUpNextDismissed = true;
+    body.putBoolean("upNextDismissed", _isUpNextDismissed);
     this.getReactApplicationContext()
             .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
             .emit("upNextDismissed", body);
@@ -288,7 +291,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgeTimeChangedNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION) {
       bridgePlayCompletedNotification();
-      if(!_isUpNextDismiss)
+      if(!_isUpNextDismissed)
       {
         handleUpnextClick();
       }
@@ -319,20 +322,13 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private void bridgeStateChangedNotification() {
     WritableMap params = Arguments.createMap();
     params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
-
     DebugMode.logD(TAG, "state change event params are" + params.toString());
-
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
+    sendEvent(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
   }
 
   private void bridgeCurrentItemChangedNotification() {
     WritableMap params = BridgeMessageBuilder.buildCurrentItemChangedParams(_player, width, height);
-
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
+    sendEvent(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
 
 //    if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
 //      [self loadDiscovery:_player.currentItem.embedCode];
@@ -341,24 +337,16 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   private void bridgeTimeChangedNotification() {
     WritableMap params = BridgeMessageBuilder.buildTimeChangedEvent(_player);
-
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
+    sendEvent(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
   }
 
   private void bridgePlayCompletedNotification() {
     WritableMap params = BridgeMessageBuilder.buildPlayCompletedParams(_player);
-
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);
+    sendEvent(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);
   }
 
   private void bridgePlayStartedNotification() {
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.PLAY_STARTED_NOTIFICATION, null);
+    sendEvent(OoyalaPlayer.PLAY_STARTED_NOTIFICATION, null);
   }
 
   private void bridgeErrorNotification() {
@@ -372,24 +360,17 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       params.putString("description", descrptions != null ? descrptions : "");
     }
 
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.ERROR_NOTIFICATION, params);
-
+    sendEvent(OoyalaPlayer.ERROR_NOTIFICATION, params);
   }
 
   private void bridgeAdStartNotification(Object data) {
     WritableMap params = BridgeMessageBuilder.buildAdsParams(data);
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
+    sendEvent(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
   }
 
   private void bridgeAdPodCompleteNotification() {
     WritableMap params = Arguments.createMap();
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
+    sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
   }
 
   @Override
@@ -403,10 +384,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     params.putInt("height", height);
     params.putBoolean("fullscreen",_isFullscreen);
 
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit("frameChanged", params);
-
+    sendEvent("frameChanged", params);
   }
 
   @ReactMethod
@@ -438,5 +416,14 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             _player.getEmbedCode(),
             _player.getPcode(),
             ClientId.getId(_layout.getContext()), null, this);
+  }
+
+  private void sendEvent(String eventName, ReadableMap params) {
+    ReactContext context = this.getReactApplicationContext();
+    if (context.hasActiveCatalystInstance()) {
+      context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
+    } else {
+      DebugMode.logW("TAG", "Trying to send an event without an active Catalyst Instance: " + eventName + ", Params:" + params.toString());
+    }
   }
 }
