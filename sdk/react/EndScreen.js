@@ -43,6 +43,7 @@ var EndScreen = React.createClass({
     onPress: React.PropTypes.func,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
+    upNextDismissed: React.PropTypes.bool,
     discoveryPanel: React.PropTypes.object,
     socialPanel: React.PropTypes.object
   },
@@ -144,7 +145,7 @@ var EndScreen = React.createClass({
         icons: this.props.config.icons
       }}/>);
     if (this.props.config.endScreen.screenToShowOnEnd == 'discovery' &&
-      this.props.discoveryPanel && this.state.showDiscoveryPanel) {
+      this.props.discoveryPanel && this.state.showDiscoveryPanel && this.props.upNextDismissed) {
       return this._renderDiscoveryScreen();
     } else {
       return this._renderDefaultScreen(progressBar, controlBar);

@@ -66,7 +66,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private DiscoveryOptions discoveryOptions;
 
   private boolean _isFullscreen = false;
-  private boolean _isUpNextDismiss = true;
+  private boolean _isUpNextDismissed = false;
   private int width, height;
   private String shareTitle, shareUrl;
   private float dpi, cal;
@@ -212,9 +212,9 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
           } else if (buttonName.equals(BUTTON_LEARNMORE)) {
               handleLearnMore();
           } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
-            handleUpnextDismissed();
+            handleUpNextDismissed();
           } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
-            handleUpnextClick();
+            handleUpNextClick();
           }
         }
       });
@@ -235,16 +235,19 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void handleLearnMore() {
-    //implment learn more
+    //implement learn more
   }
   
-  private void handleUpnextDismissed() {
+  private void handleUpNextDismissed() {
     WritableMap body = Arguments.createMap();
-    body.putBoolean("upNextDismissed", _isUpNextDismiss);
-    sendEvent("upNextDismissed", body);
+    _isUpNextDismissed = true;
+    body.putBoolean("upNextDismissed", _isUpNextDismissed);
+    this.getReactApplicationContext()
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+            .emit("upNextDismissed", body);
   }
 
-  private void handleUpnextClick() {
+  private void handleUpNextClick() {
     if(nextVideoEmbedCode != null) {
         _player.setEmbedCode(nextVideoEmbedCode);
         _player.play();
@@ -288,6 +291,10 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
       bridgeTimeChangedNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION) {
       bridgePlayCompletedNotification();
+      if(!_isUpNextDismissed)
+      {
+        handleUpNextClick();
+      }
     } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION) {
       bridgeAdPodCompleteNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_STARTED_NOTIFICATION) {
