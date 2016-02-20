@@ -186,9 +186,8 @@ class BridgeMessageBuilder {
 
         double duration=43.84;
         argument.putDouble("duration",duration);
-
-        measures.pushMap(argument);
-        params.putArray("measures", measures);
+      
+        params.putMap("measures", argument);
     }
     return params;
   }
