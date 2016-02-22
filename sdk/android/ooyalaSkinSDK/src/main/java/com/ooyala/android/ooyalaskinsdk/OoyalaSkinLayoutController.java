@@ -235,7 +235,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   }
 
   private void handleLearnMore() {
-    //implement learn more
+    _player.onAdclickThrough();
   }
   
   private void handleUpNextDismissed() {
