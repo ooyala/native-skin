@@ -1,12 +1,12 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.uimanager.ViewManager;
-import com.ooyala.android.ooyalaskinsdk.view.ClosedCaptionsViewManager;
-import com.ooyala.android.ooyalaskinsdk.view.CountdownViewManager;
+import com.ooyala.android.skin.view.ClosedCaptionsViewManager;
+import com.ooyala.android.skin.view.CountdownViewManager;
 
 import java.util.ArrayList;
 import java.util.List;

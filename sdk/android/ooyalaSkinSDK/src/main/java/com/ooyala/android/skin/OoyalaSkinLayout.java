@@ -1,26 +1,11 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.facebook.internal.BundleJSONConverter;
-import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
-import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.ooyalaskinsdk.configuration.SkinOptions;
-import com.ooyala.android.ooyalaskinsdk.util.JSONDeepMerge;
-import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
-import com.ooyala.android.util.DebugMode;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();

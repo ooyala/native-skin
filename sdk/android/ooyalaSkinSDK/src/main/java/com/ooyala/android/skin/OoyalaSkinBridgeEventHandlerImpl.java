@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 
 import android.os.Handler;
 import android.os.Looper;
@@ -9,8 +9,6 @@ import com.facebook.react.bridge.WritableMap;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.util.DebugMode;
-
-import java.lang.ref.WeakReference;
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
