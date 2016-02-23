@@ -7,6 +7,7 @@ import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.uimanager.ViewManager;
 import com.ooyala.android.skin.view.ClosedCaptionsViewManager;
 import com.ooyala.android.skin.view.CountdownViewManager;
+import com.ooyala.android.skin.view.VolumeViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
