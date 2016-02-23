@@ -149,6 +149,12 @@ OoyalaSkinCore.prototype.onClosedCaptionUpdate = function(e) {
 };
 
 OoyalaSkinCore.prototype.onDiscoveryRow = function(info) {
+  if(info.action == "click") {
+    this.skin.setState({
+     loading: true,
+     screenType:SCREEN_TYPES.LOADING_SCREEN
+    });
+  }
   this.bridge.onDiscoveryRow(info);
 };
 
