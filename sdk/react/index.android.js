@@ -17,7 +17,7 @@ var {
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 
 //calling class layout controller
-var eventBridge = require('NativeModules').OoyalaSkinLayoutController;
+var eventBridge = require('NativeModules').OoyalaReactBridge;
 
 //calling social class
 var eventBridgeSocial = require('NativeModules').OOReactSocialShare;

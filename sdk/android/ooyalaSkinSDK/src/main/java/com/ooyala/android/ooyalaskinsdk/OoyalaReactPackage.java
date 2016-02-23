@@ -18,27 +18,21 @@ import java.util.List;
 
 class OoyalaReactPackage extends MainReactPackage {
   private static final String TAG = OoyalaReactPackage.class.getSimpleName();
-  private OoyalaSkinLayout _layout;
-  private OoyalaPlayer _player;
-  private ReactPackage _mainPackage;
   private OoyalaSkinLayoutController _layoutcontroller;
+  private OoyalaReactBridge _bridge;
 
-  public OoyalaReactPackage(OoyalaSkinLayout l, OoyalaPlayer p) {
+  public OoyalaReactPackage(OoyalaSkinLayoutController lc) {
     super();
-    _layout = l;
-    _player = p;
+    _layoutcontroller = lc;
   }
 
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
     List<NativeModule> modules = new ArrayList<>();
     modules.addAll(super.createNativeModules(reactContext));
-    if (_layoutcontroller != null) {
-      DebugMode.logE(TAG, "createNativeModules called twice, trying to remove the older LayoutController");
-      _player.deleteObserver(_layoutcontroller);
-    }
-    _layoutcontroller = new OoyalaSkinLayoutController(reactContext, _layout, _player);
-    modules.add(_layoutcontroller);
+
+    _bridge = new OoyalaReactBridge(reactContext, _layoutcontroller);
+    modules.add(_bridge);
     return modules;
   }
 
@@ -54,5 +48,9 @@ class OoyalaReactPackage extends MainReactPackage {
     managers.add(new ClosedCaptionsViewManager());
     managers.add(new CountdownViewManager());
     return managers;
+  }
+
+  public OoyalaReactBridge getBridge() {
+    return _bridge;
   }
 }
