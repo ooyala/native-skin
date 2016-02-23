@@ -1,6 +1,8 @@
 package com.ooyala.android.ooyalaskinsdk;
 
+import android.app.Application;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -9,6 +11,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.facebook.internal.BundleJSONConverter;
+import com.facebook.react.LifecycleState;
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
@@ -20,19 +27,29 @@ import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.captions.ClosedCaptionsView;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
+import com.ooyala.android.ooyalaskinsdk.configuration.SkinOptions;
+import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
+import com.ooyala.android.ooyalaskinsdk.util.SkinConfigUtil;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Observable;
 import java.util.Observer;
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 /**
- * Created by zchen on 9/21/15.
+ * The OoyalaSkinLayoutController is the primary class of the Ooyala Skin SDK
+ *
+ * The OoyalaSkinLayoutController provides:
+ *   - Manipulation of views in Layout
+ *   - All of the React Native initialization
+ *   - Observation of the OoyalaPlayer to provide up-to-date state to the UI
+ *   - Handlers of all React Native callbacks
  */
 
 public class OoyalaSkinLayoutController implements LayoutController, Observer, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, BridgeEventHandler {
@@ -71,6 +88,89 @@ public class OoyalaSkinLayoutController implements LayoutController, Observer, O
   private String upNextembedCode=null;
   private String nextVideoEmbedCode = null;
 
+  private ReactInstanceManager _reactInstanceManager;
+
+  /**
+   * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
+   * @param app The Application instance for your app
+   * @param layout An OoyalaSkinLayout to render the player and the skin
+   * @param player An initialized OoyalaPlayer
+   */
+  public OoyalaSkinLayoutController(Application app, OoyalaSkinLayout layout, OoyalaPlayer player) {
+    this(app, layout, player, new SkinOptions.Builder().build());
+  }
+
+  /**
+   *
+   * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
+   * @param app The Application instance for your app
+   * @param layout An OoyalaSkinLayout to render the player and the skin
+   * @param player An initialized OoyalaPlayer
+   * @param skinOptions an instance of the SkinOptions, to use to configure your skin
+   */
+  public OoyalaSkinLayoutController(Application app, OoyalaSkinLayout layout, OoyalaPlayer player, SkinOptions skinOptions) {
+    super();
+    _layout = layout;
+    _layout.setFrameChangeCallback(this);
+
+    _player = player;
+    _player.setLayoutController(this);
+    _player.addObserver(this);
+
+    _package = null;
+
+    DisplayMetrics metrics = layout.getContext().getResources().getDisplayMetrics();
+    dpi = metrics.densityDpi;
+    cal = 160/dpi;
+
+    width = Math.round(_layout.getViewWidth() * cal);
+    height = Math.round(_layout.getViewHeight() * cal);
+
+    initializeSkin(app, layout, player, skinOptions);
+  }
+
+  private void initializeSkin(Application app, OoyalaSkinLayout l, OoyalaPlayer p, SkinOptions skinOptions) {
+
+    if (skinOptions.getEnableReactJSServer()) {
+      ReactUtil.setJSServer(skinOptions.getReactJSServerHost(), l.getContext());
+    }
+    JSONObject configJson = SkinConfigUtil.loadInitialProperties(l.getContext(), skinOptions.getSkinConfigAssetName());
+    SkinConfigUtil.applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
+
+    Bundle launchOptions = null; //Initial properties.
+    if (configJson != null) {
+      try {
+        launchOptions = BundleJSONConverter.convertToBundle(configJson);
+      } catch (JSONException e) {
+        e.printStackTrace();
+        launchOptions = null;
+      }
+    }
+
+    _package = new OoyalaReactPackage(this);
+
+    ReactRootView rootView = new ReactRootView(l.getContext());
+    _reactInstanceManager = ReactInstanceManager.builder()
+            .setApplication(app)
+            .setBundleAssetName(skinOptions.getBundleAssetName())
+            .setJSMainModuleName("index.android")
+            .addPackage(_package)
+            .setUseDeveloperSupport(BuildConfig.DEBUG)
+            .setInitialLifecycleState(LifecycleState.RESUMED)
+            .build();
+
+    // Reload JS from the react server.
+    if (skinOptions.getEnableReactJSServer()) {
+      ReactUtil.reloadJs(_reactInstanceManager);
+    }
+    rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
+
+    FrameLayout.LayoutParams frameLP =
+            new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT);
+    l.addView(rootView, frameLP);
+  }
 
   @Override
   public void callback(Object results, OoyalaException error) {
@@ -78,37 +178,14 @@ public class OoyalaSkinLayoutController implements LayoutController, Observer, O
       DebugMode.logD(TAG,"feedback successful");
     } else if (results instanceof JSONArray) {
       JSONArray jsonResults = (JSONArray) results;
-          try {
-            nextVideoEmbedCode = (String) jsonResults.getJSONObject(1).get("embed_code");
-          } catch (JSONException e) {
-              e.printStackTrace();
-          }
+      try {
+        nextVideoEmbedCode = (String) jsonResults.getJSONObject(1).get("embed_code");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
       WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
       sendEvent("discoveryResultsReceived", params);
     }
-  }
-
-  public OoyalaSkinLayoutController(OoyalaSkinLayout l, OoyalaPlayer p) {
-    super();
-    _layout = l;
-    _layout.setFrameChangeCallback(this);
-
-    _player = p;
-    _player.setLayoutController(this);
-    _player.addObserver(this);
-
-    _package = null;
-
-    DisplayMetrics metrics = l.getContext().getResources().getDisplayMetrics();
-    dpi = metrics.densityDpi;
-    cal = 160/dpi;
-
-    width = Math.round(_layout.getViewWidth() * cal);
-    height = Math.round(_layout.getViewHeight() * cal);
-  }
-
-  public void setOoyalaReactPackage(OoyalaReactPackage pack) {
-    _package = pack;
   }
 
   public FrameLayout getLayout() {
@@ -249,7 +326,7 @@ public class OoyalaSkinLayoutController implements LayoutController, Observer, O
       }
     }
   }
-  
+
   //********* BridgeEventHandler Methods ************/
 
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
