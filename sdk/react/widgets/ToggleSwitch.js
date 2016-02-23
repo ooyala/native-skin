@@ -37,7 +37,7 @@ var ToggleSwitch = React.createClass({
     return (
         <View style={styles.container}>
           <Text style={offTextStyle}>{this.props.switchOffText}</Text>
-            <Switch value={this.props.switchOn} onValueChange={this.onSwitchToggled} disabled={!this.props.areClosedCaptionsAvailable} />
+            <Switch style={{"width":50}} value={this.props.switchOn} onValueChange={this.onSwitchToggled} disabled={!this.props.areClosedCaptionsAvailable} />
           <Text style={onTextStyle}>{this.props.switchOnText}</Text>
         </View>
     );
