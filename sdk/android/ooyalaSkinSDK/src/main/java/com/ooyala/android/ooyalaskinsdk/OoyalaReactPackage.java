@@ -5,6 +5,8 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.uimanager.ViewManager;
+import com.ooyala.android.ooyalaskinsdk.view.ClosedCaptionsViewManager;
+import com.ooyala.android.ooyalaskinsdk.view.CountdownViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
