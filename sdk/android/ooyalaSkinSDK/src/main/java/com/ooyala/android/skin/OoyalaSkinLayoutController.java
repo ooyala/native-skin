@@ -21,7 +21,7 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
-import com.ooyala.android.ooyalaskinsdk.BuildConfig;
+import com.ooyala.android.skin.BuildConfig;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.skin.configuration.SkinOptions;
 import com.ooyala.android.skin.util.ReactUtil;
