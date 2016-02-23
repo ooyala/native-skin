@@ -44,7 +44,7 @@ This document will explain a number of different use cases:
 
     dependencies {
         compile files('libs/OoyalaSDK.jar')
-        compile files('libs/SkinSDK.jar')
+        compile files('libs/OoyalaSkinSDK.jar')
         compile 'com.facebook.react:react-native:0.16.+'
     }
     ``` 
@@ -83,7 +83,8 @@ public void onCreate(Bundle savedInstanceState) {
               .setPreloadContent(false)
               .build();
     player = new OoyalaPlayer(PCODE, domain, options);
-    skinLayout.setupViews(getApplication(), player);
+
+    OoyalaSkinLayoutController controller = new OoyalaSkinLayoutController(getApplication(), skinLayout, player);
 	
     ...
 
