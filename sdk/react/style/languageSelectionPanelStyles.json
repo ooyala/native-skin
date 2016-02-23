@@ -16,6 +16,7 @@
     "alignItems": "center",
   },
   "panelTitle": {
+    "flex": 1,
     "padding": 10,
     "textAlign": "left",
     "margin": 10,
