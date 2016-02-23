@@ -1,8 +1,8 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.ooyala.android.ooyalaskinsdk.util.JSONDeepMerge;
+import com.ooyala.android.skin.util.JSONDeepMerge;
 
 import org.json.JSONException;
 import org.json.JSONObject;

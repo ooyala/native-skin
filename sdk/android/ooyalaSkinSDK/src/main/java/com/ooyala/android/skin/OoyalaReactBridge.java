@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -7,8 +7,6 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.util.DebugMode;
-
-import java.lang.ref.WeakReference;
 
 /**
  * A Bridge which handles the sending of events, and receipt of method calls from the UI

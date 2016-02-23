@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
@@ -185,7 +185,7 @@ class BridgeMessageBuilder {
         argument.putDouble("prefix",prefix);
 
         double duration=43.84;
-        argument.putDouble("duration",duration);
+        argument.putDouble("duration", duration);
       
         params.putMap("measures", argument);
     }

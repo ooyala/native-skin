@@ -1,16 +1,10 @@
-package com.ooyala.android.ooyalaskinsdk.util;
+package com.ooyala.android.skin.util;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 
 import com.facebook.react.ReactInstanceManager;
-
-import java.net.InetAddress;
 
 /**
  * Created by dkorobov on 1/13/16.

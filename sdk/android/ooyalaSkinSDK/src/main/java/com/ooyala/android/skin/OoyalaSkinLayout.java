@@ -1,34 +1,13 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 
-import android.app.Application;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
-
-import com.facebook.internal.BundleJSONConverter;
-import com.facebook.react.LifecycleState;
-import com.facebook.react.ReactInstanceManager;
-import com.facebook.react.ReactRootView;
-import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.ooyalaskinsdk.configuration.SkinOptions;
-import com.ooyala.android.ooyalaskinsdk.util.JSONDeepMerge;
-import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
-import com.ooyala.android.util.DebugMode;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
 
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
   private FrameLayout _playerFrame;
-  private ReactInstanceManager _reactInstanceManager;
-  private ReactRootView _rootView;
-  private OoyalaSkinLayoutController _layoutcontroller;
-  private OoyalaReactPackage _package;
+
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private FrameChangeCallback frameChangeCallback;
 
@@ -36,8 +15,9 @@ public class OoyalaSkinLayout extends FrameLayout {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
-      this.frameChangeCallback=fcCallback;
+      this.frameChangeCallback = fcCallback;
   }
+
   /**
    * Initialize the OoyalaPlayerLayout with the given Context
    * @param context the Context to use
@@ -91,11 +71,9 @@ public class OoyalaSkinLayout extends FrameLayout {
       }
   }
 
-
   public FrameLayout getPlayerLayout() {
     return _playerFrame;
   }
-
 
   public int getViewWidth() {
       return viewWidth;

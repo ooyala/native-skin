@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk.configuration;
+package com.ooyala.android.skin.configuration;
 
 import com.ooyala.android.util.DebugMode;
 

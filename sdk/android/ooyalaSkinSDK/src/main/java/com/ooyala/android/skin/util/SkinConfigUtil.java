@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk.util;
+package com.ooyala.android.skin.util;
 
 import android.content.Context;
 

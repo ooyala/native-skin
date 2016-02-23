@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.skin;
 
 import android.app.Application;
 import android.content.Intent;
@@ -21,10 +21,11 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
-import com.ooyala.android.ooyalaskinsdk.configuration.SkinOptions;
-import com.ooyala.android.ooyalaskinsdk.util.ReactUtil;
-import com.ooyala.android.ooyalaskinsdk.util.SkinConfigUtil;
+import com.ooyala.android.ooyalaskinsdk.BuildConfig;
 import com.ooyala.android.player.FCCTVRatingUI;
+import com.ooyala.android.skin.configuration.SkinOptions;
+import com.ooyala.android.skin.util.ReactUtil;
+import com.ooyala.android.skin.util.SkinConfigUtil;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 
