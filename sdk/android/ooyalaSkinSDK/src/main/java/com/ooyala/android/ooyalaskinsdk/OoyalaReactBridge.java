@@ -8,11 +8,13 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.util.DebugMode;
 
+import java.lang.ref.WeakReference;
+
 /**
  * A Bridge which handles the sending of events, and receipt of method calls from the UI
  */
 public class OoyalaReactBridge extends ReactContextBaseJavaModule implements BridgeEventHandler {
-  private BridgeEventHandler handler;
+  private WeakReference<BridgeEventHandler> handler;
 
   @Override
   public String getName() {
@@ -26,7 +28,7 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
    */
   public OoyalaReactBridge(ReactApplicationContext c, BridgeEventHandler handler) {
     super(c);
-    this.handler = handler;
+    this.handler = new WeakReference<>(handler);
   }
 
   /**
@@ -46,30 +48,30 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   /******** BridgeEventHandler Passthroughs **********/
   @ReactMethod
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
-    handler.onClosedCaptionUpdateRequested(parameters);
+    handler.get().onClosedCaptionUpdateRequested(parameters);
   }
 
   @ReactMethod
   public void onPress(ReadableMap parameters) {
-    handler.onPress(parameters);
+    handler.get().onPress(parameters);
   }
 
   @ReactMethod
   public void shareTitle(ReadableMap parameters) {
-    handler.shareTitle(parameters);
+    handler.get().shareTitle(parameters);
   }
   @ReactMethod
   public void shareUrl(ReadableMap parameters) {
-    handler.shareUrl(parameters);
+    handler.get().shareUrl(parameters);
   }
 
   @ReactMethod
   public void onScrub(ReadableMap parameters) {
-    handler.onScrub(parameters);
+    handler.get().onScrub(parameters);
   }
 
   @ReactMethod
   public void onDiscoveryRow(ReadableMap parameters) {
-    handler.onDiscoveryRow(parameters);
+    handler.get().onDiscoveryRow(parameters);
   }
 }
