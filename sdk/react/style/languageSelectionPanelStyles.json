@@ -11,7 +11,8 @@
     "height": 88
   },
   "panelTitleRow": {
-    "height": 30,
+    "height": 55,
+    "marginHorizontal": 20,
     "flexDirection": "row",
     "alignItems": "center",
   },
