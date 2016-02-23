@@ -4,16 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.facebook.react.ReactInstanceManager;
-import com.facebook.react.ReactRootView;
-
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
   private FrameLayout _playerFrame;
-  private ReactInstanceManager _reactInstanceManager;
-  private ReactRootView _rootView;
-  private OoyalaSkinLayoutController _layoutcontroller;
-  private OoyalaReactPackage _package;
+
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private FrameChangeCallback frameChangeCallback;
 
@@ -21,8 +15,9 @@ public class OoyalaSkinLayout extends FrameLayout {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
-      this.frameChangeCallback=fcCallback;
+      this.frameChangeCallback = fcCallback;
   }
+
   /**
    * Initialize the OoyalaPlayerLayout with the given Context
    * @param context the Context to use
@@ -76,11 +71,9 @@ public class OoyalaSkinLayout extends FrameLayout {
       }
   }
 
-
   public FrameLayout getPlayerLayout() {
     return _playerFrame;
   }
-
 
   public int getViewWidth() {
       return viewWidth;
