@@ -33,7 +33,7 @@ public class OoyalaSkinLayout extends FrameLayout {
   private FrameChangeCallback frameChangeCallback;
 
   public interface FrameChangeCallback {
-      public void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
+      void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
       this.frameChangeCallback=fcCallback;

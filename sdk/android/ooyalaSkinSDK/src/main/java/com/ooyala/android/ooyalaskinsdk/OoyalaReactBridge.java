@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
  * A Bridge which handles the sending of events, and receipt of method calls from the UI
  */
 public class OoyalaReactBridge extends ReactContextBaseJavaModule implements BridgeEventHandler {
-  private WeakReference<BridgeEventHandler> handler;
+  private BridgeEventHandler handler;
 
   @Override
   public String getName() {
@@ -28,7 +28,7 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
    */
   public OoyalaReactBridge(ReactApplicationContext c, BridgeEventHandler handler) {
     super(c);
-    this.handler = new WeakReference<>(handler);
+    this.handler = handler;
   }
 
   /**
@@ -48,30 +48,30 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   /******** BridgeEventHandler Passthroughs **********/
   @ReactMethod
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
-    handler.get().onClosedCaptionUpdateRequested(parameters);
+    handler.onClosedCaptionUpdateRequested(parameters);
   }
 
   @ReactMethod
   public void onPress(ReadableMap parameters) {
-    handler.get().onPress(parameters);
+    handler.onPress(parameters);
   }
 
   @ReactMethod
   public void shareTitle(ReadableMap parameters) {
-    handler.get().shareTitle(parameters);
+    handler.shareTitle(parameters);
   }
   @ReactMethod
   public void shareUrl(ReadableMap parameters) {
-    handler.get().shareUrl(parameters);
+    handler.shareUrl(parameters);
   }
 
   @ReactMethod
   public void onScrub(ReadableMap parameters) {
-    handler.get().onScrub(parameters);
+    handler.onScrub(parameters);
   }
 
   @ReactMethod
   public void onDiscoveryRow(ReadableMap parameters) {
-    handler.get().onDiscoveryRow(parameters);
+    handler.onDiscoveryRow(parameters);
   }
 }

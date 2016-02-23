@@ -18,13 +18,13 @@ class OoyalaSkinPlayerObserver implements Observer {
   private static String TAG = OoyalaSkinPlayerObserver.class.getSimpleName();
   private static final String KEY_STATE = "state";
 
-  private WeakReference<OoyalaSkinLayoutController> _layoutController;
-  private WeakReference<OoyalaPlayer> _player;
+  private OoyalaSkinLayoutController _layoutController;
+  private OoyalaPlayer _player;
 
   public OoyalaSkinPlayerObserver(OoyalaSkinLayoutController layoutController, OoyalaPlayer player) {
-    _layoutController = new WeakReference<>(layoutController);
-    _player = new WeakReference<>(player);
-    _player.get().addObserver(this);
+    _layoutController = layoutController;
+    _player = player;
+    _player.addObserver(this);
   }
   @Override
   public void update(Observable arg0, Object arg1) {
@@ -36,15 +36,15 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeTimeChangedNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION) {
       bridgePlayCompletedNotification();
-      if(!_layoutController.get().isUpNextDismissed())
+      if(!_layoutController.isUpNextDismissed())
       {
-        _layoutController.get().handleUpNextClick();
+        _layoutController.handleUpNextClick();
       }
     } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION) {
       bridgeAdPodCompleteNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_STARTED_NOTIFICATION) {
       bridgePlayStartedNotification();
-      _layoutController.get().requestDiscovery();
+      _layoutController.requestDiscovery();
     } else if (arg1 == OoyalaPlayer.ERROR_NOTIFICATION) {
       bridgeErrorNotification();
     } else if (arg1 == OoyalaPlayer.CLOSED_CAPTIONS_LANGUAGE_CHANGED) {
@@ -63,14 +63,14 @@ class OoyalaSkinPlayerObserver implements Observer {
 
   private void bridgeStateChangedNotification() {
     WritableMap params = Arguments.createMap();
-    params.putString(KEY_STATE, _player.get().getState().toString().toLowerCase());
+    params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
     DebugMode.logD(TAG, "state change event params are" + params.toString());
-    _layoutController.get().sendEvent(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
+    _layoutController.sendEvent(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
   }
 
   private void bridgeCurrentItemChangedNotification() {
-    WritableMap params = BridgeMessageBuilder.buildCurrentItemChangedParams(_player.get(), _layoutController.get().width, _layoutController.get().height);
-    _layoutController.get().sendEvent(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
+    WritableMap params = BridgeMessageBuilder.buildCurrentItemChangedParams(_player, _layoutController.width, _layoutController.height);
+    _layoutController.sendEvent(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION, params);
 
 //    if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
 //      [self loadDiscovery:_player.currentItem.embedCode];
@@ -78,21 +78,21 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeTimeChangedNotification() {
-    WritableMap params = BridgeMessageBuilder.buildTimeChangedEvent(_player.get());
-    _layoutController.get().sendEvent(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
+    WritableMap params = BridgeMessageBuilder.buildTimeChangedEvent(_player);
+    _layoutController.sendEvent(OoyalaPlayer.TIME_CHANGED_NOTIFICATION, params);
   }
 
   private void bridgePlayCompletedNotification() {
-    WritableMap params = BridgeMessageBuilder.buildPlayCompletedParams(_player.get());
-    _layoutController.get().sendEvent(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);
+    WritableMap params = BridgeMessageBuilder.buildPlayCompletedParams(_player);
+    _layoutController.sendEvent(OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION, params);
   }
 
   private void bridgePlayStartedNotification() {
-    _layoutController.get().sendEvent(OoyalaPlayer.PLAY_STARTED_NOTIFICATION, null);
+    _layoutController.sendEvent(OoyalaPlayer.PLAY_STARTED_NOTIFICATION, null);
   }
 
   private void bridgeErrorNotification() {
-    OoyalaException ex = _player.get().getError();
+    OoyalaException ex = _player.getError();
     WritableMap params = Arguments.createMap();
     if (ex != null) {
       int errorCode = ex.getCode().ordinal();
@@ -102,16 +102,16 @@ class OoyalaSkinPlayerObserver implements Observer {
       params.putString("description", descrptions != null ? descrptions : "");
     }
 
-    _layoutController.get().sendEvent(OoyalaPlayer.ERROR_NOTIFICATION, params);
+    _layoutController.sendEvent(OoyalaPlayer.ERROR_NOTIFICATION, params);
   }
 
   private void bridgeAdStartNotification(Object data) {
     WritableMap params = BridgeMessageBuilder.buildAdsParams(data);
-    _layoutController.get().sendEvent(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
+    _layoutController.sendEvent(OoyalaPlayer.AD_STARTED_NOTIFICATION, params);
   }
 
   private void bridgeAdPodCompleteNotification() {
     WritableMap params = Arguments.createMap();
-    _layoutController.get().sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
+    _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
   }
 }

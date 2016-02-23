@@ -29,25 +29,25 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_UPNEXT_DISMISS = "upNextDismiss";
   private static final String BUTTON_UPNEXT_CLICK = "upNextClick";
 
-  private WeakReference<OoyalaSkinLayoutController> _layoutController;
-  private WeakReference<OoyalaPlayer> _player;
+  private OoyalaSkinLayoutController _layoutController;
+  private OoyalaPlayer _player;
 
   public OoyalaSkinBridgeEventHandlerImpl(OoyalaSkinLayoutController layoutController, OoyalaPlayer player) {
-    _layoutController =  new WeakReference<>(layoutController);
-    _player = new WeakReference<>(player);
+    _layoutController =  layoutController;
+    _player = player;
   }
 
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
 
     // ignore the request if cc is not available
-    if (_player.get() == null || _player.get().getCurrentItem() == null || !_player.get().getCurrentItem().hasClosedCaptions()) {
+    if (_player == null || _player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
       return;
     }
 
     final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
-    double curTime = _player.get().getPlayheadTime() / 1000d;
-    WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player.get(), languageName, curTime);
-    _layoutController.get().sendEvent("onClosedCaptionUpdate", params);
+    double curTime = _player.getPlayheadTime() / 1000d;
+    WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
+    _layoutController.sendEvent("onClosedCaptionUpdate", params);
   }
 
   public void onPress(ReadableMap parameters) {
@@ -58,19 +58,19 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
         @Override
         public void run() {
           if (buttonName.equals(BUTTON_PLAY)) {
-            _layoutController.get().handlePlay();
+            _layoutController.handlePlay();
           } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
-            _layoutController.get().handlePlayPause();
+            _layoutController.handlePlayPause();
           } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
-            _layoutController.get().setFullscreen(!_layoutController.get().isFullscreen());
+            _layoutController.setFullscreen(!_layoutController.isFullscreen());
           } else if (buttonName.equals(BUTTON_SHARE)) {
-            _layoutController.get().handleShare();
+            _layoutController.handleShare();
           } else if (buttonName.equals(BUTTON_LEARNMORE)) {
-            _layoutController.get().handleLearnMore();
+            _layoutController.handleLearnMore();
           } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
-            _layoutController.get().handleUpNextDismissed();
+            _layoutController.handleUpNextDismissed();
           } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
-            _layoutController.get().handleUpNextClick();
+            _layoutController.handleUpNextClick();
           }
         }
       });
@@ -78,39 +78,39 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   }
 
   public void shareTitle(ReadableMap parameters) {
-    _layoutController.get().shareTitle = parameters.getString("shareTitle");
+    _layoutController.shareTitle = parameters.getString("shareTitle");
   }
 
   public void shareUrl(ReadableMap parameters) {
-    _layoutController.get().shareUrl = parameters.getString("shareUrl");
+    _layoutController.shareUrl = parameters.getString("shareUrl");
   }
 
   public void onScrub(ReadableMap percentage) {
     double percentValue = percentage.getDouble("percentage");
     percentValue = percentValue * 100;
     int percent = ((int) percentValue);
-    _player.get().seekToPercent(percent);
+    _player.seekToPercent(percent);
   }
 
   public void onDiscoveryRow(ReadableMap parameters) {
-    String android_id = Settings.Secure.getString(_layoutController.get().getLayout().getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+    String android_id = Settings.Secure.getString(_layoutController.getLayout().getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
     String bucketInfo = parameters.getString("bucketInfo");
     String action = parameters.getString("action");
     final String embedCode = parameters.getString("embedCode");
     if (action.equals("click"))
     {
-      DiscoveryManager.sendClick(_layoutController.get().discoveryOptions, bucketInfo, _player.get().getPcode(), android_id, null, _layoutController.get());
+      DiscoveryManager.sendClick(_layoutController.discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, _layoutController);
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
           DebugMode.logD(TAG, "playing discovery video with embedCode " + embedCode);
-          _player.get().setEmbedCode(embedCode);
-          _player.get().play();
+          _player.setEmbedCode(embedCode);
+          _player.play();
         }
       });
     }
     else if(action.equals("impress")) {
-      DiscoveryManager.sendImpression(_layoutController.get().discoveryOptions, bucketInfo, _player.get().getPcode(), android_id, null, _layoutController.get());
+      DiscoveryManager.sendImpression(_layoutController.discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, _layoutController);
     }
   }
 
