@@ -1,6 +1,8 @@
 package com.ooyala.android.ooyalaskinsdk;
 
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -8,13 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaNotification;
@@ -32,14 +29,13 @@ import org.json.JSONException;
 
 import java.util.Observable;
 import java.util.Observer;
-
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 /**
  * Created by zchen on 9/21/15.
  */
 
-public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule implements LayoutController, Observer, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback {
+public class OoyalaSkinLayoutController implements LayoutController, Observer, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, BridgeEventHandler {
   final String TAG = this.getClass().toString();
   private static final String BUTTON_PLAYPAUSE = "PlayPause";
   private static final String BUTTON_PLAY = "Play";
@@ -60,6 +56,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
   private static final String KEY_STATE = "state";
 
   private OoyalaSkinLayout _layout;
+  private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
   private FCCTVRatingUI _tvRatingUI;
   private ClosedCaptionsView _closedCaptionsView;
@@ -91,14 +88,8 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
   }
 
-  @Override
-  public String getName() {
-    return "OoyalaSkinLayoutController";
-  }
-
-  public OoyalaSkinLayoutController(
-    ReactApplicationContext c, OoyalaSkinLayout l, OoyalaPlayer p) {
-    super(c);
+  public OoyalaSkinLayoutController(OoyalaSkinLayout l, OoyalaPlayer p) {
+    super();
     _layout = l;
     _layout.setFrameChangeCallback(this);
 
@@ -106,12 +97,18 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     _player.setLayoutController(this);
     _player.addObserver(this);
 
-    DisplayMetrics metrics = c.getResources().getDisplayMetrics();
+    _package = null;
+
+    DisplayMetrics metrics = l.getContext().getResources().getDisplayMetrics();
     dpi = metrics.densityDpi;
     cal = 160/dpi;
 
     width = Math.round(_layout.getViewWidth() * cal);
     height = Math.round(_layout.getViewHeight() * cal);
+  }
+
+  public void setOoyalaReactPackage(OoyalaReactPackage pack) {
+    _package = pack;
   }
 
   public FrameLayout getLayout() {
@@ -179,48 +176,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
 
   }
 
-  @ReactMethod
-  public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
-
-    // ignore the request if cc is not available
-    if (_player == null || _player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
-      return;
-    }
-
-    final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
-    double curTime = _player.getPlayheadTime() / 1000d;
-    WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
-    sendEvent("onClosedCaptionUpdate", params);
-  }
-
-  @ReactMethod
-  public void onPress(ReadableMap parameters) {
-    final String buttonName = parameters.hasKey("name") ? parameters.getString("name") : null;
-    if (buttonName != null) {
-      DebugMode.logD(TAG, "onPress with buttonName:" + buttonName);
-      this.getReactApplicationContext().runOnUiQueueThread(new Runnable() {
-        @Override
-        public void run() {
-          if (buttonName.equals(BUTTON_PLAY)) {
-            handlePlay();
-          } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
-            handlePlayPause();
-          } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
-            setFullscreen(!isFullscreen());
-          } else if (buttonName.equals(BUTTON_SHARE)) {
-            handleShare();
-          } else if (buttonName.equals(BUTTON_LEARNMORE)) {
-              handleLearnMore();
-          } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
-            handleUpNextDismissed();
-          } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
-            handleUpNextClick();
-          }
-        }
-      });
-    }
-  }
-
   // private methods
   private void handlePlay() {
     _player.play();
@@ -242,9 +197,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     WritableMap body = Arguments.createMap();
     _isUpNextDismissed = true;
     body.putBoolean("upNextDismissed", _isUpNextDismissed);
-    this.getReactApplicationContext()
-            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-            .emit("upNextDismissed", body);
+    sendEvent("upNextDismissed", body);
   }
 
   private void handleUpNextClick() {
@@ -254,15 +207,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     }
   }
 
-  @ReactMethod
-  public void shareTitle(ReadableMap parameters) {
-      shareTitle = parameters.getString("shareTitle");
-  }
-  @ReactMethod
-  public void shareUrl(ReadableMap parameters) {
-      shareUrl = parameters.getString("shareUrl");
-  }
-
   private void handleShare() {
     Intent shareIntent = new Intent(Intent.ACTION_SEND);
     shareIntent.setType("text/plain");
@@ -270,15 +214,7 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     shareIntent.putExtra(Intent.EXTRA_TEXT, shareTitle + "  " + shareUrl);
     Intent chooserIntent = Intent.createChooser(shareIntent, "share via");
     chooserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    getReactApplicationContext().startActivity(chooserIntent);
-  }
-
-  @ReactMethod
-  public void onScrub(ReadableMap percentage) {
-    double percentValue = percentage.getDouble("percentage");
-    percentValue = percentValue * 100;
-    int percent = ((int) percentValue);
-    _player.seekToPercent(percent);
+    _layout.getContext().startActivity(chooserIntent);
   }
 
   @Override
@@ -305,12 +241,91 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     } else if (arg1 == OoyalaPlayer.CLOSED_CAPTIONS_LANGUAGE_CHANGED) {
       onClosedCaptionChangeNotification();
     } else if (arg1 instanceof OoyalaNotification) {
-        String ooyalaNotification=((OoyalaNotification) arg1).getNotificationName();
+      String ooyalaNotification=((OoyalaNotification) arg1).getNotificationName();
 
-        if (ooyalaNotification == OoyalaPlayer.AD_STARTED_NOTIFICATION)
-        {
-            bridgeAdStartNotification(((OoyalaNotification) arg1).getData());
+      if (ooyalaNotification == OoyalaPlayer.AD_STARTED_NOTIFICATION)
+      {
+        bridgeAdStartNotification(((OoyalaNotification) arg1).getData());
+      }
+    }
+  }
+  
+  //********* BridgeEventHandler Methods ************/
+
+  public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
+
+    // ignore the request if cc is not available
+    if (_player == null || _player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
+      return;
+    }
+
+    final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
+    double curTime = _player.getPlayheadTime() / 1000d;
+    WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
+    sendEvent("onClosedCaptionUpdate", params);
+  }
+
+  public void onPress(ReadableMap parameters) {
+    final String buttonName = parameters.hasKey("name") ? parameters.getString("name") : null;
+    if (buttonName != null) {
+      DebugMode.logD(TAG, "onPress with buttonName:" + buttonName);
+    new Handler(Looper.getMainLooper()).post(new Runnable() {
+        @Override
+        public void run() {
+          if (buttonName.equals(BUTTON_PLAY)) {
+            handlePlay();
+          } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
+            handlePlayPause();
+          } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
+            setFullscreen(!isFullscreen());
+          } else if (buttonName.equals(BUTTON_SHARE)) {
+            handleShare();
+          } else if (buttonName.equals(BUTTON_LEARNMORE)) {
+            handleLearnMore();
+          } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
+            handleUpNextDismissed();
+          } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
+            handleUpNextClick();
+          }
         }
+      });
+    }
+  }
+
+  public void shareTitle(ReadableMap parameters) {
+      shareTitle = parameters.getString("shareTitle");
+  }
+
+  public void shareUrl(ReadableMap parameters) {
+      shareUrl = parameters.getString("shareUrl");
+  }
+
+  public void onScrub(ReadableMap percentage) {
+    double percentValue = percentage.getDouble("percentage");
+    percentValue = percentValue * 100;
+    int percent = ((int) percentValue);
+    _player.seekToPercent(percent);
+  }
+
+  public void onDiscoveryRow(ReadableMap parameters) {
+    String android_id = Settings.Secure.getString(this._layout.getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+    String bucketInfo = parameters.getString("bucketInfo");
+    String action = parameters.getString("action");
+    final String embedCode = parameters.getString("embedCode");
+    if (action.equals("click"))
+    {
+      DiscoveryManager.sendClick(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
+      runOnUiThread(new Runnable() {
+        @Override
+        public void run() {
+          DebugMode.logD(TAG, "playing discovery video with embedCode " + embedCode);
+          _player.setEmbedCode(embedCode);
+          _player.play();
+        }
+      });
+    }
+    else if(action.equals("impress")) {
+      DiscoveryManager.sendImpression(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
     }
   }
 
@@ -387,29 +402,6 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
     sendEvent("frameChanged", params);
   }
 
-  @ReactMethod
-  public void onDiscoveryRow(ReadableMap parameters) {
-    String android_id = Settings.Secure.getString(getReactApplicationContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-    String bucketInfo = parameters.getString("bucketInfo");
-    String action = parameters.getString("action");
-    final String embedCode = parameters.getString("embedCode");
-    if (action.equals("click"))
-    {
-      DiscoveryManager.sendClick(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
-      runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          DebugMode.logD(TAG,"playing discovery video with embedCode "+embedCode);
-          _player.setEmbedCode(embedCode);
-          _player.play();
-        }
-      });
-    }
-    else if(action.equals("impress")) {
-      DiscoveryManager.sendImpression(discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, this);
-    }
-  }
-
   private void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
@@ -417,13 +409,11 @@ public class OoyalaSkinLayoutController extends ReactContextBaseJavaModule imple
             _player.getPcode(),
             ClientId.getId(_layout.getContext()), null, this);
   }
-
-  private void sendEvent(String eventName, ReadableMap params) {
-    ReactContext context = this.getReactApplicationContext();
-    if (context.hasActiveCatalystInstance()) {
-      context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
+  private void sendEvent(String event, WritableMap map) {
+    if (_package.getBridge() != null) {
+      _package.getBridge().sendEvent(event, map);
     } else {
-      DebugMode.logW("TAG", "Trying to send an event without an active Catalyst Instance: " + eventName + ", Params:" + params.toString());
+      DebugMode.logW(TAG, "Trying to send event, but bridge does not exist yet: " + event);
     }
   }
 }

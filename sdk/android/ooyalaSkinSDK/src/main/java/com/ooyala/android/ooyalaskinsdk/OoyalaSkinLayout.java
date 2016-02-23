@@ -25,9 +25,10 @@ import java.io.InputStream;
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
   private FrameLayout _playerFrame;
-  private OoyalaPlayer _player;
   private ReactInstanceManager _reactInstanceManager;
   private ReactRootView _rootView;
+  private OoyalaSkinLayoutController _layoutcontroller;
+  private OoyalaReactPackage _package;
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private FrameChangeCallback frameChangeCallback;
 
@@ -118,15 +119,18 @@ public class OoyalaSkinLayout extends FrameLayout {
       }
     }
 
+    _layoutcontroller = new OoyalaSkinLayoutController(this, p);
+    _package = new OoyalaReactPackage(_layoutcontroller);
+    _layoutcontroller.setOoyalaReactPackage(_package);
+
     _rootView = new ReactRootView(getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
         .setApplication(app)
         .setBundleAssetName(skinOptions.getBundleAssetName())
         .setJSMainModuleName("index.android")
-        .addPackage(new OoyalaReactPackage(this, p))
+        .addPackage(_package)
         .setUseDeveloperSupport(BuildConfig.DEBUG)
         .setInitialLifecycleState(LifecycleState.RESUMED)
-
         .build();
 
     // Reload JS from the react server.
