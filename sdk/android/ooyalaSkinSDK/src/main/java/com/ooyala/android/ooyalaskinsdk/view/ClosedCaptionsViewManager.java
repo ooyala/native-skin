@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.ooyalaskinsdk.view;
 
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ReactProp;

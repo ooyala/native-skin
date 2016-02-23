@@ -1,13 +1,12 @@
 package com.ooyala.android.ooyalaskinsdk;
 
-import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.uimanager.ViewManager;
-import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.util.DebugMode;
+import com.ooyala.android.ooyalaskinsdk.view.ClosedCaptionsViewManager;
+import com.ooyala.android.ooyalaskinsdk.view.CountdownViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,7 @@ class OoyalaReactPackage extends MainReactPackage {
     List<NativeModule> modules = new ArrayList<>();
     modules.addAll(super.createNativeModules(reactContext));
 
-    _bridge = new OoyalaReactBridge(reactContext, _layoutcontroller);
+    _bridge = new OoyalaReactBridge(reactContext, _layoutcontroller.getBridgeEventHandler());
     modules.add(_bridge);
     return modules;
   }

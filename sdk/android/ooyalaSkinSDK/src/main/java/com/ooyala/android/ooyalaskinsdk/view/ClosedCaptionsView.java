@@ -1,4 +1,4 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.ooyalaskinsdk.view;
 
 import android.content.Context;
 import android.graphics.Canvas;

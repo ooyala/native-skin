@@ -8,6 +8,8 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.ooyala.android.util.DebugMode;
 
+import java.lang.ref.WeakReference;
+
 /**
  * A Bridge which handles the sending of events, and receipt of method calls from the UI
  */

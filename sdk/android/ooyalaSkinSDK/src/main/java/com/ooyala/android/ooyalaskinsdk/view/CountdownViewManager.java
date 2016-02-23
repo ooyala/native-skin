@@ -1,19 +1,12 @@
-package com.ooyala.android.ooyalaskinsdk;
+package com.ooyala.android.ooyalaskinsdk.view;
 
 import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
-
-import static com.ooyala.android.ooyalaskinsdk.CountdownView.*;
 
 /**
  * Created by dkorobov on 1/13/16.
