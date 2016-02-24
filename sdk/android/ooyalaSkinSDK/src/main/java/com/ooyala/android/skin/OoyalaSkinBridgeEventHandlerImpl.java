@@ -102,7 +102,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
         @Override
         public void run() {
           DebugMode.logD(TAG, "playing discovery video with embedCode " + embedCode);
-          _player.setEmbedCode(embedCode);
+          _layoutController.embedCodeSetter(embedCode);
           _player.play();
         }
       });

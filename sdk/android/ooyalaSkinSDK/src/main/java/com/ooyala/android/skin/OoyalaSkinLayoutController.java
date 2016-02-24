@@ -178,6 +178,12 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
   }
 
+  public void embedCodeSetter(String embedCode) {
+    _player.setEmbedCode(embedCode);
+    WritableMap params = Arguments.createMap();
+    sendEvent("embedCodeSet", params);
+  }
+
   boolean isUpNextDismissed() {
     return _isUpNextDismissed;
   }
@@ -278,7 +284,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   void handleUpNextClick() {
     if (nextVideoEmbedCode != null) {
-      _player.setEmbedCode(nextVideoEmbedCode);
+      embedCodeSetter(nextVideoEmbedCode);
       _player.play();
     }
   }
