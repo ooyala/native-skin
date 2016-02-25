@@ -58,6 +58,7 @@
 - (void)goToNextVideo {
   // if upnext has not been dismissed and there is a next video, play the
   // next video.
+  LOG(@"Going to next video based on Up Next");
   if (!self.isDismissed && self.nextVideo != NULL) {
     [[self player] setEmbedCode:[[self nextVideo] objectForKey:@"embedCode"]];
     [[self player] play];

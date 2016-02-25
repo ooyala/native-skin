@@ -92,10 +92,11 @@ static NSString *kViewChangeKey = @"frame";
     [OOReactBridge registerController:self];
     
     [_parentView addSubview:self.view];
-    _isFullscreen = NO;
-    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNext"]];
 
     // Pre-create the MovieFullscreenView to use when necessary
+    _isFullscreen = NO;
+
     _movieFullScreenView = [[UIView alloc] init];
     _movieFullScreenView.alpha = 0.f;
     _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
