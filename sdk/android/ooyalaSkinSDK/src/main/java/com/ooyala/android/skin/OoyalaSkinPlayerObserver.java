@@ -29,7 +29,7 @@ class OoyalaSkinPlayerObserver implements Observer {
   public void update(Observable arg0, Object arg1) {
     if (arg1 == OoyalaPlayer.EMBED_CODE_SET_NOTIFICATION) {
       bridgeStateEmbedCodeNotification();}
-    if (arg1 == OoyalaPlayer.STATE_CHANGED_NOTIFICATION) {
+      else if (arg1 == OoyalaPlayer.STATE_CHANGED_NOTIFICATION) {
       bridgeStateChangedNotification();
     } else if (arg1 == OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION) {
       bridgeCurrentItemChangedNotification();
