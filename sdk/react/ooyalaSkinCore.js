@@ -75,8 +75,7 @@ OoyalaSkinCore.prototype.unmount = function() {
 
 // event handlers.
 OoyalaSkinCore.prototype.onOptionButtonPress = function(buttonName) {
-  Log.log("CORE ON BUTTON PRESS: " + buttonName);
-  // Share button does not create state of what screen is showing.
+  // Share button does not modify state of what screen is showing.
   if (buttonName == BUTTON_NAMES.SHARE) {
       this.renderSocialOptions();
   } else {
