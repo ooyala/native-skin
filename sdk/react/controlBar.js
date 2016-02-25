@@ -134,7 +134,7 @@ var ControlBar = React.createClass({
         onPress: this.props.live ? this.props.live.onGoLive : null,
         playHeadTimeStyle: [styles.playheadLabel, {"fontSize": labelFontSize}],
         durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
-        completeTimeStyle: [styles.completeTimeStyle, {"fontSize": labelFontSize}],
+        completeTimeStyle: [styles.completeTimeStyle],
         playHeadTimeString: this.getPlayHeadTimeString(),
         durationString: this.getDurationString()
       },

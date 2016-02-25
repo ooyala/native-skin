@@ -123,7 +123,7 @@ var DiscoveryPanel = React.createClass({
       impressionsFired:value,
     });
   },
-  
+
   render: function() {
     var numOfRectsInRow = Math.floor(this.props.width / rectWidth);
     var itemRect = {width: this.props.width / numOfRectsInRow, height: rectHeight};
@@ -211,7 +211,6 @@ var DiscoveryPanel = React.createClass({
              onPress={this.onStatusPressed}
              onTimerCompleted={() => this.onRowSelected(item)} />);
     }
-
   },
 
   renderItem: function(item: object, sectionID: number, itemID: number, itemRect:Object, thumbnailStyle:object, columnContainerStyle:object) {

@@ -37,7 +37,6 @@
     "paddingTop":5,
     "paddingBottom":5,
     "flexDirection": "row",
-    "textAlign": "center",
     "alignSelf": "center",
     "color": "white",
     "fontFamily": "AvenirNext-DemiBold",
@@ -46,10 +45,7 @@
   "completeTimeStyle": {
     "flex":0,
     "flexDirection": "row",
-    "textAlign": "center",
     "alignSelf": "center",
-    "color": "white",
-    "fontFamily": "AvenirNext-DemiBold",
     "alignItems": "center",
   },
   "iconHighlighted": {
