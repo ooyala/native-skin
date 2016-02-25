@@ -30,12 +30,13 @@
 #define FULLSCREEN_ANIMATION_DELAY 0
 
 @interface OOSkinViewController () {
-  RCTRootView *_reactView;
-  UIViewController *_parentViewController;
-  UIView *_parentView;
-  UIView *_movieFullScreenView;
 }
 
+@property (nonatomic) RCTRootView *reactView;
+
+@property (nonatomic) UIViewController *inlineViewController;
+@property (nonatomic) UIView * parentView;
+@property (nonatomic) UIView * movieFullScreenView;
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic) NSDictionary *skinConfig;
 @property (nonatomic) BOOL isFullscreen;
@@ -48,7 +49,6 @@
 static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
-static NSDictionary *kSkinCofig;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)skinOptions
@@ -58,12 +58,10 @@ static NSDictionary *kSkinCofig;
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
 
     self.playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player skinViewController:self];
-    [self setPlayer:player];
+    [self disableBuiltInAdLearnMoreButton:player];
     _skinOptions = skinOptions;
     _skinConfig = [NSDictionary dictionaryFromSkinConfigFile:_skinOptions.configFileName
                                                   mergedWith:_skinOptions.overrideConfigs];
-    kSkinCofig = _skinConfig;
-
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReactReady:) name:RCTContentDidAppearNotification object:_reactView];
     _isReactReady = NO;
@@ -75,24 +73,29 @@ static NSDictionary *kSkinCofig;
     
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
+
     [self.view setFrame:rect];
     [_player.view setFrame:rect];
+    [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
+
+    [self.view addSubview:_player.view];
+
+    //InitializeReactView and add to master view
     [_reactView setFrame:rect];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
     _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
-    [self.view addSubview:_player.view];
+
     [self.view addSubview:_reactView];
-    [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
-    
+
     [OOVolumeManager addVolumeObserver:self];
     [OOReactBridge registerController:self];
     
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
-    
+
+    // Pre-create the MovieFullscreenView to use when necessary
     _movieFullScreenView = [[UIView alloc] init];
     _movieFullScreenView.alpha = 0.f;
     _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -107,7 +110,7 @@ static NSDictionary *kSkinCofig;
   
 }
 
-- (void)setPlayer:(OOOoyalaPlayer *)player {
+- (void)disableBuiltInAdLearnMoreButton:(OOOoyalaPlayer *)player {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   _player = player;
   if (_player != nil) {
@@ -115,17 +118,6 @@ static NSDictionary *kSkinCofig;
     if ([player.options respondsToSelector:selector]) {
       [player.options performSelector:selector];
     }
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeStateChangedNotification:) name:OOOoyalaPlayerStateChangedNotification object:_player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeCurrentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReactReady:) name:RCTContentDidAppearNotification object:_reactView];
   }
 }
 
@@ -204,8 +196,8 @@ static NSDictionary *kSkinCofig;
     [self.view removeFromSuperview];
     
     if(self.parentViewController){
-      _parentViewController = self.parentViewController;
-      [_parentViewController presentViewController:[[UIViewController alloc] init] animated:NO completion:nil];
+      self.inlineViewController = self.parentViewController;
+      [self.inlineViewController presentViewController:[[UIViewController alloc] init] animated:NO completion:nil];
       [self removeFromParentViewController];
     }
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
@@ -227,9 +219,9 @@ static NSDictionary *kSkinCofig;
     [_parentView addSubview:self.view];
     [self.view setFrame:_parentView.bounds];
     
-    [_parentViewController dismissViewControllerAnimated:NO completion:nil];
-    [_parentViewController addChildViewController:self];
-    _parentViewController = nil;
+    [self.inlineViewController dismissViewControllerAnimated:NO completion:nil];
+    [self.inlineViewController addChildViewController:self];
+    self.inlineViewController = nil;
     
     self.view.alpha = 0.0f;
     
@@ -249,7 +241,7 @@ static NSDictionary *kSkinCofig;
   return _upNextManager;
 }
 
-- (NSString *) version {
+- (NSString *)version {
   return OO_SKIN_VERSION;
 }
 
@@ -276,36 +268,6 @@ static NSDictionary *kSkinCofig;
     // send current volume level the at load
     [OOVolumeManager sendVolumeChangeEvent:[OOVolumeManager getCurrentVolume]];
   }
-}
-
-+ (NSDictionary *)getTextForSocialType: (NSString *)socialType {
-  NSDictionary *dictSocial;
-  
-  NSString *social_unavailable;
-  NSString *social_success;
-  NSString *post_title = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Post Title"];
-  NSString *account_configure =[OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Account Configure"];
-  
-  if ([socialType isEqual:@"Facebook"]) {
-    social_unavailable = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Facebook Unavailable"];
-    social_success = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Facebook Success"];
-    
-    dictSocial = @{@"Facebook Unavailable": social_unavailable,
-                   @"Facebook Success": social_success,
-                   @"Post Title": post_title,
-                   @"Account Configure": account_configure};
-    
-  } else if ([socialType isEqual: @"Twitter"]) {
-    social_unavailable = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Twitter Unavailable"];
-    social_success = [OOLocaleHelper localizedStringFromDictionary:kSkinCofig forKey:@"Twitter Success"];
-    
-    dictSocial = @{@"Twitter Unavailable": social_unavailable,
-                   @"Twitter Success": social_success,
-                   @"Post Title": post_title,
-                   @"Account Configure": account_configure};
-  }
-  
-  return dictSocial;
 }
 
 - (void)disableReactViewInteraction {

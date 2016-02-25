@@ -23,6 +23,4 @@
                         parent:(UIView *)parentView
                  launchOptions:(NSDictionary *)options;
 
-+ (NSDictionary *)getTextForSocialType: (NSString *)socialType;
-
 @end
