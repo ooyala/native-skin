@@ -1,8 +1,9 @@
 {
-  "container": {
+  "controlBarContainer": {
     "flexDirection": "row",
     "marginHorizontal": 20,
-    "bottom": 0,
+    "flex": 0,
+    "alignItems": "center",
   },
   "containerHidden": {
     "flexDirection": "row",
@@ -11,17 +12,45 @@
     "overflow": "hidden",
   },
   "icon": {
+    "flex":0,
+    "padding":5,
     "textAlign": "center",
+    "alignSelf": "center",
     "color": "#8E8E8E",
-    "margin": 10,
-    "padding": 2,
+    "alignItems": "center",
   },
-  "label": {
+  "playheadLabel": {
+    "flex":0,
+    "paddingLeft":5,
+    "paddingTop":5,
+    "paddingBottom":5,
+    "flexDirection": "row",
     "textAlign": "center",
-    "color": "white",
-    "margin": 10,
-    "padding": 2,
+    "alignSelf": "center",
+    "color": "grey",
     "fontFamily": "AvenirNext-DemiBold",
+    "alignItems": "center",
+  },
+  "durationLabel": {
+    "flex":0,
+    "paddingRight":5,
+    "paddingTop":5,
+    "paddingBottom":5,
+    "flexDirection": "row",
+    "textAlign": "center",
+    "alignSelf": "center",
+    "color": "white",
+    "fontFamily": "AvenirNext-DemiBold",
+    "alignItems": "center",
+  },
+  "completeTimeStyle": {
+    "flex":0,
+    "flexDirection": "row",
+    "textAlign": "center",
+    "alignSelf": "center",
+    "color": "white",
+    "fontFamily": "AvenirNext-DemiBold",
+    "alignItems": "center",
   },
   "iconHighlighted": {
     "color": "#E6E6E6",

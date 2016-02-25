@@ -52,7 +52,7 @@ var controlBarWidget = React.createClass({
     var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
     var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={[{flexDirection: 'row'},options.style]}>
         <TouchableHighlight onPress={options.onPress}>
           <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
@@ -68,7 +68,14 @@ var controlBarWidget = React.createClass({
           <Text style={options.style}>{options.durationString}</Text>
         </TouchableHighlight>);
     } else {
-      return (<Text style={options.style}>{options.durationString}</Text>);
+      var playHead = <Text style={options.playHeadTimeStyle}>{options.playHeadTimeString}</Text>;
+      var duration = <Text style={options.durationStyle}>{options.durationString}</Text>;
+      return (
+        <View style={options.completeTimeStyle}>
+        {playHead}
+        {duration}
+        </View>
+        );
     }
 
   },

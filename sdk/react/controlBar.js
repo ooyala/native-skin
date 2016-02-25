@@ -55,12 +55,18 @@ var ControlBar = React.createClass({
   getDefaultProps: function() {
     return {playhead: 0, duration: 0};
   },
-
+  getPlayHeadTimeString: function() {
+    if (this.props.live) {
+      return this.props.live.label;
+    } else {
+      return (Utils.secondsToString(this.props.playhead) + " - ");
+    }
+  },
   getDurationString: function() {
     if (this.props.live) {
       return this.props.live.label;
     } else {
-      return Utils.secondsToString(this.props.playhead) + "/" + Utils.secondsToString(this.props.duration);
+      return Utils.secondsToString(this.props.duration);
     }
   },
 
@@ -126,7 +132,10 @@ var ControlBar = React.createClass({
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
-        style: [styles.label, {"fontSize": labelFontSize}],
+        playHeadTimeStyle: [styles.playheadLabel, {"fontSize": labelFontSize}],
+        durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
+        completeTimeStyle: [styles.completeTimeStyle, {"fontSize": labelFontSize}],
+        playHeadTimeString: this.getPlayHeadTimeString(),
         durationString: this.getDurationString()
       },
       fullscreen: {
@@ -173,11 +182,9 @@ var ControlBar = React.createClass({
         options={widgetOptions}/>);
     }
 
-    var paddingTopStyle = ResponsiveDesignManager.makeResponsiveValues(this.props.width, [17, 12, 6]);
-
     var widthStyle = {width:this.props.width};
     return (
-      <View style={[styles.container, {bottom: paddingTopStyle}, widthStyle]}>
+      <View style={[styles.controlBarContainer, widthStyle]}>
         {controlBarWidgets}
       </View>
     );
