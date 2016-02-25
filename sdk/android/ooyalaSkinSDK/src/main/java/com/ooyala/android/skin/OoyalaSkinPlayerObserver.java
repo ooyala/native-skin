@@ -27,6 +27,8 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
   @Override
   public void update(Observable arg0, Object arg1) {
+    if (arg1 == OoyalaPlayer.EMBED_CODE_SET_NOTIFICATION) {
+      bridgeStateEmbedCodeNotification();}
     if (arg1 == OoyalaPlayer.STATE_CHANGED_NOTIFICATION) {
       bridgeStateChangedNotification();
     } else if (arg1 == OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION) {
@@ -65,6 +67,11 @@ class OoyalaSkinPlayerObserver implements Observer {
     params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
     DebugMode.logD(TAG, "state change event params are" + params.toString());
     _layoutController.sendEvent(OoyalaPlayer.STATE_CHANGED_NOTIFICATION, params);
+  }
+
+  private void bridgeStateEmbedCodeNotification() {
+    WritableMap nothing = Arguments.createMap();
+    _layoutController.sendEvent(OoyalaPlayer.EMBED_CODE_SET_NOTIFICATION, nothing);
   }
 
   private void bridgeCurrentItemChangedNotification() {
