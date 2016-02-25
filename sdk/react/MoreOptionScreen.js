@@ -29,7 +29,6 @@ var MoreOptionScreen = React.createClass({
 	propTypes: {
     height: React.PropTypes.number,
     onDismiss: React.PropTypes.func,
-    onSocialButtonPress: React.PropTypes.func,
     panel: React.PropTypes.object,
     buttonSelected: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
@@ -67,15 +66,15 @@ var MoreOptionScreen = React.createClass({
     ]).start();
   },
 
-  onOptionBtnPress: function() {
+  onOptionBtnPressWithPanel: function() {
     this.props.onOptionButtonPress(this.state.button);
   },
 
   onOptionPress: function(buttonName) {
-    this.setState({button: buttonName});
     if (BUTTON_NAMES.SHARE === buttonName) {
-      this.onOptionBtnPress();
+      this.props.onOptionButtonPress(buttonName);
     } else {
+      this.setState({button: buttonName});
       Animated.timing(
         this.state.buttonOpacity,
         {
@@ -83,7 +82,7 @@ var MoreOptionScreen = React.createClass({
           duration: 200,
           delay: 0
         }
-      ).start(this.onOptionBtnPress);
+      ).start(this.onOptionBtnPressWithPanel);
     }
   },
 
