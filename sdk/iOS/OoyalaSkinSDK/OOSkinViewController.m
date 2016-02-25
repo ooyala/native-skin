@@ -86,7 +86,7 @@ static NSDictionary *kSkinCofig;
     
     [_parentView addSubview:self.view];
     _isFullscreen = NO;
-    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNextScreen"]];
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNext"]];
     
     _movieFullScreenView = [[UIView alloc] init];
     _movieFullScreenView.alpha = 0.f;

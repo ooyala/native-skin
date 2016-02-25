@@ -125,7 +125,7 @@ var ControlBar = React.createClass({
         style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
-        showVolume: this.state.showVolume && this.props.platform !== Constants.PLATFORMS.ANDROID, //TODO: Hide volume until it is implemented
+        showVolume: this.state.showVolume,
         volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
         volumeControlColor:this.props.config.controlBar.volumeControl.color,
@@ -134,7 +134,7 @@ var ControlBar = React.createClass({
         onPress: this.props.live ? this.props.live.onGoLive : null,
         playHeadTimeStyle: [styles.playheadLabel, {"fontSize": labelFontSize}],
         durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
-        completeTimeStyle: [styles.completeTimeStyle, {"fontSize": labelFontSize}],
+        completeTimeStyle: [styles.completeTimeStyle],
         playHeadTimeString: this.getPlayHeadTimeString(),
         durationString: this.getDurationString()
       },

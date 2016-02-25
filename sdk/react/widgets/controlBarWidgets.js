@@ -52,7 +52,7 @@ var controlBarWidget = React.createClass({
     var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
     var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
-      <View style={[{flexDirection: 'row'},options.style]}>
+      <View style={[{flexDirection: 'row'}]}>
         <TouchableHighlight onPress={options.onPress}>
           <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
