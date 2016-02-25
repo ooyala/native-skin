@@ -1,13 +1,15 @@
 'use strict';
+var {View, requireNativeComponent, PropTypes, Animated, Platform } = require('react-native');
 
-var {View, requireNativeComponent, PropTypes, Animated } = require('react-native');
-var iface = {
-  name: 'CountdownView',
-  propTypes: {
-    ...View.propTypes,
-    countdown: PropTypes.object,
-    data: PropTypes.object,
-  }
-};
+if (Platform.OS === 'android') {
+  var iface = {
+    name: 'CountdownView',
+    propTypes: {
+      ...View.propTypes,
+      countdown: PropTypes.object,
+      data: PropTypes.object,
+    }
+  };
 
-module.exports = requireNativeComponent('RCTCountdownView', iface);
+  module.exports = requireNativeComponent('RCTCountdownView', iface);
+}

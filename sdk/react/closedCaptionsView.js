@@ -2,24 +2,26 @@
 
 var React = require('react-native');
 var {
-  requireNativeComponent
+  requireNativeComponent,
+  Platform
 } = React;
 
-class ClosedCaptionsView extends React.Component {
-  render() {
-    if( this.props.captionJSON ) {
-      return <OOClosedCaptionsView
-                {...this.props} />;
-    }
-    else {
-      return null;
+if (Platform.OS === 'ios') {
+  class ClosedCaptionsView extends React.Component {
+    render() {
+      if( this.props.captionJSON ) {
+        return <OOClosedCaptionsView
+                  {...this.props} />;
+      }
+      else {
+        return null;
+      }
     }
   }
+  ClosedCaptionsView.propTypes = {
+    captionJSON: React.PropTypes.object,
+  };
+
+  var OOClosedCaptionsView = requireNativeComponent('OOClosedCaptionsView', ClosedCaptionsView);
+  module.exports = ClosedCaptionsView;
 }
-ClosedCaptionsView.propTypes = {
-  captionJSON: React.PropTypes.object,
-};
-
-var OOClosedCaptionsView = requireNativeComponent('OOClosedCaptionsView', ClosedCaptionsView);
-module.exports = ClosedCaptionsView;
-

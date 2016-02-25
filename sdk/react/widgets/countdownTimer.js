@@ -5,6 +5,7 @@ var {
   StyleSheet,
 	View,
   TouchableHighlight,
+  Platform
 } = React;
 
 var CountdownView = React.createClass({
@@ -87,12 +88,14 @@ var CountdownView = React.createClass({
   },
 });
 
-var NativeCountdownView = requireNativeComponent('CountdownView', CountdownView, {
-	nativeOnly: {
-		onTimerUpdate: true,
-		onTimerCompleted: true,
-    canceled: true,
-	},
-});
+if (Platform.OS === 'ios') {
+  var NativeCountdownView = requireNativeComponent('CountdownView', CountdownView, {
+  	nativeOnly: {
+  		onTimerUpdate: true,
+  		onTimerCompleted: true,
+      canceled: true,
+  	},
+  });
 
-module.exports = CountdownView;
+  module.exports = CountdownView;
+}

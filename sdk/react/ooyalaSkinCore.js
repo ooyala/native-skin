@@ -15,7 +15,6 @@ var {
   TouchableHighlight,
 } = React;
 var Dimensions = require('Dimensions');
-var OOSocialShare = require('NativeModules').OOReactSocialShare;
 var ActivityView = require('NativeModules').OOActivityView;
 var StartScreen = require('./StartScreen');
 var EndScreen = require('./EndScreen');
@@ -76,21 +75,12 @@ OoyalaSkinCore.prototype.unmount = function() {
 
 // event handlers.
 OoyalaSkinCore.prototype.onOptionButtonPress = function(buttonName) {
-  this.skin.setState({buttonSelected:buttonName, screenType:SCREEN_TYPES.MOREOPTION_SCREEN});
-};
-
-OoyalaSkinCore.prototype.onSocialButtonPress = function(socialType) {
-  OOSocialShare.onSocialButtonPress({
-    'socialType': socialType,
-    'text':this.skin.state.title,
-    'link':this.skin.state.hostedAtUrl,
-  },
-  (results) => {Log.log(results);});
-};
-
-OoyalaSkinCore.prototype.onSocialAlertDismiss = function() {
-  this.skin.setState({alertTitle: ''});
-  this.skin.setState({alertMessage: ''});
+  // Share button does not modify state of what screen is showing.
+  if (buttonName == BUTTON_NAMES.SHARE) {
+      this.renderSocialOptions();
+  } else {
+    this.skin.setState({buttonSelected:buttonName, screenType:SCREEN_TYPES.MOREOPTION_SCREEN});
+  }
 };
 
 OoyalaSkinCore.prototype.pauseOnOptions = function() {
@@ -115,6 +105,10 @@ OoyalaSkinCore.prototype.onOptionDismissed = function() {
   }
 };
 
+/**
+ *  When a button is pressed on the control bar
+ *  If it's a "fast-access" options button, open options menu and perform the options action
+ */
 OoyalaSkinCore.prototype.handlePress = function(n) {
   switch(n) {
     case BUTTON_NAMES.MORE:
@@ -328,8 +322,7 @@ OoyalaSkinCore.prototype.renderEndScreen = function() {
       description={this.skin.state.description}
       promoUrl={this.skin.state.promoUrl}
       duration={this.skin.state.duration}
-      onPress={(name) => this.handlePress(name)}
-      onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}/>
+      onPress={(name) => this.handlePress(name)}/>
   );
 };
 
@@ -361,7 +354,6 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       // todo: change to boolean showCCButton.
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
       captionJSON={this.skin.state.captionJSON}
-      onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)}
       config={{
         controlBar: this.skin.props.controlBar,
         general: this.skin.props.general,
@@ -409,7 +401,6 @@ OoyalaSkinCore.prototype.renderSocialOptions = function() {
     });
   }
 },
-
 OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
   if (!this.skin.state.discoveryResults) {
     return null;
@@ -442,7 +433,7 @@ OoyalaSkinCore.prototype.renderMoreOptionPanel = function() {
       return this.renderCCOptions();
       break;
     case BUTTON_NAMES.SHARE:
-      return this.renderSocialOptions();
+      // There is no panel to render
       break;
     case BUTTON_NAMES.SETTING:
       break;

@@ -19,16 +19,13 @@ var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 //calling class layout controller
 var eventBridge = require('NativeModules').OoyalaReactBridge;
 
-//calling social class
-var eventBridgeSocial = require('NativeModules').OOReactSocialShare;
-
 var Constants = require('./constants');
 var {
   SCREEN_TYPES,
   PLATFORMS
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
-var OoyalaSkinCoreInstance, OoyalaSkinCoreInstanceSocial;
+var OoyalaSkinCoreInstance;
 
 var OoyalaSkin = React.createClass({
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -74,10 +71,6 @@ var OoyalaSkin = React.createClass({
 
   componentWillUnmount: function() {
     OoyalaSkinCoreInstance.unmount();
-  },
-
-  onSocialButtonPress: function(buttonName) {
-    eventBridgeSocial.onSocialButtonPress({"name":buttonName});
   },
 
   renderLoadingScreen: function() {

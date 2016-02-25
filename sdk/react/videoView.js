@@ -16,7 +16,6 @@ var windowSize = Dimensions.get('window');
 var BottomOverlay = require('./bottomOverlay');
 var ClosedCaptionsView = require('./closedCaptionsView');
 var ClosedCaptionsViewAndroid = require('./closedCaptionsViewAndroid');
-var SharePanel = require('./sharePanel');
 var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var RectButton = require('./widgets/RectButton');
@@ -55,7 +54,6 @@ var VideoView = React.createClass({
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
-    onSocialButtonPress: React.PropTypes.func,
     showWatermark: React.PropTypes.bool,
     config: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
@@ -73,7 +71,6 @@ var VideoView = React.createClass({
 
   getInitialState: function() {
     return {
-      showSharePanel: false,
       lastPressedTime: new Date(0)
     };
   },
@@ -96,10 +93,6 @@ var VideoView = React.createClass({
     if (this.props.onScrub) {
       this.props.onScrub(1);
     }
-  },
-
-  onSocialButtonPress: function(socialType){
-    this.props.onSocialButtonPress(socialType);
   },
 
   handlePress: function(name) {
@@ -159,26 +152,11 @@ var VideoView = React.createClass({
   },
 
   _renderPlaceholder: function() {
-    var placeholder;
-    if(this.state.showSharePanel){
-      var socialButtonsArray=this.props.shareScreen;
-      placeholder = (
-        <View
-          style={styles.fullscreenContainer}>
-          <SharePanel
-          isShow={this.state.showSharePanel}
-          socialButtons={socialButtonsArray}
-          onSocialButtonPress={(socialType) => this.onSocialButtonPress(socialType)} />
-        </View>
-      );
-    } else {
-      placeholder = (
+    return (
         <View
           style={styles.placeholder}
           onTouchEnd={(event) => this.handleTouchEnd(event)}>
         </View>);
-    }
-    return placeholder;
   },
 
   _renderClosedCaptions: function() {
@@ -275,10 +253,6 @@ var VideoView = React.createClass({
           waterMarkName={waterMarkName}
           isShow={show} />
           );
-  },
-
-  _handleSocialShare: function() {
-    this.setState({showSharePanel:!this.state.showSharePanel});
   },
 
   handleScrub: function(value) {
