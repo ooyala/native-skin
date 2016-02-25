@@ -23,13 +23,11 @@ var CountdownView = require('./widgets/countdownTimer');
 var CountdownViewAndroid = require('./widgets/countdownTimerAndroid');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 var Constants = require('./constants');
+var Log = require('./log');
 var {
   SCREEN_TYPES,
 } = Constants;
 // TODO: read this from config.
-var itemRect;
-var thumbnailStyle;
-var columnContainerStyle;
 var animationDuration = 1000;
 
 var rectWidth = 176;
@@ -56,7 +54,7 @@ var DiscoveryPanel = React.createClass({
       opacity: new Animated.Value(0),
       showCountdownTimer: false,
       counterTime: 0,
-      impressed:true,
+      impressionsFired:false,
     };
   },
 
@@ -77,6 +75,9 @@ var DiscoveryPanel = React.createClass({
   },
 
   componentDidMount:function () {
+    // After the first render, we don't want to fire any more impressions requests
+    this.setImpressionsFired(true);
+    
     this.state.opacity.setValue(0);
     Animated.parallel([
       Animated.timing(
@@ -102,9 +103,8 @@ var DiscoveryPanel = React.createClass({
   },
 
   onRowImpressed: function(row) {
-    if (this.props.onRowAction && this.state.impressed) {
+    if (this.props.onRowAction && !this.state.impressionsFired) {
       this.props.onRowAction({action:"impress", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
-      this.setImpressed(false);
     }
   },
 
@@ -118,33 +118,26 @@ var DiscoveryPanel = React.createClass({
       showCountdownTimer: true,
     });
   },
-  setImpressed: function(value) {
+  setImpressionsFired: function(value) {
     this.setState({
-      impressed:value,
+      impressionsFired:value,
     });
   },
-
-  setRectInRow: function(widthRect, heightRec, thumbnailStyleRec, columnContainerStyleRec) {
-    var numOfRectsInRow = Math.floor(this.props.width / widthRect);
-    itemRect = {width: this.props.width / numOfRectsInRow, height: heightRec};
-    thumbnailStyle = thumbnailStyleRec;
-    columnContainerStyle = columnContainerStyleRec;
-  },
-
+  
   render: function() {
-    // landscape
-    if (this.props.width > this.props.height) {
-      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailLandscape, styles.columnContainerLandscape);
-    // portrait
-    } else {
-      this.setRectInRow(rectWidth, rectHeight, styles.thumbnailPortrait, styles.columnContainerPortrait);
-    }
+    var numOfRectsInRow = Math.floor(this.props.width / rectWidth);
+    var itemRect = {width: this.props.width / numOfRectsInRow, height: rectHeight};
+    var thumbnailStyle = (this.props.width > this.props.height) ? styles.thumbnailLandscape : styles.thumbnailPortrait;
+    var columnContainerStyle = (this.props.width > this.props.height) ? styles.columnContainerLandscape : styles.columnContainerPortrait;
 
+    if (!this.state.impressionsFired) {
+      Log.log("Firing Impressions for all " + this.props.dataSource.length + " discovery entries")
+    }
     var animationStyle = {opacity:this.state.opacity};
     return (
       <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}
-        {this.renderList()}
+        {this.renderList(itemRect, thumbnailStyle, columnContainerStyle)}
         {this.renderError()}
       </Animated.View>
     );
@@ -154,7 +147,7 @@ var DiscoveryPanel = React.createClass({
     return this.props.dataSource === null || this.props.dataSource.length === 0;
   },
 
-  renderList: function() {
+  renderList: function(itemRect, thumbnailStyle, containerStyle) {
     var panelHeight = this.props.height - 40;
     var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     if (this._isDiscoveryError()) {
@@ -162,7 +155,7 @@ var DiscoveryPanel = React.createClass({
         <ResponsiveList
           horizontal={false}
           data={null}
-          itemRender={this.renderItem}
+          itemRender={(a, b, c) => this.renderItem(a, b, c, itemRect, thumbnailStyle, containerStyle)}
           width={this.props.width}
           height={panelHeight}
           itemWidth={itemRect.width}
@@ -173,7 +166,7 @@ var DiscoveryPanel = React.createClass({
         <ResponsiveList
           horizontal={renderHorizontal}
           data={this.props.dataSource}
-          itemRender={this.renderItem}
+          itemRender={(a, b, c) => this.renderItem(a, b, c, itemRect, thumbnailStyle, containerStyle)}
           width={this.props.width}
           height={panelHeight}
           itemWidth={itemRect.width}
@@ -221,7 +214,7 @@ var DiscoveryPanel = React.createClass({
 
   },
 
-  renderItem: function(item: object, sectionID: number, itemID: number) {
+  renderItem: function(item: object, sectionID: number, itemID: number, itemRect:Object, thumbnailStyle:object, columnContainerStyle:object) {
     var title;
     if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
       title = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
@@ -238,6 +231,7 @@ var DiscoveryPanel = React.createClass({
         style={[thumbnailStyle, styles.thumbnailContainer]}>
         {circularStatus}
       </Image>);
+
     this.onRowImpressed(item);
 
     return (

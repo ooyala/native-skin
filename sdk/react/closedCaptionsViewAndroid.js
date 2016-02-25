@@ -1,14 +1,15 @@
 'use strict';
 
-var {View, requireNativeComponent, PropTypes } = require('react-native');
+var {View, requireNativeComponent, PropTypes, Platform} = require('react-native');
 
-var iface = {
-  name: 'ClosedCaptionsView',
-  propTypes: {
-    ...View.propTypes,    
-    caption: PropTypes.object
-  },
-};
+if (Platform.OS === 'android') {
+  var iface = {
+    name: 'ClosedCaptionsView',
+    propTypes: {
+      ...View.propTypes,    
+      caption: PropTypes.object
+    },
+  };
 
-module.exports = requireNativeComponent('RCTClosedCaptionsView', iface);
-
+  module.exports = requireNativeComponent('RCTClosedCaptionsView', iface);
+}
