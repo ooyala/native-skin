@@ -2,7 +2,7 @@
   "controlBarContainer": {
     "flexDirection": "row",
     "marginHorizontal": 20,
-    "flex": 1,
+    "flex": 0,
     "alignItems": "center",
   },
   "containerHidden": {
@@ -17,7 +17,7 @@
     "textAlign": "center",
     "alignSelf": "center",
     "color": "#8E8E8E",
-    "align-items": "center",
+    "alignItems": "center",
   },
   "durationLabel": {
     "flex":0,
@@ -29,7 +29,7 @@
     "alignSelf": "center",
     "color": "white",
     "fontFamily": "AvenirNext-DemiBold",
-    "align-items": "center",
+    "alignItems": "center",
   },
   "playheadLabel": {
     "flex":0,
@@ -41,7 +41,7 @@
     "alignSelf": "center",
     "color": "grey",
     "fontFamily": "AvenirNext-DemiBold",
-    "align-items": "center",
+    "alignItems": "center",
   },
   "iconHighlighted": {
     "color": "#E6E6E6",

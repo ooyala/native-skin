@@ -2,7 +2,7 @@
   "container": {
   	"flexDirection": "row",
     "height": 6,
-    "marginVertical": 16,
+    "marginVertical": 6,
     "marginHorizontal": 20,
   }
 }

@@ -17,6 +17,11 @@
     margin: 20,
   },
 
+  "controlBarPlace": {
+    "flex": 0,
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.3)",
+  },
   replaybuttonCenter: {
     flex: 1,
     flexDirection: 'row',

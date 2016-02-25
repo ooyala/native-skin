@@ -1,10 +1,15 @@
 {
   "container": {
+    "flex": 0,
     "flexDirection": "column",
     "backgroundColor": "rgba(0,0,0,0.3)",
   },
 
+  "progressBarStyle":  {
+    "flex":0,
+    },
   "progressScrubber": {
+    "flex": 0,
   	"position": "absolute",
   	"fontSize": 18,
   	"fontFamily": "fontawesome",
@@ -12,6 +17,7 @@
   },
 
   "cuePoint": {
+    "flex": 0,
     "position": "absolute",
     "fontSize": 12,
     "fontFamily": "fontawesome",

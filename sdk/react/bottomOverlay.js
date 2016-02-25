@@ -28,7 +28,7 @@ var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
 var progressBarStyles = Utils.getStyles(require('./style/progressBarStyles.json'));
-var topMargin = 16;
+var topMargin = 6;
 var leftMargin = 20;
 var progressBarHeight = 6;
 var scrubberSize = 18;
@@ -117,6 +117,18 @@ var BottomOverlay = React.createClass({
     return (<ProgressBar ref='progressBar' percent={percent} />);
   },
 
+  _TotalRenderProgressBar: function() {
+    var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
+    return (
+      <View
+        onTouchStart={(event) => this.handleTouchStart(event)}
+        onTouchMove={(event) => this.handleTouchMove(event)}
+        onTouchEnd={(event) => this.handleTouchEnd(event)} style={styles.progressBarStyle}>
+    {this._renderProgressBar(playedPercent)}
+    {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+    {this._renderCuePoints(this.props.cuePoints)}
+    </View>);
+  },
   _getCuePointLeftOffset: function(cuePoint, progressBarWidth) {
     var cuePointPercent = cuePoint / this.props.duration;
     if (cuePointPercent > 1) {
@@ -219,16 +231,10 @@ var BottomOverlay = React.createClass({
   },
 
   renderDefault: function(widthStyle) {
-    var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     return (
-      <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}
-        onTouchStart={(event) => this.handleTouchStart(event)}
-        onTouchMove={(event) => this.handleTouchMove(event)}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}>
-        {this._renderProgressBar(playedPercent)}
+      <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}>
+        {this._TotalRenderProgressBar()}
         {this._renderControlBar()}
-        {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-        {this._renderCuePoints(this.props.cuePoints)}
       </Animated.View>
     );
   },
