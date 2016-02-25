@@ -112,7 +112,7 @@ var EndScreen = React.createClass({
         <View style={replaybuttonLocation}>
           {replaybutton}
         </View>
-        <View style={styles.controlBarPlace}>
+        <View style={styles.controlBarPosition}>
           {progressBar}
           {controlBar}
         </View>
