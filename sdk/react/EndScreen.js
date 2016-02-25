@@ -29,7 +29,6 @@ var EndScreen = React.createClass({
 	getInitialState: function() {
     return {
       showControls:true,
-      showSharePanel:false,
       showDiscoveryPanel:true,
     };
   },
@@ -45,19 +44,10 @@ var EndScreen = React.createClass({
     height: React.PropTypes.number,
     upNextDismissed: React.PropTypes.bool,
     discoveryPanel: React.PropTypes.object,
-    socialPanel: React.PropTypes.object
   },
 
   handleClick: function(name) {
-    if(name === "SocialShare"){
-      this.setState({showSharePanel:!this.state.showSharePanel});
-    } else {
-      this.props.onPress(name);
-    }
-  },
-
-  onSocialButtonPress: function(socialType){
-    this.props.onSocialButtonPress(socialType);
+    this.props.onPress(name);
   },
 
   handleTouchEnd: function(event) {
@@ -108,7 +98,6 @@ var EndScreen = React.createClass({
       <View
         style={styles.fullscreenContainer}>
         {infoPanel}
-        {this.props.sharePanel}
         <View style={replaybuttonLocation}>
           {replaybutton}
         </View>
