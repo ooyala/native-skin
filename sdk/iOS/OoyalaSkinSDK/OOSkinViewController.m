@@ -12,7 +12,6 @@
 #import "OOUpNextManager.h"
 #import "OOLocaleHelper.h"
 #import "OOSkinOptions.h"
-#import "OOSharePlugin.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>

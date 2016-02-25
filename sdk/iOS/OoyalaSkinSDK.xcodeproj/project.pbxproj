@@ -25,15 +25,8 @@
 
 /* Begin PBXBuildFile section */
 		0B8E7F351BDFFC610078155C /* OoyalaSkinSDK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */; };
-		2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F12F5442930D9C3618AB601 /* OOTwitterSharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FA4EC7B6C67EFF3C5E67 /* OOTwitterSharePlugin.m */; };
 		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
-		2F12F82ACF2CE2BFCB2383FC /* OOFacebookSharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12F3005C36BADE48917092 /* OOFacebookSharePlugin.m */; };
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
-		2F12FB421CC2D19A1A7A21A6 /* OOReactSocialShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */; };
-		2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2F12FF4131E5E2020BE1ABD4 /* OOReactSocialShare.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */; };
 		45ED11791B9F6377004968DE /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45ED11781B9F6369004968DE /* libRCTWebSocket.a */; };
 		45ED117A1B9F637C004968DE /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45ED11721B9F634E004968DE /* libRCTNetwork.a */; };
 		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
@@ -180,15 +173,8 @@
 
 /* Begin PBXFileReference section */
 		0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OoyalaSkinSDK.xcassets; path = ../../OoyalaSkinSDK.xcassets; sourceTree = "<group>"; };
-		2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSocialShare.h; sourceTree = "<group>"; };
-		2F12F3005C36BADE48917092 /* OOFacebookSharePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOFacebookSharePlugin.m; sourceTree = "<group>"; };
-		2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOFacebookSharePlugin.h; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
-		2F12FA4EC7B6C67EFF3C5E67 /* OOTwitterSharePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOTwitterSharePlugin.m; sourceTree = "<group>"; };
-		2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSharePlugin.h; sourceTree = "<group>"; };
-		2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSocialShare.m; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
-		2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOTwitterSharePlugin.h; sourceTree = "<group>"; };
 		45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		45ED11731B9F6369004968DE /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
@@ -282,13 +268,6 @@
 		2F12F06F64B2FE9323AA598C /* Social */ = {
 			isa = PBXGroup;
 			children = (
-				2F12F36B9519079EF3B74391 /* OOFacebookSharePlugin.h */,
-				2F12F3005C36BADE48917092 /* OOFacebookSharePlugin.m */,
-				2F12F2819B6ED721603DB187 /* OOReactSocialShare.h */,
-				2F12FC6F38E21B0FC2F0C55B /* OOReactSocialShare.m */,
-				2F12FC534005E8CD971F0CDC /* OOSharePlugin.h */,
-				2F12FE38671D8F47CBEE8DA4 /* OOTwitterSharePlugin.h */,
-				2F12FA4EC7B6C67EFF3C5E67 /* OOTwitterSharePlugin.m */,
 				CAF600E61C3307D800CBB708 /* OOActivityView.h */,
 				CAF600E71C3307D800CBB708 /* OOActivityView.m */,
 			);
@@ -475,11 +454,8 @@
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
 				CA13DDBE1C0E08DF00A7B311 /* CountdownView.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
-				2F12F0B224CEF091A6B99A75 /* OOFacebookSharePlugin.h in Headers */,
 				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
-				2F12FDD275C5D41D0E9DA29F /* OOSharePlugin.h in Headers */,
-				2F12F2CEEAF54A5AE999EC63 /* OOTwitterSharePlugin.h in Headers */,
 				976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
@@ -488,7 +464,6 @@
 				976F26DA1B62B4BB005CFA66 /* OOGradientView.h in Headers */,
 				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
-				2F12FF4131E5E2020BE1ABD4 /* OOReactSocialShare.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -717,9 +692,6 @@
 				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
 				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,
 				979B01311B910A040032F5CF /* OOConstant.m in Sources */,
-				2F12F82ACF2CE2BFCB2383FC /* OOFacebookSharePlugin.m in Sources */,
-				2F12FB421CC2D19A1A7A21A6 /* OOReactSocialShare.m in Sources */,
-				2F12F5442930D9C3618AB601 /* OOTwitterSharePlugin.m in Sources */,
 				9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
