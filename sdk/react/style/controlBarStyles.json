@@ -31,6 +31,15 @@
     "fontFamily": "AvenirNext-DemiBold",
     "alignItems": "center",
   },
+  "completeTimeStyle": {
+    "flex":0,
+    "flexDirection": "row",
+    "textAlign": "center",
+    "alignSelf": "center",
+    "color": "white",
+    "fontFamily": "AvenirNext-DemiBold",
+    "alignItems": "center",
+  },
   "playheadLabel": {
     "flex":0,
     "paddingLeft":5,

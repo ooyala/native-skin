@@ -71,7 +71,7 @@ var controlBarWidget = React.createClass({
       var playHead = <Text style={options.playHeadTimeStyle}>{options.playHeadTimeString}</Text>;
       var duration = <Text style={options.durationStyle}>{options.durationString}</Text>;
       return (
-        <View style={options.durationStyle}>
+        <View style={options.completeTimeStyle}>
         {playHead}
         {duration}
         </View>

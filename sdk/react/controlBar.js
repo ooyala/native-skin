@@ -59,7 +59,7 @@ var ControlBar = React.createClass({
     if (this.props.live) {
       return this.props.live.label;
     } else {
-      return (Utils.secondsToString(this.props.playhead) + " -");
+      return (Utils.secondsToString(this.props.playhead) + " - ");
     }
   },
   getDurationString: function() {
@@ -132,8 +132,9 @@ var ControlBar = React.createClass({
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
-        durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
         playHeadTimeStyle: [styles.playheadLabel, {"fontSize": labelFontSize}],
+        durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
+        completeTimeStyle: [styles.completeTimeStyle, {"fontSize": labelFontSize}],
         playHeadTimeString: this.getPlayHeadTimeString(),
         durationString: this.getDurationString()
       },

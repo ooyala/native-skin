@@ -117,7 +117,7 @@ var BottomOverlay = React.createClass({
     return (<ProgressBar ref='progressBar' percent={percent} />);
   },
 
-  _TotalRenderProgressBar: function() {
+  _renderCompleteProgressBar: function() {
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     return (
       <View
@@ -233,7 +233,7 @@ var BottomOverlay = React.createClass({
   renderDefault: function(widthStyle) {
     return (
       <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}>
-        {this._TotalRenderProgressBar()}
+        {this._renderCompleteProgressBar()}
         {this._renderControlBar()}
       </Animated.View>
     );
