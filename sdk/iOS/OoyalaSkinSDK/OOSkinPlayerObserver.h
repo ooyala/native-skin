@@ -1,10 +1,11 @@
-//
-//  OOSkinPlayerObserver.h
-//  OoyalaSkinSDK
-//
-//  Created by Michael Len on 2/25/16.
-//  Copyright © 2016 ooyala. All rights reserved.
-//
+/**
+ * @file       OOSkinPlayerObserver.h
+ * @class      OOSkinPlayerObserver OOSkinPlayerObserver.h "OOSkinPlayerObserver.h"
+ * @brief      OOSkinPlayerObserver
+ * @details    OOSkinPlayerObserver contains all of the code around listening to the OoyalaPlayer and performing actiosn based off of it.
+ * @copyright Copyright (c) 2015 Ooyala, Inc. All rights reserved.
+ */
+
 
 #import <Foundation/Foundation.h>
 
@@ -13,8 +14,8 @@
 
 @interface OOSkinPlayerObserver : NSObject
 
+- (instancetype) init __attribute__((unavailable("init not available")));
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player skinViewController:(OOSkinViewController *)viewController;
-
 
 - (void) bridgeCurrentItemChangedNotification:(NSNotification *)notification;
 - (void) bridgeErrorNotification:(NSNotification *)notification;

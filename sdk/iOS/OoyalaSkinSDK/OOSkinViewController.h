@@ -17,6 +17,7 @@
 @property (nonatomic, readonly) OOSkinOptions *skinOptions;
 @property (nonatomic, readonly) NSString *version;
 
+- (instancetype) init __attribute__((unavailable("init not available")));
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)jsCodeLocation
                         parent:(UIView *)parentView
