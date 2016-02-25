@@ -37,6 +37,8 @@
 		0BCABDA01C7F77A900989005 /* OOGradientViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD941C7F77A900989005 /* OOGradientViewManager.m */; };
 		0BCABDA11C7F77A900989005 /* OOVolumeViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD951C7F77A900989005 /* OOVolumeViewManager.h */; };
 		0BCABDA21C7F77A900989005 /* OOVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD961C7F77A900989005 /* OOVolumeViewManager.m */; };
+		0BCABDA51C7F781200989005 /* OOSkinPlayerObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABDA31C7F781200989005 /* OOSkinPlayerObserver.h */; };
+		0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */; };
 		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
 		45ED11791B9F6377004968DE /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45ED11781B9F6369004968DE /* libRCTWebSocket.a */; };
@@ -185,6 +187,8 @@
 		0BCABD941C7F77A900989005 /* OOGradientViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientViewManager.m; sourceTree = "<group>"; };
 		0BCABD951C7F77A900989005 /* OOVolumeViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeViewManager.h; sourceTree = "<group>"; };
 		0BCABD961C7F77A900989005 /* OOVolumeViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeViewManager.m; sourceTree = "<group>"; };
+		0BCABDA31C7F781200989005 /* OOSkinPlayerObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinPlayerObserver.h; sourceTree = "<group>"; };
+		0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinPlayerObserver.m; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
@@ -344,8 +348,10 @@
 				976922771B8E37F300A61ACF /* OOSkinOptions.h */,
 				976922781B8E37F300A61ACF /* OOSkinOptions.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
-				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
 				976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */,
+				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
+				0BCABDA31C7F781200989005 /* OOSkinPlayerObserver.h */,
+				0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
 				CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */,
@@ -454,6 +460,7 @@
 			files = (
 				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
+				0BCABDA51C7F781200989005 /* OOSkinPlayerObserver.h in Headers */,
 				CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */,
 				0BCABDA11C7F77A900989005 /* OOVolumeViewManager.h in Headers */,
 				0BCABD9F1C7F77A900989005 /* OOGradientViewManager.h in Headers */,
@@ -686,6 +693,7 @@
 				CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */,
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
 				0BCABD9E1C7F77A900989005 /* OOGradientView.m in Sources */,
+				0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				0BCABD9C1C7F77A900989005 /* OOClosedCaptionsViewManager.m in Sources */,
