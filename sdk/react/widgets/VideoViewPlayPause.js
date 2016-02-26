@@ -219,7 +219,7 @@ var VideoViewPlayPause = React.createClass({
         sizeStyle.justifyContent = 'center';
         sizeStyle.alignSelf = 'center';
         sizeStyle.paddingTop = this.props.buttonHeight / scaleMultiplier;
-        sizeStyle.paddingRight = this.props.buttonWidth / scaleMultiplier;
+        sizeStyle.paddingRight = this.props.buttonWidth;
         sizeStyle.height = this.props.buttonHeight * scaleMultiplier;
         sizeStyle.width = this.props.buttonWidth * scaleMultiplier;
         
