@@ -34,12 +34,6 @@ var AdBar = React.createClass({
     locale: React.PropTypes.string
   },
 
-  getInitialState: function() {
-    return {
-      showSkip: false,
-    };
-  },
-
   onLearnMore: function() { 
     this.props.onPress(BUTTON_NAMES.LEARNMORE);
   }, 
@@ -94,13 +88,6 @@ var AdBar = React.createClass({
     return textString;
   },
 
-  countdown: function() {
-    if (this.props.ad.skipoffset != - 1 && this.props.playhead >= this.props.ad.skipoffset) {
-      this.setState({showSkip: true});
-      return;
-    }
-  },
-
   render: function() {
     var learnMoreButton;
     var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
@@ -108,11 +95,10 @@ var AdBar = React.createClass({
     var learnMoreText = Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings);
 
     var skipButton;
-    var showSkipLabel = this.props.ad.skipoffset != - 1 && !this.state.showSkip;
+    var showSkip = this.props.playhead >= this.props.ad.skipoffset;
     var skipLabel;
     var skipLabelText = Utils.localizedString(this.props.locale, "Skip Ad in ", this.props.localizableStrings);
     var skipText = Utils.localizedString(this.props.locale, "Skip Ad", this.props.localizableStrings);
-    var interval = setInterval(this.countdown, 1000);
 
     if (showLearnMore) {
       learnMoreButton = (
@@ -124,20 +110,22 @@ var AdBar = React.createClass({
         </TouchableHighlight>);
     }
     
-    if (this.state.showSkip) {
-      skipButton = (
-        <TouchableHighlight 
-          onPress={this.onSkip}>
-          <View style={styles.button}>
-            <Text style={styles.buttonText}>{skipText}</Text>
-          </View>
-        </TouchableHighlight>);
-    } else if (showSkipLabel) {
-      skipLabel = (
-        <Text allowFontScaling={true} style={styles.label}>
-        {skipLabelText + ((this.props.ad.skipoffset - this.props.playhead) | 0).toString()}
-        </Text>
-      );
+    if (this.props.ad.skipoffset != - 1) {
+      if (showSkip) {
+        skipButton = (
+          <TouchableHighlight 
+            onPress={this.onSkip}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>{skipText}</Text>
+            </View>
+          </TouchableHighlight>);
+      } else{
+        skipLabel = (
+          <Text allowFontScaling={true} style={styles.label}>
+          {skipLabelText + ((this.props.ad.skipoffset - this.props.playhead) | 0).toString()}
+          </Text>
+        );
+      }
     }
 
     return (
