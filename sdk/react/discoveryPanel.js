@@ -259,8 +259,9 @@ var DiscoveryPanel = React.createClass({
     return (
       <View style={styles.panelTitle}>
         <Text style={[styles.panelTitleText,this.props.config.discoveryScreen.panelTitle.titleFont]}>
-        {title} <Text style={styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
+        {title}
         </Text>
+        <Text style={styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
       </View>);
   },
 
