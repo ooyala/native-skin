@@ -217,6 +217,7 @@ static NSDictionary *kSkinCofig;
   NSInteger count = [adInfo[@"count"] integerValue];
   NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
+  NSNumber *skipoffset = [NSNumber numberWithFloat:[adInfo[@"skipoffset"] floatValue]];
   NSString *title = adInfo[@"title"];
   NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
   NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.skinConfig forKey:@"Ad Playing"];
@@ -225,13 +226,16 @@ static NSDictionary *kSkinCofig;
   }
   NSString *durationString = @"00:00";
   NSString *learnMoreString = [OOLocaleHelper localizedStringFromDictionary:self.skinConfig forKey:@"Learn More"];
+  NSString *skipAdString = [OOLocaleHelper localizedStringFromDictionary:self.skinConfig forKey:@"Skip Ad"];
   
   CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize countSize = [countString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize durationSize = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize learnMoreSize = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize skipAdSize = [skipAdString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
+                             @"skipad":[NSNumber numberWithFloat:skipAdSize.width],
                              @"duration":[NSNumber numberWithFloat:durationSize.width],
                              @"count":[NSNumber numberWithFloat:countSize.width],
                              @"title":[NSNumber numberWithFloat:titleSize.width],
@@ -241,6 +245,7 @@ static NSDictionary *kSkinCofig;
   NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
   [eventBody setObject:measures forKey:@"measures"];
   [eventBody setObject:adTitle forKey:@"title"];
+  [eventBody setObject:skipoffset forKey:@"skipoffset"];
   [eventBody setObject:requireControls forKey:@"requireControls"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   if (![adInfo[@"requireAdBar"] boolValue]) {

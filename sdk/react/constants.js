@@ -27,6 +27,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   NONE: 'None',
   // a dummy button to reset auto hide
   RESET_AUTOHIDE: 'ResetAutoHide',
+  SKIP: 'Skip',
 };
 
 var PLATFORMS = { 
