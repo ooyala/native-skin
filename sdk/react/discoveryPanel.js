@@ -70,7 +70,7 @@ var DiscoveryPanel = React.createClass({
     timerListenerAndroid = DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted)
   },
 
-  componentWillUnMount: function() {
+  componentWillUnmount: function() {
     timerListenerAndroid.remove();
   },
 
