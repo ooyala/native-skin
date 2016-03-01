@@ -38,6 +38,10 @@ var AdBar = React.createClass({
     this.props.onPress(BUTTON_NAMES.LEARNMORE);
   }, 
 
+  onSkip: function() {
+    this.props.onPress(BUTTON_NAMES.SKIP);
+  },
+
   generateResponsiveText: function(showLearnMore) {
     var textString;
     var adTitle = this.props.ad.title ? this.props.ad.title + " ": " ";
@@ -90,6 +94,12 @@ var AdBar = React.createClass({
     var textString = this.generateResponsiveText(showLearnMore);
     var learnMoreText = Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings);
 
+    var skipButton;
+    var showSkip = this.props.playhead >= this.props.ad.skipoffset;
+    var skipLabel;
+    var skipLabelText = Utils.localizedString(this.props.locale, "Skip Ad in ", this.props.localizableStrings);
+    var skipText = Utils.localizedString(this.props.locale, "Skip Ad", this.props.localizableStrings);
+
     if (showLearnMore) {
       learnMoreButton = (
         <TouchableHighlight 
@@ -99,11 +109,32 @@ var AdBar = React.createClass({
           </View>
         </TouchableHighlight>);
     }
+    
+    if (this.props.ad.skipoffset != - 1) {
+      if (showSkip) {
+        skipButton = (
+          <TouchableHighlight 
+            onPress={this.onSkip}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>{skipText}</Text>
+            </View>
+          </TouchableHighlight>);
+      } else{
+        skipLabel = (
+          <Text allowFontScaling={true} style={styles.label}>
+          {skipLabelText + ((this.props.ad.skipoffset - this.props.playhead) | 0).toString()}
+          </Text>
+        );
+      }
+    }
+
     return (
       <View style={styles.container}>
           <Text allowFontScaling={true} style={styles.label}>{textString}</Text>
           <View style={styles.placeholder} />
           {learnMoreButton}
+          {skipLabel}
+          {skipButton}
       </View>
       );
   }

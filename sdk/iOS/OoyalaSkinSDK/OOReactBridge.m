@@ -35,6 +35,7 @@ static NSString *playButtonName = @"Play";
 static NSString *socialShareButtonName = @"SocialShare";
 static NSString *fullscreenButtonName = @"Fullscreen";
 static NSString *learnMoreButtonName = @"LearnMore";
+static NSString *skipButtonName = @"Skip";
 static NSString *moreOptionButtonName = @"More";
 static NSString *languageKey = @"language";
 static NSString *bucketInfoKey = @"bucketInfo";
@@ -55,6 +56,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [sharedController toggleFullscreen];
     } else if([buttonName isEqualToString:learnMoreButtonName]) {
       [self handleLearnMore];
+    } else if([buttonName isEqualToString:skipButtonName]) {
+      [self handleSkip];
     } else if([buttonName isEqualToString:moreOptionButtonName]) {
       [self handleMoreOption];
     } else if([buttonName isEqualToString:upNextDismiss]) {
@@ -102,6 +105,10 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 
 - (void)handleLearnMore {
   [sharedController.player clickAd];
+}
+
+- (void)handleSkip {
+  [sharedController.player skipAd];
 }
 
 - (void)handleMoreOption {
