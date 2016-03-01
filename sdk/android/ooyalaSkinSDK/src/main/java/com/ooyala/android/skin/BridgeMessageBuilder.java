@@ -129,11 +129,14 @@ class BridgeMessageBuilder {
         String imageUrl = jsonObject.optString("preview_image_url").toString();
         String name = jsonObject.optString("name").toString();
         String bucketInfo = jsonObject.optString("bucket_info").toString();
+        // we assume we always get a description, even if it is empty ("").
+        String description = jsonObject.optString("description").toString();
         argument.putString("bucketInfo", bucketInfo);
         argument.putString("name", name);
         argument.putString("imageUrl", imageUrl);
         argument.putInt("duration", duration1);
         argument.putString("embedCode", embedCode);
+        argument.putString("description", description);
         discoveryResults.pushMap(argument);
       }
       params.putArray("results", discoveryResults);
