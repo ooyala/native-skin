@@ -70,7 +70,7 @@ var BottomOverlay = React.createClass({
     }
     if(prevProps.isShow != this.props.isShow ) {
       this.state.opacity.setValue(this.props.isShow? 0 : 1);
-      this.state.height.setValue(this.props.isShow? 0 : ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
+      this.state.height.setValue(this.props.isShow? 1 : ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
       Animated.parallel([
         Animated.timing(
           this.state.opacity,
@@ -82,7 +82,7 @@ var BottomOverlay = React.createClass({
         Animated.timing(
           this.state.height,
           {
-            toValue: this.props.isShow ? ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0,
+            toValue: this.props.isShow ? ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1,
             duration: 500,
             delay: 0
           })
