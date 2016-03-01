@@ -26,24 +26,26 @@
   },
   textContainer: {
     flex: 1,
+    flexDirection: 'row',
     paddingTop: 15,
-    marginRight: 15,
-    overflow: 'hidden'
+    marginRight: 15
   },
   titleContainer: {
-    flexDirection: 'row'
+    flex: 1,
+    flexDirection: 'column',
   },
   title: {
     color: 'white',
     fontWeight: 'bold',
     marginLeft: 10,
     fontSize: 14,
-    fontFamily: 'Roboto',
-    flex: 1
+    fontFamily: 'Roboto'
   },
   description: {
     color: 'white',
-    marginTop: 15
+    marginTop: 15,
+    fontFamily: 'GillSans',
+    fontSize: 11
   },
   dismissButtonContainer: {
     marginTop: 20,
