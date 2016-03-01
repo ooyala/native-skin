@@ -186,12 +186,15 @@ var VideoViewPlayPause = React.createClass({
 
   // Gets the play button based on the current config settings
   render: function() {
+    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1 // increase area of play button on android to play scale animation correctly.
     if(this.props.style != null) {
       positionStyle = this.props.style;
     }
+    
     else if (this.props.position == "center") {
-      var topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
-      var leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
+      
+      var topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * scaleMultiplier) * 0.5);
+      var leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * scaleMultiplier) * 0.5);
 
       positionStyle = {
         position: 'absolute', top: topOffset, left: leftOffset
@@ -213,6 +216,13 @@ var VideoViewPlayPause = React.createClass({
       }
       else
       {
+        sizeStyle.justifyContent = 'center';
+        sizeStyle.alignSelf = 'center';
+        sizeStyle.paddingTop = this.props.buttonHeight / scaleMultiplier;
+        sizeStyle.paddingRight = this.props.buttonWidth;
+        sizeStyle.height = this.props.buttonHeight * scaleMultiplier;
+        sizeStyle.width = this.props.buttonWidth * scaleMultiplier;
+        
         return (
           <TouchableHighlight
             onPress={() => this.onPress()}
