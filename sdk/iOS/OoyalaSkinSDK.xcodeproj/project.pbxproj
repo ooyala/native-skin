@@ -25,12 +25,24 @@
 
 /* Begin PBXBuildFile section */
 		0B8E7F351BDFFC610078155C /* OoyalaSkinSDK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */; };
+		0BCABD971C7F77A900989005 /* CountdownView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD8B1C7F77A900989005 /* CountdownView.h */; };
+		0BCABD981C7F77A900989005 /* CountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD8C1C7F77A900989005 /* CountdownView.m */; };
+		0BCABD991C7F77A900989005 /* CountdownViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD8D1C7F77A900989005 /* CountdownViewManager.h */; };
+		0BCABD9A1C7F77A900989005 /* CountdownViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD8E1C7F77A900989005 /* CountdownViewManager.m */; };
+		0BCABD9B1C7F77A900989005 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD8F1C7F77A900989005 /* OOClosedCaptionsViewManager.h */; };
+		0BCABD9C1C7F77A900989005 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD901C7F77A900989005 /* OOClosedCaptionsViewManager.m */; };
+		0BCABD9D1C7F77A900989005 /* OOGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD911C7F77A900989005 /* OOGradientView.h */; };
+		0BCABD9E1C7F77A900989005 /* OOGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD921C7F77A900989005 /* OOGradientView.m */; };
+		0BCABD9F1C7F77A900989005 /* OOGradientViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD931C7F77A900989005 /* OOGradientViewManager.h */; };
+		0BCABDA01C7F77A900989005 /* OOGradientViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD941C7F77A900989005 /* OOGradientViewManager.m */; };
+		0BCABDA11C7F77A900989005 /* OOVolumeViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD951C7F77A900989005 /* OOVolumeViewManager.h */; };
+		0BCABDA21C7F77A900989005 /* OOVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD961C7F77A900989005 /* OOVolumeViewManager.m */; };
+		0BCABDA51C7F781200989005 /* OOSkinPlayerObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABDA31C7F781200989005 /* OOSkinPlayerObserver.h */; };
+		0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */; };
 		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
 		45ED11791B9F6377004968DE /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45ED11781B9F6369004968DE /* libRCTWebSocket.a */; };
 		45ED117A1B9F637C004968DE /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45ED11721B9F634E004968DE /* libRCTNetwork.a */; };
-		5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */; };
-		5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */; };
 		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
 		5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -44,23 +56,13 @@
 		9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 976922781B8E37F300A61ACF /* OOSkinOptions.m */; };
 		9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */; };
 		9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */; };
-		976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 976F26D41B62B4A6005CFA66 /* OOGradientViewManager.h */; };
-		976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F26D51B62B4A6005CFA66 /* OOGradientViewManager.m */; };
-		976F26DA1B62B4BB005CFA66 /* OOGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 976F26D81B62B4BB005CFA66 /* OOGradientView.h */; };
-		976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 976F26D91B62B4BB005CFA66 /* OOGradientView.m */; };
 		979B01301B910A040032F5CF /* OOConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 979B012E1B910A040032F5CF /* OOConstant.h */; };
 		979B01311B910A040032F5CF /* OOConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 979B012F1B910A040032F5CF /* OOConstant.m */; };
-		97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */; };
-		97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */; };
 		97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
 		97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */; };
 		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
 		CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */; };
 		CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */; };
-		CA13DDBE1C0E08DF00A7B311 /* CountdownView.h in Headers */ = {isa = PBXBuildFile; fileRef = CA13DDBA1C0E08DF00A7B311 /* CountdownView.h */; };
-		CA13DDBF1C0E08DF00A7B311 /* CountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = CA13DDBB1C0E08DF00A7B311 /* CountdownView.m */; };
-		CA13DDC01C0E08DF00A7B311 /* CountdownViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA13DDBC1C0E08DF00A7B311 /* CountdownViewManager.h */; };
-		CA13DDC11C0E08DF00A7B311 /* CountdownViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA13DDBD1C0E08DF00A7B311 /* CountdownViewManager.m */; };
 		CA2C6FB41BEA8599006B86BC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		CA2C6FBD1BEA8A69006B86BC /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8AA1AE7011D005043DC /* MediaPlayer.framework */; };
 		CA2C6FBE1BEA8A9F006B86BC /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
@@ -173,12 +175,24 @@
 
 /* Begin PBXFileReference section */
 		0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OoyalaSkinSDK.xcassets; path = ../../OoyalaSkinSDK.xcassets; sourceTree = "<group>"; };
+		0BCABD8B1C7F77A900989005 /* CountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownView.h; sourceTree = "<group>"; };
+		0BCABD8C1C7F77A900989005 /* CountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownView.m; sourceTree = "<group>"; };
+		0BCABD8D1C7F77A900989005 /* CountdownViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownViewManager.h; sourceTree = "<group>"; };
+		0BCABD8E1C7F77A900989005 /* CountdownViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownViewManager.m; sourceTree = "<group>"; };
+		0BCABD8F1C7F77A900989005 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
+		0BCABD901C7F77A900989005 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
+		0BCABD911C7F77A900989005 /* OOGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOGradientView.h; sourceTree = "<group>"; };
+		0BCABD921C7F77A900989005 /* OOGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientView.m; sourceTree = "<group>"; };
+		0BCABD931C7F77A900989005 /* OOGradientViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOGradientViewManager.h; sourceTree = "<group>"; };
+		0BCABD941C7F77A900989005 /* OOGradientViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientViewManager.m; sourceTree = "<group>"; };
+		0BCABD951C7F77A900989005 /* OOVolumeViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeViewManager.h; sourceTree = "<group>"; };
+		0BCABD961C7F77A900989005 /* OOVolumeViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeViewManager.m; sourceTree = "<group>"; };
+		0BCABDA31C7F781200989005 /* OOSkinPlayerObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinPlayerObserver.h; sourceTree = "<group>"; };
+		0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinPlayerObserver.m; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		45ED11731B9F6369004968DE /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOClosedCaptionsViewManager.h; sourceTree = "<group>"; };
-		5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOClosedCaptionsViewManager.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
 		5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinAutoUpdatingClosedCaptionsStyle.m; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -197,14 +211,8 @@
 		976922781B8E37F300A61ACF /* OOSkinOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinOptions.m; sourceTree = "<group>"; };
 		976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OOSkinViewController+Internal.h"; sourceTree = "<group>"; };
 		9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OoyalaSkinSDK.h; sourceTree = "<group>"; };
-		976F26D41B62B4A6005CFA66 /* OOGradientViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOGradientViewManager.h; sourceTree = "<group>"; };
-		976F26D51B62B4A6005CFA66 /* OOGradientViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientViewManager.m; sourceTree = "<group>"; };
-		976F26D81B62B4BB005CFA66 /* OOGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOGradientView.h; sourceTree = "<group>"; };
-		976F26D91B62B4BB005CFA66 /* OOGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOGradientView.m; sourceTree = "<group>"; };
 		979B012E1B910A040032F5CF /* OOConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOConstant.h; sourceTree = "<group>"; };
 		979B012F1B910A040032F5CF /* OOConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOConstant.m; sourceTree = "<group>"; };
-		97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeViewManager.h; sourceTree = "<group>"; };
-		97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeViewManager.m; sourceTree = "<group>"; };
 		97CF89F01B50642C008E0470 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOLocaleHelper.h; sourceTree = "<group>"; };
 		97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOLocaleHelper.m; sourceTree = "<group>"; };
@@ -213,10 +221,6 @@
 		97DE27AD1B212B670071DBFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeManager.h; sourceTree = "<group>"; };
 		CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeManager.m; sourceTree = "<group>"; };
-		CA13DDBA1C0E08DF00A7B311 /* CountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownView.h; sourceTree = "<group>"; };
-		CA13DDBB1C0E08DF00A7B311 /* CountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownView.m; sourceTree = "<group>"; };
-		CA13DDBC1C0E08DF00A7B311 /* CountdownViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownViewManager.h; sourceTree = "<group>"; };
-		CA13DDBD1C0E08DF00A7B311 /* CountdownViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownViewManager.m; sourceTree = "<group>"; };
 		CA2C6FAF1BEA8599006B86BC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2C6FB31BEA8599006B86BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA2C6FBF1BEA8C01006B86BC /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
@@ -265,6 +269,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0BCABD8A1C7F77A900989005 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0BCABD8B1C7F77A900989005 /* CountdownView.h */,
+				0BCABD8C1C7F77A900989005 /* CountdownView.m */,
+				0BCABD8D1C7F77A900989005 /* CountdownViewManager.h */,
+				0BCABD8E1C7F77A900989005 /* CountdownViewManager.m */,
+				0BCABD8F1C7F77A900989005 /* OOClosedCaptionsViewManager.h */,
+				0BCABD901C7F77A900989005 /* OOClosedCaptionsViewManager.m */,
+				0BCABD911C7F77A900989005 /* OOGradientView.h */,
+				0BCABD921C7F77A900989005 /* OOGradientView.m */,
+				0BCABD931C7F77A900989005 /* OOGradientViewManager.h */,
+				0BCABD941C7F77A900989005 /* OOGradientViewManager.m */,
+				0BCABD951C7F77A900989005 /* OOVolumeViewManager.h */,
+				0BCABD961C7F77A900989005 /* OOVolumeViewManager.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		2F12F06F64B2FE9323AA598C /* Social */ = {
 			isa = PBXGroup;
 			children = (
@@ -314,18 +337,8 @@
 		972ED84D1AE6EEEB005043DC /* OoyalaSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
-				CA13DDBA1C0E08DF00A7B311 /* CountdownView.h */,
-				CA13DDBB1C0E08DF00A7B311 /* CountdownView.m */,
-				CA13DDBC1C0E08DF00A7B311 /* CountdownViewManager.h */,
-				CA13DDBD1C0E08DF00A7B311 /* CountdownViewManager.m */,
-				5E970A4D1B151431002E0CB1 /* OOClosedCaptionsViewManager.h */,
-				5E970A4E1B151431002E0CB1 /* OOClosedCaptionsViewManager.m */,
 				979B012E1B910A040032F5CF /* OOConstant.h */,
 				979B012F1B910A040032F5CF /* OOConstant.m */,
-				976F26D81B62B4BB005CFA66 /* OOGradientView.h */,
-				976F26D91B62B4BB005CFA66 /* OOGradientView.m */,
-				976F26D41B62B4A6005CFA66 /* OOGradientViewManager.h */,
-				976F26D51B62B4A6005CFA66 /* OOGradientViewManager.m */,
 				97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */,
 				97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */,
 				972ED8851AE6F008005043DC /* OOReactBridge.h */,
@@ -335,18 +348,19 @@
 				976922771B8E37F300A61ACF /* OOSkinOptions.h */,
 				976922781B8E37F300A61ACF /* OOSkinOptions.m */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
-				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
 				976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */,
+				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
+				0BCABDA31C7F781200989005 /* OOSkinPlayerObserver.h */,
+				0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
-				97A86EBA1B4DD9AA00AAAA37 /* OOVolumeViewManager.h */,
-				97A86EBB1B4DD9AA00AAAA37 /* OOVolumeViewManager.m */,
 				CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */,
 				CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */,
 				9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
 				CA742B4E1BE2761D0056784E /* Utils */,
+				0BCABD8A1C7F77A900989005 /* Views */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
@@ -445,24 +459,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
-				97A86EBC1B4DD9AA00AAAA37 /* OOVolumeViewManager.h in Headers */,
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
+				0BCABDA51C7F781200989005 /* OOSkinPlayerObserver.h in Headers */,
 				CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */,
-				CA13DDC01C0E08DF00A7B311 /* CountdownViewManager.h in Headers */,
+				0BCABDA11C7F77A900989005 /* OOVolumeViewManager.h in Headers */,
+				0BCABD9F1C7F77A900989005 /* OOGradientViewManager.h in Headers */,
+				0BCABD991C7F77A900989005 /* CountdownViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
 				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
+				0BCABD9B1C7F77A900989005 /* OOClosedCaptionsViewManager.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
-				CA13DDBE1C0E08DF00A7B311 /* CountdownView.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
-				976F26D61B62B4A6005CFA66 /* OOGradientViewManager.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
+				0BCABD971C7F77A900989005 /* CountdownView.h in Headers */,
 				97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */,
+				0BCABD9D1C7F77A900989005 /* OOGradientView.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
-				976F26DA1B62B4BB005CFA66 /* OOGradientView.h in Headers */,
-				5E970A4F1B151431002E0CB1 /* OOClosedCaptionsViewManager.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -677,21 +692,22 @@
 			files = (
 				CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */,
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
+				0BCABD9E1C7F77A900989005 /* OOGradientView.m in Sources */,
+				0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
-				97A86EBD1B4DD9AA00AAAA37 /* OOVolumeViewManager.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
-				5E970A501B151431002E0CB1 /* OOClosedCaptionsViewManager.m in Sources */,
+				0BCABD9C1C7F77A900989005 /* OOClosedCaptionsViewManager.m in Sources */,
+				0BCABD9A1C7F77A900989005 /* CountdownViewManager.m in Sources */,
 				CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
-				CA13DDC11C0E08DF00A7B311 /* CountdownViewManager.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
-				CA13DDBF1C0E08DF00A7B311 /* CountdownView.m in Sources */,
+				0BCABD981C7F77A900989005 /* CountdownView.m in Sources */,
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */,
-				976F26D71B62B4A6005CFA66 /* OOGradientViewManager.m in Sources */,
-				976F26DB1B62B4BB005CFA66 /* OOGradientView.m in Sources */,
+				0BCABDA01C7F77A900989005 /* OOGradientViewManager.m in Sources */,
 				979B01311B910A040032F5CF /* OOConstant.m in Sources */,
+				0BCABDA21C7F77A900989005 /* OOVolumeViewManager.m in Sources */,
 				9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
