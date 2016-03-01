@@ -11,7 +11,6 @@ var {
   View,
 } = React;
 
-var indexIos = require('./index.ios.js');
 var Log = require('./log');
 var Utils = require('./utils');
 var Constants = require('./constants');
