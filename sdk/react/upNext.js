@@ -96,7 +96,6 @@ var UpNext = React.createClass({
 
 
   render: function() {
-
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null) {
       var upNextWidth = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, thumbnailWidth, [0.8,1], [520]);
       var countdown = this.renderCountdownTimer();
@@ -113,10 +112,13 @@ var UpNext = React.createClass({
 
       var upNextDescription = (
         <View style={styles.textContainer}>
+          {countdown}
           <View style={styles.titleContainer}>
-            {countdown}
-            <Text style={styles.title}>
+            <Text style={styles.title} numberOfLines={1}>
               Up next: {this.props.nextVideo.name}
+            </Text>
+            <Text style={styles.description} numberOfLines={2}>
+              {this.props.nextVideo.description}
             </Text>
           </View>
         </View>

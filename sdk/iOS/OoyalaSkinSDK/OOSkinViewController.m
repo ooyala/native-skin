@@ -147,7 +147,14 @@ static NSString *kViewChangeKey = @"frame";
     NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
     NSNumber *duration = [NSNumber numberWithDouble:[[dict objectForKey:@"duration"] doubleValue] / 1000];
     NSString *bucketInfo = [dict objectForKey:@"bucket_info"];
-    NSDictionary *discoveryItem = @{@"name":name, @"embedCode":embedCode, @"imageUrl":imageUrl, @"duration":duration, @"bucketInfo":bucketInfo};
+    // we assume we always get a string description, even if it is empty ("")
+    NSString *description = [dict objectForKey:@"description"];
+    NSDictionary *discoveryItem = @{@"name":name,
+                                    @"embedCode":embedCode,
+                                    @"imageUrl":imageUrl,
+                                    @"duration":duration,
+                                    @"bucketInfo":bucketInfo,
+                                    @"description": description};
     [discoveryArray addObject:discoveryItem];
   }
   if([discoveryArray count] > 0 && (discoveryArray[0] != nil)) {
