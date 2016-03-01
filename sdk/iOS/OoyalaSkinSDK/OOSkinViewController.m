@@ -125,7 +125,6 @@ static NSString *kViewChangeKey = @"frame";
 #pragma mark Discovery UI
 
 - (void)maybeLoadDiscovery:(NSString *)embedCode {
-
   if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
     [OODiscoveryManager getResults:self.skinOptions.discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
       if (error) {

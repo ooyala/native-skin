@@ -49,6 +49,7 @@ public class ClosedCaptionsView extends TextView {
   public ClosedCaptionsView(Context context) {
     super(context);
     style = new ClosedCaptionsStyle(context);
+    style.backgroundColor = Color.TRANSPARENT;
     textBounds = new Rect();
   }
 
