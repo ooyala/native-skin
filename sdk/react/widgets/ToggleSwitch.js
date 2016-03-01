@@ -17,6 +17,7 @@ var Constants = require('../constants');
 
 var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.json'));
 
+// Tint props only work for iOS.
 var ToggleSwitch = React.createClass({
   propTypes: {
     switchOn: React.PropTypes.bool,
@@ -24,7 +25,18 @@ var ToggleSwitch = React.createClass({
     switchOnText: React.PropTypes.string,
     switchOffText: React.PropTypes.string,
     onValueChanged: React.PropTypes.func,
-    config: React.PropTypes.object
+    config: React.PropTypes.object,
+    onTintColor: React.PropTypes.string,
+    tintColor: React.PropTypes.string,
+    thumbTintColor: React.PropTypes.string,
+  },
+
+  getDefaultProps: function() {
+    return {
+      onTintColor: '#498DFC',
+      tintColor: '#DDDDDD',
+      thumbTintColor: '#FFFFFF',
+    };
   },
 
   onSwitchToggled: function() {
@@ -37,7 +49,14 @@ var ToggleSwitch = React.createClass({
     return (
         <View style={styles.container}>
           <Text style={offTextStyle}>{this.props.switchOffText}</Text>
-            <Switch style={{"width":50}} value={this.props.switchOn} onValueChange={this.onSwitchToggled} disabled={!this.props.areClosedCaptionsAvailable} />
+            <Switch
+              style={{"width":50}}
+              value={this.props.switchOn}
+              onValueChange={this.onSwitchToggled}
+              disabled={!this.props.areClosedCaptionsAvailable}
+              onTintColor={this.props.onTintColor}
+              tintColor={this.props.tintColor}
+              thumbTintColor={this.props.thumbTintColor} />
           <Text style={onTextStyle}>{this.props.switchOnText}</Text>
         </View>
     );
