@@ -53,7 +53,7 @@ var controlBarWidget = React.createClass({
     var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
       <View style={[{flexDirection: 'row'}]}>
-        <TouchableHighlight onPress={options.onPress}>
+        <TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
           <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
         {volumeScrubber}
@@ -86,7 +86,7 @@ var controlBarWidget = React.createClass({
 
   discoveryWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight onPress={options.onPress}>
+    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
     return null;
@@ -94,14 +94,14 @@ var controlBarWidget = React.createClass({
 
   fullscreenWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight onPress={options.onPress}>
+    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
   moreOptionsWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight onPress={options.onPress}>
+    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
@@ -123,14 +123,14 @@ var controlBarWidget = React.createClass({
 
   shareWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight onPress={options.onPress}>
+    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
   closedCaptionWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight onPress={options.onPress}>
+    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },

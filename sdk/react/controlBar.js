@@ -125,6 +125,7 @@ var ControlBar = React.createClass({
         style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
+        iconTouchableStyle: styles.iconTouchable,
         showVolume: this.state.showVolume,
         volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
@@ -136,30 +137,36 @@ var ControlBar = React.createClass({
         durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
         completeTimeStyle: [styles.completeTimeStyle],
         playHeadTimeString: this.getPlayHeadTimeString(),
+        iconTouchableStyle: styles.iconTouchable,
         durationString: this.getDurationString()
       },
       fullscreen: {
         onPress: this.onFullscreenPress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
       },
       moreOptions: {
         onPress: this.onMorePress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis
       },
       discovery: {
         onPress: this.onDiscoveryPress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.discovery
       },
       share: {
         onPress: this.onSocialSharePress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       },
       closedCaption: {
         onPress: this.onClosedCaptionsPress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.cc
       },
