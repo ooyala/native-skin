@@ -170,7 +170,7 @@ class BridgeMessageBuilder {
       Boolean controls= ad.isControls();
       params.putBoolean("requireControls", controls);
 
-      Double skipoffset = ad.getSkipoffset();
+      Double skipoffset = ad.getSkipOffset();
       params.putDouble("skipoffset", skipoffset);
 
       //hard coded the values for learnMore for now to prevent from the crash and enabling the learnmore button.
