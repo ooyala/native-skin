@@ -3,7 +3,6 @@ package com.ooyala.android.skin;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -34,9 +33,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.Locale;
 
 
@@ -59,6 +55,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private static final String KEY_AVAILABLE_LANGUAGE_FILE = "availableLanguageFile";
   private static final String KEY_LANGUAGE_FILE = "languageFile";
   private static final String KEY_LOCALIZATION = "localization";
+  private static final String KEY_LOCALE = "localization";
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
 
@@ -135,7 +132,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
     JSONObject configJson = SkinConfigUtil.loadInitialProperties(l.getContext(), skinOptions.getSkinConfigAssetName());
     SkinConfigUtil.applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
-    overrideLocale(configJson, l.getContext());
+    injectLocalizedResources(configJson, l.getContext());
 
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
@@ -172,10 +169,15 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     l.addView(rootView, frameLP);
   }
 
-  private void overrideLocale(JSONObject configJson, Context context) {
+  /**
+   * Get locale of device and inject localized file content into provided json object.
+   * @param configJson
+   * @param context
+   */
+  private void injectLocalizedResources(JSONObject configJson, Context context) {
     String locale = Locale.getDefault().getLanguage();
     try {
-      configJson.put("locale", locale);
+      configJson.put(KEY_LOCALE, locale);
     } catch (JSONException e) {
       // Ignore
     }
@@ -203,7 +205,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
       for(int i = 0; i < localeFiles.length(); i++) {
         JSONObject jsonObject = (JSONObject)localeFiles.get(i);
         if(jsonObject.getString(KEY_LANGUAGE).equals(locale)) {
-          languageFile = jsonObject.getString(KEY_LANGUAGE_FILE);
+          languageFile = jsonObject.getString(KEY_LANGUAGE_FILE );
         }
       }
     } catch (JSONException e) {
