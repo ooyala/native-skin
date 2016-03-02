@@ -146,48 +146,50 @@ class BridgeMessageBuilder {
     WritableArray measures = Arguments.createArray();
     WritableMap argument = Arguments.createMap();
 
-    if(data != null)
-    {
-        AdPodInfo ad = (AdPodInfo) data;
+    if(data != null) {
+      AdPodInfo ad = (AdPodInfo) data;
 
-        String title = ad.getTitle();
-        params.putString("title", title != null ? title : "");
+      String title = ad.getTitle();
+      params.putString("title", title != null ? title : "");
 
-        String description = ad.getDescription();
-        params.putString("description", description != null ? description : "");
+      String description = ad.getDescription();
+      params.putString("description", description != null ? description : "");
 
-        String clickUrl = ad.getClickUrl();
-        params.putString("clickUrl", clickUrl != null ? clickUrl : "");
+      String clickUrl = ad.getClickUrl();
+      params.putString("clickUrl", clickUrl != null ? clickUrl : "");
 
-        int adsCount = ad.getAdsCount();
-        params.putInt("count", adsCount);
+      int adsCount = ad.getAdsCount();
+      params.putInt("count", adsCount);
 
-        int unplayedCount = ad.getUnplayedCount();
-        params.putInt("unplayedCount", unplayedCount);
+      int unplayedCount = ad.getUnplayedCount();
+      params.putInt("unplayedCount", unplayedCount);
 
-        Boolean adBar =ad.isAdbar();
-        params.putBoolean("requireAdBar", adBar);
+      Boolean adBar = ad.isAdbar();
+      params.putBoolean("requireAdBar", adBar);
 
-        Boolean controls=ad.isControls();
-        params.putBoolean("requireControls", controls);
+      Boolean controls= ad.isControls();
+      params.putBoolean("requireControls", controls);
 
-        //hard coded the values for learnMore for now to prevent from the crash and enabling the learnmore button.
-        double title1=74.672;
-        argument.putDouble("title",title1);
+      Double skipoffset = ad.getSkipoffset();
+      params.putDouble("skipoffset", skipoffset);
 
-        double learnmore=84.112;
-        argument.putDouble("learnmore",learnmore);
+      //hard coded the values for learnMore for now to prevent from the crash and enabling the learnmore button.
+      double title1=74.672;
+      argument.putDouble("title",title1);
 
-        double count=36.304;
-        argument.putDouble("count",count);
+      double learnmore=84.112;
+      argument.putDouble("learnmore",learnmore);
 
-        double prefix=85.008;
-        argument.putDouble("prefix",prefix);
+      double count=36.304;
+      argument.putDouble("count",count);
 
-        double duration=43.84;
-        argument.putDouble("duration", duration);
+      double prefix=85.008;
+      argument.putDouble("prefix",prefix);
+
+      double duration=43.84;
+      argument.putDouble("duration", duration);
       
-        params.putMap("measures", argument);
+      params.putMap("measures", argument);
     }
     return params;
   }
