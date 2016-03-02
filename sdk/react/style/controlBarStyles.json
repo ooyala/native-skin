@@ -13,10 +13,7 @@
   },
   "icon": {
     "flex":1,
-    "textAlign": "center",
-    "alignSelf": "center",
     "color": "#8E8E8E",
-    "alignItems": "center",
   },
   "iconTouchable": {
     "padding":5,
@@ -24,25 +21,18 @@
   "playheadLabel": {
     "flex":0,
     "flexDirection": "row",
-    "textAlign": "center",
-    "alignSelf": "center",
     "color": "#FFFFFF",
     "fontFamily": "AvenirNext-DemiBold",
-    "alignItems": "center",
   },
   "durationLabel": {
     "flex":0,
     "flexDirection": "row",
-    "alignSelf": "center",
     "color": "#B3B3B3",
     "fontFamily": "AvenirNext-DemiBold",
-    "alignItems": "center",
   },
   "completeTimeStyle": {
     "flex":0,
     "flexDirection": "row",
-    "alignSelf": "center",
-    "alignItems": "center",
   },
   "iconHighlighted": {
     "color": "#E6E6E6",

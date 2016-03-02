@@ -154,16 +154,19 @@ var ControlBar = React.createClass({
       },
       discovery: {
         onPress: this.onDiscoveryPress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.discovery
       },
       share: {
         onPress: this.onSocialSharePress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       },
       closedCaption: {
         onPress: this.onClosedCaptionsPress,
+        iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.cc
       },
