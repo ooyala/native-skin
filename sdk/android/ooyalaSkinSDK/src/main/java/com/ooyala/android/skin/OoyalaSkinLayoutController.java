@@ -1,7 +1,9 @@
 package com.ooyala.android.skin;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -21,7 +23,6 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
-import com.ooyala.android.skin.BuildConfig;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.skin.configuration.SkinOptions;
 import com.ooyala.android.skin.util.ReactUtil;
@@ -32,6 +33,11 @@ import com.ooyala.android.util.DebugMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Locale;
 
 
 /**
@@ -50,6 +56,9 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private static final String KEY_EMBEDCODE = "embedCode";
   private static final String KEY_PERCENTAG = "percentage";
   private static final String KEY_LANGUAGE = "language";
+  private static final String KEY_AVAILABLE_LANGUAGE_FILE = "availableLanguageFile";
+  private static final String KEY_LANGUAGE_FILE = "languageFile";
+  private static final String KEY_LOCALIZATION = "localization";
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
 
@@ -126,6 +135,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
     JSONObject configJson = SkinConfigUtil.loadInitialProperties(l.getContext(), skinOptions.getSkinConfigAssetName());
     SkinConfigUtil.applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
+    overrideLocale(configJson, l.getContext());
 
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
@@ -160,6 +170,46 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
+  }
+
+  private void overrideLocale(JSONObject configJson, Context context) {
+    String locale = Locale.getDefault().getLanguage();
+    try {
+      configJson.put("locale", locale);
+    } catch (JSONException e) {
+      // Ignore
+    }
+
+    String languageFilePath = getLocaleLanguageFilePath(configJson, locale);
+    JSONObject localizedResources = SkinConfigUtil.loadLocalizedResources(context, languageFilePath);
+
+    if(localizedResources != null) {
+      try {
+        JSONObject localizationJson = new JSONObject();
+        JSONObject localeJson = new JSONObject();
+        localeJson.put(locale, localizedResources);
+        localizationJson.put(KEY_LOCALIZATION, localeJson);
+        SkinConfigUtil.applySkinOverridesInPlace(configJson, localizationJson);
+      } catch (JSONException e) {
+        // Localization file does not exist. Ignore.
+      }
+    }
+  }
+
+  private String getLocaleLanguageFilePath(JSONObject configJson, String locale) {
+    String languageFile = null;
+    try {
+      JSONArray localeFiles = configJson.getJSONObject(KEY_LOCALIZATION).getJSONArray(KEY_AVAILABLE_LANGUAGE_FILE);
+      for(int i = 0; i < localeFiles.length(); i++) {
+        JSONObject jsonObject = (JSONObject)localeFiles.get(i);
+        if(jsonObject.getString(KEY_LANGUAGE).equals(locale)) {
+          languageFile = jsonObject.getString(KEY_LANGUAGE_FILE);
+        }
+      }
+    } catch (JSONException e) {
+      // Localization file for current locale is not set in config. Ignore.
+    }
+    return languageFile;
   }
 
   @Override

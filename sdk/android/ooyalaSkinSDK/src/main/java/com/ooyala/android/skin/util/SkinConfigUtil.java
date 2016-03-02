@@ -7,6 +7,7 @@ import com.ooyala.android.util.DebugMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -40,6 +41,11 @@ public class SkinConfigUtil {
       return null;
     }
     return jsonObject;
+  }
+
+  public static JSONObject loadLocalizedResources(Context c, String resourcesPath) {
+    JSONObject localizedResource = loadInitialProperties(c, resourcesPath);
+    return localizedResource;
   }
 
   public static void applySkinOverridesInPlace(JSONObject initial, JSONObject skinOverrides) {
