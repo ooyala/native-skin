@@ -106,11 +106,7 @@ var UpNext = React.createClass({
           style={[styles.thumbnail, {width: upNextWidth}]} >
           <TouchableHighlight style={[styles.thumbnail, {width: upNextWidth}]}
             onPress={this.clickUpNext}>
-            <Text style={[{fontFamily: this.props.config.icons.play.fontFamilyName, color: "white"}, styles.countdownText]}></Text>
-          </TouchableHighlight>
-          <TouchableHighlight style = {styles.icon}
-            onPress = {this.clickUpNext}>
-            <Text style = {styles.icon}>{this.props.config.icons.play.fontString}</Text>
+            <Text style={styles.countdownText}>{this.props.config.icons.play.fontString}</Text>
           </TouchableHighlight>
         </Image>
       );

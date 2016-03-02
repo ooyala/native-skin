@@ -13,14 +13,8 @@
     justifyContent: 'center',
     alignItems: 'center'
   },
-  icon: {
-    flex: 1,
-    fontFamily: 'alice',
-    fontSize: 16,
-    color: 'white',
-  },
   countdownText: {
-    fontWeight: 'bold',
+    fontFamily: 'alice',
     fontSize: 23,
     textAlign: 'center',
     color: 'white'
