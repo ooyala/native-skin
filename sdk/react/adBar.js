@@ -110,7 +110,7 @@ var AdBar = React.createClass({
         </TouchableHighlight>);
     }
     
-    if (this.props.ad.skipoffset != - 1) {
+    if (this.props.ad.skipoffset >= 0) {
       if (showSkip) {
         skipButton = (
           <TouchableHighlight 
