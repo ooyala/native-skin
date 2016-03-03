@@ -1,9 +1,11 @@
 package com.ooyala.android.skin;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +34,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
 
 /**
  * The OoyalaSkinLayoutController is the primary class of the Ooyala Skin SDK
@@ -49,6 +56,11 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private static final String KEY_EMBEDCODE = "embedCode";
   private static final String KEY_PERCENTAG = "percentage";
   private static final String KEY_LANGUAGE = "language";
+  private static final String KEY_AVAILABLE_LANGUAGE_FILE = "availableLanguageFile";
+  private static final String KEY_LANGUAGE_FILE = "languageFile";
+  private static final String KEY_LOCALIZATION = "localization";
+  private static final String KEY_LOCALE = "locale";
+  private static final String KEY_DEFAULT_LANGUAGE= "defaultLanguage";
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
 
@@ -125,6 +137,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
     JSONObject configJson = SkinConfigUtil.loadInitialProperties(l.getContext(), skinOptions.getSkinConfigAssetName());
     SkinConfigUtil.applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
+    injectLocalizedResources(configJson, l.getContext());
 
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
@@ -159,6 +172,54 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
+  }
+
+  /**
+   * Get locale of device and inject localized file content into provided json object.
+   * @param configJson
+   * @param context
+   */
+  private void injectLocalizedResources(JSONObject configJson, Context context) {
+    String locale = Locale.getDefault().getLanguage();
+
+    try {
+      configJson.put(KEY_LOCALE, locale);
+      HashMap<String, String> languageFileNames = getLocaleLanguageFileNames(configJson);
+      JSONObject localizedResources = new JSONObject();
+      for(String languageKey : languageFileNames.keySet()) {
+        String path = languageFileNames.get(languageKey);
+        JSONObject localized = SkinConfigUtil.loadLocalizedResources(context, path);
+        if(localized != null) {
+            localizedResources.put(languageKey, localized);
+        }
+      }
+      if(localizedResources.length() > 0) {
+        JSONObject localizationJson = new JSONObject();
+        localizationJson.put(KEY_LOCALIZATION, localizedResources);
+        SkinConfigUtil.applySkinOverridesInPlace(configJson, localizationJson);
+      } else {
+        DebugMode.logE(TAG, "No localization files found.");
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private HashMap<String, String> getLocaleLanguageFileNames(JSONObject configJson) {
+    HashMap<String, String> languageFiles = new HashMap<>();
+    try {
+      JSONArray localeFiles = configJson.getJSONObject(KEY_LOCALIZATION).getJSONArray(KEY_AVAILABLE_LANGUAGE_FILE);
+
+      for(int i = 0; i < localeFiles.length(); i++) {
+        JSONObject jsonObject = (JSONObject)localeFiles.get(i);
+        String localeCode = jsonObject.getString(KEY_LANGUAGE);
+        String languageFile = jsonObject.getString(KEY_LANGUAGE_FILE );
+        languageFiles.put(localeCode, languageFile);
+      }
+    } catch (JSONException e) {
+      // Localization file for current locale is not set in config. Ignore.
+    }
+    return languageFiles;
   }
 
   @Override
