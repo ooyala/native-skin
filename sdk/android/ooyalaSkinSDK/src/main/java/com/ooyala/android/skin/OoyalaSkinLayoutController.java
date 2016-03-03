@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -183,7 +184,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
     try {
       configJson.put(KEY_LOCALE, locale);
-      HashMap<String, String> languageFileNames = getLocaleLanguageFileNames(configJson, locale);
+      HashMap<String, String> languageFileNames = getLocaleLanguageFileNames(configJson);
       JSONObject localizedResources = new JSONObject();
       for(String languageKey : languageFileNames.keySet()) {
         String path = languageFileNames.get(languageKey);
@@ -196,26 +197,24 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
         JSONObject localizationJson = new JSONObject();
         localizationJson.put(KEY_LOCALIZATION, localizedResources);
         SkinConfigUtil.applySkinOverridesInPlace(configJson, localizationJson);
+      } else {
+        DebugMode.logE(TAG, "No localization files found.");
       }
     } catch (JSONException e) {
       e.printStackTrace();
     }
   }
 
-  private HashMap<String, String> getLocaleLanguageFileNames(JSONObject configJson, String locale) {
+  private HashMap<String, String> getLocaleLanguageFileNames(JSONObject configJson) {
     HashMap<String, String> languageFiles = new HashMap<>();
     try {
       JSONArray localeFiles = configJson.getJSONObject(KEY_LOCALIZATION).getJSONArray(KEY_AVAILABLE_LANGUAGE_FILE);
-      // default locale as set in json config file
-      String defaultLocale = configJson.getJSONObject(KEY_LOCALIZATION).getString(KEY_DEFAULT_LANGUAGE);
 
       for(int i = 0; i < localeFiles.length(); i++) {
         JSONObject jsonObject = (JSONObject)localeFiles.get(i);
-        String language = jsonObject.getString(KEY_LANGUAGE);
-        if(language.equals(locale) || language.equals(defaultLocale)) {
-          String languageFile = jsonObject.getString(KEY_LANGUAGE_FILE );
-          languageFiles.put(language, languageFile);
-        }
+        String localeCode = jsonObject.getString(KEY_LANGUAGE);
+        String languageFile = jsonObject.getString(KEY_LANGUAGE_FILE );
+        languageFiles.put(localeCode, languageFile);
       }
     } catch (JSONException e) {
       // Localization file for current locale is not set in config. Ignore.
