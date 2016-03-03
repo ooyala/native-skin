@@ -33,6 +33,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -55,7 +58,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private static final String KEY_AVAILABLE_LANGUAGE_FILE = "availableLanguageFile";
   private static final String KEY_LANGUAGE_FILE = "languageFile";
   private static final String KEY_LOCALIZATION = "localization";
-  private static final String KEY_LOCALE = "localization";
+  private static final String KEY_LOCALE = "locale";
+  private static final String KEY_DEFAULT_LANGUAGE= "defaultLanguage";
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
 
@@ -176,42 +180,47 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
    */
   private void injectLocalizedResources(JSONObject configJson, Context context) {
     String locale = Locale.getDefault().getLanguage();
+
     try {
       configJson.put(KEY_LOCALE, locale);
-    } catch (JSONException e) {
-      // Ignore
-    }
-
-    String languageFilePath = getLocaleLanguageFilePath(configJson, locale);
-    JSONObject localizedResources = SkinConfigUtil.loadLocalizedResources(context, languageFilePath);
-
-    if(localizedResources != null) {
-      try {
-        JSONObject localizationJson = new JSONObject();
-        JSONObject localeJson = new JSONObject();
-        localeJson.put(locale, localizedResources);
-        localizationJson.put(KEY_LOCALIZATION, localeJson);
-        SkinConfigUtil.applySkinOverridesInPlace(configJson, localizationJson);
-      } catch (JSONException e) {
-        // Localization file does not exist. Ignore.
+      HashMap<String, String> languageFileNames = getLocaleLanguageFileNames(configJson, locale);
+      JSONObject localizedResources = new JSONObject();
+      for(String languageKey : languageFileNames.keySet()) {
+        String path = languageFileNames.get(languageKey);
+        JSONObject localized = SkinConfigUtil.loadLocalizedResources(context, path);
+        if(localized != null) {
+            localizedResources.put(languageKey, localized);
+        }
       }
+      if(localizedResources.length() > 0) {
+        JSONObject localizationJson = new JSONObject();
+        localizationJson.put(KEY_LOCALIZATION, localizedResources);
+        SkinConfigUtil.applySkinOverridesInPlace(configJson, localizationJson);
+      }
+    } catch (JSONException e) {
+      e.printStackTrace();
     }
   }
 
-  private String getLocaleLanguageFilePath(JSONObject configJson, String locale) {
-    String languageFile = null;
+  private HashMap<String, String> getLocaleLanguageFileNames(JSONObject configJson, String locale) {
+    HashMap<String, String> languageFiles = new HashMap<>();
     try {
       JSONArray localeFiles = configJson.getJSONObject(KEY_LOCALIZATION).getJSONArray(KEY_AVAILABLE_LANGUAGE_FILE);
+      // default locale as set in json config file
+      String defaultLocale = configJson.getJSONObject(KEY_LOCALIZATION).getString(KEY_DEFAULT_LANGUAGE);
+
       for(int i = 0; i < localeFiles.length(); i++) {
         JSONObject jsonObject = (JSONObject)localeFiles.get(i);
-        if(jsonObject.getString(KEY_LANGUAGE).equals(locale)) {
-          languageFile = jsonObject.getString(KEY_LANGUAGE_FILE );
+        String language = jsonObject.getString(KEY_LANGUAGE);
+        if(language.equals(locale) || language.equals(defaultLocale)) {
+          String languageFile = jsonObject.getString(KEY_LANGUAGE_FILE );
+          languageFiles.put(language, languageFile);
         }
       }
     } catch (JSONException e) {
       // Localization file for current locale is not set in config. Ignore.
     }
-    return languageFile;
+    return languageFiles;
   }
 
   @Override
