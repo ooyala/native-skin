@@ -3,6 +3,7 @@ package com.ooyala.android.skin;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.ooyala.android.AdIconInfo;
 import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.item.Caption;
@@ -176,6 +177,14 @@ class BridgeMessageBuilder {
       Double skipoffset = ad.getSkipOffset();
       params.putDouble("skipoffset", skipoffset);
 
+      if (ad.getIcons() != null && ad.getIcons().size() > 0) {
+        WritableArray icons = Arguments.createArray();
+        for (int i = 0; i < ad.getIcons().size(); ++i) {
+          icons.pushMap(icon2Map(i, ad.getIcons().get(i)));
+        }
+        params.putArray("icons", icons);
+      }
+
       //hard coded the values for learnMore for now to prevent from the crash and enabling the learnmore button.
       double title1=74.672;
       argument.putDouble("title",title1);
@@ -195,5 +204,18 @@ class BridgeMessageBuilder {
       params.putMap("measures", argument);
     }
     return params;
+  }
+
+  private static WritableMap icon2Map(int index, AdIconInfo info) {
+    WritableMap icon = Arguments.createMap();
+
+    icon.putInt("width", info.getWidth());
+    icon.putInt("height", info.getHeight());
+    icon.putInt("x", info.getxPosition());
+    icon.putInt("y", info.getyPosition());
+    icon.putDouble("offset", info.getOffset());
+    icon.putDouble("duration", info.getDuration());
+    icon.putString("url", info.getResourceUrl());
+    return icon;
   }
 }

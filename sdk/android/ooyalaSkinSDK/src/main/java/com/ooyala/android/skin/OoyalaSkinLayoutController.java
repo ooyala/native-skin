@@ -347,6 +347,10 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
   }
 
+  void handleAdIconClick(int index) {
+    _player.onAdIconClicked(index);
+  }
+
   void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
