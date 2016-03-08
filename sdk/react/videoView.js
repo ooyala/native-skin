@@ -160,11 +160,12 @@ var VideoView = React.createClass({
       );
   },
 
-  _renderPlaceholder: function() {
+  _renderPlaceholder: function(ads) {
     return (
         <View
           style={styles.placeholder}
           onTouchEnd={(event) => this.handleTouchEnd(event)}>
+          {ads}
         </View>);
   },
 
@@ -334,12 +335,11 @@ var VideoView = React.createClass({
         style={styles.container}>
         {adBar}
         {this._renderVideoWaterMark(shouldShowControls)}
-        {this._renderPlaceholder()}
+        {this._renderPlaceholder(adIcons)}
         {this._renderClosedCaptions()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
-        {adIcons}
       </View>
     );
   }
