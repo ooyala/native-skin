@@ -82,7 +82,6 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   private float dpi;
   private float cal;
-  private int currentVolume;
 
   private String nextVideoEmbedCode = null;
 
@@ -131,8 +130,6 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     width = Math.round(_layout.getViewWidth() * cal);
     height = Math.round(_layout.getViewHeight() * cal);
 
-    AudioManager audioManager = (AudioManager) layout.getContext().getSystemService(Context.AUDIO_SERVICE);
-    currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     initializeSkin(app, layout, player, skinOptions);
   }
 
@@ -260,7 +257,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
 
   public int getCurrentVolume() {
-    return currentVolume;
+    AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
+    return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
   }
 
   public void setFullscreen(boolean fullscreen) {

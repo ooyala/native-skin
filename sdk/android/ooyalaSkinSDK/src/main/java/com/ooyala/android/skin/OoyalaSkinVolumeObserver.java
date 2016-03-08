@@ -11,9 +11,16 @@ import com.facebook.react.bridge.WritableMap;
  * Created by ukumar on 3/7/16.
  */
 
-//VolumeObserver listens to the volume change through hardware buttons and seekbar and fires an event to notify the react UI about the change.
+/**
+ * VolumeObserver listens to the volume change in the OS and fires an event to notify the react UI about the change.
+ */
 class OoyalaSkinVolumeObserver {
 
+    /**
+     * Initialize an OoyalaSkinViewVolumeObserver
+     * @param context
+     * @param controller
+     */
     public OoyalaSkinVolumeObserver(Context context, OoyalaSkinLayoutController controller) {
         //hardware volume change observer initialization
         VolumeContentObserver volumeObserver = new VolumeContentObserver(context, new Handler(), controller);
