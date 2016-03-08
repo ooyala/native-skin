@@ -162,11 +162,11 @@ var VideoView = React.createClass({
 
   _renderPlaceholder: function(ads) {
     return (
-        <View
-          style={styles.placeholder}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}>
-          {ads}
-        </View>);
+      <View
+        style={styles.placeholder}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+        {ads}
+      </View>);
   },
 
   _renderClosedCaptions: function() {
@@ -301,9 +301,11 @@ var VideoView = React.createClass({
 
       iconViews.push(
         <TouchableHighlight 
+          key={"iconTouchable"+index}
           style={[iconStyle, leftStyle, topStyle]}
           onPress={clickHandler}>
           <Image
+            key={"iconImage" + index}
             style={{flex:1}}
             source={{uri: icon.url}} />
         </TouchableHighlight>

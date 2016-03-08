@@ -133,7 +133,7 @@ OoyalaSkinCore.prototype.handleScrub = function(value) {
 };
 
 OoyalaSkinCore.prototype.handleIconPress = function(index) {
-  this.bridge.onPress({name:BUTTON_NAMES.ICON, index:index})
+  this.bridge.onPress({name:BUTTON_NAMES.AD_ICON, index:index})
 };
 
 OoyalaSkinCore.prototype.updateClosedCaptions = function() {
