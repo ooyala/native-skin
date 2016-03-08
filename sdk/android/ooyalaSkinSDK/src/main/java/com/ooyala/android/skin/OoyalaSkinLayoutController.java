@@ -76,13 +76,13 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   int width;
   int height;
-  int currentVolume;
 
   String shareTitle;
   String shareUrl;
 
   private float dpi;
   private float cal;
+  private int currentVolume;
 
   private String nextVideoEmbedCode = null;
 
@@ -256,6 +256,11 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   public FrameLayout getLayout() {
     return _layout.getPlayerLayout();
+  }
+
+
+  public int getCurrentVolume() {
+    return currentVolume;
   }
 
   public void setFullscreen(boolean fullscreen) {

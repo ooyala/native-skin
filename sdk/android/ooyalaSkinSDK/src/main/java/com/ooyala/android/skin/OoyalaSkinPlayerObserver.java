@@ -71,7 +71,7 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeCurrentItemChangedNotification() {
-    WritableMap params = BridgeMessageBuilder.buildCurrentItemChangedParams(_player, _layoutController.width, _layoutController.height, _layoutController.currentVolume);
+    WritableMap params = BridgeMessageBuilder.buildCurrentItemChangedParams(_player, _layoutController.width, _layoutController.height, _layoutController.getCurrentVolume());
     _layoutController.sendEvent(OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION_NAME, params);
 
 //    if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
