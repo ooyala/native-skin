@@ -132,6 +132,10 @@ OoyalaSkinCore.prototype.handleScrub = function(value) {
   this.bridge.onScrub({percentage:value});
 };
 
+OoyalaSkinCore.prototype.handleIconPress = function(index) {
+  this.bridge.onPress({name:BUTTON_NAMES.ICON, index:index})
+};
+
 OoyalaSkinCore.prototype.updateClosedCaptions = function() {
   if (this.skin.state.selectedLanguage) {
     this.bridge.onClosedCaptionUpdateRequested( {language:this.skin.state.selectedLanguage} );

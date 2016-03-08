@@ -6,9 +6,11 @@
 
 var React = require('react-native');
 var {
+  Image,
   Text,
   View,
-  StyleSheet
+  StyleSheet,
+  TouchableHighlight
 } = React;
 
 var Dimensions = require('Dimensions');
@@ -272,6 +274,54 @@ var VideoView = React.createClass({
     }
   },
 
+  _renderAdIcon: function(index) {
+    var icon = this.props.ad.icons[index];
+    var offset = icon.offset;
+    var duration = icon.duration;
+
+    if ((this.props.playhead < offset) || (this.props.playhead > (offset + duration))) {
+      return null;
+    }
+    console.log("icon offset"+offset+"duration"+duration+"playhead"+this.props.playhead);
+    var index = icon.index;
+    var width = icon.width;
+    if (width > this.props.width) {
+      width = this.props.width;
+    }
+    var height = icon.height;
+    if (height > this.props.height) {
+      height = this.props.height;
+    }
+    var left = icon.x;
+    if (left > this.props.width - width) {
+      left = this.props.width - width;
+    }
+    var top = icon.y;
+    if (top > this.props.height - height) {
+      top = this.props.height - height;
+    }
+    console.log("icon left"+left+"top"+top+"width"+width+"height"+height);
+    return 
+      (<TouchableHighlight
+        onPress={(index)=>this.props.onIcon(index)}
+        style={{position:'absolute', flex:0, top:top, left:left, width:width, height:height}}>
+        <Image 
+          source={{uri: icon.url}}
+          style={{flex:1}}
+          resizeMode={Image.resizeMode.contain}>
+        </Image>
+      </TouchableHighlight>);
+
+  },
+
+  _renderAdIcons: function() {
+    var iconViews = [];
+    for (var index in this.props.ad.icons) {
+      iconViews.push(this._renderAdIcon(index));
+    }
+    return iconViews;
+  },
+
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
     var doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
@@ -282,14 +332,19 @@ var VideoView = React.createClass({
     var shouldShowControls = !isPastAutoHideTime && (doesAdRequireControls || isContent);
 
     var adBar = null;
+    var adIcons = null;
     if (this.props.ad) {
       adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
+      if (this.props.ad.icons) {
+        adIcons = this._renderAdIcons();
+      }
     }
 
     return (
       <View
         style={styles.container}>
         {adBar}
+        {adIcons}
         {this._renderVideoWaterMark(shouldShowControls)}
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}

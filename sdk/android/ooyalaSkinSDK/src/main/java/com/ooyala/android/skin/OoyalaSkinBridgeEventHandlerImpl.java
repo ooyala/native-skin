@@ -27,7 +27,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_UPNEXT_DISMISS = "upNextDismiss";
   private static final String BUTTON_UPNEXT_CLICK = "upNextClick";
   private static final String BUTTON_SKIP = "Skip";
-  private static final String BUTTON_ADICON = "idIcon";
+  private static final String BUTTON_ADICON = "Icon";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
