@@ -212,8 +212,17 @@ OoyalaSkinCore.prototype.onPlayStarted = function(e) {
 
 OoyalaSkinCore.prototype.onPlayComplete = function(e) {
   Log.log("Play Complete received")
-  this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
+if (this.skin.state.upNextDismissed == true) {
+  this.skin.setState({screenType: SCREEN_TYPES.DISCOVERY_SCREEN});
+}
+  else {
+    this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
+  }
 };
+
+OoyalaSkinCore.prototype.onDiscoveryDismiss = function() {
+   this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
+}
 
 OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
   Log.log("onDiscoveryResult results are:", e.results);
@@ -416,6 +425,7 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
         discoveryScreen: this.skin.props.discoveryScreen,
         icons: this.skin.props.icons,
       }}
+      onDismiss={() => this.onDiscoveryDismiss()}
       platform={this.skin.state.platform}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
