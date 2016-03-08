@@ -160,12 +160,12 @@ var VideoView = React.createClass({
       );
   },
 
-  _renderPlaceholder: function(ads) {
+  _renderPlaceholder: function(adIcons) {
     return (
       <View
         style={styles.placeholder}
         onTouchEnd={(event) => this.handleTouchEnd(event)}>
-        {ads}
+        {adIcons}
       </View>);
   },
 
