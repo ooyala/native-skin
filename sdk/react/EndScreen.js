@@ -54,20 +54,7 @@ var EndScreen = React.createClass({
     this.toggleControlBar();
   },
 
-  _renderDiscoveryScreen: function() {
-    var dismissButton = Utils.renderRectButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.endScreen.replayIconStyle.color, this.props.config.icons.dismiss.fontFamilyName);
-     var dismissButtonRow = (
-      <View style={styles.dismissButtonTopRight}>
-        {dismissButton}
-      </View>
-    );
 
-    return (
-      <View style={styles.fullscreenContainer}>
-        {this.props.discoveryPanel}
-        {dismissButtonRow}
-      </View>);
-  },
 
   _renderDefaultScreen: function(progressBar, controlBar) {
     var fullscreenPromoImage = (this.props.config.endScreen.mode == 'default');
@@ -135,12 +122,7 @@ var EndScreen = React.createClass({
         buttons: this.props.config.buttons,
         icons: this.props.config.icons
       }}/>);
-    if (this.props.config.endScreen.screenToShowOnEnd == 'discovery' &&
-      this.props.discoveryPanel && this.state.showDiscoveryPanel && this.props.upNextDismissed) {
-      return this._renderDiscoveryScreen();
-    } else {
       return this._renderDefaultScreen(progressBar, controlBar);
-    }
   }
 });
 

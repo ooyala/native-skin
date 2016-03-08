@@ -38,6 +38,7 @@ var timerListenerAndroid;
 var DiscoveryPanel = React.createClass({
 
   propTypes: {
+    onDismiss: React.PropTypes.func,
     localizableStrings: React.PropTypes.object,
     locale: React.PropTypes.string,
     dataSource: React.PropTypes.array,
@@ -89,7 +90,7 @@ var DiscoveryPanel = React.createClass({
         }),
     ]).start();
 
-    if (this.props.screenType === SCREEN_TYPES.END_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
+    if (this.props.screenType === SCREEN_TYPES.DISCOVERY_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
       this.setCounterTime(parseInt(this.props.config.discoveryScreen.countDownTime));
     }
   },
@@ -122,6 +123,10 @@ var DiscoveryPanel = React.createClass({
     this.setState({
       impressionsFired:value,
     });
+  },
+
+  onDismissPress: function() {
+    this.props.onDismiss();
   },
 
   render: function() {
@@ -220,7 +225,7 @@ var DiscoveryPanel = React.createClass({
     }
 
     var circularStatus;
-    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCountdownTimer) {
+    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.DISCOVERY_SCREEN && this.state.showCountdownTimer) {
       circularStatus = this.renderCountdownTimer(item);
     }
 
@@ -256,14 +261,29 @@ var DiscoveryPanel = React.createClass({
     }
 
     title = Utils.localizedString(this.props.locale, "Discovery", this.props.localizableStrings);
-    return (
-      <View style={styles.panelTitle}>
-        <Text style={[styles.panelTitleText,this.props.config.discoveryScreen.panelTitle.titleFont]}>
+    if (this.props.screenType == SCREEN_TYPES.MOREOPTION_SCREEN) {
+       return (
+      <View style = {styles.panelTitle}>
+        <Text style = {[styles.panelTitleText,this.props.config.discoveryScreen.panelTitle.titleFont]}>
         {title}
         </Text>
         <Text style={styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
       </View>);
-  },
+    }
+     else {  
+      return (
+      <View style = {styles.panelTitle}>
+        <Text style = {[styles.panelTitleText,this.props.config.discoveryScreen.panelTitle.titleFont]}>
+        {title}
+        </Text>
+        <Text style = {styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
+        <TouchableHighlight style = {[styles.dismiss]}
+          onPress = {this.onDismissPress}>
+          <Text style = {styles.dismiss}>{this.props.config.icons.dismiss.fontString}</Text>
+        </TouchableHighlight>
+      </View>);
+  }
+},
 
   renderError: function() {
     var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";

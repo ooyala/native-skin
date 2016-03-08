@@ -26,6 +26,14 @@
     "fontSize": 16,
     "color": "white"
   },
+  "dismiss": {
+    "flex": 1,
+    "marginRight":16,
+    "textAlign": "right",
+    "fontFamily": "alice",
+    "fontSize": 20,
+    "color": "white"
+  },
   "panelTitleText": {
     "textAlign": "left",
     "margin": 10,
