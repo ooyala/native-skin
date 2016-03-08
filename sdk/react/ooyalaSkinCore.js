@@ -353,6 +353,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
       onPress={(value) => this.handlePress(value)}
+      onIcon={(value)=>this.handleIconPress(value)}
       onScrub={(value) => this.handleScrub(value)}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
       // todo: change to boolean showCCButton.

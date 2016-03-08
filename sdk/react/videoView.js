@@ -52,6 +52,7 @@ var VideoView = React.createClass({
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
     onPress: React.PropTypes.func,
+    onIcon: React.PropTypes.func,
     onScrub: React.PropTypes.func,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
@@ -108,6 +109,12 @@ var VideoView = React.createClass({
       }
     } else {
       this.props.onPress(name);
+    }
+  },
+
+  _createOnIcon: function(index, func) {
+    return function() {
+      func(index);
     }
   },
 
@@ -273,51 +280,33 @@ var VideoView = React.createClass({
       this.setState({lastPressedTime: new Date(0)})
     }
   },
-
-  _renderAdIcon: function(index) {
-    var icon = this.props.ad.icons[index];
-    var offset = icon.offset;
-    var duration = icon.duration;
-
-    if ((this.props.playhead < offset) || (this.props.playhead > (offset + duration))) {
-      return null;
-    }
-    console.log("icon offset"+offset+"duration"+duration+"playhead"+this.props.playhead);
-    var index = icon.index;
-    var width = icon.width;
-    if (width > this.props.width) {
-      width = this.props.width;
-    }
-    var height = icon.height;
-    if (height > this.props.height) {
-      height = this.props.height;
-    }
-    var left = icon.x;
-    if (left > this.props.width - width) {
-      left = this.props.width - width;
-    }
-    var top = icon.y;
-    if (top > this.props.height - height) {
-      top = this.props.height - height;
-    }
-    console.log("icon left"+left+"top"+top+"width"+width+"height"+height);
-    return 
-      (<TouchableHighlight
-        onPress={(index)=>this.props.onIcon(index)}
-        style={{position:'absolute', flex:0, top:top, left:left, width:width, height:height}}>
-        <Image 
-          source={{uri: icon.url}}
-          style={{flex:1}}
-          resizeMode={Image.resizeMode.contain}>
-        </Image>
-      </TouchableHighlight>);
-
-  },
-
+  
   _renderAdIcons: function() {
     var iconViews = [];
     for (var index in this.props.ad.icons) {
-      iconViews.push(this._renderAdIcon(index));
+      var icon = this.props.ad.icons[index];
+      if ((this.props.playhead < icon.offset) || (this.props.playhead > (icon.offset + icon.duration))) {
+        continue;
+      }
+      var left = icon.x;
+      var top = icon.y;
+      var iconStyle = {position:"absolute", width:icon.width, height:icon.height, backgroundColor:"transparent"};
+      
+      var leftStyle = 
+        (icon.left < this.props.width -  icon.width) ? {left:icon.left} : {right:0};
+      var topStyle = 
+        (icon.top < this.props.height - icon.height) ? {top:icon.top} : {bottom:0};
+      var clickHandler = this._createOnIcon(index, this.props.onIcon);
+
+      iconViews.push(
+        <TouchableHighlight 
+          style={[iconStyle, leftStyle, topStyle]}
+          onPress={clickHandler}>
+          <Image
+            style={{flex:1}}
+            source={{uri: icon.url}} />
+        </TouchableHighlight>
+      );
     }
     return iconViews;
   },
@@ -344,13 +333,12 @@ var VideoView = React.createClass({
       <View
         style={styles.container}>
         {adBar}
-        {adIcons}
         {this._renderVideoWaterMark(shouldShowControls)}
-        {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
+        {adIcons}
       </View>
     );
   }
