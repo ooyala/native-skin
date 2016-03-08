@@ -46,7 +46,7 @@ var controlBarWidget = React.createClass({
   volumeWidget: function (options) {
     var volumeScrubber = null;
     if (options.showVolume) {
-      volumeScrubber = <VolumeView style={options.scrubberStyle} color={options.volumeControlColor}/>;
+        volumeScrubber = <VolumeView style={options.scrubberStyle} color={options.volumeControlColor} volume={options.volume} />;
     }
 
     var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;

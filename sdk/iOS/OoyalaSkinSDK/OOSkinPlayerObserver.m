@@ -15,6 +15,7 @@
 #import "OOLocaleHelper.h"
 #import "OOSkinViewController.h"
 #import "OOSkinViewController+Internal.h"
+#import "OOVolumeManager.h"
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
@@ -93,7 +94,8 @@
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.viewController.view.frame.size.height];
   NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
   NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
-
+  NSNumber *volume = [NSNumber numberWithFloat:[OOVolumeManager getCurrentVolume]];
+  
   NSDictionary *eventBody =
   @{@"title":title,
     @"description":itemDescription,
@@ -103,7 +105,8 @@
     @"live":live,
     @"languages":closedCaptionsLanguages,
     @"width":frameWidth,
-    @"height":frameHeight};
+    @"height":frameHeight,
+    @"volume": volume};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   
   [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];

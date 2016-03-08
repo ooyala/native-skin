@@ -28,4 +28,10 @@ public class VolumeViewManager extends SimpleViewManager<VolumeView> {
     view.getProgressDrawable().setColorFilter(Color.parseColor(color), PorterDuff.Mode.MULTIPLY);
     view.getThumb().setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_IN);
   }
+
+  @ReactProp(name = "volume")
+  public void setVolume(VolumeView view, int volume) {
+    view.setProgress(volume);
+    view.invalidate();
+  }
 }

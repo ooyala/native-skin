@@ -3,6 +3,7 @@ package com.ooyala.android.skin;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -83,6 +84,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   private ReactInstanceManager _reactInstanceManager;
   private OoyalaSkinPlayerObserver playerObserver;
+  private OoyalaSkinVolumeObserver volumeObserver;
   private OoyalaSkinBridgeEventHandlerImpl eventHandler;
 
   /**
@@ -113,6 +115,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     _player.setLayoutController(this);
 
     playerObserver = new OoyalaSkinPlayerObserver(this, player);
+    volumeObserver = new OoyalaSkinVolumeObserver(layout.getContext(),this);
     eventHandler = new OoyalaSkinBridgeEventHandlerImpl(this, player);
 
     _package = null;
@@ -247,6 +250,12 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   public FrameLayout getLayout() {
     return _layout.getPlayerLayout();
+  }
+
+
+  public int getCurrentVolume() {
+    AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
+    return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
   }
 
   public void setFullscreen(boolean fullscreen) {
