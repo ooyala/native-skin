@@ -27,7 +27,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_UPNEXT_DISMISS = "upNextDismiss";
   private static final String BUTTON_UPNEXT_CLICK = "upNextClick";
   private static final String BUTTON_SKIP = "Skip";
-  private static final String BUTTON_ADICON = "idIcon";
+  private static final String BUTTON_ADICON = "Icon";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -74,8 +74,9 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
           } else if (buttonName.equals(BUTTON_SKIP)) {
             _layoutController.handleSkip();
           } else if (buttonName.equals(BUTTON_ADICON)) {
-            int index = parameters.getInt("index");
-            _layoutController.handleAdIconClick(index);
+            String index = parameters.getString("index");
+            DebugMode.logD(TAG, "onIconClicked with index "+ index);
+            _layoutController.handleAdIconClick(Integer.parseInt(index));
           }
         }
       });
