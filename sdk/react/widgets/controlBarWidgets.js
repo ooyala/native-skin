@@ -44,9 +44,11 @@ var controlBarWidget = React.createClass({
   },
 
   volumeWidget: function (options) {
-    var volumeScrubber = null;
+    //Always initialize, so the VolumeViewManager class is made
+    var volumeScrubber =<VolumeView style={options.scrubberStyle} color={options.volumeControlColor} volume={options.volume} />;
+    var visibleVolumeScrubber = null;
     if (options.showVolume) {
-      volumeScrubber = <VolumeView style={options.scrubberStyle} color={options.volumeControlColor}/>;
+        visibleVolumeScrubber = volumeScrubber;
     }
 
     var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
@@ -56,7 +58,7 @@ var controlBarWidget = React.createClass({
         <TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
           <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
-        {volumeScrubber}
+        {visibleVolumeScrubber}
       </View>
     );
   },

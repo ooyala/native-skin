@@ -3,6 +3,7 @@ package com.ooyala.android.skin;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -75,6 +76,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   int width;
   int height;
+  int currentVolume;
 
   String shareTitle;
   String shareUrl;
@@ -86,6 +88,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   private ReactInstanceManager _reactInstanceManager;
   private OoyalaSkinPlayerObserver playerObserver;
+  private OoyalaSkinVolumeObserver volumeObserver;
   private OoyalaSkinBridgeEventHandlerImpl eventHandler;
 
   /**
@@ -116,6 +119,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     _player.setLayoutController(this);
 
     playerObserver = new OoyalaSkinPlayerObserver(this, player);
+    volumeObserver = new OoyalaSkinVolumeObserver(layout.getContext(),this);
     eventHandler = new OoyalaSkinBridgeEventHandlerImpl(this, player);
 
     _package = null;
@@ -127,6 +131,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     width = Math.round(_layout.getViewWidth() * cal);
     height = Math.round(_layout.getViewHeight() * cal);
 
+    AudioManager audioManager = (AudioManager) layout.getContext().getSystemService(Context.AUDIO_SERVICE);
+    currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     initializeSkin(app, layout, player, skinOptions);
   }
 

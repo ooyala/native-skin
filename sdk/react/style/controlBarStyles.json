@@ -38,7 +38,7 @@
     "color": "#E6E6E6",
   },
   "volumeSlider": {
-    "height": 20,
+    "height": 30,
     "width": 100,
     "alignSelf": "center",
   },

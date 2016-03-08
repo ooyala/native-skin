@@ -190,6 +190,7 @@ OoyalaSkinCore.prototype.onCurrentItemChange = function(e) {
     playhead:e.playhead,
     width:e.width,
     height:e.height,
+    volume:e.volume,
     captionJSON:null});
   if (!this.skin.state.autoPlay) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
