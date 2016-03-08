@@ -334,6 +334,7 @@ var VideoView = React.createClass({
         style={styles.container}>
         {adBar}
         {this._renderVideoWaterMark(shouldShowControls)}
+        {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
