@@ -42,6 +42,7 @@ static NSString *bucketInfoKey = @"bucketInfo";
 static NSString *actionKey = @"action";
 static NSString *upNextDismiss = @"upNextDismiss";
 static NSString *upNextClick = @"upNextClick";
+static NSString *adIconButtonName = @"Icon";
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
@@ -58,6 +59,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [self handleLearnMore];
     } else if([buttonName isEqualToString:skipButtonName]) {
       [self handleSkip];
+    } else if ([buttonName isEqualToString:adIconButtonName]) {
+      [self handleIconClick:[[parameters objectForKey:@"index"] integerValue]];
     } else if([buttonName isEqualToString:moreOptionButtonName]) {
       [self handleMoreOption];
     } else if([buttonName isEqualToString:upNextDismiss]) {
@@ -84,6 +87,10 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
     }
     [OOReactBridge sendDeviceEventWithName:eventName body:body];
   });
+}
+
+-(void) handleIconClick: (NSInteger) index {
+  [sharedController.player onAdIconClicked:index];
 }
 
 -(void) handlePlayPause {
