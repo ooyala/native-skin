@@ -153,6 +153,7 @@
   NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
   NSNumber *skipoffset = [NSNumber numberWithFloat:[adInfo[@"skipoffset"] floatValue]];
+  NSMutableArray *icons = adInfo[@"icons"];
   NSString *title = adInfo[@"title"];
   NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
   NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Ad Playing"];
@@ -182,6 +183,7 @@
   [eventBody setObject:adTitle forKey:@"title"];
   [eventBody setObject:skipoffset forKey:@"skipoffset"];
   [eventBody setObject:requireControls forKey:@"requireControls"];
+  [eventBody setObject:icons forKey:@"icons"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 
 
