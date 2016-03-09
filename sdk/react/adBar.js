@@ -88,6 +88,23 @@ var AdBar = React.createClass({
     return textString;
   },
 
+  getSkipTimerLabel: function() {
+    var skipTimerLabel = "";
+    var skipTimer = this.props.ad.skipoffset - this.props.playhead;
+
+    if (skipTimer < 10) {
+      skipTimerLabel = "00:0" + (skipTimer | 0).toString();
+    } else if (skipTimer < 60) {
+      skipTimerLabel = "00:" + (skipTimer | 0).toString();
+    } else if (skipTimer < 600){
+      skipTimerLabel = "0" + (skipTimer / 60).toString() + ":" + (skipTimer % 60).toString();
+    } else {
+      skipTimerLabel = (skipTimer / 60).toString() + ":" + (skipTimer % 60).toString();
+    }
+
+    return skipTimerLabel;
+  },
+
   render: function() {
     var learnMoreButton;
     var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
@@ -122,7 +139,7 @@ var AdBar = React.createClass({
       } else{
         skipLabel = (
           <Text allowFontScaling={true} style={styles.label}>
-          {skipLabelText + ((this.props.ad.skipoffset - this.props.playhead) | 0).toString()}
+          {skipLabelText + this.getSkipTimerLabel()}
           </Text>
         );
       }
