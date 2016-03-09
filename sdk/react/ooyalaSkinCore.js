@@ -132,6 +132,10 @@ OoyalaSkinCore.prototype.handleScrub = function(value) {
   this.bridge.onScrub({percentage:value});
 };
 
+OoyalaSkinCore.prototype.handleIconPress = function(index) {
+  this.bridge.onPress({name:BUTTON_NAMES.AD_ICON, index:index})
+};
+
 OoyalaSkinCore.prototype.updateClosedCaptions = function() {
   if (this.skin.state.selectedLanguage) {
     this.bridge.onClosedCaptionUpdateRequested( {language:this.skin.state.selectedLanguage} );
@@ -190,6 +194,7 @@ OoyalaSkinCore.prototype.onCurrentItemChange = function(e) {
     playhead:e.playhead,
     width:e.width,
     height:e.height,
+    volume:e.volume,
     captionJSON:null});
   if (this.skin.state.autoPlay != false) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
@@ -358,6 +363,7 @@ OoyalaSkinCore.prototype.renderVideoView = function() {
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
       onPress={(value) => this.handlePress(value)}
+      onIcon={(value)=>this.handleIconPress(value)}
       onScrub={(value) => this.handleScrub(value)}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
       // todo: change to boolean showCCButton.

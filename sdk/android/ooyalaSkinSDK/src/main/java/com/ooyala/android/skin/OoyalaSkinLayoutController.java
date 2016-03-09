@@ -3,9 +3,9 @@ package com.ooyala.android.skin;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -34,9 +34,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -57,7 +55,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private static final String KEY_PERCENTAG = "percentage";
   private static final String KEY_LANGUAGE = "language";
   private static final String KEY_AVAILABLE_LANGUAGE_FILE = "availableLanguageFile";
-  private static final String KEY_LANGUAGE_FILE = "languageFile";
+  private static final String KEY_ANDROID_RESOURCE = "androidResource";
   private static final String KEY_LOCALIZATION = "localization";
   private static final String KEY_LOCALE = "locale";
   private static final String KEY_DEFAULT_LANGUAGE= "defaultLanguage";
@@ -86,6 +84,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   private ReactInstanceManager _reactInstanceManager;
   private OoyalaSkinPlayerObserver playerObserver;
+  private OoyalaSkinVolumeObserver volumeObserver;
   private OoyalaSkinBridgeEventHandlerImpl eventHandler;
 
   /**
@@ -116,6 +115,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     _player.setLayoutController(this);
 
     playerObserver = new OoyalaSkinPlayerObserver(this, player);
+    volumeObserver = new OoyalaSkinVolumeObserver(layout.getContext(),this);
     eventHandler = new OoyalaSkinBridgeEventHandlerImpl(this, player);
 
     _package = null;
@@ -213,7 +213,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
       for(int i = 0; i < localeFiles.length(); i++) {
         JSONObject jsonObject = (JSONObject)localeFiles.get(i);
         String localeCode = jsonObject.getString(KEY_LANGUAGE);
-        String languageFile = jsonObject.getString(KEY_LANGUAGE_FILE );
+        String languageFile = jsonObject.getString(KEY_ANDROID_RESOURCE);
         languageFiles.put(localeCode, languageFile);
       }
     } catch (JSONException e) {
@@ -250,6 +250,12 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   public FrameLayout getLayout() {
     return _layout.getPlayerLayout();
+  }
+
+
+  public int getCurrentVolume() {
+    AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
+    return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
   }
 
   public void setFullscreen(boolean fullscreen) {
@@ -345,6 +351,10 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
       _player.setEmbedCode(nextVideoEmbedCode);
       _player.play();
     }
+  }
+
+  void handleAdIconClick(int index) {
+    _player.onAdIconClicked(index);
   }
 
   void requestDiscovery() {

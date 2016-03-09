@@ -15,6 +15,7 @@
 #import "OOLocaleHelper.h"
 #import "OOSkinViewController.h"
 #import "OOSkinViewController+Internal.h"
+#import "OOVolumeManager.h"
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
@@ -93,7 +94,8 @@
   NSNumber *frameHeight = [NSNumber numberWithFloat:self.viewController.view.frame.size.height];
   NSNumber *live = [NSNumber numberWithBool:_player.currentItem.live];
   NSArray *closedCaptionsLanguages = _player.availableClosedCaptionsLanguages;
-
+  NSNumber *volume = [NSNumber numberWithFloat:[OOVolumeManager getCurrentVolume]];
+  
   NSDictionary *eventBody =
   @{@"title":title,
     @"description":itemDescription,
@@ -103,7 +105,8 @@
     @"live":live,
     @"languages":closedCaptionsLanguages,
     @"width":frameWidth,
-    @"height":frameHeight};
+    @"height":frameHeight,
+    @"volume": volume};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
   
   [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];
@@ -150,6 +153,7 @@
   NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
   NSNumber *skipoffset = [NSNumber numberWithFloat:[adInfo[@"skipoffset"] floatValue]];
+  NSMutableArray *icons = adInfo[@"icons"];
   NSString *title = adInfo[@"title"];
   NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
   NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Ad Playing"];
@@ -179,6 +183,7 @@
   [eventBody setObject:adTitle forKey:@"title"];
   [eventBody setObject:skipoffset forKey:@"skipoffset"];
   [eventBody setObject:requireControls forKey:@"requireControls"];
+  [eventBody setObject:icons forKey:@"icons"];
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 
 

@@ -25,10 +25,10 @@
   NSArray *languages = localizableStrings[@"availableLanguageFile"];
 
   for (NSDictionary *localizationConfig in languages) {
-    if ([localizationConfig[@"language"] isKindOfClass:[NSString class]]) {
-      d = [NSDictionary dictionaryFromJson:localizationConfig[@"language"]];
+    if ([localizationConfig[@"iosResource"] isKindOfClass:[NSString class]]) {
+      d = [NSDictionary dictionaryFromJson:localizationConfig[@"iosResource"]];
       if (d) {
-        [localizableStrings setObject:d forKey:localizationConfig[@"language"]];
+        [localizableStrings setObject:d forKey:localizationConfig[@"iosResource"]];
       }
     }
   }
