@@ -90,7 +90,7 @@ var DiscoveryPanel = React.createClass({
         }),
     ]).start();
 
-    if (this.props.screenType === SCREEN_TYPES.DISCOVERY_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
+    if (this.props.screenType === SCREEN_TYPES.DISCOVERY_END_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
       this.setCounterTime(parseInt(this.props.config.discoveryScreen.countDownTime));
     }
   },
@@ -225,7 +225,7 @@ var DiscoveryPanel = React.createClass({
     }
 
     var circularStatus;
-    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.DISCOVERY_SCREEN && this.state.showCountdownTimer) {
+    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.DISCOVERY_END_SCREEN && this.state.showCountdownTimer) {
       circularStatus = this.renderCountdownTimer(item);
     }
 
@@ -277,9 +277,10 @@ var DiscoveryPanel = React.createClass({
         {title}
         </Text>
         <Text style = {styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
-        <TouchableHighlight style = {[styles.dismiss]}
+        <View style={styles.headerFlexibleSpace}></View>
+        <TouchableHighlight style = {[styles.dismissButton]}
           onPress = {this.onDismissPress}>
-          <Text style = {styles.dismiss}>{this.props.config.icons.dismiss.fontString}</Text>
+          <Text style = {styles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
         </TouchableHighlight>
       </View>);
   }
