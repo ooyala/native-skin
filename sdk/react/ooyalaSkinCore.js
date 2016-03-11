@@ -212,11 +212,10 @@ OoyalaSkinCore.prototype.onPlayStarted = function(e) {
 };
 
 OoyalaSkinCore.prototype.onPlayComplete = function(e) {
-  Log.log("Play Complete received")
-if (this.skin.state.upNextDismissed == true) {
-  this.skin.setState({screenType: SCREEN_TYPES.DISCOVERY_SCREEN});
-}
-  else {
+  Log.log("Play Complete received: upNext dismissed: "  + this.skin.state.upNextDismissed);
+  if (this.shouldShowDiscoveryEndscreen()) {
+    this.skin.setState({screenType: SCREEN_TYPES.DISCOVERY_END_SCREEN});
+  } else {
     this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
   }
 };
@@ -477,6 +476,10 @@ OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
       }} >
     </MoreOptionScreen>
   );
+};
+
+OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
+  return (this.skin.state.upNextDismissed == true && this.skin.props.endScreen.screenToShowOnEnd == "discovery");
 };
 
 module.exports = OoyalaSkinCore;

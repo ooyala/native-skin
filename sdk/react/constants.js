@@ -48,7 +48,7 @@ var SCREEN_TYPES = {
   LOADING_SCREEN: 'loading',
   VIDEO_SCREEN: 'video',
   START_SCREEN: 'start',
-  DISCOVERY_SCREEN: 'discovery',
+  DISCOVERY_END_SCREEN: 'discovery_end',
   END_SCREEN: 'end',
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
