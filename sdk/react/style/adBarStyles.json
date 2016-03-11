@@ -16,14 +16,16 @@
     "flex": 1,
   },
   "button": {
-    "backgroundColor": "#F9F4F6",
+    "backgroundColor": "transparent",
     "padding": 6,
     "margin": 10,
     "borderRadius": 5,
+    "borderColor": "white",
+    "borderWidth": 1,
   },
   "buttonText": {
     "textAlign": "center",
-    "color": "#030303",
+    "color": "white",
     "fontSize": 16,
     "fontFamily": "AvenirNext-DemiBold",
   },

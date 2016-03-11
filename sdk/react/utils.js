@@ -54,6 +54,22 @@ var Utils = {
     return React.StyleSheet.create(styles);
   },
 
+  getTimerLabel: function(timer) {
+    var timerLabel = "";
+
+    if (timer < 10) {
+      timerLabel = "00:0" + (timer | 0).toString();
+    } else if (timer < 60) {
+      timerLabel = "00:" + (timer | 0).toString();
+    } else if (timer < 600){
+      timerLabel = "0" + (timer / 60).toString() + ":" + (timer % 60).toString();
+    } else {
+      timerLabel = (timer / 60).toString() + ":" + (timer % 60).toString();
+    }
+
+    return timerLabel;
+  },
+
   isPlaying: function( rate ) {
     return rate > 0;
   },
