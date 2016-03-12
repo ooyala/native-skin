@@ -154,6 +154,9 @@ var BottomOverlay = React.createClass({
   },
 
   _renderCuePoints: function(cuePoints) {
+    if (!cuePoints) {
+      return;
+    }
     var cuePointsView = [];
     var progressBarWidth = this._renderProgressBarWidth();
     var topOffset = this._renderTopOffset(cuePointSize);
