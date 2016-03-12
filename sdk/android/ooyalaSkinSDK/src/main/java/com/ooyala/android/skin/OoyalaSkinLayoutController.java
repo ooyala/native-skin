@@ -72,6 +72,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   private boolean _isFullscreen = false;
   private boolean _isUpNextDismissed = false;
+  private boolean _isUpNextEnabled = false;
 
   int width;
   int height;
@@ -140,7 +141,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     JSONObject configJson = SkinConfigUtil.loadInitialProperties(l.getContext(), skinOptions.getSkinConfigAssetName());
     SkinConfigUtil.applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
     injectLocalizedResources(configJson, l.getContext());
-
+    saveUpNextSetting(configJson);
     Bundle launchOptions = null; //Initial properties.
     if (configJson != null) {
       try {
@@ -236,6 +237,14 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
       }
       WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
       sendEvent("discoveryResultsReceived", params);
+    }
+  }
+
+  private void saveUpNextSetting(JSONObject config) {
+    try {
+      _isUpNextEnabled = config.getJSONObject("upNext").getBoolean("showUpNext");
+    } catch (JSONException e) {
+      DebugMode.logE(TAG, "Up Next Parse Failed, default not showing Up Next");
     }
   }
 
@@ -347,8 +356,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     sendEvent("upNextDismissed", body);
   }
 
-  void handleUpNextClick() {
-    if (nextVideoEmbedCode != null) {
+  void maybeStartUpNext() {
+    if (nextVideoEmbedCode != null && _isUpNextEnabled && !_isUpNextDismissed) {
       _player.setEmbedCode(nextVideoEmbedCode);
       _player.play();
     }
