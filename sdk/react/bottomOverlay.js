@@ -50,13 +50,22 @@ var BottomOverlay = React.createClass({
     onScrub: React.PropTypes.func,
     showClosedCaptionsButton: React.PropTypes.bool,
     isShow: React.PropTypes.bool,
+    shouldShowProgressBar: React.PropTypes.bool,
     live: React.PropTypes.object,
     shouldShowLandscape: React.PropTypes.bool,
-    shouldShowCCOptions: React.PropTypes.bool,
-    config: React.PropTypes.object
+    config: React.PropTypes.object,
   },
-
+  getDefaultProps: function() {
+    return {"shouldShowProgressBar": true};
+  },
   getInitialState: function() {
+    if (this.props.isShow) {
+      return {
+        touch: false,
+        opacity: new Animated.Value(1),
+        height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT))
+      };
+    }
     return {
       touch: false,
       opacity: new Animated.Value(0),
@@ -118,6 +127,9 @@ var BottomOverlay = React.createClass({
   },
 
   _renderCompleteProgressBar: function() {
+    if (!this.props.shouldShowProgressBar) {
+      return;
+    }
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     return (
       <View
@@ -142,6 +154,9 @@ var BottomOverlay = React.createClass({
   },
 
   _renderCuePoints: function(cuePoints) {
+    if (!cuePoints) {
+      return;
+    }
     var cuePointsView = [];
     var progressBarWidth = this._renderProgressBarWidth();
     var topOffset = this._renderTopOffset(cuePointSize);
@@ -233,6 +248,7 @@ var BottomOverlay = React.createClass({
   renderDefault: function(widthStyle) {
     return (
       <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}>
+        <View style ={[styles.bottomOverlayFlexibleSpace]}></View>
         {this._renderCompleteProgressBar()}
         {this._renderControlBar()}
       </Animated.View>

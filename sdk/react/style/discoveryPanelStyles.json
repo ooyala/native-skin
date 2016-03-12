@@ -59,7 +59,7 @@
   },
   "warningIcon": {
     "fontSize": 20,
-    "color": "FF3300",
+    "color": "#FF3300",
     "textAlign": "center",
     "fontFamily": "fontawesome",
   },

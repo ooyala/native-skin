@@ -70,7 +70,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
           } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
             _layoutController.handleUpNextDismissed();
           } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
-            _layoutController.handleUpNextClick();
+            _layoutController.maybeStartUpNext();
           } else if (buttonName.equals(BUTTON_SKIP)) {
             _layoutController.handleSkip();
           } else if (buttonName.equals(BUTTON_ADICON)) {

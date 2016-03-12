@@ -15,6 +15,8 @@ var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
 var WaterMark = require('./waterMark');
 var InfoPanel = require('./infoPanel');
+var BottomOverlay = require('./bottomOverlay');
+var Log = require('./log');
 var Constants = require('./constants');
 
 var {
@@ -42,6 +44,7 @@ var EndScreen = React.createClass({
     onPress: React.PropTypes.func,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
+    volume: React.PropTypes.number,
     upNextDismissed: React.PropTypes.bool,
     discoveryPanel: React.PropTypes.object,
   },
@@ -54,7 +57,19 @@ var EndScreen = React.createClass({
     this.toggleControlBar();
   },
 
-
+  handlePress: function(name) {
+    Log.verbose("VideoView Handle Press: " + name);
+    this.setState({lastPressedTime: new Date().getTime()});
+    if (this.state.showControls) {
+      if (name == "LIVE") {
+        this.props.onScrub(1);
+      } else {
+        this.props.onPress(name);
+      }
+    } else {
+      this.props.onPress(name);
+    }
+  },
 
   _renderDefaultScreen: function(progressBar, controlBar) {
     var fullscreenPromoImage = (this.props.config.endScreen.mode == 'default');
@@ -89,12 +104,36 @@ var EndScreen = React.createClass({
           {replaybutton}
         </View>
         <View style={styles.controlBarPosition}>
-          {progressBar}
-          {controlBar}
+          {this._renderBottomOverlay(true)}
         </View>
       </View>
       </Image>
     );
+  },
+
+  _renderBottomOverlay: function(show) {
+    var shouldShowClosedCaptionsButton =
+      this.props.availableClosedCaptionsLanguages &&
+      this.props.availableClosedCaptionsLanguages.length > 0;
+      Log.log("duration: " +this.props.duration)
+    return (<BottomOverlay
+      width={this.props.width}
+      height={this.props.height}
+      primaryButton={"replay"}
+      playhead={this.props.duration}
+      duration={this.props.duration}
+      platform={this.props.platform}
+      volume={this.props.volume}
+      onPress={(name) => this.handlePress(name)}
+      shouldShowProgressBar={false}
+      showWatermark={this.props.showWatermark}
+      isShow={show}
+      config={{
+        controlBar: this.props.config.controlBar,
+        buttons: this.props.config.buttons,
+        icons: this.props.config.icons,
+        live: this.props.config.live
+      }} />);
   },
 
   onDismissPress: function() {
@@ -102,27 +141,7 @@ var EndScreen = React.createClass({
   },
 
   render: function() {
-    var progressBar = (<ProgressBar
-      ref='progressBar'
-      playhead={this.props.duration}
-      duration={this.props.duration}
-      isShow={this.state.showControls} />);
-
-    var controlBar = (<ControlBar
-      ref='controlBar'
-      primaryButton="replay"
-      height={this.props.height}
-      width={this.props.width - leftMargin * 2}
-      isShow='true'
-      playhead={this.props.duration}
-      duration={this.props.duration}
-      onPress={(name) => this.handleClick(name)}
-      config={{
-        controlBar: this.props.config.controlBar,
-        buttons: this.props.config.buttons,
-        icons: this.props.config.icons
-      }}/>);
-      return this._renderDefaultScreen(progressBar, controlBar);
+      return this._renderDefaultScreen();
   }
 });
 
