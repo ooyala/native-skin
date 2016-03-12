@@ -31,7 +31,6 @@ var EndScreen = React.createClass({
 	getInitialState: function() {
     return {
       showControls:true,
-      showDiscoveryPanel:true,
     };
   },
 
@@ -46,7 +45,6 @@ var EndScreen = React.createClass({
     height: React.PropTypes.number,
     volume: React.PropTypes.number,
     upNextDismissed: React.PropTypes.bool,
-    discoveryPanel: React.PropTypes.object,
   },
 
   handleClick: function(name) {
@@ -134,10 +132,6 @@ var EndScreen = React.createClass({
         icons: this.props.config.icons,
         live: this.props.config.live
       }} />);
-  },
-
-  onDismissPress: function() {
-    this.setState({showDiscoveryPanel: false});
   },
 
   render: function() {

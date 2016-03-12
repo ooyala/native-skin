@@ -1,0 +1,219 @@
+'use strict';
+
+var Constants = require('./constants');
+var React = require('react-native');
+var {
+  BUTTON_NAMES,
+  SCREEN_TYPES,
+  OVERLAY_TYPES,
+  OOSTATES,
+  PLATFORMS
+} = Constants;
+var Log = require('./log');
+
+var Dimensions = require('Dimensions');
+var ActivityView = require('NativeModules').OOActivityView;
+var StartScreen = require('./StartScreen');
+var EndScreen = require('./EndScreen');
+var ErrorScreen = require('./ErrorScreen');
+var DiscoveryPanel = require('./discoveryPanel');
+var MoreOptionScreen = require('./MoreOptionScreen');
+var VideoView = require('./videoView');
+var LanguageSelectionPanel = require('./languageSelectionPanel.js');
+
+var OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
+  Log.log("OoyalaSkinPanelRenderer Created");
+  this.skin = ooyalaSkin;
+  this.core = ooyalaCore;
+};
+
+OoyalaSkinPanelRenderer.prototype.renderStartScreen = function() {
+  return (
+    <StartScreen
+      config={{
+        startScreen: this.skin.props.startScreen,
+        icons: this.skin.props.icons
+      }}
+      title={this.skin.state.title}
+      description={this.skin.state.description}
+      promoUrl={this.skin.state.promoUrl}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      platform={this.skin.state.platform}
+      playhead={this.skin.state.playhead}
+      onPress={(name) => this.core.handlePress(name)}/>
+  );
+};
+
+OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
+  return (
+    <EndScreen
+      config={{
+        endScreen: this.skin.props.endScreen,
+        controlBar: this.skin.props.controlBar,
+        buttons: this.skin.props.buttons.mobileContent,
+        icons: this.skin.props.icons
+      }}
+      title={this.skin.state.title}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      volume={this.skin.state.volume}
+      onScrub={(value) => this.core.handleScrub(value)}
+      upNextDismissed={this.skin.state.upNextDismissed}
+      description={this.skin.state.description}
+      promoUrl={this.skin.state.promoUrl}
+      duration={this.skin.state.duration}
+      onPress={(name) => this.core.handlePress(name)}/>
+  );
+};
+
+OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
+  return (
+    <ErrorScreen
+      error={this.skin.state.error}
+      localizableStrings={this.skin.props.localization}
+      locale={this.skin.props.locale} />);
+};
+
+OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
+  return (
+    <VideoView
+      rate={this.skin.state.rate}
+      playhead={this.skin.state.playhead}
+      duration={this.skin.state.duration}
+      ad ={this.skin.state.ad}
+      live ={this.skin.state.live}
+      platform={this.skin.state.platform}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      volume={this.skin.state.volume}
+      fullscreen={this.skin.state.fullscreen}
+      cuePoints={this.skin.state.cuePoints}
+      onPress={(value) => this.core.handlePress(value)}
+      onIcon={(value)=>this.core.handleIconPress(value)}
+      onScrub={(value) => this.core.handleScrub(value)}
+      closedCaptionsLanguage={this.skin.state.selectedLanguage}
+      // todo: change to boolean showCCButton.
+      availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
+      captionJSON={this.skin.state.captionJSON}
+      config={{
+        controlBar: this.skin.props.controlBar,
+        general: this.skin.props.general,
+        buttons: this.skin.props.buttons.mobileContent,
+        upNext: this.skin.props.upNext,
+        icons: this.skin.props.icons,
+        adScreen: this.skin.props.adScreen,
+        live: this.skin.props.live
+      }}
+      nextVideo={this.skin.state.nextVideo}
+      upNextDismissed={this.skin.state.upNextDismissed}
+      localizableStrings={this.skin.props.localization}
+      locale={this.skin.props.locale}
+      playing={this.skin.state.playing}
+      loading={this.skin.state.loading}
+      initialPlay={this.skin.state.initialPlay}>
+    </VideoView>
+  );
+};
+OoyalaSkinPanelRenderer.prototype.renderCCOptions = function() {
+  return (
+    <LanguageSelectionPanel
+      languages={this.skin.state.availableClosedCaptionsLanguages}
+      selectedLanguage={this.skin.state.selectedLanguage}
+      onSelect={(value)=>this.core.onLanguageSelected(value)}
+      onDismiss={() => this.core.onOverlayDismissed()}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      config={{localizableStrings:this.skin.props.localization,
+               locale:this.skin.props.locale,
+               icons:this.skin.props.icons}}>
+    </LanguageSelectionPanel>);
+};
+
+OoyalaSkinPanelRenderer.prototype.renderSocialOptions = function() {
+  if(this.skin.state.platform == Constants.PLATFORMS.ANDROID) {
+    this.core.bridge.shareTitle({shareTitle:this.skin.state.title});
+    this.core.bridge.shareUrl({shareUrl:this.skin.state.hostedAtUrl});
+    this.core.bridge.onPress({name:"Share"});
+  }
+  else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
+    ActivityView.show({
+      'text':this.skin.state.title,
+      'link':this.skin.state.hostedAtUrl,
+    });
+  }
+},
+OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
+  if (!this.skin.state.discoveryResults) {
+    return null;
+  }
+  return (
+    <DiscoveryPanel
+      config={{
+        discoveryScreen: this.skin.props.discoveryScreen,
+        icons: this.skin.props.icons,
+      }}
+      onDismiss={() => this.core.onOverlayDismissed()}
+      platform={this.skin.state.platform}
+      localizableStrings={this.skin.props.localization}
+      locale={this.skin.props.locale}
+      dataSource={this.skin.state.discoveryResults}
+      onRowAction={(info) => this.core.onDiscoveryRow(info)}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      screenType={this.skin.state.screenType}>
+    </DiscoveryPanel>);
+};
+
+OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
+  return (
+    <MoreOptionScreen
+      height={this.skin.state.height}
+      onDismiss={() => this.core.onOptionDismissed()}
+      onOptionButtonPress={(buttonName) => this.core.onOptionButtonPress(buttonName)}
+      config={{
+        moreOptionsScreen: this.skin.props.moreOptionsScreen,
+        buttons: this.skin.props.buttons.mobileContent,
+        icons: this.skin.props.icons,
+        // TODO: assumes this is how control bar width is calculated everywhere.
+        controlBarWidth: this.skin.state.width
+      }} >
+    </MoreOptionScreen>
+  );
+};
+
+OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, screenType) {
+  if (overlayType) {
+    switch (overlayType) {
+      case OVERLAY_TYPES.MOREOPTION_SCREEN:  
+        return this.renderMoreOptionScreen();  
+        break;
+      case OVERLAY_TYPES.DISCOVERY_SCREEN:  
+        return this.renderDiscoveryPanel();  
+        break;
+      case OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN:  
+        return this.renderCCOptions();  
+        break;
+    }
+    return;
+  }
+  switch (screenType) {
+    case SCREEN_TYPES.START_SCREEN: 
+      return this.renderStartScreen(); 
+      break;
+    case SCREEN_TYPES.END_SCREEN:   
+      return this.renderEndScreen();   
+      break;
+    case SCREEN_TYPES.LOADING_SCREEN: 
+      return this.skin.renderLoadingScreen(); 
+      break;
+    case SCREEN_TYPES.ERROR_SCREEN: 
+      return this.renderErrorScreen(); 
+      break;
+    default:      
+      return this.renderVideoView();   
+      break;
+  }
+};
+
+module.exports = OoyalaSkinPanelRenderer;

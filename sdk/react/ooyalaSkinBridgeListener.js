@@ -118,8 +118,8 @@ OoyalaSkinBridgeListener.prototype.onPlayStarted = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onPlayComplete = function(e) {
   Log.log("Play Complete received: upNext dismissed: "  + this.skin.state.upNextDismissed);
-  if (this.shouldShowDiscoveryEndscreen()) {
-      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
+  if (this.core.shouldShowDiscoveryEndscreen()) {
+      this.core.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
   }
   this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
 };
