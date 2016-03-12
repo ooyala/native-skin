@@ -1,0 +1,41 @@
+{
+  "panelTitleView": {
+    "flexDirection": "row",
+    "alignItems": "center",
+  },
+  "panelIcon": {
+    "textAlign": "left",
+    "fontFamily": "alice",
+    "fontSize": 16,
+    "color": "white",
+    "paddingTop":10,
+    "paddingBottom":10,
+  },
+
+  "headerFlexibleSpace": {
+    "flex": 1
+  },
+
+  "dismissButton": {
+    "padding":20,
+  },
+  "dismissIcon": {
+    "fontFamily": "alice",
+    "fontSize": 20,
+    "color": "white"
+  },
+  "panelTitleText": {
+    "padding": 10,
+    "margin": 10,
+    "fontWeight": "bold",
+    "fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
+    "color": "white",
+  },
+
+  "panel": {
+    "flex": 1,
+    "backgroundColor": "rgba(0, 0, 0, 0.7)",
+  },
+}

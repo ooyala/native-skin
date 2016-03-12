@@ -29,6 +29,7 @@ var OoyalaSkin = React.createClass({
     return {
       // states from react
       screenType: SCREEN_TYPES.LOADING_SCREEN,
+      overlayStack: [],
       // states from native
       title: '',
       description: '',
@@ -46,7 +47,6 @@ var OoyalaSkin = React.createClass({
       // selectedLanguage: null,
       // availableClosedCaptionsLanguages: null,
       // captionJSON: null,
-      buttonSelected: "None",
       alertTitle: '',
       alertMessage: '',
       error: null,
@@ -77,34 +77,15 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    Log.verbose("Rendering, Screentype: "+this.state.screenType);
-    switch (this.state.screenType) {
-      case SCREEN_TYPES.START_SCREEN: 
-        return OoyalaSkinCoreInstance.renderStartScreen(); 
-        break;
-      case SCREEN_TYPES.END_SCREEN:   
-        return OoyalaSkinCoreInstance.renderEndScreen();   
-        break;
-      case SCREEN_TYPES.LOADING_SCREEN: 
-        return this.renderLoadingScreen(); 
-        break;
-      case SCREEN_TYPES.MOREOPTION_SCREEN:  
-        return OoyalaSkinCoreInstance.renderMoreOptionScreen();  
-        break;
-      case SCREEN_TYPES.ERROR_SCREEN: 
-        return OoyalaSkinCoreInstance.renderErrorScreen(); 
-        break;
-      case SCREEN_TYPES.DISCOVERY_END_SCREEN:
-        var endscreen = OoyalaSkinCoreInstance.renderDiscoveryPanel();
-        if (!endscreen) {
-          endscreen = OoyalaSkinCoreInstance.renderEndScreen();
-        }
-        return endscreen;
-        break;
-      default:      
-        return OoyalaSkinCoreInstance.renderVideoView();   
-        break;
+    Log.verbose("Rendering - Current Overlay stack: " + this.state.overlayStack);
+    var overlayType = null
+    if(this.state.overlayStack.length > 0) {
+      overlayType = this.state.overlayStack[this.state.overlayStack.length - 1];
+      Log.verbose("Rendering Overlaytype: " + overlayType);
+    } else {
+      Log.verbose("Rendering screentype: " + this.state.screenType);
     }
+    return OoyalaSkinCoreInstance.renderScreen(overlayType, this.state.screenType);
   }
 });
 

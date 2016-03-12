@@ -1,8 +1,4 @@
 {
-  "panelTitle": {
-    "flexDirection": "row",
-    "alignItems": "center",
-  },
   "panelErrorPanel": {
     "alignSelf": "flex-end",
   },
@@ -18,29 +14,6 @@
     "backgroundColor": "transparent",
     "marginRight":10,
     "marginBottom":10,
-  },
-  "icon": {
-    "textAlign": "left",
-    "fontFamily": "alice",
-    "fontSize": 16,
-    "color": "white",
-    "paddingTop":10,
-    "paddingBottom":10,
-  },
-  "dismissButton": {
-    "padding":13,
-  },
-  "dismissIcon": {
-    "fontFamily": "alice",
-    "fontSize": 20,
-    "color": "white"
-  },
-  "headerFlexibleSpace": {
-    "flex": 1
-  },
-  "panelTitleText": {
-    "fontWeight": "bold",
-    "padding":5,
   },
   "panelErrorTitleText": {
     "flex": 1,
@@ -63,18 +36,6 @@
     "textAlign": "center",
     "fontFamily": "fontawesome",
   },
-  "container": {
-    "flex": 1,
-    "flexDirection": "row",
-    "justifyContent": "center",
-    "alignItems": "center",
-    "backgroundColor": "transparent",
-    "marginBottom": 6,
-    "marginTop": 6,
-    "marginLeft": 12,
-    "width":360,
-    "height":64
-  },
   "rightContainer": {
     "flex": 1,
     "marginLeft": 8
@@ -95,11 +56,6 @@
   "thumbnailLandscape": {
     "width": 128,
     "height": 88,
-  },
-  "panel": {
-    "flex": 1,
-    "backgroundColor": "rgba(0, 0, 0, 0.7)",
-
   },
   "columnContainerPortrait": {
     "flex": 1,

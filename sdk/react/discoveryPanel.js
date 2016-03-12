@@ -22,6 +22,8 @@ var ResponsiveList = require('./widgets/ResponsiveList');
 var CountdownView = require('./widgets/countdownTimer');
 var CountdownViewAndroid = require('./widgets/countdownTimerAndroid');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
+var panelStyles = require('./style/panelStyles.json');
+
 var Constants = require('./constants');
 var Log = require('./log');
 var {
@@ -140,7 +142,7 @@ var DiscoveryPanel = React.createClass({
     }
     var animationStyle = {opacity:this.state.opacity};
     return (
-      <Animated.View style={[styles.panel, animationStyle]}>
+      <Animated.View style={[panelStyles.panel, animationStyle]}>
         {this.renderHeader()}
         {this.renderList(itemRect, thumbnailStyle, columnContainerStyle)}
         {this.renderError()}
@@ -261,30 +263,21 @@ var DiscoveryPanel = React.createClass({
     }
 
     title = Utils.localizedString(this.props.locale, "Discovery", this.props.localizableStrings);
-    if (this.props.screenType == SCREEN_TYPES.MOREOPTION_SCREEN) {
-       return (
-      <View style = {styles.panelTitle}>
-        <Text style = {[styles.panelTitleText,this.props.config.discoveryScreen.panelTitle.titleFont]}>
-        {title}
-        </Text>
-        <Text style={styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
-      </View>);
-    }
-     else {  
-      return (
-      <View style = {styles.panelTitle}>
-        <Text style = {[styles.panelTitleText,this.props.config.discoveryScreen.panelTitle.titleFont]}>
-        {title}
-        </Text>
-        <Text style = {styles.icon}>{this.props.config.icons.discovery.fontString}</Text>
-        <View style={styles.headerFlexibleSpace}></View>
-        <TouchableHighlight style = {[styles.dismissButton]}
-          onPress = {this.onDismissPress}>
-          <Text style = {styles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
-        </TouchableHighlight>
-      </View>);
-  }
-},
+    var panelIcon = this.props.config.icons.discovery.fontString;
+
+    return (
+    <View style={panelStyles.panelTitleView}>
+      <Text style={[panelStyles.panelTitleText]}>
+      {title}
+      </Text>
+      <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+      <View style={panelStyles.headerFlexibleSpace}></View>
+      <TouchableHighlight style = {[panelStyles.dismissButton]}
+        onPress={this.onDismissPress}>
+        <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
+      </TouchableHighlight>
+    </View>);
+  },
 
   renderError: function() {
     var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";

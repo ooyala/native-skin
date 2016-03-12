@@ -26,6 +26,7 @@ var Constants = require('./constants');
 var {
   BUTTON_NAMES,
   SCREEN_TYPES,
+  OVERLAY_TYPES,
   OOSTATES,
   PLATFORMS
 } = Constants;
@@ -75,34 +76,34 @@ OoyalaSkinCore.prototype.unmount = function() {
 
 // event handlers.
 OoyalaSkinCore.prototype.onOptionButtonPress = function(buttonName) {
-  // Share button does not modify state of what screen is showing.
-  if (buttonName == BUTTON_NAMES.SHARE) {
+    switch (buttonName) {
+    case BUTTON_NAMES.DISCOVERY:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
+      break;
+    case BUTTON_NAMES.CLOSED_CAPTIONS:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
+      break; 
+    case BUTTON_NAMES.SHARE:
       this.renderSocialOptions();
-  } else {
-    this.skin.setState({buttonSelected:buttonName, screenType:SCREEN_TYPES.MOREOPTION_SCREEN});
+      break;
+    case BUTTON_NAMES.QUALITY:
+      break;
+    case BUTTON_NAMES.SETTING:
+      break;
+    default:
+      break;
   }
 };
 
 OoyalaSkinCore.prototype.pauseOnOptions = function() {
-  if (this.skin.state.screenType != SCREEN_TYPES.MOREOPTION_SCREEN) {
+  if (this.skin.state.screenType != OVERLAY_TYPES.MOREOPTION_SCREEN) {
     this.previousScreenType = this.skin.state.screenType;
-  }
-
-  if (this.skin.state.playing) {
-    this.skin.setState({pausedByOverlay:true});
-    this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
   }
 };
 
 OoyalaSkinCore.prototype.onOptionDismissed = function() {
-  if (this.skin.state.screenType == SCREEN_TYPES.MOREOPTION_SCREEN) {
-    this.skin.setState({screenType: this.previousScreenType});
-  }
-  this.skin.setState({buttonSelected: "None"});
-  if (this.skin.state.pausedByOverlay) {
-    this.skin.setState({pausedByOverlay:false});
-    this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
-  }
+  this.skin.setState({screenType: this.previousScreenType});
+  this.popFromOverlayStackAndMaybeResume();
 };
 
 /**
@@ -112,15 +113,23 @@ OoyalaSkinCore.prototype.onOptionDismissed = function() {
 OoyalaSkinCore.prototype.handlePress = function(n) {
   switch(n) {
     case BUTTON_NAMES.MORE:
-      n="None";
-    // fall through intentionally
+      this.pauseOnOptions();
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MOREOPTION_SCREEN);
+      break;
     case BUTTON_NAMES.DISCOVERY:
-    case BUTTON_NAMES.QUALITY:
+      this.pauseOnOptions();
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
+      break;
     case BUTTON_NAMES.CLOSED_CAPTIONS:
-    case BUTTON_NAMES.SHARE:
+      this.pauseOnOptions();
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
+      break;
     case BUTTON_NAMES.SETTING:
       this.pauseOnOptions();
       this.onOptionButtonPress(n);
+      break;
+    case BUTTON_NAMES.QUALITY:
+    case BUTTON_NAMES.SHARE:
       break;
     default:
       this.bridge.onPress({name:n});
@@ -199,6 +208,7 @@ OoyalaSkinCore.prototype.onCurrentItemChange = function(e) {
   if (!this.skin.state.autoPlay) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
   };
+  this.clearOverlayStack();
 };
 
 OoyalaSkinCore.prototype.onFrameChange = function(e) {
@@ -207,21 +217,21 @@ OoyalaSkinCore.prototype.onFrameChange = function(e) {
 };
 
 OoyalaSkinCore.prototype.onPlayStarted = function(e) {
-  Log.log("Play Started received")
+  Log.log("Play Started received");
   this.skin.setState({screenType: SCREEN_TYPES.VIDEO_SCREEN, autoPlay: false});
 };
 
 OoyalaSkinCore.prototype.onPlayComplete = function(e) {
   Log.log("Play Complete received: upNext dismissed: "  + this.skin.state.upNextDismissed);
   if (this.shouldShowDiscoveryEndscreen()) {
-    this.skin.setState({screenType: SCREEN_TYPES.DISCOVERY_END_SCREEN});
-  } else {
-    this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
   }
+  this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
 };
 
-OoyalaSkinCore.prototype.onDiscoveryDismiss = function() {
-   this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
+OoyalaSkinCore.prototype.onOverlayDismissed = function() {
+  Log.log("On Overlay Dismissed");
+  this.popFromOverlayStackAndMaybeResume();
 }
 
 OoyalaSkinCore.prototype.onDiscoveryResult = function(e) {
@@ -395,7 +405,7 @@ OoyalaSkinCore.prototype.renderCCOptions = function() {
       languages={this.skin.state.availableClosedCaptionsLanguages}
       selectedLanguage={this.skin.state.selectedLanguage}
       onSelect={(value)=>this.onLanguageSelected(value)}
-      onDismiss={this.onOverlayDismissed}
+      onDismiss={() => this.onOverlayDismissed()}
       width={this.skin.state.width}
       height={this.skin.state.height}
       config={{localizableStrings:this.skin.props.localization,
@@ -427,7 +437,7 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
         discoveryScreen: this.skin.props.discoveryScreen,
         icons: this.skin.props.icons,
       }}
-      onDismiss={() => this.onDiscoveryDismiss()}
+      onDismiss={() => this.onOverlayDismissed()}
       platform={this.skin.state.platform}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
@@ -439,35 +449,11 @@ OoyalaSkinCore.prototype.renderDiscoveryPanel = function() {
     </DiscoveryPanel>);
 };
 
-OoyalaSkinCore.prototype.renderMoreOptionPanel = function() {
-  switch (this.skin.state.buttonSelected) {
-    case BUTTON_NAMES.DISCOVERY:
-      return this.renderDiscoveryPanel();
-      break;
-    case BUTTON_NAMES.QUALITY:
-      break;
-    case BUTTON_NAMES.CLOSED_CAPTIONS:
-      return this.renderCCOptions();
-      break;
-    case BUTTON_NAMES.SHARE:
-      // There is no panel to render
-      break;
-    case BUTTON_NAMES.SETTING:
-      break;
-    default:
-      break;
-  }
-  return null;
-};
-
 OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
-  var panel = this.renderMoreOptionPanel();
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
       onDismiss={() => this.onOptionDismissed()}
-      panel={panel}
-      buttonSelected={this.skin.state.buttonSelected}
       onOptionButtonPress={(buttonName) => this.onOptionButtonPress(buttonName)}
       config={{
         moreOptionsScreen: this.skin.props.moreOptionsScreen,
@@ -483,5 +469,67 @@ OoyalaSkinCore.prototype.renderMoreOptionScreen = function() {
 OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
   return (this.skin.state.upNextDismissed == true && this.skin.props.endScreen.screenToShowOnEnd == "discovery");
 };
+
+
+OoyalaSkinCore.prototype.pushToOverlayStackAndMaybePause = function(overlay) {
+  if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {
+    Log.log("New stack of overlays, pausing")
+    this.skin.setState({pausedByOverlay:true});
+    this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
+  }
+  var retVal = this.skin.state.overlayStack.push(overlay);
+  this.skin.forceUpdate();
+  return retVal;
+},
+
+OoyalaSkinCore.prototype.clearOverlayStack = function(overlay) {
+  this.skin.setState({overlayStack: []});
+},
+
+OoyalaSkinCore.prototype.popFromOverlayStackAndMaybeResume = function(overlay) {
+  var retVal = this.skin.state.overlayStack.pop();
+
+  if (this.skin.state.overlayStack.length === 0 && this.skin.state.pausedByOverlay) {
+    Log.log("Emptied stack of overlays, resuming");
+    this.skin.setState({pausedByOverlay:false});
+    this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
+  }
+  this.skin.forceUpdate();
+  return retVal;
+},
+
+OoyalaSkinCore.prototype.renderScreen = function(overlayType, screenType) {
+  if (overlayType) {
+    switch (overlayType) {
+      case OVERLAY_TYPES.MOREOPTION_SCREEN:  
+        return this.renderMoreOptionScreen();  
+        break;
+      case OVERLAY_TYPES.DISCOVERY_SCREEN:  
+        return this.renderDiscoveryPanel();  
+        break;
+      case OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN:  
+        return this.renderCCOptions();  
+        break;
+    }
+    return;
+  }
+  switch (screenType) {
+    case SCREEN_TYPES.START_SCREEN: 
+      return this.renderStartScreen(); 
+      break;
+    case SCREEN_TYPES.END_SCREEN:   
+      return this.renderEndScreen();   
+      break;
+    case SCREEN_TYPES.LOADING_SCREEN: 
+      return this.skin.renderLoadingScreen(); 
+      break;
+    case SCREEN_TYPES.ERROR_SCREEN: 
+      return this.renderErrorScreen(); 
+      break;
+    default:      
+      return this.renderVideoView();   
+      break;
+  }
+}
 
 module.exports = OoyalaSkinCore;
