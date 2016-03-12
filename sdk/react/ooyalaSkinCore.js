@@ -153,7 +153,7 @@ OoyalaSkinCore.prototype.popFromOverlayStackAndMaybeResume = function(overlay) {
   return retVal;
 },
 
-OoyalaSkinCore.prototype.renderScreen = function(overlayType, screenType) {
-  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, screenType);
+OoyalaSkinCore.prototype.renderScreen = function(overlayType, ad, screenType) {
+  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, ad, screenType);
 }
 module.exports = OoyalaSkinCore;

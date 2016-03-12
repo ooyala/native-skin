@@ -55,6 +55,7 @@ var BottomOverlay = React.createClass({
     shouldShowLandscape: React.PropTypes.bool,
     config: React.PropTypes.object,
   },
+  
   getDefaultProps: function() {
     return {"shouldShowProgressBar": true};
   },
