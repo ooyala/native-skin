@@ -1,8 +1,7 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * The OoyalaSkinCore handles all of the methods that perform actions based on UI actions
  */
-'use strict';
+ 'use strict';
 
 var React = require('react-native');
 var {
@@ -26,7 +25,6 @@ var {
 } = Constants;
 var OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
 var OoyalaSkinPanelRenderer = require('./ooyalaSkinPanelRenderer');
-var previousScreenType;
 
 var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
   this.skin = ooyalaSkin;
@@ -64,14 +62,7 @@ OoyalaSkinCore.prototype.onOptionButtonPress = function(buttonName) {
   }
 };
 
-OoyalaSkinCore.prototype.pauseOnOptions = function() {
-  if (this.skin.state.screenType != OVERLAY_TYPES.MOREOPTION_SCREEN) {
-    this.previousScreenType = this.skin.state.screenType;
-  }
-};
-
 OoyalaSkinCore.prototype.onOptionDismissed = function() {
-  this.skin.setState({screenType: this.previousScreenType});
   this.popFromOverlayStackAndMaybeResume();
 };
 
@@ -95,23 +86,19 @@ OoyalaSkinCore.prototype.onLanguageSelected = function(e) {
 OoyalaSkinCore.prototype.handlePress = function(n) {
   switch(n) {
     case BUTTON_NAMES.MORE:
-      this.pauseOnOptions();
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MOREOPTION_SCREEN);
       break;
     case BUTTON_NAMES.DISCOVERY:
-      this.pauseOnOptions();
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
       break;
     case BUTTON_NAMES.CLOSED_CAPTIONS:
-      this.pauseOnOptions();
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
       break;
-    case BUTTON_NAMES.SETTING:
-      this.pauseOnOptions();
+    case BUTTON_NAMES.SHARE:
       this.onOptionButtonPress(n);
       break;
     case BUTTON_NAMES.QUALITY:
-    case BUTTON_NAMES.SHARE:
+    case BUTTON_NAMES.SETTING:
       break;
     default:
       this.bridge.onPress({name:n});

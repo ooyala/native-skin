@@ -1,3 +1,6 @@
+/**
+ * The OoyalaSkinPanelRenderer handles rendering of all panels using Skin state and Core method
+ */
 'use strict';
 
 var Constants = require('./constants');

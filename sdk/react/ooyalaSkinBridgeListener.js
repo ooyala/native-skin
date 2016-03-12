@@ -1,4 +1,7 @@
-'use strict';
+/**
+ * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge
+ */
+ 'use strict';
 
 var Log = require('./log');
 var Constants = require('./constants');
