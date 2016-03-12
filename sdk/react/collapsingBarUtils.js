@@ -7,7 +7,7 @@ var CollapsingBarUtils = {
   // @return {fit:[items that fit in the barWidth], overflow:[items that did not fit]}.
   // Note: items which do not meet the item spec will be removed and not appear in the results.
   collapse: function( barWidth, orderedItems ) {
-    if( isNaN( barWidth ) || barWidth === undefined ) { return orderedItems; }
+    if( isNaN( barWidth ) || barWidth === undefined ) { return { fit : orderedItems, overflow : [] };; }
     if( ! orderedItems ) { return []; }
     var self = this;
     var validItems = orderedItems.filter( function(item) { return self._isValid(item); } );
