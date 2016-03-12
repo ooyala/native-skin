@@ -17,15 +17,15 @@ var {
   DeviceEventEmitter
 } = React;
 
-var Utils = require('./utils');
-var ResponsiveList = require('./widgets/ResponsiveList');
-var CountdownView = require('./widgets/countdownTimer');
-var CountdownViewAndroid = require('./widgets/countdownTimerAndroid');
+var Utils = require('../utils');
+var ResponsiveList = require('../widgets/ResponsiveList');
+var CountdownView = require('../widgets/countdownTimer');
+var CountdownViewAndroid = require('../widgets/countdownTimerAndroid');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 var panelStyles = require('./style/panelStyles.json');
 
-var Constants = require('./constants');
-var Log = require('./log');
+var Constants = require('../constants');
+var Log = require('../log');
 var {
   SCREEN_TYPES,
 } = Constants;

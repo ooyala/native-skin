@@ -13,13 +13,13 @@ var Log = require('./log');
 
 var Dimensions = require('Dimensions');
 var ActivityView = require('NativeModules').OOActivityView;
-var StartScreen = require('./StartScreen');
-var EndScreen = require('./EndScreen');
-var ErrorScreen = require('./ErrorScreen');
-var DiscoveryPanel = require('./discoveryPanel');
-var MoreOptionScreen = require('./MoreOptionScreen');
-var VideoView = require('./videoView');
-var LanguageSelectionPanel = require('./languageSelectionPanel.js');
+var StartScreen = require('./panels/StartScreen');
+var EndScreen = require('./panels/EndScreen');
+var ErrorScreen = require('./panels/ErrorScreen');
+var DiscoveryPanel = require('./panels/discoveryPanel');
+var MoreOptionScreen = require('./panels/MoreOptionScreen');
+var VideoView = require('./panels/videoView');
+var LanguageSelectionPanel = require('./panels/languageSelectionPanel.js');
 
 var OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
   Log.log("OoyalaSkinPanelRenderer Created");

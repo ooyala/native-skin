@@ -16,16 +16,21 @@ var {
 } = React;
 
 var animationDuration = 1000;
-var Constants = require('./constants');
+var Constants = require('../constants');
 var {
   ICONS
 } = Constants;
 
-var ToggleSwitch = require('./widgets/ToggleSwitch');
-var ClosedCaptionsView = require('./closedCaptionsView');
-var Utils = require('./utils');
-var ResponsiveList = require('./widgets/ResponsiveList');
-var PreviewWidget = require('./languageSelectionPreview');
+var ToggleSwitch = require('../widgets/ToggleSwitch');
+var ClosedCaptionsView = require('../closedCaptionsView');
+var Utils = require('../utils');
+var ResponsiveList = require('../widgets/ResponsiveList');
+var PreviewWidget = require('../languageSelectionPreview');
+
+
+var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
+var panelStyles = require('./style/panelStyles');
+
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
     languages: React.PropTypes.array,
@@ -153,8 +158,5 @@ var LanguageSelectionPanel = React.createClass({
     );
   },
 });
-
-var styles = require('./utils').getStyles(require('./style/languageSelectionPanelStyles.json'));
-var panelStyles = require('./style/panelStyles.json');
 
 module.exports = LanguageSelectionPanel;

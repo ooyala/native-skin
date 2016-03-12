@@ -8,16 +8,16 @@ var {
   TouchableHighlight
 } = React;
 
-var Utils = require('./utils');
+var Utils = require('../utils');
 
 var styles = Utils.getStyles(require('./style/endScreenStyles.json'));
-var ProgressBar = require('./progressBar');
-var ControlBar = require('./controlBar');
-var WaterMark = require('./waterMark');
-var InfoPanel = require('./infoPanel');
-var BottomOverlay = require('./bottomOverlay');
-var Log = require('./log');
-var Constants = require('./constants');
+var ProgressBar = require('../progressBar');
+var ControlBar = require('../controlBar');
+var WaterMark = require('../waterMark');
+var InfoPanel = require('../infoPanel');
+var BottomOverlay = require('../bottomOverlay');
+var Log = require('../log');
+var Constants = require('../constants');
 
 var {
   BUTTON_NAMES,

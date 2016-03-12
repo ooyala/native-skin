@@ -11,11 +11,11 @@ var {
   View,
 } = React;
 
-var Log = require('./log');
-var Utils = require('./utils');
-var Constants = require('./constants');
+var Log = require('../log');
+var Utils = require('../utils');
+var Constants = require('../constants');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
-var CollapsingBarUtils = require('./collapsingBarUtils');
+var CollapsingBarUtils = require('../collapsingBarUtils');
 
 var {
   BUTTON_NAMES,

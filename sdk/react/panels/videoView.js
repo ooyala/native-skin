@@ -15,19 +15,19 @@ var {
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
-var BottomOverlay = require('./bottomOverlay');
-var ClosedCaptionsView = require('./closedCaptionsView');
-var ClosedCaptionsViewAndroid = require('./closedCaptionsViewAndroid');
-var AdBar = require('./adBar');
-var UpNext = require('./upNext');
-var RectButton = require('./widgets/RectButton');
-var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
-var Constants = require('./constants');
-var Log = require('./log');
-var Utils = require('./utils');
+var BottomOverlay = require('../bottomOverlay');
+var ClosedCaptionsView = require('../closedCaptionsView');
+var ClosedCaptionsViewAndroid = require('../closedCaptionsViewAndroid');
+var AdBar = require('../adBar');
+var UpNext = require('../upNext');
+var RectButton = require('../widgets/RectButton');
+var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
+var Constants = require('../constants');
+var Log = require('../log');
+var Utils = require('../utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var ResponsiveDesignManager = require('./responsiveDesignManager');
-var VideoWaterMark = require('./widgets/videoWaterMark');
+var ResponsiveDesignManager = require('../responsiveDesignManager');
+var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
 
 var {
