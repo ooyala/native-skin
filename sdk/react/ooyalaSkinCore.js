@@ -41,8 +41,22 @@ OoyalaSkinCore.prototype.unmount = function() {
   this.ooyalaSkinBridgeListener.unmount();
 };
 
+OoyalaSkinCore.prototype.emitDiscoveryOptionChosen = function(info) {
+  this.bridge.onDiscoveryRow(info);
+};
+
+OoyalaSkinCore.prototype.dismissOverlay = function() {
+  Log.log("On Overlay Dismissed");
+  this.popFromOverlayStackAndMaybeResume();
+}
+
+OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
+  Log.log('onLanguageSelected:'+e);
+  this.skin.setState({selectedLanguage:e});
+};
+
 // event handlers.
-OoyalaSkinCore.prototype.onOptionButtonPress = function(buttonName) {
+OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
     switch (buttonName) {
     case BUTTON_NAMES.DISCOVERY:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
@@ -62,23 +76,6 @@ OoyalaSkinCore.prototype.onOptionButtonPress = function(buttonName) {
   }
 };
 
-OoyalaSkinCore.prototype.onOptionDismissed = function() {
-  this.popFromOverlayStackAndMaybeResume();
-};
-
-OoyalaSkinCore.prototype.onDiscoveryRow = function(info) {
-  this.bridge.onDiscoveryRow(info);
-};
-
-OoyalaSkinCore.prototype.onOverlayDismissed = function() {
-  Log.log("On Overlay Dismissed");
-  this.popFromOverlayStackAndMaybeResume();
-}
-
-OoyalaSkinCore.prototype.onLanguageSelected = function(e) {
-  Log.log('onLanguageSelected:'+e);
-  this.skin.setState({selectedLanguage:e});
-};
 /**
  *  When a button is pressed on the control bar
  *  If it's a "fast-access" options button, open options menu and perform the options action
@@ -95,7 +92,7 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
       break;
     case BUTTON_NAMES.SHARE:
-      this.onOptionButtonPress(n);
+      this.ooyalaSkinPanelRenderer.renderSocialOptions();
       break;
     case BUTTON_NAMES.QUALITY:
     case BUTTON_NAMES.SETTING:

@@ -123,8 +123,8 @@ OoyalaSkinPanelRenderer.prototype.renderCCOptions = function() {
     <LanguageSelectionPanel
       languages={this.skin.state.availableClosedCaptionsLanguages}
       selectedLanguage={this.skin.state.selectedLanguage}
-      onSelect={(value)=>this.core.onLanguageSelected(value)}
-      onDismiss={() => this.core.onOverlayDismissed()}
+      onSelect={(value)=>this.core.handleLanguageSelection(value)}
+      onDismiss={() => this.core.dismissOverlay()}
       width={this.skin.state.width}
       height={this.skin.state.height}
       config={{localizableStrings:this.skin.props.localization,
@@ -156,12 +156,12 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
         discoveryScreen: this.skin.props.discoveryScreen,
         icons: this.skin.props.icons,
       }}
-      onDismiss={() => this.core.onOverlayDismissed()}
+      onDismiss={() => this.core.dismissOverlay()}
       platform={this.skin.state.platform}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       dataSource={this.skin.state.discoveryResults}
-      onRowAction={(info) => this.core.onDiscoveryRow(info)}
+      onRowAction={(info) => this.core.emitDiscoveryOptionChosen(info)}
       width={this.skin.state.width}
       height={this.skin.state.height}
       screenType={this.skin.state.screenType}>
@@ -172,8 +172,8 @@ OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
-      onDismiss={() => this.core.onOptionDismissed()}
-      onOptionButtonPress={(buttonName) => this.core.onOptionButtonPress(buttonName)}
+      onDismiss={() => this.core.dismissOverlay()}
+      onOptionButtonPress={(buttonName) => this.core.handleMoreOptionsButtonPress(buttonName)}
       config={{
         moreOptionsScreen: this.skin.props.moreOptionsScreen,
         buttons: this.skin.props.buttons.mobileContent,
