@@ -330,6 +330,8 @@ OoyalaSkinCore.prototype.renderEndScreen = function() {
       title={this.skin.state.title}
       width={this.skin.state.width}
       height={this.skin.state.height}
+      volume={this.skin.state.volume}
+      onScrub={(value) => this.handleScrub(value)}
       upNextDismissed={this.skin.state.upNextDismissed}
       discoveryPanel={this.renderDiscoveryPanel()}
       description={this.skin.state.description}

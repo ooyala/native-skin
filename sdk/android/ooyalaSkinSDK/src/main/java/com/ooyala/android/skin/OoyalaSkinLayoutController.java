@@ -1,5 +1,6 @@
 package com.ooyala.android.skin;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
@@ -47,7 +49,7 @@ import java.util.Locale;
  *   - Observation of the OoyalaPlayer to provide up-to-date state to the UI
  *   - Handlers of all React Native callbacks
  */
-public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback {
+public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
   final String TAG = this.getClass().toString();
 
   private static final String KEY_NAME = "name";
@@ -160,8 +162,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
             .setUseDeveloperSupport(BuildConfig.DEBUG)
             .setInitialLifecycleState(LifecycleState.RESUMED)
             .build();
-
-    // Reload JS from the react server.
+    // Reload JS from the react server. TODO: does not work after react upgrade
     if (skinOptions.getEnableReactJSServer()) {
       ReactUtil.reloadJs(_reactInstanceManager);
     }
@@ -394,6 +395,34 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
       _package.getBridge().sendEvent(event, map);
     } else {
       DebugMode.logW(TAG, "Trying to send event, but bridge does not exist yet: " + event);
+    }
+  }
+
+  @Override
+  public void onPause() {
+    if (_reactInstanceManager != null) {
+      _reactInstanceManager.onPause();
+    }
+  }
+
+  @Override
+  public void onResume(Activity activity,
+                          DefaultHardwareBackBtnHandler defaultBackButtonImpl) {
+    if (_reactInstanceManager != null) {
+      _reactInstanceManager.onResume( activity,defaultBackButtonImpl );
+    }
+  }
+
+  @Override
+  public void onBackPressed() {
+    if (_reactInstanceManager != null) {
+      _reactInstanceManager.onBackPressed();
+    }
+  }
+  @Override
+  public void onDestroy() {
+    if (_reactInstanceManager != null) {
+      _reactInstanceManager.onDestroy();
     }
   }
 }

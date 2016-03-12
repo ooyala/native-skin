@@ -4,6 +4,7 @@
     "marginHorizontal": 20,
     "flex": 0,
     "alignItems": "center",
+    "marginBottom":10,
   },
   "containerHidden": {
     "flexDirection": "row",
