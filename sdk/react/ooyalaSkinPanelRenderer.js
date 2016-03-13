@@ -22,7 +22,8 @@ var ErrorScreen = require('./panels/ErrorScreen');
 var DiscoveryPanel = require('./panels/discoveryPanel');
 var MoreOptionScreen = require('./panels/MoreOptionScreen');
 var VideoView = require('./panels/videoView');
-var LanguageSelectionPanel = require('./panels/languageSelectionPanel.js');
+var LanguageSelectionPanel = require('./panels/languageSelectionPanel');
+var AdPlaybackScreen = require('./panels/adPlaybackScreen')
 
 var OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
   Log.log("OoyalaSkinPanelRenderer Created");
@@ -62,6 +63,8 @@ OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
       height={this.skin.state.height}
       volume={this.skin.state.volume}
       onScrub={(value) => this.core.handleScrub(value)}
+      handleControlsTouch={() => this.core.handleControlsTouch()}
+      fullscreen={this.skin.state.fullscreen}
       upNextDismissed={this.skin.state.upNextDismissed}
       description={this.skin.state.description}
       promoUrl={this.skin.state.promoUrl}
@@ -92,9 +95,14 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
-      onPress={(value) => this.core.handlePress(value)}
-      onIcon={(value)=>this.core.handleIconPress(value)}
-      onScrub={(value) => this.core.handleScrub(value)}
+      handlers={{
+        onPress: (value) => this.core.handlePress(value),
+        onIcon: (value)=>this.core.handleIconPress(value),
+        onScrub: (value) => this.core.handleScrub(value),
+        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleControlsTouch: () => this.core.handleControlsTouch()
+      }}
+      lastPressedTime={this.skin.state.lastPressedTime}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
       // todo: change to boolean showCCButton.
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
@@ -118,6 +126,53 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
     </VideoView>
   );
 };
+
+OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
+  return (
+    <AdPlaybackScreen
+      rate={this.skin.state.rate}
+      playhead={this.skin.state.playhead}
+      duration={this.skin.state.duration}
+      ad ={this.skin.state.ad}
+      live ={this.skin.state.live}
+      platform={this.skin.state.platform}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      volume={this.skin.state.volume}
+      fullscreen={this.skin.state.fullscreen}
+      cuePoints={this.skin.state.cuePoints}
+      handlers={{
+        onPress: (value) => this.core.handlePress(value),
+        onIcon: (value)=>this.core.handleIconPress(value),
+        onScrub: (value) => this.core.handleScrub(value),
+        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleControlsTouch: () => this.core.handleControlsTouch()
+      }}
+      lastPressedTime={this.skin.state.lastPressedTime}
+      closedCaptionsLanguage={this.skin.state.selectedLanguage}
+      // todo: change to boolean showCCButton.
+      availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
+      captionJSON={this.skin.state.captionJSON}
+      config={{
+        controlBar: this.skin.props.controlBar,
+        general: this.skin.props.general,
+        buttons: this.skin.props.buttons.mobileContent,
+        upNext: this.skin.props.upNext,
+        icons: this.skin.props.icons,
+        adScreen: this.skin.props.adScreen,
+        live: this.skin.props.live
+      }}
+      nextVideo={this.skin.state.nextVideo}
+      upNextDismissed={this.skin.state.upNextDismissed}
+      localizableStrings={this.skin.props.localization}
+      locale={this.skin.props.locale}
+      playing={this.skin.state.playing}
+      loading={this.skin.state.loading}
+      initialPlay={this.skin.state.initialPlay}>
+    </AdPlaybackScreen>
+  );
+};
+
 OoyalaSkinPanelRenderer.prototype.renderCCOptions = function() {
   return (
     <LanguageSelectionPanel
@@ -185,7 +240,7 @@ OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
   );
 };
 
-OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, screenType) {
+OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, ad, screenType) {
   if (overlayType) {
     switch (overlayType) {
       case OVERLAY_TYPES.MOREOPTION_SCREEN:  
@@ -200,6 +255,11 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, screenTyp
     }
     return;
   }
+
+  if (ad) {
+    return this.renderAdPlaybackScreen();
+  }
+
   switch (screenType) {
     case SCREEN_TYPES.START_SCREEN: 
       return this.renderStartScreen(); 

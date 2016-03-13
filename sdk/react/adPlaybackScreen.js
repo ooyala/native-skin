@@ -15,30 +15,29 @@ var {
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
-var BottomOverlay = require('../bottomOverlay');
-var ClosedCaptionsView = require('../closedCaptionsView');
-var ClosedCaptionsViewAndroid = require('../closedCaptionsViewAndroid');
-var AdBar = require('../adBar');
-var UpNext = require('../upNext');
-var RectButton = require('../widgets/RectButton');
-var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-var Constants = require('../constants');
-var Log = require('../log');
-var Utils = require('../utils');
+var BottomOverlay = require('./bottomOverlay');
+var ClosedCaptionsView = require('./closedCaptionsView');
+var ClosedCaptionsViewAndroid = require('./closedCaptionsViewAndroid');
+var AdBar = require('./adBar');
+var UpNext = require('./upNext');
+var RectButton = require('./widgets/RectButton');
+var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
+var Constants = require('./constants');
+var Log = require('./log');
+var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var ResponsiveDesignManager = require('../responsiveDesignManager');
-var VideoWaterMark = require('../widgets/videoWaterMark');
+var ResponsiveDesignManager = require('./responsiveDesignManager');
+var VideoWaterMark = require('./widgets/videoWaterMark');
 var autohideDelay = 5000;
 
 var {
   BUTTON_NAMES,
   PLATFORMS,
   IMG_URLS,
-  UI_SIZES,
-  AUTOHIDE_DELAY
+  UI_SIZES
 } = Constants;
 
-var VideoView = React.createClass({
+var AdPlaybackScreen = React.createClass({
   propTypes: {
     rate: React.PropTypes.number,
     platform: React.PropTypes.string,
@@ -73,13 +72,13 @@ var VideoView = React.createClass({
     loading: React.PropTypes.bool,
     initialPlay: React.PropTypes.bool,
   },
+   componentWillReceiveProps: function(nextProps) {
 
-  componentWillReceiveProps: function(nextProps) {
-
-  },
+ },
 
   getInitialState: function() {
     return {
+      lastPressedTime: new Date(0)
     };
   },
 
@@ -98,21 +97,22 @@ var VideoView = React.createClass({
 
   onGoLive: function() {
     Log.log("onGoLive");
-    if (this.props.handlers.onScrub) {
-      this.props.handlers.onScrub(1);
+    if (this.props.onScrub) {
+      this.props.onScrub(1);
     }
   },
 
   handlePress: function(name) {
     Log.verbose("VideoView Handle Press: " + name);
+    this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
       if (name == "LIVE") {
-        this.props.handlers.onScrub(1);
+        this.props.onScrub(1);
       } else {
-        this.props.handlers.onPress(name);
+        this.props.onPress(name);
       }
     } else {
-      this.props.handlers.onPress(name);
+      this.props.onPress(name);
     }
   },
 
@@ -141,7 +141,6 @@ var VideoView = React.createClass({
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
-      handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={show}
@@ -153,58 +152,25 @@ var VideoView = React.createClass({
       }} />);
   },
 
-  _renderPlaceholder: function() {
+  _renderAdBar: function() {
+    return (<AdBar
+        ad={this.props.ad}
+        playhead={this.props.playhead}
+        duration={this.props.duration}
+        onPress={this.handlePress}
+        width={this.props.width}
+        localizableStrings={this.props.localizableStrings}
+        locale={this.props.locale} />
+      );
+  },
+
+  _renderPlaceholder: function(adIcons) {
     return (
       <View
         style={styles.placeholder}
-        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+        onTouchEnd={(event) => this.handleTouchEnd(event)}>
+        {adIcons}
       </View>);
-  },
-
-  _renderClosedCaptions: function() {
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      if (this.props.captionJSON) {
-        var end = this.props.captionJSON.end == null ? 0.0 : this.props.captionJSON.end;
-        var begin = this.props.captionJSON.begin == null ? 0.0 : this.props.captionJSON.begin;
-        var text = this.props.captionJSON.text == null ? "" : this.props.captionJSON.text;
-        var caption = {end:end, begin:begin, text:text, width:this.props.width}
-        
-        return (<ClosedCaptionsViewAndroid
-          style={styles.closedCaptionAndroidStyle}
-          caption={caption} />
-        );
-    }
-    return null;
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-      return (<ClosedCaptionsView
-        style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
-        captionJSON={this.props.captionJSON}
-        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)} />
-      );
-    }
-    return null;
-  },
-
-  _renderUpNext: function() {
-    if (this.props.live) {
-      return null;
-    }
-
-    return <UpNext
-      config={{
-        upNext: this.props.config.upNext,
-        icons: this.props.config.icons
-      }}
-      ad={this.props.ad}
-      playhead={this.props.playhead}
-      duration={this.props.duration}
-      nextVideo={this.props.nextVideo}
-      upNextDismissed={this.props.upNextDismissed}
-      onPress={(value) => this.handlePress(value)}
-      platform={this.props.platform}
-      width={this.props.width}/>;
   },
 
   _renderPlayPause: function(show) {
@@ -237,28 +203,8 @@ var VideoView = React.createClass({
         </VideoViewPlayPause>);
   },
 
-  _renderVideoWaterMark: function(show) {
-    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
-    var waterMarkName;
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
-    }
-    return (
-        <VideoWaterMark
-          frameWidth={this.props.width}
-          frameHeight={this.props.height}
-          buttonWidth={VideoWaterMarkSize}
-          buttonHeight={VideoWaterMarkSize}
-          waterMarkName={waterMarkName}
-          isShow={show} />
-          );
-  },
-
   handleScrub: function(value) {
-    this.props.handlers.onScrub(value);
+    this.props.onScrub(value);
   },
 
   getDefaultProps: function() {
@@ -266,7 +212,12 @@ var VideoView = React.createClass({
   },
 
   handleTouchEnd: function(event) {
-    this.props.handlers.handleVideoTouch();
+    var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
+    if (isPastAutoHideTime) {
+      this.setState({lastPressedTime: new Date().getTime()});
+    } else {
+      this.setState({lastPressedTime: new Date(0)})
+    }
   },
   
   _renderAdIcons: function() {
@@ -284,7 +235,7 @@ var VideoView = React.createClass({
         (icon.left < this.props.width -  icon.width) ? {left:icon.left} : {right:0};
       var topStyle = 
         (icon.top < this.props.height - icon.height) ? {top:icon.top} : {bottom:0};
-      var clickHandler = this._createOnIcon(index, this.props.handlers.onIcon);
+      var clickHandler = this._createOnIcon(index, this.props.onIcon);
 
       iconViews.push(
         <TouchableHighlight 
@@ -302,22 +253,36 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-    var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
+    if (!this.props.ad) {
+      Log.error("No Ad passed to the AdPlaybackScreen");
+      return;
+    }
+    var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
+    var doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
+    // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
+    // var isAdPaused = this.props.ad && !this.props.playing;
+    var isContent = !this.props.ad;
 
-    var shouldShowControls = !isPastAutoHideTime;
+    var shouldShowControls = !isPastAutoHideTime && (doesAdRequireControls || isContent);
+
+    var adBar = null;
+    var adIcons = null;
+    adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
+    if (this.props.ad.icons) {
+      adIcons = this._renderAdIcons();
+    }
 
     return (
       <View
         style={styles.container}>
-        {this._renderVideoWaterMark(shouldShowControls)}
-        {this._renderPlaceholder()}
-        {this._renderClosedCaptions()}
+        {adBar}
+        {this._renderPlaceholder(adIcons)}
         {this._renderPlayPause(shouldShowControls)}
-        {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
       </View>
     );
+
   }
 });
 
-module.exports = VideoView;
+module.exports = AdPlaybackScreen;

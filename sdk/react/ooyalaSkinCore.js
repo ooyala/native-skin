@@ -21,7 +21,8 @@ var {
   SCREEN_TYPES,
   OVERLAY_TYPES,
   OOSTATES,
-  PLATFORMS
+  PLATFORMS,
+  AUTOHIDE_DELAY
 } = Constants;
 var OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
 var OoyalaSkinPanelRenderer = require('./ooyalaSkinPanelRenderer');
@@ -57,7 +58,7 @@ OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
 
 // event handlers.
 OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
-    switch (buttonName) {
+  switch (buttonName) {
     case BUTTON_NAMES.DISCOVERY:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
       break;
@@ -125,6 +126,28 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
   return (this.skin.state.upNextDismissed == true && this.skin.props.endScreen.screenToShowOnEnd == "discovery");
 };
 
+/*
+ * This could either reset the lastPressedTime, or zero it to force the hide
+ */
+OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
+  var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
+  if (isPastAutoHideTime) {
+    Log.verbose("handleVideoTouch - Time set");
+    this.skin.setState({lastPressedTime: new Date().getTime()});
+  } else {
+    Log.verbose("handleVideoTouch - Time Zeroed");
+    this.skin.setState({lastPressedTime: new Date(0)})
+  }
+}
+
+/*
+ * Hard reset lastPressedTime, either due to button press or otherwise
+ */
+OoyalaSkinCore.prototype.handleControlsTouch = function() {
+  Log.verbose("handleControlsTouch - Time reset");
+  this.skin.setState({lastPressedTime: new Date().getTime()});
+}
+
 
 OoyalaSkinCore.prototype.pushToOverlayStackAndMaybePause = function(overlay) {
   if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {
@@ -153,7 +176,16 @@ OoyalaSkinCore.prototype.popFromOverlayStackAndMaybeResume = function(overlay) {
   return retVal;
 },
 
-OoyalaSkinCore.prototype.renderScreen = function(overlayType, screenType) {
-  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, screenType);
+OoyalaSkinCore.prototype.renderScreen = function() {
+  Log.verbose("Rendering - Current Overlay stack: " + this.skin.state.overlayStack);
+  var overlayType = null
+  if(this.skin.state.overlayStack.length > 0) {
+    overlayType = this.skin.state.overlayStack[this.skin.state.overlayStack.length - 1];
+    Log.verbose("Rendering Overlaytype: " + overlayType);
+  } else {
+    Log.verbose("Rendering screentype: " + this.skin.state.screenType);
+  }
+
+  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.ad, this.skin.state.screenType);
 }
 module.exports = OoyalaSkinCore;

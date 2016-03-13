@@ -4,13 +4,10 @@ import android.graphics.Color;
 
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableNativeMap;
-import com.facebook.react.uimanager.ReactProp;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 
-/**
- * Created by dkorobov on 1/13/16.
- */
 public class CountdownViewManager extends SimpleViewManager<CountdownView> {
     public static final String REACT_CLASS = "RCTCountdownView";
 

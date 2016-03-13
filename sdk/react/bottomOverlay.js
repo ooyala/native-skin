@@ -48,13 +48,14 @@ var BottomOverlay = React.createClass({
     volume: React.PropTypes.number,
     onPress: React.PropTypes.func,
     onScrub: React.PropTypes.func,
-    showClosedCaptionsButton: React.PropTypes.bool,
+    handleControlsTouch: React.PropTypes.func.isRequired,
     isShow: React.PropTypes.bool,
     shouldShowProgressBar: React.PropTypes.bool,
     live: React.PropTypes.object,
     shouldShowLandscape: React.PropTypes.bool,
     config: React.PropTypes.object,
   },
+  
   getDefaultProps: function() {
     return {"shouldShowProgressBar": true};
   },
@@ -189,7 +190,7 @@ var BottomOverlay = React.createClass({
       height={this.props.height}
       fullscreen = {this.props.fullscreen}
       onPress={this.props.onPress}
-      showClosedCaptionsButton={this.props.showClosedCaptionsButton}
+      handleControlsTouch={this.props.handleControlsTouch}
       showWatermark={this.props.showWatermark}
       config={this.props.config} />);
   },
@@ -218,30 +219,30 @@ var BottomOverlay = React.createClass({
   },
 
   handleTouchStart: function(event) {
+    this.props.handleControlsTouch();
     if (this.isMounted()) {
       var touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
       if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
         return;
       }
       this.setState({touch:true, x:event.nativeEvent.pageX});
-      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   },
 
   handleTouchMove: function(event) {
+    this.props.handleControlsTouch();
     if (this.isMounted()) {
       this.setState({x:event.nativeEvent.pageX});
-      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   },
 
   handleTouchEnd: function(event) {
+    this.props.handleControlsTouch();
     if (this.isMounted()) {
       if (this.state.touch && this.props.onScrub) {
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
       }
-      this.setState({touch:false, x:null});
-      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+      this.setState({touch:false, x:null});   
     }
   },
 

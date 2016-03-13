@@ -21,7 +21,7 @@
     "backgroundColor": "transparent"
   },
   "closedCaptionAndroidStyle": {
-   "height": 15,
+   "height": 25,
    "alignItems": "flex-end",
    "backgroundColor": "transparent"
   }
