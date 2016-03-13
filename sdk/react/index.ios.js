@@ -77,15 +77,7 @@ var OoyalaSkin = React.createClass({
   },
 
   render: function() {
-    Log.verbose("Rendering - Current Overlay stack: " + this.state.overlayStack);
-    var overlayType = null
-    if(this.state.overlayStack.length > 0) {
-      overlayType = this.state.overlayStack[this.state.overlayStack.length - 1];
-      Log.verbose("Rendering Overlaytype: " + overlayType);
-    } else {
-      Log.verbose("Rendering screentype: " + this.state.screenType);
-    }
-    return OoyalaSkinCoreInstance.renderScreen(overlayType, this.state.ad, this.state.screenType);
+    return OoyalaSkinCoreInstance.renderScreen();
   }
 });
 

@@ -176,7 +176,16 @@ OoyalaSkinCore.prototype.popFromOverlayStackAndMaybeResume = function(overlay) {
   return retVal;
 },
 
-OoyalaSkinCore.prototype.renderScreen = function(overlayType, ad, screenType) {
-  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, ad, screenType);
+OoyalaSkinCore.prototype.renderScreen = function() {
+  Log.verbose("Rendering - Current Overlay stack: " + this.skin.state.overlayStack);
+  var overlayType = null
+  if(this.skin.state.overlayStack.length > 0) {
+    overlayType = this.skin.state.overlayStack[this.skin.state.overlayStack.length - 1];
+    Log.verbose("Rendering Overlaytype: " + overlayType);
+  } else {
+    Log.verbose("Rendering screentype: " + this.skin.state.screenType);
+  }
+
+  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.ad, this.skin.state.screenType);
 }
 module.exports = OoyalaSkinCore;
