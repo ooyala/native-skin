@@ -51,9 +51,14 @@ var AdPlaybackScreen = React.createClass({
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
-    onPress: React.PropTypes.func,
-    onIcon: React.PropTypes.func,
-    onScrub: React.PropTypes.func,
+    handlers:  React.PropTypes.shape({
+      onPress: React.PropTypes.func,
+      onIcon: React.PropTypes.func,
+      onScrub: React.PropTypes.func,
+      handleVideoTouch: React.PropTypes.func,
+      handleControlsTouch: React.PropTypes.func,
+    }),
+    lastPressedTime: React.PropTypes.any,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
@@ -67,7 +72,6 @@ var AdPlaybackScreen = React.createClass({
     loading: React.PropTypes.bool,
     initialPlay: React.PropTypes.bool,
   },
-
    componentWillReceiveProps: function(nextProps) {
 
  },
@@ -249,6 +253,10 @@ var AdPlaybackScreen = React.createClass({
   },
 
   render: function() {
+    if (!this.props.ad) {
+      Log.error("No Ad passed to the AdPlaybackScreen");
+      return;
+    }
     var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
     var doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
@@ -259,11 +267,9 @@ var AdPlaybackScreen = React.createClass({
 
     var adBar = null;
     var adIcons = null;
-    if (this.props.ad) {
-      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
-      if (this.props.ad.icons) {
-        adIcons = this._renderAdIcons();
-      }
+    adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
+    if (this.props.ad.icons) {
+      adIcons = this._renderAdIcons();
     }
 
     return (

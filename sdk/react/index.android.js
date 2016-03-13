@@ -98,7 +98,7 @@ var OoyalaSkin = React.createClass({
     } else {
       Log.verbose("Rendering screentype: " + this.state.screenType);
     }
-    return OoyalaSkinCoreInstance.renderScreen(overlayType, this.state.screenType);
+    return OoyalaSkinCoreInstance.renderScreen(overlayType, this.state.ad, this.state.screenType);
   }
 });
 

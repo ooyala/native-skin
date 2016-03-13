@@ -38,18 +38,17 @@ var ControlBar = React.createClass({
   },
 
   propTypes: {
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    primaryButton: React.PropTypes.string,
-    fullscreen: React.PropTypes.bool,
-    playhead: React.PropTypes.number,
-    duration: React.PropTypes.number,
-    volume: React.PropTypes.number,
-    onPress: React.PropTypes.func,
-    showClosedCaptionsButton: React.PropTypes.bool,
-    live: React.PropTypes.object, // a label to display and a function to handle golive.
-    shouldShowLandscape: React.PropTypes.bool,
-    config: React.PropTypes.object
+    width: React.PropTypes.number.isRequired,
+    height: React.PropTypes.number.isRequired,
+    primaryButton: React.PropTypes.string.isRequired,
+    fullscreen: React.PropTypes.bool.isRequired,
+    playhead: React.PropTypes.number.isRequired,
+    duration: React.PropTypes.number.isRequired,
+    volume: React.PropTypes.number.isRequired,
+    onPress: React.PropTypes.func.isRequired,
+    handleControlsTouch: React.PropTypes.func.isRequired,
+    live: React.PropTypes.object,
+    config: React.PropTypes.object.isRequired,
   },
 
   getDefaultProps: function() {
@@ -191,7 +190,7 @@ var ControlBar = React.createClass({
 
     var widthStyle = {width:this.props.width};
     return (
-      <View style={[styles.controlBarContainer, widthStyle]}>
+      <View style={[styles.controlBarContainer, widthStyle]} onTouchEnd={this.props.handleControlsTouch}>
         {controlBarWidgets}
       </View>
     );

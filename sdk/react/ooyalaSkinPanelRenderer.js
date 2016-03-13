@@ -1,3 +1,6 @@
+/**
+ * The OoyalaSkinPanelRenderer handles rendering of all panels using Skin state and Core method
+ */
 'use strict';
 
 var Constants = require('./constants');
@@ -13,14 +16,14 @@ var Log = require('./log');
 
 var Dimensions = require('Dimensions');
 var ActivityView = require('NativeModules').OOActivityView;
-var StartScreen = require('./StartScreen');
-var EndScreen = require('./EndScreen');
-var ErrorScreen = require('./ErrorScreen');
-var AdPlaybackScreen = require('./adPlaybackScreen');
-var DiscoveryPanel = require('./discoveryPanel');
-var MoreOptionScreen = require('./MoreOptionScreen');
-var VideoView = require('./videoView');
-var LanguageSelectionPanel = require('./languageSelectionPanel.js');
+var StartScreen = require('./panels/StartScreen');
+var EndScreen = require('./panels/EndScreen');
+var ErrorScreen = require('./panels/ErrorScreen');
+var DiscoveryPanel = require('./panels/discoveryPanel');
+var MoreOptionScreen = require('./panels/MoreOptionScreen');
+var VideoView = require('./panels/videoView');
+var LanguageSelectionPanel = require('./panels/languageSelectionPanel');
+var AdPlaybackScreen = require('./panels/adPlaybackScreen')
 
 var OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
   Log.log("OoyalaSkinPanelRenderer Created");
@@ -60,6 +63,8 @@ OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
       height={this.skin.state.height}
       volume={this.skin.state.volume}
       onScrub={(value) => this.core.handleScrub(value)}
+      handleControlsTouch={() => this.core.handleControlsTouch()}
+      fullscreen={this.skin.state.fullscreen}
       upNextDismissed={this.skin.state.upNextDismissed}
       description={this.skin.state.description}
       promoUrl={this.skin.state.promoUrl}
@@ -90,9 +95,14 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
-      onPress={(value) => this.core.handlePress(value)}
-      onIcon={(value)=>this.core.handleIconPress(value)}
-      onScrub={(value) => this.core.handleScrub(value)}
+      handlers={{
+        onPress: (value) => this.core.handlePress(value),
+        onIcon: (value)=>this.core.handleIconPress(value),
+        onScrub: (value) => this.core.handleScrub(value),
+        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleControlsTouch: () => this.core.handleControlsTouch()
+      }}
+      lastPressedTime={this.skin.state.lastPressedTime}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
       // todo: change to boolean showCCButton.
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
@@ -131,9 +141,14 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
-      onPress={(value) => this.core.handlePress(value)}
-      onIcon={(value)=>this.core.handleIconPress(value)}
-      onScrub={(value) => this.core.handleScrub(value)}
+      handlers={{
+        onPress: (value) => this.core.handlePress(value),
+        onIcon: (value)=>this.core.handleIconPress(value),
+        onScrub: (value) => this.core.handleScrub(value),
+        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleControlsTouch: () => this.core.handleControlsTouch()
+      }}
+      lastPressedTime={this.skin.state.lastPressedTime}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
       // todo: change to boolean showCCButton.
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
@@ -163,8 +178,8 @@ OoyalaSkinPanelRenderer.prototype.renderCCOptions = function() {
     <LanguageSelectionPanel
       languages={this.skin.state.availableClosedCaptionsLanguages}
       selectedLanguage={this.skin.state.selectedLanguage}
-      onSelect={(value)=>this.core.onLanguageSelected(value)}
-      onDismiss={() => this.core.onOverlayDismissed()}
+      onSelect={(value)=>this.core.handleLanguageSelection(value)}
+      onDismiss={() => this.core.dismissOverlay()}
       width={this.skin.state.width}
       height={this.skin.state.height}
       config={{localizableStrings:this.skin.props.localization,
@@ -196,12 +211,12 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
         discoveryScreen: this.skin.props.discoveryScreen,
         icons: this.skin.props.icons,
       }}
-      onDismiss={() => this.core.onOverlayDismissed()}
+      onDismiss={() => this.core.dismissOverlay()}
       platform={this.skin.state.platform}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       dataSource={this.skin.state.discoveryResults}
-      onRowAction={(info) => this.core.onDiscoveryRow(info)}
+      onRowAction={(info) => this.core.emitDiscoveryOptionChosen(info)}
       width={this.skin.state.width}
       height={this.skin.state.height}
       screenType={this.skin.state.screenType}>
@@ -212,8 +227,8 @@ OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
-      onDismiss={() => this.core.onOptionDismissed()}
-      onOptionButtonPress={(buttonName) => this.core.onOptionButtonPress(buttonName)}
+      onDismiss={() => this.core.dismissOverlay()}
+      onOptionButtonPress={(buttonName) => this.core.handleMoreOptionsButtonPress(buttonName)}
       config={{
         moreOptionsScreen: this.skin.props.moreOptionsScreen,
         buttons: this.skin.props.buttons.mobileContent,

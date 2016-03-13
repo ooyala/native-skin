@@ -142,6 +142,7 @@ OoyalaSkinBridgeListener.prototype.onStateChange = function(e) {
     case "error":
     case "init":
     case "paused":
+    case "suspended":
     case "ready":
       this.skin.setState({
         playing: false,

@@ -45,6 +45,8 @@ var EndScreen = React.createClass({
     height: React.PropTypes.number,
     volume: React.PropTypes.number,
     upNextDismissed: React.PropTypes.bool,
+    fullscreen: React.PropTypes.bool,
+    handleControlsTouch: React.PropTypes.func,
   },
 
   handleClick: function(name) {
@@ -125,6 +127,8 @@ var EndScreen = React.createClass({
       onPress={(name) => this.handlePress(name)}
       shouldShowProgressBar={false}
       showWatermark={this.props.showWatermark}
+      handleControlsTouch={() => this.props.handleControlsTouch()}
+      fullscreen={this.props.fullscreen}
       isShow={show}
       config={{
         controlBar: this.props.config.controlBar,
