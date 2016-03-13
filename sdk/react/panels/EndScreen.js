@@ -8,16 +8,16 @@ var {
   TouchableHighlight
 } = React;
 
-var Utils = require('./utils');
+var Utils = require('../utils');
 
 var styles = Utils.getStyles(require('./style/endScreenStyles.json'));
-var ProgressBar = require('./progressBar');
-var ControlBar = require('./controlBar');
-var WaterMark = require('./waterMark');
-var InfoPanel = require('./infoPanel');
-var BottomOverlay = require('./bottomOverlay');
-var Log = require('./log');
-var Constants = require('./constants');
+var ProgressBar = require('../progressBar');
+var ControlBar = require('../controlBar');
+var WaterMark = require('../waterMark');
+var InfoPanel = require('../infoPanel');
+var BottomOverlay = require('../bottomOverlay');
+var Log = require('../log');
+var Constants = require('../constants');
 
 var {
   BUTTON_NAMES,
@@ -31,7 +31,6 @@ var EndScreen = React.createClass({
 	getInitialState: function() {
     return {
       showControls:true,
-      showDiscoveryPanel:true,
     };
   },
 
@@ -46,7 +45,8 @@ var EndScreen = React.createClass({
     height: React.PropTypes.number,
     volume: React.PropTypes.number,
     upNextDismissed: React.PropTypes.bool,
-    discoveryPanel: React.PropTypes.object,
+    fullscreen: React.PropTypes.bool,
+    handleControlsTouch: React.PropTypes.func,
   },
 
   handleClick: function(name) {
@@ -127,6 +127,8 @@ var EndScreen = React.createClass({
       onPress={(name) => this.handlePress(name)}
       shouldShowProgressBar={false}
       showWatermark={this.props.showWatermark}
+      handleControlsTouch={() => this.props.handleControlsTouch()}
+      fullscreen={this.props.fullscreen}
       isShow={show}
       config={{
         controlBar: this.props.config.controlBar,
@@ -134,10 +136,6 @@ var EndScreen = React.createClass({
         icons: this.props.config.icons,
         live: this.props.config.live
       }} />);
-  },
-
-  onDismissPress: function() {
-    this.setState({showDiscoveryPanel: false});
   },
 
   render: function() {

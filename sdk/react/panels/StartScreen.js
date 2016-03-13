@@ -9,10 +9,10 @@ var {
   TouchableHighlight,
 } = React;
 
-var Utils = require('./utils');
-var Log = require('./log');
+var Utils = require('../utils');
+var Log = require('../log');
 var styles = Utils.getStyles(require('./style/startScreenStyles.json'));
-var Constants = require('./constants');
+var Constants = require('../constants');
 var {
   PLATFORMS,
   IMG_URLS,
@@ -20,9 +20,9 @@ var {
   BUTTON_NAMES,
 } = Constants;
 
-var RectButton = require('./widgets/RectButton');
-var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
-var ResponsiveDesignManager = require('./responsiveDesignManager');
+var RectButton = require('../widgets/RectButton');
+var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
+var ResponsiveDesignManager = require('../responsiveDesignManager');
 
 var StartScreen = React.createClass({
   propTypes: {

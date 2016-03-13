@@ -16,21 +16,27 @@ var {
 } = React;
 
 var animationDuration = 1000;
-var Constants = require('./constants');
+var Constants = require('../constants');
 var {
   ICONS
 } = Constants;
 
-var ToggleSwitch = require('./widgets/ToggleSwitch');
-var ClosedCaptionsView = require('./closedCaptionsView');
-var Utils = require('./utils');
-var ResponsiveList = require('./widgets/ResponsiveList');
-var PreviewWidget = require('./languageSelectionPreview');
+var ToggleSwitch = require('../widgets/ToggleSwitch');
+var ClosedCaptionsView = require('../closedCaptionsView');
+var Utils = require('../utils');
+var ResponsiveList = require('../widgets/ResponsiveList');
+var PreviewWidget = require('../languageSelectionPreview');
+
+
+var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
+var panelStyles = require('./style/panelStyles');
+
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
     languages: React.PropTypes.array,
     selectedLanguage: React.PropTypes.string,
     onSelect: React.PropTypes.func,
+    onDismiss: React.PropTypes.func,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     config: React.PropTypes.object
@@ -65,6 +71,10 @@ var LanguageSelectionPanel = React.createClass({
     }
   },
 
+  onDismissPress: function() {
+    this.props.onDismiss();
+  },
+
   onSwitchToggled: function(switchOn) {
     if (switchOn) {
       this.onSelected(this.props.languages[0]);
@@ -75,6 +85,23 @@ var LanguageSelectionPanel = React.createClass({
 
   onTouchEnd: function(event) {
     // ignore.
+  },
+  renderHeader: function() {
+    var title = Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings);
+    var panelIcon = this.props.config.icons.cc.fontString;
+
+    return (
+    <View style={panelStyles.panelTitleView}>
+      <Text style={[panelStyles.panelTitleText]}>
+      {title}
+      </Text>
+      <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+      <View style={panelStyles.headerFlexibleSpace}></View>
+      <TouchableHighlight style = {[panelStyles.dismissButton]}
+        onPress={this.onDismissPress}>
+        <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
+      </TouchableHighlight>
+    </View>);
   },
 
   render: function() {
@@ -90,10 +117,8 @@ var LanguageSelectionPanel = React.createClass({
     var animationStyle = {opacity:this.state.opacity};
 
     return (
-      <Animated.View style={[styles.panelContainer, animationStyle]}>
-        <View style={styles.panelTitleRow}>
-          <Text style={styles.panelTitle}>{Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings)}</Text>
-        </View>
+      <Animated.View style={[styles.panelContainer, panelStyles.panel, animationStyle]}>
+        {this.renderHeader()}
         <ToggleSwitch
           switchOn={hasCC}
           areClosedCaptionsAvailable={this.props.languages.length > 0}
@@ -133,7 +158,5 @@ var LanguageSelectionPanel = React.createClass({
     );
   },
 });
-
-var styles = require('./utils').getStyles(require('./style/languageSelectionPanelStyles.json'));
 
 module.exports = LanguageSelectionPanel;

@@ -11,11 +11,11 @@ var {
   View,
 } = React;
 
-var Log = require('./log');
-var Utils = require('./utils');
-var Constants = require('./constants');
+var Log = require('../log');
+var Utils = require('../utils');
+var Constants = require('../constants');
 var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
-var CollapsingBarUtils = require('./collapsingBarUtils');
+var CollapsingBarUtils = require('../collapsingBarUtils');
 
 var {
   BUTTON_NAMES,
@@ -28,8 +28,6 @@ var MoreOptionScreen = React.createClass({
 	propTypes: {
     height: React.PropTypes.number,
     onDismiss: React.PropTypes.func,
-    panel: React.PropTypes.object,
-    buttonSelected: React.PropTypes.string,
     onOptionButtonPress: React.PropTypes.func,
     config: React.PropTypes.object,
     controlBarWidth: React.PropTypes.number
@@ -166,17 +164,14 @@ var MoreOptionScreen = React.createClass({
 
     var moreOptionRow;
     var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
-
-    if (!this.props.buttonSelected || this.props.buttonSelected === BUTTON_NAMES.NONE || this.props.buttonSelected === BUTTON_NAMES.SHARE) {
-
-      moreOptionRow = (
-      <Animated.View
-        ref='moreOptionRow'
-        style={[styles.rowCenter, rowAnimationStyle]}>
-        {moreOptionButtons}
-      </Animated.View>);
-    }
-
+  
+    moreOptionRow = (
+    <Animated.View
+      ref='moreOptionRow'
+      style={[styles.rowCenter, rowAnimationStyle]}>
+      {moreOptionButtons}
+    </Animated.View>);
+  
     var dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
         {dismissButton}
@@ -186,7 +181,6 @@ var MoreOptionScreen = React.createClass({
     var moreOptionScreen = (
       <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
         {moreOptionRow}
-        {this.props.panel}
         {dismissButtonRow}
       </Animated.View>
     );

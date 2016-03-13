@@ -7,8 +7,8 @@ var {
   View
 } = React;
 
-var Log = require('./log');
-var Utils = require('./utils');
+var Log = require('../log');
+var Utils = require('../utils');
 var styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
 
 var ErrorScreen = React.createClass({

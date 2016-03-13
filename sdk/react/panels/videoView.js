@@ -15,26 +15,27 @@ var {
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
-var BottomOverlay = require('./bottomOverlay');
-var ClosedCaptionsView = require('./closedCaptionsView');
-var ClosedCaptionsViewAndroid = require('./closedCaptionsViewAndroid');
-var AdBar = require('./adBar');
-var UpNext = require('./upNext');
-var RectButton = require('./widgets/RectButton');
-var VideoViewPlayPause = require('./widgets/VideoViewPlayPause');
-var Constants = require('./constants');
-var Log = require('./log');
-var Utils = require('./utils');
+var BottomOverlay = require('../bottomOverlay');
+var ClosedCaptionsView = require('../closedCaptionsView');
+var ClosedCaptionsViewAndroid = require('../closedCaptionsViewAndroid');
+var AdBar = require('../adBar');
+var UpNext = require('../upNext');
+var RectButton = require('../widgets/RectButton');
+var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
+var Constants = require('../constants');
+var Log = require('../log');
+var Utils = require('../utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var ResponsiveDesignManager = require('./responsiveDesignManager');
-var VideoWaterMark = require('./widgets/videoWaterMark');
+var ResponsiveDesignManager = require('../responsiveDesignManager');
+var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
 
 var {
   BUTTON_NAMES,
   PLATFORMS,
   IMG_URLS,
-  UI_SIZES
+  UI_SIZES,
+  AUTOHIDE_DELAY
 } = Constants;
 
 var VideoView = React.createClass({
@@ -51,9 +52,14 @@ var VideoView = React.createClass({
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
-    onPress: React.PropTypes.func,
-    onIcon: React.PropTypes.func,
-    onScrub: React.PropTypes.func,
+    handlers:  React.PropTypes.shape({
+      onPress: React.PropTypes.func,
+      onIcon: React.PropTypes.func,
+      onScrub: React.PropTypes.func,
+      handleVideoTouch: React.PropTypes.func,
+      handleControlsTouch: React.PropTypes.func,
+    }),
+    lastPressedTime: React.PropTypes.any,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     captionJSON: React.PropTypes.object,
@@ -68,13 +74,12 @@ var VideoView = React.createClass({
     initialPlay: React.PropTypes.bool,
   },
 
-   componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps: function(nextProps) {
 
- },
+  },
 
   getInitialState: function() {
     return {
-      lastPressedTime: new Date(0)
     };
   },
 
@@ -93,22 +98,21 @@ var VideoView = React.createClass({
 
   onGoLive: function() {
     Log.log("onGoLive");
-    if (this.props.onScrub) {
-      this.props.onScrub(1);
+    if (this.props.handlers.onScrub) {
+      this.props.handlers.onScrub(1);
     }
   },
 
   handlePress: function(name) {
     Log.verbose("VideoView Handle Press: " + name);
-    this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
       if (name == "LIVE") {
-        this.props.onScrub(1);
+        this.props.handlers.onScrub(1);
       } else {
-        this.props.onPress(name);
+        this.props.handlers.onPress(name);
       }
     } else {
-      this.props.onPress(name);
+      this.props.handlers.onPress(name);
     }
   },
 
@@ -137,6 +141,7 @@ var VideoView = React.createClass({
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
+      handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={show}
@@ -148,24 +153,11 @@ var VideoView = React.createClass({
       }} />);
   },
 
-  _renderAdBar: function() {
-    return (<AdBar
-        ad={this.props.ad}
-        playhead={this.props.playhead}
-        duration={this.props.duration}
-        onPress={this.handlePress}
-        width={this.props.width}
-        localizableStrings={this.props.localizableStrings}
-        locale={this.props.locale} />
-      );
-  },
-
-  _renderPlaceholder: function(adIcons) {
+  _renderPlaceholder: function() {
     return (
       <View
         style={styles.placeholder}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}>
-        {adIcons}
+        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
       </View>);
   },
 
@@ -189,7 +181,7 @@ var VideoView = React.createClass({
       return (<ClosedCaptionsView
         style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
         captionJSON={this.props.captionJSON}
-        onTouchEnd={(event) => this.handleTouchEnd(event)} />
+        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)} />
       );
     }
     return null;
@@ -266,7 +258,7 @@ var VideoView = React.createClass({
   },
 
   handleScrub: function(value) {
-    this.props.onScrub(value);
+    this.props.handlers.onScrub(value);
   },
 
   getDefaultProps: function() {
@@ -274,12 +266,7 @@ var VideoView = React.createClass({
   },
 
   handleTouchEnd: function(event) {
-    var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
-    if (isPastAutoHideTime) {
-      this.setState({lastPressedTime: new Date().getTime()});
-    } else {
-      this.setState({lastPressedTime: new Date(0)})
-    }
+    this.props.handlers.handleVideoTouch();
   },
   
   _renderAdIcons: function() {
@@ -297,7 +284,7 @@ var VideoView = React.createClass({
         (icon.left < this.props.width -  icon.width) ? {left:icon.left} : {right:0};
       var topStyle = 
         (icon.top < this.props.height - icon.height) ? {top:icon.top} : {bottom:0};
-      var clickHandler = this._createOnIcon(index, this.props.onIcon);
+      var clickHandler = this._createOnIcon(index, this.props.handlers.onIcon);
 
       iconViews.push(
         <TouchableHighlight 
@@ -315,29 +302,15 @@ var VideoView = React.createClass({
   },
 
   render: function() {
-    var isPastAutoHideTime = (new Date).getTime() - this.state.lastPressedTime > autohideDelay;
-    var doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
-    // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
-    // var isAdPaused = this.props.ad && !this.props.playing;
-    var isContent = !this.props.ad;
+    var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
 
-    var shouldShowControls = !isPastAutoHideTime && (doesAdRequireControls || isContent);
-
-    var adBar = null;
-    var adIcons = null;
-    if (this.props.ad) {
-      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
-      if (this.props.ad.icons) {
-        adIcons = this._renderAdIcons();
-      }
-    }
+    var shouldShowControls = !isPastAutoHideTime;
 
     return (
       <View
         style={styles.container}>
-        {adBar}
         {this._renderVideoWaterMark(shouldShowControls)}
-        {this._renderPlaceholder(adIcons)}
+        {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}

@@ -1,13 +1,10 @@
 package com.ooyala.android.skin.view;
 
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.uimanager.ReactProp;
+import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 
-/**
- * Created by zchen on 12/22/15.
- */
 public class ClosedCaptionsViewManager extends SimpleViewManager<ClosedCaptionsView> {
   public static final String REACT_CLASS = "RCTClosedCaptionsView";
 //  private ClosedCaptionsStyle style;
