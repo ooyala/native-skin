@@ -237,7 +237,7 @@ var VideoView = React.createClass({
         </VideoViewPlayPause>);
   },
 
-  _renderVideoWaterMark: function(show) {
+  _renderVideoWaterMark: function() {
     var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
     var waterMarkName;
     if(this.props.platform == Constants.PLATFORMS.ANDROID) {
@@ -248,12 +248,9 @@ var VideoView = React.createClass({
     }
     return (
         <VideoWaterMark
-          frameWidth={this.props.width}
-          frameHeight={this.props.height}
           buttonWidth={VideoWaterMarkSize}
           buttonHeight={VideoWaterMarkSize}
-          waterMarkName={waterMarkName}
-          isShow={show} />
+          waterMarkName={waterMarkName}/>
           );
   },
 
@@ -311,7 +308,7 @@ var VideoView = React.createClass({
         style={styles.container}>
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
-        {this._renderVideoWaterMark(shouldShowControls)}
+        {this._renderVideoWaterMark()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}

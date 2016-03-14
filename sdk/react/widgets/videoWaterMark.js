@@ -19,18 +19,9 @@ var {
 
 var logo = React.createClass({
   propTypes: {
-    buttonWidth: React.PropTypes.number,
-    buttonHeight: React.PropTypes.number,
-    waterMarkName: React.PropTypes.string,
-    isShow: React.PropTypes.bool,
-  },
-
-getInitialState: function() {
-    return {
-      touch: false,
-      opacity: new Animated.Value(1),
-      height: new Animated.Value(0),
-    };
+    buttonWidth: React.PropTypes.number.isRequired,
+    buttonHeight: React.PropTypes.number.isRequired,
+    waterMarkName: React.PropTypes.string.isRequired,
   },
 
 renderLogo: function(){
