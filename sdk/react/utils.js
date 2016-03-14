@@ -109,7 +109,6 @@ var Utils = {
     if (typeof localizableStrings !== 'object' || localizableStrings === null) localizableStrings = {};
 
     Log.verbose("preferredLocale: " + preferredLocale + ", stringId: " + stringId + ", localizableStrings:");
-    Log.verbose(localizableStrings);
 
     var defaultLocale = localizableStrings['defaultLanguage'] ? localizableStrings['defaultLanguage'] : 'en';
 

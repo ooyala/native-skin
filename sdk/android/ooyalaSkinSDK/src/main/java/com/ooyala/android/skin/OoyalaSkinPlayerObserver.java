@@ -38,10 +38,7 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeTimeChangedNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION_NAME) {
       bridgePlayCompletedNotification();
-      if(!_layoutController.isUpNextDismissed())
-      {
-        _layoutController.handleUpNextClick();
-      }
+      _layoutController.maybeStartUpNext();
     } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION_NAME) {
       bridgeAdPodCompleteNotification();
     } else if (arg1 == OoyalaPlayer.PLAY_STARTED_NOTIFICATION_NAME) {

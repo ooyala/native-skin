@@ -186,7 +186,9 @@
   [eventBody setObject:adTitle forKey:@"title"];
   [eventBody setObject:skipoffset forKey:@"skipoffset"];
   [eventBody setObject:requireControls forKey:@"requireControls"];
-  [eventBody setObject:icons forKey:@"icons"];
+  if (icons) {
+    [eventBody setObject:icons forKey:@"icons"];
+  }
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 
 

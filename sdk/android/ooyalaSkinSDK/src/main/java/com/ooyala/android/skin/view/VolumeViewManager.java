@@ -7,9 +7,6 @@ import com.facebook.react.uimanager.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 
-/**
- * Created by dkorobov on 2/9/16.
- */
 public class VolumeViewManager extends SimpleViewManager<VolumeView> {
   public static final String REACT_CLASS = "OOVolumeView";
 

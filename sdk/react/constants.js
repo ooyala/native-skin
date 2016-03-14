@@ -48,13 +48,18 @@ var SCREEN_TYPES = {
   LOADING_SCREEN: 'loading',
   VIDEO_SCREEN: 'video',
   START_SCREEN: 'start',
-  DISCOVERY_SCREEN: 'discovery',
+  DISCOVERY_END_SCREEN: 'discovery_end',
   END_SCREEN: 'end',
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
-  MOREOPTION_SCREEN: 'moreOption',
-  ERROR_SCREEN: 'error'
+  ERROR_SCREEN: 'error',
 };
+
+var OVERLAY_TYPES = {
+  DISCOVERY_SCREEN: 'discovery_screen',
+  MOREOPTION_SCREEN: 'moreOption',
+  CLOSEDCAPTIONS_SCREEN: 'cc_screen',
+}
 
 var OOSTATES = {
   PAUSED: 'paused',
@@ -69,4 +74,5 @@ var LOG_LEVEL = {
   NONE: 0
 };
 
-module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OOSTATES, LOG_LEVEL, PLATFORMS};
+AUTOHIDE_DELAY = 5000;
+module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OVERLAY_TYPES , OOSTATES, LOG_LEVEL, PLATFORMS, AUTOHIDE_DELAY};

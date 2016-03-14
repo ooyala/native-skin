@@ -8,7 +8,7 @@ var {
 } = React;
 
 var Utils = require('./utils');
-var styles = Utils.getStyles(require('./style/languageSelectionPanelStyles.json'));
+var styles = Utils.getStyles(require('./panels/style/languageSelectionPanelStyles.json'));
 
 var Constants = require('./constants');
 var {
