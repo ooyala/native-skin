@@ -30,7 +30,7 @@
     "jest-cli": "~0.7.0"
   },
   "dependencies": {
-    "react-native": "^0.20.0",
+    "react-native": "^0.16.0",
     "react-timer-mixin": "^0.13.3"
   }
 }

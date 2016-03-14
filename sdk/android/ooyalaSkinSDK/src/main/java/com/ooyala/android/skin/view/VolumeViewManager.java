@@ -3,7 +3,7 @@ package com.ooyala.android.skin.view;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 
-import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.uimanager.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 
