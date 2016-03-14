@@ -1,7 +1,8 @@
 {
-  "buttonArea": {
-    "flex": 1,
+  "watermarkContainer": {
+    "flex": 0,
     "flexDirection": "row",
-    "alignSelf": "center",
+    "justifyContent": "flex-end",
+    "padding": 10
   },
 }

@@ -309,9 +309,9 @@ var VideoView = React.createClass({
     return (
       <View
         style={styles.container}>
-        {this._renderVideoWaterMark(shouldShowControls)}
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
+        {this._renderVideoWaterMark(shouldShowControls)}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
