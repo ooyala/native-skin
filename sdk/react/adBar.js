@@ -42,7 +42,7 @@ var AdBar = React.createClass({
     this.props.onPress(BUTTON_NAMES.SKIP);
   },
 
-  generateResponsiveText: function(showLearnMore) {
+  generateResponsiveText: function(showLearnMore,showSkip) {
     var textString;
     var adTitle = this.props.ad.title ? this.props.ad.title + " ": " ";
     var count = this.props.ad.count ? this.props.ad.count : 1;
@@ -66,6 +66,15 @@ var AdBar = React.createClass({
     Log.verbose("width: "+this.props.width + ". allowed: "+allowedTextLength+ ". learnmore: "+this.props.ad.measures.learnmore);
     Log.verbose(". duration: "+ this.props.ad.measures.duration+
       ". count: "+this.props.ad.measures.count+". title: "+this.props.ad.measures.title+". prefix: "+this.props.ad.measures.prefix);
+    if (this.props.ad.skipoffset >= 0) {
+      if(showSkip) {
+        allowedTextLength -= this.props.ad.measures.skipad + 32;  
+      } 
+      else {
+        allowedTextLength -= this.props.ad.measures.skipadintime + 32;  
+      }
+    }
+      
     if (this.props.ad.measures.duration <= allowedTextLength) {
       textString = remainingString;
       allowedTextLength -= this.props.ad.measures.duration;
@@ -91,11 +100,11 @@ var AdBar = React.createClass({
   render: function() {
     var learnMoreButton;
     var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
-    var textString = this.generateResponsiveText(showLearnMore);
-    var learnMoreText = Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings);
+    var showSkip = this.props.playhead >= this.props.ad.skipoffset;
+    var textString = this.generateResponsiveText(showLearnMore,showSkip);
+    var learnMoreText = Utils.localizedString(this.props.locale, "Learn more", this.props.localizableStrings);
 
     var skipButton;
-    var showSkip = this.props.playhead >= this.props.ad.skipoffset;
     var skipLabel;
     var skipLabelText = Utils.localizedString(this.props.locale, "Skip Ad in ", this.props.localizableStrings);
     var skipText = Utils.localizedString(this.props.locale, "Skip Ad", this.props.localizableStrings);
