@@ -1,5 +1,8 @@
 package com.ooyala.android.skin;
 
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
@@ -146,11 +149,23 @@ class BridgeMessageBuilder {
     return params;
   }
 
+  private static double stringSize(String fontName,int fontStyle,int textSize,String text) {
+    Paint paint = new Paint();
+    Rect bounds = new Rect();
+    Typeface typeface = Typeface.create(fontName,fontStyle);
+    paint.setTypeface(typeface);
+    paint.setTextSize(textSize);
+    double size = paint.measureText(text);
+    return size;
+  }
+
   public static WritableMap buildAdsParams(Object data) {
     WritableMap params = Arguments.createMap();
-    WritableArray measures = Arguments.createArray();
     WritableMap argument = Arguments.createMap();
 
+    String fontName = "AvenirNext-DemiBold";
+    int fontStyle = Typeface.BOLD;
+    int textSize = 16;
     if(data != null) {
       AdPodInfo ad = (AdPodInfo) data;
 
@@ -186,22 +201,31 @@ class BridgeMessageBuilder {
         params.putArray("icons", icons);
       }
 
-      //hard coded the values for learnMore for now to prevent from the crash and enabling the learnmore button.
-      double title1=74.672;
-      argument.putDouble("title",title1);
+      double title1 = stringSize(fontName, fontStyle, textSize, title);
+      argument.putDouble("title", title1);
 
-      double learnmore=84.112;
-      argument.putDouble("learnmore",learnmore);
+      //TODO: Make sure this text is localized to correct language
+      double learnmore = stringSize(fontName, fontStyle, textSize, "Learn More");
+      argument.putDouble("learnmore", learnmore);
 
-      double count=36.304;
-      argument.putDouble("count",count);
+      //TODO: Make sure this text is localized to correct language
+      double skipAd = stringSize(fontName, fontStyle, textSize, "Skip Ad");
+      argument.putDouble("skipad", skipAd);
 
-      double prefix=85.008;
-      argument.putDouble("prefix",prefix);
+      //TODO: Make sure this text is localized to correct language
+      double skipAdInTime = stringSize(fontName, fontStyle, textSize, "Skip Ad in 00:00");
+      argument.putDouble("skipadintime", skipAdInTime);
 
-      double duration=43.84;
+      double count = stringSize(fontName, fontStyle, textSize, "(" + adsCount + "/" + unplayedCount + ")" );
+      argument.putDouble("count", count);
+
+      //TODO: Make sure this text is localized to correct language
+      double prefix = stringSize(fontName, fontStyle, textSize, "Ad playing:");
+      argument.putDouble("prefix", prefix);
+
+      double duration = stringSize(fontName, fontStyle, textSize, "00:00");
       argument.putDouble("duration", duration);
-      
+
       params.putMap("measures", argument);
     }
     return params;
