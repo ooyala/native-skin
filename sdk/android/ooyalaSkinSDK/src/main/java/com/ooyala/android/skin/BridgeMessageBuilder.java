@@ -149,7 +149,7 @@ class BridgeMessageBuilder {
     return params;
   }
 
-  public static double stringSize(String fontName,int fontStyle,int textSize,String text) {
+  private static double stringSize(String fontName,int fontStyle,int textSize,String text) {
     Paint paint = new Paint();
     Rect bounds = new Rect();
     Typeface typeface = Typeface.create(fontName,fontStyle);
@@ -201,29 +201,29 @@ class BridgeMessageBuilder {
         params.putArray("icons", icons);
       }
 
-      double title1 = stringSize(fontName,fontStyle,textSize,title);
-      argument.putDouble("title",title1);
+      double title1 = stringSize(fontName, fontStyle, textSize, title);
+      argument.putDouble("title", title1);
 
       //TODO: Make sure this text is localized to correct language
-      double learnmore = stringSize(fontName,fontStyle,textSize,"Learn More");
-      argument.putDouble("learnmore",learnmore);
+      double learnmore = stringSize(fontName, fontStyle, textSize, "Learn More");
+      argument.putDouble("learnmore", learnmore);
 
       //TODO: Make sure this text is localized to correct language
-      double skipAd = stringSize(fontName,fontStyle,textSize,"Skip Ad");
-      argument.putDouble("skipad",skipAd);
+      double skipAd = stringSize(fontName, fontStyle, textSize, "Skip Ad");
+      argument.putDouble("skipad", skipAd);
 
       //TODO: Make sure this text is localized to correct language
-      double skipAdInTime = stringSize(fontName,fontStyle,textSize,"Skip Ad in 00:00");
-      argument.putDouble("skipadintime",skipAdInTime);
+      double skipAdInTime = stringSize(fontName, fontStyle, textSize, "Skip Ad in 00:00");
+      argument.putDouble("skipadintime", skipAdInTime);
 
-      double count = stringSize(fontName,fontStyle,textSize,"("+adsCount+"/"+unplayedCount+")");
-      argument.putDouble("count",count);
+      double count = stringSize(fontName, fontStyle, textSize, "(" + adsCount + "/" + unplayedCount + ")" );
+      argument.putDouble("count", count);
 
       //TODO: Make sure this text is localized to correct language
-      double prefix = stringSize(fontName,fontStyle,textSize,"Ad playing:");
-      argument.putDouble("prefix",prefix);
+      double prefix = stringSize(fontName, fontStyle, textSize, "Ad playing:");
+      argument.putDouble("prefix", prefix);
 
-      double duration = stringSize(fontName,fontStyle,textSize,"00:00");
+      double duration = stringSize(fontName, fontStyle, textSize, "00:00");
       argument.putDouble("duration", duration);
 
       params.putMap("measures", argument);
