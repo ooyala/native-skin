@@ -249,7 +249,7 @@ var BottomOverlay = React.createClass({
   renderDefault: function(widthStyle) {
     return (
       <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}>
-        <View style ={[styles.bottomOverlayFlexibleSpace]}></View>
+        {/*<View style ={[styles.bottomOverlayFlexibleSpace]}></View>*/}
         {this._renderCompleteProgressBar()}
         {this._renderControlBar()}
       </Animated.View>
