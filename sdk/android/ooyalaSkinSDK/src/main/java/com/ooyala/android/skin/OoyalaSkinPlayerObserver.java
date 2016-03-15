@@ -50,6 +50,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeOnClosedCaptionChangeNotification();
     } else if (arg1 == OoyalaPlayer.AD_STARTED_NOTIFICATION_NAME) {
         bridgeAdStartNotification(((OoyalaNotification) argN).getData());
+    }  else if (arg1 == OoyalaPlayer.AD_SKIPPED_NOTIFICATION_NAME) {
+        bridgeAdSkipNotification();
     }
   }
   private void bridgeOnClosedCaptionChangeNotification() {
@@ -113,4 +115,10 @@ class OoyalaSkinPlayerObserver implements Observer {
     WritableMap params = Arguments.createMap();
     _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
   }
+
+  private void bridgeAdSkipNotification() {
+    WritableMap params = Arguments.createMap();
+    _layoutController.sendEvent(OoyalaPlayer.AD_SKIPPED_NOTIFICATION_NAME, params);
+  }
+
 }
