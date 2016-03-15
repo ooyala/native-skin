@@ -163,6 +163,7 @@
   NSString *durationString = @"00:00";
   NSString *learnMoreString = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Learn More"];
   NSString *skipAdString = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Skip Ad"];
+  NSString *skipAdInTimeString = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Skip Ad in 00:00"];
 
   CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
@@ -170,8 +171,10 @@
   CGSize durationSize = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize learnMoreSize = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize skipAdSize = [skipAdString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize skipAdInTimeSize = [skipAdInTimeString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
                              @"skipad":[NSNumber numberWithFloat:skipAdSize.width],
+                             @"skipadintime":[NSNumber numberWithFloat:skipAdInTimeSize.width],
                              @"duration":[NSNumber numberWithFloat:durationSize.width],
                              @"count":[NSNumber numberWithFloat:countSize.width],
                              @"title":[NSNumber numberWithFloat:titleSize.width],
