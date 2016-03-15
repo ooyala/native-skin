@@ -32,6 +32,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'adStarted',                (event) => this.onAdStarted(event) ],
     [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
     [ 'adPodCompleted',           (event) => this.onAdPodCompleted(event) ],
+    [ 'adSkipped',                (event) => this.onAdSkipped(event) ],
     [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
     [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ],
     [ 'playStarted',              (event) => this.onPlayStarted(event) ],
@@ -86,6 +87,11 @@ OoyalaSkinBridgeListener.prototype.onAdSwitched = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onAdPodCompleted = function(e) {
   Log.log( "onAdPodCompleted ");
+  this.skin.setState({ad: null});
+};
+
+OoyalaSkinBridgeListener.prototype.onAdSkipped = function(e) {
+  Log.log( "onAdSkipped ");
   this.skin.setState({ad: null});
 };
 
