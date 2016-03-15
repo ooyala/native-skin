@@ -211,6 +211,7 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
         icons: this.skin.props.icons,
       }}
       localizableStrings={this.skin.props.localization}
+      onDismiss={() => this.core.dismissOverlay()}
       dataSource={[]}
       screenType={this.skin.state.screenType}>
     </DiscoveryPanel>);
