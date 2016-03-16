@@ -121,10 +121,11 @@ OoyalaSkinBridgeListener.prototype.onPlayStarted = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onPlayComplete = function(e) {
   Log.log("Play Complete received: upNext dismissed: "  + this.skin.state.upNextDismissed);
+  this.skin.setState({"playing": false, screenType: SCREEN_TYPES.END_SCREEN});
+  
   if (this.core.shouldShowDiscoveryEndscreen()) {
       this.core.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
   }
-  this.skin.setState({screenType: SCREEN_TYPES.END_SCREEN});
 };
 
 OoyalaSkinBridgeListener.prototype.onDiscoveryResult = function(e) {
