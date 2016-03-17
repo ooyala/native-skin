@@ -265,38 +265,6 @@ var VideoView = React.createClass({
   handleTouchEnd: function(event) {
     this.props.handlers.handleVideoTouch();
   },
-  
-  _renderAdIcons: function() {
-    var iconViews = [];
-    for (var index in this.props.ad.icons) {
-      var icon = this.props.ad.icons[index];
-      if ((this.props.playhead < icon.offset) || (this.props.playhead > (icon.offset + icon.duration))) {
-        continue;
-      }
-      var left = icon.x;
-      var top = icon.y;
-      var iconStyle = {position:"absolute", width:icon.width, height:icon.height, backgroundColor:"transparent"};
-      
-      var leftStyle = 
-        (icon.left < this.props.width -  icon.width) ? {left:icon.left} : {right:0};
-      var topStyle = 
-        (icon.top < this.props.height - icon.height) ? {top:icon.top} : {bottom:0};
-      var clickHandler = this._createOnIcon(index, this.props.handlers.onIcon);
-
-      iconViews.push(
-        <TouchableHighlight 
-          key={"iconTouchable"+index}
-          style={[iconStyle, leftStyle, topStyle]}
-          onPress={clickHandler}>
-          <Image
-            key={"iconImage" + index}
-            style={{flex:1}}
-            source={{uri: icon.url}} />
-        </TouchableHighlight>
-      );
-    }
-    return iconViews;
-  },
 
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
