@@ -228,9 +228,9 @@ var AdPlaybackScreen = React.createClass({
       var iconStyle = {position:"absolute", width:icon.width, height:icon.height, backgroundColor:"transparent"};
       
       var leftStyle = 
-        (icon.left < this.props.width -  icon.width) ? {left:icon.left} : {right:0};
+        (left < this.props.width -  icon.width) ? {left:icon.left} : {right:0};
       var topStyle = 
-        (icon.top < this.props.height - icon.height) ? {top:icon.top} : {bottom:0};
+        (top < this.props.height - icon.height) ? {top:icon.top} : {bottom:0};
       var clickHandler = this._createOnIcon(index, this.props.handlers.onIcon);
 
       iconViews.push(
