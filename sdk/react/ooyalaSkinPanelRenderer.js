@@ -201,11 +201,23 @@ OoyalaSkinPanelRenderer.prototype.renderSocialOptions = function() {
     });
   }
 },
+
 OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
   if (!this.skin.state.discoveryResults) {
-    return null;
+    return (
+    <DiscoveryPanel
+      config={{
+        discoveryScreen: this.skin.props.discoveryScreen,
+        icons: this.skin.props.icons,
+      }}
+      localizableStrings={this.skin.props.localization}
+      onDismiss={() => this.core.dismissOverlay()}
+      dataSource={[]}
+      screenType={this.skin.state.screenType}>
+    </DiscoveryPanel>);
   }
-  return (
+  else {
+    return (
     <DiscoveryPanel
       config={{
         discoveryScreen: this.skin.props.discoveryScreen,
@@ -221,6 +233,7 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
       height={this.skin.state.height}
       screenType={this.skin.state.screenType}>
     </DiscoveryPanel>);
+  }
 };
 
 OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
