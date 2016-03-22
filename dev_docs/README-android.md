@@ -13,12 +13,13 @@ In order to be successful running this sample app, you are expected to understan
 This document will explain a number of different use cases:
 
 1. How to Run the Sample Application
-2. How to perform simple customizations to the Sample Application
-3. How to perform complex modifications to the Sample Application
+2. How to perform simple customizations to the Sample Application (not written)
+3. How to perform complex modifications to the Sample Application (not written)
+4. How to update an existing application with the Android Skin
 
-# How to update an existing Application with the Android Skin
+# How to update an existing application with the Android Skin
 
-1. Download and unzip OoyalaSkinSDK.zip
+1. Download and unzip [OoyalaSkinSDK.zip](https://ooyala.box.com/android-skin-release)
 
 2. Copy **OoyalaSkinSDK.jar** into **libs/** directory of your app
 
@@ -54,7 +55,7 @@ This document will explain a number of different use cases:
   android.useDeprecatedNdk=true
   ```
 
-5. Put **fonts**,**index.android.bundle** and **skin.json** into **src/main/assets**
+5. Put **fonts**,**index.android.jsbundle** and **skin.json** into **src/main/assets**
 
 6. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
 
@@ -74,18 +75,17 @@ public void onCreate(Bundle savedInstanceState) {
 
     EMBED = getIntent().getExtras().getString("embed_code");
 
-    //Initialize the player
-    OoyalaSkinLayout skinLayout = (OoyalaSkinLayout)findViewById(R.id.ooyalaSkin);
+    // Get the SkinLayout from our layout xml
+    OoyalaSkinLayout skinLayout = (OoyalaSkinLayout)findViewById(R.id.ooyalaPlayer);
+
+    // Create the OoyalaPlayer, with some built-in UI disabled
     PlayerDomain domain = new PlayerDomain(DOMAIN);
-    Options options = new Options.Builder()
-              .setShowAdsControls(false)
-              .setShowPromoImage(true)
-              .setPreloadContent(false)
-              .build();
+    Options options = new Options.Builder().setShowPromoImage(false).build();
     player = new OoyalaPlayer(PCODE, domain, options);
 
-    OoyalaSkinLayoutController controller = new OoyalaSkinLayoutController(getApplication(), skinLayout, player);
-	
+    //Create the SkinOptions, and setup the LayoutController
+    SkinOptions skinOptions = new SkinOptions.Builder().build();
+    playerLayoutController = new OoyalaSkinLayoutController(getApplication(), skinLayout, player, skinOptions);	
     ...
 
 }
