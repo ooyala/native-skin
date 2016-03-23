@@ -19,4 +19,7 @@ public interface BridgeEventHandler {
   void onScrub(ReadableMap percentage);
 
   void onDiscoveryRow(ReadableMap parameters);
+
+  void onLanguageSelected(ReadableMap parameters);
+
 }

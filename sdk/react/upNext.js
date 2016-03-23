@@ -124,17 +124,6 @@ var UpNext = React.createClass({
         </View>
       );
       var upNextDismissButton = this._renderDismissButton();
-
-      if (this.props.width < descriptionMinWidth + upNextWidth + dismissButtonWidth) {
-        return (
-          <View style={styles.container}>
-            {upNextImage}
-            <View style={{flex: 5}}></View>
-            {upNextDismissButton}
-          </View>
-        );
-      }
-      else {
         return (
           <View style={styles.container}>
             {upNextImage}
@@ -143,8 +132,6 @@ var UpNext = React.createClass({
           </View>
         );
       }
-
-    }
     return null;
   },
 });
