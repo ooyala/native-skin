@@ -120,4 +120,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     }
   }
 
+  public void onLanguageSelected(ReadableMap parameters) {
+    _player.setClosedCaptionsLanguage(parameters.getString("language"));
+  }
 }
