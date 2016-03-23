@@ -71,11 +71,6 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   @Override
-  protected void onDetachedFromWindow() {
-    super.onDetachedFromWindow();
-  }
-
-  @Override
   protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
       super.onSizeChanged(xNew, yNew, xOld, yOld);
       viewWidth = xNew;

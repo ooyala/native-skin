@@ -76,8 +76,6 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private boolean _isUpNextDismissed = false;
   private boolean _isUpNextEnabled = false;
 
-  private ViewGroup parentLayout;
-
   int width;
   int height;
 
