@@ -11,11 +11,24 @@ public class OoyalaSkinLayout extends FrameLayout {
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private FrameChangeCallback frameChangeCallback;
 
+  private int initialWidth = -1;
+  private int initialHeight = -1;
+
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
       this.frameChangeCallback = fcCallback;
+  }
+
+  @Override
+  protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+    if(initialHeight == -1) {
+      initialWidth = getWidth();
+      initialHeight = getHeight();
+    }
+
+    super.onLayout(changed, left, top, right, bottom);
   }
 
   /**
@@ -58,6 +71,11 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   @Override
+  protected void onDetachedFromWindow() {
+    super.onDetachedFromWindow();
+  }
+
+  @Override
   protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
       super.onSizeChanged(xNew, yNew, xOld, yOld);
       viewWidth = xNew;
@@ -81,5 +99,13 @@ public class OoyalaSkinLayout extends FrameLayout {
 
   public int getViewHeight() {
       return viewHeight;
+  }
+
+  public int getInitialWidth() {
+    return initialWidth;
+  }
+
+  public int getInitialHeight() {
+    return initialHeight;
   }
 }
