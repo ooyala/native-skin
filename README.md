@@ -1,6 +1,6 @@
-# ios-skin
+# native-skin
 
-This is the repository that contains all information regarding the new iOS Skin. This repo is the source for all things related to the new Ooyala SDK User Interface ('skin').  
+This is the repository that contains all information regarding the new native Android and iOS Skins. This repo is the source for all things related to the new Ooyala SDK User Interface ('skin').  
 
 **The sample application will not run without configuration. Please conslult the First Steps for setup**
 
