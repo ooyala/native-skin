@@ -1,20 +1,17 @@
-# ios-skin
+# native-skin
 
-This is the repository that contains all information regarding the new iOS Skin. This repo is the source for all things related to the new Ooyala SDK User Interface ('skin').  
+This is the repository that contains all information regarding the new iOS and Android Skins. This repo is the source for all things related to the new Ooyala SDK User Interface ('skin').  
 
-**The sample application will not run without configuration. Please conslult the First Steps for setup**
+**The sample applications will not run without configuration. Please consult the Getting Started Guides for setup.**
 
 # First Steps: iOS Getting Started Guide
 
 Trying things for the first time? [Check out the iOS Skin Getting Started Guide](dev_docs/README-ios.md) to try the sample application, while getting a better understanding of the new iOS Skin, OoyakaSkinSDK-iOS, and OoyalaSkinSampleApp
 
-### TL;DR: How to Run the Sample Application
+# First Steps: Android Getting Started Guide
 
-Note, the Sample app is *Not part of this repository*.  You have to go to the [ios-sample-apps](https://github.com/ooyala/ios-sample-apps) repo to see the OoyalaSkinSampleApp. This will be the first four steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
+Trying things for the first time? [Check out the Android Skin Getting Started Guide](dev_docs/README-android.md) to try the sample application, while getting a better understanding of the new Android Skin, OoyakaSkinSDK-Android, and OoyalaSkinSampleApp
 
-1. `git clone https://github.com/ooyala/ios-sample-apps`
-2. `open ios-sample-apps/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
-3. Run the application
 
 
 # Overview
@@ -53,4 +50,3 @@ This project relies on __React Native__, a UI Framework that allows for similar 
      to run them using the [Node REPL](https://nodejs.org/api/repl.html).
   1. For example, run the REPL and then do ".load collapsingBarUtils.js" followed by
      "CollapsingBarUtils.TestSuite.Run();".
-  
