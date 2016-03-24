@@ -2,6 +2,7 @@ package com.ooyala.android.skin;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 public class OoyalaSkinLayout extends FrameLayout {
@@ -11,24 +12,14 @@ public class OoyalaSkinLayout extends FrameLayout {
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private FrameChangeCallback frameChangeCallback;
 
-  private int initialWidth = -1;
-  private int initialHeight = -1;
+  private int initialWidth;
+  private int initialHeight;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
       this.frameChangeCallback = fcCallback;
-  }
-
-  @Override
-  protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-    if(initialHeight == -1) {
-      initialWidth = getWidth();
-      initialHeight = getHeight();
-    }
-
-    super.onLayout(changed, left, top, right, bottom);
   }
 
   /**
@@ -96,11 +87,19 @@ public class OoyalaSkinLayout extends FrameLayout {
       return viewHeight;
   }
 
-  public int getInitialWidth() {
-    return initialWidth;
+  void setFullscreen(boolean fullscreen) {
+    if(fullscreen) {
+      initialWidth = getWidth();
+      initialHeight = getHeight();
+
+      getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+      getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+      bringToFront();
+
+      return;
+    }
+    getLayoutParams().width = initialWidth;
+    getLayoutParams().height = initialHeight;
   }
 
-  public int getInitialHeight() {
-    return initialHeight;
-  }
 }

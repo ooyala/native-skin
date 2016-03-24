@@ -277,11 +277,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
 
     _isFullscreen = fullscreen;
+    _layout.setFullscreen(fullscreen);
     if (fullscreen) {
-        _layout.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-        _layout.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-        _layout.bringToFront();
-
       _layout.setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                       | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -291,8 +288,6 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
                       | View.SYSTEM_UI_FLAG_IMMERSIVE);
 
     } else {
-        _layout.getLayoutParams().width = _layout.getInitialWidth();
-        _layout.getLayoutParams().height = _layout.getInitialHeight();
       _layout.setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
