@@ -10,7 +10,9 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.facebook.internal.BundleJSONConverter;
 import com.facebook.react.LifecycleState;
@@ -269,8 +271,13 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   }
 
   public void setFullscreen(boolean fullscreen) {
-    _isFullscreen = fullscreen;
 
+    if(!(_layout.getParent() instanceof RelativeLayout)) {
+      throw new UnsupportedOperationException("Fullscreen only supported inside RelativeLayout");
+    }
+
+    _isFullscreen = fullscreen;
+    _layout.setFullscreen(fullscreen);
     if (fullscreen) {
       _layout.setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -284,7 +291,6 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
       _layout.setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
-
   }
 
   public boolean isFullscreen() {
