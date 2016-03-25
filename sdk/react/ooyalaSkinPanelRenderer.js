@@ -275,7 +275,11 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, ad, scree
 
   switch (screenType) {
     case SCREEN_TYPES.START_SCREEN: 
-      return this.renderStartScreen(); 
+      if(this.skin.state.desiredstate !="desired_play") {
+      return this.renderStartScreen();   
+      } else {
+        return null;
+      }
       break;
     case SCREEN_TYPES.END_SCREEN:   
       return this.renderEndScreen();   
