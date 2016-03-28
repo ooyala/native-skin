@@ -43,6 +43,7 @@ var OoyalaSkin = React.createClass({
       cuePoints: [],
       promoUrl: '',
       hostedAtUrl: '',
+      desiredState:'desired_pause',
       playhead: 0,
       duration: 1,
       rate: 0,

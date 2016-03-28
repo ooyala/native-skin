@@ -170,7 +170,7 @@ OoyalaSkinBridgeListener.prototype.onStateChange = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onDesiredStateChange = function(e) {
 this.skin.setState({
-    desiredstate:e.desiredState,
+    desiredState:e.desiredState,
   });
 };
 OoyalaSkinBridgeListener.prototype.onError = function(e) {
