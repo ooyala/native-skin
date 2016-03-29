@@ -47,16 +47,20 @@ Just like all other sample applications, you can modify the ListViewController w
 3. Re-run the application
 
 # How to Perform Complex Modifications to the Sample Application
-
 The following will run you through linking the OoyalaSkinSDK source code to the OoyalaSkinSampleApp.  This will allow you to do cool things, like modify the UI code and add your own features
 
+At a high level - Android React Native allows you to set up a React JS server, then force your device/emulator to access that server to get up-to-date javascript.
+
 You will need to perform a number of steps to succeed here:
+
+## Set Up React Native to modify the Javascript
+The first step would be to get React Native set up and running, then to test it in the Sample App. Follow these steps to give that a shot:
 
 ### Setup React Native Dependencies
 
 Please follow the requirements section of the following site: [http://facebook.github.io/react-native/docs/getting-started.html#requirements](http://facebook.github.io/react-native/docs/getting-started.html#requirements)
 
-### Configure OoyalaSkinSDK.xcodeproj
+### Configure OoyalaSkinSDK React Project
 
 run `npm install` in the Ooyala Skin SDK
 
@@ -64,21 +68,33 @@ run `npm install` in the Ooyala Skin SDK
 
 run `git submodule update --init` to initialize the skin-config
 
-### Connect OoyalaSkinSDK to OoyalaSkinSampleApp
+### Start React-Native server
+You need to start the react-native server to get your javascript to be applied to the sample application
 
-1. Open OoyalaSkin.xcworkspace
-2. Add the OoyalaSkinSampleApp.xcodeproj into OoyalaSkin.xcworkspace
-3. In OoyalaSkinSampleApp Project Settings, remove existing OoyalaSkinSDK and add the Workspace version
+    cd native-skin/sdk/react/ && react-native start
 
-3. Modify Sample App Players to point to React-Native server
+To test - you can try to request [http://localhost:8081/index.ios.bundle?platform=ios&dev=true](http://localhost:8081/index.android.bundle?platform=ios&dev=true) and see if results come back
 
-    Comment out the original jsCodeLocation that points to the compiled bundle, and point it to the server that will be started by React Native
+
+### Modify Sample App Players to point to React-Native server
+
+1.  Comment out the original jsCodeLocation that points to the compiled bundle, and point it to the server that will be started by React Native
 
         // NSURL *jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
         NSURL *jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle"];
 4. Run the Ooyala Skin Sample App in a Simulator
 
 In order to run the Sample App on the device,  you will need to provide a url that would be accessible by the physical hardware device (i.e. the local ip of the dev computer)
+
+
+## Set Up OoyalaSkinSDK Source Code to modify the Native code
+After you've tested the application using the React Native JS server, then you should connect the OoyalaSkinSDK Java Source Code to the application.
+
+### Connect OoyalaSkinSDK to OoyalaSkinSampleApp
+
+1. Open OoyalaSkin.xcworkspace
+2. Add the OoyalaSkinSampleApp.xcodeproj into OoyalaSkin.xcworkspace
+3. In OoyalaSkinSampleApp Project Settings, remove existing OoyalaSkinSDK and add the Workspace version
 
 ### Connect correct skin-config to OoyalaSkinSampleApp
 

@@ -71,6 +71,8 @@ You need to start the react-native server to get your javascript to be applied t
 
     cd native-skin/sdk/react/ && react-native start
 
+To test - you can try to request [http://localhost:8081/index.android.bundle?platform=android&dev=true](http://localhost:8081/index.android.bundle?platform=android&dev=true) and see if results come back
+
 ### Use the React Native javascript server in the Sample App
 
 1. Modify Sample App Players to point to React Native JS server
