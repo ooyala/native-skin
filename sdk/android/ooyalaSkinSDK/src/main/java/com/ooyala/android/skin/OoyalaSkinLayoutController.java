@@ -70,7 +70,6 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private FCCTVRatingUI _tvRatingUI;
   DiscoveryOptions discoveryOptions;
 
-  private boolean _isFullscreen = false;
   private boolean _isUpNextDismissed = false;
   private boolean _isUpNextEnabled = false;
 
@@ -262,33 +261,19 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     return _layout.getPlayerLayout();
   }
 
-
   public int getCurrentVolume() {
     AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
     return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
   }
 
-  public void setFullscreen(boolean fullscreen) {
-    _isFullscreen = fullscreen;
-
-    if (fullscreen) {
-      _layout.setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                      | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                      | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
-    } else {
-      _layout.setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-    }
-
+  @Override
+  public void setFullscreen(boolean isFullscreen) {
+    _layout.setFullscreen(isFullscreen);
   }
 
+
   public boolean isFullscreen() {
-    return _isFullscreen;
+    return _layout.isFullscreen();
   }
 
   public void showClosedCaptionsMenu() {
@@ -394,7 +379,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     WritableMap params = Arguments.createMap();
     params.putInt("width", width);
     params.putInt("height", height);
-    params.putBoolean("fullscreen", _isFullscreen);
+    params.putBoolean("fullscreen", isFullscreen());
 
     sendEvent("frameChanged", params);
   }
@@ -422,15 +407,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
     // hide navigation and notification bars after lockscreen
     // if video was in the fullscreen before screenlock
-    if (isFullscreen()) {
-      _layout.setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                      | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                      | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-    }
+    setFullscreen(isFullscreen());
   }
 
   @Override
