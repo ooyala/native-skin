@@ -16,6 +16,7 @@ import java.util.Observer;
 class OoyalaSkinPlayerObserver implements Observer {
   private static String TAG = OoyalaSkinPlayerObserver.class.getSimpleName();
   private static final String KEY_STATE = "state";
+  private static final String DESIRED_STATE = "desiredState";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -32,6 +33,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeStateEmbedCodeNotification();
     } else if (arg1 == OoyalaPlayer.STATE_CHANGED_NOTIFICATION_NAME) {
       bridgeStateChangedNotification();
+    } else if (arg1 == OoyalaPlayer.DESIRED_STATE_CHANGED_NOTIFICATION_NAME) {
+      bridgeDesiredStateChangedNotification();
     } else if (arg1 == OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION_NAME) {
       bridgeCurrentItemChangedNotification();
     } else if (arg1 == OoyalaPlayer.TIME_CHANGED_NOTIFICATION_NAME) {
@@ -60,6 +63,13 @@ class OoyalaSkinPlayerObserver implements Observer {
     params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
     DebugMode.logD(TAG, "state change event params are" + params.toString());
     _layoutController.sendEvent(OoyalaPlayer.STATE_CHANGED_NOTIFICATION_NAME, params);
+  }
+
+  private void bridgeDesiredStateChangedNotification() {
+    WritableMap params = Arguments.createMap();
+    params.putString(DESIRED_STATE, _player.getDesiredState().toString().toLowerCase());
+    DebugMode.logD(TAG, "desired  state change event params are" + params.toString());
+    _layoutController.sendEvent(OoyalaPlayer.DESIRED_STATE_CHANGED_NOTIFICATION_NAME, params);
   }
 
   private void bridgeStateEmbedCodeNotification() {

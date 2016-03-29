@@ -10,7 +10,8 @@ var {
   SCREEN_TYPES,
   OVERLAY_TYPES,
   OOSTATES,
-  PLATFORMS
+  PLATFORMS,
+  DESIRED_STATES
 } = Constants;
 var Log = require('./log');
 
@@ -275,7 +276,11 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, ad, scree
 
   switch (screenType) {
     case SCREEN_TYPES.START_SCREEN: 
-      return this.renderStartScreen(); 
+      if(this.skin.state.desiredState != DESIRED_STATES.DESIRED_PLAY) {
+        return this.renderStartScreen();   
+      } else {
+        return null;
+      }
       break;
     case SCREEN_TYPES.END_SCREEN:   
       return this.renderEndScreen();   
