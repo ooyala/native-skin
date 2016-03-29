@@ -407,7 +407,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     }
     // hide navigation and notification bars after lockscreen
     // if video was in the fullscreen before screenlock
-    setFullscreen(isFullscreen());
+    _layout.toggleSystemUI();
   }
 
   @Override
