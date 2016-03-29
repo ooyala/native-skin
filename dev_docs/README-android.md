@@ -13,9 +13,103 @@ In order to be successful running this sample app, you are expected to understan
 This document will explain a number of different use cases:
 
 1. How to Run the Sample Application
-2. How to perform simple customizations to the Sample Application (not written)
-3. How to perform complex modifications to the Sample Application (not written)
+2. How to perform simple customizations to the Sample Application
+3. How to perform complex modifications to the Sample Application
 4. How to update an existing application with the Android Skin
+
+# How to Run the Sample Application
+
+These will be the first steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try:
+
+1. `git clone https://github.com/ooyala/android-sample-apps`
+2. `open android-sample-apps/OoyalaSkinSampleApp` in Android Studio
+3. Run the application
+
+# How to Perform Simple Customizations to the Sample Application
+
+### Modify the Skin Config
+
+This will allow you to modify some of the configurations allowed by the Skin Config.  For more information, check out the skin-config repo README.
+
+1. Open OoyalaSkinSampleApp Android Studio Project
+2. Modify skin-config/skin.json
+3. Re-run the application
+
+### Add your own test assets to the Sample App
+
+Just like all other sample applications, you can modify the ListViewController with your own embed codes to see how your videos work.  Note that your assets may require additional configuration of the application to work.
+
+1. Open OoyalaSkinSampleApp Android Studio Project
+2. Modify OoyalaSkinSampleApp/app/src/main/java/com/ooyala/sample/lists/OoyalaSkinListActivity.java
+3. Re-run the application
+
+# How to Perform Complex Modifications to the Sample Application
+
+The following will run you through linking the OoyalaSkinSDK source code to the OoyalaSkinSampleApp.  This will allow you to do cool things, like modify the UI code and add your own features
+
+At a high level - Android React Native allows you to set up a React JS server, then force your device/emulator to access that server to get up-to-date javascript.
+
+You will need to perform a number of steps to succeed here:
+
+## Set Up React Native to modify the Javascript
+The first step would be to get React Native set up and running, then to test it in the Sample App. Follow these steps to give that a shot:
+
+### Setup React Native Dependencies
+
+Please follow the requirements section of the following site: [http://facebook.github.io/react-native/docs/getting-started.html#requirements](http://facebook.github.io/react-native/docs/getting-started.html#requirements)
+
+### Configure OoyalaSkinSDK React Project
+
+run `npm install` in the Ooyala Skin SDK
+
+    cd native-skin/sdk/react/ && npm install
+
+run `git submodule update --init` to initialize the skin-config
+
+### Start React-Native server
+You need to start the react-native server to get your javascript to be applied to the sample application
+
+    cd native-skin/sdk/react/ && react-native start
+
+### Use the React Native javascript server in the Sample App
+
+1. Modify Sample App Players to point to React Native JS server
+
+        SkinOptions skinOptions = new SkinOptions.Builder().setEnableReactJSServer(true).build();
+        playerLayoutController = new OoyalaSkinLayoutController(getApplication(), skinLayout, player, skinOptions);
+
+2. Enable your device/emulator to access your locally-hosted servers
+    Running the following command will allow your emulator/device to hit your locally hosted React Native JS server
+
+        adb -d reverse tcp:8081 tcp:8081
+### Run the Ooyala Skin Sample App in an emulator or device
+
+You should be able to run the application, and see your react-native server hit every time you load a video.
+
+## Set Up OoyalaSkinSDK Java Source Code to modify the Native code
+After you've tested the application using the React Native JS server, then you should connect the OoyalaSkinSDK Java Source Code to the application.
+
+1. Open OoyalaSkinSampleApp Android Studio Project
+2. In OoyalaSkinSampleApp/settings.gradle, add the OoyalaSkinSDK module to your project
+
+        include ':ooyalaSkinSDK'
+        project(':ooyalaSkinSDK').projectDir=new File(settingsDir, '../../native-skin/sdk/android/ooyalaSkinSDK/')
+3. In OoyalaSkinSampleApp/app/build.gradle, comment out the compiles OoyalaSDK.jar and OoyalaSkinSDK.jar, and add the OoyalaSkinSDK project
+
+        //    compile files('libs/OoyalaSDK.jar')
+        //    compile files('libs/OoyalaSkinSDK.jar')
+        compile project(':ooyalaSkinSDK')
+
+
+### Connect Correct skin-config to OoyalaSkinSampleApp.  
+The Skin-config may have been updated since the last release, and if you are using the OoyalaSkinSDK source code, you will have to reference the correct version of the skin-config.  
+Assuming you have connected the OoyalaSkinSDK to the OoyalaSkinSampleApp:
+
+    1. Delete the existing 'skin-config' folder from OoyalaSkinSampleApp project
+    2. Add the new 'skin-config' files from native-skin/skin-config
+
+### Run the Ooyala Skin Sample App in an emulator or device
+Now, you should be able to run the application, and see any modifications to the OoyalaSkinSDK within your application
 
 # How to update an existing application with the Android Skin
 
@@ -25,30 +119,26 @@ This document will explain a number of different use cases:
 
 3. Modify your app gradle build file configuration to include OoyalaSkinSDK and React support as shown in the following Gradle build file snippet:
 
-    ```
-    android {
-        compileSdkVersion 23
-        buildToolsVersion "23.0.0"
-
-        defaultConfig {
-            ...
-            minSdkVersion 16
-            targetSdkVersion 21
-		
-            ndk {
-                // React Native for Android is incompatible with 3rd-party 64-bit libraries.
-                abiFilters "armeabi-v7a", "x86"
+        android {
+            compileSdkVersion 23
+            buildToolsVersion "23.0.0"
+            defaultConfig {
+                ...
+                minSdkVersion 16
+                targetSdkVersion 21
+                ndk {
+                    // React Native for Android is incompatible with 3rd-party 64-bit libraries.
+                    abiFilters "armeabi-v7a", "x86"
+                }
             }
+            ...
         }
-        ...
-    }
+        dependencies {
+            compile files('libs/OoyalaSDK.jar')
+            compile files('libs/OoyalaSkinSDK.jar')
+            compile 'com.facebook.react:react-native:0.16.+'
+        }
 
-    dependencies {
-        compile files('libs/OoyalaSDK.jar')
-        compile files('libs/OoyalaSkinSDK.jar')
-        compile 'com.facebook.react:react-native:0.16.+'
-    }
-    ``` 
 
 4. To let android use 32-bit libraries on 64-bit devices add the following property into the **gradle.properties**:
   ```

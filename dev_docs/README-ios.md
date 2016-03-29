@@ -21,7 +21,7 @@ it's *highly* reccomended that you attempt these use cases in order, to have a c
 
 # How to Run the Sample Application
 
-This will be the first four steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
+These will be the first steps that would allow you to run the Ooyala Skin Sample App, and should be the first thing you try
 
 1. `git clone https://github.com/ooyala/ios-sample-apps`
 2. `open ios-sample-apps/OoyalaSkinSampleApp/OoyalaSkinSampleApp.xcodeproj`
@@ -60,7 +60,7 @@ Please follow the requirements section of the following site: [http://facebook.g
 
 run `npm install` in the Ooyala Skin SDK
 
-    cd ios-skin/sdk/react/ && npm install
+    cd native-skin/sdk/react/ && npm install
 
 run `git submodule update --init` to initialize the skin-config
 
@@ -87,7 +87,7 @@ The Skin-config may have been updated since the last release, and if you are usi
 Assuming you have connected the OoyalaSkinSDK to the OoyalaSkinSampleApp:
 
 1. Delete the existing 'skin-config' folder from OoyalaSkinSampleApp project
-2. Add the new 'skin-config' files from ios-skin/skin-config
+2. Add the new 'skin-config' files from native-skin/skin-config
 
 # How to Update an Existing Application with the iOS Skin
 
@@ -97,7 +97,7 @@ If you'd like to take another extra step, try _following these steps to update t
 
 1. Download [OoyalaSDK-iOS](http://support.ooyala.com/resources/mobile-and-client-sdks), which contains:
     * Ooyala SDK (link binary with this library)
-2. Download [OoyalaSkinSDK-iOS](https://ooyala.box.com/ios-skin-prerelease), which contains:
+2. Download [OoyalaSkinSDK-iOS](https://ooyala.box.com/ios-skin-release), which contains:
     * __NOTE:__ the framework in the download link will always point to the most up to date commit in the 'stable' branch (when the branch is created).
     * iOS Skin SDK (link binary with this library)
     * Alice font (Add to bundle. Then in Info.plist, add "alice.ttf" to "Fonts Provided by Application")
