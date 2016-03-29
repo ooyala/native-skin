@@ -23,7 +23,8 @@ var eventBridge = require('NativeModules').OoyalaReactBridge;
 var Constants = require('./constants');
 var {
   SCREEN_TYPES,
-  PLATFORMS
+  PLATFORMS,
+  DESIRED_STATES
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance;
@@ -43,7 +44,7 @@ var OoyalaSkin = React.createClass({
       cuePoints: [],
       promoUrl: '',
       hostedAtUrl: '',
-      desiredState:'desired_pause',
+      desiredState: DESIRED_STATES.DESIRED_PAUSE,
       playhead: 0,
       duration: 1,
       rate: 0,

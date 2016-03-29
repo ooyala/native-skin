@@ -15,7 +15,8 @@ var Log = require('./log');
 var Constants = require('./constants');
 var {
   SCREEN_TYPES,
-  PLATFORMS
+  PLATFORMS,
+  DESIRED_STATES
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var eventBridge = require('NativeModules').OOReactBridge;
@@ -33,7 +34,7 @@ var OoyalaSkin = React.createClass({
       // states from native
       title: '',
       description: '',
-      desiredState:'desired_pause',
+      desiredState: DESIRED_STATES.DESIRED_PAUSE,
       promoUrl: '',
       hostedAtUrl: '',
       playhead: 0,
