@@ -54,6 +54,7 @@ OoyalaSkinCore.prototype.dismissOverlay = function() {
 OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
   Log.log('onLanguageSelected:'+e);
   this.skin.setState({selectedLanguage:e});
+  this.bridge.onLanguageSelected({language:e});
 };
 
 // event handlers.

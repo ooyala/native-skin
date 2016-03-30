@@ -116,6 +116,15 @@ var LanguageSelectionPanel = React.createClass({
     var itemPanelHeight = this.props.height  - 30 - 30 - 60;
     var animationStyle = {opacity:this.state.opacity};
 
+    if (this.props.selectedLanguage) {
+      var previewText = 
+        ( <PreviewWidget
+            isVisible={hasCC}
+            config={this.props.config}>
+          </PreviewWidget>
+        );
+    }
+  
     return (
       <Animated.View style={[styles.panelContainer, panelStyles.panel, animationStyle]}>
         {this.renderHeader()}
@@ -136,10 +145,7 @@ var LanguageSelectionPanel = React.createClass({
           itemWidth={160}
           itemHeight={88}>
         </ResponsiveList>
-        <PreviewWidget
-          isVisible={hasCC}
-          config={this.props.config}>
-        </PreviewWidget>
+        {previewText}
       </Animated.View>
     );
   },

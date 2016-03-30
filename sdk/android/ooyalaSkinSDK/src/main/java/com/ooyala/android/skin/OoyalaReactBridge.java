@@ -72,4 +72,9 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   public void onDiscoveryRow(ReadableMap parameters) {
     handler.onDiscoveryRow(parameters);
   }
+
+  @ReactMethod
+  public void onLanguageSelected(ReadableMap parameters) {
+    handler.onLanguageSelected(parameters);
+  }
 }
