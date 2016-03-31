@@ -2,6 +2,7 @@ package com.ooyala.android.skin;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -14,6 +15,7 @@ public class OoyalaSkinLayout extends FrameLayout {
 
   private int initialWidth;
   private int initialHeight;
+  private boolean isFullscreen = false;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
@@ -87,7 +89,35 @@ public class OoyalaSkinLayout extends FrameLayout {
       return viewHeight;
   }
 
+  public boolean isFullscreen() {
+    return isFullscreen;
+  }
+
+
+  /**
+   * Show/Hide system ui (notification and navigation bar) depending if layout is in fullscreen
+   */
+  public void toggleSystemUI() {
+    if(isFullscreen()) {
+      setSystemUiVisibility(
+              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                      | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                      | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    } else {
+      setSystemUiVisibility(
+              View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    }
+  }
+
+  /**
+   * Stretch OoyalaSkinLayout to dimensions of parent layout.
+   * Handle system UI visibility.
+   */
   void setFullscreen(boolean fullscreen) {
+    this. isFullscreen = fullscreen;
     if(fullscreen) {
       initialWidth = getWidth();
       initialHeight = getHeight();
@@ -95,11 +125,10 @@ public class OoyalaSkinLayout extends FrameLayout {
       getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
       getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
       bringToFront();
-
-      return;
+    } else {
+        getLayoutParams().width = initialWidth;
+        getLayoutParams().height = initialHeight;
     }
-    getLayoutParams().width = initialWidth;
-    getLayoutParams().height = initialHeight;
+    toggleSystemUI();
   }
-
 }
