@@ -11,7 +11,8 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
-  View
+  View,
+  BackAndroid,
 } = React;
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
@@ -70,6 +71,9 @@ var OoyalaSkin = React.createClass({
 
   componentDidMount: function() {
     // eventBridge.queryState();
+    BackAndroid.addEventListener('hardwareBackPress', function () {
+      return OoyalaSkinCoreInstance.onBackPressed();
+    });
   },
 
   componentWillUnmount: function() {
