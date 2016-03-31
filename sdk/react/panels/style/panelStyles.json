@@ -20,6 +20,8 @@
     "padding":20,
   },
   "dismissIcon": {
+    "flex": 1,
+    "paddingBottom":20,
     "fontFamily": "alice",
     "fontSize": 20,
     "color": "white"
