@@ -13,9 +13,9 @@ public class OoyalaSkinLayout extends FrameLayout {
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private FrameChangeCallback frameChangeCallback;
 
-  int initialWidth;
-  int initialHeight;
-  boolean isFullscreen = false;
+  private int initialWidth;
+  private int initialHeight;
+  private boolean isFullscreen = false;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
