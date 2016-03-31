@@ -51,6 +51,11 @@ OoyalaSkinCore.prototype.dismissOverlay = function() {
   this.popFromOverlayStackAndMaybeResume();
 }
 
+OoyalaSkinCore.prototype.onBackPressed = function() {
+    var retVal = this.popFromOverlayStackAndMaybeResume();
+    return retVal;
+};
+
 OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
   Log.log('onLanguageSelected:'+e);
   this.skin.setState({selectedLanguage:e});
