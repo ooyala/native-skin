@@ -32,7 +32,7 @@
     "fontFamily": "AvenirNext-DemiBold",
   },
   "completeTimeStyle": {
-    "flex":1,
+    "flex":0,
     "flexDirection": "row",
   },
   "iconHighlighted": {
