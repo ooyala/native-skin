@@ -63,7 +63,7 @@ var ControlBar = React.createClass({
   },
   getDurationString: function() {
     if (this.props.live) {
-      return this.props.live.label;
+      return null;
     } else {
       return Utils.secondsToString(this.props.duration);
     }
