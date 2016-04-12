@@ -7,6 +7,7 @@ import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.util.DebugMode;
 
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,34 +29,40 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
   @Override
   public void update(Observable arg0, Object argN) {
-    final String arg1 = OoyalaNotification.getNameOrUnknown(argN);
-    if (arg1 == OoyalaPlayer.EMBED_CODE_SET_NOTIFICATION_NAME) {
+    final String notificationName = OoyalaNotification.getNameOrUnknown(argN);
+    if (OoyalaPlayer.EMBED_CODE_SET_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeStateEmbedCodeNotification();
-    } else if (arg1 == OoyalaPlayer.STATE_CHANGED_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.STATE_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeStateChangedNotification();
-    } else if (arg1 == OoyalaPlayer.DESIRED_STATE_CHANGED_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.DESIRED_STATE_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeDesiredStateChangedNotification();
-    } else if (arg1 == OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.CURRENT_ITEM_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeCurrentItemChangedNotification();
-    } else if (arg1 == OoyalaPlayer.TIME_CHANGED_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.TIME_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeTimeChangedNotification();
-    } else if (arg1 == OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgePlayCompletedNotification();
       _layoutController.maybeStartUpNext();
-    } else if (arg1 == OoyalaPlayer.AD_COMPLETED_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.AD_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAdPodCompleteNotification();
-    } else if (arg1 == OoyalaPlayer.PLAY_STARTED_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.PLAY_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgePlayStartedNotification();
       _layoutController.requestDiscovery();
-    } else if (arg1 == OoyalaPlayer.ERROR_NOTIFICATION_NAME) {
+    } else if (OoyalaPlayer.ERROR_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeErrorNotification();
-    } else if (arg1 == OoyalaPlayer.CLOSED_CAPTIONS_LANGUAGE_CHANGED_NAME) {
+    } else if (OoyalaPlayer.CLOSED_CAPTIONS_LANGUAGE_CHANGED_NAME.equals(notificationName)) {
       bridgeOnClosedCaptionChangeNotification();
-    } else if (arg1 == OoyalaPlayer.AD_STARTED_NOTIFICATION_NAME) {
-        bridgeAdStartNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.AD_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeAdStartNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.LIVE_CC_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeLiveCCChangedNotification(((OoyalaNotification) argN).getData());
     }
   }
   private void bridgeOnClosedCaptionChangeNotification() {
+    // clear previous cc, if any
+    WritableMap params = Arguments.createMap();
+    params.putString("text", "");
+    _layoutController.sendEvent("onClosedCaptionUpdate", params);
   }
 
   private void bridgeStateChangedNotification() {
@@ -122,5 +129,13 @@ class OoyalaSkinPlayerObserver implements Observer {
   private void bridgeAdPodCompleteNotification() {
     WritableMap params = Arguments.createMap();
     _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
+  }
+
+  private void bridgeLiveCCChangedNotification(Object data) {
+      Map<String, String> map = (Map<String, String>) data;
+      String ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
+      WritableMap params = Arguments.createMap();
+      params.putString("text", ccText);
+      _layoutController.sendEvent("onClosedCaptionUpdate", params);
   }
 }
