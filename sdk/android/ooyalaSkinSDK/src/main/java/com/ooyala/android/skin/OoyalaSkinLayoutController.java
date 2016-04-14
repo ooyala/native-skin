@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -36,7 +37,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -89,6 +92,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private OoyalaSkinVolumeObserver volumeObserver;
   private OoyalaSkinBridgeEventHandlerImpl eventHandler;
 
+  private List<Pair<String, WritableMap>> queuedEvents;
+  private boolean isReactMounted;
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
    *
@@ -122,12 +127,17 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
     _package = null;
 
+    queuedEvents = new ArrayList<>();
+
     DisplayMetrics metrics = layout.getContext().getResources().getDisplayMetrics();
     dpi = metrics.densityDpi;
     cal = 160 / dpi;
 
     width = Math.round(_layout.getViewWidth() * cal);
     height = Math.round(_layout.getViewHeight() * cal);
+
+
+    isReactMounted = false;
 
     initializeSkin(app, layout, player, skinOptions);
   }
@@ -253,6 +263,25 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   public BridgeEventHandler getBridgeEventHandler() {
     return this.eventHandler;
+  }
+
+  void updateBridgeWithCurrentState() {
+
+    if (isReactMounted) {
+      DebugMode.logE(TAG, "Received onMounted a second time");
+      return;
+    }
+    isReactMounted = true;
+
+    if (_package.getBridge() == null) {
+      DebugMode.logE(TAG, "Got onMounted from React, but bridge is not yet available? Invalid State");
+    } else {
+      DebugMode.logE(TAG, "React mounted - replaying queued events");
+      for (Pair<String, WritableMap> p : queuedEvents) {
+        sendEvent(p.first, p.second);
+      }
+      queuedEvents = null;
+    }
   }
 
   /****** LayoutController Interface **********/
@@ -385,10 +414,16 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   }
 
   void sendEvent(String event, WritableMap map) {
-    if (_package.getBridge() != null) {
+    if (_package.getBridge() != null && isReactMounted) {
       _package.getBridge().sendEvent(event, map);
     } else {
-      DebugMode.logW(TAG, "Trying to send event, but bridge does not exist yet: " + event);
+      if (!isReactMounted) {
+        DebugMode.logW(TAG, "Trying to send event, but React is not mounted yet: " + event);
+      }
+      if (_package.getBridge() == null ){
+        DebugMode.logW(TAG, "Trying to send event, but bridge does not exist yet: " + event);
+      }
+      queuedEvents.add(new Pair<>(event, map));
     }
   }
 

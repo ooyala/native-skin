@@ -36,6 +36,7 @@ var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
 
 OoyalaSkinCore.prototype.mount = function(eventEmitter) {
   this.ooyalaSkinBridgeListener.mount(eventEmitter);
+  this.bridge.onMounted();
 };
 
 OoyalaSkinCore.prototype.unmount = function() {

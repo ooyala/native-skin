@@ -1,5 +1,6 @@
 package com.ooyala.android.skin;
 
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -35,6 +36,12 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public OoyalaSkinBridgeEventHandlerImpl(OoyalaSkinLayoutController layoutController, OoyalaPlayer player) {
     _layoutController =  layoutController;
     _player = player;
+  }
+
+  @Override
+  public void onMounted() {
+    DebugMode.logD(TAG, "onMounted");
+    _layoutController.updateBridgeWithCurrentState();
   }
 
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
