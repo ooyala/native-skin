@@ -257,17 +257,22 @@ var VideoView = React.createClass({
   },
 
   _renderLoading: function() {
+    var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;    
+    var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
+    var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
     if (this.props.loading) {
       if(this.props.platform == Constants.PLATFORMS.ANDROID) {
         return (
-          <View style={{position: 'absolute', top:50, left:50, width: 50, height: 50}}>
+          <View style={loadingStyle}>
             <ProgressBarAndroid styleAttr="Large"/>
           </View>
         );     
       }
       else if(this.props.platform == Constants.PLATFORMS.IOS){
         return (
-        <View style={{position: 'absolute'}}>
+        <View style={loadingStyle}>
           <ActivityIndicatorIOS
             animating={true}
             size="large">
