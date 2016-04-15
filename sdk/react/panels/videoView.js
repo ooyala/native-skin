@@ -6,6 +6,8 @@
 
 var React = require('react-native');
 var {
+  ActivityIndicatorIOS,
+  ProgressBarAndroid,
   Image,
   Text,
   View,
@@ -258,8 +260,8 @@ var VideoView = React.createClass({
     if (this.props.loading) {
       if(this.props.platform == Constants.PLATFORMS.ANDROID) {
         return (
-          <View style={{position: 'absolute', width: 20, height: 20}}>
-            <ProgressBarAndroid styleAttr="Small"/>
+          <View style={{position: 'absolute', top:50, left:50, width: 50, height: 50}}>
+            <ProgressBarAndroid styleAttr="Large"/>
           </View>
         );     
       }

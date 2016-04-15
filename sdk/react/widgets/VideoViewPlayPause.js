@@ -1,7 +1,5 @@
 var React = require('react-native');
 var {
-  ActivityIndicatorIOS,
-  ProgressBarAndroid,
   StyleSheet,
   Text,
   View,
