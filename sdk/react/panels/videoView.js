@@ -254,6 +254,27 @@ var VideoView = React.createClass({
           );
   },
 
+  _renderLoading: function() {
+    if (this.props.loading) {
+      if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+        return (
+          <View style={{position: 'absolute', width: 20, height: 20}}>
+            <ProgressBarAndroid styleAttr="Small"/>
+          </View>
+        );     
+      }
+      else if(this.props.platform == Constants.PLATFORMS.IOS){
+        return (
+        <View style={{position: 'absolute'}}>
+          <ActivityIndicatorIOS
+            animating={true}
+            size="large">
+          </ActivityIndicatorIOS>
+        </View>);
+      }
+    }
+  },
+
   handleScrub: function(value) {
     this.props.handlers.onScrub(value);
   },
@@ -280,6 +301,7 @@ var VideoView = React.createClass({
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
+        {this._renderLoading()}
       </View>
     );
   }
