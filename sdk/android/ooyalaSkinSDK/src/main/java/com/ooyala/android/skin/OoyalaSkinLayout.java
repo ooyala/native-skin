@@ -119,8 +119,8 @@ public class OoyalaSkinLayout extends FrameLayout {
   void setFullscreen(boolean fullscreen) {
     this. isFullscreen = fullscreen;
     if(fullscreen) {
-      initialWidth = getWidth();
-      initialHeight = getHeight();
+      initialWidth = getLayoutParams().width;
+      initialHeight = getLayoutParams().height;
 
       getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
       getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
