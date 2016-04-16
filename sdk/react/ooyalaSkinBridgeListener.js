@@ -169,8 +169,8 @@ OoyalaSkinBridgeListener.prototype.onStateChange = function(e) {
 };
 
 OoyalaSkinBridgeListener.prototype.onDesiredStateChange = function(e) {
-Log.log("desired state change received");
-this.skin.setState({
+  Log.log("desired state change received:" + e.desiredState);
+  this.skin.setState({
     desiredState:e.desiredState,
   });
 };

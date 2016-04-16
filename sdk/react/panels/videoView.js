@@ -6,6 +6,8 @@
 
 var React = require('react-native');
 var {
+  ActivityIndicatorIOS,
+  ProgressBarAndroid,
   Image,
   Text,
   View,
@@ -254,6 +256,32 @@ var VideoView = React.createClass({
           );
   },
 
+  _renderLoading: function() {
+    var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;    
+    var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
+    var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
+    if (this.props.loading) {
+      if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+        return (
+          <View style={loadingStyle}>
+            <ProgressBarAndroid styleAttr="Large"/>
+          </View>
+        );     
+      }
+      else if(this.props.platform == Constants.PLATFORMS.IOS){
+        return (
+        <View style={loadingStyle}>
+          <ActivityIndicatorIOS
+            animating={true}
+            size="large">
+          </ActivityIndicatorIOS>
+        </View>);
+      }
+    }
+  },
+
   handleScrub: function(value) {
     this.props.handlers.onScrub(value);
   },
@@ -280,6 +308,7 @@ var VideoView = React.createClass({
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
+        {this._renderLoading()}
       </View>
     );
   }
