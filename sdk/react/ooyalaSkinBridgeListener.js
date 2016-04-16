@@ -173,9 +173,6 @@ OoyalaSkinBridgeListener.prototype.onDesiredStateChange = function(e) {
   this.skin.setState({
     desiredState:e.desiredState,
   });
-  if (e.desiredState == "desired_play") {
-    this.skin.setState({screenType:SCREEN_TYPES.LOADING_SCREEN});
-  }
 };
 OoyalaSkinBridgeListener.prototype.onError = function(e) {
   Log.log("Error received");
