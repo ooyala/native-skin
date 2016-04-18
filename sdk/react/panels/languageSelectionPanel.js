@@ -158,7 +158,9 @@ var LanguageSelectionPanel = React.createClass({
         style={styles.item}
         onPress={() => this.onSelected(item)}>
         <View style={itemStyle}>
-          <Text style={styles.buttonText}>{item}</Text>
+          <View style={styles.itemContainer}>
+            <Text style={styles.buttonText}>{item}</Text>
+          </View>
         </View>
       </TouchableHighlight>
     );
