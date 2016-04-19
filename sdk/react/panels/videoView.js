@@ -45,7 +45,7 @@ var VideoView = React.createClass({
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
-    ad: React.PropTypes.object,
+    adOverlay: React.PropTypes.object,
     live: React.PropTypes.bool,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
@@ -54,7 +54,7 @@ var VideoView = React.createClass({
     cuePoints: React.PropTypes.array,
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,
-      onIcon: React.PropTypes.func,
+      onAdOverlay: React.PropTypes.func,
       onScrub: React.PropTypes.func,
       handleVideoTouch: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
@@ -136,7 +136,6 @@ var VideoView = React.createClass({
       playhead={this.props.playhead}
       platform={this.props.platform}
       duration={this.props.duration}
-      ad={this.props.ad}
       volume={this.props.volume}
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
@@ -153,11 +152,12 @@ var VideoView = React.createClass({
       }} />);
   },
 
-  _renderPlaceholder: function() {
+  _renderPlaceholder: function(adOverlay) {
     return (
       <View
         style={styles.placeholder}
         onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+        {adOverlay}
       </View>);
   },
 
@@ -254,6 +254,29 @@ var VideoView = React.createClass({
           );
   },
 
+  _renderAdOverlay: function() {
+    if (!this.props.adOverlay) {
+      return null;
+    }
+
+    var width = this.props.adOverlay.width;
+    var height = this.props.adOverlay.height;
+    if (width > this.props.width) {
+      height = width / this.props.width * height;
+      width = this.prop.width;
+    }
+    var left = (this.props.width - width) / 2;
+
+    return (
+      <TouchableHighlight 
+        style={{position: absolute, left: left, bottom: 10, width:width, height:height}}
+        onPress={this.handleOverlayClick}>
+        <Image
+          style={{flex:1}}
+          source={{uri: this.props.adOverlay.resourceUrl}} />
+      </TouchableHighlight>);
+  },
+
   handleScrub: function(value) {
     this.props.handlers.onScrub(value);
   },
@@ -264,6 +287,10 @@ var VideoView = React.createClass({
 
   handleTouchEnd: function(event) {
     this.props.handlers.handleVideoTouch();
+  },
+
+  handleOverlayClick: function() {
+    this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
   },
 
   render: function() {
