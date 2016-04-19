@@ -8,6 +8,8 @@ import com.facebook.react.bridge.ReadableMap;
  */
 public interface BridgeEventHandler {
 
+  void onMounted();
+
   void onClosedCaptionUpdateRequested(ReadableMap parameters);
 
   void onPress(ReadableMap parameters);

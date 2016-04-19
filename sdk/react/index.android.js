@@ -83,7 +83,7 @@ var OoyalaSkin = React.createClass({
   renderLoadingScreen: function() {
      return (
        <View style={styles.loading}>
-         <ProgressBarAndroid styleAttr="Small"/>
+         <ProgressBarAndroid styleAttr="Large"/>
       </View>
     );     
   },

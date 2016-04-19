@@ -44,6 +44,13 @@ static NSString *upNextDismiss = @"upNextDismiss";
 static NSString *upNextClick = @"upNextClick";
 static NSString *adIconButtonName = @"Icon";
 
+RCT_EXPORT_METHOD(onMounted) {
+  LOG(@"onMounted - Not going to use at the moment");
+}
+
+RCT_EXPORT_METHOD(onLanguageSelected:(NSDictionary *)parameters) {
+  LOG(@"onLanguageSelected - Not going to use at the moment");
+}
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
   dispatch_async(dispatch_get_main_queue(), ^{

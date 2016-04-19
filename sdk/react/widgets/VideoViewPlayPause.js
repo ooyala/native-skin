@@ -1,7 +1,5 @@
 var React = require('react-native');
 var {
-  ActivityIndicatorIOS,
-  ProgressBarAndroid,
   StyleSheet,
   Text,
   View,
@@ -138,27 +136,6 @@ var VideoViewPlayPause = React.createClass({
     this.state.play.animationOpacity.setValue(0);
   },
 
-  _renderLoading: function(sizeStyle) {
-    if (this.props.loading) {
-      if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-        return (
-          <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle, {position: 'absolute'}]}>
-            <ProgressBarAndroid styleAttr="Small"/>
-          </Animated.View>
-        );     
-      }
-      else if(this.props.platform == Constants.PLATFORMS.IOS){
-        return (
-        <Animated.View style={[styles.buttonArea, styles.loading, sizeStyle, {position: 'absolute'}]}>
-          <ActivityIndicatorIOS
-            animating={true}
-            size="large">
-          </ActivityIndicatorIOS>
-        </Animated.View>);
-      }
-    }
-  },
-
   _renderButton: function(name) {
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
 
@@ -208,7 +185,6 @@ var VideoViewPlayPause = React.createClass({
 
     var playButton = this._renderButton(PLAY);
     var pauseButton = this._renderButton(PAUSE);
-    var loading = this._renderLoading(sizeStyle);
     if(this.props.platform == Constants.PLATFORMS.ANDROID) {
       if(!this.props.showButton)
       {
@@ -230,7 +206,6 @@ var VideoViewPlayPause = React.createClass({
             underlayColor="transparent"
             activeOpacity={this.props.opacity}>
             <View>
-              {loading}
               <Animated.View style={[styles.buttonArea, sizeStyle]}>
                 {playButton}
                 {pauseButton}
@@ -248,7 +223,6 @@ var VideoViewPlayPause = React.createClass({
           underlayColor="transparent"
           activeOpacity={this.props.opacity}>
           <View>
-            {loading}
             <Animated.View style={[styles.buttonArea, sizeStyle, opacity, {position: 'absolute'}]}>
               {playButton}
               {pauseButton}

@@ -45,6 +45,11 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
 
   /******** BridgeEventHandler Passthroughs **********/
   @ReactMethod
+  public void onMounted() {
+    handler.onMounted();
+  }
+
+  @ReactMethod
   public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
     handler.onClosedCaptionUpdateRequested(parameters);
   }

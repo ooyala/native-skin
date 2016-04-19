@@ -92,7 +92,7 @@ var DiscoveryPanel = React.createClass({
         }),
     ]).start();
 
-    if (this.props.screenType === SCREEN_TYPES.DISCOVERY_END_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
+    if (this.props.screenType === SCREEN_TYPES.END_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
       this.setCounterTime(parseInt(this.props.config.discoveryScreen.countDownTime));
     }
   },
@@ -227,7 +227,7 @@ var DiscoveryPanel = React.createClass({
     }
 
     var circularStatus;
-    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.DISCOVERY_END_SCREEN && this.state.showCountdownTimer) {
+    if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCountdownTimer) {
       circularStatus = this.renderCountdownTimer(item);
     }
 
