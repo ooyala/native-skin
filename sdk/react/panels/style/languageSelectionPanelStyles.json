@@ -13,6 +13,9 @@
     "backgroundColor": "#000000",
   },
   "button": {
+    "flexDirection":"row",
+    "flex":1,
+    "alignItems":"center",
     "backgroundColor": "#333333",
     "padding": 6,
     "marginVertical": 20,
@@ -22,6 +25,9 @@
     "height": 48
   },
   "selectedButton": {
+    "flexDirection":"row",
+    "flex":1,
+    "alignItems":"center",
     "backgroundColor": "#498DFC",
     "padding": 6,
     "marginVertical": 20,
@@ -30,12 +36,18 @@
     "width": 120,
     "height": 48
   },
+  "itemContainer": {
+    "flexDirection":"column",
+    "flex":1,
+    "alignItems":"center",
+    "backgroundColor": "transparent"
+  },
+  
   "buttonText": {
     "textAlign": "center",
     "color": "white",
     "fontSize": 16,
     "fontFamily": "Helvetica",
-    "margin": 10,
     "backgroundColor": "transparent"
   },
   "splitter": {
