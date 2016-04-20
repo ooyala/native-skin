@@ -275,16 +275,19 @@ var VideoView = React.createClass({
       <TouchableHighlight 
         style={{position: "absolute", left: left, bottom: 10, width:width, height:height}}
         onPress={this.handleOverlayClick}>
+        <View style={styles.container}>
         <Image
-          style={{flex:1}}
+          style={styles.container}
           source={{uri: this.props.adOverlay.resourceUrl}} >
-          <TouchableHighlight style = {panelStyles.dismissButton}
-            onPress={this.props.handlers.onAdOverlayDismiss}>
-            <Text style={panelStyles.dismissIcon}>
-              {this.props.config.icons.dismiss.fontString}
-            </Text>
-          </TouchableHighlight>
         </Image>
+        <TouchableHighlight 
+          style={panelStyles.dismissOverlay}
+          onPress={this.props.handlers.onAdOverlayDismiss}>
+          <Text style={panelStyles.dismissIcon}>
+            {this.props.config.icons.dismiss.fontString}
+          </Text>
+          </TouchableHighlight>
+        </View>
       </TouchableHighlight>);
   },
 
