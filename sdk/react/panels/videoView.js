@@ -31,6 +31,7 @@ var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var ResponsiveDesignManager = require('../responsiveDesignManager');
 var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
+var panelStyles = require('./style/panelStyles.json');
 
 var {
   BUTTON_NAMES,
@@ -57,6 +58,7 @@ var VideoView = React.createClass({
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,
       onAdOverlay: React.PropTypes.func,
+      onAdOverlayDismiss: React.PropTypes.func,
       onScrub: React.PropTypes.func,
       handleVideoTouch: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
@@ -275,7 +277,14 @@ var VideoView = React.createClass({
         onPress={this.handleOverlayClick}>
         <Image
           style={{flex:1}}
-          source={{uri: this.props.adOverlay.resourceUrl}} />
+          source={{uri: this.props.adOverlay.resourceUrl}} >
+          <TouchableHighlight style = {panelStyles.dismissButton}
+            onPress={this.props.handlers.onAdOverlayDismiss}>
+            <Text style={panelStyles.dismissIcon}>
+              {this.props.config.icons.dismiss.fontString}
+            </Text>
+          </TouchableHighlight>
+        </Image>
       </TouchableHighlight>);
   },
 

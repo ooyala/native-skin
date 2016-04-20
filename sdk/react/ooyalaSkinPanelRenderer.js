@@ -99,6 +99,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       handlers={{
         onPress: (value) => this.core.handlePress(value),
         onAdOverlay: (value)=>this.core.handleAdOverlayPress(value),
+        onAdOverlayDismiss: () => this.core.handleAdOverlayDismiss(),
         onScrub: (value) => this.core.handleScrub(value),
         handleVideoTouch: (event) => this.core.handleVideoTouch(event),
         handleControlsTouch: () => this.core.handleControlsTouch()

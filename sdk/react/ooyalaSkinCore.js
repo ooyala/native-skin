@@ -121,7 +121,11 @@ OoyalaSkinCore.prototype.handleIconPress = function(index) {
 
 OoyalaSkinCore.prototype.handleAdOverlayPress = function(clickUrl) {
   this.bridge.onPress({name:BUTTON_NAMES.AD_OVERLAY, clickUrl:clickUrl})
-}
+};
+
+OoyalaSkinCore.prototype.handleAdOverlayDismiss = function() {
+  this.skin.setState({adOverlay: null})
+};
 
 OoyalaSkinCore.prototype.updateClosedCaptions = function() {
   if (this.skin.state.selectedLanguage) {
