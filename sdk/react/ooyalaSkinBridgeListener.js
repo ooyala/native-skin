@@ -78,7 +78,7 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
 OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
   Log.log( "onAdStarted");
   Log.log(e);
-  this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, overlay: null});
+  this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, adOverlay: null});
 };
 
 OoyalaSkinBridgeListener.prototype.onAdSwitched = function(e) {
@@ -92,7 +92,7 @@ OoyalaSkinBridgeListener.prototype.onAdPodCompleted = function(e) {
 };
 
 OoyalaSkinBridgeListener.prototype.onAdOverlay = function(e) {
-  Log.log( "onAdOverylay");
+  Log.log( "onAdOverlay");
   this.skin.setState({adOverlay: e});
 }
 

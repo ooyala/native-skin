@@ -271,7 +271,7 @@ var VideoView = React.createClass({
 
     return (
       <TouchableHighlight 
-        style={{position: absolute, left: left, bottom: 10, width:width, height:height}}
+        style={{position: "absolute", left: left, bottom: 10, width:width, height:height}}
         onPress={this.handleOverlayClick}>
         <Image
           style={{flex:1}}
@@ -323,13 +323,13 @@ var VideoView = React.createClass({
 
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-
     var shouldShowControls = !isPastAutoHideTime;
+    var overlay = this._renderAdOverlay();
 
     return (
       <View
         style={styles.container}>
-        {this._renderPlaceholder()}
+        {this._renderPlaceholder(overlay)}
         {this._renderClosedCaptions()}
         {this._renderVideoWaterMark()}
         {this._renderPlayPause(shouldShowControls)}
