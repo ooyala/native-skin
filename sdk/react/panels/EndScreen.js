@@ -24,9 +24,6 @@ var {
   IMG_URLS
 } = Constants;
 
-var leftMargin = 20;
-var dismissButtonSize = 20;
-
 var EndScreen = React.createClass({
 	getInitialState: function() {
     return {

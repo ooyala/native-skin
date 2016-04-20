@@ -2,6 +2,7 @@ package com.ooyala.android.skin;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
@@ -56,6 +57,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeAdStartNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.LIVE_CC_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeLiveCCChangedNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeAdOverlayNotification(((OoyalaNotification) argN).getData());;
     }
   }
   private void bridgeOnClosedCaptionChangeNotification() {
@@ -124,6 +127,13 @@ class OoyalaSkinPlayerObserver implements Observer {
   private void bridgeAdStartNotification(Object data) {
     WritableMap params = BridgeMessageBuilder.buildAdsParams(data);
     _layoutController.sendEvent(OoyalaPlayer.AD_STARTED_NOTIFICATION_NAME, params);
+  }
+
+  private void bridgeAdOverlayNotification(Object data) {
+    if (data instanceof AdOverlayInfo) {
+      WritableMap params = BridgeMessageBuilder.buildAdOverylayParams((AdOverlayInfo) data);
+      _layoutController.sendEvent(OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME, params);
+    }
   }
 
   private void bridgeAdPodCompleteNotification() {

@@ -7,6 +7,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.ooyala.android.AdIconInfo;
+import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.item.Caption;
@@ -228,6 +229,20 @@ class BridgeMessageBuilder {
 
       params.putMap("measures", argument);
     }
+    return params;
+  }
+
+  public static WritableMap buildAdOverylayParams(AdOverlayInfo overlayInfo) {
+    WritableMap params = Arguments.createMap();
+    if (overlayInfo != null) {
+      params.putInt("width", overlayInfo.getWidth());
+      params.putInt("height", overlayInfo.getHeight());
+      params.putInt("expandedWidth", overlayInfo.getExpandedWidth());
+      params.putInt("expandedHeight", overlayInfo.getExpandedHeight());
+      params.putString("resourceUrl", overlayInfo.getResourceUrl());
+      params.putString("clickUrl", overlayInfo.getClickUrl());
+    }
+
     return params;
   }
 
