@@ -56,7 +56,7 @@ var ResponsiveList = React.createClass({
     return (
       <View style={{flex: 1}}>
         <ScrollView
-          style={{position:"absolute", width:this.props.width, height:this.props.height}}
+          style={{width:this.props.width, height:this.props.height}}
           horizontal={this.props.horizontal}
           directionalLockEnabled={true}
           showsHorizontalScrollIndicator={false}>

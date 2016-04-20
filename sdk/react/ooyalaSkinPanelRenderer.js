@@ -279,7 +279,7 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, ad, scree
       if(this.skin.state.desiredState != DESIRED_STATES.DESIRED_PLAY) {
         return this.renderStartScreen();   
       } else {
-        return null;
+        return this.skin.renderLoadingScreen(); 
       }
       break;
     case SCREEN_TYPES.END_SCREEN:   
