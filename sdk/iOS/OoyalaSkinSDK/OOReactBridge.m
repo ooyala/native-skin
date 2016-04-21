@@ -78,24 +78,6 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   });
 }
 
-RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
-  NSString *language = [parameters objectForKey:languageKey];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    NSString *eventName = @"onClosedCaptionUpdate";
-    NSDictionary *body = nil;
-    OOOoyalaPlayer *player = sharedController.player;
-    if (player.currentItem.hasClosedCaptions) {
-      OOCaption *pc = [player.currentItem.closedCaptions captionForLanguage:language time:player.playheadTime];
-      if( pc != nil ) {
-        body = @{ @"text":  pc.text,
-                  @"begin": [NSNumber numberWithDouble:pc.begin],
-                  @"end":   [NSNumber numberWithDouble:pc.end] };
-     }
-    }
-    [OOReactBridge sendDeviceEventWithName:eventName body:body];
-  });
-}
-
 -(void) handleIconClick: (NSInteger) index {
   [sharedController.player onAdIconClicked:index];
 }

@@ -16,8 +16,6 @@ var {
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var BottomOverlay = require('./bottomOverlay');
-var ClosedCaptionsView = require('./closedCaptionsView');
-var ClosedCaptionsViewAndroid = require('./closedCaptionsViewAndroid');
 var AdBar = require('./adBar');
 var UpNext = require('./upNext');
 var RectButton = require('./widgets/RectButton');
@@ -59,9 +57,6 @@ var AdPlaybackScreen = React.createClass({
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
-    closedCaptionsLanguage: React.PropTypes.string,
-    availableClosedCaptionsLanguages: React.PropTypes.array,
-    captionJSON: React.PropTypes.object,
     showWatermark: React.PropTypes.bool,
     config: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
@@ -123,10 +118,6 @@ var AdPlaybackScreen = React.createClass({
   },
 
   _renderBottomOverlay: function(show) {
-    var shouldShowClosedCaptionsButton =
-      this.props.availableClosedCaptionsLanguages &&
-      this.props.availableClosedCaptionsLanguages.length > 0;
-
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
@@ -141,7 +132,7 @@ var AdPlaybackScreen = React.createClass({
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
-      showClosedCaptionsButton={shouldShowClosedCaptionsButton}
+      showClosedCaptionsButton={false}
       showWatermark={this.props.showWatermark}
       isShow={show}
       config={{
