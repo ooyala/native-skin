@@ -49,8 +49,9 @@ RCT_EXPORT_METHOD(onMounted) {
 }
 
 RCT_EXPORT_METHOD(onLanguageSelected:(NSDictionary *)parameters) {
-  LOG(@"onLanguageSelected - Not going to use at the moment");
+  [self handleLanguageSelection:[parameters objectForKey:@"language"]];
 }
+
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -117,6 +118,10 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 
 - (void)handleUpNextClick {
   [sharedController.upNextManager goToNextVideo];
+}
+
+- (void)handleLanguageSelection:(NSString *)language {
+  [sharedController.player setClosedCaptionsLanguage:language];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
