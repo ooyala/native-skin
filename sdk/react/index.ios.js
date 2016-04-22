@@ -48,7 +48,6 @@ var OoyalaSkin = React.createClass({
       // things which default to null and thus don't have to be stated:
       // selectedLanguage: null,
       // availableClosedCaptionsLanguages: null,
-      // captionJSON: null,
       alertTitle: '',
       alertMessage: '',
       error: null,

@@ -16,6 +16,8 @@
 #import "OOSkinViewController.h"
 #import "OOSkinViewController+Internal.h"
 #import "OOVolumeManager.h"
+#import <OoyalaSDK/OOClosedCaptions.h>
+#import <OoyalaSDK/OOCaption.h>
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
@@ -76,13 +78,20 @@
   NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
-  NSDictionary *eventBody =
+  OOCaption *caption =
+  [_player.currentItem.closedCaptions captionForLanguage:_player.closedCaptionsLanguage time:_player.playheadTime];
+
+  NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:
   @{@"duration":durationNumber,
     @"playhead":playheadNumber,
     @"rate":rateNumber,
     @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages,
-    @"cuePoints":cuePoints};
+    @"cuePoints":cuePoints}];
+  if (caption.text) {
+    [eventBody setObject:caption.text forKey:@"caption"];
+  }
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+
 }
 
 - (void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {

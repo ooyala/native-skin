@@ -33,6 +33,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'adStarted',                (event) => this.onAdStarted(event) ],
     [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
     [ 'adPodCompleted',           (event) => this.onAdPodCompleted(event) ],
+    [ 'adOverlay',                (event) => this.onAdOverlay(event) ],
     [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
     [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ],
     [ 'playStarted',              (event) => this.onPlayStarted(event) ],
@@ -55,7 +56,7 @@ OoyalaSkinBridgeListener.prototype.unmount = function() {
 
 
 OoyalaSkinBridgeListener.prototype.onClosedCaptionUpdate = function(e) {
-  this.skin.setState( {captionJSON: e} );
+  this.skin.setState({caption: e.text});
 };
 
 OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
@@ -65,19 +66,19 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
     initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
     cuePoints: e.cuePoints,
+    caption: e.caption
   });
 
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
      this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {
     this.core.previousScreenType = this.skin.state.screenType;
   }
-  this.core.updateClosedCaptions();
 };
 
 OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
   Log.log( "onAdStarted");
   Log.log(e);
-  this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN});
+  this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, adOverlay: null});
 };
 
 OoyalaSkinBridgeListener.prototype.onAdSwitched = function(e) {
@@ -89,6 +90,11 @@ OoyalaSkinBridgeListener.prototype.onAdPodCompleted = function(e) {
   Log.log( "onAdPodCompleted ");
   this.skin.setState({ad: null});
 };
+
+OoyalaSkinBridgeListener.prototype.onAdOverlay = function(e) {
+  Log.log( "onAdOverlay");
+  this.skin.setState({adOverlay: e});
+}
 
 OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
   Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
@@ -103,7 +109,7 @@ OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
     width:e.width,
     height:e.height,
     volume:e.volume,
-    captionJSON:null});
+    caption:null});
   if (!this.skin.state.autoPlay) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
   };

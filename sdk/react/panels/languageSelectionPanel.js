@@ -22,12 +22,9 @@ var {
 } = Constants;
 
 var ToggleSwitch = require('../widgets/ToggleSwitch');
-var ClosedCaptionsView = require('../closedCaptionsView');
 var Utils = require('../utils');
 var ResponsiveList = require('../widgets/ResponsiveList');
 var PreviewWidget = require('../languageSelectionPreview');
-
-
 var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
 var panelStyles = require('./style/panelStyles');
 
