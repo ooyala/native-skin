@@ -156,12 +156,11 @@ var VideoView = React.createClass({
       }} />);
   },
 
-  _renderPlaceholder: function(adOverlay) {
+  _renderPlaceholder: function() {
     return (
       <View
         style={styles.placeholder}
         onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
-        {adOverlay}
       </View>);
   },
 
@@ -273,7 +272,7 @@ var VideoView = React.createClass({
 
     return (
       <TouchableHighlight 
-        style={{position: "absolute", left: left, bottom: 10, width:width, height:height}}
+        style={{left: left, bottom: 10, width:width, height:height}}
         onPress={this.handleOverlayClick}>
         <View style={styles.container}>
         <Image
@@ -336,14 +335,14 @@ var VideoView = React.createClass({
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     var shouldShowControls = !isPastAutoHideTime;
-    var overlay = this._renderAdOverlay();
 
     return (
       <View
         style={styles.container}>
-        {this._renderPlaceholder(overlay)}
+        {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
         {this._renderVideoWaterMark()}
+        {this._renderAdOverlay()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
