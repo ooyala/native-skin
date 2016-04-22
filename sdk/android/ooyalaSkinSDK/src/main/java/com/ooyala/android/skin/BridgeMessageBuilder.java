@@ -232,7 +232,7 @@ class BridgeMessageBuilder {
     return params;
   }
 
-  public static WritableMap buildAdOverylayParams(AdOverlayInfo overlayInfo) {
+  public static WritableMap buildAdOverlayParams(AdOverlayInfo overlayInfo) {
     WritableMap params = Arguments.createMap();
     if (overlayInfo != null) {
       params.putInt("width", overlayInfo.getWidth());

@@ -131,7 +131,7 @@ class OoyalaSkinPlayerObserver implements Observer {
 
   private void bridgeAdOverlayNotification(Object data) {
     if (data instanceof AdOverlayInfo) {
-      WritableMap params = BridgeMessageBuilder.buildAdOverylayParams((AdOverlayInfo) data);
+      WritableMap params = BridgeMessageBuilder.buildAdOverlayParams((AdOverlayInfo) data);
       _layoutController.sendEvent(OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME, params);
     }
   }
