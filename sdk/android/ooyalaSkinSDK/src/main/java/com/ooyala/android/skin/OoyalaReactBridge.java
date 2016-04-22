@@ -50,11 +50,6 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   }
 
   @ReactMethod
-  public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
-    handler.onClosedCaptionUpdateRequested(parameters);
-  }
-
-  @ReactMethod
   public void onPress(ReadableMap parameters) {
     handler.onPress(parameters);
   }
