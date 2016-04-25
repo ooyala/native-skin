@@ -65,9 +65,12 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
     duration: e.duration,
     initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
-    cuePoints: e.cuePoints,
-    caption: e.caption
+    cuePoints: e.cuePoints
   });
+
+  if (e.caption) {
+    this.skin.setState({caption: e.caption});
+  }
 
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
      this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {

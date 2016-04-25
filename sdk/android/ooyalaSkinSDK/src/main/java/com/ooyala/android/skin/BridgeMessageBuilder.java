@@ -52,7 +52,7 @@ class BridgeMessageBuilder {
     if (player.getCurrentItem() != null && player.getCurrentItem().getClosedCaptions() != null) {
       String captionText = null;
       String ccLanguage = player.getClosedCaptionsLanguage();
-      if (ccLanguage != null) {
+      if (ccLanguage != null && !ccLanguage.equals(OoyalaPlayer.LIVE_CLOSED_CAPIONS_LANGUAGE)) {
         ClosedCaptions cc = player.getCurrentItem().getClosedCaptions();
         double currentTime = player.getPlayheadTime() / 1000.0;
         Caption caption = cc.getCaption(player.getClosedCaptionsLanguage(), currentTime);
