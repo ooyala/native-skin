@@ -31,6 +31,7 @@ var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var ResponsiveDesignManager = require('../responsiveDesignManager');
 var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
+var panelStyles = require('./style/panelStyles.json');
 
 var {
   BUTTON_NAMES,
@@ -47,7 +48,7 @@ var VideoView = React.createClass({
     playhead: React.PropTypes.number,
     buffered: React.PropTypes.number,
     duration: React.PropTypes.number,
-    ad: React.PropTypes.object,
+    adOverlay: React.PropTypes.object,
     live: React.PropTypes.bool,
     width: React.PropTypes.number,
     height: React.PropTypes.number,
@@ -56,7 +57,8 @@ var VideoView = React.createClass({
     cuePoints: React.PropTypes.array,
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,
-      onIcon: React.PropTypes.func,
+      onAdOverlay: React.PropTypes.func,
+      onAdOverlayDismiss: React.PropTypes.func,
       onScrub: React.PropTypes.func,
       handleVideoTouch: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
@@ -138,7 +140,6 @@ var VideoView = React.createClass({
       playhead={this.props.playhead}
       platform={this.props.platform}
       duration={this.props.duration}
-      ad={this.props.ad}
       volume={this.props.volume}
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
@@ -256,6 +257,39 @@ var VideoView = React.createClass({
           );
   },
 
+  _renderAdOverlay: function() {
+    if (!this.props.adOverlay) {
+      return null;
+    }
+
+    var width = this.props.adOverlay.width;
+    var height = this.props.adOverlay.height;
+    if (width > this.props.width) {
+      height = width / this.props.width * height;
+      width = this.prop.width;
+    }
+    var left = (this.props.width - width) / 2;
+
+    return (
+      <TouchableHighlight 
+        style={{height:height + 10, width:this.props.width}}
+        onPress={this.handleOverlayClick}>
+        <View style={{left: left, bottom: 10, width:width, height:height}}>
+        <Image
+          style={styles.container}
+          source={{uri: this.props.adOverlay.resourceUrl}} >
+        </Image>
+        <TouchableHighlight 
+          style={panelStyles.dismissOverlay}
+          onPress={this.props.handlers.onAdOverlayDismiss}>
+          <Text style={panelStyles.dismissIcon}>
+            {this.props.config.icons.dismiss.fontString}
+          </Text>
+          </TouchableHighlight>
+        </View>
+      </TouchableHighlight>);
+  },
+
   _renderLoading: function() {
     var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
     var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;    
@@ -294,9 +328,12 @@ var VideoView = React.createClass({
     this.props.handlers.handleVideoTouch();
   },
 
+  handleOverlayClick: function() {
+    this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
+  },
+
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-
     var shouldShowControls = !isPastAutoHideTime;
 
     return (
@@ -305,6 +342,7 @@ var VideoView = React.createClass({
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
         {this._renderVideoWaterMark()}
+        {this._renderAdOverlay()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}

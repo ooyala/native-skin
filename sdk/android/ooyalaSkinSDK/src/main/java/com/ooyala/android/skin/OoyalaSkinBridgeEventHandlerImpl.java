@@ -29,6 +29,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_UPNEXT_CLICK = "upNextClick";
   private static final String BUTTON_SKIP = "Skip";
   private static final String BUTTON_ADICON = "Icon";
+  private static final String BUTTON_ADOVERLAY = "Overlay";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -84,6 +85,9 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
             String index = parameters.getString("index");
             DebugMode.logD(TAG, "onIconClicked with index "+ index);
             _layoutController.handleAdIconClick(Integer.parseInt(index));
+          } else if (buttonName.equals(BUTTON_ADOVERLAY)) {
+            String clickUrl = parameters.getString("clickUrl");
+            _player.onAdOverlayClicked(clickUrl);
           }
         }
       });
