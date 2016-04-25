@@ -63,6 +63,10 @@ public class OoyalaSkinLayout extends FrameLayout {
     this.addView(_playerFrame, frameLP);
   }
 
+  public FrameLayout getAdView() {
+    return _playerFrame;
+  }
+
   @Override
   protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
       super.onSizeChanged(xNew, yNew, xOld, yOld);
