@@ -272,9 +272,9 @@ var VideoView = React.createClass({
 
     return (
       <TouchableHighlight 
-        style={{left: left, bottom: 10, width:width, height:height}}
+        style={{height:height + 10, width:this.props.width}}
         onPress={this.handleOverlayClick}>
-        <View style={styles.container}>
+        <View style={{left: left, bottom: 10, width:width, height:height}}>
         <Image
           style={styles.container}
           source={{uri: this.props.adOverlay.resourceUrl}} >
