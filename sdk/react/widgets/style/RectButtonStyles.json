@@ -33,7 +33,6 @@
     "flex": 1,
     "alignSelf": "center",
     "textAlign": "center",
-    "color": "white",
-    "fontFamily": "fontawesome",
+    "color": "white"
   }
 }

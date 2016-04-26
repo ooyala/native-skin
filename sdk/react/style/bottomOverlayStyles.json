@@ -13,17 +13,15 @@
 
   "progressScrubber": {
     "flex": 0,
-  	"position": "absolute",
-  	"fontSize": 18,
-  	"fontFamily": "fontawesome",
-  	"color": "white"
+    "position": "absolute",
+    "backgroundColor": "white",
+    "borderRadius":900
   },
 
   "cuePoint": {
     "flex": 0,
     "position": "absolute",
-    "fontSize": 12,
-    "fontFamily": "fontawesome",
-    "color": "white"
+    "backgroundColor": "white",
+    "borderRadius":900
   }
 }
