@@ -101,10 +101,10 @@ class OoyalaSkinPlayerObserver implements Observer {
   private void bridgeTimeChangedNotification() {
     WritableMap params = BridgeMessageBuilder.buildTimeChangedEvent(_player);
     _layoutController.sendEvent(OoyalaPlayer.TIME_CHANGED_NOTIFICATION_NAME, params);
-    updateClosedCaptions();
+    notifyClosedCaptionsUpdate();
   }
 
-  private void updateClosedCaptions() {
+  private void notifyClosedCaptionsUpdate() {
     if (OoyalaPlayer.LIVE_CLOSED_CAPIONS_LANGUAGE.equals(_player.getClosedCaptionsLanguage())) {
       return;
     }

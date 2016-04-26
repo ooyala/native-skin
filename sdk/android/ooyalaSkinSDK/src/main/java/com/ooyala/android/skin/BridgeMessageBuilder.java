@@ -3,7 +3,6 @@ package com.ooyala.android.skin;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
@@ -12,11 +11,9 @@ import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.item.Video;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Iterator;
 import java.util.Set;
 
@@ -48,8 +45,6 @@ class BridgeMessageBuilder {
     params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);
 
-    // we only include dfxp captions in time changed message
-    // live CC is updated via live cc update notification
     return params;
   }
 
