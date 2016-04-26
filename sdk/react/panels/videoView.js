@@ -165,9 +165,14 @@ var VideoView = React.createClass({
   _renderClosedCaptions: function() {
     if (this.props.caption) {
       return (
-        <Text style={panelStyles.closedCaptions}>
-          {this.props.caption}
-        </Text>);
+        <View 
+          style={panelStyles.closedCaptionsContainer}
+          onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+          <Text style={panelStyles.closedCaptions}>
+            {this.props.caption}
+          </Text>
+        </View>
+        );
     }
     return null;
   },

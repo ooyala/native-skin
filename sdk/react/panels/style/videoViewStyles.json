@@ -15,14 +15,4 @@
     "alignItems": "stretch",
     "backgroundColor": "transparent"
   },
-  "closedCaptionStyle": {
-    "flex": 1,
-    "alignItems": "flex-end",
-    "backgroundColor": "transparent"
-  },
-  "closedCaptionAndroidStyle": {
-   "height": 25,
-   "alignItems": "flex-end",
-   "backgroundColor": "transparent"
-  }
 }
