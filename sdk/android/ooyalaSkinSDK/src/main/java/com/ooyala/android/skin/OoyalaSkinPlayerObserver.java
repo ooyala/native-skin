@@ -6,6 +6,8 @@ import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.item.Caption;
+import com.ooyala.android.item.ClosedCaptions;
 import com.ooyala.android.util.DebugMode;
 
 import java.util.Map;
@@ -99,6 +101,32 @@ class OoyalaSkinPlayerObserver implements Observer {
   private void bridgeTimeChangedNotification() {
     WritableMap params = BridgeMessageBuilder.buildTimeChangedEvent(_player);
     _layoutController.sendEvent(OoyalaPlayer.TIME_CHANGED_NOTIFICATION_NAME, params);
+    updateClosedCaptions();
+  }
+
+  private void updateClosedCaptions() {
+    if (OoyalaPlayer.LIVE_CLOSED_CAPIONS_LANGUAGE.equals(_player.getClosedCaptionsLanguage())) {
+      return;
+    }
+
+    if (_player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
+      return;
+    }
+
+    String captionText = "";
+    String language = _player.getClosedCaptionsLanguage();
+    ClosedCaptions cc = _player.getCurrentItem().getClosedCaptions();
+    if (language != null && cc != null) {
+      double currentTime = _player.getPlayheadTime() / 1000.0;
+      Caption caption = cc.getCaption(language, currentTime);
+      if (caption != null) {
+        captionText = caption.getText();
+      }
+    }
+
+    WritableMap params = Arguments.createMap();
+    params.putString("text", captionText);
+    _layoutController.sendEvent("onClosedCaptionUpdate", params);
   }
 
   private void bridgePlayCompletedNotification() {

@@ -3,6 +3,7 @@ package com.ooyala.android.skin;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
@@ -10,8 +11,6 @@ import com.ooyala.android.AdIconInfo;
 import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.item.Caption;
-import com.ooyala.android.item.ClosedCaptions;
 import com.ooyala.android.item.Video;
 
 import org.json.JSONArray;
@@ -49,20 +48,8 @@ class BridgeMessageBuilder {
     params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);
 
-    if (player.getCurrentItem() != null && player.getCurrentItem().getClosedCaptions() != null) {
-      String captionText = null;
-      String ccLanguage = player.getClosedCaptionsLanguage();
-      if (ccLanguage != null && !ccLanguage.equals(OoyalaPlayer.LIVE_CLOSED_CAPIONS_LANGUAGE)) {
-        ClosedCaptions cc = player.getCurrentItem().getClosedCaptions();
-        double currentTime = player.getPlayheadTime() / 1000.0;
-        Caption caption = cc.getCaption(player.getClosedCaptionsLanguage(), currentTime);
-        captionText = caption == null ? "" : caption.getText();
-      }
-      if (captionText != null) {
-        params.putString("caption", captionText);
-      }
-    }
-
+    // we only include dfxp captions in time changed message
+    // live CC is updated via live cc update notification
     return params;
   }
 

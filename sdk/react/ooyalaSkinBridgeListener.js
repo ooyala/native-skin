@@ -68,10 +68,6 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
     cuePoints: e.cuePoints
   });
 
-  if (e.caption) {
-    this.skin.setState({caption: e.caption});
-  }
-
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
      this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {
     this.core.previousScreenType = this.skin.state.screenType;
