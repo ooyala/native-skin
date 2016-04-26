@@ -18,6 +18,8 @@ import java.util.Observer;
  * The class that solely listens to the OoyalaPlayer, and responds based on the events
  */
 class OoyalaSkinPlayerObserver implements Observer {
+  public static final String CLOSED_CAPTIONS_UPDATE_EVENT = "onClosedCaptionUpdate";
+
   private static String TAG = OoyalaSkinPlayerObserver.class.getSimpleName();
   private static final String KEY_STATE = "state";
   private static final String DESIRED_STATE = "desiredState";
@@ -126,7 +128,7 @@ class OoyalaSkinPlayerObserver implements Observer {
 
     WritableMap params = Arguments.createMap();
     params.putString("text", captionText);
-    _layoutController.sendEvent("onClosedCaptionUpdate", params);
+    _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
   }
 
   private void bridgePlayCompletedNotification() {
@@ -174,6 +176,6 @@ class OoyalaSkinPlayerObserver implements Observer {
       String ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
       WritableMap params = Arguments.createMap();
       params.putString("text", ccText);
-      _layoutController.sendEvent("onClosedCaptionUpdate", params);
+      _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
   }
 }
