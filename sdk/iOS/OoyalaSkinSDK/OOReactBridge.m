@@ -49,8 +49,9 @@ RCT_EXPORT_METHOD(onMounted) {
 }
 
 RCT_EXPORT_METHOD(onLanguageSelected:(NSDictionary *)parameters) {
-  LOG(@"onLanguageSelected - Not going to use at the moment");
+  [self handleLanguageSelection:[parameters objectForKey:@"language"]];
 }
+
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
   dispatch_async(dispatch_get_main_queue(), ^{
@@ -75,24 +76,6 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if([buttonName isEqualToString:upNextClick]) {
       [self handleUpNextClick];
     }
-  });
-}
-
-RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
-  NSString *language = [parameters objectForKey:languageKey];
-  dispatch_async(dispatch_get_main_queue(), ^{
-    NSString *eventName = @"onClosedCaptionUpdate";
-    NSDictionary *body = nil;
-    OOOoyalaPlayer *player = sharedController.player;
-    if (player.currentItem.hasClosedCaptions) {
-      OOCaption *pc = [player.currentItem.closedCaptions captionForLanguage:language time:player.playheadTime];
-      if( pc != nil ) {
-        body = @{ @"text":  pc.text,
-                  @"begin": [NSNumber numberWithDouble:pc.begin],
-                  @"end":   [NSNumber numberWithDouble:pc.end] };
-     }
-    }
-    [OOReactBridge sendDeviceEventWithName:eventName body:body];
   });
 }
 
@@ -135,6 +118,10 @@ RCT_EXPORT_METHOD(onClosedCaptionUpdateRequested:(NSDictionary *)parameters) {
 
 - (void)handleUpNextClick {
   [sharedController.upNextManager goToNextVideo];
+}
+
+- (void)handleLanguageSelection:(NSString *)language {
+  [sharedController.player setClosedCaptionsLanguage:language];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {

@@ -108,7 +108,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
       // todo: change to boolean showCCButton.
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
-      captionJSON={this.skin.state.captionJSON}
+      caption={this.skin.state.caption}
       config={{
         controlBar: this.skin.props.controlBar,
         general: this.skin.props.general,
@@ -151,10 +151,6 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
-      closedCaptionsLanguage={this.skin.state.selectedLanguage}
-      // todo: change to boolean showCCButton.
-      availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
-      captionJSON={this.skin.state.captionJSON}
       config={{
         controlBar: this.skin.props.controlBar,
         general: this.skin.props.general,

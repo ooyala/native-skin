@@ -127,12 +127,6 @@ OoyalaSkinCore.prototype.handleAdOverlayDismiss = function() {
   this.skin.setState({adOverlay: null})
 };
 
-OoyalaSkinCore.prototype.updateClosedCaptions = function() {
-  if (this.skin.state.selectedLanguage) {
-    this.bridge.onClosedCaptionUpdateRequested( {language:this.skin.state.selectedLanguage} );
-  }
-};
-
 OoyalaSkinCore.prototype.shouldShowLandscape = function() {
   return this.skin.state.width > this.skin.state.height;
 };

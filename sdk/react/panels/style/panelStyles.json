@@ -40,7 +40,18 @@
     "fontWeight": "bold",
     "color": "white",
   },
-
+  "closedCaptions": {
+    "backgroundColor":"black",
+    "alignItems": "center",
+    "justifyContent": "center",
+    "padding": 10,
+    "margin": 10,
+    "fontWeight": "bold",
+    "fontSize": 20,
+    "fontFamily": "Helvetica",
+    "fontWeight": "bold",
+    "color": "white",
+  },
   "panel": {
     "flex": 1,
     "backgroundColor": "rgba(0, 0, 0, 0.7)",

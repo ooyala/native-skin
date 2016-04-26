@@ -10,8 +10,6 @@ public interface BridgeEventHandler {
 
   void onMounted();
 
-  void onClosedCaptionUpdateRequested(ReadableMap parameters);
-
   void onPress(ReadableMap parameters);
 
   void shareTitle(ReadableMap parameters);

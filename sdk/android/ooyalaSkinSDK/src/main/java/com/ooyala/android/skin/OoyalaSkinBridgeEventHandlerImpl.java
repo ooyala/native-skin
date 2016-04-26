@@ -1,12 +1,10 @@
 package com.ooyala.android.skin;
 
-import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.WritableMap;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.util.DebugMode;
@@ -43,19 +41,6 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onMounted() {
     DebugMode.logD(TAG, "onMounted");
     _layoutController.updateBridgeWithCurrentState();
-  }
-
-  public void onClosedCaptionUpdateRequested(ReadableMap parameters) {
-
-    // ignore the request if cc is not available
-    if (_player == null || _player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
-      return;
-    }
-
-    final String languageName = parameters.hasKey("language") ? parameters.getString("language") : null;
-    double curTime = _player.getPlayheadTime() / 1000d;
-    WritableMap params = BridgeMessageBuilder.buildClosedCaptionUpdateParams(_player, languageName, curTime);
-    _layoutController.sendEvent("onClosedCaptionUpdate", params);
   }
 
   public void onPress(final ReadableMap parameters) {

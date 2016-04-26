@@ -56,7 +56,7 @@ OoyalaSkinBridgeListener.prototype.unmount = function() {
 
 
 OoyalaSkinBridgeListener.prototype.onClosedCaptionUpdate = function(e) {
-  this.skin.setState( {captionJSON: e} );
+  this.skin.setState({caption: e.text});
 };
 
 OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
@@ -65,14 +65,17 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
     duration: e.duration,
     initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
-    cuePoints: e.cuePoints,
+    cuePoints: e.cuePoints
   });
+
+  if (e.caption) {
+    this.skin.setState({caption: e.caption});
+  }
 
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
      this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {
     this.core.previousScreenType = this.skin.state.screenType;
   }
-  this.core.updateClosedCaptions();
 };
 
 OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
@@ -109,7 +112,7 @@ OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
     width:e.width,
     height:e.height,
     volume:e.volume,
-    captionJSON:null});
+    caption:null});
   if (!this.skin.state.autoPlay) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
   };

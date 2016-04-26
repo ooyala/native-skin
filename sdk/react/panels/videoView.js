@@ -18,8 +18,6 @@ var {
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var BottomOverlay = require('../bottomOverlay');
-var ClosedCaptionsView = require('../closedCaptionsView');
-var ClosedCaptionsViewAndroid = require('../closedCaptionsViewAndroid');
 var AdBar = require('../adBar');
 var UpNext = require('../upNext');
 var RectButton = require('../widgets/RectButton');
@@ -66,7 +64,7 @@ var VideoView = React.createClass({
     lastPressedTime: React.PropTypes.any,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
-    captionJSON: React.PropTypes.object,
+    caption: React.PropTypes.string,
     showWatermark: React.PropTypes.bool,
     config: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
@@ -165,27 +163,11 @@ var VideoView = React.createClass({
   },
 
   _renderClosedCaptions: function() {
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      if (this.props.captionJSON) {
-        var end = this.props.captionJSON.end == null ? 0.0 : this.props.captionJSON.end;
-        var begin = this.props.captionJSON.begin == null ? 0.0 : this.props.captionJSON.begin;
-        var text = this.props.captionJSON.text == null ? "" : this.props.captionJSON.text;
-        var caption = {end:end, begin:begin, text:text, width:this.props.width}
-        
-        return (<ClosedCaptionsViewAndroid
-          style={styles.closedCaptionAndroidStyle}
-          caption={caption} />
-        );
-    }
-    return null;
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      var ccOpacity = this.props.closedCaptionsLanguage ? 1 : 0;
-      return (<ClosedCaptionsView
-        style={[styles.closedCaptionStyle, {opacity:ccOpacity}]}
-        captionJSON={this.props.captionJSON}
-        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)} />
-      );
+    if (this.props.caption) {
+      return (
+        <Text style={panelStyles.closedCaptions}>
+          {this.props.caption}
+        </Text>);
     }
     return null;
   },
