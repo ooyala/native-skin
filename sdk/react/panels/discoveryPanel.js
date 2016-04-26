@@ -290,7 +290,6 @@ var DiscoveryPanel = React.createClass({
 
     var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
     var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
-    var warningIcon = this.props.config.icons.warning ? this.props.config.icons.warning.fontString : null;
     if (this._isDiscoveryError()) {
       return (
         <View style={[styles.panelErrorPanel, errorFlexDirectionStyle]}>
@@ -300,12 +299,6 @@ var DiscoveryPanel = React.createClass({
             </Text>
             <Text style={styles.panelErrorContentText}>
               {errorContent}
-            </Text>
-          </View>
-
-          <View style={styles.panelWarning}>
-            <Text style={styles.warningIcon}>
-              {warningIcon}
             </Text>
           </View>
         </View>

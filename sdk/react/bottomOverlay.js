@@ -119,8 +119,9 @@ var BottomOverlay = React.createClass({
     var positionStyle = {top:topOffset, left:leftOffset};
 
     return (
-      <Text style={[styles.progressScrubber, positionStyle]} >{"\uf111"}
-      </Text>);
+      <View style={[styles.progressScrubber, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
+      </View>
+      );
   },
 
   _renderProgressBar: function(percent) {
@@ -169,8 +170,9 @@ var BottomOverlay = React.createClass({
       var cuePoint = cuePoints[i];
       leftOffset = this._getCuePointLeftOffset(cuePoint, progressBarWidth);
       positionStyle = {top:topOffset, left:leftOffset};
-      cuePointView = (<Text key={i} style={[styles.cuePoint, positionStyle]} >{"\uf111"}
-                        </Text>);
+      cuePointView = (<View key={i} style={[styles.cuePoint, positionStyle,{width:cuePointSize, height:cuePointSize}]}>
+                      </View>
+                        );
       cuePointsView.push(cuePointView);
     }
 

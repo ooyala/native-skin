@@ -30,12 +30,6 @@
     "color": "white",
     "textAlign": "center"
   },
-  "warningIcon": {
-    "fontSize": 20,
-    "color": "#FF3300",
-    "textAlign": "center",
-    "fontFamily": "fontawesome",
-  },
   "rightContainer": {
     "flex": 1,
     "marginLeft": 8
