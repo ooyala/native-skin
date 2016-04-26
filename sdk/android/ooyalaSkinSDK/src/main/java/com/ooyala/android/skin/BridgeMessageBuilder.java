@@ -10,14 +10,10 @@ import com.ooyala.android.AdIconInfo;
 import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.item.Caption;
-import com.ooyala.android.item.ClosedCaptions;
 import com.ooyala.android.item.Video;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Iterator;
 import java.util.Set;
 
@@ -48,20 +44,6 @@ class BridgeMessageBuilder {
     params.putDouble("playhead", playhead);
     params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);
-
-    if (player.getCurrentItem() != null && player.getCurrentItem().getClosedCaptions() != null) {
-      String captionText = null;
-      String ccLanguage = player.getClosedCaptionsLanguage();
-      if (ccLanguage != null && !ccLanguage.equals(OoyalaPlayer.LIVE_CLOSED_CAPIONS_LANGUAGE)) {
-        ClosedCaptions cc = player.getCurrentItem().getClosedCaptions();
-        double currentTime = player.getPlayheadTime() / 1000.0;
-        Caption caption = cc.getCaption(player.getClosedCaptionsLanguage(), currentTime);
-        captionText = caption == null ? "" : caption.getText();
-      }
-      if (captionText != null) {
-        params.putString("caption", captionText);
-      }
-    }
 
     return params;
   }

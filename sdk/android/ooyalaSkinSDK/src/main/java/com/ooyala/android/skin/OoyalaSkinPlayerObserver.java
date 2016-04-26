@@ -6,6 +6,8 @@ import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.item.Caption;
+import com.ooyala.android.item.ClosedCaptions;
 import com.ooyala.android.util.DebugMode;
 
 import java.util.Map;
@@ -16,6 +18,8 @@ import java.util.Observer;
  * The class that solely listens to the OoyalaPlayer, and responds based on the events
  */
 class OoyalaSkinPlayerObserver implements Observer {
+  public static final String CLOSED_CAPTIONS_UPDATE_EVENT = "onClosedCaptionUpdate";
+
   private static String TAG = OoyalaSkinPlayerObserver.class.getSimpleName();
   private static final String KEY_STATE = "state";
   private static final String DESIRED_STATE = "desiredState";
@@ -99,6 +103,32 @@ class OoyalaSkinPlayerObserver implements Observer {
   private void bridgeTimeChangedNotification() {
     WritableMap params = BridgeMessageBuilder.buildTimeChangedEvent(_player);
     _layoutController.sendEvent(OoyalaPlayer.TIME_CHANGED_NOTIFICATION_NAME, params);
+    notifyClosedCaptionsUpdate();
+  }
+
+  private void notifyClosedCaptionsUpdate() {
+    if (OoyalaPlayer.LIVE_CLOSED_CAPIONS_LANGUAGE.equals(_player.getClosedCaptionsLanguage())) {
+      return;
+    }
+
+    if (_player.getCurrentItem() == null || !_player.getCurrentItem().hasClosedCaptions()) {
+      return;
+    }
+
+    String captionText = "";
+    String language = _player.getClosedCaptionsLanguage();
+    ClosedCaptions cc = _player.getCurrentItem().getClosedCaptions();
+    if (language != null && cc != null) {
+      double currentTime = _player.getPlayheadTime() / 1000.0;
+      Caption caption = cc.getCaption(language, currentTime);
+      if (caption != null) {
+        captionText = caption.getText();
+      }
+    }
+
+    WritableMap params = Arguments.createMap();
+    params.putString("text", captionText);
+    _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
   }
 
   private void bridgePlayCompletedNotification() {
@@ -146,6 +176,6 @@ class OoyalaSkinPlayerObserver implements Observer {
       String ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
       WritableMap params = Arguments.createMap();
       params.putString("text", ccText);
-      _layoutController.sendEvent("onClosedCaptionUpdate", params);
+      _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
   }
 }

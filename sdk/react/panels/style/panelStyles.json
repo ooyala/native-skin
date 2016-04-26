@@ -40,17 +40,22 @@
     "fontWeight": "bold",
     "color": "white",
   },
+  "closedCaptionsContainer": {
+    "flexDirection":"row", 
+    "backgroundColor":"transparent", 
+    "alignItems":"center", 
+    "justifyContent":"center"
+  },
   "closedCaptions": {
-    "backgroundColor":"black",
-    "alignItems": "center",
-    "justifyContent": "center",
+    "alignSelf":"center",
+    "textAlign":"center",
     "padding": 10,
     "margin": 10,
     "fontWeight": "bold",
     "fontSize": 20,
     "fontFamily": "Helvetica",
-    "fontWeight": "bold",
     "color": "white",
+    "backgroundColor": "rgba(0, 0, 0, 0.7)",
   },
   "panel": {
     "flex": 1,
