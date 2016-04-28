@@ -190,7 +190,7 @@ OoyalaSkinBridgeListener.prototype.onError = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onEmbedCodeSet = function(e) {
   Log.log("EmbedCodeSet received");
-  this.skin.setState({screenType:SCREEN_TYPES.LOADING_SCREEN});
+  this.skin.setState({screenType:SCREEN_TYPES.LOADING_SCREEN, ad: null});
 };
 
 OoyalaSkinBridgeListener.prototype.onUpNextDismissed = function(e) {
