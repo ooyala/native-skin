@@ -14,8 +14,10 @@
   "progressScrubber": {
     "flex": 0,
     "position": "absolute",
-    "backgroundColor": "white",
-    "borderRadius":900
+    "backgroundColor": "#4389FF",
+    "borderRadius":900,
+    "borderWidth": 1.5,
+    "borderColor": "white"
   },
 
   "cuePoint": {
