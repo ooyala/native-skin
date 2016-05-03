@@ -30,10 +30,10 @@ var styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
 var progressBarStyles = Utils.getStyles(require('./style/progressBarStyles.json'));
 var topMargin = 6;
 var leftMargin = 20;
-var progressBarHeight = 6;
-var scrubberSize = 18;
+var progressBarHeight = 3;
+var scrubberSize = 14;
 var scrubTouchableDistance = 45;
-var cuePointSize = 12;
+var cuePointSize = 8;
 var BottomOverlay = React.createClass({
 
   propTypes: {
