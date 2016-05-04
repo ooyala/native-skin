@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -183,6 +184,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
                     FrameLayout.LayoutParams.MATCH_PARENT,
                     FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
+    rootView.setBackgroundColor(Color.TRANSPARENT);
   }
 
   /**
