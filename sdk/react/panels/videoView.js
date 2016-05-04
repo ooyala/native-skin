@@ -236,12 +236,14 @@ var VideoView = React.createClass({
     if(this.props.platform == Constants.PLATFORMS.IOS) {
       waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
     }
-    return (
+    if (waterMarkName) {
+      return (
         <VideoWaterMark
           buttonWidth={VideoWaterMarkSize}
           buttonHeight={VideoWaterMarkSize}
           waterMarkName={waterMarkName}/>
           );
+    }
   },
 
   _renderAdOverlay: function() {
