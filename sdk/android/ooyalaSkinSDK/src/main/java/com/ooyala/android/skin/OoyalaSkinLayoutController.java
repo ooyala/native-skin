@@ -22,8 +22,10 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.ooyala.android.ClientId;
+import com.ooyala.android.LayoutController;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.OoyalaPlayerControls;
 import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
@@ -31,7 +33,6 @@ import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.skin.configuration.SkinOptions;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.skin.util.SkinConfigUtil;
-import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 
 import org.json.JSONArray;
@@ -341,6 +342,11 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
 
   public void setFullscreenButtonShowing(boolean showing) {
 
+  }
+
+  @Override
+  public OoyalaPlayerControls getControls() {
+    return null;
   }
 
   /****** End LayoutController **********/
