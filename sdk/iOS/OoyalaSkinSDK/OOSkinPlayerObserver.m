@@ -59,7 +59,30 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdOverlayNotification:) name:OOOoyalaPlayerAdOverlayNotification object:self.player];
   }
+}
+
+- (void)bridgeAdOverlayNotification: (NSNotification *)notification {
+  NSDictionary *overlayInfo = notification.userInfo;
+  NSMutableDictionary *eventBody = [[NSMutableDictionary alloc] init];
+  
+  NSInteger width = [overlayInfo[@"width"] integerValue];
+  NSInteger height = [overlayInfo[@"height"] integerValue];
+  NSInteger expandedWidth = [overlayInfo[@"expandedWidth"] integerValue];
+  NSInteger expandedHeight = [overlayInfo[@"expandedHeight"] integerValue];
+  NSString *resourceUrl = overlayInfo[@"resourceUrl"];
+  NSString *clickUrl = overlayInfo[@"clickUrl"] == nil ? @"": overlayInfo[@"clickUrl"];
+  
+  [eventBody setObject:[NSNumber numberWithInt:width] forKey:@"width"];
+  [eventBody setObject:[NSNumber numberWithInt:height] forKey:@"height"];
+  [eventBody setObject:[NSNumber numberWithInt:expandedWidth] forKey:@"expandedWidth"];
+  [eventBody setObject:[NSNumber numberWithInt:expandedHeight] forKey:@"expandedHeight"];
+  [eventBody setObject:resourceUrl forKey:@"resourceUrl"];
+  [eventBody setObject:clickUrl forKey:@"clickUrl"];
+  
+
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
