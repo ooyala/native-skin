@@ -43,6 +43,7 @@ static NSString *actionKey = @"action";
 static NSString *upNextDismiss = @"upNextDismiss";
 static NSString *upNextClick = @"upNextClick";
 static NSString *adIconButtonName = @"Icon";
+static NSString *adOverlayButtonName = @"Overlay";
 
 RCT_EXPORT_METHOD(onMounted) {
   LOG(@"onMounted - Not going to use at the moment");
@@ -75,12 +76,18 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [self handleUpNextDismiss];
     } else if([buttonName isEqualToString:upNextClick]) {
       [self handleUpNextClick];
+    } else if ([buttonName isEqualToString:adOverlayButtonName]) {
+      [self handleOverlay:[parameters objectForKey:@"clickUrl"]];
     }
   });
 }
 
--(void) handleIconClick: (NSInteger) index {
+- (void)handleIconClick: (NSInteger)index {
   [sharedController.player onAdIconClicked:index];
+}
+
+- (void)handleOverlay: (NSString *)url {
+  [sharedController.player onAdOverlayClicked:url];
 }
 
 -(void) handlePlayPause {
