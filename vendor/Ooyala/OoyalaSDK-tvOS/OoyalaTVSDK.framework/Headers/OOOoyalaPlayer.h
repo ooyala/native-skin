@@ -116,6 +116,7 @@ extern NSString *const OOOoyalaPlayerErrorNotification; /**< Fires when an error
 extern NSString *const OOOoyalaPlayerAdErrorNotification; /**< Fires when an error occurs while trying to play an ad */
 extern NSString *const OOOoyalaPlayerMetadataReadyNotification; /**< Fires when content metadata is ready to be accessed */
 extern NSString *const OOOoyalaPlayerLanguageChangedNotification; /**< Fires when close caption language changed*/
+extern NSString *const OOOoyalaPlayerSeekStartedNotification; /**< Fires when a seek begins*/
 extern NSString *const OOOoyalaPlayerSeekCompletedNotification; /**< Fires when a seek completes*/
 extern NSString *const OOOoyalaPlayerJsonReceivedNotification; /**< Fires when received a json string, userinfo contains the key and value of the json string*/
 extern NSString *const OOOoyalaPlayerEmbedCodeSetNotification; /**< Fires when setEmbedCode is getting called */
