@@ -27,6 +27,7 @@
 		97C8DD211CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */; };
 		97C8DD231CE14D6C007F3F54 /* OoyalaTVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD221CE14D6C007F3F54 /* OoyalaTVSDK.framework */; };
 		97C8DD251CE14DFC007F3F54 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */; };
+		97F9E5A81CE2833A00AE5B56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F9E5A71CE2833A00AE5B56 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVPlayerViewController.m; sourceTree = "<group>"; };
 		97C8DD221CE14D6C007F3F54 /* OoyalaTVSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaTVSDK.framework; path = VendorLibraries/OoyalaTVSDK.framework; sourceTree = "<group>"; };
 		97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		97F9E5A71CE2833A00AE5B56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97F9E5A81CE2833A00AE5B56 /* UIKit.framework in Frameworks */,
 				97C8DD251CE14DFC007F3F54 /* SystemConfiguration.framework in Frameworks */,
 				97C8DD231CE14D6C007F3F54 /* OoyalaTVSDK.framework in Frameworks */,
 			);
@@ -55,6 +58,7 @@
 		97C8DD071CE14CA2007F3F54 = {
 			isa = PBXGroup;
 			children = (
+				97F9E5A71CE2833A00AE5B56 /* UIKit.framework */,
 				97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */,
 				97C8DD221CE14D6C007F3F54 /* OoyalaTVSDK.framework */,
 				97C8DD131CE14CA2007F3F54 /* OoyalaTVSkinSDK */,
@@ -302,6 +306,7 @@
 				INFOPLIST_FILE = OoyalaTVSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaTVSkinSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -323,6 +328,7 @@
 				INFOPLIST_FILE = OoyalaTVSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaTVSkinSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -334,6 +340,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
@@ -341,6 +348,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Release;
 		};
@@ -372,6 +380,7 @@
 				97C8DD2D1CE1533F007F3F54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
