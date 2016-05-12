@@ -22,6 +22,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
   this.listeners = [];
   var listenerDefinitions = [
     [ 'timeChanged',              (event) => this.onTimeChange(event) ],
+    [ 'ccStylingChanged',         (event) => this.onCcStylingChange(event) ],
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
     [ 'volumeChanged',            (event) => this.onVolumeChanged(event) ],
@@ -78,6 +79,17 @@ OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
   Log.log( "onAdStarted");
   Log.log(e);
   this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, adOverlay: null});
+};
+
+OoyalaSkinBridgeListener.prototype.onCcStylingChange = function(e) {
+  Log.log( "onCcStylingChange");
+  this.skin.setState({
+    ccTextSize: e.textSize,
+    ccTextColor: e.textColor,
+    ccBackgroundColor: e.backgroundColor,
+    ccEdgeType: e.edgeType,
+    ccEdgeColor: e.edgeColor,
+  });
 };
 
 OoyalaSkinBridgeListener.prototype.onAdSwitched = function(e) {
