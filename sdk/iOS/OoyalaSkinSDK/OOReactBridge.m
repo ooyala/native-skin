@@ -20,6 +20,7 @@
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
+#import "OOConstant.h"
 
 @implementation OOReactBridge
 
@@ -174,7 +175,8 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
 
 + (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
   if ([sharedController isReactReady]) {
-    if (![eventName isEqualToString:OOOoyalaPlayerTimeChangedNotification]) {
+    if (![eventName isEqualToString:OOOoyalaPlayerTimeChangedNotification] &&
+        ![eventName isEqualToString:OO_CLOSED_CAPTIONS_UPDATE_EVENT]) {
       LOG(@"sendDeviceEventWithName: %@", eventName);
     }
     [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
