@@ -21,6 +21,7 @@
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
+#import "OOConstant.h"
 
 @interface OOSkinPlayerObserver ()
 
@@ -101,20 +102,34 @@
   NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
-  OOCaption *caption =
-  [_player.currentItem.closedCaptions captionForLanguage:_player.closedCaptionsLanguage time:_player.playheadTime];
 
-  NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:
-  @{@"duration":durationNumber,
+  NSDictionary *eventBody = @{@"duration":durationNumber,
     @"playhead":playheadNumber,
     @"rate":rateNumber,
     @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages,
-    @"cuePoints":cuePoints}];
-  if (caption.text) {
-    [eventBody setObject:caption.text forKey:@"caption"];
-  }
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+    @"cuePoints":cuePoints};
 
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self notifyClosedCaptionsUpdate];
+}
+
+- (void)notifyClosedCaptionsUpdate {
+  if ([self.player.closedCaptionsLanguage isEqualToString:OOLiveClosedCaptionsLanguage]) {
+    return;
+  }
+
+  if (!self.player.currentItem.hasClosedCaptions) {
+    return;
+  }
+
+  NSString *captionText = @"";
+  OOCaption *caption = [_player.currentItem.closedCaptions captionForLanguage:_player.closedCaptionsLanguage time:_player.playheadTime];
+  if (caption) {
+    captionText = [caption text];
+  }
+
+  NSDictionary *eventBody = @{@"text":captionText};
+  [OOReactBridge sendDeviceEventWithName:OO_CLOSED_CAPTIONS_UPDATE_EVENT body:eventBody];
 }
 
 - (void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {
