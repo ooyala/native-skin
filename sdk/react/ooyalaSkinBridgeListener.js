@@ -34,6 +34,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
     [ 'adPodCompleted',           (event) => this.onAdPodCompleted(event) ],
     [ 'adOverlay',                (event) => this.onAdOverlay(event) ],
+    [ 'adError',                  (event) => this.onAdError(event) ],
     [ 'setNextVideo',             (event) => this.onSetNextVideo(event) ],
     [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ],
     [ 'playStarted',              (event) => this.onPlayStarted(event) ],
@@ -94,6 +95,11 @@ OoyalaSkinBridgeListener.prototype.onAdOverlay = function(e) {
   Log.log( "onAdOverlay");
   this.skin.setState({adOverlay: e});
 }
+
+OoyalaSkinBridgeListener.prototype.onAdError = function(e) {
+  Log.log( "onAdError ");
+  this.skin.setState({ad: null});
+};
 
 OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
   Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
