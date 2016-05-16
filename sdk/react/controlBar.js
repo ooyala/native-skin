@@ -103,10 +103,10 @@ var ControlBar = React.createClass({
     var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
     var waterMarkName;
     if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      waterMarkName = this.props.config.controlBar.watermark.imageResource.androidResource;
+      waterMarkName = this.props.config.controlBar.logo.imageResource.androidResource;
     }
     if(this.props.platform == Constants.PLATFORMS.IOS) {
-      waterMarkName = this.props.config.controlBar.watermark.imageResource.iosResource;
+      waterMarkName = this.props.config.controlBar.logo.imageResource.iosResource;
     }
     var controlBarWidgets = [];
 
