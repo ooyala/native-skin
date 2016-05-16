@@ -48,8 +48,8 @@ class OoyalaSkinPlayerObserver implements Observer {
     } else if (OoyalaPlayer.PLAY_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgePlayCompletedNotification();
       _layoutController.maybeStartUpNext();
-    } else if (OoyalaPlayer.AD_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
-      bridgeAdPodCompleteNotification();
+    } else if (OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeAdPodCompletedNotification();
     } else if (OoyalaPlayer.PLAY_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgePlayStartedNotification();
       _layoutController.requestDiscovery();
@@ -173,9 +173,9 @@ class OoyalaSkinPlayerObserver implements Observer {
     }
   }
 
-  private void bridgeAdPodCompleteNotification() {
+  private void bridgeAdPodCompletedNotification() {
     WritableMap params = Arguments.createMap();
-    _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME, params); //TODO: We are listening to Player's AdCompleted, passing AdPodCompleted.  Need to fix when we fix SDK's AdPodCompleted
+    _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME, params);
   }
 
   private void bridgeLiveCCChangedNotification(Object data) {
