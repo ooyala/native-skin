@@ -120,7 +120,7 @@ If you'd like to take another extra step, try _following these steps to update t
     * Default localization files (Add to app bundle)
     * Default skin-config.json (Add to app bundle)
     * main.jsbundle (Add to app bundle)
-3. Link JavascriptCore, Social, and MessageUI Frameworks to your binary
+3. Link JavascriptCore, Social, MessageUI, MediaAccessibility, MediaPlayer Frameworks to your binary. Also link libz.dylib/libz.tbd library.
 4. In Build Settings, ensure the Other Linker Flag "-ObjC" is enabled
 
 5. Modify your PlayerViewController to use the new OOSkinViewController
@@ -158,8 +158,7 @@ If you'd like to take another extra step, try _following these steps to update t
     - Ojbective-C code
         * Should use the OOSkinViewController
         * Should use main.jsbundle as the jsCodeLocaiton
-    - JavascriptCore
-        * Should be linked
+    - Necessary frameworks and libraries are linked
     - Other Linker Flags
         * Should have -ObjC
 
@@ -170,7 +169,7 @@ If you'd like to take another extra step, try _following these steps to update t
   2. With a provisioned device connected, select OoyalaSkinSampleApp schema and the connected device in Xcode.
   3. From Xcode menu, choose "Product->Archive"
   4. From Xcode orgnizer, choose "Export"
-  5. Select "Save for enterprise" and follow the instructions to generate ipa file. 
+  5. Select "Save for enterprise" and follow the instructions to generate ipa file.
 
 ##Build the OoyalaSkinSDK.framework
 
