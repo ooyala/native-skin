@@ -109,6 +109,13 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       // todo: change to boolean showCCButton.
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
       caption={this.skin.state.caption}
+      captionStyles={{
+        textSize: this.skin.state.ccTextSize,
+        textColor: this.skin.state.ccTextColor,
+        backgroundColor: this.skin.state.ccBackgroundColor,
+        edgeType: this.skin.state.ccEdgeType,
+        edgeColor: this.skin.state.ccEdgeColor,
+      }}
       config={{
         controlBar: this.skin.props.controlBar,
         general: this.skin.props.general,
