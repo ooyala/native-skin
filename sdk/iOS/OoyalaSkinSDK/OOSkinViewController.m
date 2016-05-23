@@ -187,6 +187,7 @@ static NSString *kViewChangeKey = @"frame";
   [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOReactBridge deregisterController:self];
+  [self.player destroy];
 }
 
 @end
