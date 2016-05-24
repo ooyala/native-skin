@@ -25,6 +25,7 @@ import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
@@ -73,6 +74,9 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private OoyalaPlayer _player;
   private FCCTVRatingUI _tvRatingUI;
   DiscoveryOptions discoveryOptions;
+
+  private JSONObject closedCaptionsSkinStyle;
+  ClosedCaptionsStyle closedCaptionsDeviceStyle;
 
   private boolean _isUpNextDismissed = false;
   private boolean _isUpNextEnabled = false;
@@ -156,6 +160,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     if (configJson != null) {
       try {
         launchOptions = BundleJSONConverter.convertToBundle(configJson);
+        closedCaptionsSkinStyle = configJson.getJSONObject("closedCaptionOptions");
       } catch (JSONException e) {
         e.printStackTrace();
         launchOptions = null;
@@ -173,6 +178,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
             .setUseDeveloperSupport(BuildConfig.DEBUG)
             .setInitialLifecycleState(LifecycleState.RESUMED)
             .build();
+    ccStyleChanged();
     // Reload JS from the react server. TODO: does not work after react upgrade
     if (skinOptions.getEnableReactJSServer()) {
       ReactUtil.reloadJs(_reactInstanceManager);
@@ -185,6 +191,12 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
                     FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
+  }
+
+  public void ccStyleChanged() {
+    closedCaptionsDeviceStyle = new ClosedCaptionsStyle(_layout.getContext());
+    WritableMap params =BridgeMessageBuilder.buildCaptionsStyleParameters(closedCaptionsDeviceStyle,closedCaptionsSkinStyle);
+    sendEvent(OoyalaPlayer.CC_STYLING_CHANGED_NOTIFICATION_NAME,params);
   }
 
   /**

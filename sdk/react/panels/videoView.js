@@ -65,6 +65,7 @@ var VideoView = React.createClass({
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     caption: React.PropTypes.string,
+    captionStyles: React.PropTypes.object,
     showWatermark: React.PropTypes.bool,
     config: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
@@ -163,12 +164,14 @@ var VideoView = React.createClass({
   },
 
   _renderClosedCaptions: function() {
+    var ccStyle = {fontSize: this.props.captionStyles.textSize, color:this.props.captionStyles.textColor,
+      backgroundColor:this.props.captionStyles.backgroundColor};
     if (this.props.caption) {
       return (
         <View 
           style={panelStyles.closedCaptionsContainer}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
-          <Text style={panelStyles.closedCaptions}>
+          <Text style={[panelStyles.closedCaptions,ccStyle]}>
             {this.props.caption}
           </Text>
         </View>

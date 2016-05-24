@@ -6,6 +6,7 @@ import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Caption;
 import com.ooyala.android.item.ClosedCaptions;
 import com.ooyala.android.util.DebugMode;
@@ -77,6 +78,11 @@ class OoyalaSkinPlayerObserver implements Observer {
   private void bridgeStateChangedNotification() {
     WritableMap params = Arguments.createMap();
     params.putString(KEY_STATE, _player.getState().toString().toLowerCase());
+    ClosedCaptionsStyle cuurentClosedCaptionsStyle = new ClosedCaptionsStyle(_layoutController.getLayout().getContext());
+    if (cuurentClosedCaptionsStyle.compareTo(_layoutController.closedCaptionsDeviceStyle) != 0) {
+      _layoutController.closedCaptionsDeviceStyle = cuurentClosedCaptionsStyle;
+      _layoutController.ccStyleChanged();
+    }
     DebugMode.logD(TAG, "state change event params are" + params.toString());
     _layoutController.sendEvent(OoyalaPlayer.STATE_CHANGED_NOTIFICATION_NAME, params);
   }

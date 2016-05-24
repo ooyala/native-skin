@@ -10,6 +10,7 @@ import com.ooyala.android.AdIconInfo;
 import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Video;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -240,5 +241,36 @@ class BridgeMessageBuilder {
     icon.putDouble("duration", info.getDuration());
     icon.putString("url", info.getResourceUrl());
     return icon;
+  }
+
+  public static WritableMap buildCaptionsStyleParameters(ClosedCaptionsStyle closedCaptionsDeviceStyle,JSONObject closedCaptionsSkinStyles) {
+    WritableMap params = Arguments.createMap();
+    int textColor = 0;
+    int backgroundColor = 0;
+    int edgeType = 0;
+    int edgeColor = 0;
+    double textSize = 0;
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+      textSize = closedCaptionsDeviceStyle.textSize;
+      textColor = closedCaptionsDeviceStyle.textColor;
+      backgroundColor = closedCaptionsDeviceStyle.backgroundColor;
+      edgeType = closedCaptionsDeviceStyle.edgeType;
+      edgeColor = closedCaptionsDeviceStyle.edgeColor;
+    } else if(closedCaptionsSkinStyles != null) {
+      try{
+        textSize = (double)closedCaptionsSkinStyles.get("defaultFontSize");
+        textColor = (int)closedCaptionsSkinStyles.get("defaultTextColor");
+        backgroundColor = (int) closedCaptionsSkinStyles.get("defaultBackgroundColor");
+      } catch (JSONException e) {
+        e.printStackTrace();
+      }
+    }
+    //params.putArray("textFont", closedCaptionsStyle.textFont);        //how to handle typeFace
+    params.putDouble("textSize",textSize );
+    params.putString("textColor","#"+String.format("%06x",textColor & 0xFFFFFF));
+    params.putString("backgroundColor","#"+String.format("%06x",backgroundColor & 0xFFFFFF));
+    params.putInt("edgeType", edgeType);
+    params.putString("edgeColor","#"+String.format("%06x",edgeColor & 0xFFFFFF));
+    return params;
   }
 }
