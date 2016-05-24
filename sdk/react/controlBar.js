@@ -97,6 +97,10 @@ var ControlBar = React.createClass({
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   },
 
+  onRewindPress: function() {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.REWIND);
+  },
+
   render: function() {
 
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
@@ -144,6 +148,12 @@ var ControlBar = React.createClass({
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
+      },
+       rewind: {
+        onPress: this.onRewindPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        icon: this.props.config.icons.rewind
       },
       moreOptions: {
         onPress: this.onMorePress,

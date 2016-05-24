@@ -106,6 +106,13 @@ var controlBarWidget = React.createClass({
     </TouchableHighlight>);
   },
 
+  rewindWidget: function (options) {
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
+    </TouchableHighlight>);
+  },
+
   watermarkWidget: function (options) {
     if(options.shouldShow) {
       return (
@@ -151,6 +158,7 @@ var controlBarWidget = React.createClass({
       "volume": this.volumeWidget,
       "timeDuration": this.timeDurationWidget,
       "flexibleSpace": this.flexibleSpaceWidget,
+      "rewind": this.rewindWidget,
       "discovery": this.discoveryWidget,
       "fullscreen": this.fullscreenWidget,
       "moreOptions": this.moreOptionsWidget,
