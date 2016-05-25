@@ -18,7 +18,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package com.facebook.internal;
+package com.ooyala.android.skin.util;
 
 import android.os.Bundle;
 import android.util.Log;
