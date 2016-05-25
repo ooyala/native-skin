@@ -182,9 +182,9 @@
 
 - (void)layoutSubviews
 {
-  [super layoutSubviews];
   [self configure];
   self.circleLayer.path = [[self circlePath] CGPath];
+  [super layoutSubviews];
 }
 
 - (void)dealloc
