@@ -134,10 +134,7 @@ var BottomOverlay = React.createClass({
     }
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     return (
-      <View
-        onTouchStart={(event) => this.handleTouchStart(event)}
-        onTouchMove={(event) => this.handleTouchMove(event)}
-        onTouchEnd={(event) => this.handleTouchEnd(event)} style={styles.progressBarStyle}>
+      <View style={styles.progressBarStyle}>
     {this._renderProgressBar(playedPercent)}
     {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
     {this._renderCuePoints(this.props.cuePoints)}
@@ -250,7 +247,11 @@ var BottomOverlay = React.createClass({
 
   renderDefault: function(widthStyle) {
     return (
-      <Animated.View style={[styles.container, widthStyle, {"height": this.state.height}]}>
+      <Animated.View 
+        onTouchStart={(event) => this.handleTouchStart(event)}
+        onTouchMove={(event) => this.handleTouchMove(event)}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}
+        style={[styles.container, widthStyle, {"height": this.state.height}]}>
         {/*<View style ={[styles.bottomOverlayFlexibleSpace]}></View>*/}
         {this._renderCompleteProgressBar()}
         {<View style ={[styles.bottomOverlayFlexibleSpace]}></View>}
