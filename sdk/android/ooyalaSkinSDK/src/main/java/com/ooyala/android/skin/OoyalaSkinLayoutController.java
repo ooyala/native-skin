@@ -444,7 +444,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   @Override
   public void onPause() {
     if (_reactInstanceManager != null) {
-      _reactInstanceManager.onPause();
+      _reactInstanceManager.onHostPause();
     }
   }
 
@@ -452,7 +452,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   public void onResume(Activity activity,
                           DefaultHardwareBackBtnHandler defaultBackButtonImpl) {
     if (_reactInstanceManager != null) {
-      _reactInstanceManager.onResume( activity,defaultBackButtonImpl );
+      _reactInstanceManager.onHostResume(activity,defaultBackButtonImpl );
     }
     // hide navigation and notification bars after lockscreen
     // if video was in the fullscreen before screenlock
@@ -468,7 +468,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   @Override
   public void onDestroy() {
     if (_reactInstanceManager != null) {
-      _reactInstanceManager.onDestroy();
+      _reactInstanceManager.onHostDestroy();
     }
   }
 }

@@ -3,9 +3,9 @@ package com.ooyala.android.skin.view;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 
-import com.facebook.react.uimanager.ReactProp;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.facebook.react.uimanager.annotations.ReactProp;
 
 public class VolumeViewManager extends SimpleViewManager<VolumeView> {
   public static final String REACT_CLASS = "OOVolumeView";
