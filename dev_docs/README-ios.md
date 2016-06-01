@@ -116,7 +116,7 @@ If you'd like to take another extra step, try _following these steps to update t
 2. Download [OoyalaSkinSDK-iOS](https://ooyala.box.com/ios-skin-release), which contains:
     * __NOTE:__ the framework in the download link will always point to the most up to date commit in the 'stable' branch (when the branch is created).
     * iOS Skin SDK (link binary with this library)
-    * Alice font (Add to bundle. Then in Info.plist, add "alice.ttf" to "Fonts Provided by Application")
+    * ooyala-slick-type font (Add to bundle. Then in Info.plist, add "ooyala-slick-type.ttf" to "Fonts Provided by Application")
     * Default localization files (Add to app bundle)
     * Default skin-config.json (Add to app bundle)
     * main.jsbundle (Add to app bundle)
@@ -146,7 +146,7 @@ If you'd like to take another extra step, try _following these steps to update t
     - Ooyala Skin SDK
         * Should be linked
         * SDK Version in the Skin package's VERSION file should match the VERSION file in the Ooyala SDK
-    - Alice Font
+    - ooyala-slick-type Font
         * Should be bundled
         * Should be part of Info.plist
     - Localization Files (en.json, zh.json, etc.)
