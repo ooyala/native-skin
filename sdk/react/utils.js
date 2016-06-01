@@ -4,17 +4,16 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet
-} = React;
+} from 'react-native';
 
 var Log = require('./log');
 var Utils = {
 
   renderRectButton: function(style, icon, func, size, color, fontFamily, key) {
     var RectButton = require('./widgets/RectButton');
-
     return (
       <RectButton
         key={key}
@@ -51,7 +50,7 @@ var Utils = {
     for (var attrname in globalStyles) { styles[attrname] = globalStyles[attrname]; }
     for (var attrname in specificStyles) { styles[attrname] = specificStyles[attrname]; }
 
-    return React.StyleSheet.create(styles);
+    return StyleSheet.create(styles);
   },
 
   getTimerLabel: function(timer) {

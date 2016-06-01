@@ -1,9 +1,9 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   requireNativeComponent
-} = React;
+} from 'react-native';
 
 class GradientView extends React.Component {
   render() {

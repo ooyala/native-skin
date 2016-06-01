@@ -1,12 +1,11 @@
-var React = require('react-native');
-
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   View,
   Image,
   TouchableHighlight
-} = React;
+} from 'react-native';
 
 var Utils = require('../utils');
 

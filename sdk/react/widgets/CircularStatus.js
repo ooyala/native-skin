@@ -2,13 +2,13 @@
 /**
  * Created by dkao on 9/4/15.
  */
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   View,
   TouchableHighlight,
-  } = React;
+} from 'react-native';
 
 var styles = require('../utils').getStyles(require('./style/CircularStatus.json'));
 

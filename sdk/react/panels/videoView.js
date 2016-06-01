@@ -4,8 +4,8 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   ActivityIndicatorIOS,
   ProgressBarAndroid,
   Image,
@@ -13,7 +13,7 @@ var {
   View,
   StyleSheet,
   TouchableHighlight
-} = React;
+} from 'react-native';
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');

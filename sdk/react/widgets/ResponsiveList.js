@@ -1,10 +1,10 @@
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   View,
   TouchableHighlight,
   ScrollView
-} = React;
+} from 'react-native';
 
 var styles=require('../utils').getStyles(require('./style/ResponsiveListStyles.json'));
 var placeHolderItem = "ResponsiveListPlaceHolder";

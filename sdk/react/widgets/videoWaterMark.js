@@ -1,11 +1,12 @@
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Image,
   Text,
   StyleSheet,
   Animated,
   View,
-} = React;
+} from 'react-native';
+
 var ResponsiveDesignManager = require('../responsiveDesignManager');
 var Constants = require('../constants');
 var styles = require('../utils').getStyles(require('./style/videoWaterMarkStyles.json'));

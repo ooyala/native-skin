@@ -3,8 +3,8 @@
  */
  'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   ActivityIndicatorIOS,
   SliderIOS,
   StyleSheet,
@@ -12,7 +12,7 @@ var {
   View,
   Image,
   TouchableHighlight,
-} = React;
+} from 'react-native';
 
 var Log = require('./log');
 var Constants = require('./constants');

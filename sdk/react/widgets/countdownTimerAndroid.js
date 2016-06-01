@@ -1,13 +1,19 @@
 'use strict';
-var {View, requireNativeComponent, PropTypes, Animated, Platform } = require('react-native');
+import React, { Component } from 'react';
+import {
+  View, 
+  requireNativeComponent, 
+  Animated, 
+  Platform 
+} from 'react-native';
 
 if (Platform.OS === 'android') {
   var iface = {
     name: 'CountdownView',
     propTypes: {
       ...View.propTypes,
-      countdown: PropTypes.object,
-      data: PropTypes.object,
+      countdown: React.PropTypes.object,
+      data: React.PropTypes.object,
     }
   };
 

@@ -1,12 +1,12 @@
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
 	requireNativeComponent,
 	NativeMethodsMixin,
   StyleSheet,
 	View,
   TouchableHighlight,
   Platform
-} = React;
+} from 'react-native';
 
 var CountdownView = React.createClass({
 	mixins: [NativeMethodsMixin],

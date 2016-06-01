@@ -3,8 +3,8 @@
  */
 'use strict';
 
+import React, { Component } from 'react';
 var Constants = require('./constants');
-var React = require('react-native');
 var {
   BUTTON_NAMES,
   SCREEN_TYPES,

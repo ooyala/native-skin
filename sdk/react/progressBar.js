@@ -4,12 +4,12 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   View,
   StyleSheet,
   LayoutAnimation
-} = React;
+} from 'react-native';
 
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/progressBarStyles.json'));

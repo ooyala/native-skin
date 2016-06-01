@@ -4,8 +4,8 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Animated,
   Image,
   ListView,
@@ -15,7 +15,7 @@ var {
   View,
   ScrollView,
   DeviceEventEmitter
-} = React;
+} from 'react-native';
 
 var Utils = require('../utils');
 var ResponsiveList = require('../widgets/ResponsiveList');

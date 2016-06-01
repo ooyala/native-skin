@@ -4,8 +4,8 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Animated,
   ListView,
   StyleSheet,
@@ -13,7 +13,7 @@ var {
   Text,
   TouchableHighlight,
   View,
-} = React;
+} from 'react-native';
 
 var animationDuration = 1000;
 var Constants = require('../constants');

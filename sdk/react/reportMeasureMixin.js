@@ -1,6 +1,6 @@
 'use strict';
 
-var React = require('react-native');
+import React, { Component } from 'react';
 var Log = require('./log');
 
 var ReportMeasureMixin = {

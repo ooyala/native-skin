@@ -1,10 +1,10 @@
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
-  } = React;
+  TouchableHighlight
+} from 'react-native';
 
 var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
 
