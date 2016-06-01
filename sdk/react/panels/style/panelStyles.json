@@ -5,7 +5,7 @@
   },
   "panelIcon": {
     "textAlign": "left",
-    "fontFamily": "alice",
+    "fontFamily": "ooyala-slick-type",
     "fontSize": 16,
     "color": "white",
     "paddingTop":10,
@@ -27,7 +27,7 @@
   "dismissIcon": {
     "flex": 1,
     "paddingBottom":20,
-    "fontFamily": "alice",
+    "fontFamily": "ooyala-slick-type",
     "fontSize": 20,
     "color": "white"
   },

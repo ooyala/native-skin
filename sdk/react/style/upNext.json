@@ -14,7 +14,7 @@
     alignItems: 'center'
   },
   countdownText: {
-    fontFamily: 'alice',
+    fontFamily: 'ooyala-slick-type',
     fontSize: 23,
     textAlign: 'center',
     color: 'white'
