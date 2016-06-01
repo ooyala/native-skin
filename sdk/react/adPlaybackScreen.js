@@ -4,14 +4,14 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Image,
   Text,
   View,
   StyleSheet,
   TouchableHighlight
-} = React;
+} from 'react-native';
 
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');

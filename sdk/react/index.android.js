@@ -4,8 +4,8 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   AppRegistry,
   ProgressBarAndroid,
   StyleSheet,
@@ -13,7 +13,7 @@ var {
   TouchableHighlight,
   View,
   BackAndroid,
-} = React;
+} from 'react-native';
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 var Log = require('./log');
