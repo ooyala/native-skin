@@ -1,11 +1,11 @@
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   View,
   TouchableHighlight,
   Animated
-  } = React;
+} from 'react-native';
 
 var Constants = require('../constants');
 var {

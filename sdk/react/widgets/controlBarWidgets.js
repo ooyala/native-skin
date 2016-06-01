@@ -3,15 +3,16 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Text,
   View,
   Image,
   StyleSheet,
   SliderIOS,
   TouchableHighlight
-} = React;
+} from 'react-native';
+
 var VolumeView = require('./VolumeView');
 var styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 var Log = require('../log');
@@ -23,7 +24,6 @@ var {
   } = Constants;
 
 var controlBarWidget = React.createClass({
-
   propTypes: {
     widgetType: React.PropTypes.object,
     options: React.PropTypes.object

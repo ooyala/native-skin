@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Animated,
   Image,
   ListView,
@@ -9,7 +9,7 @@ var {
   Text,
   TouchableHighlight,
   View,
-} = React;
+} from 'react-native';
 
 var Log = require('../log');
 var Utils = require('../utils');

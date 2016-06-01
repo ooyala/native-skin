@@ -1,11 +1,11 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   Animated,
   Text,
   View
-} = React;
+} from 'react-native';
 
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./panels/style/languageSelectionPanelStyles.json'));

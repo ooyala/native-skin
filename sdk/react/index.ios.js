@@ -3,14 +3,15 @@
  * https://github.com/facebook/react-native
  */
 'use strict';
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   ActivityIndicatorIOS,
   AppRegistry,
   DeviceEventEmitter,
   StyleSheet,
-  View,
-} = React;
+  View
+} from 'react-native';
+
 var Log = require('./log');
 var Constants = require('./constants');
 var {

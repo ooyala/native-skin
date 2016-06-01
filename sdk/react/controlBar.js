@@ -4,15 +4,15 @@
  */
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { Component } from 'react';
+import {
   StyleSheet,
   Text,
   Image,
   TouchableHighlight,
   View,
   LayoutAnimation
-} = React;
+} from 'react-native';
 
 var Constants = require('./constants');
 var {
