@@ -121,7 +121,7 @@ Now, you should be able to run the application, and see any modifications to the
 
 3. Copy **react-native-0.26.2.aar** into **libs/** directory of your app
 
-3. Modify your app gradle build file configuration to include OoyalaSkinSDK and React support as shown in the following Gradle build file snippet:
+4. Modify your app gradle build file configuration to include OoyalaSkinSDK and React support as shown in the following Gradle build file snippet:
 
         android {
             compileSdkVersion 23
@@ -162,14 +162,14 @@ Now, you should be able to run the application, and see any modifications to the
         }
 
 
-4. To let android use 32-bit libraries on 64-bit devices add the following property into the **gradle.properties**:
+5. To let android use 32-bit libraries on 64-bit devices add the following property into the **gradle.properties**:
   ```
   android.useDeprecatedNdk=true
   ```
 
-5. Put **fonts**,**index.android.jsbundle** and **skin.json** into **src/main/assets**
+6. Put **fonts**,**index.android.jsbundle** and **skin.json** into **src/main/assets**
 
-6. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
+7. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
 
     ```
     <com.ooyala.android.ooyalaskinsdk.OoyalaSkinLayout
@@ -178,7 +178,7 @@ Now, you should be able to run the application, and see any modifications to the
     />
     ```
 
-7. Modify your activity to use new **OoyalaSkinLayout**:
+8. Modify your activity to use new **OoyalaSkinLayout**:
 ```
 public void onCreate(Bundle savedInstanceState) {
     ...
