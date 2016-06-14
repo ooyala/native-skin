@@ -115,11 +115,13 @@ Now, you should be able to run the application, and see any modifications to the
 
 # How to update an existing application with the Android Skin
 
-1. Download and unzip [OoyalaSkinSDK.zip](https://ooyala.box.com/android-skin-release)
+1. Download and unzip [OoyalaSkinSDK-Android.zip](https://ooyala.box.com/android-skin-release)
 
 2. Copy **OoyalaSkinSDK.jar** into **libs/** directory of your app
 
-3. Modify your app gradle build file configuration to include OoyalaSkinSDK and React support as shown in the following Gradle build file snippet:
+3. Copy **react-native-0.26.2.aar** into **libs/** directory of your app
+
+4. Modify your app gradle build file configuration to include OoyalaSkinSDK and React support as shown in the following Gradle build file snippet:
 
         android {
             compileSdkVersion 23
@@ -135,21 +137,39 @@ Now, you should be able to run the application, and see any modifications to the
             }
             ...
         }
+        repositories {
+            jcenter()
+            flatDir {
+                dirs 'libs'
+            }
+        }
         dependencies {
             compile files('libs/OoyalaSDK.jar')
             compile files('libs/OoyalaSkinSDK.jar')
-            compile 'com.facebook.react:react-native:0.16.+'
+            compile 'com.android.support:appcompat-v7:23.4.0'
+            compile 'com.android.support:recyclerview-v7:23.4.0'
+            compile group: 'com.facebook.fresco', name: 'fresco', version: '0.8.1'
+            compile group: 'com.facebook.fresco', name: 'imagepipeline-okhttp', version: '0.8.1'
+            compile group: 'com.facebook.stetho', name: 'stetho', version: '1.2.0'
+            compile group: 'com.facebook.stetho', name: 'stetho-okhttp', version: '1.2.0'
+            compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.2.3'
+            compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
+            compile group: 'com.squareup.okhttp', name: 'okhttp', version: '2.5.0'
+            compile group: 'com.squareup.okhttp', name: 'okhttp-ws', version: '2.5.0'
+            compile group: 'com.squareup.okio', name: 'okio', version: '1.6.0'
+            compile group: 'org.webkit', name: 'android-jsc', version: 'r174650'
+            compile(name:'react-native', version:'0.26.2', ext:'aar')
         }
 
 
-4. To let android use 32-bit libraries on 64-bit devices add the following property into the **gradle.properties**:
+5. To let android use 32-bit libraries on 64-bit devices add the following property into the **gradle.properties**:
   ```
   android.useDeprecatedNdk=true
   ```
 
-5. Put **fonts**,**index.android.jsbundle** and **skin.json** into **src/main/assets**
+6. Put **fonts**,**index.android.jsbundle** and **skin.json** into **src/main/assets**
 
-6. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
+7. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
 
     ```
     <com.ooyala.android.ooyalaskinsdk.OoyalaSkinLayout
@@ -158,7 +178,7 @@ Now, you should be able to run the application, and see any modifications to the
     />
     ```
 
-7. Modify your activity to use new **OoyalaSkinLayout**:
+8. Modify your activity to use new **OoyalaSkinLayout**:
 ```
 public void onCreate(Bundle savedInstanceState) {
     ...
