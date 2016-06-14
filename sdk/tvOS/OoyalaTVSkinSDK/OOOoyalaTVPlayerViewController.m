@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UILongPressGestureRecognizer *longTapForward;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longTapBackward;
 
+@property (nonatomic, strong) NSTimer *timer;
+
 @end
 
 @implementation OOOoyalaTVPlayerViewController
@@ -383,17 +385,16 @@ static CGFloat const seekInterval = 3.0;
 }
 
 - (void)seek:(UILongPressGestureRecognizer *)sender {
-  NSTimer *timer;
   if (sender.state == UIGestureRecognizerStateBegan) {
     if ([sender.allowedPressTypes containsObject:@(UIPressTypeRightArrow)]) {
-      timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
+      self.timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
                                                     target:self
                                                   selector:@selector(seekForward)
                                                   userInfo:nil
                                                    repeats:YES];
       
     } else {
-      timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
+      self.timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
                                                     target:self
                                                   selector:@selector(seekBackward)
                                                   userInfo:nil
@@ -402,7 +403,7 @@ static CGFloat const seekInterval = 3.0;
   } else if (sender.state == UIGestureRecognizerStateCancelled
             || sender.state == UIGestureRecognizerStateFailed
              || sender.state == UIGestureRecognizerStateEnded) {
-    [timer invalidate];
+    [self.timer invalidate];
   }
 }
 
