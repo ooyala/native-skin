@@ -86,6 +86,7 @@ OoyalaSkinBridgeListener.prototype.onCcStylingChange = function(e) {
   Log.log( "onCcStylingChange");
   this.skin.setState({
     ccTextSize: e.textSize,
+    ccFontName: e.fontName,
     ccTextColor: e.textColor,
     ccBackgroundColor: e.backgroundColor,
     ccEdgeType: e.edgeType,
