@@ -166,11 +166,17 @@ var VideoView = React.createClass({
 
   _renderClosedCaptions: function() {
     if (this.props.caption) {
+      var ccStyle = null;
+      if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+        ccStyle = {fontSize: this.props.captionStyles.textSize, color:this.props.captionStyles.textColor,
+      backgroundColor:this.props.captionStyles.backgroundColor};
+      }
+      
       return (
         <View 
           style={panelStyles.closedCaptionsContainer}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
-          <Text style={panelStyles.closedCaptions}>
+          <Text style={[panelStyles.closedCaptions, ccStyle]}>
             {this.props.caption}
           </Text>
         </View>
