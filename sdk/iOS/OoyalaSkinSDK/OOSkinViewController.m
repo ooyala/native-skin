@@ -24,6 +24,7 @@
 #import "OOVolumeManager.h"
 #import "OOSkinPlayerObserver.h"
 #import "NSDictionary+Utils.h"
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -42,6 +43,7 @@
 @property (nonatomic) BOOL isFullscreen;
 @property BOOL isReactReady;
 @property OOSkinPlayerObserver *playerObserver;
+@property (nonatomic) OOClosedCaptionsStyle *ccStyle;
 @end
 
 @implementation OOSkinViewController
@@ -101,14 +103,15 @@ static NSString *kViewChangeKey = @"frame";
     _movieFullScreenView.alpha = 0.f;
     _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
-    
+    MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeForcedOnly);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplicationDidBecomeActive:)name:UIApplicationDidBecomeActiveNotification object:nil];
   }
   return self;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
 }
 
 - (void)disableBuiltInAdLearnMoreButton:(OOOoyalaPlayer *)player {
@@ -300,4 +303,7 @@ static NSString *kViewChangeKey = @"frame";
   }
 }
 
+- (void)onApplicationDidBecomeActive:(NSNotification *)notification {
+  MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeForcedOnly);
+}
 @end
