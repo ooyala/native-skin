@@ -24,7 +24,6 @@
 #import "OOVolumeManager.h"
 #import "OOSkinPlayerObserver.h"
 #import "NSDictionary+Utils.h"
-#import <OoyalaSDK/OOClosedCaptionsStyle.h>
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -43,7 +42,7 @@
 @property (nonatomic) BOOL isFullscreen;
 @property BOOL isReactReady;
 @property OOSkinPlayerObserver *playerObserver;
-@property (nonatomic) OOClosedCaptionsStyle *ccStyle;
+
 @end
 
 @implementation OOSkinViewController
