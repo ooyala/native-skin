@@ -263,7 +263,7 @@ var VideoView = React.createClass({
     var height = this.props.adOverlay.height;
     if (width > this.props.width) {
       height = width / this.props.width * height;
-      width = this.prop.width;
+      width = this.props.width;
     }
     var left = (this.props.width - width) / 2;
 
