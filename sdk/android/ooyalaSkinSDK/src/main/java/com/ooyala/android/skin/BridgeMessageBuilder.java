@@ -245,26 +245,29 @@ class BridgeMessageBuilder {
 
   public static WritableMap buildCaptionsStyleParameters(ClosedCaptionsStyle closedCaptionsDeviceStyle,JSONObject closedCaptionsSkinStyles) {
     WritableMap params = Arguments.createMap();
-    int textColor = 0;
+    int textColor = 16777215;
     int backgroundColor = 0;
     int edgeType = 0;
     int edgeColor = 0;
-    double textSize = 0;
+    double textSize = 20;
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
       textSize = closedCaptionsDeviceStyle.textSize;
       textColor = closedCaptionsDeviceStyle.textColor;
       backgroundColor = closedCaptionsDeviceStyle.backgroundColor;
       edgeType = closedCaptionsDeviceStyle.edgeType;
       edgeColor = closedCaptionsDeviceStyle.edgeColor;
-    } else if(closedCaptionsSkinStyles != null) {
-      try{
-        textSize = (double)closedCaptionsSkinStyles.get("defaultFontSize");
-        textColor = (int)closedCaptionsSkinStyles.get("defaultTextColor");
-        backgroundColor = (int) closedCaptionsSkinStyles.get("defaultBackgroundColor");
-      } catch (JSONException e) {
-        e.printStackTrace();
-      }
     }
+
+    // Looking into the closed captions skin.json doesn't work, because skin.json uses text css values like "White" that we can't use
+    //else if(closedCaptionsSkinStyles != null) {
+//      try{
+//        textSize = (double)closedCaptionsSkinStyles.get("defaultFontSize");
+//        textColor = (int)closedCaptionsSkinStyles.get("defaultTextColor");
+//        backgroundColor = (int) closedCaptionsSkinStyles.get("defaultBackgroundColor");
+//      } catch (JSONException e) {
+//        e.printStackTrace();
+//      }
+//    }
     //params.putArray("textFont", closedCaptionsStyle.textFont);        //how to handle typeFace
     params.putDouble("textSize",textSize );
     params.putString("textColor","#"+String.format("%06x",textColor & 0xFFFFFF));
