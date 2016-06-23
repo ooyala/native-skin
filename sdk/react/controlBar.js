@@ -94,7 +94,7 @@ var ControlBar = React.createClass({
   },
 
   onMorePress: function() {
-    this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.PIP);
   },
 
   onRewindPress: function() {
