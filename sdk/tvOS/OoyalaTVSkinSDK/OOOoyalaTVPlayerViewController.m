@@ -165,6 +165,9 @@
   
   [self setControlLayoutConstraints];
   
+  // enable seeking
+  self.showsPlaybackControls = YES;
+  
   [self addObservers];
 }
 

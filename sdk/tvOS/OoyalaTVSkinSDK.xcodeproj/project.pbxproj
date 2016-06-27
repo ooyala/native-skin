@@ -22,15 +22,36 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0B2277AB1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2277AA1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m */; };
+		0B2277B41D13455400640DD3 /* OoyalaTVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */; };
+		0B2277B51D13458F00640DD3 /* OOOoyalaTVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */; };
+		0BD57B221D134E38004216B6 /* OoyalaTVSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD111CE14CA2007F3F54 /* OoyalaTVSkinSDK.framework */; };
+		0BD57B231D135236004216B6 /* OoyalaTVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */; };
+		0BD57B241D135473004216B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F9E5A71CE2833A00AE5B56 /* UIKit.framework */; };
+		0BD57B251D135479004216B6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */; };
+		0BD57B271D13549A004216B6 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BD57B261D13549A004216B6 /* JavaScriptCore.framework */; };
 		97C8DD151CE14CA2007F3F54 /* OoyalaTVSkinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 97C8DD141CE14CA2007F3F54 /* OoyalaTVSkinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97C8DD201CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 97C8DD1E1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		97C8DD211CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */; };
-		97C8DD231CE14D6C007F3F54 /* OoyalaTVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD221CE14D6C007F3F54 /* OoyalaTVSDK.framework */; };
 		97C8DD251CE14DFC007F3F54 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */; };
 		97F9E5A81CE2833A00AE5B56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F9E5A71CE2833A00AE5B56 /* UIKit.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		0B2277AE1D13432C00640DD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C8DD081CE14CA2007F3F54 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 97C8DD101CE14CA2007F3F54;
+			remoteInfo = OoyalaTVSkinSDK;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		0B2277A81D13432C00640DD3 /* OoyalaTVSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaTVSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B2277AA1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OoyalaTVSkinSDKTests.m; sourceTree = "<group>"; };
+		0B2277AC1D13432C00640DD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaTVSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-tvOS/OoyalaTVSDK.framework"; sourceTree = "<group>"; };
+		0BD57B261D13549A004216B6 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		97C8DD111CE14CA2007F3F54 /* OoyalaTVSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaTVSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C8DD141CE14CA2007F3F54 /* OoyalaTVSkinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OoyalaTVSkinSDK.h; sourceTree = "<group>"; };
 		97C8DD161CE14CA2007F3F54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,26 +63,50 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		0B2277A51D13432C00640DD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BD57B271D13549A004216B6 /* JavaScriptCore.framework in Frameworks */,
+				0BD57B251D135479004216B6 /* SystemConfiguration.framework in Frameworks */,
+				0BD57B241D135473004216B6 /* UIKit.framework in Frameworks */,
+				0BD57B231D135236004216B6 /* OoyalaTVSDK.framework in Frameworks */,
+				0BD57B221D134E38004216B6 /* OoyalaTVSkinSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C8DD0D1CE14CA2007F3F54 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B2277B41D13455400640DD3 /* OoyalaTVSDK.framework in Frameworks */,
 				97F9E5A81CE2833A00AE5B56 /* UIKit.framework in Frameworks */,
 				97C8DD251CE14DFC007F3F54 /* SystemConfiguration.framework in Frameworks */,
-				97C8DD231CE14D6C007F3F54 /* OoyalaTVSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B2277A91D13432C00640DD3 /* OoyalaTVSkinSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				0B2277AA1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m */,
+				0B2277AC1D13432C00640DD3 /* Info.plist */,
+			);
+			path = OoyalaTVSkinSDKTests;
+			sourceTree = "<group>";
+		};
 		97C8DD071CE14CA2007F3F54 = {
 			isa = PBXGroup;
 			children = (
+				0BD57B261D13549A004216B6 /* JavaScriptCore.framework */,
+				0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */,
 				97F9E5A71CE2833A00AE5B56 /* UIKit.framework */,
 				97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */,
 				97C8DD221CE14D6C007F3F54 /* OoyalaTVSDK.framework */,
 				97C8DD131CE14CA2007F3F54 /* OoyalaTVSkinSDK */,
+				0B2277A91D13432C00640DD3 /* OoyalaTVSkinSDKTests */,
 				97C8DD121CE14CA2007F3F54 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				97C8DD111CE14CA2007F3F54 /* OoyalaTVSkinSDK.framework */,
+				0B2277A81D13432C00640DD3 /* OoyalaTVSkinSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -100,6 +146,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		0B2277A71D13432C00640DD3 /* OoyalaTVSkinSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0B2277B01D13432C00640DD3 /* Build configuration list for PBXNativeTarget "OoyalaTVSkinSDKTests" */;
+			buildPhases = (
+				0B2277A41D13432C00640DD3 /* Sources */,
+				0B2277A51D13432C00640DD3 /* Frameworks */,
+				0B2277A61D13432C00640DD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0B2277AF1D13432C00640DD3 /* PBXTargetDependency */,
+			);
+			name = OoyalaTVSkinSDKTests;
+			productName = OoyalaTVSkinSDKTests;
+			productReference = 0B2277A81D13432C00640DD3 /* OoyalaTVSkinSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		97C8DD101CE14CA2007F3F54 /* OoyalaTVSkinSDK */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C8DD191CE14CA2007F3F54 /* Build configuration list for PBXNativeTarget "OoyalaTVSkinSDK" */;
@@ -127,6 +191,9 @@
 				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = ooyala;
 				TargetAttributes = {
+					0B2277A71D13432C00640DD3 = {
+						CreatedOnToolsVersion = 7.3;
+					};
 					97C8DD101CE14CA2007F3F54 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -149,11 +216,19 @@
 			targets = (
 				97C8DD101CE14CA2007F3F54 /* OoyalaTVSkinSDK */,
 				97C8DD2B1CE1533F007F3F54 /* OoyalaTVSkinSDKUniversal */,
+				0B2277A71D13432C00640DD3 /* OoyalaTVSkinSDKTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		0B2277A61D13432C00640DD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C8DD0F1CE14CA2007F3F54 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,17 +268,59 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		0B2277A41D13432C00640DD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0B2277AB1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		97C8DD0C1CE14CA2007F3F54 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97C8DD211CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m in Sources */,
+				0B2277B51D13458F00640DD3 /* OOOoyalaTVPlayerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		0B2277AF1D13432C00640DD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 97C8DD101CE14CA2007F3F54 /* OoyalaTVSkinSDK */;
+			targetProxy = 0B2277AE1D13432C00640DD3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0B2277B11D13432C00640DD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/VendorLibraries";
+				INFOPLIST_FILE = OoyalaTVSkinSDKTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaTVSkinSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0B2277B21D13432C00640DD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/VendorLibraries";
+				INFOPLIST_FILE = OoyalaTVSkinSDKTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaTVSkinSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		97C8DD171CE14CA2007F3F54 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -303,6 +420,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VendorLibraries",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = OoyalaTVSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -325,6 +443,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VendorLibraries",
 				);
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = OoyalaTVSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -355,6 +474,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0B2277B01D13432C00640DD3 /* Build configuration list for PBXNativeTarget "OoyalaTVSkinSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0B2277B11D13432C00640DD3 /* Debug */,
+				0B2277B21D13432C00640DD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		97C8DD0B1CE14CA2007F3F54 /* Build configuration list for PBXProject "OoyalaTVSkinSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
