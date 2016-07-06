@@ -28,23 +28,43 @@ var Log = {
   },
   
   warn: function(msg) {
-    if (level >= LOG_LEVEL.WARN) console.warn(msg);
+    if (level >= LOG_LEVEL.WARN) { 
+      console.warn(msg);
+      return true;
+    }
+    return false;
   },
 
   info: function(msg) {
-    if (level >= LOG_LEVEL.INFO)  console.info(msg);
+    if (level >= LOG_LEVEL.INFO) { 
+      console.info(msg);
+      return true;
+    }
+    return false;
   },
 
   error: function(msg) {
-    if (level >= LOG_LEVEL.ERROR) console.error(msg);
+    if (level >= LOG_LEVEL.ERROR) { 
+      console.error(msg);
+      return true;
+    }
+    return false;
   },
 
   log: function(msg) {
-    if (level >= LOG_LEVEL.INFO) console.log(msg);
+    if (level >= LOG_LEVEL.INFO) { 
+      console.log(msg);
+      return true;
+    }
+    return false;
   },
   
   verbose: function(msg) {
-    if (level >= LOG_LEVEL.VERBOSE)  console.log(msg);
+    if (level >= LOG_LEVEL.VERBOSE) { 
+      console.log(msg);
+      return true;
+    }
+    return false;
   },
 
 };

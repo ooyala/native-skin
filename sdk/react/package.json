@@ -10,7 +10,8 @@
     "scriptPreprocessor": "node_modules/react-native/jestSupport/preprocessor.js",
     "setupEnvScriptFile": "node_modules/react-native/jestSupport/env.js",
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "packager/react-packager/src/Activity/"
     ],
     "testFileExtensions": [
       "js"
@@ -19,15 +20,20 @@
       "promise",
       "source-map"
     ],
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "es6"
-    ],
+    "haste": {
+      "defaultPlatform": "ios",
+      "platforms": [
+        "ios",
+        "android"
+      ],
+      "providesModuleNodeModules": [
+        "react-native"
+      ]
+    },
     "collectCoverage": true
   },
   "devDependencies": {
-    "jest-cli": "~0.7.0"
+    "jest-cli": "13.1.0"
   },
   "dependencies": {
     "react": "15.0.2",
