@@ -263,7 +263,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-appletvsimulator/OoyalaTVSkinSDK.framework/OoyalaTVSkinSDK\" &&\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-appletvos/OoyalaTVSkinSDK.framework/OoyalaTVSkinSDK\" &&\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_DIR}/OoyalaTVSkinSDK-universal.a\" &&\nlipo \"${SIMULATOR_LIBRARY_PATH}\" \"${DEVICE_LIBRARY_PATH}\" -create -output \"${UNIVERSAL_LIBRARY_PATH}\"";
+			shellScript = "SIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-appletvsimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" &&\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-appletvos/${PROJECT_NAME}.framework/${PROJECT_NAME}\" &&\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_DIR}/${PROJECT_NAME}-universal.a\" &&\nlipo \"${SIMULATOR_LIBRARY_PATH}\" \"${DEVICE_LIBRARY_PATH}\" -create -output \"${UNIVERSAL_LIBRARY_PATH}\"\n\nFRAMEWORK_PATH=\"${BUILD_DIR}/${PROJECT_NAME}.framework\"\nFRAMEWORK_HEADERS_PATH=\"${FRAMEWORK_PATH}/Versions/A/Headers\"\n\n# Create framework header dir\nmkdir -p \"${FRAMEWORK_HEADERS_PATH}\"\n#copy header\n/bin/cp -a \"${BUILD_DIR}/${CONFIGURATION}-appletvos/${PROJECT_NAME}.framework/Headers/\" \"${FRAMEWORK_HEADERS_PATH}\"\n\n#copy fat libary\ncp \"${UNIVERSAL_LIBRARY_PATH}\" \"${FRAMEWORK_PATH}/Versions/A/${PROJECT_NAME}\"\n\n#create the required symlinks\n/bin/ln -sfh A \"${FRAMEWORK_PATH}/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${FRAMEWORK_PATH}/Headers\"\n/bin/ln -sfh \"Versions/Current/${PROJECT_NAME}\" \"${FRAMEWORK_PATH}/${PROJECT_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

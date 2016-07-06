@@ -681,7 +681,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Create the .framework with External Headers\n\nFRAMEWORK_PATH=\"${BUILD_DIR}/${PROJECT_NAME}.framework\"\nFRAMEWORK_HEADERS_PATH=\"${FRAMEWORK_PATH}/Headers\"\n\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_DIR}/${PROJECT_NAME}-universal.a\"\nif [ -d \"${FRAMEWORK_PATH}\" ]; then\n    rm -r ${FRAMEWORK_PATH}\nfi\n\nmkdir \"${FRAMEWORK_PATH}\"\nmkdir \"${FRAMEWORK_HEADERS_PATH}\"\nfind \"${PROJECT_NAME}\" -name *.h | grep -v Internal | xargs -I FILE cp FILE \"${FRAMEWORK_HEADERS_PATH}\"\ncp \"${UNIVERSAL_LIBRARY_PATH}\" \"${FRAMEWORK_PATH}/${PROJECT_NAME}\"";
+			shellScript = "# Create the .framework with External Headers\n\nFRAMEWORK_PATH=\"${BUILD_DIR}/${PROJECT_NAME}.framework\"\nFRAMEWORK_HEADERS_PATH=\"${FRAMEWORK_PATH}/Versions/A/Headers\"\n\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_DIR}/${PROJECT_NAME}-universal.a\"\nif [ -d \"${FRAMEWORK_PATH}\" ]; then\n    rm -r ${FRAMEWORK_PATH}\nfi\n\nmkdir -p \"${FRAMEWORK_HEADERS_PATH}\"\nfind \"${PROJECT_NAME}\" -name *.h | grep -v Internal | xargs -I FILE cp FILE \"${FRAMEWORK_HEADERS_PATH}\"\ncp \"${UNIVERSAL_LIBRARY_PATH}\" \"${FRAMEWORK_PATH}/Versions/A/${PROJECT_NAME}\"\n\n# Create the required symlinks\n/bin/ln -sfh A \"${FRAMEWORK_PATH}/Versions/Current\"\n/bin/ln -sfh Versions/Current/Headers \"${FRAMEWORK_PATH}/Headers\"\n/bin/ln -sfh \"Versions/Current/${PROJECT_NAME}\" \"${FRAMEWORK_PATH}/${PROJECT_NAME}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
