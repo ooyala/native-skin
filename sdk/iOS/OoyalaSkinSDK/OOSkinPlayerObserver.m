@@ -162,6 +162,10 @@
 
 - (void) bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
+  OOClosedCaptionsStyle *newClosedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
+  if ([self.viewController.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
+  [self.viewController ccStyleChanged:nil];
+  }
   NSDictionary *eventBody = @{@"state":stateString};
 
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];

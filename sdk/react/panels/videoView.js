@@ -165,13 +165,9 @@ var VideoView = React.createClass({
 
 
   _renderClosedCaptions: function() {
-    if (this.props.caption) {
-      var ccStyle = null;
-      if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-        ccStyle = {fontSize: this.props.captionStyles.textSize, color:this.props.captionStyles.textColor,
+    var ccStyle = {fontSize: this.props.captionStyles.textSize, color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
       backgroundColor:this.props.captionStyles.backgroundColor};
-      }
-      
+    if (this.props.caption) {
       return (
         <View 
           style={panelStyles.closedCaptionsContainer}

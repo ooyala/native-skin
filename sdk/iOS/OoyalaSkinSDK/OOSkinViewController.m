@@ -26,6 +26,7 @@
 #import "NSDictionary+Utils.h"
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
+#define CC_STYLING_CHANGED_NOTIFICATION @"ccStylingChanged"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
 #define FULLSCREEN_ANIMATION_DELAY 0
 
@@ -42,7 +43,7 @@
 @property (nonatomic) BOOL isFullscreen;
 @property BOOL isReactReady;
 @property OOSkinPlayerObserver *playerObserver;
-
+@property (nonatomic, strong, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
 @end
 
 @implementation OOSkinViewController
@@ -110,7 +111,7 @@ static NSString *kViewChangeKey = @"frame";
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
 }
 
 - (void)disableBuiltInAdLearnMoreButton:(OOOoyalaPlayer *)player {
@@ -136,6 +137,38 @@ static NSString *kViewChangeKey = @"frame";
       }
     }];
   }
+}
+
+- (void)ccStyleChanged:(NSNotification *) notification {
+  self.closedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
+  NSMutableDictionary *params = [NSMutableDictionary new];
+  NSNumber *textSize = [[NSNumber alloc] initWithInteger:self.closedCaptionsDeviceStyle.textSize];
+  UIColor *textColor = self.closedCaptionsDeviceStyle.textColor;
+  UIColor *backgroundColor = self.closedCaptionsDeviceStyle.backgroundColor;
+  NSString *fontName = self.closedCaptionsDeviceStyle.textFontName;
+  NSNumber *textOpacity = [[NSNumber alloc] initWithFloat:self.closedCaptionsDeviceStyle.textOpacity];
+  //  MACaptionAppearanceTextEdgeStyle edgeStyle = self.closedCaptionsDeviceStyle.edgeStyle;
+  NSString *backgroundColorHexValue = [self hexStringFromColor:backgroundColor];
+  NSString *textColorHexValue = [self hexStringFromColor:textColor];
+  [params setObject:textSize forKey:@"textSize"];
+  [params setObject:textColorHexValue forKey:@"textColor"];
+  [params setObject:backgroundColorHexValue forKey:@"backgroundColor"];
+  [params setObject:textOpacity forKey:@"textOpacity"];
+  [params setObject:fontName forKey:@"fontName"];
+  [OOReactBridge sendDeviceEventWithName:CC_STYLING_CHANGED_NOTIFICATION body:params];
+}
+
+- (NSString *)hexStringFromColor:(UIColor *)color {
+  const CGFloat *components = CGColorGetComponents(color.CGColor);
+  
+  CGFloat r = components[0];
+  CGFloat g = components[1];
+  CGFloat b = components[2];
+  
+  return [NSString stringWithFormat:@"#%02lX%02lX%02lX",
+          lroundf(r * 255),
+          lroundf(g * 255),
+          lroundf(b * 255)];
 }
 
 - (void)handleDiscoveryResults:(NSArray *)results embedCode:(NSString *)currentEmbedCode {
@@ -278,6 +311,7 @@ static NSString *kViewChangeKey = @"frame";
     // send current volume level the at load
     [OOVolumeManager sendVolumeChangeEvent:[OOVolumeManager getCurrentVolume]];
   }
+  [self ccStyleChanged:nil];
 }
 
 - (void)disableReactViewInteraction {

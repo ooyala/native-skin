@@ -112,6 +112,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       captionStyles={{
         textSize: this.skin.state.ccTextSize,
         textColor: this.skin.state.ccTextColor,
+        fontName: this.skin.state.ccFontName,
         backgroundColor: this.skin.state.ccBackgroundColor,
         edgeType: this.skin.state.ccEdgeType,
         edgeColor: this.skin.state.ccEdgeColor,
