@@ -20,9 +20,17 @@
 @property (nonatomic, strong) UITapGestureRecognizer *tapForward;
 @property (nonatomic, strong) UITapGestureRecognizer *tapBackward;
 
+@property (nonatomic, strong) UILongPressGestureRecognizer *longTapForward;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longTapBackward;
+
+@property (nonatomic, strong) NSTimer *timer;
+
 @end
 
 @implementation OOOoyalaTVPlayerViewController
+
+static CGFloat const timerInterval = 0.35;
+static CGFloat const seekInterval = 3.0;
 
 - (instancetype)init {
   if (self = [super init]) {
@@ -120,6 +128,25 @@
   return _tapBackward;
 }
 
+- (UILongPressGestureRecognizer *)longTapForward {
+  if (!_longTapForward) {
+    _longTapForward = [[UILongPressGestureRecognizer alloc] init];
+    _longTapForward.allowedPressTypes = @[@(UIPressTypeRightArrow)];
+  }
+
+  return _longTapForward;
+}
+
+- (UILongPressGestureRecognizer *)longTapBackward {
+  if (!_longTapBackward) {
+    _longTapBackward = [[UILongPressGestureRecognizer alloc] init];
+    _longTapBackward.allowedPressTypes = @[@(UIPressTypeLeftArrow)];
+  }
+  
+  return _longTapBackward;
+}
+
+
 /*!
  @param enable
  When you enabled, forward and backward tap gesture recognizers will be on. If disable, they will be off.
@@ -128,20 +155,34 @@
   if (enable) {
     [self addTapGesture:self.tapForward inView:self.view];
     [self addTapGesture:self.tapBackward inView:self.view];
+    [self addLongPressGesture:self.longTapForward inView:self.view];
+    [self addLongPressGesture:self.longTapBackward inView:self.view];
   } else {
     [self removeTapGesture:self.tapForward inView:self.view];
     [self removeTapGesture:self.tapBackward inView:self.view];
+    [self removeLongPressGesture:self.longTapForward inView:self.view];
+    [self removeLongPressGesture:self.longTapBackward inView:self.view];
   }
 }
 
 - (void)addTapGesture:(UITapGestureRecognizer *)tapGesture inView:(UIView *)view {
-  [tapGesture addTarget:self action:@selector(seek:)];
+  [tapGesture addTarget:self action:@selector(singleSeek:)];
   [view addGestureRecognizer:tapGesture];
 }
 
 - (void)removeTapGesture:(UITapGestureRecognizer *)tapGesture inView:(UIView *)view {
   [view removeGestureRecognizer:tapGesture];
-  [tapGesture removeTarget:self action:@selector(seek:)];
+  [tapGesture removeTarget:self action:@selector(singleSeek:)];
+}
+
+- (void)addLongPressGesture:(UILongPressGestureRecognizer *)longPress inView:(UIView *)view {
+  [longPress addTarget:self action:@selector(seek:)];
+  [view addGestureRecognizer:longPress];
+}
+
+- (void)removeLongPressGesture:(UILongPressGestureRecognizer *)longPress inView:(UIView *)view {
+  [view removeGestureRecognizer:longPress];
+  [longPress removeTarget:self action:@selector(seek:)];
 }
 
 - (void)setupViewController {
@@ -338,12 +379,51 @@
   }
 }
 
-- (void)seek:(UITapGestureRecognizer *)sender {
+- (void)singleSeek:(UITapGestureRecognizer *)sender {
   if ([sender.allowedPressTypes containsObject:@(UIPressTypeRightArrow)]) {
     [self player:self.player seekForward:YES time:10];
   } else if ([sender.allowedPressTypes containsObject:@(UIPressTypeLeftArrow)]) {
     [self player:self.player seekForward:NO time:10];
   }
+}
+
+- (void)seek:(UILongPressGestureRecognizer *)sender {
+  if (sender.state == UIGestureRecognizerStateBegan) {
+    if ([sender.allowedPressTypes containsObject:@(UIPressTypeRightArrow)]) {
+      self.timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
+                                                    target:self
+                                                  selector:@selector(seekForward)
+                                                  userInfo:nil
+                                                   repeats:YES];
+      
+    } else {
+      self.timer = [NSTimer scheduledTimerWithTimeInterval:timerInterval
+                                                    target:self
+                                                  selector:@selector(seekBackward)
+                                                  userInfo:nil
+                                                   repeats:YES];
+    }
+  } else if (sender.state == UIGestureRecognizerStateCancelled
+            || sender.state == UIGestureRecognizerStateFailed
+             || sender.state == UIGestureRecognizerStateEnded) {
+    [self.timer invalidate];
+  }
+}
+
+- (void)seekForward {
+  if ([self isPlayheadValid]) {
+    [self player:self.player seekForward:YES time:seekInterval];
+  }
+}
+
+- (void)seekBackward {
+  if ([self isPlayheadValid]) {
+    [self player:self.player seekForward:NO time:seekInterval];
+  }
+}
+
+- (BOOL)isPlayheadValid {
+  return _player.playheadTime >= seekInterval && _player.playheadTime <= _player.duration - seekInterval;
 }
 
 - (void)player:(OOOoyalaPlayer *)player seekForward:(BOOL)forward time:(Float64)time {
