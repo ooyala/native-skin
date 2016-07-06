@@ -31,7 +31,8 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   RESET_AUTOHIDE: 'ResetAutoHide',
   SKIP: 'Skip',
   AD_ICON: 'Icon',
-  AD_OVERLAY: 'Overlay'
+  AD_OVERLAY: 'Overlay',
+  PIP: 'PIP'
 };
 
 var PLATFORMS = { 

@@ -82,8 +82,14 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [self handleUpNextClick];
     } else if ([buttonName isEqualToString:adOverlayButtonName]) {
       [self handleOverlay:[parameters objectForKey:@"clickUrl"]];
+    } else if ([buttonName isEqualToString:@"PIP"]) {
+      [self handlePip];
     }
   });
+}
+
+- (void)handlePip {
+  [sharedController.player togglePictureInPictureMode];
 }
 
 - (void)handleIconClick: (NSInteger)index {
