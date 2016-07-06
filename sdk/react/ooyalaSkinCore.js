@@ -195,6 +195,6 @@ OoyalaSkinCore.prototype.renderScreen = function() {
     Log.verbose("Rendering screentype: " + this.skin.state.screenType);
   }
 
-  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.ad, this.skin.state.screenType);
+  return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.inAdPod, this.skin.state.screenType);
 }
 module.exports = OoyalaSkinCore;

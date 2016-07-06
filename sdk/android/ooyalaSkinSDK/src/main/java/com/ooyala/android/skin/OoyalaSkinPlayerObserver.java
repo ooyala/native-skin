@@ -51,6 +51,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       _layoutController.maybeStartUpNext();
     } else if (OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAdPodCompletedNotification();
+    } else if (OoyalaPlayer.AD_POD_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeAdPodStartedNotification();
     } else if (OoyalaPlayer.PLAY_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgePlayStartedNotification();
       _layoutController.requestDiscovery();
@@ -182,6 +184,11 @@ class OoyalaSkinPlayerObserver implements Observer {
   private void bridgeAdPodCompletedNotification() {
     WritableMap params = Arguments.createMap();
     _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME, params);
+  }
+
+  private void bridgeAdPodStartedNotification() {
+    WritableMap params = Arguments.createMap();
+    _layoutController.sendEvent(OoyalaPlayer.AD_POD_STARTED_NOTIFICATION_NAME, params);
   }
 
   private void bridgeLiveCCChangedNotification(Object data) {
