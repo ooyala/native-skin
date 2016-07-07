@@ -55,6 +55,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodStartedNotification:) name:OOOoyalaPlayerAdPodStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
@@ -252,8 +253,8 @@
 
 
   if (![adInfo[@"requireAdBar"] boolValue]) {
-
-    [self.viewController disableReactViewInteraction];  }
+    [self.viewController disableReactViewInteraction];
+  }
 }
 
 - (void) bridgeAdTappedNotification:(NSNotification *)notification {
@@ -261,6 +262,10 @@
   // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
   // toggle play/pause as if the alice ui is clicked.
   [self.viewController playPauseFromAdTappedNotification  ];
+}
+
+- (void) bridgeAdPodStartedNotification:(NSNotification *)notification {
+  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
 }
 
 - (void) bridgeAdPodCompleteNotification:(NSNotification *)notification {

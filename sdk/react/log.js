@@ -67,6 +67,11 @@ var Log = {
     return false;
   },
 
+  assertTrue: function(condition, msg) {
+    if (condition) {
+      error("ASSERT FAILED: ", msg);
+    }
+  }
 };
 
 module.exports = Log;

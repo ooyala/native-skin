@@ -33,6 +33,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'onClosedCaptionUpdate',    (event) => this.onClosedCaptionUpdate(event) ],
     [ 'adStarted',                (event) => this.onAdStarted(event) ],
     [ 'adSwitched',               (event) => this.onAdSwitched(event) ],
+    [ 'adPodStarted',             (event) => this.onAdPodStarted(event) ],
     [ 'adPodCompleted',           (event) => this.onAdPodCompleted(event) ],
     [ 'adOverlay',                (event) => this.onAdOverlay(event) ],
     [ 'adError',                  (event) => this.onAdError(event) ],
@@ -78,6 +79,7 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
 
 OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
   Log.log( "onAdStarted");
+  Log.assertTrue( this.skin.inAdPod == true, "AdStarted, but we didn't know we were in Ad Pod");
   Log.log(e);
   this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, adOverlay: null});
 };
@@ -99,9 +101,17 @@ OoyalaSkinBridgeListener.prototype.onAdSwitched = function(e) {
   this.skin.setState({ad:e});
 };
 
+OoyalaSkinBridgeListener.prototype.onAdPodStarted = function(e) {
+  Log.log( "AdPodStarted ");
+  Log.assertTrue(this.skin.inAdPod == false, "AdPodStarted, but we were already in an Ad Pod");
+  this.skin.setState({inAdPod: true});
+};
+
 OoyalaSkinBridgeListener.prototype.onAdPodCompleted = function(e) {
   Log.log( "onAdPodCompleted ");
-  this.skin.setState({ad: null});
+  Log.assertTrue(this.skin.inAdPod == true, "AdPodCompleted, but we didn't know we were in Ad Pod");
+  Log.assertTrue(this.skin.ad != null, "AdPodCompleted, but Ad was not null.  Was there an Ad Ended event?");
+  this.skin.setState({inAdPod: false, ad: null});
 };
 
 OoyalaSkinBridgeListener.prototype.onAdOverlay = function(e) {

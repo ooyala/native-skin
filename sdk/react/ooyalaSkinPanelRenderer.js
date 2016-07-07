@@ -259,7 +259,7 @@ OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
   );
 };
 
-OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, ad, screenType) {
+OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, screenType) {
   if (overlayType) {
     switch (overlayType) {
       case OVERLAY_TYPES.MOREOPTION_SCREEN:  
@@ -275,7 +275,7 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, ad, scree
     return;
   }
 
-  if (ad) {
+  if (inAdPod) {
     return this.renderAdPlaybackScreen();
   }
 
