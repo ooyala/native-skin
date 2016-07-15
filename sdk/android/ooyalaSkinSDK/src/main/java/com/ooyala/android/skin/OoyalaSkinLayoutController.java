@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -328,6 +329,26 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   }
 
   public boolean onKeyUp(int keyCode, KeyEvent event) {
+    return false;
+  }
+
+  public boolean onKeyDown(int keyCode, KeyEvent event) {
+    _player.sendControllerKeyEventNotification();
+    switch (keyCode) {
+      case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+        if(_player.isPlaying()) {
+          _player.pause();
+        } else {
+          _player.play();
+        }
+        break;
+      case KeyEvent.KEYCODE_MEDIA_REWIND:
+        _player.seek(_player.getPlayheadTime() - 10000); // << -10sec
+        break;
+      case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
+        _player.seek(_player.getPlayheadTime() + 10000); // >> +10sec
+        break;
+    }
     return false;
   }
 

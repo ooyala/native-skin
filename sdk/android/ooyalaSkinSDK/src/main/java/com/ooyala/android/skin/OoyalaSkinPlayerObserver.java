@@ -68,8 +68,10 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeLiveCCChangedNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAdOverlayNotification(((OoyalaNotification) argN).getData());;
+    } else if (OoyalaPlayer.CONTROLLER_KEY_PRESS_EVENT.equals(notificationName)) {
+      controllerKeyPressNotification();
     }
-  }
+}
   private void bridgeOnClosedCaptionChangeNotification() {
     // clear previous cc, if any
     WritableMap params = Arguments.createMap();
@@ -148,6 +150,10 @@ class OoyalaSkinPlayerObserver implements Observer {
 
   private void bridgePlayStartedNotification() {
     _layoutController.sendEvent(OoyalaPlayer.PLAY_STARTED_NOTIFICATION_NAME, null);
+  }
+
+  private void controllerKeyPressNotification() {
+    _layoutController.sendEvent(OoyalaPlayer.CONTROLLER_KEY_PRESS_EVENT, null);
   }
 
   private void bridgeErrorNotification() {
