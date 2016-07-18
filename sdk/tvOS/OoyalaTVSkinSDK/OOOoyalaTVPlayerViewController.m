@@ -11,16 +11,31 @@
 @interface OOOoyalaTVPlayerViewController ()
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
-@property (nonatomic, strong) UIVisualEffectView *controlsView;
-@property (nonatomic, strong) UILabel *durationLabel;
-@property (nonatomic, strong) UILabel *playerStateLabel;
 
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
-
 @property (nonatomic, strong) UITapGestureRecognizer *tapForward;
 @property (nonatomic, strong) UITapGestureRecognizer *tapBackward;
 
+@property (nonatomic, strong) UILabel *durationLabel;
+@property (nonatomic, strong) UILabel *playheadLabel;
+@property (nonatomic, strong) UIButton *playPauseButton;
+@property (nonatomic, strong) UIView *durationBar;
+@property (nonatomic, strong) UIView *progressBar;
+
 @end
+
+static CGFloat const headDistance = 54;
+static CGFloat const playPauseButtonWidth = 45;
+static CGFloat const playPauseButtonHeight = 45;
+static CGFloat const componentSpace = 20;
+static CGFloat const labelWidth = 80;
+static CGFloat const labelHeight = 20;
+static CGFloat const barHeight = 20;
+static CGFloat const barCornerRadius = 10;
+static CGFloat const bottomDistance = 50;
+static CGFloat const barTailDistance = headDistance + componentSpace + labelWidth;
+static CGFloat const playheadLabelX = headDistance + playPauseButtonWidth + componentSpace;
+static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
 
 @implementation OOOoyalaTVPlayerViewController
 
@@ -39,14 +54,94 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:  animated];
-  
+  [super viewWillAppear: animated];
+
   if (self.player) [self setupViewController];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [self removeObservers];
   [super viewWillDisappear:animated];
+}
+
+- (void)setupUI {
+  [self setupPlayPauseButton];
+  [self setupBars];
+  [self setupLabels];
+}
+
+- (void)setupPlayPauseButton {
+  // frame
+  self.playPauseButton = [[UIButton alloc] initWithFrame:CGRectMake(headDistance, self.view.bounds.size.height - 38 - playPauseButtonHeight, 54, playPauseButtonHeight)];
+  [self.playPauseButton addTarget:self action:@selector(togglePlay) forControlEvents:UIControlEventTouchUpInside];
+  
+  // icon
+  [self setupPlayPause];
+  
+  // add to view
+  [self.view addSubview:self.playPauseButton];
+}
+
+- (void)setupPlayPause {
+  NSString *fontString = [self.player isPlaying] ? @"g": @"v";
+  
+  UIFont *ooFont = [UIFont fontWithName:@"ooyala-slick-type" size:40.0];
+  
+  NSDictionary *attrsDictionary = @{NSForegroundColorAttributeName :[UIColor whiteColor]};
+  NSMutableAttributedString *buttonString = [[NSMutableAttributedString alloc] initWithString:fontString attributes:attrsDictionary];
+  if (ooFont) {
+    [buttonString addAttribute:NSFontAttributeName value:ooFont range:NSMakeRange(0, 1)];
+  }
+  
+  self.playPauseButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+  [self.playPauseButton setAttributedTitle:buttonString forState:UIControlStateNormal];
+}
+
+- (void)setupBars {
+  self.durationBar = [[UIView alloc] initWithFrame:CGRectMake(barX, self.view.bounds.size.height - bottomDistance - barHeight, self.view.bounds.size.width - barX - headDistance - labelWidth - componentSpace, barHeight)];
+  self.progressBar = [[UIView alloc] initWithFrame:CGRectMake(barX, self.view.bounds.size.height - bottomDistance - barHeight, 0, barHeight)];
+  
+  [self setupBar:self.durationBar
+           color:[UIColor colorWithRed:153.0/255.0
+                                 green:153.0/255.0
+                                  blue:153.0/255.0
+                                 alpha:0.3]];
+  [self setupBar:self.progressBar
+           color:[UIColor colorWithRed:68.0/255.0
+                                 green:138.0/255.0
+                                  blue:225.0/255.0
+                                 alpha:1.0]];
+}
+
+- (void)setupBar:(UIView *)bar
+           color:(UIColor *)color {
+  bar.backgroundColor = color;
+  bar.layer.cornerRadius = barCornerRadius;
+  
+  [self.view addSubview:bar];
+}
+
+- (void)setupLabels {
+  [self setupTimeLabel:self.playheadLabel
+                 frame:CGRectMake(playheadLabelX, self.view.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
+                  time:self.player.playheadTime];
+  [self setupTimeLabel:self.durationLabel
+                 frame:CGRectMake(self.view.bounds.size.width - headDistance - labelWidth, self.view.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
+                  time:self.player.duration];
+}
+
+- (void)setupTimeLabel:(UILabel *)label
+                 frame:(CGRect)frame
+                  time:(CGFloat)time {
+  [label setFrame:frame];
+  label.textColor = [UIColor whiteColor];
+  label.textAlignment = NSTextAlignmentCenter;
+  
+  [self.dateFormatter setDateFormat:time < 3600 ? @"mm:ss" : @"HH:mm:ss"];
+  label.text = [NSString stringWithFormat:@"%@",
+                             [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:time]]];
+  
+  [self.view addSubview:label];
 }
 
 - (void)dealloc {
@@ -56,13 +151,6 @@
 - (void)setPlayer:(OOOoyalaPlayer *)player {
   _player = player;
   if (_player) [self setupViewController];
-}
-
-- (UIVisualEffectView *)controlsView {
-  if (!_controlsView) {
-    self.controlsView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-  }
-  return _controlsView;
 }
 
 - (UIActivityIndicatorView *)activityView {
@@ -78,22 +166,22 @@
   [self enableSeek:_showsPlaybackControls];
 }
 
+- (UILabel *)playheadLabel {
+  if (!_playheadLabel) {
+    _playheadLabel = [[UILabel alloc] init];
+    _playheadLabel.textColor = [UIColor whiteColor];
+    _playheadLabel.font = [_playheadLabel.font fontWithSize:20];
+  }
+  return _playheadLabel;
+}
+
 - (UILabel *)durationLabel {
   if (!_durationLabel) {
     _durationLabel = [[UILabel alloc] init];
-    _durationLabel.textColor = [UIColor blackColor];
+    _durationLabel.textColor = [UIColor whiteColor];
     _durationLabel.font = [_durationLabel.font fontWithSize:20];
   }
   return _durationLabel;
-}
-
-- (UILabel *)playerStateLabel {
-  if (!_playerStateLabel) {
-    _playerStateLabel = [[UILabel alloc] init];
-    _playerStateLabel.textColor = [UIColor blackColor];
-    _playerStateLabel.font = [_playerStateLabel.font fontWithSize:20];
-  }
-  return _playerStateLabel;
 }
 
 - (NSDateFormatter *)dateFormatter {
@@ -156,131 +244,12 @@
   playGesture.allowedPressTypes = @[@(UIPressTypePlayPause)];
   [self.view addGestureRecognizer:playGesture];
   
-  // Controls view with blur effect
-  [self.view addSubview:self.controlsView];
-  
-  // setup control widgets
-  [self.controlsView.contentView addSubview:self.durationLabel];
-  [self.controlsView.contentView addSubview:self.playerStateLabel];
-  
-  [self setControlLayoutConstraints];
-  
   // enable seeking
   self.showsPlaybackControls = YES;
   
+  [self setupUI];
+  
   [self addObservers];
-}
-
-// Autolayout constraints for the controls bar
-- (void)setControlLayoutConstraints {
-  // disable masking issues with autolayout
-  self.controlsView.translatesAutoresizingMaskIntoConstraints = NO;
-  self.controlsView.contentView.translatesAutoresizingMaskIntoConstraints = NO;
-  self.durationLabel.translatesAutoresizingMaskIntoConstraints = NO;
-  self.playerStateLabel.translatesAutoresizingMaskIntoConstraints = NO;
-  
-  // controlsView constraints
-  NSLayoutConstraint *constraint = [NSLayoutConstraint
-                                    constraintWithItem:self.controlsView
-                                    attribute:NSLayoutAttributeHeight
-                                    relatedBy:NSLayoutRelationEqual
-                                    toItem:nil
-                                    attribute:NSLayoutAttributeNotAnAttribute
-                                    multiplier:0.0 constant:80.0];
-  [self.controlsView addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.controlsView
-                                            attribute:NSLayoutAttributeLeading
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.view
-                                            attribute:NSLayoutAttributeLeading
-                                           multiplier:1.0f constant:0.0];
-  [self.view addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.controlsView
-                                            attribute:NSLayoutAttributeTrailing
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.view
-                                            attribute:NSLayoutAttributeTrailing
-                                           multiplier:1.0f constant:0.0];
-  [self.view addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.controlsView
-                                            attribute:NSLayoutAttributeBottom
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.view
-                                            attribute:NSLayoutAttributeBottomMargin
-                                           multiplier:1.0f constant:0.0];
-  [self.view addConstraint:constraint];
-  
-  // controlsView's contentView constraints
-  // this is necessary because the content view doesn't take the controlsView frame
-  // area by default. We need to specify it with constraints.
-  constraint = [NSLayoutConstraint constraintWithItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeLeading
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView
-                                            attribute:NSLayoutAttributeLeading
-                                           multiplier:1.0f constant:0.0];
-  [self.controlsView addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeTrailing
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView
-                                            attribute:NSLayoutAttributeTrailing
-                                           multiplier:1.0f constant:0.0];
-  [self.controlsView addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeTop
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView
-                                            attribute:NSLayoutAttributeTop
-                                           multiplier:1.0f constant:0.0];
-  [self.controlsView addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeBottom
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView
-                                            attribute:NSLayoutAttributeBottom
-                                           multiplier:1.0f constant:0.0];
-  [self.controlsView addConstraint:constraint];
-  
-  // durationLabel constraints
-  constraint = [NSLayoutConstraint constraintWithItem:self.durationLabel
-                                            attribute:NSLayoutAttributeLeading
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeLeadingMargin
-                                           multiplier:1.0f constant:20.0];
-  [self.controlsView.contentView addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.durationLabel
-                                            attribute:NSLayoutAttributeCenterY
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeCenterYWithinMargins
-                                           multiplier:1.0f constant:0.0];
-  [self.controlsView.contentView addConstraint:constraint];
-  
-  // playerStateLabel constraints
-  constraint = [NSLayoutConstraint constraintWithItem:self.playerStateLabel
-                                            attribute:NSLayoutAttributeTrailing
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeTrailingMargin
-                                           multiplier:1.0f constant:-20.0];
-  [self.controlsView.contentView addConstraint:constraint];
-  
-  constraint = [NSLayoutConstraint constraintWithItem:self.playerStateLabel
-                                            attribute:NSLayoutAttributeCenterY
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:self.controlsView.contentView
-                                            attribute:NSLayoutAttributeCenterYWithinMargins
-                                           multiplier:1.0f constant:0.0];
-  [self.controlsView.contentView addConstraint:constraint];
 }
 
 - (void)addObservers {
@@ -296,22 +265,16 @@
   switch (self.player.state) {
     case OOOoyalaPlayerStateLoading:
       [self.activityView startAnimating];
-      self.playerStateLabel.text = @"Loading";
       break;
     case OOOoyalaPlayerStateReady:
-      self.playerStateLabel.text = @"Ready";
       break;
     case OOOoyalaPlayerStatePlaying:
-      self.playerStateLabel.text = @"Playing";
       break;
     case OOOoyalaPlayerStatePaused:
-      self.playerStateLabel.text = @"Paused";
       break;
     case OOOoyalaPlayerStateError:
-      self.playerStateLabel.text = @"Error";
       break;
     default:
-      self.playerStateLabel.text = @"";
       break;
   }
   
@@ -324,10 +287,17 @@
 }
 
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
-  [self.dateFormatter setDateFormat:duration < 3600 ? @"m:ss" : @"H:mm:ss"];
-  self.durationLabel.text = [NSString stringWithFormat:@"%@/%@",
-                             [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]],
-                             [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
+  [self.dateFormatter setDateFormat:duration < 3600 ? @"mm:ss" : @"H:mm:ss"];
+  self.playheadLabel.text = [NSString stringWithFormat:@"%@", [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
+  self.durationLabel.text = [NSString stringWithFormat:@"%@", [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
+  
+  [self setupPlayPause];
+  
+  if (self.progressBar && duration != 0) {
+    CGRect frame = self.progressBar.frame;
+    frame.size.width = (playhead / duration) * (self.view.bounds.size.width - 388);
+    self.progressBar.frame = frame;
+  }
 }
 
 - (void)togglePlay {
@@ -336,6 +306,8 @@
   } else {
     [self.player play];
   }
+  
+ [self setupPlayPause];
 }
 
 - (void)seek:(UITapGestureRecognizer *)sender {
