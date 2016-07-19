@@ -69,7 +69,7 @@ class OoyalaSkinPlayerObserver implements Observer {
     } else if (OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAdOverlayNotification(((OoyalaNotification) argN).getData());;
     }
-  }
+}
   private void bridgeOnClosedCaptionChangeNotification() {
     // clear previous cc, if any
     WritableMap params = Arguments.createMap();
