@@ -70,6 +70,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
 
+  public static final String CONTROLLER_KEY_PRESS_EVENT = "controllerKeyPressEvent";
+
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
@@ -333,7 +335,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   }
 
   public boolean onKeyDown(int keyCode, KeyEvent event) {
-    _player.sendControllerKeyEventNotification();
+    sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
     switch (keyCode) {
       case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
         if(_player.isPlaying()) {
