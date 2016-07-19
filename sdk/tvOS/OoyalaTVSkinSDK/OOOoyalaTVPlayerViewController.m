@@ -21,6 +21,8 @@
 @property (nonatomic, strong) UIButton *playPauseButton;
 @property (nonatomic, strong) UIView *durationBar;
 @property (nonatomic, strong) UIView *progressBar;
+@property (nonatomic, strong) UIView *progressBarBackground;
+@property (nonatomic) CGFloat lastTriggerTime;
 
 @end
 
@@ -65,21 +67,35 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
 }
 
 - (void)setupUI {
+  [self setupProgessBackground];
   [self setupPlayPauseButton];
   [self setupBars];
   [self setupLabels];
 }
 
+- (void)setupProgessBackground {
+  self.progressBarBackground = [[UIView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - bottomDistance * 2, self.view.bounds.size.width, bottomDistance * 2)];
+  self.progressBarBackground.backgroundColor = [UIColor clearColor];
+  
+  // add gradient
+  CAGradientLayer *gradient = [CAGradientLayer layer];
+  gradient.frame = self.progressBarBackground.bounds;
+  gradient.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithRed:0 green:0 blue:0 alpha:0.15], (id)[[UIColor clearColor] CGColor], nil];
+  
+ [self.progressBarBackground.layer insertSublayer:gradient atIndex:0];
+  [self.view addSubview:self.progressBarBackground];
+}
+
 - (void)setupPlayPauseButton {
   // frame
-  self.playPauseButton = [[UIButton alloc] initWithFrame:CGRectMake(headDistance, self.view.bounds.size.height - 38 - playPauseButtonHeight, 54, playPauseButtonHeight)];
+  self.playPauseButton = [[UIButton alloc] initWithFrame:CGRectMake(headDistance, self.progressBarBackground.bounds.size.height - playPauseButtonHeight - 38, 54, playPauseButtonHeight)];
   [self.playPauseButton addTarget:self action:@selector(togglePlay) forControlEvents:UIControlEventTouchUpInside];
   
   // icon
   [self setupPlayPause];
   
   // add to view
-  [self.view addSubview:self.playPauseButton];
+  [self.progressBarBackground addSubview:self.playPauseButton];
 }
 
 - (void)setupPlayPause {
@@ -98,8 +114,8 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
 }
 
 - (void)setupBars {
-  self.durationBar = [[UIView alloc] initWithFrame:CGRectMake(barX, self.view.bounds.size.height - bottomDistance - barHeight, self.view.bounds.size.width - barX - headDistance - labelWidth - componentSpace, barHeight)];
-  self.progressBar = [[UIView alloc] initWithFrame:CGRectMake(barX, self.view.bounds.size.height - bottomDistance - barHeight, 0, barHeight)];
+  self.durationBar = [[UIView alloc] initWithFrame:CGRectMake(barX, self.progressBarBackground.bounds.size.height - bottomDistance - barHeight, self.view.bounds.size.width - barX - headDistance - labelWidth - componentSpace, barHeight)];
+  self.progressBar = [[UIView alloc] initWithFrame:CGRectMake(barX, self.progressBarBackground.bounds.size.height - bottomDistance - barHeight, 0, barHeight)];
   
   [self setupBar:self.durationBar
            color:[UIColor colorWithRed:153.0/255.0
@@ -118,15 +134,15 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
   bar.backgroundColor = color;
   bar.layer.cornerRadius = barCornerRadius;
   
-  [self.view addSubview:bar];
+  [self.progressBarBackground addSubview:bar];
 }
 
 - (void)setupLabels {
   [self setupTimeLabel:self.playheadLabel
-                 frame:CGRectMake(playheadLabelX, self.view.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
+                 frame:CGRectMake(playheadLabelX, self.progressBarBackground.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
                   time:self.player.playheadTime];
   [self setupTimeLabel:self.durationLabel
-                 frame:CGRectMake(self.view.bounds.size.width - headDistance - labelWidth, self.view.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
+                 frame:CGRectMake(self.progressBarBackground.bounds.size.width - headDistance - labelWidth, self.progressBarBackground.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
                   time:self.player.duration];
 }
 
@@ -141,7 +157,7 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
   label.text = [NSString stringWithFormat:@"%@",
                              [self.dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:time]]];
   
-  [self.view addSubview:label];
+  [self.progressBarBackground addSubview:label];
 }
 
 - (void)dealloc {
@@ -239,6 +255,8 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
   self.activityView.center = self.view.center;
   [self.view addSubview:self.activityView];
   
+  self.lastTriggerTime = 0;
+  
   // Play/Pause button action
   UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlay)];
   playGesture.allowedPressTypes = @[@(UIPressTypePlayPause)];
@@ -298,6 +316,9 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
     frame.size.width = (playhead / duration) * (self.view.bounds.size.width - 388);
     self.progressBar.frame = frame;
   }
+  if (playhead - self.lastTriggerTime > 5 && playhead - self.lastTriggerTime < 8) {
+    [self hideProgressBar];
+  }
 }
 
 - (void)togglePlay {
@@ -307,7 +328,33 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
     [self.player play];
   }
   
- [self setupPlayPause];
+  [self showProgressBar];
+  [self setupPlayPause];
+}
+
+- (void)showProgressBar {
+  self.lastTriggerTime = self.player.playheadTime;
+  if (self.progressBarBackground.frame.origin.y == self.view.bounds.size.height) {
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationCurveEaseIn animations:^{
+      self.progressBarBackground.alpha = 1.0;
+      
+      CGRect frame = self.progressBarBackground.frame;
+      frame.origin.y -= frame.size.height;
+      self.progressBarBackground.frame = frame;
+    } completion: nil];
+  }
+}
+
+- (void)hideProgressBar {
+  if (self.progressBarBackground.frame.origin.y < self.view.bounds.size.height) {
+    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationCurveEaseOut animations:^{
+      self.progressBarBackground.alpha = 0.0;
+      
+      CGRect frame = self.progressBarBackground.frame;
+      frame.origin.y += frame.size.height;
+      self.progressBarBackground.frame = frame;
+    } completion: nil];
+  }
 }
 
 - (void)seek:(UITapGestureRecognizer *)sender {
@@ -324,6 +371,8 @@ static CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
   } else {
     [player seek:player.playheadTime - time];
   }
+  
+  [self showProgressBar];
 }
 
 - (UIView *)preferredFocusedView {
