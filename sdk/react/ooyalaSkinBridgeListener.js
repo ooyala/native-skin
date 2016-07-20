@@ -42,7 +42,8 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'upNextDismissed',          (event) => this.onUpNextDismissed(event) ],
     [ 'playStarted',              (event) => this.onPlayStarted(event) ],
     [ 'error',                    (event) => this.onError(event) ],
-    [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ]
+    [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ],
+    [ 'controllerKeyPressEvent',(event) => this.onControllerKeyPressed(event) ]
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -239,6 +240,11 @@ OoyalaSkinBridgeListener.prototype.onSetNextVideo = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onVolumeChanged = function(e) {
   this.skin.setState({volume: e.volume});
+};
+
+OoyalaSkinBridgeListener.prototype.onControllerKeyPressed = function(e) {
+  Log.log("Controller event received");
+  this.core.handleControlsTouch();
 };
 
 module.exports = OoyalaSkinBridgeListener;
