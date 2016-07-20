@@ -25,6 +25,16 @@
 		0B2277AB1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2277AA1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m */; };
 		0B2277B41D13455400640DD3 /* OoyalaTVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */; };
 		0B2277B51D13458F00640DD3 /* OOOoyalaTVPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */; };
+		0B28485E1D3EE670006F4AF8 /* OOOoyalaTVConstants.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B28485C1D3EE670006F4AF8 /* OOOoyalaTVConstants.h */; };
+		0B28485F1D3EE670006F4AF8 /* OOOoyalaTVConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B28485D1D3EE670006F4AF8 /* OOOoyalaTVConstants.m */; };
+		0B2848621D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2848601D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h */; };
+		0B2848631D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2848611D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m */; };
+		0B2848661D3EEE9E006F4AF8 /* OOOoyalaTVButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2848641D3EEE9E006F4AF8 /* OOOoyalaTVButton.h */; };
+		0B2848671D3EEE9E006F4AF8 /* OOOoyalaTVButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2848651D3EEE9E006F4AF8 /* OOOoyalaTVButton.m */; };
+		0B28486B1D400139006F4AF8 /* OOOoyalaTVLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2848691D400139006F4AF8 /* OOOoyalaTVLabel.h */; };
+		0B28486C1D400139006F4AF8 /* OOOoyalaTVLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B28486A1D400139006F4AF8 /* OOOoyalaTVLabel.m */; };
+		0B2848701D4011CD006F4AF8 /* OOOoyalaTVBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B28486E1D4011CD006F4AF8 /* OOOoyalaTVBar.h */; };
+		0B2848711D4011CD006F4AF8 /* OOOoyalaTVBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */; };
 		0BD57B221D134E38004216B6 /* OoyalaTVSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD111CE14CA2007F3F54 /* OoyalaTVSkinSDK.framework */; };
 		0BD57B231D135236004216B6 /* OoyalaTVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */; };
 		0BD57B241D135473004216B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F9E5A71CE2833A00AE5B56 /* UIKit.framework */; };
@@ -51,6 +61,16 @@
 		0B2277AA1D13432C00640DD3 /* OoyalaTVSkinSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OoyalaTVSkinSDKTests.m; sourceTree = "<group>"; };
 		0B2277AC1D13432C00640DD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaTVSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-tvOS/OoyalaTVSDK.framework"; sourceTree = "<group>"; };
+		0B28485C1D3EE670006F4AF8 /* OOOoyalaTVConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVConstants.h; sourceTree = "<group>"; };
+		0B28485D1D3EE670006F4AF8 /* OOOoyalaTVConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVConstants.m; sourceTree = "<group>"; };
+		0B2848601D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVGradientView.h; sourceTree = "<group>"; };
+		0B2848611D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVGradientView.m; sourceTree = "<group>"; };
+		0B2848641D3EEE9E006F4AF8 /* OOOoyalaTVButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVButton.h; sourceTree = "<group>"; };
+		0B2848651D3EEE9E006F4AF8 /* OOOoyalaTVButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVButton.m; sourceTree = "<group>"; };
+		0B2848691D400139006F4AF8 /* OOOoyalaTVLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVLabel.h; sourceTree = "<group>"; };
+		0B28486A1D400139006F4AF8 /* OOOoyalaTVLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVLabel.m; sourceTree = "<group>"; };
+		0B28486E1D4011CD006F4AF8 /* OOOoyalaTVBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVBar.h; sourceTree = "<group>"; };
+		0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVBar.m; sourceTree = "<group>"; };
 		0BD57B261D13549A004216B6 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		97C8DD111CE14CA2007F3F54 /* OoyalaTVSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaTVSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C8DD141CE14CA2007F3F54 /* OoyalaTVSkinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OoyalaTVSkinSDK.h; sourceTree = "<group>"; };
@@ -97,6 +117,21 @@
 			path = OoyalaTVSkinSDKTests;
 			sourceTree = "<group>";
 		};
+		0B28486D1D40014A006F4AF8 /* Wigits */ = {
+			isa = PBXGroup;
+			children = (
+				0B2848601D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h */,
+				0B2848611D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m */,
+				0B2848691D400139006F4AF8 /* OOOoyalaTVLabel.h */,
+				0B28486A1D400139006F4AF8 /* OOOoyalaTVLabel.m */,
+				0B2848641D3EEE9E006F4AF8 /* OOOoyalaTVButton.h */,
+				0B2848651D3EEE9E006F4AF8 /* OOOoyalaTVButton.m */,
+				0B28486E1D4011CD006F4AF8 /* OOOoyalaTVBar.h */,
+				0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */,
+			);
+			name = Wigits;
+			sourceTree = "<group>";
+		};
 		97C8DD071CE14CA2007F3F54 = {
 			isa = PBXGroup;
 			children = (
@@ -123,8 +158,11 @@
 		97C8DD131CE14CA2007F3F54 /* OoyalaTVSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
+				0B28486D1D40014A006F4AF8 /* Wigits */,
 				97C8DD1E1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h */,
 				97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */,
+				0B28485C1D3EE670006F4AF8 /* OOOoyalaTVConstants.h */,
+				0B28485D1D3EE670006F4AF8 /* OOOoyalaTVConstants.m */,
 				97C8DD141CE14CA2007F3F54 /* OoyalaTVSkinSDK.h */,
 				97C8DD161CE14CA2007F3F54 /* Info.plist */,
 			);
@@ -138,8 +176,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B2848621D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h in Headers */,
 				97C8DD201CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h in Headers */,
+				0B28486B1D400139006F4AF8 /* OOOoyalaTVLabel.h in Headers */,
+				0B2848701D4011CD006F4AF8 /* OOOoyalaTVBar.h in Headers */,
 				97C8DD151CE14CA2007F3F54 /* OoyalaTVSkinSDK.h in Headers */,
+				0B2848661D3EEE9E006F4AF8 /* OOOoyalaTVButton.h in Headers */,
+				0B28485E1D3EE670006F4AF8 /* OOOoyalaTVConstants.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,7 +323,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B2848711D4011CD006F4AF8 /* OOOoyalaTVBar.m in Sources */,
+				0B28485F1D3EE670006F4AF8 /* OOOoyalaTVConstants.m in Sources */,
 				0B2277B51D13458F00640DD3 /* OOOoyalaTVPlayerViewController.m in Sources */,
+				0B28486C1D400139006F4AF8 /* OOOoyalaTVLabel.m in Sources */,
+				0B2848671D3EEE9E006F4AF8 /* OOOoyalaTVButton.m in Sources */,
+				0B2848631D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
