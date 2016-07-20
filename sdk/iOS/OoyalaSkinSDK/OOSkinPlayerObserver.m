@@ -62,7 +62,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdOverlayNotification:) name:OOOoyalaPlayerAdOverlayNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekCompletedNotification:) name:OOOoyalaPlayerSeekCompletedNotification object:self.player];
   }
+}
+
+- (void)bridgeSeekCompletedNotification: (NSNotification *)notification {
+  NSNumber *playhead = [NSNumber numberWithFloat:_player.playheadTime];
+  NSDictionary *eventBody = @{
+                              @"playhead":playhead,
+                              @"screenType":@"video"};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeAdOverlayNotification: (NSNotification *)notification {

@@ -22,6 +22,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
   this.listeners = [];
   var listenerDefinitions = [
     [ 'timeChanged',              (event) => this.onTimeChange(event) ],
+    [ 'seekCompleted',          (event) => this.onSeekComplete(event) ],
     [ 'ccStylingChanged',         (event) => this.onCcStylingChange(event) ],
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
@@ -60,6 +61,14 @@ OoyalaSkinBridgeListener.prototype.unmount = function() {
 
 OoyalaSkinBridgeListener.prototype.onClosedCaptionUpdate = function(e) {
   this.skin.setState({caption: e.text});
+};
+
+OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
+  Log.log( "onSeekComplete");
+  this.skin.setState({
+    playhead: e.playhead,
+    screenType: e.screenType,
+  });
 };
 
 OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
