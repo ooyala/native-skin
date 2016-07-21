@@ -31,8 +31,8 @@
   return self;
 }
 
-- (void)changePlayingState: (BOOL)isPlay {
-  self.fontString = isPlay ? @"g": @"v";
+- (void)changePlayingState: (BOOL)isVideoPlaying {
+  self.fontString = isVideoPlaying ? @"g": @"v";
   
   [self setTitle:self.fontString forState:UIControlStateNormal];
 }
