@@ -25,6 +25,7 @@
 @property (nonatomic, strong) OOOoyalaTVButton *playPauseButton;
 @property (nonatomic, strong) OOOoyalaTVBar *durationBar;
 @property (nonatomic, strong) OOOoyalaTVBar *progressBar;
+@property (nonatomic, strong) OOOoyalaTVBar *bufferBar;
 @property (nonatomic, strong) OOOoyalaTVGradientView *progressBarBackground;
 @property (nonatomic) CGFloat lastTriggerTime;
 
@@ -93,8 +94,14 @@
                                                                           green:138.0/255.0
                                                                            blue:225.0/255.0
                                                                           alpha:1.0]];
+  self.bufferBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(barX, self.progressBarBackground.bounds.size.height - bottomDistance - barHeight, 0, barHeight)
+                                                  color:[UIColor colorWithRed:179.0/255.0
+                                                                        green:179.0/255.0
+                                                                         blue:179.0/255.0
+                                                                        alpha:0.8]];
   
   [self.progressBarBackground addSubview:self.durationBar];
+  [self.progressBarBackground addSubview:self.bufferBar];
   [self.progressBarBackground addSubview:self.progressBar];
 }
 
@@ -242,13 +249,21 @@
   
   [self.playPauseButton changePlayingState:[self.player isPlaying]];
   
-  if (self.progressBar && duration != 0) {
-    CGRect frame = self.progressBar.frame;
-    frame.size.width = (playhead / duration) * (self.view.bounds.size.width - 388);
-    self.progressBar.frame = frame;
-  }
+  // update progressBar and bufferBar
+  [self updateBar:self.progressBar barTime:playhead];
+  [self updateBar:self.bufferBar barTime:self.player.bufferedTime];
+  
   if (playhead - self.lastTriggerTime > hideBarInterval && playhead - self.lastTriggerTime < hideBarInterval + 2) {
     [self hideProgressBar];
+  }
+}
+
+- (void)updateBar:(OOOoyalaTVBar *)bar
+          barTime:(CGFloat)time{
+  if (bar && self.player.duration != 0) {
+    CGRect frame = bar.frame;
+    frame.size.width = (time / self.player.duration) * (self.view.bounds.size.width - 388);
+    bar.frame = frame;
   }
 }
 
