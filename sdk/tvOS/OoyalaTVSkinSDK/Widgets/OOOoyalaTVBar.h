@@ -10,4 +10,6 @@
 
 @interface OOOoyalaTVBar : UIView
 
+- (id)initWithFrame:(CGRect)frame color:(UIColor *)color;
+
 @end

@@ -6,11 +6,11 @@
 //
 
 #import "OOOoyalaTVPlayerViewController.h"
-#import "OOOoyalaTVConstants.m"
+#import "OOOoyalaTVConstants.h"
 #import "OOOoyalaTVGradientView.h"
 #import "OOOoyalaTVButton.h"
-#import "OOOoyalaTVLabel.m"
-#import "OOOoyalaTVBar.m"
+#import "OOOoyalaTVLabel.h"
+#import "OOOoyalaTVBar.h"
 #import <OoyalaTVSDK/OOOoyalaPlayer.h>
 
 @interface OOOoyalaTVPlayerViewController ()
@@ -76,7 +76,7 @@
   [self.playPauseButton addTarget:self action:@selector(togglePlay) forControlEvents:UIControlEventTouchUpInside];
   
   // icon
-  [self.playPauseButton setupPlayPause:[self.player isPlaying]];
+  [self.playPauseButton changePlayingState:[self.player isPlaying]];
   
   // add to view
   [self.progressBarBackground addSubview:self.playPauseButton];
@@ -240,7 +240,7 @@
   self.playheadLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
   self.durationLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
   
-  [self.playPauseButton setupPlayPause:[self.player isPlaying]];
+  [self.playPauseButton changePlayingState:[self.player isPlaying]];
   
   if (self.progressBar && duration != 0) {
     CGRect frame = self.progressBar.frame;
@@ -260,7 +260,7 @@
   }
   
   [self showProgressBar];
-  [self.playPauseButton setupPlayPause:[self.player isPlaying]];
+  [self.playPauseButton changePlayingState:[self.player isPlaying]];
 }
 
 - (void)showProgressBar {

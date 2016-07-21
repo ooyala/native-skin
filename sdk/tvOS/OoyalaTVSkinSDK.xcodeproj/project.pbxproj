@@ -117,7 +117,7 @@
 			path = OoyalaTVSkinSDKTests;
 			sourceTree = "<group>";
 		};
-		0B28486D1D40014A006F4AF8 /* Wigits */ = {
+		0B28486D1D40014A006F4AF8 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
 				0B2848601D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h */,
@@ -129,7 +129,7 @@
 				0B28486E1D4011CD006F4AF8 /* OOOoyalaTVBar.h */,
 				0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */,
 			);
-			name = Wigits;
+			path = Widgets;
 			sourceTree = "<group>";
 		};
 		97C8DD071CE14CA2007F3F54 = {
@@ -158,7 +158,7 @@
 		97C8DD131CE14CA2007F3F54 /* OoyalaTVSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
-				0B28486D1D40014A006F4AF8 /* Wigits */,
+				0B28486D1D40014A006F4AF8 /* Widgets */,
 				97C8DD1E1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h */,
 				97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */,
 				0B28485C1D3EE670006F4AF8 /* OOOoyalaTVConstants.h */,

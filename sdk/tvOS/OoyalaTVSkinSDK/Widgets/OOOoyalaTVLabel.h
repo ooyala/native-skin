@@ -15,4 +15,6 @@
 @property (nonatomic) CGFloat OOFontSize;
 @property (nonatomic, strong) NSDateFormatter *OODateformatter;
 
+- (id)initWithFrame:(CGRect)frame time:(CGFloat)time;
+
 @end

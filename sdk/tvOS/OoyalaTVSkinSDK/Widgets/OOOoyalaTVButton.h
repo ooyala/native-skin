@@ -12,6 +12,6 @@
 
 @property (nonatomic) CGFloat OOFontSize;
 
-- (void)setupPlayPause: (BOOL)isPlay;
+- (void)changePlayingState: (BOOL)isPlay;
 
 @end
