@@ -33,9 +33,9 @@ repositories {
 }
 
 task copyLibs(type: Copy) {
-    from new File(System.getProperty("user.dir"), '../../vendor/Ooyala/OoyalaSDK-Android/OoyalaSDK.jar')
-    from new File(System.getProperty("user.dir"), '../../vendor/Facebook/react-native-0.26.2.aar')
-    into new File(System.getProperty("user.dir"), './ooyalaSkinSDK/libs')
+    from new File(projectDir, '../vendor/Ooyala/OoyalaSDK-Android/OoyalaSDK.jar')
+    from new File(projectDir, '../vendor/Facebook/react-native-0.26.2.aar')
+    into new File(projectDir, './libs')
     doLast {
         println "Libs updated."
     }
