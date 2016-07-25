@@ -10,7 +10,7 @@
 #import "OOOoyalaTVGradientView.h"
 #import "OOOoyalaTVButton.h"
 #import "OOOoyalaTVLabel.h"
-#import "OOOoyalaTVBar.h"
+#import "OOOoyalaTVBottomBars.h"
 #import <OoyalaTVSDK/OOOoyalaPlayer.h>
 
 @interface OOOoyalaTVPlayerViewController ()
@@ -23,9 +23,7 @@
 @property (nonatomic, strong) OOOoyalaTVLabel *durationLabel;
 @property (nonatomic, strong) OOOoyalaTVLabel *playheadLabel;
 @property (nonatomic, strong) OOOoyalaTVButton *playPauseButton;
-@property (nonatomic, strong) OOOoyalaTVBar *durationBar;
-@property (nonatomic, strong) OOOoyalaTVBar *progressBar;
-@property (nonatomic, strong) OOOoyalaTVBar *bufferBar;
+@property (nonatomic, strong) OOOoyalaTVBottomBars *bottomBars;
 @property (nonatomic, strong) OOOoyalaTVGradientView *progressBarBackground;
 @property (nonatomic) CGFloat lastTriggerTime;
 
@@ -84,25 +82,9 @@
 }
 
 - (void)setupBars {
-  self.durationBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(barX, self.progressBarBackground.bounds.size.height - bottomDistance - barHeight, self.view.bounds.size.width - barX - headDistance - labelWidth - componentSpace, barHeight)
-                                                    color:[UIColor colorWithRed:153.0/255.0
-                                                                          green:153.0/255.0
-                                                                           blue:153.0/255.0
-                                                                          alpha:0.3]];
-  self.progressBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(barX, self.progressBarBackground.bounds.size.height - bottomDistance - barHeight, 0, barHeight)
-                                                    color:[UIColor colorWithRed:68.0/255.0
-                                                                          green:138.0/255.0
-                                                                           blue:225.0/255.0
-                                                                          alpha:1.0]];
-  self.bufferBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(barX, self.progressBarBackground.bounds.size.height - bottomDistance - barHeight, 0, barHeight)
-                                                  color:[UIColor colorWithRed:179.0/255.0
-                                                                        green:179.0/255.0
-                                                                         blue:179.0/255.0
-                                                                        alpha:0.8]];
+  self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground];
   
-  [self.progressBarBackground addSubview:self.durationBar];
-  [self.progressBarBackground addSubview:self.bufferBar];
-  [self.progressBarBackground addSubview:self.progressBar];
+  [self.progressBarBackground addSubview:self.bottomBars];
 }
 
 - (void)setupBar:(UIView *)bar
@@ -239,6 +221,8 @@
   
   [self updateTimeWithDuration:self.player.duration
                       playhead:self.player.playheadTime];
+  
+  [self.bottomBars updateBarBuffer:self.player.bufferedTime playhead:self.player.playheadTime duration: self.player.duration totalLength:(self.view.bounds.size.width - 388)];
 }
 
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
@@ -249,21 +233,8 @@
   
   [self.playPauseButton changePlayingState:[self.player isPlaying]];
   
-  // update progressBar and bufferBar
-  [self updateBar:self.progressBar barTime:playhead];
-  [self updateBar:self.bufferBar barTime:self.player.bufferedTime];
-  
   if (playhead - self.lastTriggerTime > hideBarInterval && playhead - self.lastTriggerTime < hideBarInterval + 2) {
     [self hideProgressBar];
-  }
-}
-
-- (void)updateBar:(OOOoyalaTVBar *)bar
-          barTime:(CGFloat)time{
-  if (bar && self.player.duration != 0) {
-    CGRect frame = bar.frame;
-    frame.size.width = (time / self.player.duration) * (self.view.bounds.size.width - 388);
-    bar.frame = frame;
   }
 }
 

@@ -35,6 +35,8 @@
 		0B28486C1D400139006F4AF8 /* OOOoyalaTVLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B28486A1D400139006F4AF8 /* OOOoyalaTVLabel.m */; };
 		0B2848701D4011CD006F4AF8 /* OOOoyalaTVBar.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B28486E1D4011CD006F4AF8 /* OOOoyalaTVBar.h */; };
 		0B2848711D4011CD006F4AF8 /* OOOoyalaTVBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */; };
+		0B2848751D41925B006F4AF8 /* OOOoyalaTVBottomBars.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B2848731D41925B006F4AF8 /* OOOoyalaTVBottomBars.h */; };
+		0B2848761D41925B006F4AF8 /* OOOoyalaTVBottomBars.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2848741D41925B006F4AF8 /* OOOoyalaTVBottomBars.m */; };
 		0BD57B221D134E38004216B6 /* OoyalaTVSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD111CE14CA2007F3F54 /* OoyalaTVSkinSDK.framework */; };
 		0BD57B231D135236004216B6 /* OoyalaTVSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B2277B31D13455400640DD3 /* OoyalaTVSDK.framework */; };
 		0BD57B241D135473004216B6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F9E5A71CE2833A00AE5B56 /* UIKit.framework */; };
@@ -71,6 +73,8 @@
 		0B28486A1D400139006F4AF8 /* OOOoyalaTVLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVLabel.m; sourceTree = "<group>"; };
 		0B28486E1D4011CD006F4AF8 /* OOOoyalaTVBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVBar.h; sourceTree = "<group>"; };
 		0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVBar.m; sourceTree = "<group>"; };
+		0B2848731D41925B006F4AF8 /* OOOoyalaTVBottomBars.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVBottomBars.h; sourceTree = "<group>"; };
+		0B2848741D41925B006F4AF8 /* OOOoyalaTVBottomBars.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVBottomBars.m; sourceTree = "<group>"; };
 		0BD57B261D13549A004216B6 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		97C8DD111CE14CA2007F3F54 /* OoyalaTVSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaTVSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		97C8DD141CE14CA2007F3F54 /* OoyalaTVSkinSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OoyalaTVSkinSDK.h; sourceTree = "<group>"; };
@@ -128,6 +132,8 @@
 				0B2848651D3EEE9E006F4AF8 /* OOOoyalaTVButton.m */,
 				0B28486E1D4011CD006F4AF8 /* OOOoyalaTVBar.h */,
 				0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */,
+				0B2848731D41925B006F4AF8 /* OOOoyalaTVBottomBars.h */,
+				0B2848741D41925B006F4AF8 /* OOOoyalaTVBottomBars.m */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -179,6 +185,7 @@
 				0B2848621D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h in Headers */,
 				97C8DD201CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h in Headers */,
 				0B28486B1D400139006F4AF8 /* OOOoyalaTVLabel.h in Headers */,
+				0B2848751D41925B006F4AF8 /* OOOoyalaTVBottomBars.h in Headers */,
 				0B2848701D4011CD006F4AF8 /* OOOoyalaTVBar.h in Headers */,
 				97C8DD151CE14CA2007F3F54 /* OoyalaTVSkinSDK.h in Headers */,
 				0B2848661D3EEE9E006F4AF8 /* OOOoyalaTVButton.h in Headers */,
@@ -328,6 +335,7 @@
 				0B2277B51D13458F00640DD3 /* OOOoyalaTVPlayerViewController.m in Sources */,
 				0B28486C1D400139006F4AF8 /* OOOoyalaTVLabel.m in Sources */,
 				0B2848671D3EEE9E006F4AF8 /* OOOoyalaTVButton.m in Sources */,
+				0B2848761D41925B006F4AF8 /* OOOoyalaTVBottomBars.m in Sources */,
 				0B2848631D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
