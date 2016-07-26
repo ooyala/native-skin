@@ -101,6 +101,8 @@ OoyalaSkinBridgeListener.prototype.onCcStylingChange = function(e) {
     ccFontName: e.fontName,
     ccTextColor: e.textColor,
     ccBackgroundColor: e.backgroundColor,
+    ccTextBackgroundColor: e.textBackgroundColor,
+    ccBackgroundOpacity: e.backgroundOpacity,
     ccEdgeType: e.edgeType,
     ccEdgeColor: e.edgeColor,
   });
