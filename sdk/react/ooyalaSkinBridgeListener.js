@@ -111,7 +111,11 @@ OoyalaSkinBridgeListener.prototype.onAdPodCompleted = function(e) {
   Log.log( "onAdPodCompleted ");
   Log.assertTrue(this.skin.inAdPod == true, "AdPodCompleted, but we didn't know we were in Ad Pod");
   Log.assertTrue(this.skin.ad != null, "AdPodCompleted, but Ad was not null.  Was there an Ad Ended event?");
-  this.skin.setState({inAdPod: false, ad: null});
+  this.skin.setState({
+    inAdPod: false,
+    ad: null,
+    playhead: e.playhead,
+    duration: e.duration });
 };
 
 OoyalaSkinBridgeListener.prototype.onAdOverlay = function(e) {
