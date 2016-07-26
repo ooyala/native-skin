@@ -114,6 +114,8 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
         textColor: this.skin.state.ccTextColor,
         fontName: this.skin.state.ccFontName,
         backgroundColor: this.skin.state.ccBackgroundColor,
+        textBackgroundColor: this.skin.state.ccTextBackgroundColor,
+        backgroundOpacity: this.skin.state.ccBackgroundOpacity,
         edgeType: this.skin.state.ccEdgeType,
         edgeColor: this.skin.state.ccEdgeColor,
       }}
