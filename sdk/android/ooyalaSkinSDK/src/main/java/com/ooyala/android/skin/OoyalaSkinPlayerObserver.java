@@ -193,7 +193,8 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeAdPodCompletedNotification() {
-    WritableMap params = Arguments.createMap();
+    WritableMap params = BridgeMessageBuilder.buildAdPodCompleteParams(_player);
+
     _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME, params);
   }
 

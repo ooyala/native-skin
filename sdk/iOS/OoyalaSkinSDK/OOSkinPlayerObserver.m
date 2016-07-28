@@ -278,7 +278,17 @@
 }
 
 - (void) bridgeAdPodCompleteNotification:(NSNotification *)notification {
-  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
+
+  Float64 duration = _player.duration;
+  Float64 playhead = _player.playheadTime;
+
+  NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
+  NSNumber *playheadNumber = [NSNumber numberWithFloat:playhead];
+  
+  NSDictionary *eventBody = @{@"duration":durationNumber,
+                              @"playhead":playheadNumber};
+  
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 
   [self.viewController enableReactViewInteraction];
 }
