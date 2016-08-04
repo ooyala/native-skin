@@ -13,12 +13,15 @@
 #import "OOOoyalaTVBottomBars.h"
 #import <OoyalaTVSDK/OOOoyalaPlayer.h>
 
+#define SEEK_STEP 10
+
 @interface OOOoyalaTVPlayerViewController ()
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
 
-@property (nonatomic, strong) UITapGestureRecognizer *tapForward;
-@property (nonatomic, strong) UITapGestureRecognizer *tapBackward;
+@property (nonatomic, strong) UITapGestureRecognizer *tapForwardGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *tapBackwardGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *tapPlayPauseGesture;
 
 @property (nonatomic, strong) OOOoyalaTVLabel *durationLabel;
 @property (nonatomic, strong) OOOoyalaTVLabel *playheadLabel;
@@ -31,29 +34,44 @@
 
 @implementation OOOoyalaTVPlayerViewController
 
-- (instancetype)init {
-  if (self = [super init]) {
-    _showsPlaybackControls = NO;
-  }
-  return self;
-}
-
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player {
-  if (self = [self init]) {
-    _player = player;
-  }
-  return self;
-}
+#pragma mark lifecyle methods
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear: animated];
 
-  if (self.player) [self setupViewController];
+  [self setupViewController];
+  [self addGestures];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated {
+  [super viewDidDisappear:animated];
+  [self removeGestures];
+}
+
+- (void)dealloc {
   [self removeObservers];
-  [super viewWillDisappear:animated];
+}
+
+#pragma mark private helper functions
+- (void)addGestures {
+  self.tapForwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
+  self.tapForwardGesture.allowedPressTypes = @[@(UIPressTypeRightArrow)];
+
+  self.tapBackwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
+  self.tapBackwardGesture.allowedPressTypes = @[@(UIPressTypeLeftArrow)];
+
+  self.tapPlayPauseGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlay:)];
+  self.tapPlayPauseGesture.allowedPressTypes = @[@(UIPressTypePlayPause), @(UIPressTypeSelect)];
+
+  [self.view addGestureRecognizer:self.tapForwardGesture];
+  [self.view addGestureRecognizer:self.tapBackwardGesture];
+  [self.view addGestureRecognizer:self.tapPlayPauseGesture];
+}
+
+- (void)removeGestures {
+  [self.view removeGestureRecognizer:self.tapForwardGesture];
+  [self.view addGestureRecognizer:self.tapBackwardGesture];
+  [self.view removeGestureRecognizer:self.tapPlayPauseGesture];
 }
 
 - (void)setupUI {
@@ -61,6 +79,7 @@
   [self setupPlayPauseButton];
   [self setupBars];
   [self setupLabels];
+  self.progressBarBackground.hidden = !self.playbackControlsEnabled;
 }
 
 - (void)setupProgessBackground {
@@ -72,7 +91,7 @@
 - (void)setupPlayPauseButton {
   // frame
   self.playPauseButton = [[OOOoyalaTVButton alloc] initWithFrame:CGRectMake(headDistance, self.progressBarBackground.bounds.size.height - playPauseButtonHeight - 38, headDistance, playPauseButtonHeight)];
-  [self.playPauseButton addTarget:self action:@selector(togglePlay) forControlEvents:UIControlEventTouchUpInside];
+                         [self.playPauseButton addTarget:self action:@selector(togglePlay:) forControlEvents:UIControlEventTouchUpInside];
   
   // icon
   [self.playPauseButton changePlayingState:[self.player isPlaying]];
@@ -105,13 +124,19 @@
   [self.progressBarBackground addSubview:self.durationLabel];
 }
 
-- (void)dealloc {
+#pragma mark property setters
+- (void)setPlayer:(OOOoyalaPlayer *)player {
   [self removeObservers];
+  _player = player;
+  if (_player) {
+    [self setupViewController];
+  }
+  [self addObservers];
 }
 
-- (void)setPlayer:(OOOoyalaPlayer *)player {
-  _player = player;
-  if (_player) [self setupViewController];
+- (void)setPlaybackControlsEnabled:(BOOL)playbackControlsEnabled {
+  _playbackControlsEnabled = playbackControlsEnabled;
+  self.progressBarBackground.hidden = !playbackControlsEnabled;
 }
 
 - (UIActivityIndicatorView *)activityView {
@@ -122,51 +147,6 @@
   return _activityView;
 }
 
-- (void)setShowsPlaybackControls:(BOOL)showsPlaybackControls {
-  _showsPlaybackControls = showsPlaybackControls;
-  [self enableSeek:_showsPlaybackControls];
-}
-
-- (UITapGestureRecognizer *)tapForward {
-  if (!_tapForward) {
-    _tapForward = [[UITapGestureRecognizer alloc] init];
-    _tapForward.allowedPressTypes = @[@(UIPressTypeRightArrow)];
-  }
-  return _tapForward;
-}
-
-- (UITapGestureRecognizer *)tapBackward {
-  if (!_tapBackward) {
-    _tapBackward = [[UITapGestureRecognizer alloc] init];
-    _tapBackward.allowedPressTypes = @[@(UIPressTypeLeftArrow)];
-  }
-  return _tapBackward;
-}
-
-/*!
- @param enable
- When you enabled, forward and backward tap gesture recognizers will be on. If disable, they will be off.
- */
-- (void)enableSeek:(BOOL)enable {
-  if (enable) {
-    [self addTapGesture:self.tapForward inView:self.view];
-    [self addTapGesture:self.tapBackward inView:self.view];
-  } else {
-    [self removeTapGesture:self.tapForward inView:self.view];
-    [self removeTapGesture:self.tapBackward inView:self.view];
-  }
-}
-
-- (void)addTapGesture:(UITapGestureRecognizer *)tapGesture inView:(UIView *)view {
-  [tapGesture addTarget:self action:@selector(seek:)];
-  [view addGestureRecognizer:tapGesture];
-}
-
-- (void)removeTapGesture:(UITapGestureRecognizer *)tapGesture inView:(UIView *)view {
-  [view removeGestureRecognizer:tapGesture];
-  [tapGesture removeTarget:self action:@selector(seek:)];
-}
-
 - (void)setupViewController {
   self.player.view.frame = self.view.bounds;
   [self.view addSubview:self.player.view];
@@ -175,18 +155,7 @@
   [self.view addSubview:self.activityView];
   
   self.lastTriggerTime = 0;
-  
-  // Play/Pause button action
-  UITapGestureRecognizer *playGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlay)];
-  playGesture.allowedPressTypes = @[@(UIPressTypePlayPause)];
-  [self.view addGestureRecognizer:playGesture];
-  
-  // enable seeking
-  self.showsPlaybackControls = YES;
-  
   [self setupUI];
-  
-  [self addObservers];
 }
 
 - (void)addObservers {
@@ -238,7 +207,7 @@
   }
 }
 
-- (void)togglePlay {
+- (void)togglePlay:(id)sender {
   if ([self.player isPlaying]) {
     [self.player pause];
   } else {
@@ -275,20 +244,17 @@
 }
 
 - (void)seek:(UITapGestureRecognizer *)sender {
-  if ([sender.allowedPressTypes containsObject:@(UIPressTypeRightArrow)]) {
-    [self player:self.player seekForward:YES time:10];
-  } else if ([sender.allowedPressTypes containsObject:@(UIPressTypeLeftArrow)]) {
-    [self player:self.player seekForward:NO time:10];
+  if (!self.playbackControlsEnabled) {
+    return;
   }
-}
 
-- (void)player:(OOOoyalaPlayer *)player seekForward:(BOOL)forward time:(Float64)time {
-  if (forward) {
-    [player seek:player.playheadTime + time];
-  } else {
-    [player seek:player.playheadTime - time];
+  NSTimeInterval seekTo = self.player.playheadTime;
+  if (sender == self.tapForwardGesture) {
+    seekTo += SEEK_STEP;
+  } else if (sender == self.tapBackwardGesture) {
+    seekTo -= SEEK_STEP;
   }
-  
+  [self.player seek:seekTo];
   [self showProgressBar];
 }
 

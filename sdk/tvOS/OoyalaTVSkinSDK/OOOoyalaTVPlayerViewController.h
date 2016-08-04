@@ -22,7 +22,7 @@
 	@abstract	Whether or not the receiver shows playback controls. Default is NO.
 	@discussion	Clients can set this property to NO when they don't want to have any playback controls on top of the visual content (e.g. when the player is an inline element, with sibling views).
  */
-@property (nonatomic) BOOL showsPlaybackControls;
+@property (nonatomic) BOOL playbackControlsEnabled;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
 
