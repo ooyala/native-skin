@@ -338,6 +338,7 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
     sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
     switch (keyCode) {
       case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
+      case KeyEvent.KEYCODE_DPAD_CENTER:
         if(_player.isPlaying()) {
           _player.pause();
         } else {
