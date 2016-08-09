@@ -26,4 +26,14 @@
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
 
+/**
+ * Show progress bar;
+ */
+- (void)showProgressBar;
+
+/**
+ * Hide progress bar;
+ */
+- (void)hideProgressBar;
+
 @end
