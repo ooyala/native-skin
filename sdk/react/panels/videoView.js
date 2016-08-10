@@ -260,11 +260,16 @@ var VideoView = React.createClass({
       return null;
     }
 
+    //width and height of the ad overlay
     var width = this.props.adOverlay.width;
     var height = this.props.adOverlay.height;
-    if (width > this.props.width) {
-      height = width / this.props.width * height;
-      width = this.props.width;
+
+    //if the width of the ad is larger than the player width
+    var sidePadding = 10
+    var maxWidth = this.props.width - 2 * sidePadding;
+    if (width > maxWidth) {
+      height = height / width * maxWidth;
+      width = maxWidth;
     }
     var left = (this.props.width - width) / 2;
 
@@ -275,7 +280,8 @@ var VideoView = React.createClass({
         <View style={{left: left, bottom: 10, width:width, height:height}}>
         <Image
           style={styles.container}
-          source={{uri: this.props.adOverlay.resourceUrl}} >
+          source={{uri: this.props.adOverlay.resourceUrl}} 
+          resizeMode={Image.resizeMode.contain}>
         </Image>
         <TouchableHighlight 
           style={panelStyles.dismissOverlay}
