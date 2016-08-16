@@ -23,4 +23,6 @@ CGFloat const barTailDistance = headDistance + componentSpace + labelWidth;
 CGFloat const playheadLabelX = headDistance + playPauseButtonWidth + componentSpace;
 CGFloat const barX = playheadLabelX + componentSpace + labelWidth;
 
-
+CGFloat const SWIPE_TO_SEEK_MULTIPLIER = 0.5;
+CGFloat const SWIPE_TO_SEEK_MIN_THRESHOLD = 10.0;
+CGFloat const FF_SEEK_STEP = 10.0;

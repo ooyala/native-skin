@@ -8,9 +8,7 @@
 #import "OOTVGestureManager.h"
 #import <OoyalaTVSDK/OOOoyalaPlayer.h>
 #import "OOOoyalaTVPlayerViewController.h"
-
-#define SEEK_STEP 10
-#define SEEK_PIXEL_THRESHOLD 10
+#import "OOOoyalaTVConstants.h"
 
 @interface OOTVGestureManager()<UIGestureRecognizerDelegate> {
   CGPoint lastPanPoint;
@@ -92,9 +90,9 @@
 
   NSTimeInterval seekTo = self.controller.player.playheadTime;
   if (sender == self.tapForwardGesture) {
-    seekTo += SEEK_STEP;
+    seekTo += FF_SEEK_STEP;
   } else if (sender == self.tapBackwardGesture) {
-    seekTo -= SEEK_STEP;
+    seekTo -= FF_SEEK_STEP;
   }
 
   if (seekTo < 0) {
@@ -119,7 +117,11 @@
 - (void)onSwipe:(id)sender {
   if (sender == self.panGesture) {
     CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
-    CGFloat seekScale = self.controller.player.duration / 1920.0;
+    CGFloat viewWidth = self.controller.view.frame.size.width;
+    if (viewWidth == 0) {
+      viewWidth = 1920;
+    }
+    CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
     [self.controller showProgressBar];
 
     switch (self.panGesture.state) {
@@ -129,7 +131,7 @@
         break;
       case UIGestureRecognizerStateChanged: {
         CGFloat distance = currentPoint.x - lastPanPoint.x;
-        if (abs(distance) > SEEK_PIXEL_THRESHOLD) {
+        if (abs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
           lastPanPoint = currentPoint;
           lastPlayhead += distance * seekScale;
           [self.controller.player seek:lastPlayhead];
