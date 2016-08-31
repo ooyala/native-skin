@@ -22,7 +22,8 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
   this.listeners = [];
   var listenerDefinitions = [
     [ 'timeChanged',              (event) => this.onTimeChange(event) ],
-    [ 'seekCompleted',          (event) => this.onSeekComplete(event) ],
+    [ 'seekStarted',              (event) => this.onSeekStarted(event) ],
+    [ 'seekCompleted',            (event) => this.onSeekComplete(event) ],
     [ 'ccStylingChanged',         (event) => this.onCcStylingChange(event) ],
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
@@ -62,6 +63,14 @@ OoyalaSkinBridgeListener.prototype.unmount = function() {
 
 OoyalaSkinBridgeListener.prototype.onClosedCaptionUpdate = function(e) {
   this.skin.setState({caption: e.text});
+};
+
+OoyalaSkinBridgeListener.prototype.onSeekStarted = function(e) {
+  Log.log( "onSeekStarted");
+  this.skin.setState({
+    playhead: e.playhead,
+    duration: e.duration,
+  });
 };
 
 OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {

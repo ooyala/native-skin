@@ -68,9 +68,16 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeLiveCCChangedNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAdOverlayNotification(((OoyalaNotification) argN).getData());;
+    } else if (OoyalaPlayer.SEEK_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeSeekStartNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeSeekCompletedNotification();
     }
+  }
+
+  private void bridgeSeekStartNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildSeekParams(data);
+    _layoutController.sendEvent(OoyalaPlayer.SEEK_STARTED_NOTIFICATION_NAME, params);
   }
 
   private void bridgeSeekCompletedNotification() {
