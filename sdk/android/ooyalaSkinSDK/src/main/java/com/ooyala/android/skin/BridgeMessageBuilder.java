@@ -292,7 +292,7 @@ class BridgeMessageBuilder {
     if(data != null) {
       SeekInfo seekInfo = (SeekInfo) data;
 
-      double playhead = seekInfo.getPlayHead() / 1000.0;
+      double playhead = seekInfo.getPlayhead() / 1000.0;
       params.putDouble("playhead", playhead);
 
       double totalDuration = seekInfo.getTotalDuration() / 1000.0;
