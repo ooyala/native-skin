@@ -86,6 +86,13 @@
   return NO;
 }
 
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
+  if ((gestureRecognizer == self.panGesture) && self.controller.player.isPlaying) {
+    return NO;
+  }
+  return YES;
+}
+
 - (void)seek:(UITapGestureRecognizer *)sender {
 
   NSTimeInterval seekTo = self.controller.player.playheadTime;
