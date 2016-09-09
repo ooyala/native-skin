@@ -2,7 +2,6 @@
 //  OOOoyalaTVConstants.h
 //  OoyalaTVSkinSDK
 //
-//  Created by Yi Gu on 7/19/16.
 //  Copyright © 2016 ooyala. All rights reserved.
 //
 
@@ -24,3 +23,6 @@ extern CGFloat const barTailDistance;
 extern CGFloat const playheadLabelX;
 extern CGFloat const barX;
 
+extern CGFloat const SWIPE_TO_SEEK_MULTIPLIER;  /** Control the swipe to seek speed */
+extern CGFloat const SWIPE_TO_SEEK_MIN_THRESHOLD; /** Minimum distance for swipe to take effect, in pixels */
+extern CGFloat const FF_SEEK_STEP; /** Seconds to fastforward/backward by tapping the edge of the remote control */
