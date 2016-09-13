@@ -71,7 +71,7 @@ class OoyalaSkinPlayerObserver implements Observer {
     } else if (OoyalaPlayer.SEEK_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeSeekStartNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
-      bridgeSeekCompletedNotification();
+      bridgeSeekCompletedNotification(((OoyalaNotification) argN).getData());
     }
   }
 
@@ -80,11 +80,9 @@ class OoyalaSkinPlayerObserver implements Observer {
     _layoutController.sendEvent(OoyalaPlayer.SEEK_STARTED_NOTIFICATION_NAME, params);
   }
 
-  private void bridgeSeekCompletedNotification() {
-    WritableMap params = Arguments.createMap();
-    double currentTime = _player.getPlayheadTime() / 1000.0;
+  private void bridgeSeekCompletedNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildSeekParams(data);
     params.putString("screenType", "video");
-    params.putDouble("playhead", currentTime);
     _layoutController.sendEvent(OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME, params);
   }
 
