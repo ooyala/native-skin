@@ -262,7 +262,7 @@ var DiscoveryPanel = React.createClass({
       }
     }
 
-    title = Utils.localizedString(this.props.locale, "Discovery", this.props.localizableStrings);
+    title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
     var panelIcon = this.props.config.icons.discovery.fontString;
 
     return (
