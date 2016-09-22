@@ -5,7 +5,7 @@
 'use strict';
 import React, { Component } from 'react';
 import {
-  ActivityIndicatorIOS,
+  ActivityIndicator,
   AppRegistry,
   DeviceEventEmitter,
   StyleSheet,
@@ -70,12 +70,11 @@ var OoyalaSkin = React.createClass({
   
   renderLoadingScreen: function() {
     return (
-      <View style={styles.loading}>
-        <ActivityIndicatorIOS
+       <ActivityIndicator
+          style={styles.loading}
           animating={true}
-          size="large">
-        </ActivityIndicatorIOS>
-      </View>);
+          size="large"
+      />);
   },
 
   render: function() {
