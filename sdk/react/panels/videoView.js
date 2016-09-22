@@ -6,8 +6,7 @@
 
 import React, { Component } from 'react';
 import {
-  ActivityIndicatorIOS,
-  ProgressBarAndroid,
+  ActivityIndicator,
   Image,
   Text,
   View,
@@ -301,21 +300,12 @@ var VideoView = React.createClass({
     var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
     var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
     if (this.props.loading) {
-      if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-        return (
-          <View style={loadingStyle}>
-            <ProgressBarAndroid styleAttr="Large"/>
-          </View>
-        );     
-      }
-      else if(this.props.platform == Constants.PLATFORMS.IOS){
-        return (
-        <View style={loadingStyle}>
-          <ActivityIndicatorIOS
-            animating={true}
-            size="large">
-          </ActivityIndicatorIOS>
-        </View>);
+      return (
+       <ActivityIndicator
+          style={loadingStyle}
+          size="large"
+      />
+        );
       }
     }
   },

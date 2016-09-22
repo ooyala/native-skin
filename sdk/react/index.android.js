@@ -7,7 +7,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  ProgressBarAndroid,
+  ActivityIndicator,
   StyleSheet,
   Text,
   TouchableHighlight,
@@ -81,9 +81,10 @@ var OoyalaSkin = React.createClass({
 
   renderLoadingScreen: function() {
      return (
-       <View style={styles.loading}>
-         <ProgressBarAndroid styleAttr="Large"/>
-      </View>
+       <ActivityIndicator
+        style={styles.loading}
+        size="large"
+      />
     );     
   },
 
