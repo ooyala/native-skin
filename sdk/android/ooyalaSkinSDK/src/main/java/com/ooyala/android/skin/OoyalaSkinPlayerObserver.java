@@ -68,8 +68,19 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeLiveCCChangedNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAdOverlayNotification(((OoyalaNotification) argN).getData());;
+    } else if (OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeSeekCompletedNotification();
     }
-}
+  }
+
+  private void bridgeSeekCompletedNotification() {
+    WritableMap params = Arguments.createMap();
+    double currentTime = _player.getPlayheadTime() / 1000.0;
+    params.putString("screenType", "video");
+    params.putDouble("playhead", currentTime);
+    _layoutController.sendEvent(OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME, params);
+  }
+
   private void bridgeOnClosedCaptionChangeNotification() {
     // clear previous cc, if any
     WritableMap params = Arguments.createMap();
@@ -182,7 +193,8 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeAdPodCompletedNotification() {
-    WritableMap params = Arguments.createMap();
+    WritableMap params = BridgeMessageBuilder.buildAdPodCompleteParams(_player);
+
     _layoutController.sendEvent(OoyalaPlayer.AD_POD_COMPLETED_NOTIFICATION_NAME, params);
   }
 

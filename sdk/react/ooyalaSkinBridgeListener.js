@@ -22,6 +22,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
   this.listeners = [];
   var listenerDefinitions = [
     [ 'timeChanged',              (event) => this.onTimeChange(event) ],
+    [ 'seekCompleted',          (event) => this.onSeekComplete(event) ],
     [ 'ccStylingChanged',         (event) => this.onCcStylingChange(event) ],
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
@@ -63,6 +64,14 @@ OoyalaSkinBridgeListener.prototype.onClosedCaptionUpdate = function(e) {
   this.skin.setState({caption: e.text});
 };
 
+OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
+  Log.log( "onSeekComplete");
+  this.skin.setState({
+    playhead: e.playhead,
+    screenType: e.screenType,
+  });
+};
+
 OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
   this.skin.setState({
     playhead: e.playhead,
@@ -92,6 +101,8 @@ OoyalaSkinBridgeListener.prototype.onCcStylingChange = function(e) {
     ccFontName: e.fontName,
     ccTextColor: e.textColor,
     ccBackgroundColor: e.backgroundColor,
+    ccTextBackgroundColor: e.textBackgroundColor,
+    ccBackgroundOpacity: e.backgroundOpacity,
     ccEdgeType: e.edgeType,
     ccEdgeColor: e.edgeColor,
   });
@@ -112,7 +123,11 @@ OoyalaSkinBridgeListener.prototype.onAdPodCompleted = function(e) {
   Log.log( "onAdPodCompleted ");
   Log.assertTrue(this.skin.inAdPod == true, "AdPodCompleted, but we didn't know we were in Ad Pod");
   Log.assertTrue(this.skin.ad != null, "AdPodCompleted, but Ad was not null.  Was there an Ad Ended event?");
-  this.skin.setState({inAdPod: false, ad: null});
+  this.skin.setState({
+    inAdPod: false,
+    ad: null,
+    playhead: e.playhead,
+    duration: e.duration });
 };
 
 OoyalaSkinBridgeListener.prototype.onAdOverlay = function(e) {

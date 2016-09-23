@@ -49,13 +49,16 @@
   "closedCaptions": {
     "alignSelf":"center",
     "textAlign":"center",
-    "padding": 10,
-    "margin": 10,
+    "padding": 2,
+    "margin":2,
     "fontWeight": "bold",
     "fontSize": 20,
     "fontFamily": "Helvetica",
     "color": "white",
     "backgroundColor": "rgba(0, 0, 0, 0.7)",
+  },
+  "closedCaptionsFlexibleSpace" : {
+    "flex":1,
   },
   "panel": {
     "flex": 1,

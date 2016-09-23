@@ -276,4 +276,14 @@ class BridgeMessageBuilder {
     params.putString("edgeColor","#"+String.format("%06x",edgeColor & 0xFFFFFF));
     return params;
   }
+
+  public static WritableMap buildAdPodCompleteParams(OoyalaPlayer player) {
+    WritableMap params = Arguments.createMap();
+    Double duration = player.getDuration() / 1000.0;
+    Double playhead = player.getPlayheadTime() / 1000.0;
+    params.putDouble("duration", duration);
+    params.putDouble("playhead", playhead);
+    return params;
+  }
+
 }

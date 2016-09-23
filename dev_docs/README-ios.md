@@ -113,8 +113,8 @@ If you'd like to take another extra step, try _following these steps to update t
 
 1. Download [OoyalaSDK-iOS](http://support.ooyala.com/resources/mobile-and-client-sdks), which contains:
     * Ooyala SDK (link binary with this library)
-2. Download [OoyalaSkinSDK-iOS](https://ooyala.box.com/ios-skin-release), which contains:
-    * __NOTE:__ the framework in the download link will always point to the most up to date commit in the 'stable' branch (when the branch is created).
+2. Download [OoyalaSkinSDK-iOS](http://support.ooyala.com/resources/mobile-and-client-sdks), which contains:
+    * If the above site hasn't been updated yet, you can download the library [here](http://static.ooyala.com.s3.amazonaws.com/sdk/ios/release/OoyalaSkinSDK-iOS.zip)
     * iOS Skin SDK (link binary with this library)
     * ooyala-slick-type font (Add to bundle. Then in Info.plist, add "ooyala-slick-type.ttf" to "Fonts Provided by Application")
     * Default localization files (Add to app bundle)

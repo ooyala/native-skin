@@ -102,7 +102,7 @@ var AdBar = React.createClass({
     var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
     var showSkip = this.props.playhead >= this.props.ad.skipoffset;
     var textString = this.generateResponsiveText(showLearnMore, showSkip);
-    var learnMoreText = Utils.localizedString(this.props.locale, "Learn more", this.props.localizableStrings);
+    var learnMoreText = Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings);
 
     var skipButton;
     var skipLabel;

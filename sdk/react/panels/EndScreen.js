@@ -43,6 +43,7 @@ var EndScreen = React.createClass({
     upNextDismissed: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
     handleControlsTouch: React.PropTypes.func,
+    onScrub: React.PropTypes.func,
   },
 
   handleClick: function(name) {
@@ -107,6 +108,10 @@ var EndScreen = React.createClass({
     );
   },
 
+  handleScrub: function(value) {
+    this.props.onScrub(value);
+  },
+
   _renderBottomOverlay: function(show) {
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
@@ -121,9 +126,10 @@ var EndScreen = React.createClass({
       platform={this.props.platform}
       volume={this.props.volume}
       onPress={(name) => this.handlePress(name)}
-      shouldShowProgressBar={false}
+      shouldShowProgressBar={true}
       showWatermark={this.props.showWatermark}
       handleControlsTouch={() => this.props.handleControlsTouch()}
+      onScrub={(value)=>this.handleScrub(value)}
       fullscreen={this.props.fullscreen}
       isShow={show}
       config={{

@@ -32,7 +32,8 @@ renderLogo: function(){
         <View style={[styles.watermarkContainer]}>
           <Image
             style={sizeStyle}
-            source={{uri: waterMarkName}}/>
+            source={{uri: waterMarkName}}
+            resizeMode={Image.resizeMode.contain}/>
         </View>
       );
   },
