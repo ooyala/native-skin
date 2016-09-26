@@ -132,7 +132,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
-      playing={this.skin.state.playing}
+      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY ? true : false}
       loading={this.skin.state.loading}
       initialPlay={this.skin.state.initialPlay}>
     </VideoView>
@@ -174,7 +174,7 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
-      playing={this.skin.state.playing}
+      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY ? true : false}
       loading={this.skin.state.loading}
       initialPlay={this.skin.state.initialPlay}>
     </AdPlaybackScreen>

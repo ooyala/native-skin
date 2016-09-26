@@ -5,7 +5,7 @@
 
 import React, { Component } from 'react';
 import {
-  ActivityIndicatorIOS,
+  ActivityIndicator,
   SliderIOS,
   StyleSheet,
   Text,

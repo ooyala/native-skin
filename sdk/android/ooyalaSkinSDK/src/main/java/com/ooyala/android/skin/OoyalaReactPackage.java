@@ -1,6 +1,9 @@
 package com.ooyala.android.skin;
 
+
+import javax.inject.Provider;
 import com.facebook.react.bridge.JavaScriptModule;
+import com.facebook.react.bridge.ModuleSpec;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.shell.MainReactPackage;
@@ -27,13 +30,17 @@ class OoyalaReactPackage extends MainReactPackage {
   }
 
   @Override
-  public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-    List<NativeModule> modules = new ArrayList<>();
-    modules.addAll(super.createNativeModules(reactContext));
+  public List<ModuleSpec> getNativeModules(final ReactApplicationContext context) {
+    List<ModuleSpec> list =  new ArrayList<>();
+    list.addAll(super.getNativeModules(context));
+    _bridge = new OoyalaReactBridge(context, _layoutcontroller.getBridgeEventHandler());
+    list.add(new ModuleSpec(OoyalaReactBridge.class, new Provider() {
+      public NativeModule get() {
+        return _bridge;
+      }
+    }));
 
-    _bridge = new OoyalaReactBridge(reactContext, _layoutcontroller.getBridgeEventHandler());
-    modules.add(_bridge);
-    return modules;
+    return list;
   }
 
   @Override

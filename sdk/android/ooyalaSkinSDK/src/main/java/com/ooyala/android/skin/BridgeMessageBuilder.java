@@ -10,6 +10,7 @@ import com.ooyala.android.AdIconInfo;
 import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
 import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Video;
 import org.json.JSONArray;
@@ -286,4 +287,17 @@ class BridgeMessageBuilder {
     return params;
   }
 
+  public static WritableMap buildSeekParams(Object data) {
+    WritableMap params = Arguments.createMap();
+    if(data != null) {
+      SeekInfo seekInfo = (SeekInfo) data;
+
+      double playhead = seekInfo.getPlayhead() / 1000.0;
+      params.putDouble("playhead", playhead);
+
+      double totalDuration = seekInfo.getTotalDuration() / 1000.0;
+      params.putDouble("duration", totalDuration);
+    }
+      return params;
+  }
 }
