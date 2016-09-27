@@ -304,9 +304,8 @@ var VideoView = React.createClass({
        <ActivityIndicator
           style={loadingStyle}
           size="large"
-      />
-        );
-      }
+       />
+      );
     }
   },
 
