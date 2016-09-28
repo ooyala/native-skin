@@ -76,7 +76,7 @@ OoyalaSkinBridgeListener.prototype.onSeekStarted = function(e) {
 OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
   Log.log( "onSeekComplete");
   this.skin.setState({
-    playhead: e.playhead,
+    playhead: e.seekend,
     duration: e.duration,
     screenType: e.screenType,
   });
