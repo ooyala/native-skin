@@ -125,7 +125,7 @@ var BottomOverlay = React.createClass({
   },
 
   _renderProgressBar: function(percent) {
-    return (<ProgressBar ref='progressBar' percent={percent} />);
+    return (<ProgressBar ref='progressBar' percent={percent} config={this.props.config} ad={this.props.ad}/>);
   },
 
   _renderCompleteProgressBar: function() {
