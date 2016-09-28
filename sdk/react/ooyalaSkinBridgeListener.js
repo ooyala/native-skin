@@ -68,7 +68,7 @@ OoyalaSkinBridgeListener.prototype.onClosedCaptionUpdate = function(e) {
 OoyalaSkinBridgeListener.prototype.onSeekStarted = function(e) {
   Log.log( "onSeekStarted");
   this.skin.setState({
-    playhead: e.playhead,
+    playhead: e.seekstart,
     duration: e.duration,
   });
 };
