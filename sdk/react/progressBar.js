@@ -13,7 +13,6 @@ import {
 
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./style/progressBarStyles.json'));
-var Log = require('./log');
 
 var ProgressBar = React.createClass({
   propTypes: {
