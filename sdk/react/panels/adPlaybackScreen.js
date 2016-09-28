@@ -251,21 +251,30 @@ var AdPlaybackScreen = React.createClass({
     var adBar = null;
     var adIcons = null;
     if (this.props.ad) {
-      adBar = this.props.ad.requireAdBar ? this._renderAdBar() : null;
+      adBar = (this.props.ad.requireAdBar && this.props.config.adScreen.showAdMarquee) ? this._renderAdBar() : null;
       if (this.props.ad.icons) {
         adIcons = this._renderAdIcons();
       }
     }
 
-    return (
-      <View
-        style={styles.container}>
-        {adBar}
-        {this._renderPlaceholder(adIcons)}
-        {this._renderPlayPause(shouldShowControls)}
-        {this._renderBottomOverlay(shouldShowControls)}
-      </View>
-    );
+    if (!this.props.config.adScreen.showControlBar) {
+      return (
+        <View
+          style={styles.container}>
+          {adBar}
+        </View>
+      );
+    } else {
+      return (
+        <View
+          style={styles.container}>
+          {adBar}
+          {this._renderPlaceholder(adIcons)}
+          {this._renderPlayPause(shouldShowControls) }
+          {this._renderBottomOverlay(shouldShowControls) }
+        </View>
+      );
+    }
   }
 });
 
