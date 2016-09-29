@@ -308,6 +308,7 @@ var VideoView = React.createClass({
       );
     }
   },
+  
   handleScrub: function(value) {
     this.props.handlers.onScrub(value);
   },
