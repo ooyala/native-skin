@@ -168,7 +168,7 @@ var VideoView = React.createClass({
       backgroundColor:this.props.captionStyles.textBackgroundColor};
     if (this.props.caption) {
       return (
-        <View 
+        <View
           style={panelStyles.closedCaptionsContainer}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
           <View style={[panelStyles.closedCaptionsFlexibleSpace]}></View>
@@ -273,16 +273,16 @@ var VideoView = React.createClass({
     var left = (this.props.width - width) / 2;
 
     return (
-      <TouchableHighlight 
+      <TouchableHighlight
         style={{height:height + 10, width:this.props.width}}
         onPress={this.handleOverlayClick}>
         <View style={{left: left, bottom: 10, width:width, height:height}}>
         <Image
           style={styles.container}
-          source={{uri: this.props.adOverlay.resourceUrl}} 
+          source={{uri: this.props.adOverlay.resourceUrl}}
           resizeMode={Image.resizeMode.contain}>
         </Image>
-        <TouchableHighlight 
+        <TouchableHighlight
           style={panelStyles.dismissOverlay}
           onPress={this.props.handlers.onAdOverlayDismiss}>
           <Text style={panelStyles.dismissIcon}>
@@ -295,7 +295,7 @@ var VideoView = React.createClass({
 
   _renderLoading: function() {
     var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
-    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;    
+    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
     var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
     var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
     var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
@@ -305,11 +305,9 @@ var VideoView = React.createClass({
           style={loadingStyle}
           size="large"
       />
-        );
-      }
+      );
     }
   },
-
   handleScrub: function(value) {
     this.props.handlers.onScrub(value);
   },
