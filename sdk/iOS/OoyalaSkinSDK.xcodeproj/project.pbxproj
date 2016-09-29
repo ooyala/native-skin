@@ -55,7 +55,7 @@
 		9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922771B8E37F300A61ACF /* OOSkinOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 976922781B8E37F300A61ACF /* OOSkinOptions.m */; };
 		9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */; };
-		9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */; };
+		9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		979B01301B910A040032F5CF /* OOConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 979B012E1B910A040032F5CF /* OOConstant.h */; };
 		979B01311B910A040032F5CF /* OOConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 979B012F1B910A040032F5CF /* OOConstant.m */; };
 		97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
