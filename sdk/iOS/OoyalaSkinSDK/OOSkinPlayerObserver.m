@@ -105,7 +105,7 @@
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
                               @"duration":totalDuration};
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeSeekCompletedNotification: (NSNotification *)notification {
@@ -119,7 +119,7 @@
                               @"seekend":seekEnd,
                               @"duration":totalDuration,
                               @"screenType":@"video"};
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeAdOverlayNotification: (NSNotification *)notification {
@@ -140,7 +140,7 @@
   [eventBody setObject:resourceUrl forKey:@"resourceUrl"];
   [eventBody setObject:clickUrl forKey:@"clickUrl"];
 
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
@@ -155,7 +155,7 @@
     @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages,
     @"cuePoints":cuePoints};
 
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
   [self notifyClosedCaptionsUpdate];
 }
 
@@ -175,7 +175,7 @@
   }
 
   NSDictionary *eventBody = @{@"text":captionText};
-  [OOReactBridge sendDeviceEventWithName:OO_CLOSED_CAPTIONS_UPDATE_EVENT body:eventBody];
+  [self.viewController sendBridgeEventWithName:OO_CLOSED_CAPTIONS_UPDATE_EVENT body:eventBody];
 }
 
 - (void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {
@@ -201,7 +201,7 @@
     @"width":frameWidth,
     @"height":frameHeight,
     @"volume": volume};
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
   
   [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];
 }
@@ -214,14 +214,14 @@
   }
   NSDictionary *eventBody = @{@"state":stateString};
 
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void) bridgeDesiredStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayer playerDesiredStateToString:_player.desiredState];
   NSDictionary *eventBody = @{@"desiredState":stateString};
   
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void) bridgeErrorNotification:(NSNotification *)notification {
@@ -230,7 +230,7 @@
   NSNumber *code = [NSNumber numberWithInt:errorCode];
   NSString *detail = _player.error.description ? self.player.error.description : @"";
   NSDictionary *eventBody = @{@"code":code,@"description":detail};
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void) bridgePlayCompletedNotification:(NSNotification *)notification {
@@ -244,7 +244,7 @@
     @"description":itemDescription,
     @"promoUrl":promoUrl,
     @"duration":durationNumber};
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void) bridgeAdStartNotification:(NSNotification *)notification {
@@ -294,7 +294,7 @@
   if (icons) {
     [eventBody setObject:icons forKey:@"icons"];
   }
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 
 
   if (![adInfo[@"requireAdBar"] boolValue]) {
@@ -310,7 +310,7 @@
 }
 
 - (void) bridgeAdPodStartedNotification:(NSNotification *)notification {
-  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
+  [self.viewController sendBridgeEventWithName:notification.name body:nil];
 }
 
 - (void) bridgeAdPodCompleteNotification:(NSNotification *)notification {
@@ -324,17 +324,17 @@
   NSDictionary *eventBody = @{@"duration":durationNumber,
                               @"playhead":playheadNumber};
   
-  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 
   [self.viewController enableReactViewInteraction];
 }
 
 - (void) bridgePlayStartedNotification:(NSNotification *)notification {
-  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
+  [self.viewController sendBridgeEventWithName:notification.name body:nil];
 }
 
 - (void) bridgeEmbedCodeNotification:(NSNotification *)notification {
-  [OOReactBridge sendDeviceEventWithName:notification.name body:nil];
+  [self.viewController sendBridgeEventWithName:notification.name body:nil];
 }
 
 - (void)dealloc {

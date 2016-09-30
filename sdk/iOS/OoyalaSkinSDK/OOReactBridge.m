@@ -22,12 +22,15 @@
 #import "OOUpNextManager.h"
 #import "OOConstant.h"
 
+@interface OOReactBridge()
+@property OOSkinViewController *controller;
+@property RCTBridge *rctBridge;
+@end
+
 @implementation OOReactBridge
 
-RCT_EXPORT_MODULE();
 
-static __weak RCTBridge *sharedBridge;
-static __weak OOSkinViewController *sharedController = nil;
+RCT_EXPORT_MODULE();
 static NSString *nameKey = @"name";
 static NSString *embedCodeKey = @"embedCode";
 static NSString *percentageKey = @"percentage";
@@ -67,7 +70,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if([buttonName isEqualToString:socialShareButtonName]) {
       [self handleSocialShare];
     } else if([buttonName isEqualToString:fullscreenButtonName]) {
-      [sharedController toggleFullscreen];
+      [self.controller toggleFullscreen];
     } else if([buttonName isEqualToString:learnMoreButtonName]) {
       [self handleLearnMore];
     } else if([buttonName isEqualToString:skipButtonName]) {
@@ -89,19 +92,19 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 }
 
 - (void)handlePip {
-  [sharedController.player togglePictureInPictureMode];
+  [self.controller.player togglePictureInPictureMode];
 }
 
 - (void)handleIconClick: (NSInteger)index {
-  [sharedController.player onAdIconClicked:index];
+  [self.controller.player onAdIconClicked:index];
 }
 
 - (void)handleOverlay: (NSString *)url {
-  [sharedController.player onAdOverlayClicked:url];
+  [self.controller.player onAdOverlayClicked:url];
 }
 
 -(void) handlePlayPause {
-  OOOoyalaPlayer *player = sharedController.player;
+  OOOoyalaPlayer *player = self.controller.player;
   if (player.state == OOOoyalaPlayerStatePlaying) {
     [player pause];
   } else {
@@ -110,12 +113,12 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 }
 
 -(void) handlePlay {
-  [sharedController.player play];
+  [self.controller.player play];
 }
 
 -(void) handleRewind {
   dispatch_async(dispatch_get_main_queue(), ^{
-    OOOoyalaPlayer *player = sharedController.player;
+    OOOoyalaPlayer *player = self.controller.player;
     if (player) {
       Float64 playheadTime = player.playheadTime;
       Float64 seekBackTo = playheadTime-10;
@@ -128,36 +131,36 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 }
 
 -(void) handleSocialShare {
-  [sharedController.player pause];
+  [self.controller.player pause];
 }
 
 - (void)handleLearnMore {
-  [sharedController.player clickAd];
+  [self.controller.player clickAd];
 }
 
 - (void)handleSkip {
-  [sharedController.player skipAd];
+  [self.controller.player skipAd];
 }
 
 - (void)handleMoreOption {
-  [sharedController.player pause];
+  [self.controller.player pause];
 }
 
 - (void)handleUpNextDismiss {
-  [sharedController.upNextManager onDismissPressed];
+  [self.controller.upNextManager onDismissPressed];
 }
 
 - (void)handleUpNextClick {
-  [sharedController.upNextManager goToNextVideo];
+  [self.controller.upNextManager goToNextVideo];
 }
 
 - (void)handleLanguageSelection:(NSString *)language {
-  [sharedController.player setClosedCaptionsLanguage:language];
+  [self.controller.player setClosedCaptionsLanguage:language];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
-    OOOoyalaPlayer *player = sharedController.player;
+    OOOoyalaPlayer *player = self.controller.player;
     if (player) {
       CMTimeRange seekableRange = player.seekableTimeRange;
       Float64 duration = CMTimeGetSeconds(seekableRange.duration);
@@ -172,7 +175,7 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
 RCT_EXPORT_METHOD(setEmbedCode:(NSDictionary *)parameters) {
   NSString *embedCode = [parameters objectForKey:embedCodeKey];
   dispatch_async(dispatch_get_main_queue(), ^{
-    OOOoyalaPlayer *player = sharedController.player;
+    OOOoyalaPlayer *player = self.controller.player;
     [player setEmbedCode:embedCode];
     [player play];
   });
@@ -181,48 +184,48 @@ RCT_EXPORT_METHOD(setEmbedCode:(NSDictionary *)parameters) {
 RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   NSString *action = [parameters objectForKey:actionKey];
   NSString *bucketInfo = [parameters objectForKey:bucketInfoKey];
-  OOOoyalaPlayer *player = sharedController.player;
+  OOOoyalaPlayer *player = self.controller.player;
   if ([action isEqualToString:@"click"]) {
     NSString *embedCode = [parameters objectForKey:embedCodeKey];
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendClick:sharedController.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+      [OODiscoveryManager sendClick:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
       [player setEmbedCode:embedCode];
       [player play];
     });
   } else if ([action isEqualToString:@"impress"]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendImpression:sharedController.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+      [OODiscoveryManager sendImpression:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
     });
   }
 }
 
-+ (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
-  if ([sharedController isReactReady]) {
+- (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
+  if ([self.controller isReactReady]) {
     if (![eventName isEqualToString:OOOoyalaPlayerTimeChangedNotification] &&
         ![eventName isEqualToString:OO_CLOSED_CAPTIONS_UPDATE_EVENT]) {
       LOG(@"sendDeviceEventWithName: %@", eventName);
     }
-    [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
+    [self.rctBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
   } else {
-    [sharedController queueEventWithName:eventName body:body];
+    [self.controller queueEventWithName:eventName body:body];
   }
 }
 
 - (RCTBridge *)bridge {
-  return  sharedBridge;
+  return self.rctBridge;
 }
 
 - (void)setBridge:(RCTBridge *)bridge {
-  sharedBridge = bridge;
+  _rctBridge = bridge;
 }
 
-+ (void)registerController:(OOSkinViewController *)controller {
-  sharedController = controller;
+- (void)registerController:(OOSkinViewController *)controller {
+  self.controller = controller;
 }
 
-+ (void)deregisterController:(OOSkinViewController *)controller {
-  if (sharedController == controller) {
-    sharedController = nil;
+- (void)deregisterController:(OOSkinViewController *)controller {
+  if (self.controller == controller) {
+    self.controller = nil;
   };
 }
 

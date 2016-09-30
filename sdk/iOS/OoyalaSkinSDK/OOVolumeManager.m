@@ -27,11 +27,6 @@ NSString *const VolumeChangeKey = @"volumeChanged";
   [[AVAudioSession sharedInstance] removeObserver:observer forKeyPath:VolumePropertyKey];
 }
 
-+ (void)sendVolumeChangeEvent:(float)volume
-{
-  [OOReactBridge sendDeviceEventWithName:VolumeChangeKey body:@{@"volume": @(volume)}];
-}
-
 + (float)getCurrentVolume
 {
   return [[AVAudioSession sharedInstance] outputVolume];

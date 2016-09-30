@@ -35,6 +35,7 @@
 }
 
 @property (nonatomic) RCTRootView *reactView;
+@property (nonatomic) OOReactBridge *ooBridge;
 
 @property (nonatomic) UIViewController *inlineViewController;
 @property (nonatomic) UIView * parentView;
@@ -72,11 +73,14 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReactReady:) name:RCTContentDidAppearNotification object:_reactView];
     _isReactReady = NO;
 
-    _reactView = [[RCTRootView alloc] initWithBundleURL:skinOptions.jsCodeLocation
-                                             moduleName:@"OoyalaSkin"
-                                      initialProperties:_skinConfig
-                                          launchOptions:nil];
-    
+    self.ooBridge = [OOReactBridge new];
+    RCTBridge *bridge = [[RCTBridge alloc] initWithBundleURL:skinOptions.jsCodeLocation
+                                              moduleProvider:^ NSArray *{
+                                                return @[self.ooBridge];
+                                              } launchOptions:nil];
+
+    _reactView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"OoyalaSkin" initialProperties:_skinConfig];
+
     _queuedEvents = [NSMutableArray new];
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
@@ -96,10 +100,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     [self.view addSubview:_reactView];
 
     [OOVolumeManager addVolumeObserver:self];
-    [OOReactBridge registerController:self];
+    [self.ooBridge registerController:self];
     
     [_parentView addSubview:self.view];
-    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player config:[self.skinConfig objectForKey:@"upNext"]];
+    self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player bridge:self.ooBridge config:[self.skinConfig objectForKey:@"upNext"]];
 
     // Pre-create the MovieFullscreenView to use when necessary
     _isFullscreen = NO;
@@ -165,7 +169,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [params setObject:backgroundOpacity forKey:@"backgroundOpacity"];
   [params setObject:textOpacity forKey:@"textOpacity"];
   [params setObject:fontName forKey:@"fontName"];
-  [OOReactBridge sendDeviceEventWithName:CC_STYLING_CHANGED_NOTIFICATION body:params];
+  [self sendBridgeEventWithName:CC_STYLING_CHANGED_NOTIFICATION body:params];
 }
 
 - (NSString *)hexStringFromColor:(UIColor *)color {
@@ -206,7 +210,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     [self.upNextManager setNextVideo:discoveryArray[0]];
   }
   NSDictionary *eventBody = @{@"results":discoveryArray};
-  [OOReactBridge sendDeviceEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];
+  [self sendBridgeEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];
 }
 
 // KVO
@@ -218,7 +222,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     NSNumber *height = [NSNumber numberWithFloat:self.view.frame.size.height];
     
     NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
-    [OOReactBridge sendDeviceEventWithName:(NSString *)kFrameChangeContext body:eventBody];
+    [self sendBridgeEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
     [OOVolumeManager sendVolumeChangeEvent:[change[NSKeyValueChangeNewKey] floatValue]];
   } else {
@@ -231,7 +235,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self.view removeObserver:self forKeyPath:kViewChangeKey];
   [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [OOReactBridge deregisterController:self];
+  [self.ooBridge deregisterController:self];
   [self.player destroy];
 }
 
@@ -310,7 +314,8 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   // If a notification is queued during PurgeEvents, there could be an execption
   [self purgeEvents];
 
-  [OOVolumeManager sendVolumeChangeEvent:[OOVolumeManager getCurrentVolume]];
+  [self sendBridgeEventWithName:VolumeChangeKey body:@{@"volume": @([OOVolumeManager getCurrentVolume])}];
+
   [self ccStyleChanged:nil];
 }
 
@@ -356,9 +361,12 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   // PurgeEvents must happen after isReactReady, however, I'm not positive this is truly thread-safe.
   // If a notification is queued during PurgeEvents, there could be an execption
   for (OOQueuedEvent *event in self.queuedEvents) {
-    [OOReactBridge sendDeviceEventWithName:event.eventName body:event.body];
+    [self sendBridgeEventWithName:event.eventName body:event.body];
   }
   [self.queuedEvents removeAllObjects];
 }
 
+- (void)sendBridgeEventWithName:(NSString *)eventName body:(id)body {
+  [self.ooBridge sendDeviceEventWithName:eventName body:body];
+}
 @end
