@@ -164,8 +164,12 @@ var VideoView = React.createClass({
 
 
   _renderClosedCaptions: function() {
-    var ccStyle = {fontSize: this.props.captionStyles.textSize, color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
-      backgroundColor:this.props.captionStyles.textBackgroundColor};
+    var {height, width} = Dimensions.get('window');
+    if (height < width) width = height; // We just want the smaller of the two values, which represents the portrait device width
+
+    var scalingFactor = this.props.width/width;
+    var ccStyle = {fontSize: this.props.captionStyles.textSize * scalingFactor, color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
+      backgroundColor:this.props.captionStyles.textBackgroundColor, width:this.props.width};
     if (this.props.caption) {
       return (
         <View

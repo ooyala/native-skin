@@ -50,3 +50,8 @@ This project relies on __React Native__, a UI Framework that allows for similar 
      to run them using the [Node REPL](https://nodejs.org/api/repl.html).
   1. For example, run the REPL and then do ".load collapsingBarUtils.js" followed by
      "CollapsingBarUtils.TestSuite.Run();".
+
+### Bundle
+to bundle iOS or Android:
+     cd sdk/react && react-native bundle --dev=false --bundle-output iOS/main.jsbundle --entry-file index.ios.js
+     cd sdk/react && react-native bundle --dev=false --bundle-output index.android.jsbundle --entry-file index.android.js --platform android
