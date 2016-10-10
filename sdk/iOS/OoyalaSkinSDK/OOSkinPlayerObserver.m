@@ -18,6 +18,7 @@
 #import "OOVolumeManager.h"
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OOCaption.h>
+#import <OoyalaSDK/OOSeekInfo.h>
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
@@ -62,14 +63,36 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdOverlayNotification:) name:OOOoyalaPlayerAdOverlayNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekStartedNotification:) name:OOOoyalaPlayerSeekStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekCompletedNotification:) name:OOOoyalaPlayerSeekCompletedNotification object:self.player];
+    
   }
 }
 
-- (void)bridgeSeekCompletedNotification: (NSNotification *)notification {
-  NSNumber *playhead = [NSNumber numberWithFloat:_player.playheadTime];
+- (void)bridgeSeekStartedNotification: (NSNotification *)notification {
+  
+  NSDictionary *seekInfoDictionaryObject = notification.userInfo;
+  OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
+  NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
+  NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
+  NSNumber *totalDuration = [NSNumber numberWithFloat:seekInfo.totalDuration];
   NSDictionary *eventBody = @{
-                              @"playhead":playhead,
+                              @"seekstart":seekStart,
+                              @"seekend":seekEnd,
+                              @"duration":totalDuration};
+  [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgeSeekCompletedNotification: (NSNotification *)notification {
+  NSDictionary *seekInfoDictionaryObject = notification.userInfo;
+  OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
+  NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
+  NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
+  NSNumber *totalDuration = [NSNumber numberWithFloat:seekInfo.totalDuration];
+  NSDictionary *eventBody = @{
+                              @"seekstart":seekStart,
+                              @"seekend":seekEnd,
+                              @"duration":totalDuration,
                               @"screenType":@"video"};
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
