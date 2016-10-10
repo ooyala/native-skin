@@ -22,7 +22,8 @@ var {
   OVERLAY_TYPES,
   OOSTATES,
   PLATFORMS,
-  AUTOHIDE_DELAY
+  AUTOHIDE_DELAY,
+  MAX_DATE_VALUE,
 } = Constants;
 var OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
 var OoyalaSkinPanelRenderer = require('./ooyalaSkinPanelRenderer');
@@ -141,8 +142,7 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
 OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
   var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
   if (isPastAutoHideTime) {
-    Log.verbose("handleVideoTouch - Time set");
-    this.skin.setState({lastPressedTime: new Date().getTime()});
+    this.handleControlsTouch();
   } else {
     Log.verbose("handleVideoTouch - Time Zeroed");
     this.skin.setState({lastPressedTime: new Date(0)})
@@ -153,10 +153,14 @@ OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
  * Hard reset lastPressedTime, either due to button press or otherwise
  */
 OoyalaSkinCore.prototype.handleControlsTouch = function() {
-  Log.verbose("handleControlsTouch - Time reset");
-  this.skin.setState({lastPressedTime: new Date().getTime()});
+  if (this.skin.props.controlBar.autoHide === true) {  
+    Log.verbose("handleVideoTouch - Time set");
+    this.skin.setState({lastPressedTime: new Date()});
+  } else {
+    Log.verbose("handleVideoTouch infinite time");
+    this.skin.setState({lastPressedTime: new Date(MAX_DATE_VALUE)});
+  }
 }
-
 
 OoyalaSkinCore.prototype.pushToOverlayStackAndMaybePause = function(overlay) {
   if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {

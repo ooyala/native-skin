@@ -50,7 +50,7 @@ var OoyalaSkin = React.createClass({
       duration: 1,
       rate: 0,
       fullscreen: false,
-      lastPressedTime: (new Date).getTime(),
+      lastPressedTime: new Date(0),
       upNextDismissed: false,
       showPlayButton: true,
       // things which default to null and thus don't have to be stated:
