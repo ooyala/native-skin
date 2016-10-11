@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -44,6 +45,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
@@ -55,7 +58,7 @@ import java.util.Locale;
  *   - Observation of the OoyalaPlayer to provide up-to-date state to the UI
  *   - Handlers of all React Native callbacks
  */
-public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
+public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
   final String TAG = this.getClass().toString();
 
   private static final String KEY_NAME = "name";
@@ -315,6 +318,8 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   @Override
   public void setFullscreen(boolean isFullscreen) {
     _layout.setFullscreen(isFullscreen);
+    setChanged();
+    notifyObservers();
   }
 
 
