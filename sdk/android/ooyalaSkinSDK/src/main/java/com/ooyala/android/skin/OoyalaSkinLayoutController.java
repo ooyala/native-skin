@@ -76,6 +76,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   /**
    * This is used to detect fullscreen open and close events
+   * With this notification we will send data as state of fullscreen which is
+   * isFullscreen = true/false
    */
   public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
 
