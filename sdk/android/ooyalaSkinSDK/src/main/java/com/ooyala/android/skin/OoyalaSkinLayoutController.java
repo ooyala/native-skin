@@ -73,6 +73,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private static final String KEY_ACTION = "action";
 
   public static final String CONTROLLER_KEY_PRESS_EVENT = "controllerKeyPressEvent";
+
+  /**
+   * This is used to detect fullscreen open and close events
+   */
   public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
 
   private OoyalaSkinLayout _layout;
