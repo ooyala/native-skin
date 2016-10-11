@@ -13,17 +13,19 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Video;
+import com.ooyala.android.util.DebugMode;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.util.Iterator;
 import java.util.Set;
 
-/**
- * Created by michael.len on 2/1/16.
- */
 class BridgeMessageBuilder {
+  private static final String TAG = BridgeMessageBuilder.class.getSimpleName();
+
   public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
+
     WritableMap params = Arguments.createMap();
 
     Double duration = player.getDuration() / 1000.0;
@@ -136,6 +138,10 @@ class BridgeMessageBuilder {
   }
 
   private static double stringSize(String fontName,int fontStyle,int textSize,String text) {
+    if (text == null) {
+      DebugMode.logE(TAG, "Trying to perform stringSize on a null string");
+      return 0;
+    }
     Paint paint = new Paint();
     Rect bounds = new Rect();
     Typeface typeface = Typeface.create(fontName,fontStyle);
@@ -155,8 +161,8 @@ class BridgeMessageBuilder {
     if(data != null) {
       AdPodInfo ad = (AdPodInfo) data;
 
-      String title = ad.getTitle();
-      params.putString("title", title != null ? title : "");
+      String title = ad.getTitle() != null ? ad.getTitle() : "";
+      params.putString("title", title);
 
       String description = ad.getDescription();
       params.putString("description", description != null ? description : "");
