@@ -25,6 +25,7 @@ import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
@@ -72,6 +73,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private static final String KEY_ACTION = "action";
 
   public static final String CONTROLLER_KEY_PRESS_EVENT = "controllerKeyPressEvent";
+  public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
 
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
@@ -316,10 +318,21 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   @Override
   public void setFullscreen(boolean isFullscreen) {
     _layout.setFullscreen(isFullscreen);
-    setChanged();
-    notifyObservers();
+    sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME);
   }
 
+  void sendNotification(String notificationName) {
+    sendNotification(notificationName, null);
+  }
+
+  void sendNotification(String notificationName, Object data) {
+    sendNotification(new OoyalaNotification(notificationName, data));
+  }
+
+  void sendNotification(OoyalaNotification notification) {
+    setChanged();
+    notifyObservers(notification);
+  }
 
   public boolean isFullscreen() {
     return _layout.isFullscreen();
