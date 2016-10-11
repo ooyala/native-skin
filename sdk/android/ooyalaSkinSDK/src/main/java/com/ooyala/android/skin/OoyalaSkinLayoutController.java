@@ -8,14 +8,12 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
