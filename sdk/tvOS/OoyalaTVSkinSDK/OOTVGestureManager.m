@@ -6,7 +6,7 @@
 //
 
 #import "OOTVGestureManager.h"
-#import <OoyalaTVSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOOoyalaPlayer.h>
 #import "OOOoyalaTVPlayerViewController.h"
 #import "OOOoyalaTVConstants.h"
 
