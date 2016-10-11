@@ -14,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -26,6 +25,7 @@ import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
@@ -44,6 +44,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
@@ -55,7 +57,7 @@ import java.util.Locale;
  *   - Observation of the OoyalaPlayer to provide up-to-date state to the UI
  *   - Handlers of all React Native callbacks
  */
-public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
+public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
   final String TAG = this.getClass().toString();
 
   private static final String KEY_NAME = "name";
@@ -71,6 +73,13 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   private static final String KEY_ACTION = "action";
 
   public static final String CONTROLLER_KEY_PRESS_EVENT = "controllerKeyPressEvent";
+
+  /**
+   * This is used to detect fullscreen open and close events
+   * With this notification we will send data as state of fullscreen which is
+   * isFullscreen = true/false
+   */
+  public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
 
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
@@ -315,8 +324,21 @@ public class OoyalaSkinLayoutController implements LayoutController, OoyalaSkinL
   @Override
   public void setFullscreen(boolean isFullscreen) {
     _layout.setFullscreen(isFullscreen);
+    sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
   }
 
+  void sendNotification(String notificationName) {
+    sendNotification(notificationName, null);
+  }
+
+  void sendNotification(String notificationName, Object data) {
+    sendNotification(new OoyalaNotification(notificationName, data));
+  }
+
+  void sendNotification(OoyalaNotification notification) {
+    setChanged();
+    notifyObservers(notification);
+  }
 
   public boolean isFullscreen() {
     return _layout.isFullscreen();
