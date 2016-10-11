@@ -318,7 +318,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   @Override
   public void setFullscreen(boolean isFullscreen) {
     _layout.setFullscreen(isFullscreen);
-    sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME);
+    sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
   }
 
   void sendNotification(String notificationName) {
