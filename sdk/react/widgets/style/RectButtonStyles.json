@@ -23,12 +23,6 @@
     "left": 10,
   },
 
-  "buttonArea": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignSelf": "center",
-  },
-
   "buttonTextStyle": {
     "flex": 1,
     "alignSelf": "center",
