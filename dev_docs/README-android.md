@@ -210,7 +210,7 @@ public void onCreate(Bundle savedInstanceState) {
 
 1. Implement the Observer object in your Activity. For example:
     ```
-        public class OoyalaAndroidTestAppActivity extends Activity implements OnClickListener, Observer 
+        public class OoyalaAndroidTestAppActivity extends Activity implements Observer 
     ```
 2. Attach your activity to the skinPlayerLayoutController, like this:
     ```
@@ -221,7 +221,7 @@ public void onCreate(Bundle savedInstanceState) {
         @Override
         public void update(Observable arg0, Object arg1) {
             final String arg = OoyalaNotification.getNameOrUnknown(arg1);
-            if (arg1 == OoyalaSkinLayoutController.FULLSCREEN_CHANGED_NOTIFICATION_NAME) {
+            if (arg == OoyalaSkinLayoutController.FULLSCREEN_CHANGED_NOTIFICATION_NAME) {
                 // ((OoyalaNotification)arg1).getData() method will return value of fullscreen
                 // which is : fullscreen = true OR false
                 Log.d(TAG, "Fullscreen Notification received : " + arg + " - fullScreen: " + ((OoyalaNotification)arg1).getData());
