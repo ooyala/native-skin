@@ -13,7 +13,6 @@
     "overflow": "hidden",
   },
   "icon": {
-    "flex":1,
     "color": "#8E8E8E",
   },
   "iconTouchable": {

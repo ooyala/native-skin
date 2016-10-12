@@ -262,6 +262,7 @@ var AdPlaybackScreen = React.createClass({
         <View
           style={styles.container}>
           {adBar}
+          {this._renderPlaceholder(adIcons)}
         </View>
       );
     } else {

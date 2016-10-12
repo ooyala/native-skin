@@ -169,7 +169,7 @@ var VideoView = React.createClass({
 
     var scalingFactor = this.props.width/width;
     var ccStyle = {fontSize: this.props.captionStyles.textSize * scalingFactor, color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
-      backgroundColor:this.props.captionStyles.textBackgroundColor, width:this.props.width};
+      backgroundColor:this.props.captionStyles.textBackgroundColor};
     if (this.props.caption) {
       return (
         <View
