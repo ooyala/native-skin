@@ -217,18 +217,18 @@ public void onCreate(Bundle savedInstanceState) {
         skinPlayerLayoutController.addObserver(this);
     ```
 3. Implement the update method in the Activity:
-```
-    @Override
-    public void update(Observable arg0, Object arg1) {
-        final String arg = OoyalaNotification.getNameOrUnknown(arg1);
-        if (arg1 == OoyalaSkinLayoutController.FULLSCREEN_CHANGED_NOTIFICATION_NAME) {
-            // ((OoyalaNotification)arg1).getData() method will return value of fullscreen
-            // which is : fullscreen = true OR false
-            Log.d(TAG, "Fullscreen Notification received : " + arg + " - fullScreen: " + ((OoyalaNotification)arg1).getData());
-            // TO-DO code what app will do once they
-            //  receive fullscreen changed event
-    }
-```
+    ```
+        @Override
+        public void update(Observable arg0, Object arg1) {
+            final String arg = OoyalaNotification.getNameOrUnknown(arg1);
+            if (arg1 == OoyalaSkinLayoutController.FULLSCREEN_CHANGED_NOTIFICATION_NAME) {
+                // ((OoyalaNotification)arg1).getData() method will return value of fullscreen
+                // which is : fullscreen = true OR false
+                Log.d(TAG, "Fullscreen Notification received : " + arg + " - fullScreen: " + ((OoyalaNotification)arg1).getData());
+                // TO-DO code what app will do once they
+                //  receive fullscreen changed event
+        }
+    ```
     - arg0 is always the player instance
     - arg1 is the notification
 
