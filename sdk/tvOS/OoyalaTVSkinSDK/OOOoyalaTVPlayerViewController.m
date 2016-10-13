@@ -39,6 +39,11 @@
   return self;
 }
 
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  self.playbackControlsEnabled = YES;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear: animated];
 
