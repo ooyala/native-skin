@@ -206,7 +206,7 @@ var VideoViewPlayPause = React.createClass({
             underlayColor="transparent"
             activeOpacity={this.props.opacity}>
             <View>
-              <Animated.View style={[styles.buttonArea, sizeStyle]}>
+              <Animated.View style={[styles.androidPlayPauseButtonArea, sizeStyle]}>
                 {playButton}
                 {pauseButton}
               </Animated.View>
@@ -223,7 +223,7 @@ var VideoViewPlayPause = React.createClass({
           underlayColor="transparent"
           activeOpacity={this.props.opacity}>
           <View>
-            <Animated.View style={[styles.buttonArea, sizeStyle, opacity, {position: 'absolute'}]}>
+            <Animated.View style={[styles.androidPlayPauseButtonArea, sizeStyle, opacity, {position: 'absolute'}]}>
               {playButton}
               {pauseButton}
             </Animated.View>

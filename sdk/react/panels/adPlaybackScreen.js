@@ -258,11 +258,17 @@ var AdPlaybackScreen = React.createClass({
     }
 
     if (!this.props.config.adScreen.showControlBar) {
+
+      var playButtonIfPaused;
+      if (!this.props.playing) {
+        playButtonIfPaused = this._renderPlayPause(shouldShowControls)
+      }
       return (
         <View
           style={styles.container}>
           {adBar}
           {this._renderPlaceholder(adIcons)}
+          {playButtonIfPaused}
         </View>
       );
     } else {
