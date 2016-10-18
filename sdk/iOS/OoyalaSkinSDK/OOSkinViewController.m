@@ -52,6 +52,8 @@ static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 
+NSString *const OOOoyalaPlayerFullScreenChangedNotification = @"fullScreenChanged";
+
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)skinOptions
                         parent:(UIView *)parentView
@@ -240,6 +242,7 @@ static NSString *kViewChangeKey = @"frame";
     [_player pause];
   }
   _isFullscreen = !_isFullscreen;
+  [self notifyFullScreenChange : _isFullscreen];
   if (_isFullscreen) {
     [self.view removeFromSuperview];
     
@@ -344,4 +347,10 @@ static NSString *kViewChangeKey = @"frame";
 - (void)onApplicationDidBecomeActive:(NSNotification *)notification {
   MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeForcedOnly);
 }
+
+- (void)notifyFullScreenChange:(BOOL) isFullScreen {
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerFullScreenChangedNotification object:self
+        userInfo:[[NSDictionary alloc] initWithObjectsAndKeys:@(isFullScreen), @"fullScreen", nil]];
+}
+
 @end
