@@ -176,13 +176,13 @@ If you'd like to take another extra step, try _following these steps to update t
   1. xcodebuild -project sdk/OoyalaSkinSDK/OoyalaSkinSDK.xcodeproj/ -sdk iphonesimulator -target OoyalaSkinSDKUniversal
   2. find OoyalaSkinSDK.framework in sdk/OoyalaSkinSDK/build/
 
-### Working with the events in SkinSDK
+##Working with the events in SkinSDK
   You need to listen for event notifications on the SkinViewController object.
 
   First you need to set up notification objects, as shown below. Events are enumerated in the header file Headers/OOSkinViewController.h with explanatory comments:
 
-  ```
+    ```
       extern NSString *const OOSkinViewControllerFullscreenChangedNotification;
       /* Fires when player goes FullScreen  */
 
-  ```
+    ```
