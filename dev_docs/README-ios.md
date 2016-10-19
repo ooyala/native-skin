@@ -181,8 +181,8 @@ If you'd like to take another extra step, try _following these steps to update t
 
   First you need to set up notification objects, as shown below. Events are enumerated in the header file Headers/OOSkinViewController.h with explanatory comments:
 
-    ```
-      extern NSString *const OOSkinViewControllerFullscreenChangedNotification;
-      /* Fires when player goes FullScreen  */
+  ```
+    extern NSString *const OOSkinViewControllerFullscreenChangedNotification;
+    /* Fires when player goes FullScreen  */
 
-    ```
+  ```
