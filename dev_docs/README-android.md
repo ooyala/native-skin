@@ -205,3 +205,34 @@ public void onCreate(Bundle savedInstanceState) {
 
 }
 ```
+
+### Working with the events in SkinSDK
+
+1. Implement the Observer object in your Activity. For example:
+    ```
+        public class OoyalaAndroidTestAppActivity extends Activity implements Observer 
+    ```
+2. Attach your activity to the skinPlayerLayoutController, like this:
+    ```
+        skinPlayerLayoutController.addObserver(this);
+    ```
+3. Implement the update method in the Activity:
+    ```
+        @Override
+        public void update(Observable arg0, Object arg1) {
+            final String arg = OoyalaNotification.getNameOrUnknown(arg1);
+            if (arg == OoyalaSkinLayoutController.FULLSCREEN_CHANGED_NOTIFICATION_NAME) {
+                // ((OoyalaNotification)arg1).getData() method will return value of fullscreen
+                // which is : fullscreen = true OR false
+                Log.d(TAG, "Fullscreen Notification received : " + arg + " - fullScreen: " + ((OoyalaNotification)arg1).getData());
+                // TO-DO code what app will do once they
+                //  receive fullscreen changed event
+        }
+    ```
+    - arg0 is always the player instance
+    - arg1 is the notification
+
+4. The following notifications are defined as part of the OoyalaSkinLayoutController class:
+    ```
+        public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
+    ```
