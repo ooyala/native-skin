@@ -90,12 +90,13 @@ var EndScreen = React.createClass({
       (<InfoPanel title={title} description={description} />);
 
     return (
-      <Image
-      source={{uri: this.props.promoUrl}}
-      style={styles.fullscreenContainer}
-      resizeMode={Image.resizeMode.contain}>
       <View
         style={styles.fullscreenContainer}>
+        <Image
+        source={{uri: this.props.promoUrl}}
+        style={[styles.fullscreenContainer,{position:'absolute', top:0, left:0, width:this.props.width, height: this.props.height}]}
+        resizeMode={Image.resizeMode.contain}>
+        </Image>
         {infoPanel}
         <View style={replaybuttonLocation}>
           {replaybutton}
@@ -104,7 +105,6 @@ var EndScreen = React.createClass({
           {this._renderBottomOverlay(true)}
         </View>
       </View>
-      </Image>
     );
   },
 
