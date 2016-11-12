@@ -117,9 +117,10 @@ var BottomOverlay = React.createClass({
     var topOffset = this._renderTopOffset(scrubberSize);
     var leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
     var positionStyle = {top:topOffset, left:leftOffset};
+    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.props.config.controlBar.scrubberBar.scrubberHandleColor, borderRadius: 900, borderWidth: 1.5, borderColor: this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor};
 
     return (
-      <View style={[styles.progressScrubber, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
+      <View style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
       </View>
       );
   },
