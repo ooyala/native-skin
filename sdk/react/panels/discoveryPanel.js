@@ -80,7 +80,7 @@ var DiscoveryPanel = React.createClass({
   componentDidMount:function () {
     // After the first render, we don't want to fire any more impressions requests
     this.setImpressionsFired(true);
-    
+
     this.state.opacity.setValue(0);
     Animated.parallel([
       Animated.timing(
@@ -195,7 +195,7 @@ var DiscoveryPanel = React.createClass({
               text_color:"#AAffffff",
               stroke_width:10,
               text_size:75,
-              max_time:10,
+              max_time:this.state.counterTime,
               progress:0,
               automatic:true}}
               data={{embedCode:item.embedCode,bucketInfo:item.bucketInfo}}/>);
@@ -208,8 +208,8 @@ var DiscoveryPanel = React.createClass({
                height: 44,
              }}
              automatic={true}
-             time={this.state.counterLimit}
-             timeLeft={this.state.counterLimit}
+             time={this.state.counterTime}
+             timeLeft={this.state.counterTime}
              radius={22}
              fillColor={'#000000'}
              strokeColor={'#ffffff'}
