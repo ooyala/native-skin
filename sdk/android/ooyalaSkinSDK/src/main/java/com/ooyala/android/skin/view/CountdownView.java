@@ -29,7 +29,7 @@ public class CountdownView extends View {
     private float textSize;
     private int textColor;
     private int progress = 0;
-    private int maxTimeSec;
+    private double maxTimeSec;
     private int mainColor;
     private int secondaryColor;
     private int fillColor;
@@ -110,7 +110,7 @@ public class CountdownView extends View {
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
 
-    public void setMaxTimeSec(int maxTimeSec) {
+    public void setMaxTimeSec(double maxTimeSec) {
         this.maxTimeSec = maxTimeSec;
         invalidate();
     }
@@ -130,10 +130,10 @@ public class CountdownView extends View {
 
     public void start() {
 
-        new CountDownTimer((maxTimeSec - progress) * 1000, 100) {
+        new CountDownTimer(((int)maxTimeSec - progress) * 1000, 100) {
             public void onTick(long millisUntilFinished) {
                 int secUntilFinished = (int) (millisUntilFinished / 1000);
-                setProgress(maxTimeSec - secUntilFinished);
+                setProgress((int) (maxTimeSec - secUntilFinished));
                 text = String.valueOf(secUntilFinished);
             }
 
