@@ -100,6 +100,12 @@ var BottomOverlay = React.createClass({
     }
   },
 
+  componentWillReceiveProps: function(nextProps) {
+    if (Math.abs(this.props.playhead - nextProps.playhead) >= 0.2) {
+       this.setState({playhead:-1.0}); 
+    }
+  },
+
   _renderProgressBarWidth: function() {
     return this.props.width - 2 * leftMargin;
   },
@@ -133,6 +139,9 @@ var BottomOverlay = React.createClass({
       return;
     }
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
+    if (this.state.playhead >= 0.0) {
+      playedPercent = this.playedPercent(this.state.playhead, this.props.duration);
+    }
     return (
       <View style={styles.progressBarStyle}>
     {this._renderProgressBar(playedPercent)}
@@ -140,6 +149,7 @@ var BottomOverlay = React.createClass({
     {this._renderCuePoints(this.props.cuePoints)}
     </View>);
   },
+  
   _getCuePointLeftOffset: function(cuePoint, progressBarWidth) {
     var cuePointPercent = cuePoint / this.props.duration;
     if (cuePointPercent > 1) {
@@ -240,9 +250,9 @@ var BottomOverlay = React.createClass({
     if (this.isMounted()) {
       if (this.state.touch && this.props.onScrub) {
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
-      }
-      this.setState({touch:false, x:null});   
+      } 
     }
+    this.setState({touch:false, x:null, playhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration}); 
   },
 
   renderDefault: function(widthStyle) {
