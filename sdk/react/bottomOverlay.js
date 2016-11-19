@@ -126,8 +126,8 @@ var BottomOverlay = React.createClass({
   },
 
   _customizeScrubber: function() {
-    var scrubberStyle = {{styles.progressScrubber.flex}, {styles.progressScrubber.position}, backgroundColor: this.props.config.controlBar.scrubberBar.scrubberHandleColor, 
-      {styles.progressScrubber.borderRadius}, {styles.progressScrubber.borderWidth}, borderColor: this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor};
+    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.props.config.controlBar.scrubberBar.scrubberHandleColor, 
+    borderRadius: 900, borderWidth: 1.5, borderColor: this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor};
     return scrubberStyle;
   },
 
