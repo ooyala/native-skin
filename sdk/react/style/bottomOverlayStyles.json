@@ -11,15 +11,6 @@
     "flex":0,
     },
 
-  "progressScrubber": {
-    "flex": 0,
-    "position": "absolute",
-    "backgroundColor": "#4389FF",
-    "borderRadius":900,
-    "borderWidth": 1.5,
-    "borderColor": "white"
-  },
-
   "cuePoint": {
     "flex": 0,
     "position": "absolute",
