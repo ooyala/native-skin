@@ -21,6 +21,7 @@ var {
   UI_SIZES
 } = Constants;
 
+var Log = require('./log');
 var Utils = require('./utils');
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
@@ -126,8 +127,18 @@ var BottomOverlay = React.createClass({
   },
 
   _customizeScrubber: function() {
-    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.props.config.controlBar.scrubberBar.scrubberHandleColor, 
-    borderRadius: 900, borderWidth: 1.5, borderColor: this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor};
+    var scrubberHandleColor = this.props.config.controlBar.scrubberBar.scrubberHandleColor;
+    var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
+    if (typeof scrubberHandleColor === "undefined") {
+      Log.error("this.props.config.controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
+      scrubberHandleColor = "#4389FF";
+    }
+    if (typeof scrubberHandleBorderColor === "undefined") {
+      Log.error("this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
+      scrubberHandleBorderColor = "white";
+    }
+    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: scrubberHandleColor, 
+    borderRadius: 900, borderWidth: 1.5, borderColor: scrubberHandleBorderColor};
     return scrubberStyle;
   },
 
