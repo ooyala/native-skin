@@ -130,11 +130,11 @@ var BottomOverlay = React.createClass({
     var scrubberHandleColor = this.props.config.controlBar.scrubberBar.scrubberHandleColor;
     var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
     if (typeof scrubberHandleColor === "undefined") {
-      Log.error("this.props.config.controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
+      Log.error("controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       scrubberHandleColor = "#4389FF";
     }
     if (typeof scrubberHandleBorderColor === "undefined") {
-      Log.error("this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
+      Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       scrubberHandleBorderColor = "white";
     }
     var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: scrubberHandleColor, 
