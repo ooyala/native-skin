@@ -104,8 +104,9 @@ var BottomOverlay = React.createClass({
   },
 
 /* 
-If the difference between the new scrubber position and the old one is greater than or equal to scrubPositionDelta,
-set the playhead to -1 to prevent setting the scrubber to the old position.
+If the difference between the old and new scrubber positions is greater than or equal to scrubPositionDelta, it is assumed
+that the scrubber is being dragged, and therefore, cachedPlayhead is set to -1 to prevent updating the scrubber position
+until the drag is done.
 */
   componentWillReceiveProps: function(nextProps) {
     if (Math.abs(this.props.playhead - nextProps.playhead) >= scrubPositionDelta) { 
