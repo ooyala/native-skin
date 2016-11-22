@@ -33,7 +33,6 @@ var leftMargin = 20;
 var progressBarHeight = 3;
 var scrubberSize = 14;
 var scrubTouchableDistance = 45;
-var scrubPositionDelta = 0.2;
 var cuePointSize = 8;
 var BottomOverlay = React.createClass({
 
@@ -104,14 +103,12 @@ var BottomOverlay = React.createClass({
   },
 
 /* 
-If the difference between the old and new scrubber positions is greater than or equal to scrubPositionDelta, it is assumed
-that the scrubber is being dragged, and therefore, cachedPlayhead is set to -1 to prevent updating the scrubber position
-until the drag is done.
+If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
 */
   componentWillReceiveProps: function(nextProps) {
-    if (Math.abs(this.props.playhead - nextProps.playhead) >= scrubPositionDelta) { 
+    if (this.props.playhead != nextProps.playhead) { 
        this.setState({cachedPlayhead:-1.0}); 
-    }
+    } 
   },
 
   _renderProgressBarWidth: function() {
@@ -149,7 +146,7 @@ until the drag is done.
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     if (this.state.cachedPlayhead >= 0.0) {
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
-    }
+    } 
     return (
       <View style={styles.progressBarStyle}>
     {this._renderProgressBar(playedPercent)}
