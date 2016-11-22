@@ -33,6 +33,7 @@ var leftMargin = 20;
 var progressBarHeight = 3;
 var scrubberSize = 14;
 var scrubTouchableDistance = 45;
+var scrubPositionDelta = 0.2;
 var cuePointSize = 8;
 var BottomOverlay = React.createClass({
 
@@ -64,13 +65,15 @@ var BottomOverlay = React.createClass({
       return {
         touch: false,
         opacity: new Animated.Value(1),
-        height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT))
+        height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
+        cachedPlayhead: -1,
       };
     }
     return {
       touch: false,
       opacity: new Animated.Value(0),
       height: new Animated.Value(0),
+      cachedPlayhead: -1,
     };
   },
 
@@ -100,9 +103,13 @@ var BottomOverlay = React.createClass({
     }
   },
 
+/* 
+If the difference between the new scrubber position and the old one is greater than or equal to scrubPositionDelta,
+set the playhead to -1 to prevent setting the scrubber to the old position.
+*/
   componentWillReceiveProps: function(nextProps) {
-    if (Math.abs(this.props.playhead - nextProps.playhead) >= 0.2) {
-       this.setState({playhead:-1.0}); 
+    if (Math.abs(this.props.playhead - nextProps.playhead) >= scrubPositionDelta) { 
+       this.setState({cachedPlayhead:-1.0}); 
     }
   },
 
@@ -139,8 +146,8 @@ var BottomOverlay = React.createClass({
       return;
     }
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-    if (this.state.playhead >= 0.0) {
-      playedPercent = this.playedPercent(this.state.playhead, this.props.duration);
+    if (this.state.cachedPlayhead >= 0.0) {
+      playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
     return (
       <View style={styles.progressBarStyle}>
@@ -191,7 +198,7 @@ var BottomOverlay = React.createClass({
       ref='controlBar'
       primaryButton={this.props.primaryButton}
       platform={this.props.platform}
-      playhead={this.props.playhead}
+      cachedPlayhead={this.props.playhead}
       duration={this.props.duration}
       volume={this.props.volume}
       live={this.props.live}
@@ -252,7 +259,7 @@ var BottomOverlay = React.createClass({
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
       } 
     }
-    this.setState({touch:false, x:null, playhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration}); 
+    this.setState({touch:false, x:null, cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration}); 
   },
 
   renderDefault: function(widthStyle) {
