@@ -30,7 +30,7 @@ public class CountdownViewManager extends SimpleViewManager<CountdownView> {
         String textColor = countdown.getString("text_color");
         Integer strokeWidth = countdown.getInt("stroke_width");
         Integer textSize = countdown.getInt("text_size");
-        Integer maxTime = countdown.getInt("max_time");
+        Double maxTime = countdown.getDouble("max_time");
         Integer progress = countdown.getInt("progress");
         Boolean automatic = countdown.getBoolean("automatic");
 
@@ -46,7 +46,7 @@ public class CountdownViewManager extends SimpleViewManager<CountdownView> {
         if(automatic) {
             view.start();
         } else {
-            view.setText(String.valueOf(maxTime - progress));
+            view.setText(String.valueOf((int) (maxTime - progress)));
         }
         view.invalidate();
     }
