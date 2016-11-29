@@ -1,4 +1,4 @@
-include ':ooyalaSkinSDK'
+include ':skin'
 
 //include ':app'
 //project(':app').projectDir=new File(settingsDir, '../../../android-sample-apps/OoyalaSkinSampleApp/app')
