@@ -132,7 +132,7 @@ var VideoView = React.createClass({
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
-      primaryButton={this.props.playing ? "play" : "pause"}
+      primaryButton={!this.props.playing ? "play" : "pause"}
       fullscreen = {this.props.fullscreen}
       cuePoints = {this.props.cuePoints}
       playhead={this.props.playhead}
