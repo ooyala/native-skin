@@ -268,7 +268,7 @@ var VideoView = React.createClass({
     var height = this.props.adOverlay.height;
 
     //if the width of the ad is larger than the player width
-    var sidePadding = 10
+    var sidePadding = 10;
     var maxWidth = this.props.width - 2 * sidePadding;
     if (width > maxWidth) {
       height = height / width * maxWidth;
@@ -277,24 +277,28 @@ var VideoView = React.createClass({
     var left = (this.props.width - width) / 2;
 
     return (
-      <TouchableHighlight
-        style={{height:height + 10, width:this.props.width}}
-        onPress={this.handleOverlayClick}>
-        <View style={{left: left, bottom: 10, width:width, height:height}}>
-        <Image
-          style={styles.container}
-          source={{uri: this.props.adOverlay.resourceUrl}}
-          resizeMode={Image.resizeMode.contain}>
-        </Image>
+      <View
+        style={{height:height, width:width}}>
         <TouchableHighlight
-          style={panelStyles.dismissOverlay}
-          onPress={this.props.handlers.onAdOverlayDismiss}>
-          <Text style={panelStyles.dismissIcon}>
-            {this.props.config.icons.dismiss.fontString}
-          </Text>
-          </TouchableHighlight>
-        </View>
-      </TouchableHighlight>);
+          style={{left: left, bottom: 10, width:width, height:height}}
+          onPress={this.handleOverlayClick}>
+          <View
+            style={styles.container}>
+            <Image
+              style={styles.container}
+              source={{uri: this.props.adOverlay.resourceUrl}}
+              resizeMode={Image.resizeMode.contain}>
+            </Image>
+            <TouchableHighlight
+              style={panelStyles.dismissOverlay}
+              onPress={this.props.handlers.onAdOverlayDismiss}>
+              <Text style={panelStyles.dismissIcon}>
+                {this.props.config.icons.dismiss.fontString}
+              </Text>
+            </TouchableHighlight>
+          </View>
+        </TouchableHighlight>
+      </View>);
   },
 
   _renderLoading: function() {
