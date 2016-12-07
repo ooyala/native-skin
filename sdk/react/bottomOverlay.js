@@ -214,7 +214,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       ref='controlBar'
       primaryButton={this.props.primaryButton}
       platform={this.props.platform}
-      cachedPlayhead={this.props.playhead}
+      playhead={this.props.playhead}
       duration={this.props.duration}
       volume={this.props.volume}
       live={this.props.live}
