@@ -71,11 +71,11 @@
 
 
 // PBA-4831 Return total duration calculated from the seekable range
-- (NSNumber *) getTotalDuration {
-    CMTimeRange seekableRange = _player.seekableTimeRange;
+- (NSNumber *) getTotalDuration:(OOOoyalaPlayer *)player {
+    CMTimeRange seekableRange = player.seekableTimeRange;
     Float64 duration;
     if (CMTIMERANGE_IS_INVALID(seekableRange)) {
-        duration = _player.duration;
+        duration = player.duration;
     } else {
         duration = CMTimeGetSeconds(seekableRange.duration);
     }
@@ -83,13 +83,13 @@
 }
 
 // PBA-4831 Return adjusted playhead calculated from the seekable range
-- (NSNumber *) getAdjustedPlayhead {
-    CMTimeRange seekableRange = _player.seekableTimeRange;
+- (NSNumber *) getAdjustedPlayhead: (OOOoyalaPlayer *)player {
+    CMTimeRange seekableRange = player.seekableTimeRange;
     Float64 adjustedPlayhead;
     if (CMTIMERANGE_IS_INVALID(seekableRange)) {
-      adjustedPlayhead = _player.playheadTime;
+      adjustedPlayhead = player.playheadTime;
     } else {
-      adjustedPlayhead = _player.playheadTime - CMTimeGetSeconds(seekableRange.start);
+      adjustedPlayhead = player.playheadTime - CMTimeGetSeconds(seekableRange.start);
     }
     return [NSNumber numberWithFloat:adjustedPlayhead];
 }
@@ -100,7 +100,7 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [self getTotalDuration];
+  NSNumber *totalDuration = [self getTotalDuration: (OOOoyalaPlayer *) _player];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
@@ -113,7 +113,7 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [self getTotalDuration];
+  NSNumber *totalDuration = [self getTotalDuration: (OOOoyalaPlayer *) _player];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
@@ -144,8 +144,8 @@
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber = [self getAdjustedPlayhead];
-  NSNumber *durationNumber = [self getTotalDuration];
+  NSNumber *playheadNumber = [self getAdjustedPlayhead: (OOOoyalaPlayer *) _player];
+  NSNumber *durationNumber = [self getTotalDuration: (OOOoyalaPlayer *) _player];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
 
