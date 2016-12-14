@@ -18,6 +18,7 @@ var Constants = require('./constants');
 var descriptionMinWidth = 140;
 var thumbnailWidth = 175;
 var dismissButtonWidth = 10;
+var defaultCountdownVal = 10;
 
 var UpNext = React.createClass({
   propTypes: {
@@ -41,13 +42,33 @@ var UpNext = React.createClass({
   },
 
   upNextDuration: function() {
-
-    if(this.props.config.upNext.timeToShow.indexOf('%') >= 0) {
-      return (this.props.duration - parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) * this.props.duration);
-    }
-    // else if we are given a number of seconds from end in which to show the upnext dialog.
-    else {
-      return parseInt(this.props.config.upNext.timeToShow);
+    // TODO: Unit test this functionality, there're still some edge cases
+    if (typeof this.props.config.upNext.timeToShow === 'string') {
+      // Support old version of percentage (e.g. "80%")
+      if (this.props.config.upNext.timeToShow.indexOf('%') >= 0) {
+        return (this.props.duration - parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) * this.props.duration);
+      }
+      else if (isNaN(this.props.config.upNext.timeToShow)) {
+        // The string is not a valid number
+        return defaultCountdownVal;
+      } else {
+        // if we are given a number of seconds from end in which to show the upnext dialog.
+        return parseInt(this.props.config.upNext.timeToShow);
+      }
+    } else if (typeof this.props.config.upNext.timeToShow === 'number'){
+      if (this.props.config.upNext.timeToShow > 0.0 && this.props.config.upNext.timeToShow <= 1.0) {
+        // New percentage mode (e.g. 0.8)
+        return this.props.duration - this.props.config.upNext.timeToShow * this.props.duration;
+      } else if (this.props.config.upNext.timeToShow > 1.0) {
+        // Normal number (e.g. 15)
+        return this.props.config.upNext.timeToShow;
+      } else {
+        // 0 or negative number
+        return defaultCountdownVal;
+      }
+    } else {
+      // Not a valid string nor number, return default.
+      return defaultCountdownVal;
     }
   },
 

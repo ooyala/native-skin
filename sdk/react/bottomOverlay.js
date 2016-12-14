@@ -21,6 +21,7 @@ var {
   UI_SIZES
 } = Constants;
 
+var Log = require('./log');
 var Utils = require('./utils');
 var ProgressBar = require('./progressBar');
 var ControlBar = require('./controlBar');
@@ -64,13 +65,15 @@ var BottomOverlay = React.createClass({
       return {
         touch: false,
         opacity: new Animated.Value(1),
-        height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT))
+        height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
+        cachedPlayhead: -1,
       };
     }
     return {
       touch: false,
       opacity: new Animated.Value(0),
       height: new Animated.Value(0),
+      cachedPlayhead: -1,
     };
   },
 
@@ -100,6 +103,15 @@ var BottomOverlay = React.createClass({
     }
   },
 
+/* 
+If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
+*/
+  componentWillReceiveProps: function(nextProps) {
+    if (this.props.playhead != nextProps.playhead) { 
+       this.setState({cachedPlayhead:-1.0}); 
+    } 
+  },
+
   _renderProgressBarWidth: function() {
     return this.props.width - 2 * leftMargin;
   },
@@ -117,11 +129,28 @@ var BottomOverlay = React.createClass({
     var topOffset = this._renderTopOffset(scrubberSize);
     var leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
     var positionStyle = {top:topOffset, left:leftOffset};
+    var scrubberStyle = this._customizeScrubber();
 
     return (
-      <View style={[styles.progressScrubber, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
+      <View style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
       </View>
       );
+  },
+
+  _customizeScrubber: function() {
+    var scrubberHandleColor = this.props.config.controlBar.scrubberBar.scrubberHandleColor;
+    var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
+    if (typeof scrubberHandleColor === "undefined") {
+      Log.error("controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
+      scrubberHandleColor = "#4389FF";
+    }
+    if (typeof scrubberHandleBorderColor === "undefined") {
+      Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
+      scrubberHandleBorderColor = "white";
+    }
+    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: scrubberHandleColor, 
+    borderRadius: 900, borderWidth: 1.5, borderColor: scrubberHandleBorderColor};
+    return scrubberStyle;
   },
 
   _renderProgressBar: function(percent) {
@@ -133,6 +162,9 @@ var BottomOverlay = React.createClass({
       return;
     }
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
+    if (this.state.cachedPlayhead >= 0.0) {
+      playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
+    } 
     return (
       <View style={styles.progressBarStyle}>
     {this._renderProgressBar(playedPercent)}
@@ -140,6 +172,7 @@ var BottomOverlay = React.createClass({
     {this._renderCuePoints(this.props.cuePoints)}
     </View>);
   },
+  
   _getCuePointLeftOffset: function(cuePoint, progressBarWidth) {
     var cuePointPercent = cuePoint / this.props.duration;
     if (cuePointPercent > 1) {
@@ -181,7 +214,7 @@ var BottomOverlay = React.createClass({
       ref='controlBar'
       primaryButton={this.props.primaryButton}
       platform={this.props.platform}
-      playhead={this.props.playhead}
+      cachedPlayhead={this.props.playhead}
       duration={this.props.duration}
       volume={this.props.volume}
       live={this.props.live}
@@ -240,9 +273,9 @@ var BottomOverlay = React.createClass({
     if (this.isMounted()) {
       if (this.state.touch && this.props.onScrub) {
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
-      }
-      this.setState({touch:false, x:null});   
+      } 
     }
+    this.setState({touch:false, x:null, cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration}); 
   },
 
   renderDefault: function(widthStyle) {

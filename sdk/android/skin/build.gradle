@@ -1,0 +1,145 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            abiFilters "armeabi-v7a", "x86"
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+       warning 'InvalidPackage'
+    }
+}
+
+def sdkName = 'skin'
+ext {
+    bintrayRepo = project.bintrayRepo
+    bintrayName = sdkName
+
+    publishedGroupId = project.publishedGroupId
+    libraryName = sdkName
+    artifact = sdkName
+
+    libraryDescription = 'Ooyala Skin SDK'
+
+    libraryVersion = project.libraryVersion
+}
+group = publishedGroupId
+version = libraryVersion
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'jar'
+                groupId publishedGroupId
+                artifactId artifact
+
+                // Add your description here
+                name libraryName
+                description libraryDescription
+                developers {
+                    developer {
+                        id project.developerId
+                        name project.developerName
+                        email project.developerEmail
+                    }
+                }
+            }
+        }
+    }
+}
+
+if (project.hasProperty("android")) { // Android libraries
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from android.sourceSets.main.java.srcDirs
+    }
+} else { // Java libraries
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+}
+
+artifacts {
+//    archives javadocJar
+    archives sourcesJar
+}
+
+// Bintray
+bintray {
+    user = project.bintrayUser
+    key = project.bintrayApiKey
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                //Optional. The passphrase for GPG signing'
+            }
+        }
+    }
+}
+
+repositories {
+    jcenter()
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+task copyLibs(type: Copy) {
+    from new File(projectDir, '../../../vendor/Ooyala/OoyalaSDK-Android/OoyalaSDK.jar')
+    from new File(projectDir, '../../../vendor/Facebook/react-native-0.33.0.aar')
+    into new File(projectDir, './libs')
+    doLast {
+        println "Libs updated."
+    }
+}
+
+tasks.copyLibs.execute()
+
+dependencies {
+    compile files('libs/OoyalaSDK.jar')
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:23.4.0'
+    compile 'com.facebook.fresco:fresco:0.11.0'
+    compile 'com.facebook.fresco:imagepipeline-okhttp3:0.11.0'
+    compile 'com.facebook.stetho:stetho:1.2.0'
+    compile 'com.facebook.stetho:stetho-okhttp:1.2.0'
+    compile 'com.facebook.soloader:soloader:0.1.0'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.2.3'
+    compile 'com.google.code.findbugs:jsr305:3.0.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
+    compile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
+    compile 'com.squareup.okio:okio:1.9.0'
+    compile 'org.webkit:android-jsc:r174650'
+    compile (group:'com.facebook', name:'react-native', version:'0.33.0', ext:'aar')
+    compile 'javax.inject:javax.inject:1'
+}

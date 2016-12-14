@@ -8,6 +8,9 @@ sdk/react/coverage
 **/.gradle/
 **/local.properties
 
+**/.idea/libraries/
+**/.idea
+
 ## Other
 *.xccheckout
 *.moved-aside
