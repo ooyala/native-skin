@@ -86,7 +86,7 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [NSNumber numberWithFloat:seekInfo.totalDuration];
+  NSNumber *totalDuration = [self calculateTotalDuration];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
@@ -99,7 +99,7 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [NSNumber numberWithFloat:seekInfo.totalDuration];
+  NSNumber *totalDuration = [self calculateTotalDuration];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
