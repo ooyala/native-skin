@@ -100,7 +100,7 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [self getTotalDuration: (OOOoyalaPlayer *) _player];
+  NSNumber *totalDuration = [self getTotalDuration: self.player];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
@@ -113,7 +113,7 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [self getTotalDuration: (OOOoyalaPlayer *) _player];
+  NSNumber *totalDuration = [self getTotalDuration: self.player];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
@@ -144,8 +144,8 @@
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber = [self getAdjustedPlayhead: (OOOoyalaPlayer *) _player];
-  NSNumber *durationNumber = [self getTotalDuration: (OOOoyalaPlayer *) _player];
+  NSNumber *playheadNumber = [self getAdjustedPlayhead: self.player];
+  NSNumber *durationNumber = [self getTotalDuration: self.player];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
 
