@@ -69,6 +69,8 @@
   }
 }
 
+
+// PBA-4831 Calculate total duration from the seekable range so that seek events have a correct value for duration
 - (NSNumber *) calculateTotalDuration {
     CMTimeRange seekableRange = _player.seekableTimeRange;
     Float64 duration;
