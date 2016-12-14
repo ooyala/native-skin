@@ -69,6 +69,17 @@
   }
 }
 
+- (NSNumber *) calculateTotalDuration {
+    CMTimeRange seekableRange = _player.seekableTimeRange;
+    Float64 duration;
+    if (CMTIMERANGE_IS_INVALID(seekableRange)) {
+        duration = _player.duration;
+    } else {
+        duration = CMTimeGetSeconds(seekableRange.duration);
+    }
+    return [NSNumber numberWithFloat:duration];
+}
+
 - (void)bridgeSeekStartedNotification: (NSNotification *)notification {
   
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
