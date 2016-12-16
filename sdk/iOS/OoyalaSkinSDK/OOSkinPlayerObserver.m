@@ -69,13 +69,38 @@
   }
 }
 
+
+// PBA-4831 Return total duration calculated from the seekable range
+- (NSNumber *) getTotalDuration:(OOOoyalaPlayer *)player {
+    CMTimeRange seekableRange = player.seekableTimeRange;
+    Float64 duration;
+    if (CMTIMERANGE_IS_INVALID(seekableRange)) {
+        duration = player.duration;
+    } else {
+        duration = CMTimeGetSeconds(seekableRange.duration);
+    }
+    return [NSNumber numberWithFloat:duration];
+}
+
+// PBA-4831 Return adjusted playhead calculated from the seekable range
+- (NSNumber *) getAdjustedPlayhead: (OOOoyalaPlayer *)player {
+    CMTimeRange seekableRange = player.seekableTimeRange;
+    Float64 adjustedPlayhead;
+    if (CMTIMERANGE_IS_INVALID(seekableRange)) {
+      adjustedPlayhead = player.playheadTime;
+    } else {
+      adjustedPlayhead = player.playheadTime - CMTimeGetSeconds(seekableRange.start);
+    }
+    return [NSNumber numberWithFloat:adjustedPlayhead];
+}
+
 - (void)bridgeSeekStartedNotification: (NSNotification *)notification {
   
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [NSNumber numberWithFloat:seekInfo.totalDuration];
+  NSNumber *totalDuration = [self getTotalDuration: self.player];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
@@ -88,7 +113,7 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
   NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [NSNumber numberWithFloat:seekInfo.totalDuration];
+  NSNumber *totalDuration = [self getTotalDuration: self.player];
   NSDictionary *eventBody = @{
                               @"seekstart":seekStart,
                               @"seekend":seekEnd,
@@ -114,25 +139,13 @@
   [eventBody setObject:[NSNumber numberWithInt:expandedHeight] forKey:@"expandedHeight"];
   [eventBody setObject:resourceUrl forKey:@"resourceUrl"];
   [eventBody setObject:clickUrl forKey:@"clickUrl"];
-  
 
   [OOReactBridge sendDeviceEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  CMTimeRange seekableRange = _player.seekableTimeRange;
-  Float64 duration;
-  Float64 adjustedPlayhead;
-  if (CMTIMERANGE_IS_INVALID(seekableRange)) {
-    duration = _player.duration;
-    adjustedPlayhead = _player.playheadTime;
-  } else {
-    duration = CMTimeGetSeconds(seekableRange.duration);
-    adjustedPlayhead = _player.playheadTime - CMTimeGetSeconds(seekableRange.start);
-  }
-
-  NSNumber *playheadNumber = [NSNumber numberWithFloat:adjustedPlayhead];
-  NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
+  NSNumber *playheadNumber = [self getAdjustedPlayhead: self.player];
+  NSNumber *durationNumber = [self getTotalDuration: self.player];
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
 
