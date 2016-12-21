@@ -27,11 +27,11 @@ var ProgressBar = React.createClass({
     var unbufferedPercent = 1 - playedPercent - bufferedPercent;
 
     if (this.props.ad) {
-      var playedColor = this.props.config.controlBar.adScrubberBar.playedColor;
+      var playedColor = this.props.config.controlBar.adScrubberBar.playedColor ? this.props.config.controlBar.adScrubberBar.playedColor : this.props.config.general.accentColor;
       var backgroundColor = this.props.config.controlBar.adScrubberBar.backgroundColor;
       var bufferedColor = this.props.config.controlBar.adScrubberBar.bufferedColor;
     } else {
-      var playedColor = this.props.config.controlBar.scrubberBar.playedColor;
+      var playedColor = this.props.config.controlBar.scrubberBar.playedColor ? this.props.config.controlBar.scrubberBar.playedColor : this.props.config.general.accentColor;
       var backgroundColor = this.props.config.controlBar.scrubberBar.backgroundColor;
       var bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
     }

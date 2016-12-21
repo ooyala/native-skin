@@ -32,10 +32,11 @@ var ToggleSwitch = React.createClass({
   },
 
   getDefaultProps: function() {
+    config={this.props.config};
     return {
       onTintColor: '#498DFC',
       tintColor: '#DDDDDD',
-      thumbTintColor: '#FFFFFF',
+      thumbTintColor: this.props.config.general.accentColor,
     };
   },
 
@@ -56,7 +57,10 @@ var ToggleSwitch = React.createClass({
               disabled={!this.props.areClosedCaptionsAvailable}
               onTintColor={this.props.onTintColor}
               tintColor={this.props.tintColor}
-              thumbTintColor={this.props.thumbTintColor} />
+              thumbTintColor={this.props.thumbTintColor} 
+              config={{
+                general: this.props.config.general
+              }} />
           <Text style={onTextStyle}>{this.props.switchOnText}</Text>
         </View>
     );

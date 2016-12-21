@@ -1,4 +1,4 @@
-/**
+  /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
@@ -132,7 +132,7 @@ var ControlBar = React.createClass({
         showVolume: this.state.showVolume,
         volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
-        volumeControlColor:this.props.config.controlBar.volumeControl.color,
+        volumeControlColor: this.props.config.general.accentColor
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
