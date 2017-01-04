@@ -28,7 +28,7 @@
     "flexDirection":"row",
     "flex":1,
     "alignItems":"center",
-    "backgroundColor": "#498DFC",
+    "backgroundColor": "",
     "padding": 6,
     "marginVertical": 20,
     "marginHorizontal": 20,

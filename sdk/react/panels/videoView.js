@@ -163,7 +163,6 @@ var VideoView = React.createClass({
       </View>);
   },
 
-
   _renderClosedCaptions: function() {
     var {height, width} = Dimensions.get('window');
     if (height < width) width = height; // We just want the smaller of the two values, which represents the portrait device width

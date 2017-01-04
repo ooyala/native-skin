@@ -27,6 +27,7 @@ var ResponsiveList = require('../widgets/ResponsiveList');
 var PreviewWidget = require('../languageSelectionPreview');
 var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
 var panelStyles = require('./style/panelStyles');
+var flattenStyle = require('flattenStyle');
 
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
@@ -147,8 +148,25 @@ var LanguageSelectionPanel = React.createClass({
     );
   },
 
+  _getSelectedStyle: function() {
+    var selectedS
+    if (!flattenStyle(styles.selectedButton).backgroundColor) {
+      return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
+    } else {
+      return styles.selectedButton;
+    }
+  },
+
   renderItem: function(item: object, itemId: number) {
-    var itemStyle = this.isSelected(item) ? styles.selectedButton : styles.button;
+    /*
+    var selectedStyle;
+    if (!flattenStyle(styles.selectedButton).backgroundColor) {
+      selectedStyle = [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
+    } else {
+      selectedStyle = styles.selectedButton;
+    }
+    */
+    var itemStyle = this.isSelected(item) ? this._getSelectedStyle() : styles.button;
     return (
       <TouchableHighlight
         key={itemId}
