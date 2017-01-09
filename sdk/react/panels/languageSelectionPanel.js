@@ -150,8 +150,7 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   _getSelectedStyle: function() {
-    var selectedS
-    if (!flattenStyle(styles.selectedButton).backgroundColor) {
+    if (this.props.config.general.accentColor) {
       return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
     } else {
       return styles.selectedButton;

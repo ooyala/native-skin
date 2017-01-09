@@ -44,7 +44,7 @@ var ToggleSwitch = React.createClass({
   },
 
   _getThumbTintColor: function() {
-    if (this.props.thumbTintColor === "undefined" || this.props.thumbTintColor.length <= 0 || this.props.thumbTintColor === null) {
+    if (this.props.thumbTintColor === "undefined" || this.props.thumbTintColor === null) {
       return '#FFFFFF';
     } else {
       return this.props.config.general.accentColor ? this.props.config.general.accentColor : '#FFFFFF';
