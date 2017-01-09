@@ -210,7 +210,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       ref='controlBar'
       primaryButton={this.props.primaryButton}
       platform={this.props.platform}
-      cachedPlayhead={this.props.playhead}
+      playhead={this.props.playhead}
       duration={this.props.duration}
       volume={this.props.volume}
       live={this.props.live}
@@ -269,9 +269,10 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     if (this.isMounted()) {
       if (this.state.touch && this.props.onScrub) {
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+        this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
       } 
     }
-    this.setState({touch:false, x:null, cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration}); 
+    this.setState({touch:false, x:null}); 
   },
 
   renderDefault: function(widthStyle) {
