@@ -16,6 +16,7 @@ import {
 var Constants = require('../constants');
 
 var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.json'));
+var Log = require('../log');
 
 // Tint props only work for iOS.
 var ToggleSwitch = React.createClass({
@@ -35,12 +36,19 @@ var ToggleSwitch = React.createClass({
     return {
       onTintColor: '#498DFC',
       tintColor: '#DDDDDD',
-      thumbTintColor: '#FFFFFF',
     };
   },
 
   onSwitchToggled: function() {
     this.props.onValueChanged(!this.props.switchOn);
+  },
+
+  _getThumbTintColor: function() {
+    if (this.props.thumbTintColor === "undefined" || this.props.thumbTintColor.length <= 0 || this.props.thumbTintColor === null) {
+      return '#FFFFFF';
+    } else {
+      return this.props.config.general.accentColor ? this.props.config.general.accentColor : '#FFFFFF';
+    }
   },
 
   render: function() {
@@ -56,7 +64,7 @@ var ToggleSwitch = React.createClass({
               disabled={!this.props.areClosedCaptionsAvailable}
               onTintColor={this.props.onTintColor}
               tintColor={this.props.tintColor}
-              thumbTintColor={this.props.thumbTintColor} 
+              thumbTintColor={this._getThumbTintColor()} 
               config={{
                 general: this.props.config.general
               }} />

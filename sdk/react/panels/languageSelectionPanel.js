@@ -132,6 +132,7 @@ var LanguageSelectionPanel = React.createClass({
           onValueChanged={(value)=>this.onSwitchToggled(value)}
           switchOnText={Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings)}
           switchOffText={Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings)}
+          thumbTintColor={this.props.config.general.accentColor}
           config={this.props.config}>
         </ToggleSwitch>
         <ResponsiveList
