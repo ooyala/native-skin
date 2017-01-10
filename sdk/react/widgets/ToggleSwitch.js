@@ -43,7 +43,7 @@ var ToggleSwitch = React.createClass({
     this.props.onValueChanged(!this.props.switchOn);
   },
 
-  _getThumbTintColor: function() {
+  getThumbTintColor: function() {
     if (this.props.thumbTintColor === "undefined" || this.props.thumbTintColor === null) {
       return '#FFFFFF';
     } else {
@@ -64,7 +64,7 @@ var ToggleSwitch = React.createClass({
               disabled={!this.props.areClosedCaptionsAvailable}
               onTintColor={this.props.onTintColor}
               tintColor={this.props.tintColor}
-              thumbTintColor={this._getThumbTintColor()} 
+              thumbTintColor={this.getThumbTintColor()} 
               config={{
                 general: this.props.config.general
               }} />

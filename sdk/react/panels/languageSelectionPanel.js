@@ -132,7 +132,7 @@ var LanguageSelectionPanel = React.createClass({
           onValueChanged={(value)=>this.onSwitchToggled(value)}
           switchOnText={Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings)}
           switchOffText={Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings)}
-          thumbTintColor={this.props.config.general.accentColor}
+          thumbTintColor={this.getThumbTintColor()}
           config={this.props.config}>
         </ToggleSwitch>
         <ResponsiveList
@@ -149,7 +149,15 @@ var LanguageSelectionPanel = React.createClass({
     );
   },
 
-  _getSelectedStyle: function() {
+  getThumbTintColor: function() {
+    if (this.props.config.general.accentColor) {
+      return this.props.config.general.accentColor;
+    } else {
+      return '#FFFFFF';
+    }
+  },
+
+  getSelectedStyle: function() {
     if (this.props.config.general.accentColor) {
       return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
     } else {
@@ -158,7 +166,7 @@ var LanguageSelectionPanel = React.createClass({
   },
 
   renderItem: function(item: object, itemId: number) {
-    var itemStyle = this.isSelected(item) ? this._getSelectedStyle() : styles.button;
+    var itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
     return (
       <TouchableHighlight
         key={itemId}

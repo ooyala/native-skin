@@ -69,6 +69,14 @@ var ControlBar = React.createClass({
     }
   },
 
+  getVolumeControlColor: function() {
+    if (this.props.config.general.accentColor) {
+      return this.props.config.general.accentColor;
+    } else {
+      return this.props.config.controlBar.volumeControl.color;
+    }
+  },
+
   onPlayPausePress: function() {
     this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
   },
@@ -132,7 +140,7 @@ var ControlBar = React.createClass({
         showVolume: this.state.showVolume,
         volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
-        volumeControlColor: this.props.config.general.accentColor
+        volumeControlColor: this.getVolumeControlColor()
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
