@@ -59,10 +59,7 @@ var ToggleSwitch = React.createClass({
               disabled={!this.props.areClosedCaptionsAvailable}
               onTintColor={this.props.onTintColor}
               tintColor={this.props.tintColor}
-              thumbTintColor={this.getThumbTintColor()} 
-              config={{
-                general: this.props.config.general
-              }} />
+              thumbTintColor={this.getThumbTintColor()}/>
           <Text style={onTextStyle}>{this.props.switchOnText}</Text>
         </View>
     );
