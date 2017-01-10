@@ -27,7 +27,6 @@ var ResponsiveList = require('../widgets/ResponsiveList');
 var PreviewWidget = require('../languageSelectionPreview');
 var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
 var panelStyles = require('./style/panelStyles');
-var flattenStyle = require('flattenStyle');
 
 var LanguageSelectionPanel = React.createClass({
   propTypes: {
@@ -132,7 +131,6 @@ var LanguageSelectionPanel = React.createClass({
           onValueChanged={(value)=>this.onSwitchToggled(value)}
           switchOnText={Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings)}
           switchOffText={Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings)}
-          thumbTintColor={this.getThumbTintColor()}
           config={this.props.config}>
         </ToggleSwitch>
         <ResponsiveList
