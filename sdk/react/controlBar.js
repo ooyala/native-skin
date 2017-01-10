@@ -75,6 +75,7 @@ var ControlBar = React.createClass({
     } else if (this.props.config.controlBar.volumeControl.color) {
       return this.props.config.controlBar.volumeControl.color;
     } else {
+      Log.error("controlBar.volumeControl.color is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       return '#4389FF';
     }
   },

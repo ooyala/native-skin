@@ -24,6 +24,7 @@ var ProgressBar = React.createClass({
   getAdScrubberBarPlayedColor: function() {
     if (!this.props.config.controlBar.adScrubberBar.playedColor) {
       if (!this.props.config.general.accentColor) {
+        Log.error("controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
         return '#FF3F80';
       } else {
        return this.props.config.general.accentColor;
@@ -34,6 +35,7 @@ var ProgressBar = React.createClass({
   getScrubberBarPlayedColor: function() {
     if (!this.props.config.controlBar.scrubberBar.playedColor) {
       if (!this.props.config.general.accentColor) {
+        Log.error("controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
         return '#FF3F80';
       } else {
         return this.props.config.general.accentColor;
