@@ -147,14 +147,6 @@ var LanguageSelectionPanel = React.createClass({
     );
   },
 
-  getThumbTintColor: function() {
-    if (this.props.config.general.accentColor) {
-      return this.props.config.general.accentColor;
-    } else {
-      return '#FFFFFF';
-    }
-  },
-
   getSelectedStyle: function() {
     if (this.props.config.general.accentColor) {
       return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];

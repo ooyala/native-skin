@@ -72,8 +72,10 @@ var ControlBar = React.createClass({
   getVolumeControlColor: function() {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
-    } else {
+    } else if (this.props.config.controlBar.volumeControl.color) {
       return this.props.config.controlBar.volumeControl.color;
+    } else {
+      return '#4389FF';
     }
   },
 

@@ -21,17 +21,37 @@ var ProgressBar = React.createClass({
     ad: React.PropTypes.object
   },
 
+  getAdScrubberBarPlayedColor: function() {
+    if (!this.props.config.controlBar.adScrubberBar.playedColor) {
+      if (!this.props.config.general.accentColor) {
+        return '#FF3F80';
+      } else {
+       return this.props.config.general.accentColor;
+      }
+    }
+  },
+
+  getScrubberBarPlayedColor: function() {
+    if (!this.props.config.controlBar.scrubberBar.playedColor) {
+      if (!this.props.config.general.accentColor) {
+        return '#FF3F80';
+      } else {
+        return this.props.config.general.accentColor;
+      }
+    }
+  },
+
   render: function() {
     var playedPercent = this.props.percent;
     var bufferedPercent = 0;
     var unbufferedPercent = 1 - playedPercent - bufferedPercent;
 
     if (this.props.ad) {
-      var playedColor = this.props.config.controlBar.adScrubberBar.playedColor ? this.props.config.controlBar.adScrubberBar.playedColor : this.props.config.general.accentColor;
+      var playedColor = this.getAdScrubberBarPlayedColor();
       var backgroundColor = this.props.config.controlBar.adScrubberBar.backgroundColor;
       var bufferedColor = this.props.config.controlBar.adScrubberBar.bufferedColor;
     } else {
-      var playedColor = this.props.config.controlBar.scrubberBar.playedColor ? this.props.config.controlBar.scrubberBar.playedColor : this.props.config.general.accentColor;
+      var playedColor = this.getScrubberBarPlayedColor();
       var backgroundColor = this.props.config.controlBar.scrubberBar.backgroundColor;
       var bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
     }
