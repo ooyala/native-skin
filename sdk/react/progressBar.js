@@ -36,7 +36,7 @@ var ProgressBar = React.createClass({
     if (!this.props.config.controlBar.scrubberBar.playedColor) {
       if (!this.props.config.general.accentColor) {
         Log.error("controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
-        return '#FF3F80';
+        return '#4389FF';
       } else {
         return this.props.config.general.accentColor;
       }
