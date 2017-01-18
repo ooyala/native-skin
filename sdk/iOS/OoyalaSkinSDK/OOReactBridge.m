@@ -203,6 +203,8 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
       LOG(@"sendDeviceEventWithName: %@", eventName);
     }
     [sharedBridge.eventDispatcher sendDeviceEventWithName:eventName body:body];
+  } else {
+    [sharedController queueEventWithName:eventName body:body];
   }
 }
 

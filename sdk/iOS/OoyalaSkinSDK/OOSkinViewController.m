@@ -12,6 +12,7 @@
 #import "OOUpNextManager.h"
 #import "OOLocaleHelper.h"
 #import "OOSkinOptions.h"
+#import "OOQueuedEvent.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
@@ -40,6 +41,7 @@
 @property (nonatomic) UIView * movieFullScreenView;
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic) NSDictionary *skinConfig;
+@property (atomic) NSMutableArray *queuedEvents; //QueuedEvent *
 @property (nonatomic) BOOL isFullscreen;
 @property BOOL isReactReady;
 @property OOSkinPlayerObserver *playerObserver;
@@ -75,6 +77,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                       initialProperties:_skinConfig
                                           launchOptions:nil];
     
+    _queuedEvents = [NSMutableArray new];
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
 
@@ -302,23 +305,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     return;
   }
   _isReactReady = YES;
+  [self purgeEvents]; //PurgeEvents must happen before isReactReady, however, I'm not positive this is truly thread-safe.
+  // If a notification is queued during PurgeEvents, there could be an execption
 
-  if (_player.currentItem) {
-    // embedcode already set, send current item information
-    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerCurrentItemChangedNotification object:nil];
-    [self.playerObserver bridgeCurrentItemChangedNotification:notification];
-  }
-
-  if (_player.state == OOOoyalaPlayerStateError) {
-    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerErrorNotification object:nil];
-    [self.playerObserver bridgeErrorNotification:notification];
-  } else if (_player.state == OOOoyalaPlayerStatePlaying || _player.state == OOOoyalaPlayerStatePaused) {
-    NSNotification *notification = [NSNotification notificationWithName:OOOoyalaPlayerStateChangedNotification object:nil];
-    [self.playerObserver bridgeStateChangedNotification:notification];
-    
-    // send current volume level the at load
-    [OOVolumeManager sendVolumeChangeEvent:[OOVolumeManager getCurrentVolume]];
-  }
+  [OOVolumeManager sendVolumeChangeEvent:[OOVolumeManager getCurrentVolume]];
   [self ccStyleChanged:nil];
 }
 
@@ -351,6 +341,22 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)notifyFullScreenChange:(BOOL) isFullScreen {
     [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification object:self
                     userInfo:@{@"fullScreen": @(isFullScreen)}];
+}
+
+- (void)queueEventWithName:(NSString *)eventName body:(id)body {
+  LOG(@"Queued Event: %@", eventName);
+  OOQueuedEvent *event = [[OOQueuedEvent alloc] initWithWithName:eventName body:body];
+  [self.queuedEvents addObject:event];
+}
+
+- (void)purgeEvents {
+  LOG(@"Purging Events to skin");
+  // PurgeEvents must happen before isReactReady, however, I'm not positive this is truly thread-safe.
+  // If a notification is queued during PurgeEvents, there could be an execption
+  for (OOQueuedEvent *event in self.queuedEvents) {
+    [OOReactBridge sendDeviceEventWithName:event.eventName body:event.body];
+  }
+  [self.queuedEvents removeAllObjects];
 }
 
 @end

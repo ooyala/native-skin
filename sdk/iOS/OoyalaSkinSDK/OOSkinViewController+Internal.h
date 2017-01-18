@@ -2,9 +2,6 @@
 //  OOSkinViewController+Internal.h
 //  OoyalaSkinSDK
 //
-//  Created by Zhihui Chen on 8/12/15.
-//  Copyright (c) 2015 ooyala. All rights reserved.
-//
 
 #import "OOSkinViewController.h"
 @class OOUpNextManager;
@@ -12,6 +9,10 @@
 @interface OOSkinViewController (Internal)
 
 @property (nonatomic) NSDictionary *skinConfig;
+@property (nonatomic) NSMutableArray *queuedEvents; //QueuedEvent *
+
+- (void)queueEventWithName:(NSString *)eventName body:(id)body;
+- (void)purgeEvents;
 
 - (void)toggleFullscreen;
 - (BOOL)isReactReady;
@@ -27,4 +28,6 @@
 // toggle play/pause as if the alice ui is clicked.
 // see: OOSkinPlayerObserver bridgeAdTappedNotification
 - (void)playPauseFromAdTappedNotification;
+
+
 @end
