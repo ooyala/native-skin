@@ -305,8 +305,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     return;
   }
   _isReactReady = YES;
-  [self purgeEvents]; //PurgeEvents must happen before isReactReady, however, I'm not positive this is truly thread-safe.
+
+  // PurgeEvents must happen after isReactReady, however, I'm not positive this is truly thread-safe.
   // If a notification is queued during PurgeEvents, there could be an execption
+  [self purgeEvents];
 
   [OOVolumeManager sendVolumeChangeEvent:[OOVolumeManager getCurrentVolume]];
   [self ccStyleChanged:nil];
@@ -351,7 +353,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)purgeEvents {
   LOG(@"Purging Events to skin");
-  // PurgeEvents must happen before isReactReady, however, I'm not positive this is truly thread-safe.
+  // PurgeEvents must happen after isReactReady, however, I'm not positive this is truly thread-safe.
   // If a notification is queued during PurgeEvents, there could be an execption
   for (OOQueuedEvent *event in self.queuedEvents) {
     [OOReactBridge sendDeviceEventWithName:event.eventName body:event.body];
