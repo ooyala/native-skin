@@ -12,6 +12,7 @@
 @interface OOUpNextManager ()
 @property(nonatomic) BOOL upNextEnabled;
 @property (nonatomic, weak) OOOoyalaPlayer *player;
+@property (nonatomic, weak) OOReactBridge *ooBridge;
 @property (nonatomic) BOOL isDismissed;
 @property (nonatomic) NSDictionary * nextVideo;
 @end
@@ -19,6 +20,7 @@
 @implementation OOUpNextManager
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+                        bridge:(OOReactBridge *)bridge
                  config:(NSDictionary *)config {
 
   // Read the following value in from skin config
@@ -26,6 +28,8 @@
 
   // Save the player passed in with the init
   self.player = player;
+
+  self.ooBridge = bridge;
 
   //listen to currentItemChanged, on, reset state (player.currentItem.embedCode)
   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:[self player]];
@@ -42,10 +46,10 @@
 
     // After the a new video has been set, let react know that isDismissed
     // is now false.
-    [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
+    [self.ooBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
 
     // Sets the next video to play in the upnext as specified by react.
-    [OOReactBridge sendDeviceEventWithName:@"setNextVideo" body:@{@"nextVideo" : _nextVideo}];
+    [self.ooBridge sendDeviceEventWithName:@"setNextVideo" body:@{@"nextVideo" : _nextVideo}];
   }
 }
 
@@ -75,7 +79,7 @@
   self.isDismissed = YES;
 
   // Lets react know that dismiss has been pressed.
-  [OOReactBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
+  [self.ooBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
 }
 
 - (void)dealloc {
