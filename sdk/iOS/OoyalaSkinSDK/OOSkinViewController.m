@@ -74,9 +74,13 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _isReactReady = NO;
 
     self.ooBridge = [OOReactBridge new];
+    //Passing self.ooBridge itself in the anonymous function counts as a self strong reference.
+    //I create a copy of the pointer to avoid that
+    OOReactBridge *newBridge = self.ooBridge;
+
     RCTBridge *bridge = [[RCTBridge alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                               moduleProvider:^ NSArray *{
-                                                return @[self.ooBridge];
+                                                  return @[newBridge];
                                               } launchOptions:nil];
 
     _reactView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"OoyalaSkin" initialProperties:_skinConfig];

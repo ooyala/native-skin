@@ -23,8 +23,8 @@
 #import "OOConstant.h"
 
 @interface OOReactBridge()
-@property OOSkinViewController *controller;
-@property RCTBridge *rctBridge;
+@property (nonatomic, weak) OOSkinViewController *controller;
+@property (nonatomic, weak) RCTBridge *rctBridge;
 @end
 
 @implementation OOReactBridge
@@ -231,6 +231,7 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
 
 
 - (void)dealloc {
+  LOG(@"OOReactBridge dealloc");
   [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
