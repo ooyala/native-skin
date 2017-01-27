@@ -147,8 +147,16 @@ var LanguageSelectionPanel = React.createClass({
     );
   },
 
+  getSelectedStyle: function() {
+    if (this.props.config.general.accentColor) {
+      return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
+    } else {
+      return styles.selectedButton;
+    }
+  },
+
   renderItem: function(item: object, itemId: number) {
-    var itemStyle = this.isSelected(item) ? styles.selectedButton : styles.button;
+    var itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
     return (
       <TouchableHighlight
         key={itemId}

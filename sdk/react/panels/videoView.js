@@ -150,7 +150,8 @@ var VideoView = React.createClass({
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
         icons: this.props.config.icons,
-        live: this.props.config.live
+        live: this.props.config.live,
+        general: this.props.config.general
       }} />);
   },
 
@@ -161,7 +162,6 @@ var VideoView = React.createClass({
         onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
       </View>);
   },
-
 
   _renderClosedCaptions: function() {
     var {height, width} = Dimensions.get('window');

@@ -137,18 +137,24 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       );
   },
 
-  _customizeScrubber: function() {
-    var scrubberHandleColor = this.props.config.controlBar.scrubberBar.scrubberHandleColor;
-    var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
-    if (typeof scrubberHandleColor === "undefined") {
+  getScrubberHandleColor: function() {
+    if (this.props.config.general.accentColor) {
+      return this.props.config.general.accentColor;
+    } else if (!this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
       Log.error("controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
-      scrubberHandleColor = "#4389FF";
+      return "#4389FF";
+    } else {
+      return this.props.config.controlBar.scrubberBar.scrubberHandleColor ;
     }
-    if (typeof scrubberHandleBorderColor === "undefined") {
+  },
+
+  _customizeScrubber: function() {
+    var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
+    if (!scrubberHandleBorderColor) {
       Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       scrubberHandleBorderColor = "white";
     }
-    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: scrubberHandleColor, 
+    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.getScrubberHandleColor(), 
     borderRadius: 900, borderWidth: 1.5, borderColor: scrubberHandleBorderColor};
     return scrubberStyle;
   },

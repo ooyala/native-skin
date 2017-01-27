@@ -192,7 +192,8 @@ OoyalaSkinPanelRenderer.prototype.renderCCOptions = function() {
       height={this.skin.state.height}
       config={{localizableStrings:this.skin.props.localization,
                locale:this.skin.props.locale,
-               icons:this.skin.props.icons}}>
+               icons:this.skin.props.icons,
+               general: this.skin.props.general}}>
     </LanguageSelectionPanel>);
 };
 

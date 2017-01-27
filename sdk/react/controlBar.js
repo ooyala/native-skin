@@ -69,6 +69,19 @@ var ControlBar = React.createClass({
     }
   },
 
+  getVolumeControlColor: function() {
+    if (!this.props.config.general.accentColor) {
+      if (!this.props.config.controlBar.volumeControl.color) {
+        Log.error("controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
+        return '#4389FF';
+      } else {
+        return this.props.config.controlBar.volumeControl.color;
+      } 
+    } else {
+      return this.props.config.general.accentColor;
+    }
+  },
+
   onPlayPausePress: function() {
     this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
   },
@@ -132,7 +145,7 @@ var ControlBar = React.createClass({
         showVolume: this.state.showVolume,
         volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
-        volumeControlColor:this.props.config.controlBar.volumeControl.color,
+        volumeControlColor: this.getVolumeControlColor()
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
