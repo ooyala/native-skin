@@ -70,13 +70,15 @@ var ControlBar = React.createClass({
   },
 
   getVolumeControlColor: function() {
-    if (this.props.config.general.accentColor) {
-      return this.props.config.general.accentColor;
-    } else if (this.props.config.controlBar.volumeControl.color) {
-      return this.props.config.controlBar.volumeControl.color;
+    if (!this.props.config.general.accentColor) {
+      if (!this.props.config.controlBar.volumeControl.color) {
+        Log.error("controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
+        return '#4389FF';
+      } else {
+        return this.props.config.controlBar.volumeControl.color;
+      } 
     } else {
-      Log.error("controlBar.volumeControl.color is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
-      return '#4389FF';
+      return this.props.config.general.accentColor;
     }
   },
 
