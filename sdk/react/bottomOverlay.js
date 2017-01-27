@@ -150,7 +150,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
 
   _customizeScrubber: function() {
     var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
-    if (typeof scrubberHandleBorderColor === "undefined") {
+    if (!scrubberHandleBorderColor) {
       Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       scrubberHandleBorderColor = "white";
     }
