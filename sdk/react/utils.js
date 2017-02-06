@@ -122,55 +122,101 @@ var Utils = {
     return stringId;
   },
 
+  /**
+   * Takes an integer error code andd locale
+   * Returns the localized error message
+  */
   stringForErrorCode: function(errorCode: int) {
     switch (errorCode) {
-      case 0:
-        return "Authorization Failed";
+      /* Authorization failed */
+      case 0: 
+        return "AUTHORIZATION_FAILED";
+      /* Authorization response invalid */
       case 1:
-        return "Authorization Response invalid";
+        return "AUTHORIZATION_RESPONSE_FAILED";
+       /* Authorization heartbeat failed */  
       case 2:
-        return "Heartbeat failed"
+        return "HEARTBEAT_FAILED"
+       /* Content tree response invalid */  
       case 3:
-        return "Content Tree Response invalid";
+        return "CONTENT_TREE_RESPONSE_FAILED";
+       /* Authorization signature invalid */  
       case 4 :
-        return "The signature of the Authorization Response is invalid";
+        return "AUTHORIZATION_SIGNATURE_RESPONSE_FAILED";
+      /* Content tree Nnext failed */    
       case 5:
-        return "Content Tree Next failed";
+        return "CONTENT_TREE_NEXT_FAILED";
+      /* Playback failed */    
       case 6:
-        return "AVPlayer Failed";
+        return "PLAYER_FAILED";
+      /* The asset is not encoded */    
       case 7:
-        return "The asset is not encoded for iOS";
+        return "ASSET_NOT_ENCODED";
+      /* Internal error */    
       case 8:
-        return "An Internal iOS Error. Check the error property.";
+        return "INTERNAL_ERROR";
+      /* Metadata response invalid */    
       case 9:
-        return "Metadata Response invalid";
+        return "METADATA_RESPONSE_INVALID";
+      /* Invalid authorization token */    
       case 10:
-        return "During DRM Rights Acquisition, the rights server reported an invalid token";
+        return "DRM_INVALID_TOKEN";
+      /* Device limit has been reached */    
       case 11:
-        return "During DRM Rights Acquisition, the server reported that the device limit has been reached";
+        return "DRM_DEVICE_LIMIT";
+      /* Devuce binding failed */    
       case 12:
-        return "During DRM Rights Acquisition, the server reported that device binding failed";
+        return "DRM_DEVICE_BINDING_FAILED";
+       /* Device id too long */   
       case 13:
-        return "During DRM Rights Acquisition, the server reported the device id was too long";
+        return "DRM_DEVICE_ID_TOO_LONG";
+      /* General DRM failure */    
       case 14:
-        return "There was some unknown error during the DRM workflow";
+        return "DRM_UNKNOWN_ERROR";
+      /* DRM file download failure */    
       case 15:
-        return "Failed to download a required file during the DRM workflow";
+        return "DRM_DOWNLOAD_FAILED";
+      /* DRM personalization failure */    
       case 16:
-        return "Failed to complete device personalization during the DRM workflow";
+        return "DRM_DEVICE_PERSONALIZATION_FAILED";
+      /*  DRM righrs server error */    
       case 17:
-        return "Failed to get rights for asset during the DRM workflow";
+        return "DRM_ASSET_RIGHTS_FAILED";
+      /* Invalid discovery parameter */    
       case 18:
-        return "The expected discovery parameters are not provided";
+        return "DISCOVERY_PARAMETERS_NOT_PROVIDED";
+      /* Discoveyr network error */    
       case 19:
-        return "The discovery response is not received due to network errors";
+        return "DISCOVERY_RESPONSE_NOT_RECEIVED_NETWORK_ERRORS";
+      /* Discovery response failure */    
       case 20:
-        return "The discovery reponse is received and an error occured on server side";
+        return "DISCOVERY_RESPONSE_SERVER_SIDE_ERROR";
+      /* No available streams */    
+      case 21:
+        return "NO_AVAILABLE_STREAMS";
+      /* Pcode mismatch */    
+      case 22:
+        return "PCODE_DOES_NOT_MATCH_EMBED_CODE";
+      /* Download error */   
+      case 23:
+        return "DOWNLOAD_ERROR";
+      /* Conncurrent streams */    
+      case 24:
+        return "CONCURRENT_STREAM_LIMIT";
+      /*  Advertising id failure */    
+      case 25:
+        return "FAILED_TO_RETURN_ADVERTISING_ID";
+      /* Discovery GET failure */    
+      case 26:
+        return "DISCOVERY_RESULT_FAILURE";
+      /* Discovery POST failure */
+      case 27:
+        return "DISCOVERY_PINS_FAILURE";
+      /* Unknown error */    
       default:
-        return "This is not working";
+        return "UNKNOWN";
     }
-  }
-
+  },
 };
 
 module.exports = Utils;
