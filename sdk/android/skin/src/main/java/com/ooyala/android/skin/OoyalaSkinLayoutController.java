@@ -105,6 +105,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private String nextVideoEmbedCode = null;
 
   private ReactInstanceManager _reactInstanceManager;
+  private ReactRootView rootView;
+
   private OoyalaSkinPlayerObserver playerObserver;
   private OoyalaSkinVolumeObserver volumeObserver;
   private OoyalaSkinBridgeEventHandlerImpl eventHandler;
@@ -180,8 +182,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
 
     _package = new OoyalaReactPackage(this);
-
-    ReactRootView rootView = new ReactRootView(l.getContext());
+    rootView = new ReactRootView(l.getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
             .setApplication(app)
             .setBundleAssetName(skinOptions.getBundleAssetName())
@@ -511,10 +512,36 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       _reactInstanceManager.onBackPressed();
     }
   }
-  @Override
+
   public void onDestroy() {
     if (_reactInstanceManager != null) {
       _reactInstanceManager.onHostDestroy();
     }
+    destroy();
+  }
+
+  /**
+   * Call this if you plan on destroying this instance of the OoyalaSkinLayoutController
+   */
+  public void destroy() {
+    if (volumeObserver != null) {
+      volumeObserver.destroy();
+    }
+    if (rootView != null) {
+      rootView.unmountReactApplication();
+    }
+    if (_reactInstanceManager != null) {
+      _reactInstanceManager.destroy();
+    }
+
+    DebugMode.logV(TAG, "SkinLayoutController Destroy");
+
+  }
+
+
+  @Override
+  protected void finalize() throws Throwable {
+    DebugMode.logV(TAG, "OoyalaSkinLayoutController Finalized");
+    super.finalize();
   }
 }

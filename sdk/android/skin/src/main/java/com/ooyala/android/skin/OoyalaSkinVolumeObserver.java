@@ -7,6 +7,7 @@ import android.os.Handler;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.ooyala.android.util.DebugMode;
 /**
  * Created by ukumar on 3/7/16.
  */
@@ -15,7 +16,10 @@ import com.facebook.react.bridge.WritableMap;
  * VolumeObserver listens to the volume change in the OS and fires an event to notify the react UI about the change.
  */
 class OoyalaSkinVolumeObserver {
+    final String TAG = this.getClass().toString();
 
+    protected Context context;
+    protected VolumeContentObserver volumeObserver;
     /**
      * Initialize an OoyalaSkinViewVolumeObserver
      * @param context
@@ -23,7 +27,9 @@ class OoyalaSkinVolumeObserver {
      */
     public OoyalaSkinVolumeObserver(Context context, OoyalaSkinLayoutController controller) {
         //hardware volume change observer initialization
-        VolumeContentObserver volumeObserver = new VolumeContentObserver(context, new Handler(), controller);
+        volumeObserver = new VolumeContentObserver(context, new Handler(), controller);
+        this.context = context;
+        DebugMode.logV(TAG, "Registering VolumeObserver");
         context.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, volumeObserver);
     }
 
@@ -55,6 +61,13 @@ class OoyalaSkinVolumeObserver {
             WritableMap data = Arguments.createMap();
             data.putInt("volume",volume);
             controller.sendEvent("volumeChanged", data);
+        }
+    }
+
+    public void destroy() {
+        if (context != null && volumeObserver != null) {
+            DebugMode.logV(TAG, "Unregistering VolumeObserver");
+            context.getContentResolver().unregisterContentObserver(volumeObserver);
         }
     }
 }
