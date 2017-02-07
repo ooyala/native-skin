@@ -172,7 +172,7 @@ var Utils = {
         return "DRM_DEVICE_ID_TOO_LONG";
       /* General DRM failure */    
       case 14:
-        return "DRM_UNKNOWN_ERROR";
+        return "DRM_GENERAL_ERROR";
       /* DRM file download failure */    
       case 15:
         return "DRM_DOWNLOAD_FAILED";
@@ -212,7 +212,10 @@ var Utils = {
       /* Discovery POST failure */
       case 27:
         return "DISCOVERY_PINS_FAILURE";
-      /* Unknown error */    
+      /* Unknown error */ 
+      case 28:
+        return "UNKNOWN";
+      /* Default to Unknown error */    
       default:
         return "UNKNOWN";
     }
