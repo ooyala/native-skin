@@ -516,5 +516,22 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     if (_reactInstanceManager != null) {
       _reactInstanceManager.onHostDestroy();
     }
+    destroy();
+  }
+
+  /**
+   * Call this if you plan on destroying this instance of the OoyalaSkinLayoutController
+   */
+  public void destroy() {
+    if (volumeObserver != null) {
+      volumeObserver.destroy();
+    }
+  }
+
+
+  @Override
+  protected void finalize() throws Throwable {
+    DebugMode.logV(TAG, "OoyalaSkinLayoutController Finalized");
+    super.finalize();
   }
 }
