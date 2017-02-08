@@ -128,33 +128,33 @@ var Utils = {
   */
   stringForErrorCode: function(errorCode: int) {
     switch (errorCode) {
-      /* Authorization failed */
+      /* Authorization failed - TODO add to language files */
       case 0: 
-        return "AUTHORIZATION_FAILED";
-      /* Authorization response invalid */
+        return "Authorization failed";
+      /* Authorization response invalid - TODO add to language files */
       case 1:
         return "Invalid Authorization Response";
        /* Authorization heartbeat failed */  
       case 2:
         return "INVALID HEARTBEAT"
-       /* Content tree response invalid */  
+       /* Content tree response invalid - TODO add to language files */  
       case 3:
-        return "CONTENT_TREE_RESPONSE_FAILED";
-       /* Authorization signature invalid */  
+        return "Content Tree Response Invalid";
+       /* Authorization signature invalid - TODO add to language files */  
       case 4 :
-        return "AUTHORIZATION_SIGNATURE_RESPONSE_FAILED";
-      /* Content tree Nnext failed */    
+        return "The signature of the Authorization Response is invalid";
+      /* Content tree next failed - TODO add to language files */    
       case 5:
-        return "CONTENT_TREE_NEXT_FAILED";
+        return "Content Tree Next failed";
       /* Playback failed */    
       case 6:
         return "PLAYBACK ERROR";
       /* The asset is not encoded */    
       case 7:
         return "This video isn't encoded for your device";
-      /* Internal error */    
+      /* Internal error - TODO add to language files */    
       case 8:
-        return "INTERNAL_ERROR";
+        return "An internal error occurred";
       /* Metadata response invalid */    
       case 9:
         return "Invalid Metadata";
@@ -173,51 +173,51 @@ var Utils = {
       /* General DRM failure */    
       case 14:
         return "General error acquiring license";
-      /* DRM file download failure */    
+      /* DRM file download failure - TODO add to language files */    
       case 15:
-        return "DRM_DOWNLOAD_FAILED";
-      /* DRM personalization failure */    
+        return "Failed to download a required file during the DRM workflow";
+      /* DRM personalization failure - TODO add to language files */    
       case 16:
-        return "DRM_DEVICE_PERSONALIZATION_FAILED";
-      /*  DRM righrs server error */    
+        return "Failed to complete device personalization during the DRM workflow";
+      /*  DRM righrs server error - TODO add to language files */    
       case 17:
-        return "DRM_ASSET_RIGHTS_FAILED";
-      /* Invalid discovery parameter */    
+        return "Failed to get rights for asset during the DRM workflow";
+      /* Invalid discovery parameter - TODO add to language files */    
       case 18:
-        return "DISCOVERY_PARAMETERS_NOT_PROVIDED";
-      /* Discoveyr network error */    
+        return "The expected discovery parameters are not provided";
+      /* Discovery network error - TODO add to language files */    
       case 19:
-        return "NETWORK ERROR";
-      /* Discovery response failure */    
+        return "A discovery network error occurred";
+      /* Discovery response failure - TODO add to language files */    
       case 20:
-        return "DRM server error";
-      /* No available streams */    
+        return "A discovery response error occurred";
+      /* No available streams - TODO add to language files */    
       case 21:
-        return "NO_AVAILABLE_STREAMS";
-      /* Pcode mismatch */    
+        return "No available streams";
+      /* Pcode mismatch - TODO add to language files */    
       case 22:
-        return "PCODE_DOES_NOT_MATCH_EMBED_CODE";
-      /* Download error */   
+        return "The provided PCode does not match the embed code owner";
+      /* Download error - TODO add to language files */   
       case 23:
-        return "DOWNLOAD_ERROR";
+        return "A download error occurred";
       /* Conncurrent streams */    
       case 24:
         return "You have exceeded the maximum number of concurrent streams";
-      /*  Advertising id failure */    
+      /*  Advertising id failure - TODO add to language files */    
       case 25:
-        return "FAILED_TO_RETURN_ADVERTISING_ID";
-      /* Discovery GET failure */    
+        return "Failed to return the advertising ID";
+      /* Discovery GET failure - TODO add to language files */    
       case 26:
-        return "DISCOVERY_RESULT_FAILURE";
-      /* Discovery POST failure */
+        return "Failed to get discovery results";
+      /* Discovery POST failure - TODO add to language files */
       case 27:
-        return "DISCOVERY_PINS_FAILURE";
-      /* Unknown error */ 
+        return "Failed to post discovery pins";
+      /* Unknown error - TODO add to language files */ 
       case 28:
-        return "UNKNOWN";
+        return "An unknown error occurred";
       /* Default to Unknown error */    
       default:
-        return "UNKNOWN";
+        return "An unknown error occurred";
     }
   },
 };
