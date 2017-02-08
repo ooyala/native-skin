@@ -26,4 +26,5 @@ RCT_EXPORT_MODULE();
   return v;
 }
 
+RCT_REMAP_VIEW_PROPERTY(color, tintColor, UIColor)
 @end

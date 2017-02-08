@@ -228,7 +228,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
     [self sendBridgeEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
-    [OOVolumeManager sendVolumeChangeEvent:[change[NSKeyValueChangeNewKey] floatValue]];
+    [self sendBridgeEventWithName:VolumeChangeKey body:@{@"volume": @([change[NSKeyValueChangeNewKey] floatValue])}];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
