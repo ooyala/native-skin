@@ -133,10 +133,10 @@ var Utils = {
         return "AUTHORIZATION_FAILED";
       /* Authorization response invalid */
       case 1:
-        return "AUTHORIZATION_RESPONSE_FAILED";
+        return "Invalid Authorization Response";
        /* Authorization heartbeat failed */  
       case 2:
-        return "HEARTBEAT_FAILED"
+        return "INVALID HEARTBEAT"
        /* Content tree response invalid */  
       case 3:
         return "CONTENT_TREE_RESPONSE_FAILED";
@@ -148,31 +148,31 @@ var Utils = {
         return "CONTENT_TREE_NEXT_FAILED";
       /* Playback failed */    
       case 6:
-        return "PLAYER_FAILED";
+        return "PLAYBACK ERROR";
       /* The asset is not encoded */    
       case 7:
-        return "ASSET_NOT_ENCODED";
+        return "This video isn't encoded for your device";
       /* Internal error */    
       case 8:
         return "INTERNAL_ERROR";
       /* Metadata response invalid */    
       case 9:
-        return "METADATA_RESPONSE_INVALID";
+        return "Invalid Metadata";
       /* Invalid authorization token */    
       case 10:
-        return "DRM_INVALID_TOKEN";
+        return "INVALID PLAYER TOKEN";
       /* Device limit has been reached */    
       case 11:
-        return "DRM_DEVICE_LIMIT";
+        return "Device limit has been reached";
       /* Devuce binding failed */    
       case 12:
-        return "DRM_DEVICE_BINDING_FAILED";
+        return "Device binding failed";
        /* Device id too long */   
       case 13:
-        return "DRM_DEVICE_ID_TOO_LONG";
+        return "Device ID is too long";
       /* General DRM failure */    
       case 14:
-        return "DRM_GENERAL_ERROR";
+        return "General error acquiring license";
       /* DRM file download failure */    
       case 15:
         return "DRM_DOWNLOAD_FAILED";
@@ -187,10 +187,10 @@ var Utils = {
         return "DISCOVERY_PARAMETERS_NOT_PROVIDED";
       /* Discoveyr network error */    
       case 19:
-        return "DISCOVERY_RESPONSE_NOT_RECEIVED_NETWORK_ERRORS";
+        return "NETWORK ERROR";
       /* Discovery response failure */    
       case 20:
-        return "DISCOVERY_RESPONSE_SERVER_SIDE_ERROR";
+        return "DRM server error";
       /* No available streams */    
       case 21:
         return "NO_AVAILABLE_STREAMS";
@@ -202,7 +202,7 @@ var Utils = {
         return "DOWNLOAD_ERROR";
       /* Conncurrent streams */    
       case 24:
-        return "CONCURRENT_STREAM_LIMIT";
+        return "You have exceeded the maximum number of concurrent streams";
       /*  Advertising id failure */    
       case 25:
         return "FAILED_TO_RETURN_ADVERTISING_ID";
