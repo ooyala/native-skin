@@ -170,7 +170,7 @@ class OoyalaSkinPlayerObserver implements Observer {
     OoyalaException ex = _player.getError();
     WritableMap params = Arguments.createMap();
     if (ex != null) {
-      int errorCode = ex.getCode().ordinal();
+      int errorCode = ex.getIntErrorCode();
       params.putInt("code", errorCode);
 
       String descrptions = ex.getLocalizedMessage();
