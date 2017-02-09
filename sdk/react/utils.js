@@ -179,7 +179,7 @@ var Utils = {
       /* DRM personalization failure - TODO add to language files */    
       case 16:
         return "Failed to complete device personalization during the DRM workflow";
-      /*  DRM righrs server error - TODO add to language files */    
+      /*  DRM rights server error - TODO add to language files */    
       case 17:
         return "Failed to get rights for asset during the DRM workflow";
       /* Invalid discovery parameter - TODO add to language files */    
