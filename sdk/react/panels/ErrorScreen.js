@@ -24,7 +24,6 @@ var ErrorScreen = React.createClass({
     var title = Utils.stringForErrorCode(errorCode).toUpperCase();
     var localizedTitle = 
       Utils.localizedString(this.props.locale, title, this.props.localizableStrings);
-
     return (
       <Text style={styles.title}>
         {localizedTitle}
