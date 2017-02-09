@@ -140,7 +140,8 @@ var AdPlaybackScreen = React.createClass({
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
         icons: this.props.config.icons,
-        live: this.props.config.live
+        live: this.props.config.live,
+        general: this.props.config.general
       }} />);
   },
 
