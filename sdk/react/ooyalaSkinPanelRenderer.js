@@ -57,7 +57,8 @@ OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
         endScreen: this.skin.props.endScreen,
         controlBar: this.skin.props.controlBar,
         buttons: this.skin.props.buttons.mobileContent,
-        icons: this.skin.props.icons
+        icons: this.skin.props.icons,
+        general: this.skin.props.general
       }}
       title={this.skin.state.title}
       width={this.skin.state.width}
