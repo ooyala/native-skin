@@ -108,20 +108,16 @@ var Utils = {
     if (typeof localizableStrings !== 'object' || localizableStrings === null) localizableStrings = {};
 
     Log.verbose("preferredLocale: " + preferredLocale + ", stringId: " + stringId + ", localizableStrings:");
-    console.log("***** preferredLocale=" + preferredLocale);
     var defaultLocale = localizableStrings['defaultLanguage'] ? localizableStrings['defaultLanguage'] : 'en';
 
     if (preferredLocale && localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
-      console.log("***** using preferred locale");
       return localizableStrings[preferredLocale][stringId];
     }
 
     if (localizableStrings[defaultLocale] && localizableStrings[defaultLocale][stringId]) {
-      console.log("***** using default locale");
       return localizableStrings[defaultLocale][stringId];
     }
 
-    console.log("***** returning string");
     return stringId;
   },
 
@@ -130,7 +126,6 @@ var Utils = {
    * Returns the localized error message
   */
   stringForErrorCode: function(errorCode: int) {
-    console.log("***** errorCode=" + errorCode);
     switch (errorCode) {
       /* Authorization failed - TODO add to language files */
       case 0: 
