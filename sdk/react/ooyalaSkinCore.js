@@ -72,7 +72,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
       break;
     case BUTTON_NAMES.CLOSED_CAPTIONS:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
-      break; 
+      break;
     case BUTTON_NAMES.SHARE:
       this.ooyalaSkinPanelRenderer.renderSocialOptions();
       break;
@@ -133,7 +133,7 @@ OoyalaSkinCore.prototype.shouldShowLandscape = function() {
 };
 
 OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
-  return (this.skin.state.upNextDismissed == true && this.skin.props.endScreen.screenToShowOnEnd == "discovery");
+  return (!this.skin.props.upNext.showUpNext || this.skin.state.upNextDismissed) && this.skin.props.endScreen.screenToShowOnEnd === "discovery";
 };
 
 /*
@@ -153,7 +153,7 @@ OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
  * Hard reset lastPressedTime, either due to button press or otherwise
  */
 OoyalaSkinCore.prototype.handleControlsTouch = function() {
-  if (this.skin.props.controlBar.autoHide === true) {  
+  if (this.skin.props.controlBar.autoHide === true) {
     Log.verbose("handleVideoTouch - Time set");
     this.skin.setState({lastPressedTime: new Date()});
   } else {
