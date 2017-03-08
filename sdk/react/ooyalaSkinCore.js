@@ -133,14 +133,18 @@ OoyalaSkinCore.prototype.shouldShowLandscape = function() {
 };
 
 OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
+  var endScreenConfig = this.skin.props.endScreen || {};
+  var upNextConfig = this.skin.props.upNext || {};
+
   // Only care if discovery on endScreen should be shown
-  if (this.skin.props.endScreen.screenToShowOnEnd !== "discovery") {
+  if (endScreenConfig.screenToShowOnEnd !== "discovery") {
     return false;
   }
 
   // player didn't show upNext so show discovery
-  // we only care about boolean values passed in the config
-  if (this.skin.props.upNext.showUpNext === false) {
+  // first we ask if showUpNext is part of the config, if not
+  // we can assume showUpNext didn't show
+  if (!upNextConfig.showUpNext || upNextConfig.showUpNext === false) {
     return true;
   }
 

@@ -69,10 +69,11 @@ var EndScreen = React.createClass({
   },
 
   _renderDefaultScreen: function(progressBar, controlBar) {
-    var fullscreenPromoImage = (this.props.config.endScreen.mode == 'default');
+    var endScreenConfig = this.props.config.endScreen || {};
+    var fullscreenPromoImage = endScreenConfig === 'default';
     var replaybuttonLocation = styles.replaybuttonCenter;
     var replaybutton;
-    if(this.props.config.endScreen.showReplayButton) {
+    if(endScreenConfig.showReplayButton) {
       var fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replaybutton = (
         <TouchableHighlight
@@ -84,8 +85,8 @@ var EndScreen = React.createClass({
       );
     }
 
-    var title = this.props.config.endScreen.showTitle ? this.props.title : null;
-    var description = this.props.config.endScreen.showDescription ? this.props.description : null;
+    var title = endScreenConfig.showTitle ? this.props.title : null;
+    var description = endScreenConfig.showDescription ? this.props.description : null;
     var infoPanel =
       (<InfoPanel title={title} description={description} />);
 
