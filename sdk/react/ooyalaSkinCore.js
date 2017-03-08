@@ -139,7 +139,8 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
   }
 
   // player didn't show upNext so show discovery
-  if (!this.skin.props.upNext.showUpNext) {
+  // we only care about boolean values passed in the config
+  if (this.skin.props.upNext.showUpNext === false) {
     return true;
   }
 

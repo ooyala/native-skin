@@ -115,7 +115,7 @@ var UpNext = React.createClass({
 
 
   render: function() {
-    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null) {
+    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext === true && !this.props.ad && this.props.nextVideo != null) {
       var countdown = this.renderCountdownTimer();
       var upNextImage = (
         <Image
