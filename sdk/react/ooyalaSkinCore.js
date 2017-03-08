@@ -133,7 +133,23 @@ OoyalaSkinCore.prototype.shouldShowLandscape = function() {
 };
 
 OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
-  return (!this.skin.props.upNext.showUpNext || this.skin.state.upNextDismissed) && this.skin.props.endScreen.screenToShowOnEnd === "discovery";
+  // Only care if discovery on endScreen should be shown
+  if (this.skin.props.endScreen.screenToShowOnEnd !== "discovery") {
+    return false;
+  }
+
+  // player didn't show upNext so show discovery
+  if (!this.skin.props.upNext.showUpNext) {
+    return true;
+  }
+
+  // player showed and closed the upNext widget
+  if (this.skin.state.upNextDismissed) {
+    return true;
+  }
+
+  // any other case
+  return false;
 };
 
 /*
