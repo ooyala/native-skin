@@ -1,9 +1,9 @@
 /**
  * The OoyalaSkinCore handles all of the methods that perform actions based on UI actions
  */
- 'use strict';
+ "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   ActivityIndicator,
   SliderIOS,
@@ -12,10 +12,10 @@ import {
   View,
   Image,
   TouchableHighlight,
-} from 'react-native';
+} from "react-native";
 
-var Log = require('./log');
-var Constants = require('./constants');
+var Log = require("./log");
+var Constants = require("./constants");
 var {
   BUTTON_NAMES,
   SCREEN_TYPES,
@@ -25,8 +25,8 @@ var {
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE,
 } = Constants;
-var OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
-var OoyalaSkinPanelRenderer = require('./ooyalaSkinPanelRenderer');
+var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
+var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
 
 var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
   this.skin = ooyalaSkin;
@@ -59,7 +59,7 @@ OoyalaSkinCore.prototype.onBackPressed = function() {
 };
 
 OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
-  Log.log('onLanguageSelected:'+e);
+  Log.log("onLanguageSelected:" + e);
   this.skin.setState({selectedLanguage:e});
   this.bridge.onLanguageSelected({language:e});
 };
@@ -72,7 +72,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
       break;
     case BUTTON_NAMES.CLOSED_CAPTIONS:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
-      break; 
+      break;
     case BUTTON_NAMES.SHARE:
       this.ooyalaSkinPanelRenderer.renderSocialOptions();
       break;
@@ -133,7 +133,28 @@ OoyalaSkinCore.prototype.shouldShowLandscape = function() {
 };
 
 OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
-  return (this.skin.state.upNextDismissed == true && this.skin.props.endScreen.screenToShowOnEnd == "discovery");
+  var endScreenConfig = this.skin.props.endScreen || {};
+  var upNextConfig = this.skin.props.upNext || {};
+
+  // Only care if discovery on endScreen should be shown
+  if (endScreenConfig.screenToShowOnEnd !== "discovery") {
+    return false;
+  }
+
+  // player didn't show upNext so show discovery
+  // first we ask if showUpNext is part of the config, if not
+  // we can assume showUpNext didn't show
+  if (!upNextConfig.showUpNext || upNextConfig.showUpNext === false) {
+    return true;
+  }
+
+  // player showed and closed the upNext widget
+  if (this.skin.state.upNextDismissed) {
+    return true;
+  }
+
+  // any other case
+  return false;
 };
 
 /*
@@ -153,7 +174,7 @@ OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
  * Hard reset lastPressedTime, either due to button press or otherwise
  */
 OoyalaSkinCore.prototype.handleControlsTouch = function() {
-  if (this.skin.props.controlBar.autoHide === true) {  
+  if (this.skin.props.controlBar.autoHide === true) {
     Log.verbose("handleVideoTouch - Time set");
     this.skin.setState({lastPressedTime: new Date()});
   } else {
