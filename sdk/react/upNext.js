@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
   TouchableHighlight,
-} from 'react-native';
+} from "react-native";
 
-var Utils = require('./utils');
+var Utils = require("./utils");
 
-var styles = Utils.getStyles(require('./style/upNext.json'));
-var CountdownView = require('./widgets/countdownTimer');
-var CountdownViewAndroid = require('./widgets/countdownTimerAndroid');
-var ResponsiveDesignManager = require('./responsiveDesignManager');
-var Constants = require('./constants');
+var styles = Utils.getStyles(require("./style/upNext.json"));
+var CountdownView = require("./widgets/countdownTimer");
+var CountdownViewAndroid = require("./widgets/countdownTimerAndroid");
+var ResponsiveDesignManager = require("./responsiveDesignManager");
+var Constants = require("./constants");
 
 var descriptionMinWidth = 140;
 var thumbnailWidth = 175;
@@ -44,9 +44,9 @@ var UpNext = React.createClass({
   upNextDuration: function() {
     var upNextConfig = this.props.config.upNext || {};
     // TODO: Unit test this functionality, there're still some edge cases
-    if (typeof upNextConfig.timeToShow === 'string') {
+    if (typeof upNextConfig.timeToShow === "string") {
       // Support old version of percentage (e.g. "80%")
-      if (upNextConfig.timeToShow.indexOf('%') >= 0) {
+      if (upNextConfig.timeToShow.indexOf("%") >= 0) {
         return (this.props.duration - parseFloat(upNextConfig.timeToShow.slice(0,-1) / 100) * this.props.duration);
       }
       else if (isNaN(upNextConfig.timeToShow)) {
@@ -56,7 +56,7 @@ var UpNext = React.createClass({
         // if we are given a number of seconds from end in which to show the upnext dialog.
         return parseInt(upNextConfig.timeToShow);
       }
-    } else if (typeof upNextConfig.timeToShow === 'number'){
+    } else if (typeof upNextConfig.timeToShow === "number"){
       if (upNextConfig.timeToShow > 0.0 && upNextConfig.timeToShow <= 1.0) {
         // New percentage mode (e.g. 0.8)
         return this.props.duration - upNextConfig.timeToShow * this.props.duration;
@@ -80,7 +80,7 @@ var UpNext = React.createClass({
   _renderDismissButton: function() {
     return (<TouchableHighlight
       onPress={this.dismissUpNext}
-      underlayColor='transparent'
+      underlayColor="transparent"
       style={styles.dismissButtonContainer}>
       <Text style={[
         styles.dismissButton,

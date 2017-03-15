@@ -1,9 +1,9 @@
 /**
  * The OoyalaSkinCore handles all of the methods that perform actions based on UI actions
  */
- 'use strict';
+ "use strict";
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   ActivityIndicator,
   SliderIOS,
@@ -12,10 +12,10 @@ import {
   View,
   Image,
   TouchableHighlight,
-} from 'react-native';
+} from "react-native";
 
-var Log = require('./log');
-var Constants = require('./constants');
+var Log = require("./log");
+var Constants = require("./constants");
 var {
   BUTTON_NAMES,
   SCREEN_TYPES,
@@ -25,8 +25,8 @@ var {
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE,
 } = Constants;
-var OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
-var OoyalaSkinPanelRenderer = require('./ooyalaSkinPanelRenderer');
+var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
+var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
 
 var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
   this.skin = ooyalaSkin;
@@ -59,7 +59,7 @@ OoyalaSkinCore.prototype.onBackPressed = function() {
 };
 
 OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
-  Log.log('onLanguageSelected:'+e);
+  Log.log("onLanguageSelected:" + e);
   this.skin.setState({selectedLanguage:e});
   this.bridge.onLanguageSelected({language:e});
 };

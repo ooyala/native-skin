@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
   TouchableHighlight
-} from 'react-native';
+} from "react-native";
 
-var Utils = require('../utils');
+var Utils = require("../utils");
 
-var styles = Utils.getStyles(require('./style/endScreenStyles.json'));
-var ProgressBar = require('../progressBar');
-var ControlBar = require('../controlBar');
-var WaterMark = require('../waterMark');
-var InfoPanel = require('../infoPanel');
-var BottomOverlay = require('../bottomOverlay');
-var Log = require('../log');
-var Constants = require('../constants');
+var styles = Utils.getStyles(require("./style/endScreenStyles.json"));
+var ProgressBar = require("../progressBar");
+var ControlBar = require("../controlBar");
+var WaterMark = require("../waterMark");
+var InfoPanel = require("../infoPanel");
+var BottomOverlay = require("../bottomOverlay");
+var Log = require("../log");
+var Constants = require("../constants");
 
 var {
   BUTTON_NAMES,
@@ -58,7 +58,7 @@ var EndScreen = React.createClass({
     Log.verbose("VideoView Handle Press: " + name);
     this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
-      if (name == "LIVE") {
+      if (name === "LIVE") {
         this.props.onScrub(1);
       } else {
         this.props.onPress(name);
@@ -70,14 +70,13 @@ var EndScreen = React.createClass({
 
   _renderDefaultScreen: function(progressBar, controlBar) {
     var endScreenConfig = this.props.config.endScreen || {};
-    var fullscreenPromoImage = endScreenConfig === 'default';
     var replaybuttonLocation = styles.replaybuttonCenter;
     var replaybutton;
     if(endScreenConfig.showReplayButton) {
       var fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replaybutton = (
         <TouchableHighlight
-          onPress={(name) => this.handleClick('PlayPause')}
+          onPress={(name) => this.handleClick("PlayPause")}
           underlayColor="transparent"
           activeOpacity={0.5}>
           <Text style={[styles.replaybutton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
@@ -95,7 +94,7 @@ var EndScreen = React.createClass({
         style={styles.fullscreenContainer}>
         <Image
         source={{uri: this.props.promoUrl}}
-        style={[styles.fullscreenContainer,{position:'absolute', top:0, left:0, width:this.props.width, height: this.props.height}]}
+        style={[styles.fullscreenContainer,{position:"absolute", top:0, left:0, width:this.props.width, height: this.props.height}]}
         resizeMode={Image.resizeMode.contain}>
         </Image>
         {infoPanel}
