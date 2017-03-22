@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
   TouchableHighlight,
-} from 'react-native';
+} from "react-native";
 
-var Utils = require('./utils');
+var Utils = require("./utils");
 
-var styles = Utils.getStyles(require('./style/upNext.json'));
-var CountdownView = require('./widgets/countdownTimer');
-var CountdownViewAndroid = require('./widgets/countdownTimerAndroid');
-var ResponsiveDesignManager = require('./responsiveDesignManager');
-var Constants = require('./constants');
+var styles = Utils.getStyles(require("./style/upNext.json"));
+var CountdownView = require("./widgets/countdownTimer");
+var CountdownViewAndroid = require("./widgets/countdownTimerAndroid");
+var ResponsiveDesignManager = require("./responsiveDesignManager");
+var Constants = require("./constants");
 
 var descriptionMinWidth = 140;
 var thumbnailWidth = 175;
@@ -42,26 +42,27 @@ var UpNext = React.createClass({
   },
 
   upNextDuration: function() {
+    var upNextConfig = this.props.config.upNext || {};
     // TODO: Unit test this functionality, there're still some edge cases
-    if (typeof this.props.config.upNext.timeToShow === 'string') {
+    if (typeof upNextConfig.timeToShow === "string") {
       // Support old version of percentage (e.g. "80%")
-      if (this.props.config.upNext.timeToShow.indexOf('%') >= 0) {
-        return (this.props.duration - parseFloat(this.props.config.upNext.timeToShow.slice(0,-1) / 100) * this.props.duration);
+      if (upNextConfig.timeToShow.indexOf("%") >= 0) {
+        return (this.props.duration - parseFloat(upNextConfig.timeToShow.slice(0,-1) / 100) * this.props.duration);
       }
-      else if (isNaN(this.props.config.upNext.timeToShow)) {
+      else if (isNaN(upNextConfig.timeToShow)) {
         // The string is not a valid number
         return defaultCountdownVal;
       } else {
         // if we are given a number of seconds from end in which to show the upnext dialog.
-        return parseInt(this.props.config.upNext.timeToShow);
+        return parseInt(upNextConfig.timeToShow);
       }
-    } else if (typeof this.props.config.upNext.timeToShow === 'number'){
-      if (this.props.config.upNext.timeToShow > 0.0 && this.props.config.upNext.timeToShow <= 1.0) {
+    } else if (typeof upNextConfig.timeToShow === "number"){
+      if (upNextConfig.timeToShow > 0.0 && upNextConfig.timeToShow <= 1.0) {
         // New percentage mode (e.g. 0.8)
-        return this.props.duration - this.props.config.upNext.timeToShow * this.props.duration;
-      } else if (this.props.config.upNext.timeToShow > 1.0) {
+        return this.props.duration - upNextConfig.timeToShow * this.props.duration;
+      } else if (upNextConfig.timeToShow > 1.0) {
         // Normal number (e.g. 15)
-        return this.props.config.upNext.timeToShow;
+        return upNextConfig.timeToShow;
       } else {
         // 0 or negative number
         return defaultCountdownVal;
@@ -79,7 +80,7 @@ var UpNext = React.createClass({
   _renderDismissButton: function() {
     return (<TouchableHighlight
       onPress={this.dismissUpNext}
-      underlayColor='transparent'
+      underlayColor="transparent"
       style={styles.dismissButtonContainer}>
       <Text style={[
         styles.dismissButton,
@@ -115,7 +116,8 @@ var UpNext = React.createClass({
 
 
   render: function() {
-    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && this.props.config.upNext.showUpNext && !this.props.ad && this.props.nextVideo != null) {
+    var upNextConfig = this.props.config.upNext || {};
+    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && upNextConfig.showUpNext === true && !this.props.ad && this.props.nextVideo != null) {
       var countdown = this.renderCountdownTimer();
       var upNextImage = (
         <Image

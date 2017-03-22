@@ -23,19 +23,21 @@
                         bridge:(OOReactBridge *)bridge
                  config:(NSDictionary *)config {
 
+  if (self = [super init]) {
   // Read the following value in from skin config
-  self.upNextEnabled = [[config objectForKey:@"showUpNext"] boolValue];
+  _upNextEnabled = [[config objectForKey:@"showUpNext"] boolValue];
 
   // Save the player passed in with the init
-  self.player = player;
+  _player = player;
 
-  self.ooBridge = bridge;
+  _ooBridge = bridge;
 
   //listen to currentItemChanged, on, reset state (player.currentItem.embedCode)
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:[self player]];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
 
   //listen to ContentComplete, on, set Ec and play
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
+  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
+  }
 
   return self;
 }
