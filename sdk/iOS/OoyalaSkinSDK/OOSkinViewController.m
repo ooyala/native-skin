@@ -43,7 +43,6 @@
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic) NSDictionary *skinConfig;
 @property (atomic) NSMutableArray *queuedEvents; //QueuedEvent *
-@property (nonatomic) BOOL isFullscreen;
 @property BOOL isReactReady;
 @property OOSkinPlayerObserver *playerObserver;
 @property (nonatomic, strong, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
@@ -110,7 +109,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player bridge:self.ooBridge config:[self.skinConfig objectForKey:@"upNext"]];
 
     // Pre-create the MovieFullscreenView to use when necessary
-    _isFullscreen = NO;
+    _fullscreen = NO;
 
     _movieFullScreenView = [[UIView alloc] init];
     _movieFullScreenView.alpha = 0.f;
@@ -225,7 +224,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     NSNumber *width = [NSNumber numberWithFloat:self.view.frame.size.width];
     NSNumber *height = [NSNumber numberWithFloat:self.view.frame.size.height];
     
-    NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:_isFullscreen]};
+    NSDictionary *eventBody = @{@"width":width,@"height":height,@"fullscreen":[NSNumber numberWithBool:self.isFullscreen]};
     [self sendBridgeEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
     [self sendBridgeEventWithName:VolumeChangeKey body:@{@"volume": @([change[NSKeyValueChangeNewKey] floatValue])}];
@@ -243,18 +242,17 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self.player destroy];
 }
 
-@end
-
-@implementation OOSkinViewController(Internal)
-
-- (void)toggleFullscreen {
+- (void)setFullscreen:(BOOL)fullscreen {
+  if (fullscreen == _fullscreen) return;
+  
   BOOL wasPlaying = self.player.isPlaying;
   if( wasPlaying ) {
     [_player pause];
   }
-  _isFullscreen = !_isFullscreen;
-  [self notifyFullScreenChange : _isFullscreen];
-  if (_isFullscreen) {
+  
+  _fullscreen = fullscreen;
+  [self notifyFullScreenChange : _fullscreen];
+  if (_fullscreen) {
     [self.view removeFromSuperview];
     
     if(self.parentViewController){
@@ -265,7 +263,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     
     [_movieFullScreenView setFrame:window.bounds];
-
+    
     [window addSubview:_movieFullScreenView];
     [_movieFullScreenView addSubview:self.view];
     [self.view setFrame:window.bounds];
@@ -297,6 +295,20 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if( wasPlaying ) {
     [self.player play];
   }
+
+}
+
+- (void)notifyFullScreenChange:(BOOL) isFullscreen {
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification object:self
+                                                    userInfo:@{@"fullScreen": @(isFullscreen)}];
+}
+
+@end
+
+@implementation OOSkinViewController(Internal)
+
+- (void)toggleFullscreen {
+  [self setFullscreen:!self.isFullscreen];
 }
 
 - (OOUpNextManager *)upNextManager {
@@ -347,11 +359,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)onApplicationDidBecomeActive:(NSNotification *)notification {
   MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeForcedOnly);
-}
-
-- (void)notifyFullScreenChange:(BOOL) isFullScreen {
-    [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification object:self
-                    userInfo:@{@"fullScreen": @(isFullScreen)}];
 }
 
 - (void)queueEventWithName:(NSString *)eventName body:(id)body {
