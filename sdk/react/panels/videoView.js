@@ -339,13 +339,13 @@ var VideoView = React.createClass({
 
     return (
       <View
-        style={styles.container}>
+        style={{width:this.props.width, height:this.props.height}}>
         {this._renderPlaceholder()}
         {this._renderClosedCaptions()}
         {this._renderVideoWaterMark()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
+        {this._renderPlayPause(shouldShowControls)}
         {this._renderBottomOverlay(shouldShowControls)}
         {this._renderLoading()}
       </View>
