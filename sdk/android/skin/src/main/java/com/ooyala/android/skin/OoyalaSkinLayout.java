@@ -2,8 +2,10 @@ package com.ooyala.android.skin;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 public class OoyalaSkinLayout extends FrameLayout {
@@ -15,7 +17,7 @@ public class OoyalaSkinLayout extends FrameLayout {
 
   private int initialWidth;
   private int initialHeight;
-  private boolean isFullscreen = false;
+  private boolean fullscreen = false;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
@@ -94,22 +96,22 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   public boolean isFullscreen() {
-    return isFullscreen;
+    return fullscreen;
   }
 
 
   /**
    * Show/Hide system ui (notification and navigation bar) depending if layout is in fullscreen
    */
-  public void toggleSystemUI() {
-    if(isFullscreen()) {
+  public void toggleSystemUI(boolean fullscreen) {
+    if(fullscreen) {
       setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                      | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                      | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION     // hide nav bar
+            | View.SYSTEM_UI_FLAG_FULLSCREEN          // hide status bar
+            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);  // toggle system UI visibility automatically
     } else {
       setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
@@ -117,22 +119,27 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   /**
-   * Stretch OoyalaSkinLayout to dimensions of parent layout.
+   * Stretch OoyalaSkinLayout to dimensions of the display window.
    * Handle system UI visibility.
    */
   void setFullscreen(boolean fullscreen) {
-    this. isFullscreen = fullscreen;
+    if (this.fullscreen == fullscreen) return;
+
+    this.fullscreen = fullscreen;
     if(fullscreen) {
       initialWidth = getLayoutParams().width;
       initialHeight = getLayoutParams().height;
 
-      getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-      getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+      DisplayMetrics displayMetrics = new DisplayMetrics();
+      WindowManager windowManager = (WindowManager) getContext().getSystemService(getContext().WINDOW_SERVICE);
+      windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+      getLayoutParams().width = displayMetrics.widthPixels;
+      getLayoutParams().height = displayMetrics.heightPixels;
       bringToFront();
     } else {
         getLayoutParams().width = initialWidth;
         getLayoutParams().height = initialHeight;
     }
-    toggleSystemUI();
+    toggleSystemUI(fullscreen);
   }
 }

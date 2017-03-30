@@ -503,7 +503,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
     // hide navigation and notification bars after lockscreen
     // if video was in the fullscreen before screenlock
-    _layout.toggleSystemUI();
+    _layout.toggleSystemUI(isFullscreen());
   }
 
   @Override
