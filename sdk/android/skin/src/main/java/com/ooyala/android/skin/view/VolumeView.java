@@ -2,11 +2,12 @@ package com.ooyala.android.skin.view;
 
 import android.content.Context;
 import android.media.AudioManager;
+import android.support.v7.widget.AppCompatSeekBar;
 import android.widget.SeekBar;
 /**
  * Created by dkorobov on 2/9/16.
  */
-public class VolumeView extends SeekBar implements SeekBar.OnSeekBarChangeListener {
+public class VolumeView extends AppCompatSeekBar implements SeekBar.OnSeekBarChangeListener {
 
   private AudioManager audioManager;
 

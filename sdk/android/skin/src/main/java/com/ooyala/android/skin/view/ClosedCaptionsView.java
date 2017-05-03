@@ -6,13 +6,13 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.view.accessibility.CaptioningManager;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
-import android.widget.TextView;
 
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Caption;
@@ -20,7 +20,7 @@ import com.ooyala.android.item.Caption;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ClosedCaptionsView extends TextView {
+public class ClosedCaptionsView extends AppCompatTextView {
   private Caption caption;
   private ClosedCaptionsStyle style;
   private Paint StrokePaint; // Paint for drawing outline
