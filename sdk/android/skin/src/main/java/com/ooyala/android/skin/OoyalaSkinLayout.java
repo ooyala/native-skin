@@ -137,6 +137,12 @@ public class OoyalaSkinLayout extends FrameLayout {
    * Handle system UI visibility.
    */
   void setFullscreen(boolean fullscreen) {
+    // do nothing if window manager isn't set. This is considering an unexpected case, that is
+    // why I'm omitting the whole method, since it really depends on windowManager
+    if (null == windowManager) {
+        return;
+    }
+
     this.fullscreen = fullscreen;
     if(fullscreen) {
 
