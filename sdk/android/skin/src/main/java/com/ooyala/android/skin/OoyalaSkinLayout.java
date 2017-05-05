@@ -101,7 +101,7 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   public boolean isFullscreen() {
-    return fullscreen;
+    return this.fullscreen;
   }
 
 
