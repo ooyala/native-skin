@@ -1,10 +1,16 @@
 package com.ooyala.android.skin;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
+import static android.os.Build.VERSION_CODES.KITKAT;
 
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
@@ -13,9 +19,8 @@ public class OoyalaSkinLayout extends FrameLayout {
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private FrameChangeCallback frameChangeCallback;
 
-  private int initialWidth;
-  private int initialHeight;
-  private boolean isFullscreen = false;
+  private WindowManager windowManager;
+  private boolean fullscreen = false;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
@@ -61,6 +66,8 @@ public class OoyalaSkinLayout extends FrameLayout {
                     FrameLayout.LayoutParams.MATCH_PARENT);
     _playerFrame = new FrameLayout(this.getContext());
     this.addView(_playerFrame, frameLP);
+
+    this.windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
   }
 
   public FrameLayout getAdView() {
@@ -94,22 +101,31 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   public boolean isFullscreen() {
-    return isFullscreen;
+    return this.fullscreen;
   }
 
 
   /**
    * Show/Hide system ui (notification and navigation bar) depending if layout is in fullscreen
    */
-  public void toggleSystemUI() {
-    if(isFullscreen()) {
-      setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                      | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                      | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                      | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                      | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                      | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+  public void toggleSystemUI(boolean fullscreen) {
+    if(fullscreen) {
+      if (SDK_INT >= KITKAT) {
+        setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION     // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN          // hide status bar
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);  // toggle system UI visibility automatically
+      } else {
+        setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION     // hide nav bar
+                | View.SYSTEM_UI_FLAG_FULLSCREEN);        // hide status bar
+      }
     } else {
       setSystemUiVisibility(
               View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
@@ -117,22 +133,45 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   /**
-   * Stretch OoyalaSkinLayout to dimensions of parent layout.
+   * Stretch OoyalaSkinLayout to dimensions of the display window.
    * Handle system UI visibility.
    */
   void setFullscreen(boolean fullscreen) {
-    this. isFullscreen = fullscreen;
-    if(fullscreen) {
-      initialWidth = getLayoutParams().width;
-      initialHeight = getLayoutParams().height;
+    // do nothing if window manager isn't set. This is considering an unexpected case, that is
+    // why I'm omitting the whole method, since it really depends on windowManager
+    if (null == windowManager) {
+        return;
+    }
 
-      getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-      getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+    this.fullscreen = fullscreen;
+    if(fullscreen) {
+
+      DisplayMetrics displayMetrics = new DisplayMetrics();
+      if (SDK_INT >= JELLY_BEAN_MR1) {
+        windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
+      } else {
+        //TODO: Android 16 and below will show a poor fullscreen experience right now
+        // It will not fill the screen where the navigation bar is supposed to be
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+      }
+
+      getLayoutParams().width = displayMetrics.widthPixels;
+      getLayoutParams().height = displayMetrics.heightPixels;
       bringToFront();
     } else {
-        getLayoutParams().width = initialWidth;
-        getLayoutParams().height = initialHeight;
+      // found out that setting width and height to -1 will reset them to the original values
+      getLayoutParams().width = -1;
+      getLayoutParams().height = -1;
     }
-    toggleSystemUI();
+    toggleSystemUI(fullscreen);
+  }
+
+  @Override
+  protected void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
+
+    // Need to force call this every time there's an orientation change to get the correct
+    // width and height values
+    setFullscreen(this.fullscreen);
   }
 }

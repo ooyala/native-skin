@@ -8,8 +8,10 @@ sdk/react/coverage
 **/.gradle/
 **/local.properties
 
+# Android Studio
 **/.idea/libraries/
 **/.idea
+*.iml
 
 ## Other
 *.xccheckout
