@@ -119,13 +119,13 @@ Now, you should be able to run the application, and see any modifications to the
 
 2. Copy **OoyalaSkinSDK.jar** into **libs/** directory of your app
 
-3. Copy **react-native-0.33.0.aar** into **libs/** directory of your app
+3. Copy **react-native-0.35.0.aar** into **libs/** directory of your app
 
 4. Modify your app gradle build file configuration to include OoyalaSkinSDK and React support as shown in the following Gradle build file snippet:
 
         android {
-            compileSdkVersion 23
-            buildToolsVersion "23.0.0"
+            compileSdkVersion 25
+            buildToolsVersion "25.0.2"
             defaultConfig {
                 ...
                 minSdkVersion 16
@@ -146,21 +146,22 @@ Now, you should be able to run the application, and see any modifications to the
         dependencies {
             compile files('libs/OoyalaSDK.jar')
             compile files('libs/OoyalaSkinSDK.jar')
-            compile 'com.android.support:appcompat-v7:23.4.0'
-            compile 'com.android.support:recyclerview-v7:23.4.0'
+            compile 'com.google.android.exoplayer:exoplayer:r1.5.7'
+            compile 'com.android.support:appcompat-v7:25.3.1'
+            compile 'com.android.support:recyclerview-v7:25.3.1'
             compile 'com.facebook.fresco:fresco:0.11.0'
             compile 'com.facebook.fresco:imagepipeline-okhttp3:0.11.0'
             compile 'com.facebook.stetho:stetho:1.2.0'
             compile 'com.facebook.soloader:soloader:0.1.0'
             compile 'com.facebook.stetho:stetho-okhttp:1.2.0'
             compile 'com.fasterxml.jackson.core:jackson-core:2.2.3'
-            compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
+            compile 'com.google.code.findbugs:jsr305:3.0.0'
             compile 'com.squareup.okhttp3:okhttp:3.4.1'
             compile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
             compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
             compile 'com.squareup.okio:okio:1.9.0'
-            compile group: 'org.webkit', name: 'android-jsc', version: 'r174650'
-            compile(name:'react-native', version:'0.33.0', ext:'aar')
+            compile 'org.webkit:android-jsc:r174650'
+            compile(name:'react-native', version:'0.35.0', ext:'aar')
             compile 'javax.inject:javax.inject:1'
         }
 
