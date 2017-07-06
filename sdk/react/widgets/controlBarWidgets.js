@@ -52,7 +52,9 @@ var controlBarWidget = React.createClass({
     var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
     var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
-      <View style={[{flexDirection: 'row'}]}>
+      <View 
+        accessible={true} accessibilityLabel={"volume Scrubber"} accessibilityComponentType="button" 
+        style={[{flexDirection: 'row'}]}>
         <TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
           <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
@@ -94,14 +96,21 @@ var controlBarWidget = React.createClass({
 
   fullscreenWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+    var nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
+    return (
+    <TouchableHighlight 
+      accessible={true} accessibilityLabel={nameLabel} accessibilityComponentType="button" 
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
   moreOptionsWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+    return (
+    <TouchableHighlight 
+      accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button" 
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },

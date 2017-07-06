@@ -114,7 +114,7 @@ var MoreOptionScreen = React.createClass({
       if (buttonStyle[1].color) {
         delete buttonStyle[1].color;
       }
-
+      Log.log("_renderMoreOptionButtons " + button.name);
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if (buttonIcon === undefined || buttonStyle === undefined ) {
         Log.warn( "Warning: skipping unsupported More Options button ", button );
@@ -127,7 +127,7 @@ var MoreOptionScreen = React.createClass({
         };
       }(button.name, this.onOptionPress);
 
-      moreOptionButton = Utils.renderRectButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName, i);
+      moreOptionButton = Utils.renderRectButton(button.name, buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName, i);
 
       moreOptionButtons.push(moreOptionButton);
     }
@@ -152,6 +152,7 @@ var MoreOptionScreen = React.createClass({
         buttonIcon = this.props.config.icons.setting;
         break;
       default:
+      Log.log("_renderIcon " + buttonName);
         break;
     }
     return buttonIcon;
@@ -160,7 +161,7 @@ var MoreOptionScreen = React.createClass({
 	render: function() {
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
-    var dismissButton = Utils.renderRectButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
+    var dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS, styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow;
     var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};

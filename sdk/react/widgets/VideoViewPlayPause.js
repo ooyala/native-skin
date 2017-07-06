@@ -147,6 +147,7 @@ var VideoViewPlayPause = React.createClass({
 
     return (
       <Animated.Text
+        accessible={true} accessibilityLabel={name} accessibilityComponentType="button"
         style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity, size]}>
         {this.props.icons[name].icon}
       </Animated.Text>
@@ -217,7 +218,7 @@ var VideoViewPlayPause = React.createClass({
     }
     else{
       return (
-        <TouchableHighlight
+        <TouchableHighlight 
           onPress={() => this.onPress()}
           style={[positionStyle]}
           underlayColor="transparent"
