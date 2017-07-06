@@ -16,6 +16,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   FULLSCREEN_CLOSE: 'Fullscreen Close',
   MORE: 'MoreOptions',
   DISMISS: 'dismiss',
+  VOLUME: 'Volume',
   REWIND: 'rewind',
   TWITTER: 'Twitter',
   FACEBOOK: 'Facebook',

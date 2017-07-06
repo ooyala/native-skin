@@ -53,9 +53,10 @@ var controlBarWidget = React.createClass({
     var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
       <View 
-        accessible={true} accessibilityLabel={"volume Scrubber"} accessibilityComponentType="button" 
         style={[{flexDirection: 'row'}]}>
-        <TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+        <TouchableHighlight
+          accessible={true} accessibilityLabel={BUTTON_NAMES.VOLUME}
+          style={[options.iconTouchableStyle]} onPress={options.onPress}>
           <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
         {volumeScrubber}
