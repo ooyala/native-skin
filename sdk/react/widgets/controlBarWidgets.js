@@ -71,8 +71,8 @@ var controlBarWidget = React.createClass({
           <Text style={options.style}>{options.durationString}</Text>
         </TouchableHighlight>);
     } else {
-      var playHead = <Text style={options.playHeadTimeStyle}>{options.playHeadTimeString}</Text>;
-      var duration = <Text style={options.durationStyle}>{options.durationString}</Text>;
+      var playHead = <Text style={options.playHeadTimeStyle} accessible={true} accessibilityLabel={options.playHeadTimeString + "seconds"}>{options.playHeadTimeString}</Text>;
+      var duration = <Text style={options.durationStyle} accessible={true} accessibilityLabel={options.durationString + "seconds total time"}>{options.durationString}</Text>;
       return (
         <View style={options.completeTimeStyle}>
         {playHead}
