@@ -133,7 +133,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     var scrubberStyle = this._customizeScrubber();
 
     return (
-      <View accessible={true} accessibilityLabel={STRING_CONSTANTS.VIDEO_SEEK_SCRUBBER)} style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
+      <View accessible={true} accessibilityLabel={STRING_CONSTANTS.VIDEO_SEEK_SCRUBBER} style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
       </View>
       );
   },

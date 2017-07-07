@@ -14,9 +14,10 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'Fullscreen',
   FULLSCREEN_CLOSE: 'Fullscreen Close',
-  MORE: 'MoreOptions',
+  MORE: 'moreOptions',
   DISMISS: 'dismiss',
-  VOLUME: 'Volume',
+  VOLUME: 'volume',
+  REPLAY: 'replay',
   REWIND: 'rewind',
   TWITTER: 'Twitter',
   FACEBOOK: 'Facebook',
@@ -87,7 +88,7 @@ var LOG_LEVEL = {
 
 var STRING_CONSTANTS = {
   SECONDS: 'seconds',
-  TOTAL_SECONDS: 'seconds total time'
+  TOTAL_SECONDS: 'seconds total time',
   VIDEO_SEEK_SCRUBBER: 'video scrubber'
 };
 
