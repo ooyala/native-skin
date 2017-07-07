@@ -21,6 +21,7 @@ var Constants = require('./../constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
+  STRING_CONSTANTS
   } = Constants;
 
 var controlBarWidget = React.createClass({
@@ -71,8 +72,8 @@ var controlBarWidget = React.createClass({
           <Text style={options.style}>{options.durationString}</Text>
         </TouchableHighlight>);
     } else {
-      var playHead = <Text style={options.playHeadTimeStyle} accessible={true} accessibilityLabel={options.playHeadTimeString + "seconds"}>{options.playHeadTimeString}</Text>;
-      var duration = <Text style={options.durationStyle} accessible={true} accessibilityLabel={options.durationString + "seconds total time"}>{options.durationString}</Text>;
+      var playHead = <Text style={options.playHeadTimeStyle} accessible={true} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
+      var duration = <Text style={options.durationStyle} accessible={true} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
       return (
         <View style={options.completeTimeStyle}>
         {playHead}

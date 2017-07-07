@@ -18,7 +18,8 @@ var Constants = require('./constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
-  UI_SIZES
+  UI_SIZES,
+  STRING_CONSTANTS
 } = Constants;
 
 var Log = require('./log');
@@ -132,7 +133,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     var scrubberStyle = this._customizeScrubber();
 
     return (
-      <View style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
+      <View accessible={true} accessibilityLabel={STRING_CONSTANTS.VIDEO_SEEK_SCRUBBER)} style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
       </View>
       );
   },
@@ -172,7 +173,8 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     } 
     return (
-      <View style={styles.progressBarStyle}>
+      <View 
+      style={styles.progressBarStyle}>
     {this._renderProgressBar(playedPercent)}
     {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
     {this._renderCuePoints(this.props.cuePoints)}
