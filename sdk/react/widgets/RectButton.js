@@ -31,7 +31,6 @@ var RectButton = React.createClass({
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
     var buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
     var positionStyle;
-    Log.log("RectButton : " + this.props.name);
     if(this.props.style != null) {
       positionStyle = this.props.style;
     } else if (this.props.position == "center") {

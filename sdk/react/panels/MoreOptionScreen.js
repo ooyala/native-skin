@@ -114,7 +114,7 @@ var MoreOptionScreen = React.createClass({
       if (buttonStyle[1].color) {
         delete buttonStyle[1].color;
       }
-      Log.log("_renderMoreOptionButtons " + button.name);
+
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if (buttonIcon === undefined || buttonStyle === undefined ) {
         Log.warn( "Warning: skipping unsupported More Options button ", button );
@@ -152,7 +152,6 @@ var MoreOptionScreen = React.createClass({
         buttonIcon = this.props.config.icons.setting;
         break;
       default:
-      Log.log("_renderIcon " + buttonName);
         break;
     }
     return buttonIcon;
