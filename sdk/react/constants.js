@@ -13,7 +13,11 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY: 'Play',
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'Fullscreen',
-  MORE: 'More',
+  FULLSCREEN_CLOSE: 'Fullscreen Close',
+  MORE: 'moreOptions',
+  DISMISS: 'dismiss',
+  VOLUME: 'volume',
+  REPLAY: 'replay',
   REWIND: 'rewind',
   TWITTER: 'Twitter',
   FACEBOOK: 'Facebook',
@@ -82,6 +86,12 @@ var LOG_LEVEL = {
   NONE: 0
 };
 
+var STRING_CONSTANTS = {
+  SECONDS: 'seconds',
+  TOTAL_SECONDS: 'seconds total time',
+  VIDEO_SEEK_SCRUBBER: 'video scrubber'
+};
+
 MAX_DATE_VALUE = 8640000000000000;
 AUTOHIDE_DELAY = 5000;
-module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OVERLAY_TYPES , OOSTATES, LOG_LEVEL, PLATFORMS, MAX_DATE_VALUE, AUTOHIDE_DELAY, DESIRED_STATES};
+module.exports = {UI_SIZES, BUTTON_NAMES, IMG_URLS, SCREEN_TYPES, OVERLAY_TYPES , OOSTATES, LOG_LEVEL, PLATFORMS, MAX_DATE_VALUE, AUTOHIDE_DELAY, DESIRED_STATES, STRING_CONSTANTS};

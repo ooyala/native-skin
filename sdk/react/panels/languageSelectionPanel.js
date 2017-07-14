@@ -18,6 +18,7 @@ import {
 var animationDuration = 1000;
 var Constants = require('../constants');
 var {
+  BUTTON_NAMES,
   ICONS
 } = Constants;
 
@@ -94,7 +95,9 @@ var LanguageSelectionPanel = React.createClass({
       </Text>
       <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
       <View style={panelStyles.headerFlexibleSpace}></View>
-      <TouchableHighlight style = {[panelStyles.dismissButton]}
+      <TouchableHighlight
+        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
+        style = {[panelStyles.dismissButton]}
         onPress={this.onDismissPress}>
         <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
       </TouchableHighlight>
