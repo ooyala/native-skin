@@ -18,6 +18,9 @@ CGFloat const barHeight = 20;
 CGFloat const barCornerRadius = 10;
 CGFloat const bottomDistance = 50;
 CGFloat const hideBarInterval = 5.0;
+CGFloat const ccHeight = 852;
+CGFloat const ccWidth = 567;
+CGFloat const cornerRadius = 7;
 
 CGFloat const barTailDistance = headDistance + componentSpace + labelWidth;
 CGFloat const playheadLabelX = headDistance + playPauseButtonWidth + componentSpace;

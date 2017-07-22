@@ -5,6 +5,7 @@
 //  Copyright © 2016 Ooyala, Inc. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 @class OOOoyalaPlayer;
@@ -35,5 +36,33 @@
  * Hide progress bar;
  */
 - (void)hideProgressBar;
+
+- (void)showOptions;
+
+- (void)hideOptions;
+
++ (NSDictionary*)currentLanguageSettings;
+
+- (void) closedCaptionsSelector;
+
+- (BOOL)shouldShowClosedCaptions;
+
+- (NSMutableArray *)getOptionsAvailable;
+
++ (void)loadDefaultLocale;
+
++ (void)loadDeviceLanguage;
+
+- (void)useLanguageStrings:(NSDictionary *)strings;
+
+- (void)refreshClosedCaptionsView;
+
+- (void)onPlayheadUpdated:(NSNotification *)notification;
+
+- (void)displayCurrentClosedCaption;
+
+- (BOOL)closedCaptionMenuDisplayed;
+
+- (void)closedCaptionsSelectNextOption;
 
 @end

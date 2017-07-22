@@ -1,4 +1,4 @@
-//
+     //
 //  OOOoyalaTVPlayerViewController.m
 //  OoyalaTVSkinSDK
 //
@@ -11,8 +11,15 @@
 #import "OOOoyalaTVButton.h"
 #import "OOOoyalaTVLabel.h"
 #import "OOOoyalaTVBottomBars.h"
+#import "OOOoyalaTVTopBar.h"
+#import "OOOoyalaTVClosedCaptionsBar.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import "OOTVGestureManager.h"
+#import "OOTVOptionsCollectionViewController.h"
+#import "OOOoyalaTVClosedCaptionsView.h"
+#import "OoyalaSDK/OOCaption.h"
+#import "OoyalaSDK/OOClosedCaptions.h"
+
 
 @interface OOOoyalaTVPlayerViewController ()
 
@@ -24,24 +31,47 @@
 @property (nonatomic, strong) OOOoyalaTVLabel *playheadLabel;
 @property (nonatomic, strong) OOOoyalaTVButton *playPauseButton;
 @property (nonatomic, strong) OOOoyalaTVBottomBars *bottomBars;
+@property (nonatomic, strong) OOOoyalaTVTopBar *closedCaptionsBar;
+//@property (nonatomic, strong) OOOoyalaTVClosedCaptionsBar *closedCaptionsBar;
 @property (nonatomic, strong) OOOoyalaTVGradientView *progressBarBackground;
 @property (nonatomic) CGFloat lastTriggerTime;
+@property (nonatomic, strong) NSDictionary *currentLocale;
+@property (nonatomic, strong) OOTVOptionsCollectionViewController *optionsViewController;
+@property (nonatomic, strong) NSMutableArray *tableList;
+@property (nonatomic, strong) OOOoyalaTVClosedCaptionsView *closedCaptionsView;
 
 @end
 
+// This Pair class is a simple object that holds a string and array.
+@interface Pair : NSObject
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSArray *value;
+@end
+
+@implementation Pair
+@synthesize name, value;
+@end
+
 @implementation OOOoyalaTVPlayerViewController
+static NSDictionary *OOOoyalaPlayerViewControllerAvailableLocalizations;
+static NSDictionary *currentLocale = nil;
+static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 #pragma mark lifecyle methods
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player {
   if (self = [super init]) {
     [self setPlayer:player];
   }
+    
   return self;
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.playbackControlsEnabled = YES;
+    
+    // Set Closed Caption style
+    _closedCaptionsStyle = [OOClosedCaptionsStyle new];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -93,7 +123,7 @@
 
 - (void)setupBars {
   self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground];
-  
+    
   [self.progressBarBackground addSubview:self.bottomBars];
 }
 
@@ -227,8 +257,252 @@
   }
 }
 
+- (void)showOptions {
+    if (self.closedCaptionsBar.window){
+        [self.closedCaptionsBar removeFromSuperview];
+    }else {
+        //self.closedCaptionsBar = [[OOOoyalaTVClosedCaptionsBar alloc] initWithBackground:self.view];
+        [self.view addSubview: self.closedCaptionsBar];
+    }
+}
+
 - (UIView *)preferredFocusedView {
-  return self.player.view;
+  return self.optionsViewController.view;
+}
+
++ (NSDictionary*)currentLanguageSettings {
+    if(!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+        [self loadDefaultLocale];
+    }
+    if (!currentLocale) {
+        [self loadDeviceLanguage];
+    }
+    return currentLocale;
+}
+
++ (NSDictionary *) availableLocalizations {
+    if(!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+        [OOOoyalaTVPlayerViewController loadDefaultLocale];
+    }
+    return OOOoyalaPlayerViewControllerAvailableLocalizations;
+}
+
++ (void) setAvailableLocalizations:(NSDictionary *)translations {
+    //LOG(@"Available Localizations manually set");
+    OOOoyalaPlayerViewControllerAvailableLocalizations = translations;
+}
+
+- (void)changeLanguage: (NSString *)language {
+    if(!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+        [OOOoyalaTVPlayerViewController loadDefaultLocale];
+    }
+    
+    if (language == nil) {
+        [OOOoyalaTVPlayerViewController loadDeviceLanguage];
+    } else if ([OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language]) {
+        [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:language]];
+    } else {
+        [OOOoyalaTVPlayerViewController chooseBackupLanguage:language];
+    }
+    
+    [self refreshClosedCaptionsView];
+}
+
++ (void)loadDefaultLocale{
+    //LOG(@"Default Localizations Loaded");
+    NSArray *keys = [NSArray arrayWithObjects:@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions", nil];
+    NSDictionary *en = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions", nil] forKeys:keys];
+    NSDictionary *ja = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"ライブ", @"完了", @"言語", @"さらに詳しく", @"このアプリからビデオをキャストできます", @"切断", @"デバイスに接続",@"Subtitles",@"Off",@"Use Closed Captions", nil] forKeys:keys];
+    NSDictionary *es = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"En vivo", @"Hecho", @"Idioma", @"Más información", @"Listo para trasmitir videos desde esta aplicación", @"Desconectar", @"Conectar al dispositivo",@"Subtítulos",@"Off",@"Usar Subtítulos", nil] forKeys:keys];
+    
+    OOOoyalaPlayerViewControllerAvailableLocalizations = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:en, ja, es, nil] forKeys:[NSArray arrayWithObjects:@"en", @"ja", @"es", nil]];
+}
+
++ (void)loadDeviceLanguage {
+    if(!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+        [self loadDefaultLocale];
+    }
+    NSString* language = [NSLocale preferredLanguages][0];
+    if ([OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language]) {
+        [self useLanguageStrings:[OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language]];
+    } else {
+        [self chooseBackupLanguage:language];
+    }
+}
+
++ (NSDictionary*)getLanguageSettings:(NSString *)language {
+    if(!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+        [self loadDefaultLocale];
+    }
+    return [OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language];
+}
+
++ (void)useLanguageStrings:(NSDictionary *)strings {
+    if(!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+        [self loadDefaultLocale];
+    }
+    currentLocale = strings;
+}
+
+// Choose a default language when there is not specific dialect for that language
+// If there is not default language for a language then we choose English
+// For example: choose “ja" as language when there is no ”ja_A“, however if there is
+// even no "ja" we should always choose "en"
++ (void) chooseBackupLanguage:(NSString*) language {
+    BOOL matched = NO;
+    NSArray* array = [language componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"-_"]];
+    NSString* basicLanguage = array[0];
+    for (NSString* key in OOOoyalaPlayerViewControllerAvailableLocalizations) {
+        if([key isEqualToString:basicLanguage]) {
+            [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:key]];
+            matched = YES;
+            break;
+        }
+    }
+    if (!matched) {
+        [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:@"en"]];
+    }
+}
+
+- (void)refreshClosedCaptionsView {
+    if (self.player.isShowingAd) {
+        [self removeClosedCaptionsView];
+    } else {
+        [self addClosedCaptionsView];
+    }
+}
+
+// This should be called by the UI when the closed captions button is clicked
+- (void) closedCaptionsSelector {
+
+    //If CC menu is already displayed we remove view, else we display CC menu view.
+    if (self.optionsViewController.view.window){
+        [self.optionsViewController.view removeFromSuperview];
+    }else {
+        self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
+        [self addChildViewController:self.optionsViewController];
+        [self.player.view addSubview:self.optionsViewController.view];
+        [self.player.view bringSubviewToFront:self.optionsViewController.view];
+        [self.optionsViewController didMoveToParentViewController:self];
+    }
+
+    //[self.view addSubview: self.closedCaptionsBar];
+    
+    //Calling focus environment to give focus to CC menu elements
+    [self setNeedsFocusUpdate];
+    [self updateFocusIfNeeded];
+
+}
+
+- (BOOL)closedCaptionMenuDisplayed {
+    if (self.optionsViewController.view.window){
+        return YES;
+    }
+    return NO;
+}
+
+- (void)removeClosedCaptionsView {
+    if (_closedCaptionsView) {
+        [_closedCaptionsView removeFromSuperview];
+        _closedCaptionsView = nil;
+    }
+}
+
+- (void)addClosedCaptionsView {
+    //[OOUIUtils runOnMainThread:^{
+        [self removeClosedCaptionsView];
+        if (self.player.currentItem.hasClosedCaptions && self.player.closedCaptionsLanguage) {
+            _closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.view.bounds];
+            _closedCaptionsView.style = _closedCaptionsStyle;
+            //_closedCaptionsView.backgroundColor = [UIColor yellowColor];
+            //[[self getControls] updateClosedCaptionsPosition];
+            //[self.player setLiveClosedCaptionsEnabled:YES];
+            [self.view addSubview:_closedCaptionsView];
+        }
+    //}];
+}
+
+- (void)didUpdateFocusInContext:(UIFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
+    [super didUpdateFocusInContext:context withAnimationCoordinator:coordinator];
+    
+    if (self.view == context.nextFocusedView) {
+        [coordinator addCoordinatedAnimations:^{
+            // focusing animations
+        } completion:^{
+            // completion
+        }];
+    } else if (self.view == context.previouslyFocusedView) {
+        [coordinator addCoordinatedAnimations:^{
+            // unfocusing animations
+        } completion:^{
+            // completion
+        }];
+    }
+}
+
+- (BOOL)shouldShowClosedCaptions {
+    return self.player.closedCaptionsLanguage != nil &&
+    self.player.currentItem.hasClosedCaptions &&
+    ![self.player.closedCaptionsLanguage isEqualToString: OOLiveClosedCaptionsLanguage] &&
+    ![self.player isInCastMode];
+}
+ 
+- (NSMutableArray *)getOptionsAvailable {
+    NSArray *providedList = self.player.availableClosedCaptionsLanguages;
+    self.tableList = [[NSMutableArray alloc] init];
+    NSMutableArray *subtitleArray = [[NSMutableArray alloc] init];
+    NSArray *closedCaptionsArray = nil;
+    
+    // For each language in the list, add it to the necessary array
+    for (NSString *language in providedList) {
+        
+        // If this was the closed captions language, put 'None' and 'CC' langauges in the array
+        if ([language compare: @"cc"] == NSOrderedSame) {
+            closedCaptionsArray = [NSArray arrayWithObjects:[[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Off"], [[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Use Closed Captions"], nil];
+        }
+        else {
+            if (subtitleArray.count == 0) {
+                [subtitleArray addObject:[[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Off"]];
+            }
+            [subtitleArray addObject:language];
+        }
+    }
+    
+    // Make the pairs <section name, language/presentation list> to save in the langauge array
+    if (closedCaptionsArray != nil)
+    {
+        Pair *closedCaptionsPair = [Pair alloc];
+        closedCaptionsPair.name = @"Closed Captions";
+        closedCaptionsPair.value = closedCaptionsArray;
+        [self.tableList addObject:closedCaptionsPair];
+    }
+    if (subtitleArray.count > 0)
+    {
+        Pair *subtitlePair = [Pair alloc];
+        subtitlePair.name = [[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Languages"];
+        subtitlePair.value = subtitleArray;
+        
+        [self.tableList addObject:subtitlePair];
+    }
+    
+    return self.tableList;
+    
+}
+
+- (void)displayCurrentClosedCaption {
+    if ([self shouldShowClosedCaptions]) {
+        if (_closedCaptionsView.caption == nil || self.player.playheadTime < _closedCaptionsView.caption.begin || self.player.playheadTime > _closedCaptionsView.caption.end) {
+            OOCaption *caption =
+            [self.player.currentItem.closedCaptions captionForLanguage:self.player.closedCaptionsLanguage time:self.player.playheadTime];
+            _closedCaptionsView.caption = caption;
+        }
+    } else {
+        _closedCaptionsView.caption = nil;
+    }
+}
+
+- (BOOL)shouldUpdateFocusInContext:(UIFocusUpdateContext *)context {
+    return YES;
 }
 
 @end

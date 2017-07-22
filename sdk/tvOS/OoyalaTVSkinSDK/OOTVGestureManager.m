@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *tapBackwardGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapPlayPauseGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *tapOptionsGesture;
 
 @end
 
@@ -45,6 +46,10 @@
   self.tapPlayPauseGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlay:)];
   self.tapPlayPauseGesture.allowedPressTypes = @[@(UIPressTypePlayPause), @(UIPressTypeSelect)];
   self.tapPlayPauseGesture.delegate = self;
+    
+    self.tapOptionsGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closedCaptionsSelector:)];
+    self.tapOptionsGesture.allowedPressTypes = @[@(UIPressTypeDownArrow)];
+    self.tapOptionsGesture.delegate = self;
 
   self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipe:)];
   self.panGesture.delegate = self;
@@ -53,6 +58,7 @@
   [self.controller.view addGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view addGestureRecognizer:self.tapPlayPauseGesture];
   [self.controller.view addGestureRecognizer:self.panGesture];
+    [self.controller.view addGestureRecognizer:self.tapOptionsGesture];
 }
 
 - (void)removeGestures {
@@ -60,6 +66,7 @@
   [self.controller.view removeGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view removeGestureRecognizer:self.tapPlayPauseGesture];
   [self.controller.view removeGestureRecognizer:self.panGesture];
+    [self.controller.view addGestureRecognizer:self.tapOptionsGesture];
 }
 
 #pragma mark Gesture Delegates
@@ -121,6 +128,10 @@
   [self.controller showProgressBar];
 }
 
+- (void)closedCaptionsSelector: (id)sender {
+    [self.controller closedCaptionsSelector];
+}
+
 - (void)onSwipe:(id)sender {
   if (sender == self.panGesture) {
     CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
@@ -152,5 +163,6 @@
     }
   }
 }
+
 
 @end
