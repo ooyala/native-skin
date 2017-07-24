@@ -18,6 +18,7 @@ var {
 var LanguageSelectionPreview = React.createClass({
   propTypes: {
     config: React.PropTypes.object,
+    selectedLanguage: React.PropTypes.string,
     isVisible: React.PropTypes.bool
   },
 
@@ -40,8 +41,8 @@ var LanguageSelectionPreview = React.createClass({
     return (
       <Animated.View style={styles.previewPanel}>
       <View style={styles.splitter} />
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, 'CLOSE CAPTION PREVIEW', this.props.config.localizableStrings)}</Text>
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.config.locale, 'Sample Text', this.props.config.localizableStrings)}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.selectedLanguage, 'CLOSED CAPTION PREVIEW', this.props.config.localizableStrings)}</Text>
+        <Text style={styles.buttonText}>{Utils.localizedString(this.props.selectedLanguage, 'Sample Text', this.props.config.localizableStrings)}</Text>
       </Animated.View>
     );
   }
