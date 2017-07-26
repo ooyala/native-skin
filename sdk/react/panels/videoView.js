@@ -83,8 +83,28 @@ var VideoView = React.createClass({
   },
 
   componentWillMount: function(){
-    this.accessibility()
+    AccessibilityInfo.addEventListener(
+      'change',
+      this._handleScreenReaderToggled
+    );
+    AccessibilityInfo.fetch().done((isEnabled) => {
+      this.setState({screenReaderEnabled: isEnabled});
+    });
   },
+ 
+  componentWillUnmount: function() {
+      AccessibilityInfo.removeEventListener(
+        'change',
+        this._handleScreenReaderToggled
+      );
+  },
+
+  _handleScreenReaderToggled: function(isEnabled){
+    this.setState({
+        screenReaderEnabled: isEnabled,
+    });
+  },
+  
 
   getInitialState: function() {
     return {
@@ -340,25 +360,10 @@ var VideoView = React.createClass({
     this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
   },
 
-  accessibility: function(){
-    AccessibilityInfo.addEventListener(
-      'change',
-      this._handleScreenReaderToggled
-    );
-    AccessibilityInfo.fetch().done((isEnabled) => {
-      this.setState({screenReaderEnabled: isEnabled});
-    });
-  },
+  
   render: function() {
-    var shouldShowControls = false;
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-
-    if(this.state.screenReaderEnabled){
-      shouldShowControls = true
-    }else{
-      shouldShowControls = !isPastAutoHideTime;
-    }
-    var shouldshowControlsplaypause = !isPastAutoHideTime;
+    var shouldShowControls = !isPastAutoHideTime;
 
     return (
       <View
@@ -367,9 +372,9 @@ var VideoView = React.createClass({
         {this._renderClosedCaptions()}
         {this._renderVideoWaterMark()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldshowControlsplaypause)}
+        {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
-        {this._renderBottomOverlay(shouldShowControls)}
+        {this._renderBottomOverlay(this.state.screenReaderEnabled ? true : shouldShowControls)}
         {this._renderLoading()}
       </View>
     );
