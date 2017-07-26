@@ -30,6 +30,8 @@ var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
 var panelStyles = require('./style/panelStyles.json');
 
+var AccessibilityInfo = require("../AccessibilityInfo.ios.js");
+
 var {
   BUTTON_NAMES,
   PLATFORMS,
@@ -80,8 +82,13 @@ var VideoView = React.createClass({
 
   },
 
+  componentWillMount: function(){
+    this.accessibility()
+  },
+
   getInitialState: function() {
     return {
+      screenReaderEnabled: false
     };
   },
 
@@ -333,9 +340,25 @@ var VideoView = React.createClass({
     this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
   },
 
+  accessibility: function(){
+    AccessibilityInfo.addEventListener(
+      'change',
+      this._handleScreenReaderToggled
+    );
+    AccessibilityInfo.fetch().done((isEnabled) => {
+      this.setState({screenReaderEnabled: isEnabled});
+    });
+  },
   render: function() {
+    var shouldShowControls = false;
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    var shouldShowControls = !isPastAutoHideTime;
+
+    if(this.state.screenReaderEnabled){
+      shouldShowControls = true
+    }else{
+      shouldShowControls = !isPastAutoHideTime;
+    }
+    var shouldshowControlsplaypause = !isPastAutoHideTime;
 
     return (
       <View
@@ -344,7 +367,7 @@ var VideoView = React.createClass({
         {this._renderClosedCaptions()}
         {this._renderVideoWaterMark()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldShowControls)}
+        {this._renderPlayPause(shouldshowControlsplaypause)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
         {this._renderLoading()}
@@ -354,3 +377,5 @@ var VideoView = React.createClass({
 });
 
 module.exports = VideoView;
+
+
