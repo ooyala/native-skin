@@ -8,6 +8,7 @@ import React, { Component } from 'react';
 import {
   Animated,
   ListView,
+  ScrollView,
   StyleSheet,
   SwitchIOS,
   Text,
@@ -84,12 +85,45 @@ var LanguageSelectionPanel = React.createClass({
   onTouchEnd: function(event) {
     // ignore.
   },
-  renderHeader: function() {
+  renderHeader: function(hasCC) {
     var title = Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings);
-    var panelIcon = this.props.config.icons.cc.fontString;
+    var switchOnText = Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings);
+    var switchOffText = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
+    var panelIcon =  this.props.config.icons.cc.fontString;
+
+    var minimumWidthPanelIcon = 320;
+    var mediumWidthSwitchText = 360;
+    var fullWidthPanelIcon = 380;
+
+    var width = this.props.width
+
+    // ToggleSwitch without text + panelIcon + dismiss button
+    if (width < minimumWidthPanelIcon) {
+      title = "";
+      switchOnText = "";
+      switchOffText = "";
+    }
+    // ToggleSwitch without text + title + dismiss button
+    else if (width < mediumWidthSwitchText) {
+      switchOnText = "";
+      switchOffText = "";
+      panelIcon = "";
+    }
+    // ToggleSwitch with text + title + dismiss button
+    else if (width < fullWidthPanelIcon) {
+      panelIcon = "";
+    }
 
     return (
     <View style={panelStyles.panelTitleView}>
+      <ToggleSwitch
+        switchOn={hasCC}
+        areClosedCaptionsAvailable={this.props.languages.length > 0}
+        onValueChanged={(value)=>this.onSwitchToggled(value)}
+        switchOnText={switchOnText}
+        switchOffText={switchOffText}
+        config={this.props.config}>
+      </ToggleSwitch>
       <Text style={[panelStyles.panelTitleText]}>
       {title}
       </Text>
@@ -97,9 +131,12 @@ var LanguageSelectionPanel = React.createClass({
       <View style={panelStyles.headerFlexibleSpace}></View>
       <TouchableHighlight
         accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
-        style = {[panelStyles.dismissButton]}
+        style = {[panelStyles.dismissButton, {"paddingTop": 10, "paddingBottom": 0}]}
         onPress={this.onDismissPress}>
-        <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
+        <Text
+          style={[panelStyles.dismissIcon, {"paddingBottom": 0}]}>
+          {this.props.config.icons.dismiss.fontString}
+        </Text>
       </TouchableHighlight>
     </View>);
   },
@@ -117,7 +154,7 @@ var LanguageSelectionPanel = React.createClass({
     var animationStyle = {opacity:this.state.opacity};
 
     if (this.props.selectedLanguage) {
-      var previewText = 
+      var previewText =
         ( <PreviewWidget
             isVisible={hasCC}
             config={this.props.config}
@@ -125,28 +162,22 @@ var LanguageSelectionPanel = React.createClass({
           </PreviewWidget>
         );
     }
-  
+
     return (
       <Animated.View style={[styles.panelContainer, panelStyles.panel, animationStyle]}>
-        {this.renderHeader()}
-        <ToggleSwitch
-          switchOn={hasCC}
-          areClosedCaptionsAvailable={this.props.languages.length > 0}
-          onValueChanged={(value)=>this.onSwitchToggled(value)}
-          switchOnText={Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings)}
-          switchOffText={Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings)}
-          config={this.props.config}>
-        </ToggleSwitch>
-        <ResponsiveList
-          horizontal={renderHorizontal}
-          data={this.props.languages}
-          itemRender={this.renderItem}
-          width={this.props.width}
-          height={itemPanelHeight}
-          itemWidth={160}
-          itemHeight={88}>
-        </ResponsiveList>
-        {previewText}
+        <ScrollView>
+          {this.renderHeader(hasCC)}
+          <ResponsiveList
+            horizontal={renderHorizontal}
+            data={this.props.languages}
+            itemRender={this.renderItem}
+            width={this.props.width}
+            height={itemPanelHeight}
+            itemWidth={160}
+            itemHeight={88}>
+          </ResponsiveList>
+          {previewText}
+        </ScrollView>
       </Animated.View>
     );
   },
