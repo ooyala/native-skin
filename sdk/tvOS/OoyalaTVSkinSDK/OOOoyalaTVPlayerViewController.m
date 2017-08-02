@@ -257,17 +257,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   }
 }
 
-- (void)showOptions {
-    if (self.closedCaptionsBar.window){
-        [self.closedCaptionsBar removeFromSuperview];
-    }else {
-        //self.closedCaptionsBar = [[OOOoyalaTVClosedCaptionsBar alloc] initWithBackground:self.view];
-        [self.view addSubview: self.closedCaptionsBar];
-    }
-}
-
 - (UIView *)preferredFocusedView {
-  return self.optionsViewController.view;
+  return self.optionsViewController.optionsCollectionView;
 }
 
 + (NSDictionary*)currentLanguageSettings {
@@ -373,6 +364,23 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 // This should be called by the UI when the closed captions button is clicked
+- (void)setupClosedCaptionsMenu {
+    if (self.optionsViewController.view.window){
+        [self.optionsViewController.view removeFromSuperview];
+    }else {
+        self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
+        [self addChildViewController:self.optionsViewController];
+        [self.player.view addSubview:self.optionsViewController.view];
+        [self.player.view bringSubviewToFront:self.optionsViewController.view];
+        [self.optionsViewController didMoveToParentViewController:self];
+        //We hide CC menu until user choose to display it
+        [self.optionsViewController.view setHidden:NO];
+    }
+    [self setNeedsFocusUpdate];
+    [self updateFocusIfNeeded];
+}
+
+// This should be called by the UI when the closed captions button is clicked
 - (void) closedCaptionsSelector {
 
     //If CC menu is already displayed we remove view, else we display CC menu view.
@@ -395,7 +403,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (BOOL)closedCaptionMenuDisplayed {
-    if (self.optionsViewController.view.window){
+    if (self.optionsViewController.isViewLoaded && self.optionsViewController.view.window != nil){
         return YES;
     }
     return NO;
@@ -412,32 +420,15 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     //[OOUIUtils runOnMainThread:^{
         [self removeClosedCaptionsView];
         if (self.player.currentItem.hasClosedCaptions && self.player.closedCaptionsLanguage) {
-            _closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.view.bounds];
-            _closedCaptionsView.style = _closedCaptionsStyle;
-            //_closedCaptionsView.backgroundColor = [UIColor yellowColor];
+            self.closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.player.videoRect];
+            self.closedCaptionsView.style = _closedCaptionsStyle;
+            //self.closedCaptionsView.backgroundColor = [UIColor yellowColor];
             //[[self getControls] updateClosedCaptionsPosition];
-            //[self.player setLiveClosedCaptionsEnabled:YES];
-            [self.view addSubview:_closedCaptionsView];
+            [self displayCurrentClosedCaption];
+            [self.player.view addSubview:self.closedCaptionsView];
+            
         }
     //}];
-}
-
-- (void)didUpdateFocusInContext:(UIFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
-    [super didUpdateFocusInContext:context withAnimationCoordinator:coordinator];
-    
-    if (self.view == context.nextFocusedView) {
-        [coordinator addCoordinatedAnimations:^{
-            // focusing animations
-        } completion:^{
-            // completion
-        }];
-    } else if (self.view == context.previouslyFocusedView) {
-        [coordinator addCoordinatedAnimations:^{
-            // unfocusing animations
-        } completion:^{
-            // completion
-        }];
-    }
 }
 
 - (BOOL)shouldShowClosedCaptions {

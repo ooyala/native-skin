@@ -35,7 +35,7 @@
 }
 
 - (void)addGestures {
-  self.tapForwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
+  self.tapForwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(visibleControllerAction:)];
   self.tapForwardGesture.allowedPressTypes = @[@(UIPressTypeRightArrow)];
   self.tapForwardGesture.delegate = self;
 
@@ -57,6 +57,7 @@
   [self.controller.view addGestureRecognizer:self.tapForwardGesture];
   [self.controller.view addGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view addGestureRecognizer:self.tapPlayPauseGesture];
+    [self.tapPlayPauseGesture setCancelsTouchesInView:NO];
   [self.controller.view addGestureRecognizer:self.panGesture];
     [self.controller.view addGestureRecognizer:self.tapOptionsGesture];
 }
@@ -128,8 +129,28 @@
   [self.controller showProgressBar];
 }
 
+- (void)visibleControllerAction:(UITapGestureRecognizer *)sender {
+    //We verify if CC menu is displayed, else focus will be directed to player
+    if (self.controller.closedCaptionMenuDisplayed){
+        if (sender == self.tapForwardGesture) {
+            //Calling focus environment to give focus to CC menu elements
+            [self.controller setNeedsFocusUpdate];
+            [self.controller updateFocusIfNeeded];
+        }
+    }else if (sender == self.tapPlayPauseGesture) {
+        [self togglePlay:sender];
+    }else if (sender == self.tapForwardGesture) {
+        [self seek:sender];
+    }
+}
+
 - (void)closedCaptionsSelector: (id)sender {
-    [self.controller closedCaptionsSelector];
+    //if (self.controller closedCaptionMenuDisplayed){
+        
+    //} else{
+        [self.controller setupClosedCaptionsMenu];
+    //}
+    
 }
 
 - (void)onSwipe:(id)sender {

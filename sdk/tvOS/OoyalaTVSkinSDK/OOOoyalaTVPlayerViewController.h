@@ -65,4 +65,8 @@
 
 - (void)closedCaptionsSelectNextOption;
 
+- (void)setupClosedCaptionsMenu;
+
+- (void)addClosedCaptionsView;
+
 @end

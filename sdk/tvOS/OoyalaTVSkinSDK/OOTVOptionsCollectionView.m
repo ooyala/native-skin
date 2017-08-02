@@ -14,51 +14,30 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
-    //self.remembersLastFocusedIndexPath = YES;
-    
     return self;
+}
+
+- (BOOL)canBecomeFocused {
+    return YES;
 }
 
 - (BOOL)shouldUpdateFocusInContext:(UIFocusUpdateContext *)context {
     return YES;
 }
 
-- (NSIndexPath *)indexPathForPreferredFocusedViewInCollectionView:(UICollectionView *)collectionView {
-    //Currently we will only have one section for CC
-    return [NSIndexPath indexPathForRow:0 inSection:0];
-}
-
-//- (NSArray<id<UIFocusEnvironment>> *)preferredFocusEnvironments {
-//    return self.subviews;
-//}
-
-- (void)didUpdateFocusInContext:(UIFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
-    [super didUpdateFocusInContext:context withAnimationCoordinator:coordinator];
-    
-    if (self == context.nextFocusedView) {
-        [coordinator addCoordinatedAnimations:^{
-            context.nextFocusedView.transform = CGAffineTransformMakeScale(1.1, 1.1);
-            context.nextFocusedView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.50];
-        } completion:^{
-            // completion
-        }];
-    } else if (self == context.previouslyFocusedView) {
-        [coordinator addCoordinatedAnimations:^{
-            context.previouslyFocusedView.transform = CGAffineTransformMakeScale(1.0, 1.0);
-            context.previouslyFocusedView.backgroundColor = [UIColor clearColor];
-        } completion:^{
-            // completion
-        }];
+-(UIView *)preferredFocusedView {
+    //We need to manage cell focus because of player focus intervention
+    if (self.subviews.count > 0){
+        int currentIndexPath = self.focusedIndexPath.row;
+        if (self.focusedIndexPath.row < self.subviews.count - 1){
+            self.focusedIndexPath = [NSIndexPath indexPathForRow:self.focusedIndexPath.row + 1 inSection:0];
+        } else{
+            //We reset cell focus
+            self.focusedIndexPath= [NSIndexPath indexPathForRow:0 inSection:0];
+        }
+        return self.subviews[currentIndexPath];
     }
-}
-
-
-//- (UIView *)preferredFocusedView {
-//    return self;
-//}
-
-- (BOOL)canBecomeFocused {
-    return YES;
+    return self;
 }
 
 @end
