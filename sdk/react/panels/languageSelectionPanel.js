@@ -120,7 +120,8 @@ var LanguageSelectionPanel = React.createClass({
       var previewText = 
         ( <PreviewWidget
             isVisible={hasCC}
-            config={this.props.config}>
+            config={this.props.config}
+            selectedLanguage={this.props.selectedLanguage}>
           </PreviewWidget>
         );
     }
