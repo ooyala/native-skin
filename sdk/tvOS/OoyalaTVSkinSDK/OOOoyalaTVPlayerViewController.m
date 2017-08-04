@@ -12,7 +12,6 @@
 #import "OOOoyalaTVLabel.h"
 #import "OOOoyalaTVBottomBars.h"
 #import "OOOoyalaTVTopBar.h"
-#import "OOOoyalaTVClosedCaptionsBar.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import "OOTVGestureManager.h"
 #import "OOTVOptionsCollectionViewController.h"
@@ -32,7 +31,6 @@
 @property (nonatomic, strong) OOOoyalaTVButton *playPauseButton;
 @property (nonatomic, strong) OOOoyalaTVBottomBars *bottomBars;
 @property (nonatomic, strong) OOOoyalaTVTopBar *closedCaptionsBar;
-//@property (nonatomic, strong) OOOoyalaTVClosedCaptionsBar *closedCaptionsBar;
 @property (nonatomic, strong) OOOoyalaTVGradientView *progressBarBackground;
 @property (nonatomic) CGFloat lastTriggerTime;
 @property (nonatomic, strong) NSDictionary *currentLocale;
@@ -72,6 +70,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     
     // Set Closed Caption style
     _closedCaptionsStyle = [OOClosedCaptionsStyle new];
+    _closedCaptionsStyle.textSize = 20;
+    _closedCaptionsStyle.textFontName = @"Helvetica";
+    _closedCaptionsStyle.backgroundOpacity = 0.4;
+    self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -217,6 +219,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   }
   
   [self.bottomBars updateBarBuffer:bufferedTime playhead:self.player.playheadTime duration: self.player.duration totalLength:(self.view.bounds.size.width - 388)];
+    //We refresh CC view everytime player change state
+    [self refreshClosedCaptionsView];
 }
 
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
@@ -365,41 +369,19 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 // This should be called by the UI when the closed captions button is clicked
 - (void)setupClosedCaptionsMenu {
-    if (self.optionsViewController.view.window){
-        [self.optionsViewController.view removeFromSuperview];
-    }else {
-        self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
-        [self addChildViewController:self.optionsViewController];
-        [self.player.view addSubview:self.optionsViewController.view];
-        [self.player.view bringSubviewToFront:self.optionsViewController.view];
-        [self.optionsViewController didMoveToParentViewController:self];
-        //We hide CC menu until user choose to display it
-        [self.optionsViewController.view setHidden:NO];
+    if (self.player.isClosedCaptionsTrackAvailable){
+        if (self.optionsViewController.view.window){
+            [self.optionsViewController.view removeFromSuperview];
+        }else {
+            //Displaying CC menu
+            [self addChildViewController:self.optionsViewController];
+            [self.player.view addSubview:self.optionsViewController.view];
+            [self.player.view bringSubviewToFront:self.optionsViewController.view];
+            [self.optionsViewController didMoveToParentViewController:self];
+        }
+        [self setNeedsFocusUpdate];
+        [self updateFocusIfNeeded];
     }
-    [self setNeedsFocusUpdate];
-    [self updateFocusIfNeeded];
-}
-
-// This should be called by the UI when the closed captions button is clicked
-- (void) closedCaptionsSelector {
-
-    //If CC menu is already displayed we remove view, else we display CC menu view.
-    if (self.optionsViewController.view.window){
-        [self.optionsViewController.view removeFromSuperview];
-    }else {
-        self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
-        [self addChildViewController:self.optionsViewController];
-        [self.player.view addSubview:self.optionsViewController.view];
-        [self.player.view bringSubviewToFront:self.optionsViewController.view];
-        [self.optionsViewController didMoveToParentViewController:self];
-    }
-
-    //[self.view addSubview: self.closedCaptionsBar];
-    
-    //Calling focus environment to give focus to CC menu elements
-    [self setNeedsFocusUpdate];
-    [self updateFocusIfNeeded];
-
 }
 
 - (BOOL)closedCaptionMenuDisplayed {
@@ -417,18 +399,14 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)addClosedCaptionsView {
-    //[OOUIUtils runOnMainThread:^{
-        [self removeClosedCaptionsView];
-        if (self.player.currentItem.hasClosedCaptions && self.player.closedCaptionsLanguage) {
-            self.closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.player.videoRect];
-            self.closedCaptionsView.style = _closedCaptionsStyle;
-            //self.closedCaptionsView.backgroundColor = [UIColor yellowColor];
-            //[[self getControls] updateClosedCaptionsPosition];
-            [self displayCurrentClosedCaption];
-            [self.player.view addSubview:self.closedCaptionsView];
+    [self removeClosedCaptionsView];
+    if (self.player.currentItem.hasClosedCaptions && self.player.closedCaptionsLanguage) {
+        self.closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.player.videoRect];
+        self.closedCaptionsView.style = _closedCaptionsStyle;            [self updateClosedCaptionsViewPosition:self.progressBarBackground.bounds withControlsHide:self.progressBarBackground.hidden];
+        [self displayCurrentClosedCaption];
+        [self.player.view addSubview:self.closedCaptionsView];
             
-        }
-    //}];
+    }
 }
 
 - (BOOL)shouldShowClosedCaptions {
@@ -490,6 +468,16 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     } else {
         _closedCaptionsView.caption = nil;
     }
+}
+
+- (void)updateClosedCaptionsViewPosition:(CGRect)bottomControlsRect withControlsHide:(BOOL)hidden {
+    CGRect videoRect = [self.player videoRect];
+    if (!hidden) {
+        if (bottomControlsRect.origin.y < videoRect.origin.y + videoRect.size.height) {
+            videoRect.size.height = videoRect.origin.y + videoRect.size.height - bottomControlsRect.size.height;
+        }
+    }
+    [self.closedCaptionsView setFrame:videoRect];
 }
 
 - (BOOL)shouldUpdateFocusInContext:(UIFocusUpdateContext *)context {

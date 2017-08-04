@@ -35,7 +35,7 @@
 }
 
 - (void)addGestures {
-  self.tapForwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(visibleControllerAction:)];
+  self.tapForwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
   self.tapForwardGesture.allowedPressTypes = @[@(UIPressTypeRightArrow)];
   self.tapForwardGesture.delegate = self;
 
@@ -47,9 +47,9 @@
   self.tapPlayPauseGesture.allowedPressTypes = @[@(UIPressTypePlayPause), @(UIPressTypeSelect)];
   self.tapPlayPauseGesture.delegate = self;
     
-    self.tapOptionsGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closedCaptionsSelector:)];
-    self.tapOptionsGesture.allowedPressTypes = @[@(UIPressTypeDownArrow)];
-    self.tapOptionsGesture.delegate = self;
+  self.tapOptionsGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closedCaptionsSelector:)];
+  self.tapOptionsGesture.allowedPressTypes = @[@(UIPressTypeDownArrow)];
+  self.tapOptionsGesture.delegate = self;
 
   self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipe:)];
   self.panGesture.delegate = self;
@@ -57,9 +57,13 @@
   [self.controller.view addGestureRecognizer:self.tapForwardGesture];
   [self.controller.view addGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view addGestureRecognizer:self.tapPlayPauseGesture];
-    [self.tapPlayPauseGesture setCancelsTouchesInView:NO];
   [self.controller.view addGestureRecognizer:self.panGesture];
-    [self.controller.view addGestureRecognizer:self.tapOptionsGesture];
+  [self.controller.view addGestureRecognizer:self.tapOptionsGesture];
+    
+    [self.tapPlayPauseGesture setCancelsTouchesInView:NO];
+    [self.tapForwardGesture setCancelsTouchesInView:NO];
+    [self.tapBackwardGesture setCancelsTouchesInView:NO];
+    //[self.tapOptionsGesture setCancelsTouchesInView:NO];
 }
 
 - (void)removeGestures {
@@ -67,7 +71,7 @@
   [self.controller.view removeGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view removeGestureRecognizer:self.tapPlayPauseGesture];
   [self.controller.view removeGestureRecognizer:self.panGesture];
-    [self.controller.view addGestureRecognizer:self.tapOptionsGesture];
+  [self.controller.view removeGestureRecognizer:self.tapOptionsGesture];
 }
 
 #pragma mark Gesture Delegates
@@ -102,88 +106,78 @@
 }
 
 - (void)seek:(UITapGestureRecognizer *)sender {
-
-  NSTimeInterval seekTo = self.controller.player.playheadTime;
-  if (sender == self.tapForwardGesture) {
-    seekTo += FF_SEEK_STEP;
-  } else if (sender == self.tapBackwardGesture) {
-    seekTo -= FF_SEEK_STEP;
+    if (!self.controller.closedCaptionMenuDisplayed){
+        NSTimeInterval seekTo = self.controller.player.playheadTime;
+        if (sender == self.tapForwardGesture) {
+            seekTo += FF_SEEK_STEP;
+        } else if (sender == self.tapBackwardGesture) {
+            seekTo -= FF_SEEK_STEP;
+        }
+        
+        if (seekTo < 0) {
+            seekTo = 0;
+        } else if (seekTo > self.controller.player.duration) {
+            seekTo = self.controller.player.duration;
+        }
+        
+        [self.controller.player seek:seekTo];
+        [self.controller showProgressBar];
+    }
   }
-
-  if (seekTo < 0) {
-    seekTo = 0;
-  } else if (seekTo > self.controller.player.duration) {
-    seekTo = self.controller.player.duration;
-  }
-
-  [self.controller.player seek:seekTo];
-  [self.controller showProgressBar];
-}
 
 - (void)togglePlay:(id)sender {
-  if ([self.controller.player isPlaying]) {
-    [self.controller.player pause];
-  } else {
-    [self.controller.player play];
+  if (!self.controller.closedCaptionMenuDisplayed){
+      if ([self.controller.player isPlaying]) {
+          [self.controller.player pause];
+      } else {
+          [self.controller.player play];
+      }
+      [self.controller showProgressBar];
   }
-  [self.controller showProgressBar];
-}
-
-- (void)visibleControllerAction:(UITapGestureRecognizer *)sender {
-    //We verify if CC menu is displayed, else focus will be directed to player
-    if (self.controller.closedCaptionMenuDisplayed){
-        if (sender == self.tapForwardGesture) {
-            //Calling focus environment to give focus to CC menu elements
-            [self.controller setNeedsFocusUpdate];
-            [self.controller updateFocusIfNeeded];
-        }
-    }else if (sender == self.tapPlayPauseGesture) {
-        [self togglePlay:sender];
-    }else if (sender == self.tapForwardGesture) {
-        [self seek:sender];
-    }
 }
 
 - (void)closedCaptionsSelector: (id)sender {
-    //if (self.controller closedCaptionMenuDisplayed){
-        
-    //} else{
+    if (self.controller.closedCaptionMenuDisplayed){
+        [self.controller setNeedsFocusUpdate];
+        [self.controller updateFocusIfNeeded];
+    } else {
         [self.controller setupClosedCaptionsMenu];
-    //}
-    
+    }
 }
 
 - (void)onSwipe:(id)sender {
-  if (sender == self.panGesture) {
-    CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
-    CGFloat viewWidth = self.controller.view.frame.size.width;
-    if (viewWidth == 0) {
-      viewWidth = 1920;
-    }
-    CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
-    [self.controller showProgressBar];
-
-    switch (self.panGesture.state) {
-      case UIGestureRecognizerStateBegan:
-        lastPanPoint = currentPoint;
-        lastPlayhead = self.controller.player.playheadTime;
-        break;
-      case UIGestureRecognizerStateChanged: {
-        CGFloat distance = currentPoint.x - lastPanPoint.x;
-        if (abs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
-          lastPanPoint = currentPoint;
-          lastPlayhead += distance * seekScale;
-          [self.controller.player seek:lastPlayhead];
+    if (!self.controller.closedCaptionMenuDisplayed){
+        if (sender == self.panGesture) {
+            CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
+            CGFloat viewWidth = self.controller.view.frame.size.width;
+            if (viewWidth == 0) {
+                viewWidth = 1920;
+            }
+            CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
+            [self.controller showProgressBar];
+            
+            switch (self.panGesture.state) {
+                case UIGestureRecognizerStateBegan:
+                    lastPanPoint = currentPoint;
+                    lastPlayhead = self.controller.player.playheadTime;
+                    break;
+                case UIGestureRecognizerStateChanged: {
+                    CGFloat distance = currentPoint.x - lastPanPoint.x;
+                    if (abs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
+                        lastPanPoint = currentPoint;
+                        lastPlayhead += distance * seekScale;
+                        [self.controller.player seek:lastPlayhead];
+                    }
+                    break;
+                }
+                case UIGestureRecognizerStateEnded:
+                    break;
+                default:
+                    break;
+            }
         }
-        break;
-      }
-      case UIGestureRecognizerStateEnded:
-        break;
-      default:
-        break;
     }
   }
-}
 
 
 @end

@@ -18,6 +18,4 @@
 
 - (BOOL)canBecomeFocused;
 - (instancetype)initWithFrame:(CGRect)frame;
-//- (UIView *)preferredFocusedView;
-- (BOOL)shouldUpdateFocusInContext:(UIFocusUpdateContext *)context;
 @end

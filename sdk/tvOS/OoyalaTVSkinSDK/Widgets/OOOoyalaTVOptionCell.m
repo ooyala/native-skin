@@ -79,9 +79,5 @@
 - (BOOL)canBecomeFocused {
     return YES;
 }
-/*
-- (UIView *)preferredFocusedView {
-    return self;
-}*/
 
 @end

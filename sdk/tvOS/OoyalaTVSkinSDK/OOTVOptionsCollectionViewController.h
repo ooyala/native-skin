@@ -17,7 +17,7 @@
 @property (nonatomic, weak) OOOoyalaTVPlayerViewController *viewController;
 @property (nonatomic, strong) OOOoyalaTVTopBar *barView;
 @property (strong, nonatomic) NSMutableArray *optionList;
-@property (nonatomic, retain) NSIndexPath *selectedIndexPath;
+@property (nonatomic, retain) NSString *selectedLanguage;
 @property (strong, nonatomic) UIFocusGuide *focusGuide;
 @property (strong,nonatomic) NSIndexPath *focusedIndexPath;
 

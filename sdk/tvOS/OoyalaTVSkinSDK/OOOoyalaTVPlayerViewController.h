@@ -41,29 +41,9 @@
 
 - (void)hideOptions;
 
-+ (NSDictionary*)currentLanguageSettings;
-
-- (void) closedCaptionsSelector;
-
-- (BOOL)shouldShowClosedCaptions;
-
 - (NSMutableArray *)getOptionsAvailable;
 
-+ (void)loadDefaultLocale;
-
-+ (void)loadDeviceLanguage;
-
-- (void)useLanguageStrings:(NSDictionary *)strings;
-
-- (void)refreshClosedCaptionsView;
-
-- (void)onPlayheadUpdated:(NSNotification *)notification;
-
-- (void)displayCurrentClosedCaption;
-
 - (BOOL)closedCaptionMenuDisplayed;
-
-- (void)closedCaptionsSelectNextOption;
 
 - (void)setupClosedCaptionsMenu;
 

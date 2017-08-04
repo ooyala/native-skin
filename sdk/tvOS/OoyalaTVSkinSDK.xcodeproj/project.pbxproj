@@ -53,7 +53,6 @@
 		C13A47451F1FF648000B8A6B /* OOTVOptionsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C13A47441F1FF648000B8A6B /* OOTVOptionsCollectionViewController.m */; };
 		C1C5BEAE1F1E761B0041D71E /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4F2AC81DADAF890085E226 /* OoyalaSDK.framework */; };
 		C1C5BEB81F1E9CC60041D71E /* OOOoyalaTVTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C5BEB71F1E9CC60041D71E /* OOOoyalaTVTopBar.m */; };
-		C1C5BEBE1F1EAABF0041D71E /* OOOoyalaTVClosedCaptionsBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C5BEBD1F1EAABF0041D71E /* OOOoyalaTVClosedCaptionsBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,8 +210,6 @@
 		C13A47461F1FF654000B8A6B /* OOTVOptionsCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOTVOptionsCollectionViewController.h; sourceTree = "<group>"; };
 		C1C5BEB71F1E9CC60041D71E /* OOOoyalaTVTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVTopBar.m; sourceTree = "<group>"; };
 		C1C5BEB91F1E9CD00041D71E /* OOOoyalaTVTopBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVTopBar.h; sourceTree = "<group>"; };
-		C1C5BEBD1F1EAABF0041D71E /* OOOoyalaTVClosedCaptionsBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVClosedCaptionsBar.m; sourceTree = "<group>"; };
-		C1C5BEBF1F1EAACA0041D71E /* OOOoyalaTVClosedCaptionsBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVClosedCaptionsBar.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,8 +261,6 @@
 				0B2848741D41925B006F4AF8 /* OOOoyalaTVBottomBars.m */,
 				C1C5BEB71F1E9CC60041D71E /* OOOoyalaTVTopBar.m */,
 				C1C5BEB91F1E9CD00041D71E /* OOOoyalaTVTopBar.h */,
-				C1C5BEBD1F1EAABF0041D71E /* OOOoyalaTVClosedCaptionsBar.m */,
-				C1C5BEBF1F1EAACA0041D71E /* OOOoyalaTVClosedCaptionsBar.h */,
 				C13A47411F1FEEA5000B8A6B /* OOOoyalaTVOptionCell.m */,
 				C13A47431F1FEEB0000B8A6B /* OOOoyalaTVOptionCell.h */,
 				C11CC87A1F21985C007D1F71 /* OOOoyalaTVClosedCaptionsView.m */,
@@ -625,7 +620,6 @@
 				0B2848671D3EEE9E006F4AF8 /* OOOoyalaTVButton.m in Sources */,
 				0B2848761D41925B006F4AF8 /* OOOoyalaTVBottomBars.m in Sources */,
 				0B2848631D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m in Sources */,
-				C1C5BEBE1F1EAABF0041D71E /* OOOoyalaTVClosedCaptionsBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
