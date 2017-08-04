@@ -95,13 +95,17 @@ var LanguageSelectionPanel = React.createClass({
     var mediumWidthSwitchText = 360;
     var fullWidthPanelIcon = 380;
 
-    var width = this.props.width
+    var width = this.props.width;
 
     // ToggleSwitch without text + panelIcon + dismiss button
     if (width < minimumWidthPanelIcon) {
       title = "";
       switchOnText = "";
       switchOffText = "";
+    }
+    // ToggleSwitch with text + panelIcon + dismiss button
+    else if (title.length > 10 && width < fullWidthPanelIcon) {
+      title = "";
     }
     // ToggleSwitch without text + title + dismiss button
     else if (width < mediumWidthSwitchText) {
@@ -165,8 +169,8 @@ var LanguageSelectionPanel = React.createClass({
 
     return (
       <Animated.View style={[styles.panelContainer, panelStyles.panel, animationStyle]}>
+        {this.renderHeader(hasCC)}
         <ScrollView>
-          {this.renderHeader(hasCC)}
           <ResponsiveList
             horizontal={renderHorizontal}
             data={this.props.languages}

@@ -55,7 +55,7 @@
     "alignSelf": "stretch",
     "backgroundColor": "#585858"
   },
-  "selectionPreviewtextContainer": {
+  "previewTextContainer": {
     "alignItems":"flex-start",
     "margin": 5
   },

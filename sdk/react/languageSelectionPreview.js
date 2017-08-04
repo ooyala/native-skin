@@ -41,7 +41,7 @@ var LanguageSelectionPreview = React.createClass({
     return (
       <Animated.View style={styles.previewPanel}>
       <View style={styles.splitter} />
-      <View style={styles.selectionPreviewtextContainer}>
+      <View style={styles.previewTextContainer}>
         <Text style={styles.buttonText}>{Utils.localizedString(this.props.selectedLanguage, 'CLOSED CAPTION PREVIEW', this.props.config.localizableStrings)}</Text>
         <Text style={styles.buttonText}>{Utils.localizedString(this.props.selectedLanguage, 'Sample Text', this.props.config.localizableStrings)}</Text>
       </View>
