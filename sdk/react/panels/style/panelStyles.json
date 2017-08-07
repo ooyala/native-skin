@@ -20,8 +20,8 @@
     "padding":20,
   },
   "dismissOverlay": {
-    "position":"absolute", 
-    "left": 10, 
+    "position":"absolute",
+    "left": 10,
     "top": 10
   },
   "dismissIcon": {
@@ -41,10 +41,9 @@
     "color": "white",
   },
   "closedCaptionsContainer": {
-    "flexDirection":"row", 
-    "backgroundColor":"transparent", 
-    "alignItems":"center", 
-    "justifyContent":"center"
+    "backgroundColor":"transparent",
+    "alignItems":"center",
+    "justifyContent":"center",
   },
   "closedCaptions": {
     "alignSelf":"center",
@@ -52,7 +51,7 @@
     "padding": 2,
     "margin":2,
     "fontWeight": "bold",
-    "fontSize": 20,
+    "fontSize": 16,
     "fontFamily": "Helvetica",
     "color": "white",
     "backgroundColor": "rgba(0, 0, 0, 0.7)",
