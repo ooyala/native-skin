@@ -160,9 +160,10 @@ var ControlBar = React.createClass({
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand
+        icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand,
+        fullscreen: this.props.fullscreen   // do we want to do this way ??
       },
-       rewind: {
+      rewind: {
         onPress: this.onRewindPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],

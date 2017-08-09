@@ -163,26 +163,48 @@ var VideoView = React.createClass({
       </View>);
   },
 
-  _renderClosedCaptions: function() {
-    var {height, width} = Dimensions.get('window');
-    if (height < width) width = height; // We just want the smaller of the two values, which represents the portrait device width
+  _renderBottom: function() {
+    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
+    var waterMarkName;
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
+    }
+    if(this.props.platform == Constants.PLATFORMS.IOS) {
+      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
+    }
 
-    var scalingFactor = this.props.width/width;
-    var ccStyle = {fontSize: this.props.captionStyles.textSize * scalingFactor, color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
+    if (waterMarkName) {
+      var watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
+    }
+
+    return (
+      <View
+        style={{flexDirection:"row", justifyContent:"center", alignItems: "flex-end"}}>
+        {this._renderClosedCaptions(waterMarkName, VideoWaterMarkSize)}
+        {watermark}
+      </View>);
+  },
+
+  _renderClosedCaptions: function(waterMarkName, VideoWaterMarkSize) {
+    var containerPadding = 5;
+    var captionWidth = this.props.width - (containerPadding * 4);
+    if (waterMarkName) {
+      captionWidth = captionWidth - VideoWaterMarkSize;
+    }
+
+    var ccStyle = {color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
       backgroundColor:this.props.captionStyles.textBackgroundColor};
     if (this.props.caption) {
       return (
         <View
-          style={panelStyles.closedCaptionsContainer}
+          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
-          <View style={[panelStyles.closedCaptionsFlexibleSpace]}></View>
           <View
             style={[{backgroundColor:this.props.captionStyles.backgroundColor}]}>
-          <Text style={[panelStyles.closedCaptions, ccStyle]}>
-            {this.props.caption}
-          </Text>
+            <Text style={[panelStyles.closedCaptions, ccStyle]}>
+              {this.props.caption}
+            </Text>
           </View>
-          <View style={[panelStyles.closedCaptionsFlexibleSpace]}></View>
         </View>
         );
     }
@@ -239,22 +261,17 @@ var VideoView = React.createClass({
         </VideoViewPlayPause>);
   },
 
-  _renderVideoWaterMark: function() {
-    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
-    var waterMarkName;
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
-    }
+  _renderVideoWaterMark: function(waterMarkName, VideoWaterMarkSize) {
     if (waterMarkName) {
       return (
-        <VideoWaterMark
-          buttonWidth={VideoWaterMarkSize}
-          buttonHeight={VideoWaterMarkSize}
-          waterMarkName={waterMarkName}/>
-          );
+        <View
+            style={{flex:1, justifyContent:"flex-end", alignItems:"flex-end"}}>
+            <VideoWaterMark
+              buttonWidth={VideoWaterMarkSize}
+              buttonHeight={VideoWaterMarkSize}
+              waterMarkName={waterMarkName}/>
+        </View>
+      );
     }
   },
 
@@ -316,7 +333,7 @@ var VideoView = React.createClass({
       );
     }
   },
-  
+
   handleScrub: function(value) {
     this.props.handlers.onScrub(value);
   },
@@ -341,8 +358,7 @@ var VideoView = React.createClass({
       <View
         style={styles.container}>
         {this._renderPlaceholder()}
-        {this._renderClosedCaptions()}
-        {this._renderVideoWaterMark()}
+        {this._renderBottom()}
         {this._renderAdOverlay()}
         {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}

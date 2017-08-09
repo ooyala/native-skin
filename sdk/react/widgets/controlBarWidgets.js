@@ -21,6 +21,7 @@ var Constants = require('./../constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
+  STRING_CONSTANTS
   } = Constants;
 
 var controlBarWidget = React.createClass({
@@ -52,8 +53,11 @@ var controlBarWidget = React.createClass({
     var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
     var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
-      <View style={[{flexDirection: 'row'}]}>
-        <TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      <View 
+        style={[{flexDirection: 'row'}]}>
+        <TouchableHighlight
+          accessible={true} accessibilityLabel={BUTTON_NAMES.VOLUME}
+          style={[options.iconTouchableStyle]} onPress={options.onPress}>
           <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
         </TouchableHighlight>
         {volumeScrubber}
@@ -68,8 +72,8 @@ var controlBarWidget = React.createClass({
           <Text style={options.style}>{options.durationString}</Text>
         </TouchableHighlight>);
     } else {
-      var playHead = <Text style={options.playHeadTimeStyle}>{options.playHeadTimeString}</Text>;
-      var duration = <Text style={options.durationStyle}>{options.durationString}</Text>;
+      var playHead = <Text style={options.playHeadTimeStyle} accessible={true} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
+      var duration = <Text style={options.durationStyle} accessible={true} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
       return (
         <View style={options.completeTimeStyle}>
         {playHead}
@@ -94,14 +98,21 @@ var controlBarWidget = React.createClass({
 
   fullscreenWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+    var nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
+    return (
+    <TouchableHighlight 
+      accessible={true} accessibilityLabel={nameLabel} accessibilityComponentType="button" 
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
 
   moreOptionsWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+    return (
+    <TouchableHighlight 
+      accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button" 
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },

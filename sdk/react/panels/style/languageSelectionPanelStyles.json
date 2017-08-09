@@ -42,7 +42,7 @@
     "alignItems":"center",
     "backgroundColor": "transparent"
   },
-  
+
   "buttonText": {
     "textAlign": "center",
     "color": "white",
@@ -54,6 +54,10 @@
     "height": 1,
     "alignSelf": "stretch",
     "backgroundColor": "#585858"
+  },
+  "previewTextContainer": {
+    "alignItems":"flex-start",
+    "margin": 5
   },
   "previewPanel": {
     "alignItems":"flex-start",

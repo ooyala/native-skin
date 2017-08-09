@@ -7,6 +7,11 @@ import {
   TouchableHighlight,
 } from "react-native";
 
+var Constants = require('./constants');
+var {
+  BUTTON_NAMES
+} = Constants;
+
 var Utils = require("./utils");
 
 var styles = Utils.getStyles(require("./style/upNext.json"));
@@ -78,7 +83,8 @@ var UpNext = React.createClass({
   },
 
   _renderDismissButton: function() {
-    return (<TouchableHighlight
+    return (<TouchableHighlight 
+      accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
       onPress={this.dismissUpNext}
       underlayColor="transparent"
       style={styles.dismissButtonContainer}>

@@ -12,10 +12,11 @@ import {
 var Log = require('./log');
 var Utils = {
 
-  renderRectButton: function(style, icon, func, size, color, fontFamily, key) {
+  renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
     var RectButton = require('./widgets/RectButton');
     return (
       <RectButton
+        name={name}
         key={key}
         icon={icon}
         onPress={func}
