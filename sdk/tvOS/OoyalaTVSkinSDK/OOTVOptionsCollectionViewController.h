@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString *selectedLanguage;
 @property (strong, nonatomic) UIFocusGuide *focusGuide;
 @property (strong,nonatomic) NSIndexPath *focusedIndexPath;
+@property BOOL shouldIncreaseFocus;
 
 - (id)initWithViewController:(OOOoyalaTVPlayerViewController *)c ;
 - (UIView *)preferredFocusedView ;

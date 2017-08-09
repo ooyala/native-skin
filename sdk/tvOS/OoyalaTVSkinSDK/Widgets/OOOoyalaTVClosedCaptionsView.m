@@ -431,9 +431,9 @@ static CGFloat arbitraryScalingFactor = 1.2;
     }
     
     frameWidth *= 1.1; // text padding
-    frameWidth += 16;
+    frameWidth += 56; //needs more padding to display CC
     CGSize newSize = [self.textView sizeThatFits:CGSizeMake(frameWidth, MAXFLOAT)];
-    CGRect newFrame = self.textView.frame;
+    CGRect newFrame = self.textView.frame;  
     
     CGFloat linePadding = 10;
     newFrame.size = CGSizeMake(fmaxf(newSize.width, frameWidth), (maxLineSize.height + linePadding) * lineCount);

@@ -369,18 +369,29 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 // This should be called by the UI when the closed captions button is clicked
 - (void)setupClosedCaptionsMenu {
+    //We check if CC are available in this video asset
     if (self.player.isClosedCaptionsTrackAvailable){
-        if (self.optionsViewController.view.window){
-            [self.optionsViewController.view removeFromSuperview];
-        }else {
+        if (!self.optionsViewController.view.window){
             //Displaying CC menu
             [self addChildViewController:self.optionsViewController];
             [self.player.view addSubview:self.optionsViewController.view];
             [self.player.view bringSubviewToFront:self.optionsViewController.view];
             [self.optionsViewController didMoveToParentViewController:self];
+            
+            [self setNeedsFocusUpdate];
+            [self updateFocusIfNeeded];
         }
-        [self setNeedsFocusUpdate];
-        [self updateFocusIfNeeded];
+        else {
+            [self.player.view bringSubviewToFront:self.optionsViewController.view];
+            //[self setNeedsFocusUpdate];
+            [self updateFocusIfNeeded];
+        }
+    }
+}
+
+- (void) removeClosedCaptionsMenu {
+    if (self.optionsViewController.view.window){
+        [self.optionsViewController.view removeFromSuperview];
     }
 }
 

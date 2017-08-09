@@ -49,4 +49,6 @@
 
 - (void)addClosedCaptionsView;
 
+- (void) removeClosedCaptionsMenu;
+
 @end

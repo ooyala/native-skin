@@ -21,7 +21,7 @@
 @property (nonatomic, strong) UITapGestureRecognizer *tapBackwardGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapPlayPauseGesture;
 @property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
-@property (nonatomic, strong) UITapGestureRecognizer *tapOptionsGesture;
+@property (nonatomic, strong) UITapGestureRecognizer *tapDownGesture;
 
 @end
 
@@ -47,10 +47,10 @@
   self.tapPlayPauseGesture.allowedPressTypes = @[@(UIPressTypePlayPause), @(UIPressTypeSelect)];
   self.tapPlayPauseGesture.delegate = self;
     
-  self.tapOptionsGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closedCaptionsSelector:)];
-  self.tapOptionsGesture.allowedPressTypes = @[@(UIPressTypeDownArrow)];
-  self.tapOptionsGesture.delegate = self;
-
+  self.tapDownGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closedCaptionsSelector:)];
+  self.tapDownGesture.allowedPressTypes = @[@(UIPressTypeDownArrow)];
+  self.tapDownGesture.delegate = self;
+    
   self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipe:)];
   self.panGesture.delegate = self;
 
@@ -58,12 +58,12 @@
   [self.controller.view addGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view addGestureRecognizer:self.tapPlayPauseGesture];
   [self.controller.view addGestureRecognizer:self.panGesture];
-  [self.controller.view addGestureRecognizer:self.tapOptionsGesture];
+  [self.controller.view addGestureRecognizer:self.tapDownGesture];
     
     [self.tapPlayPauseGesture setCancelsTouchesInView:NO];
     [self.tapForwardGesture setCancelsTouchesInView:NO];
     [self.tapBackwardGesture setCancelsTouchesInView:NO];
-    //[self.tapOptionsGesture setCancelsTouchesInView:NO];
+    [self.tapDownGesture setCancelsTouchesInView:NO];
 }
 
 - (void)removeGestures {
@@ -71,7 +71,7 @@
   [self.controller.view removeGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view removeGestureRecognizer:self.tapPlayPauseGesture];
   [self.controller.view removeGestureRecognizer:self.panGesture];
-  [self.controller.view removeGestureRecognizer:self.tapOptionsGesture];
+  [self.controller.view removeGestureRecognizer:self.tapDownGesture];
 }
 
 #pragma mark Gesture Delegates
@@ -106,7 +106,9 @@
 }
 
 - (void)seek:(UITapGestureRecognizer *)sender {
-    if (!self.controller.closedCaptionMenuDisplayed){
+    if (self.controller.closedCaptionMenuDisplayed){
+        [self.controller removeClosedCaptionsMenu];
+    }
         NSTimeInterval seekTo = self.controller.player.playheadTime;
         if (sender == self.tapForwardGesture) {
             seekTo += FF_SEEK_STEP;
@@ -122,27 +124,23 @@
         
         [self.controller.player seek:seekTo];
         [self.controller showProgressBar];
-    }
   }
 
 - (void)togglePlay:(id)sender {
-  if (!self.controller.closedCaptionMenuDisplayed){
+    if (self.controller.closedCaptionMenuDisplayed){
+        [self.controller removeClosedCaptionsMenu];
+    }
       if ([self.controller.player isPlaying]) {
           [self.controller.player pause];
       } else {
           [self.controller.player play];
       }
       [self.controller showProgressBar];
-  }
+  
 }
 
-- (void)closedCaptionsSelector: (id)sender {
-    if (self.controller.closedCaptionMenuDisplayed){
-        [self.controller setNeedsFocusUpdate];
-        [self.controller updateFocusIfNeeded];
-    } else {
-        [self.controller setupClosedCaptionsMenu];
-    }
+- (void)closedCaptionsSelector: (UITapGestureRecognizer *)sender {
+    [self.controller setupClosedCaptionsMenu];
 }
 
 - (void)onSwipe:(id)sender {
