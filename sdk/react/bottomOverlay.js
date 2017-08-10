@@ -272,19 +272,18 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
   handleTouchMove: function(event) {
     this.props.handleControlsTouch();
     if (this.isMounted()) {
-      this.setState({x:event.nativeEvent.pageX});
+      if (this.props.onScrub(this.touchPercent(event.nativeEvent.pageX))){
+        this.setState({x:event.nativeEvent.pageX});
+      } else {
+        this.handleTouchEnd(event);
+      }
     }
   },
 
   handleTouchEnd: function(event) {
     this.props.handleControlsTouch();
-    if (this.isMounted()) {
-      if (this.state.touch && this.props.onScrub) {
-        this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
-        this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
-      } 
-    }
-    this.setState({touch:false, x:null}); 
+    this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+    this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration, touch:false, x:null});
   },
 
   renderDefault: function(widthStyle) {
