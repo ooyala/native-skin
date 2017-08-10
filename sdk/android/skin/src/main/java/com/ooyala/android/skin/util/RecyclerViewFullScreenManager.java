@@ -21,7 +21,7 @@ public class RecyclerViewFullScreenManager {
 	private static final int ANIMATION_DURATION = 300;
 
 	private FrameLayout expandedLayout;
-	private ViewGroup currentParentLayout;
+	private FrameLayout currentParentLayout;
 	private Animator currentAnimator;
 	private OoyalaSkinLayout currentPlayerLayout;
 
@@ -89,7 +89,7 @@ public class RecyclerViewFullScreenManager {
 		}
 
 		currentPlayerLayout = playerLayout;
-		currentParentLayout = (ViewGroup) playerLayout.getParent();
+		currentParentLayout = (FrameLayout) playerLayout.getParent();
 		currentParentLayout.removeView(playerLayout);
 		expandedLayout.addView(playerLayout);
 
