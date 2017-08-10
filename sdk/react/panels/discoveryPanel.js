@@ -27,6 +27,7 @@ var panelStyles = require('./style/panelStyles.json');
 var Constants = require('../constants');
 var Log = require('../log');
 var {
+  BUTTON_NAMES,
   SCREEN_TYPES,
 } = Constants;
 // TODO: read this from config.
@@ -272,7 +273,9 @@ var DiscoveryPanel = React.createClass({
       </Text>
       <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
       <View style={panelStyles.headerFlexibleSpace}></View>
-      <TouchableHighlight style = {[panelStyles.dismissButton]}
+      <TouchableHighlight 
+        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
+        style = {[panelStyles.dismissButton]}
         onPress={this.onDismissPress}>
         <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
       </TouchableHighlight>

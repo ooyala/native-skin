@@ -7,10 +7,11 @@ import {
 } from 'react-native';
 
 var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
-
+var Log = require('../log');
 var RectButton = React.createClass({
   propTypes: {
     icon: React.PropTypes.string,
+    name: React.PropTypes.string,
     position: React.PropTypes.string,
     onPress: React.PropTypes.func,
     opacity: React.PropTypes.number,
@@ -30,7 +31,6 @@ var RectButton = React.createClass({
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
     var buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
     var positionStyle;
-
     if(this.props.style != null) {
       positionStyle = this.props.style;
     } else if (this.props.position == "center") {
@@ -43,7 +43,7 @@ var RectButton = React.createClass({
       positionStyle = styles[this.props.position];
     }
     return (
-      <TouchableHighlight
+      <TouchableHighlight accessible={true} accessibilityLabel={this.props.name} accessibilityComponentType="button"
         style={positionStyle}
         onPress={this.props.onPress}
         underlayColor="transparent"

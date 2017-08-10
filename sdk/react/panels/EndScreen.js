@@ -75,7 +75,8 @@ var EndScreen = React.createClass({
     if(endScreenConfig.showReplayButton) {
       var fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replaybutton = (
-        <TouchableHighlight
+        <TouchableHighlight 
+          accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType="button"
           onPress={(name) => this.handleClick("PlayPause")}
           underlayColor="transparent"
           activeOpacity={0.5}>

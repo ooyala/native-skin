@@ -127,7 +127,7 @@ var MoreOptionScreen = React.createClass({
         };
       }(button.name, this.onOptionPress);
 
-      moreOptionButton = Utils.renderRectButton(buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName, i);
+      moreOptionButton = Utils.renderRectButton(button.name, buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName, i);
 
       moreOptionButtons.push(moreOptionButton);
     }
@@ -160,7 +160,7 @@ var MoreOptionScreen = React.createClass({
 	render: function() {
     var moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
-    var dismissButton = Utils.renderRectButton(styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
+    var dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS, styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
 
     var moreOptionRow;
     var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
