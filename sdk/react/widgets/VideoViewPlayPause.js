@@ -146,9 +146,10 @@ var VideoViewPlayPause = React.createClass({
     var size = {position: 'absolute'};
 
     return (
+      
       <View accessible={true} accessibilityLabel={this.state.play.animationOpacity._value ? "play" : "pause"} accessibilityComponentType="button" 
          style={[styles.buttonTextStyle, size]}>
-        <Animated.Text accessible={false}
+        <Animated.Text accessible={false} //Animated text is not accessible to read the label of View
           style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
           {this.props.icons[name].icon}
         </Animated.Text>
