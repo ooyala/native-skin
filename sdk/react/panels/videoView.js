@@ -158,6 +158,7 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     return (
       <View
+        accessible={true}
         style={styles.placeholder}
         onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
       </View>);
@@ -356,6 +357,7 @@ var VideoView = React.createClass({
 
     return (
       <View
+        accessible={false}
         style={styles.container}>
         {this._renderPlaceholder()}
         {this._renderBottom()}
