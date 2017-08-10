@@ -71,7 +71,7 @@ public class RecyclerViewFullScreenManager {
 
 	}
 
-	public void expandPlayerLayout(OoyalaSkinLayout playerLayout) {
+	public void expandPlayerLayout(OoyalaSkinLayout playerLayout) throws RuntimeException{
 		if (expandedLayout.getVisibility() != View.INVISIBLE) {
 			return;
 		}
