@@ -7,22 +7,25 @@ import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
+import com.ooyala.android.skin.OoyalaSkinLayout;
+
 /**
- * FullScreenHelper is a class developed to support a full screen mode with RecyclerView
+ * RecyclerViewFullScreenManager is a class developed to support a full screen mode with RecyclerView
  */
 
-public class FullScreenHelper {
+public class RecyclerViewFullScreenManager {
 	private static final int ANIMATION_DURATION = 300;
 
 	private FrameLayout expandedLayout;
-	private FrameLayout currentParentLayout;
+	private ViewGroup currentParentLayout;
 	private Animator currentAnimator;
-	private FrameLayout currentPlayerLayout;
+	private OoyalaSkinLayout currentPlayerLayout;
 
-	public FullScreenHelper(FrameLayout expandedLayout) {
+	public RecyclerViewFullScreenManager(FrameLayout expandedLayout) {
 		this.expandedLayout = expandedLayout;
 	}
 
@@ -68,7 +71,7 @@ public class FullScreenHelper {
 
 	}
 
-	public void expandPlayerLayout(FrameLayout playerLayout) {
+	public void expandPlayerLayout(OoyalaSkinLayout playerLayout) {
 		if (expandedLayout.getVisibility() != View.INVISIBLE) {
 			return;
 		}
@@ -77,8 +80,16 @@ public class FullScreenHelper {
 			currentAnimator.cancel();
 		}
 
+		if (playerLayout == null) {
+			throw new RuntimeException("Player layout must be non null in expandPlayerLayout");
+		}
+
+		if (!(playerLayout.getParent() instanceof FrameLayout)){
+			throw new RuntimeException("Player layout should be contained in FrameLayout");
+		}
+
 		currentPlayerLayout = playerLayout;
-		currentParentLayout = (FrameLayout) playerLayout.getParent();
+		currentParentLayout = (ViewGroup) playerLayout.getParent();
 		currentParentLayout.removeView(playerLayout);
 		expandedLayout.addView(playerLayout);
 
@@ -163,8 +174,7 @@ public class FullScreenHelper {
 	}
 
 	private void cancelAnimation() {
-		FrameLayout parent = (FrameLayout) currentPlayerLayout.getParent();
-		if (currentParentLayout != null && parent == expandedLayout) {
+		if (currentParentLayout != null && currentPlayerLayout.getParent() == expandedLayout) {
 			expandedLayout.removeAllViews();
 			expandedLayout.setVisibility(View.INVISIBLE);
 
