@@ -23,15 +23,15 @@
     self = [super init];
     
     if (self) {
-        self.optionsBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(background.bounds.size.width - ccWidth - componentSpace * 2, componentSpace * 2, ccWidth , ccHeight)//barHeight * 10)
+        self.optionsBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(background.bounds.size.width - ccWidth - componentSpace * 4, componentSpace * 4, ccWidth , ccHeight)
                                                           color:[UIColor colorWithRed:153.0/255.0
                                                                                 green:153.0/255.0
                                                                                  blue:153.0/255.0
                                                                                 alpha:0.7]];
-        self.optionsTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, barHeight, ccWidth * 0.90, barHeight * 4) ];
+        self.optionsTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, ccWidth * 0.92, componentSpace * 4) ];
         self.optionsTitle.textColor = [UIColor whiteColor];
         self.optionsTitle.textAlignment = NSTextAlignmentRight;
-        self.optionsTitle.font = [self.optionsTitle.font fontWithSize:42.0];
+        self.optionsTitle.font = [self.optionsTitle.font fontWithSize:40.0];
         self.optionsTitle.text = @"CC";
         
         self.layer.cornerRadius = cornerRadius;
@@ -42,6 +42,36 @@
                                                                 green:153.0/255.0
                                                                  blue:153.0/255.0
                                                                 alpha:0.7];
+    }
+    
+    return self;
+}
+
+- (id)initMiniView:(UIView *)background {
+    self = [super init];
+    
+    if (self) {
+        self.optionsBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(background.bounds.size.width - ccWidth/4 - componentSpace * 4, componentSpace * 4, ccWidth/4 , componentSpace * 4)
+                                                         color:[UIColor colorWithRed:153.0/255.0
+                                                                               green:153.0/255.0
+                                                                                blue:153.0/255.0
+                                                                               alpha:0.7]];
+        self.optionsTitle = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, ccWidth * 0.25, componentSpace * 4) ];
+        self.optionsTitle.textColor = [UIColor whiteColor];
+        self.optionsTitle.textAlignment = NSTextAlignmentCenter;
+        self.optionsTitle.font = [self.optionsTitle.font fontWithSize:40.0];
+        self.optionsTitle.text = @"CC";
+        
+        self.layer.cornerRadius = cornerRadius;
+        
+        [self addSubview:self.optionsBar];
+        [self.optionsBar addSubview:self.optionsTitle];
+        self.optionsBar.backgroundColor = [UIColor clearColor];
+        self.optionsBar.layer.borderWidth = 2;
+        self.optionsBar.layer.borderColor = [UIColor colorWithRed:153.0/255.0
+                                                                green:153.0/255.0
+                                                                 blue:153.0/255.0
+                                                                alpha:0.7].CGColor;
     }
     
     return self;

@@ -18,9 +18,6 @@
 @property (nonatomic, strong) OOOoyalaTVTopBar *barView;
 @property (strong, nonatomic) NSMutableArray *optionList;
 @property (nonatomic, retain) NSString *selectedLanguage;
-@property (strong, nonatomic) UIFocusGuide *focusGuide;
-@property (strong,nonatomic) NSIndexPath *focusedIndexPath;
-@property BOOL shouldIncreaseFocus;
 
 - (id)initWithViewController:(OOOoyalaTVPlayerViewController *)c ;
 - (UIView *)preferredFocusedView ;

@@ -1,10 +1,9 @@
-/**
- * @file       OOClosedCaptionsView.m
- * @brief      Implementation of OOClosedCaptionsView
- * @details    OOClosedCaptionsView.m in OoyalaSDK
- * @date       1/6/12
- * @copyright Copyright (c) 2015 Ooyala, Inc. All rights reserved.
- */
+//
+//  OOOoyalaTVClosedCaptionsView.m
+//  OoyalaTVSkinSDK
+//
+//  Created by Ileana Padilla on 7/20/17.
+//  Copyright © 2017 ooyala. All rights reserved.
 
 #import "OOOoyalaTVClosedCaptionsView.h"
 #import "OoyalaSDK/OOCaption.h"

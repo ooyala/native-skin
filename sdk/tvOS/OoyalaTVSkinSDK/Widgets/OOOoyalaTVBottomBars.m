@@ -40,17 +40,10 @@
                                                                           green:179.0/255.0
                                                                            blue:179.0/255.0
                                                                           alpha:0.8]];
-      
-    self.closedCaptions = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, background.bounds.size.width, barHeight)];
-    self.closedCaptions.textColor = [UIColor whiteColor];
-    self.closedCaptions.textAlignment = NSTextAlignmentCenter;
-    self.closedCaptions.font = [self.closedCaptions.font fontWithSize:40.0];
-    self.closedCaptions.text = @"Lalalalalalala";
     
     [self addSubview:self.durationBar];
     [self addSubview:self.bufferBar];
     [self addSubview:self.progressBar];
-    [self addSubview:self.closedCaptions];
   }
   
   return self;

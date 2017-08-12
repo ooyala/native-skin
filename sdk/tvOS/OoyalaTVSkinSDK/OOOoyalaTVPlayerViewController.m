@@ -30,7 +30,7 @@
 @property (nonatomic, strong) OOOoyalaTVLabel *playheadLabel;
 @property (nonatomic, strong) OOOoyalaTVButton *playPauseButton;
 @property (nonatomic, strong) OOOoyalaTVBottomBars *bottomBars;
-@property (nonatomic, strong) OOOoyalaTVTopBar *closedCaptionsBar;
+@property (nonatomic, strong) OOOoyalaTVTopBar *closedCaptionsMenuBar;
 @property (nonatomic, strong) OOOoyalaTVGradientView *progressBarBackground;
 @property (nonatomic) CGFloat lastTriggerTime;
 @property (nonatomic, strong) NSDictionary *currentLocale;
@@ -125,8 +125,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)setupBars {
   self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground];
+  //Adding button to indicate that CCs are available
+  self.closedCaptionsMenuBar = [[OOOoyalaTVTopBar alloc] initMiniView:self.view];
+  self.closedCaptionsMenuBar.alpha = 0.0;
     
   [self.progressBarBackground addSubview:self.bottomBars];
+  [self.view addSubview:self.closedCaptionsMenuBar];
 }
 
 - (void)setupBar:(UIView *)bar
@@ -247,6 +251,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       self.progressBarBackground.frame = frame;
     } completion: nil];
   }
+    if (self.player.currentItem.hasClosedCaptions){
+        [self showClosedCaptionsButton];
+    }
+    
 }
 
 - (void)hideProgressBar {
@@ -259,6 +267,21 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       self.progressBarBackground.frame = frame;
     } completion: nil];
   }
+    
+    [self hideClosedCaptionsButton];
+    
+}
+
+- (void)hideClosedCaptionsButton {
+    if (!self.closedCaptionMenuDisplayed){
+        self.closedCaptionsMenuBar.alpha = 0.0;
+    }
+}
+
+- (void)showClosedCaptionsButton {
+    if (!self.closedCaptionMenuDisplayed){
+        self.closedCaptionsMenuBar.alpha = 1.0;
+    }
 }
 
 - (UIView *)preferredFocusedView {
@@ -369,6 +392,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 // This should be called by the UI when the closed captions button is clicked
 - (void)setupClosedCaptionsMenu {
+    //Remove CC menu button
+    self.closedCaptionsMenuBar.alpha = 0.0;
     //We check if CC are available in this video asset
     if (self.player.isClosedCaptionsTrackAvailable){
         if (!self.optionsViewController.view.window){
@@ -413,10 +438,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     [self removeClosedCaptionsView];
     if (self.player.currentItem.hasClosedCaptions && self.player.closedCaptionsLanguage) {
         self.closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.player.videoRect];
-        self.closedCaptionsView.style = _closedCaptionsStyle;            [self updateClosedCaptionsViewPosition:self.progressBarBackground.bounds withControlsHide:self.progressBarBackground.hidden];
+        self.closedCaptionsView.style = _closedCaptionsStyle;
+        [self updateClosedCaptionsViewPosition:self.progressBarBackground.bounds withControlsHide:self.progressBarBackground.hidden];
         [self displayCurrentClosedCaption];
         [self.player.view addSubview:self.closedCaptionsView];
-            
     }
 }
 

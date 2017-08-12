@@ -12,6 +12,8 @@
 
 - (id)initWithBackground:(UIView *)background;
 
+- (id)initMiniView:(UIView *)background;
+
 - (void)addLenguages:(UIView *)view;
 
 - (BOOL)canBecomeFocused;
