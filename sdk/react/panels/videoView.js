@@ -296,6 +296,7 @@ var VideoView = React.createClass({
 
     return (
       <View
+        accesible={false}
         style={{height:height, width:width}}>
         <TouchableHighlight
           style={{left: left, bottom: 10, width:width, height:height}}
