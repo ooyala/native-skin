@@ -268,8 +268,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     [_movieFullScreenView addSubview:self.view];
     [self.view setFrame:window.bounds];
     self.view.alpha = 0.0f;
-
-    [self.inlineViewController dismissViewControllerAnimated:NO completion:nil];
+    
+    if (UIAccessibilityIsVoiceOverRunning()) {
+      [self.inlineViewController dismissViewControllerAnimated:NO completion:nil];
+    }
     
     [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
       _movieFullScreenView.alpha = 1.f;
