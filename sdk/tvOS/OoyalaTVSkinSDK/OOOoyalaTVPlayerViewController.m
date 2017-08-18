@@ -1,10 +1,3 @@
-     //
-//  OOOoyalaTVPlayerViewController.m
-//  OoyalaTVSkinSDK
-//
-//  Copyright © 2016 Ooyala, Inc. All rights reserved.
-//
-
 #import "OOOoyalaTVPlayerViewController.h"
 #import "OOOoyalaTVConstants.h"
 #import "OOOoyalaTVGradientView.h"
@@ -408,13 +401,13 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
         }
         else {
             [self.player.view bringSubviewToFront:self.optionsViewController.view];
-            //[self setNeedsFocusUpdate];
+            [self setNeedsFocusUpdate];
             [self updateFocusIfNeeded];
         }
     }
 }
 
-- (void) removeClosedCaptionsMenu {
+- (void)removeClosedCaptionsMenu {
     if (self.optionsViewController.view.window){
         [self.optionsViewController.view removeFromSuperview];
     }
@@ -452,7 +445,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     ![self.player isInCastMode];
 }
  
-- (NSMutableArray *)getOptionsAvailable {
+- (NSArray *)availableOptions {
     NSArray *providedList = self.player.availableClosedCaptionsLanguages;
     self.tableList = [[NSMutableArray alloc] init];
     NSMutableArray *subtitleArray = [[NSMutableArray alloc] init];
@@ -490,7 +483,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
         [self.tableList addObject:subtitlePair];
     }
     
-    return self.tableList;
+    return [self.tableList copy];
     
 }
 

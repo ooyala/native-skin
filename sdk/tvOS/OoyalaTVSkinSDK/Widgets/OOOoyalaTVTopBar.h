@@ -1,20 +1,12 @@
-//
-//  OOOoyalaTVTopBar.h
-//  OoyalaTVSkinSDK
-//
-//  Created by Ileana Padilla on 7/18/17.
-//  Copyright © 2017 ooyala. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 
 @interface OOOoyalaTVTopBar : UIView
 
-- (id)initWithBackground:(UIView *)background;
+- (OOOoyalaTVTopBar *)initWithBackground:(UIView *)background;
 
-- (id)initMiniView:(UIView *)background;
+- (OOOoyalaTVTopBar *)initMiniView:(UIView *)background;
 
-- (void)addLenguages:(UIView *)view;
+- (void)addLanguages:(UIView *)view;
 
 - (BOOL)canBecomeFocused;
 

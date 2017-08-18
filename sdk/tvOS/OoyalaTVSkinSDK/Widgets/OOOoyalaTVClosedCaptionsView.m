@@ -1,10 +1,3 @@
-//
-//  OOOoyalaTVClosedCaptionsView.m
-//  OoyalaTVSkinSDK
-//
-//  Created by Ileana Padilla on 7/20/17.
-//  Copyright © 2017 ooyala. All rights reserved.
-
 #import "OOOoyalaTVClosedCaptionsView.h"
 #import "OoyalaSDK/OOCaption.h"
 #import "OoyalaSDK/OOClosedCaptionsStyle.h"
@@ -38,47 +31,6 @@ static CGFloat arbitraryScalingFactor = 1.2;
 
 -(void)updateBackground {
     [self setNeedsDisplay];
-}
-
-// Draw highlight for OOClosedCaptionsTextView
--(void)drawRect:(CGRect)rect {
-    // It works but there is overlap between each highlight
-    [super drawRect:rect];
-    
-    // The original textRects has 2 px vertical overlap which can be seen on transparent highlight
-    // Recalculate the highlightRects
-    NSMutableArray* highlightRects = [[NSMutableArray alloc] init];
-    CGFloat nextY = [[self.textRects objectAtIndex:0] CGRectValue].origin.y;
-    for (int i = 0; i < [self.textRects count]; i++) {
-        CGRect textRect = [[self.textRects objectAtIndex:i] CGRectValue];
-        CGRect highlightRect = CGRectMake(textRect.origin.x, nextY, textRect.size.width, textRect.size.height);
-        [highlightRects addObject:[NSValue valueWithCGRect:highlightRect]];
-        nextY = highlightRect.origin.y + highlightRect.size.height;
-    }
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGFloat shadowColorValues[] = {0, 0, 0, self.shadowOpacity};
-    CGColorSpaceRef ShadowColorSpace = CGColorSpaceCreateDeviceRGB();
-    CGColorRef shadowColor = CGColorCreate(ShadowColorSpace, shadowColorValues);
-    
-    CGContextSaveGState(context);
-    CGContextSetShadowWithColor(context, self.shadowOffset, 5, shadowColor);
-    
-    
-    const CGFloat* colors = CGColorGetComponents(self.highlightColor.CGColor);
-    for (int i = 0; i < [highlightRects count]; i++) {
-        CGRect rectangle = [[highlightRects objectAtIndex:i] CGRectValue];
-        CGContextRef context = UIGraphicsGetCurrentContext();
-        CGContextSetRGBFillColor(context, colors[0], colors[1], colors[2], self.highlightOpacity);
-        CGContextSetRGBStrokeColor(context, 1.0, 1.0, 1.0, 0.5);
-        CGContextFillRect(context, rectangle);
-    }
-    
-    CGColorRelease(shadowColor);
-    CGColorSpaceRelease(ShadowColorSpace);
-    
-    CGContextRestoreGState(context);
-    
 }
 
 @end
@@ -165,37 +117,6 @@ static CGFloat arbitraryScalingFactor = 1.2;
         [self setNeedsDisplay];
     }
     [super setText:text];
-}
-
-// Draw outline for paint-on and pop-on presentation
-- (void)drawRect:(CGRect)rect
-{
-    if (&MACaptionAppearanceCopyForegroundColor && self.edgeStyle == kMACaptionAppearanceTextEdgeStyleUniform) {
-        // The presentation style can be changed before these threads finish
-        if (self.style.presentation == OOClosedCaptionRollUp) {
-            return;
-        }
-        
-        CGContextRef textContext = UIGraphicsGetCurrentContext();
-        CGContextSaveGState(textContext);
-        CGContextSetLineWidth(textContext, self.textSize * 0.05);
-        CGContextSetTextDrawingMode (textContext, kCGTextFillStroke);
-        CGContextSetFillColorWithColor(textContext, [UIColor blackColor].CGColor);
-        
-        NSMutableParagraphStyle *paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        paragraphStyle.lineBreakMode = NSLineBreakByWordWrapping;
-        paragraphStyle.alignment = NSTextAlignmentLeft;
-        
-        NSArray* separatedLines = [self.nextText componentsSeparatedByString:@"\n"];
-        NSMutableArray* textRects = [[NSMutableArray alloc] init];
-        textRects = [self getRectsForEachLine:separatedLines];
-        for (int i = 0; i < [textRects count]; i++) {
-            [[separatedLines objectAtIndex:i] drawInRect:[[textRects objectAtIndex:i] CGRectValue]
-                                          withAttributes:@{NSFontAttributeName: self.font,
-                                                           NSParagraphStyleAttributeName: paragraphStyle}];
-        }
-        CGContextRestoreGState(textContext);
-    }
 }
 
 -(NSMutableArray*)getRectsForEachLine:(NSArray*)separatedLines {
@@ -313,38 +234,8 @@ static CGFloat arbitraryScalingFactor = 1.2;
         self.backgroundView.hidden = NO;
     }
     
+    [self matchFrameWithText];
     
-    if (self.style.presentation == OOClosedCaptionPaintOn) {
-        // During paint-on presentation if the textview changes position then all the text will be redraw which will cause problem
-        // So after shifting the textview we just pop-on all the text at once and start paint-on for next caption.text
-        // However, those threads do not finished before we pop-on the text, there will be some text drawn by threads append after existing text.
-        // To resolve this problem, after pop-on the text I set self.stopPainting = YES so that the thread will not draw any character for this
-        // caption.text. And set self.stopPainting = NO after all threads finish.
-        if (![self.currentText isEqualToString:caption.text]) {
-            self.stopPainting = NO;
-            self.currentText = caption.text;
-            [self matchFrameWithText];
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0),
-                           ^{
-                               // characterDelay may be need to update based on length of sentence.
-                               [self paintOn:self.splitText characterDelay:fmin(0.03, (((caption.end - caption.begin) / [caption.text length])) * 2 / 3)];
-                           });
-        } else {
-            self.stopPainting = YES;
-            [self matchFrameWithText];
-            [self.textView setText:self.splitText];
-        }
-    } else if (self.style.presentation == OOClosedCaptionRollUp) {
-        // RollUp has fixed window size for each font size so do not need match frame everytime
-        CGFloat height = self.style.textSize * 6;
-        CGRect frame = CGRectMake(.1 * self.bounds.size.width, self.frame.size.height - height - self.textViewEdge, .8 * self.bounds.size.width, height);
-        self.textView.frame = frame;
-        self.backgroundView.frame = frame;
-        [self rollUp:caption.text];
-    } else {
-        // ClosedCaptionPopOn
-        [self matchFrameWithText];
-    }
     // update highlight
     self.backgroundView.textRects = [self.textView getRectsForEachLine:[self.splitText componentsSeparatedByString:@"\n"]];
     [self.backgroundView updateBackground];
@@ -445,106 +336,6 @@ static CGFloat arbitraryScalingFactor = 1.2;
     }
     self.backgroundView.frame = self.textView.frame;
     self.splitText = resultText;
-}
-
-- (void)rollUp: (NSString*)text {
-    
-    // Calculate the correct offset with this fake UITextView
-    UITextView* temp = [[UITextView alloc] initWithFrame:self.textView.frame];
-    [temp setFont:self.textView.font];
-    
-    // Remove all but the visible caption
-    int totalHeight = 0;
-    CGRect firstFrame = CGRectNull;
-    for (UILabel* label in self.textView.subviews) {
-        if ([self.textView.subviews count] > 1) {
-            [label removeFromSuperview];
-            continue;
-        }
-        
-        // Save the last subview to re-draw it later
-        if (CGRectIsNull(firstFrame)) {
-            firstFrame = label.frame;
-        }
-        label.frame = CGRectMake((self.textView.frame.size.width - label.frame.size.width)/2, totalHeight, label.frame.size.width, label.frame.size.height);
-        totalHeight += label.frame.size.height;
-    }
-    
-    // Create UILabel to hold the text
-    OOOoyalaTVClosedCaptionsLabel* textLabel = [[OOOoyalaTVClosedCaptionsLabel alloc] initWithFrame:CGRectMake(0, totalHeight, self.textView.frame.size.width, self.textView.frame.size.height)
-                                                                      isUniformEdge: &MACaptionAppearanceCopyForegroundColor && self.textView.edgeStyle == kMACaptionAppearanceTextEdgeStyleUniform];
-    
-    // Make sure we can add multiple lines to a UILabel
-    textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    textLabel.numberOfLines = 0;
-    
-    [textLabel setText:text];
-    textLabel.textColor = self.style.textColor;
-    textLabel.backgroundColor = [UIColor clearColor];
-    textLabel.font = [UIFont fontWithName:self.style.textFontName size:style.textSize];
-    
-    [self.textView addSubview:textLabel];
-    
-    // After adding the subview, move the scrollview so the first frame goes off the screen
-    [UIView animateWithDuration: (self.caption.end - self.caption.begin) * 0.3
-                     animations:^(void) {
-                         self.textView.contentOffset = CGPointMake(0, (firstFrame.size.height));
-                     }
-                     completion: ^(BOOL finished) {}];
-}
-
-- (void)paintOn:(NSString*)text characterDelay:(NSTimeInterval)delay {
-    for (int i=0; i<text.length; i++) {
-        if (!self.stopPainting && [text isEqualToString:self.splitText]) {
-            dispatch_async(dispatch_get_main_queue(),
-                           ^{
-                               // The presentation style can be changed before these threads finish
-                               if (style.presentation == OOClosedCaptionRollUp || style.presentation == OOClosedCaptionPopOn) {
-                                   return;
-                               }
-                               if (i == 0) {
-                                   // Make sure each closed caption be on the top of UITextView
-                                   [self.textView setText:@""];
-                               }
-                               [self.textView setText:[NSString stringWithFormat:@"%@%C", self.textView.text, [text characterAtIndex:i]]];
-                           });
-            [NSThread sleepForTimeInterval:delay];
-        }
-    }
-}
-
-// Update textView frame for rotation
--(void) layoutSubviews {
-    [super layoutSubviews];
-    
-    // Relayout the frame for roll-up
-    if (self.style.presentation == OOClosedCaptionRollUp) {
-        CGFloat height = self.style.textSize * 6;
-        CGRect frame = CGRectMake(.1 * self.bounds.size.width, self.frame.size.height - height - self.textViewEdge, .8 * self.bounds.size.width, height);
-        self.textView.frame = frame;
-        self.backgroundView.frame = frame;
-        
-        // Remove all but the visible caption
-        int totalHeight = 0;
-        CGRect firstFrame = CGRectNull;
-        for (UILabel* label in self.textView.subviews) {
-            if ([self.textView.subviews count] > 1) {
-                [label removeFromSuperview];
-                continue;
-            }
-            
-            // Save the last subview to re-draw it later
-            if (CGRectIsNull(firstFrame)) {
-                firstFrame = label.frame;
-            }
-            label.frame = CGRectMake((self.textView.frame.size.width - label.frame.size.width)/2, totalHeight, label.frame.size.width, label.frame.size.height);
-            totalHeight += label.frame.size.height;
-        }
-        
-        self.textView.contentOffset = CGPointMake(0, 0);
-    }
-    
-    [self matchFrameWithText];
 }
 
 @end

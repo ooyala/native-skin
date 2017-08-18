@@ -1,19 +1,10 @@
-
-//
-//  OOOoyalaTVOptionCell.m
-//  OoyalaTVSkinSDK
-//
-//  Created by Ileana Padilla on 7/19/17.
-//  Copyright © 2017 ooyala. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "OOOoyalaTVOptionCell.h"
 #import "OOOoyalaTVConstants.h"
 
 @implementation OOOoyalaTVOptionCell
 
-- (id)initWithFrame:(CGRect)frame {
+- (OOOoyalaTVOptionCell *)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
     if (self) {
@@ -42,15 +33,15 @@
         [coordinator addCoordinatedAnimations:^{
             context.nextFocusedView.transform = CGAffineTransformMakeScale(1.1, 1.1);
             context.nextFocusedView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.50];
-        } completion:^{
-            // completion
+        }completion:^{
+            nil;
         }];
     } else if (self == context.previouslyFocusedView) {
         [coordinator addCoordinatedAnimations:^{
             context.previouslyFocusedView.transform = CGAffineTransformMakeScale(1.0, 1.0);
             context.previouslyFocusedView.backgroundColor = [UIColor clearColor];
         } completion:^{
-            // completion
+            nil;
         }];
     }
 }

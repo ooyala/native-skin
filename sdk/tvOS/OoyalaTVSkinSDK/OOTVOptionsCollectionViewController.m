@@ -1,11 +1,3 @@
-//
-//  OOTVOptionsCollectionViewController.m
-//  OoyalaTVSkinSDK
-//
-//  Created by Ileana Padilla on 7/19/17.
-//  Copyright © 2017 ooyala. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "OOTVOptionsCollectionViewController.h"
 #import "OOOoyalaTVConstants.h"
@@ -20,7 +12,6 @@
 @end
 
 @implementation Pair
-@synthesize name, value;
 @end
 
 @implementation OOTVOptionsCollectionViewController
@@ -57,7 +48,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    _optionList = [[NSMutableArray alloc] initWithArray:[self.viewController getOptionsAvailable]];
+    self.optionList = [[NSMutableArray alloc] initWithArray:[self.viewController availableOptions]];
     Pair *sectionPair = [[Pair alloc] init];
     sectionPair = [self.optionList objectAtIndex:section];
     
@@ -73,7 +64,7 @@
     OOOoyalaTVOptionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
     
     //We retrieve array with CC lenguages available to display corresponding cells
-    _optionList = [[NSMutableArray alloc] initWithArray:[self.viewController getOptionsAvailable]];
+    self.optionList = [[NSMutableArray alloc] initWithArray:[self.viewController availableOptions]];
     
     // Set the data for this cell:
     Pair *sectionPair = [[Pair alloc] init];

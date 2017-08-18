@@ -1,10 +1,3 @@
-//
-//  OOOoyalaTVPlayerViewController.h
-//  OoyalaTVSkinSDK
-//
-//  Copyright © 2016 Ooyala, Inc. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
@@ -41,7 +34,7 @@
 
 - (void)hideOptions;
 
-- (NSMutableArray *)getOptionsAvailable;
+- (NSArray *)availableOptions;
 
 - (BOOL)closedCaptionMenuDisplayed;
 
@@ -49,6 +42,6 @@
 
 - (void)addClosedCaptionsView;
 
-- (void) removeClosedCaptionsMenu;
+- (void)removeClosedCaptionsMenu;
 
 @end
