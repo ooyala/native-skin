@@ -8,6 +8,7 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.react.uimanager.ViewManager;
+import com.ooyala.android.skin.accessibility.AccessibilityInfoModule;
 import com.ooyala.android.skin.view.ClosedCaptionsViewManager;
 import com.ooyala.android.skin.view.CountdownViewManager;
 import com.ooyala.android.skin.view.VolumeViewManager;
@@ -33,6 +34,15 @@ class OoyalaReactPackage extends MainReactPackage {
   public List<ModuleSpec> getNativeModules(final ReactApplicationContext context) {
     List<ModuleSpec> list =  new ArrayList<>();
     list.addAll(super.getNativeModules(context));
+
+    //TODO: remove AccessibilityInfoModule when updating to latest version of react native
+    list.add(new ModuleSpec(AccessibilityInfoModule.class, new Provider<NativeModule>() {
+      @Override
+      public NativeModule get() {
+        return new AccessibilityInfoModule(context);
+      }
+    }));
+
     _bridge = new OoyalaReactBridge(context, _layoutcontroller.getBridgeEventHandler());
     list.add(new ModuleSpec(OoyalaReactBridge.class, new Provider() {
       public NativeModule get() {
