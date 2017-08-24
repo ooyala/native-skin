@@ -1,4 +1,4 @@
-#import "OOOoyalaTVClosedCaptionsLabel.h"
+#import <OOOoyalaTVClosedCaptionsLabel.h>
 
 @interface OOOoyalaTVClosedCaptionsLabel()
 //Indicates if there is an outline along the edge of the text

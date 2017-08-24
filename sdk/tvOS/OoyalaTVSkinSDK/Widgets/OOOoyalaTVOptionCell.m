@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "OOOoyalaTVOptionCell.h"
-#import "OOOoyalaTVConstants.h"
+#import <OOOoyalaTVOptionCell.h>
+#import <OOOoyalaTVConstants.h>
 
 @implementation OOOoyalaTVOptionCell
 
@@ -31,7 +31,7 @@
     
     if (self == context.nextFocusedView) {
         [coordinator addCoordinatedAnimations:^{
-            context.nextFocusedView.transform = CGAffineTransformMakeScale(1.1, 1.1);
+            context.nextFocusedView.transform = CGAffineTransformMakeScale(1.05, 1.05);
             context.nextFocusedView.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.50];
         }completion:^{
             nil;
@@ -52,7 +52,7 @@
     UIPress *press = [presses anyObject];
     
     if (press.type == UIPressTypeSelect) {
-        self.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        self.transform = CGAffineTransformMakeScale(0.9, 0.9);
     }
     
 }

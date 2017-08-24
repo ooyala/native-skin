@@ -1,14 +1,7 @@
-//
-//  OOTVGestureManager.m
-//  OoyalaTVSkinSDK
-//
-//  Copyright © 2016 ooyala. All rights reserved.
-//
-
-#import "OOTVGestureManager.h"
+#import <OOTVGestureManager.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
-#import "OOOoyalaTVPlayerViewController.h"
-#import "OOOoyalaTVConstants.h"
+#import <OOOoyalaTVPlayerViewController.h>
+#import <OOOoyalaTVConstants.h>
 
 @interface OOTVGestureManager()<UIGestureRecognizerDelegate> {
   CGPoint lastPanPoint;
@@ -160,7 +153,7 @@
                     break;
                 case UIGestureRecognizerStateChanged: {
                     CGFloat distance = currentPoint.x - lastPanPoint.x;
-                    if (abs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
+                    if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
                         lastPanPoint = currentPoint;
                         lastPlayhead += distance * seekScale;
                         [self.controller.player seek:lastPlayhead];

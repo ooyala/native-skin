@@ -1,13 +1,13 @@
-#import "OOOoyalaTVClosedCaptionsView.h"
-#import "OoyalaSDK/OOCaption.h"
-#import "OoyalaSDK/OOClosedCaptionsStyle.h"
-#import "OOOoyalaTVClosedCaptionsLabel.h"
+#import <OOOoyalaTVClosedCaptionsView.h>
+#import <OoyalaSDK/OOCaption.h>
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
+#import <OOOoyalaTVClosedCaptionsLabel.h>
 #import <CoreText/CoreText.h>
 static CGFloat arbitraryScalingFactor = 1.2;
 
 
 @interface OOClosedCaptionsTextBackgroundView : UIView
-@property (nonatomic, strong) NSMutableArray* textRects;
+@property (nonatomic, strong) NSArray* textRects;
 @property (nonatomic, strong) UIColor *highlightColor;
 @property (nonatomic) CGFloat highlightOpacity;
 @property (nonatomic) CGSize shadowOffset;
@@ -119,7 +119,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
     [super setText:text];
 }
 
--(NSMutableArray*)getRectsForEachLine:(NSArray*)separatedLines {
+-(NSArray*)getRectsForEachLine:(NSArray*)separatedLines {
     NSMutableArray* textRects = [[NSMutableArray alloc] init];
     UITextPosition *beginning = self.beginningOfDocument;
     NSUInteger startPostition = 0;
@@ -135,7 +135,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
         [textRects addObject:[NSValue valueWithCGRect:newTextRect]];
         startPostition += line.length + 1;
     }
-    return textRects;
+    return [textRects copy];
 }
 @end
 
@@ -164,21 +164,13 @@ static CGFloat arbitraryScalingFactor = 1.2;
     return self;
 }
 
-- (OOCaption *)caption {
-    return caption;
-}
-
-- (void)setCaption:(OOCaption *)_caption {
-    caption = _caption;
+- (void)setClosedCaption:(OOCaption *)caption {
+    self.caption = caption;
     [self setNeedsDisplay];
 }
 
-- (OOClosedCaptionsStyle *)style {
-    return style;
-}
-
-- (void)setStyle:(OOClosedCaptionsStyle *)_style {
-    style = _style;
+- (void)setCaptionStyle:(OOClosedCaptionsStyle *)style {
+    self.style = style;
     for (UIView *subview in self.textView.subviews) {
         [subview removeFromSuperview];
     }
@@ -201,18 +193,18 @@ static CGFloat arbitraryScalingFactor = 1.2;
     // For classic style setting in device we should take style.backgroundOpacity
     // For other settings we should take style.windowOpacity
     // This could be a problem of
-    self.backgroundView.backgroundColor = style.windowColor;
-    self.backgroundView.highlightOpacity = style.backgroundOpacity;
-    self.backgroundView.highlightColor = style.backgroundColor;
+    self.backgroundView.backgroundColor = self.style.windowColor;
+    self.backgroundView.highlightOpacity = self.style.backgroundOpacity;
+    self.backgroundView.highlightColor = self.style.backgroundColor;
     
-    self.backgroundView.alpha = fmax(style.backgroundOpacity, style.windowOpacity);
+    self.backgroundView.alpha = fmax(self.style.backgroundOpacity, self.style.windowOpacity);
     
     self.backgroundView.hidden = YES;
     self.backgroundView.layer.cornerRadius = 10;
     self.backgroundView.layer.masksToBounds = YES;
     
     // setup UITextView according to style
-    self.textView = [[OOClosedCaptionsTextView alloc] initWithFrame:frame style:_style backgroundView:self.backgroundView];
+    self.textView = [[OOClosedCaptionsTextView alloc] initWithFrame:frame style:style backgroundView:self.backgroundView];
     self.textView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin;
     
     [self addSubview:self.backgroundView];
@@ -250,10 +242,10 @@ static CGFloat arbitraryScalingFactor = 1.2;
     maxWidth = self.frame.size.width * 0.9;
     
     
-    [self.textView setFont:style.textFontName frame:self.frame  baseFontSize:style.textSize];
+    [self.textView setFont:self.style.textFontName frame:self.frame  baseFontSize:self.style.textSize];
     
     // Find the longest line in current closed caption
-    NSArray* lines = [caption.text componentsSeparatedByString:@"\n"];
+    NSArray* lines = [self.caption.text componentsSeparatedByString:@"\n"];
     CGSize maxLineSize = CGSizeMake(0, 0);
     for (NSString* line in lines) {
         CGSize size = [line sizeWithAttributes:@{NSFontAttributeName: self.textView.font}];
@@ -309,12 +301,12 @@ static CGFloat arbitraryScalingFactor = 1.2;
             }
         }
     } else {
-        if (caption.text != nil) {
-            [resultText appendString: caption.text];
+        if (self.caption.text != nil) {
+            [resultText appendString: self.caption.text];
         }
     }
     // If the presentation is PaintOn then the text should be added one by one later in different threads.
-    if (style.presentation != OOClosedCaptionPaintOn) {
+    if (self.style.presentation != OOClosedCaptionPaintOn) {
         [self.textView setText:resultText];
     } else {
         [self.textView setText:@""]; // clean the layer before next text
@@ -331,7 +323,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
     CGFloat originalX = (self.frame.size.width - newFrame.size.width) / 2   ;
     self.textView.frame = CGRectMake(originalX, self.frame.size.height - newFrame.size.height - self.textViewEdge, frameWidth, (linePadding * 2 + maxLineSize.height * lineCount));
     
-    if (style.presentation == OOClosedCaptionPopOn) {
+    if (self.style.presentation == OOClosedCaptionPopOn) {
         self.textView.textAlignment = NSTextAlignmentCenter;
     }
     self.backgroundView.frame = self.textView.frame;

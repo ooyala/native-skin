@@ -6,7 +6,7 @@
 //  Copyright © 2016 ooyala. All rights reserved.
 //
 
-#import "OOOoyalaTVConstants.h"
+#import <OOOoyalaTVConstants.h>
 
 CGFloat const headDistance = 54;
 CGFloat const playPauseButtonWidth = 45;

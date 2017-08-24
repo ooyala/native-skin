@@ -3,13 +3,13 @@
 @class OOCaption;
 @class OOClosedCaptionsStyle;
 
-@interface OOOoyalaTVClosedCaptionsView : UIView {
-    OOCaption *caption;
-    OOClosedCaptionsStyle *style;
-}
-+ (void) setArbitararyScalingFactor:(CGFloat)scalingFactor;
+@interface OOOoyalaTVClosedCaptionsView : UIView
 
-@property (nonatomic, strong) OOCaption *caption;
+@property OOCaption *caption;
+@property OOClosedCaptionsStyle *style;
 
-@property (nonatomic, strong) OOClosedCaptionsStyle *style;
++ (void)setArbitararyScalingFactor:(CGFloat)scalingFactor;
+- (void)setCaptionStyle:(OOClosedCaptionsStyle *)style;
+- (void)setClosedCaption:(OOCaption *)caption;
+
 @end

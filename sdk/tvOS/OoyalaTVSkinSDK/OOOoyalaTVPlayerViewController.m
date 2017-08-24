@@ -1,16 +1,16 @@
-#import "OOOoyalaTVPlayerViewController.h"
-#import "OOOoyalaTVConstants.h"
-#import "OOOoyalaTVGradientView.h"
-#import "OOOoyalaTVButton.h"
-#import "OOOoyalaTVLabel.h"
-#import "OOOoyalaTVBottomBars.h"
-#import "OOOoyalaTVTopBar.h"
+#import <OOOoyalaTVPlayerViewController.h>
+#import <OOOoyalaTVConstants.h>
+#import <OOOoyalaTVGradientView.h>
+#import <OOOoyalaTVButton.h>
+#import <OOOoyalaTVLabel.h>
+#import <OOOoyalaTVBottomBars.h>
+#import <OOOoyalaTVTopBar.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
-#import "OOTVGestureManager.h"
-#import "OOTVOptionsCollectionViewController.h"
-#import "OOOoyalaTVClosedCaptionsView.h"
-#import "OoyalaSDK/OOCaption.h"
-#import "OoyalaSDK/OOClosedCaptions.h"
+#import <OOTVGestureManager.h>
+#import <OOTVOptionsCollectionViewController.h>
+#import <OOOoyalaTVClosedCaptionsView.h>
+#import <OoyalaSDK/OOCaption.h>
+#import <OoyalaSDK/OOClosedCaptions.h>
 
 
 @interface OOOoyalaTVPlayerViewController ()
@@ -274,11 +274,14 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)showClosedCaptionsButton {
     if (!self.closedCaptionMenuDisplayed){
         self.closedCaptionsMenuBar.alpha = 1.0;
+        [self addChildViewController:self.optionsViewController];
+        [self.player.view addSubview:self.optionsViewController.view];
+        [self.optionsViewController.view setHidden:YES];
     }
 }
 
 - (UIView *)preferredFocusedView {
-  return self.optionsViewController.optionsCollectionView;
+  return self.optionsViewController.view;
 }
 
 + (NSDictionary*)currentLanguageSettings {
@@ -389,41 +392,32 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     self.closedCaptionsMenuBar.alpha = 0.0;
     //We check if CC are available in this video asset
     if (self.player.isClosedCaptionsTrackAvailable){
-        if (!self.optionsViewController.view.window){
-            //Displaying CC menu
-            [self addChildViewController:self.optionsViewController];
-            [self.player.view addSubview:self.optionsViewController.view];
-            [self.player.view bringSubviewToFront:self.optionsViewController.view];
-            [self.optionsViewController didMoveToParentViewController:self];
-            
-            [self setNeedsFocusUpdate];
-            [self updateFocusIfNeeded];
-        }
-        else {
-            [self.player.view bringSubviewToFront:self.optionsViewController.view];
-            [self setNeedsFocusUpdate];
-            [self updateFocusIfNeeded];
-        }
+        //Displaying CC menu
+        [self.player.view bringSubviewToFront:self.optionsViewController.view];
+        [self.optionsViewController.view setHidden:NO];
+        [self setNeedsFocusUpdate];
+        [self updateFocusIfNeeded];
     }
 }
 
 - (void)removeClosedCaptionsMenu {
     if (self.optionsViewController.view.window){
-        [self.optionsViewController.view removeFromSuperview];
+        //[self.optionsViewController.view removeFromSuperview];
+        [self.optionsViewController.view setHidden:YES];
     }
 }
 
 - (BOOL)closedCaptionMenuDisplayed {
-    if (self.optionsViewController.isViewLoaded && self.optionsViewController.view.window != nil){
+    if (self.optionsViewController.isViewLoaded && self.optionsViewController.view.window != nil && !self.optionsViewController.view.isHidden){
         return YES;
     }
     return NO;
 }
 
 - (void)removeClosedCaptionsView {
-    if (_closedCaptionsView) {
-        [_closedCaptionsView removeFromSuperview];
-        _closedCaptionsView = nil;
+    if (self.closedCaptionsView) {
+        [self.closedCaptionsView removeFromSuperview];
+        self.closedCaptionsView = nil;
     }
 }
 
@@ -431,7 +425,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     [self removeClosedCaptionsView];
     if (self.player.currentItem.hasClosedCaptions && self.player.closedCaptionsLanguage) {
         self.closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.player.videoRect];
-        self.closedCaptionsView.style = _closedCaptionsStyle;
+        [self.closedCaptionsView setCaptionStyle:_closedCaptionsStyle];
         [self updateClosedCaptionsViewPosition:self.progressBarBackground.bounds withControlsHide:self.progressBarBackground.hidden];
         [self displayCurrentClosedCaption];
         [self.player.view addSubview:self.closedCaptionsView];
@@ -489,13 +483,13 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)displayCurrentClosedCaption {
     if ([self shouldShowClosedCaptions]) {
-        if (_closedCaptionsView.caption == nil || self.player.playheadTime < _closedCaptionsView.caption.begin || self.player.playheadTime > _closedCaptionsView.caption.end) {
+        if (self.closedCaptionsView.caption == nil || self.player.playheadTime < self.closedCaptionsView.caption.begin || self.player.playheadTime > self.closedCaptionsView.caption.end) {
             OOCaption *caption =
             [self.player.currentItem.closedCaptions captionForLanguage:self.player.closedCaptionsLanguage time:self.player.playheadTime];
-            _closedCaptionsView.caption = caption;
+            [self.closedCaptionsView setClosedCaption:caption];
         }
     } else {
-        _closedCaptionsView.caption = nil;
+        self.closedCaptionsView.caption = nil;
     }
 }
 
@@ -507,10 +501,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
         }
     }
     [self.closedCaptionsView setFrame:videoRect];
-}
-
-- (BOOL)shouldUpdateFocusInContext:(UIFocusUpdateContext *)context {
-    return YES;
 }
 
 @end

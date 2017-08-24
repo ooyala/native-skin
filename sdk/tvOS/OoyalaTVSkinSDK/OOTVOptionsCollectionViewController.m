@@ -1,8 +1,8 @@
 #import <Foundation/Foundation.h>
-#import "OOTVOptionsCollectionViewController.h"
-#import "OOOoyalaTVConstants.h"
-#import "OOOoyalaTVOptionCell.h"
-#import "OOOoyalaTVPlayerViewController.h"
+#import <OOTVOptionsCollectionViewController.h>
+#import <OOOoyalaTVConstants.h>
+#import <OOOoyalaTVOptionCell.h>
+#import <OOOoyalaTVPlayerViewController.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 
 // This Pair class is a simple object that holds a string and array.
@@ -48,7 +48,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    self.optionList = [[NSMutableArray alloc] initWithArray:[self.viewController availableOptions]];
+    self.optionList = [[NSArray alloc] initWithArray:[self.viewController availableOptions]];
     Pair *sectionPair = [[Pair alloc] init];
     sectionPair = [self.optionList objectAtIndex:section];
     
@@ -91,7 +91,7 @@
 
 #pragma mark - UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    OOOoyalaTVOptionCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    OOOoyalaTVOptionCell *cell = (OOOoyalaTVOptionCell *)[collectionView cellForItemAtIndexPath:indexPath];
     //Adding row to selected lenguage to avoid duplicate with "español"
     self.selectedLanguage = [cell.optionLabel.text stringByAppendingFormat:@"%d",indexPath.row];
     
@@ -106,12 +106,8 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    OOOoyalaTVOptionCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
+    OOOoyalaTVOptionCell *cell = (OOOoyalaTVOptionCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.backgroundColor = [UIColor clearColor];
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldUpdateFocusInContext:(UICollectionViewFocusUpdateContext *)context {
-        return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -119,14 +115,6 @@
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-- (UIView *)preferredFocusedView {
-    return self.optionsCollectionView;
-}
-
-- (BOOL)canBecomeFocused {
     return YES;
 }
 

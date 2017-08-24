@@ -30,10 +30,6 @@
  */
 - (void)hideProgressBar;
 
-- (void)showOptions;
-
-- (void)hideOptions;
-
 - (NSArray *)availableOptions;
 
 - (BOOL)closedCaptionMenuDisplayed;
