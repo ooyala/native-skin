@@ -21,6 +21,7 @@ var {
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var eventBridge = require('NativeModules').OOReactBridge;
+var AccessibilityInfo = require("./accessibility/AccessibilityInfo");
 
 var OoyalaSkinCoreInstance;
 var OoyalaSkin = React.createClass({
@@ -54,6 +55,7 @@ var OoyalaSkin = React.createClass({
       error: null,
       volume: 0,          // between 0 and 1
       platform:PLATFORMS.IOS,
+      screenReaderEnabled: false,
     };
   },
 
@@ -63,11 +65,34 @@ var OoyalaSkin = React.createClass({
     OoyalaSkinCoreInstance.mount(DeviceEventEmitter);
   },
 
+  componentDidMount: function() {
+    AccessibilityInfo.addEventListener(
+      'change',
+      this._handleScreenReaderToggled
+    );
+    AccessibilityInfo.fetch().done((isEnabled) => {
+      this.setState({
+        screenReaderEnabled: isEnabled
+      });
+    });
+  },
+
   componentWillUnmount: function() {
     Log.log("componentWillUnmount");
     OoyalaSkinCoreInstance.unmount();
+
+    AccessibilityInfo.removeEventListener(
+      'change',
+      this._handleScreenReaderToggled
+    );
   },
-  
+
+  _handleScreenReaderToggled: function(isEnabled) {
+    this.setState({
+      screenReaderEnabled: isEnabled
+    });
+  },
+
   renderLoadingScreen: function() {
     return (
        <ActivityIndicator

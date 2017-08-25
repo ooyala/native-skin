@@ -354,8 +354,8 @@ var VideoView = React.createClass({
 
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    var shouldShowControls = !isPastAutoHideTime;
-
+    var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
+    
     return (
       <View
         accessible={false}

@@ -106,6 +106,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
+      screenReaderEnabled={this.skin.state.screenReaderEnabled}
       closedCaptionsLanguage={this.skin.state.selectedLanguage}
       // todo: change to boolean showCCButton.
       availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
@@ -162,6 +163,7 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
+      screenReaderEnabled={this.skin.state.screenReaderEnabled}
       config={{
         controlBar: this.skin.props.controlBar,
         general: this.skin.props.general,
@@ -266,14 +268,14 @@ OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
 OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, screenType) {
   if (overlayType) {
     switch (overlayType) {
-      case OVERLAY_TYPES.MOREOPTION_SCREEN:  
-        return this.renderMoreOptionScreen();  
+      case OVERLAY_TYPES.MOREOPTION_SCREEN:
+        return this.renderMoreOptionScreen();
         break;
-      case OVERLAY_TYPES.DISCOVERY_SCREEN:  
-        return this.renderDiscoveryPanel();  
+      case OVERLAY_TYPES.DISCOVERY_SCREEN:
+        return this.renderDiscoveryPanel();
         break;
-      case OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN:  
-        return this.renderCCOptions();  
+      case OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN:
+        return this.renderCCOptions();
         break;
     }
     return;
@@ -284,24 +286,24 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
   }
 
   switch (screenType) {
-    case SCREEN_TYPES.START_SCREEN: 
+    case SCREEN_TYPES.START_SCREEN:
       if(this.skin.state.desiredState != DESIRED_STATES.DESIRED_PLAY) {
-        return this.renderStartScreen();   
+        return this.renderStartScreen();
       } else {
-        return this.skin.renderLoadingScreen(); 
+        return this.skin.renderLoadingScreen();
       }
       break;
-    case SCREEN_TYPES.END_SCREEN:   
-      return this.renderEndScreen();   
+    case SCREEN_TYPES.END_SCREEN:
+      return this.renderEndScreen();
       break;
-    case SCREEN_TYPES.LOADING_SCREEN: 
-      return this.skin.renderLoadingScreen(); 
+    case SCREEN_TYPES.LOADING_SCREEN:
+      return this.skin.renderLoadingScreen();
       break;
-    case SCREEN_TYPES.ERROR_SCREEN: 
-      return this.renderErrorScreen(); 
+    case SCREEN_TYPES.ERROR_SCREEN:
+      return this.renderErrorScreen();
       break;
-    default:      
-      return this.renderVideoView();   
+    default:
+      return this.renderVideoView();
       break;
   }
 };

@@ -207,7 +207,7 @@ var AdPlaybackScreen = React.createClass({
   handleTouchEnd: function(event) {
     this.props.handlers.handleVideoTouch();
   },
-  
+
   _renderAdIcons: function() {
     var iconViews = [];
     for (var index in this.props.ad.icons) {
@@ -218,15 +218,15 @@ var AdPlaybackScreen = React.createClass({
       var left = icon.x;
       var top = icon.y;
       var iconStyle = {position:"absolute", width:icon.width, height:icon.height, backgroundColor:"transparent"};
-      
-      var leftStyle = 
+
+      var leftStyle =
         (left < this.props.width -  icon.width) ? {left:icon.left} : {right:0};
-      var topStyle = 
+      var topStyle =
         (top < this.props.height - icon.height) ? {top:icon.top} : {bottom:0};
       var clickHandler = this._createOnIcon(index, this.props.handlers.onIcon);
 
       iconViews.push(
-        <TouchableHighlight 
+        <TouchableHighlight
           key={"iconTouchable"+index}
           style={[iconStyle, leftStyle, topStyle]}
           onPress={clickHandler}>
@@ -247,7 +247,7 @@ var AdPlaybackScreen = React.createClass({
     // var isAdPaused = this.props.ad && !this.props.playing;
     var isContent = !this.props.ad;
 
-    var shouldShowControls = !isPastAutoHideTime && (doesAdRequireControls || isContent);
+    var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
 
     var adBar = null;
     var adIcons = null;
