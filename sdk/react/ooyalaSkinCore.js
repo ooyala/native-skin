@@ -174,7 +174,7 @@ OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
  * Hard reset lastPressedTime, either due to button press or otherwise
  */
 OoyalaSkinCore.prototype.handleControlsTouch = function() {
-  if (this.skin.props.controlBar.autoHide === true) {
+  if (!this.skin.state.screenReaderEnabled && this.skin.props.controlBar.autoHide === true) {
     Log.verbose("handleVideoTouch - Time set");
     this.skin.setState({lastPressedTime: new Date()});
   } else {
