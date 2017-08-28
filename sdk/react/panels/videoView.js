@@ -159,6 +159,7 @@ var VideoView = React.createClass({
     return (
       <View
         accessible={true}
+        accessibilityLabel={"Video player"}
         style={styles.placeholder}
         onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
       </View>);
