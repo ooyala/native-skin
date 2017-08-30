@@ -271,7 +271,11 @@ var DiscoveryPanel = React.createClass({
       <Text style={[panelStyles.panelTitleText]}>
       {title}
       </Text>
-      <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+      <TouchableHighlight accessible={true} accessibilityLabel={BUTTON_NAMES.DISCOVERY}>
+        <View>
+          <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+        </View>
+      </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
       <TouchableHighlight 
         accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"

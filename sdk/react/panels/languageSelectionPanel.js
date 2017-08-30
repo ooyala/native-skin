@@ -131,7 +131,11 @@ var LanguageSelectionPanel = React.createClass({
       <Text style={[panelStyles.panelTitleText]}>
       {title}
       </Text>
-      <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+      <TouchableHighlight accessible={true} accessibilityLabel={BUTTON_NAMES.CLOSED_CAPTIONS}>
+        <View>
+          <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+        </View>
+      </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
       <TouchableHighlight
         accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
