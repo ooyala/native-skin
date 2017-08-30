@@ -266,6 +266,9 @@ var DiscoveryPanel = React.createClass({
     title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
     var panelIcon = this.props.config.icons.discovery.fontString;
 
+    // TO-DO for line (277-280) we can not change accessibility label value for text tags.
+    // This ability is added in latest react native 0.46 onwards
+    // so we can remove this piece of code once we upgrade.
     return (
     <View style={panelStyles.panelTitleView}>
       <Text style={[panelStyles.panelTitleText]}>

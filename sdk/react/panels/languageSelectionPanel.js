@@ -117,7 +117,9 @@ var LanguageSelectionPanel = React.createClass({
     else if (width < fullWidthPanelIcon) {
       panelIcon = "";
     }
-
+    // TO-DO for line (136-140) we can not change accessibility label value for text tags.
+    // This ability is added in latest react native 0.46 onwards
+    // so we can remove this piece of code once we upgrade.
     return (
     <View style={panelStyles.panelTitleView}>
       <ToggleSwitch
