@@ -31,13 +31,14 @@
 #define FULLSCREEN_ANIMATION_DURATION 0.5
 #define FULLSCREEN_ANIMATION_DELAY 0
 
-@interface OOSkinViewController () {
-}
+@interface OOSkinViewController ()
 
 @property (nonatomic) RCTRootView *reactView;
 @property (nonatomic) OOReactBridge *ooBridge;
 
-@property (nonatomic) UIViewController *inlineViewController;
+@property (nonatomic, weak) UIViewController *inlineViewController;
+@property (nonatomic) UIViewController *fullscreenViewController;
+@property (nonatomic) UIViewController *inlineRootViewController;
 @property (nonatomic) UIView * parentView;
 @property (nonatomic) UIView * movieFullScreenView;
 @property (nonatomic) OOUpNextManager *upNextManager;
@@ -116,14 +117,16 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
     MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeForcedOnly);
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplicationDidBecomeActive:)name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
   }
   return self;
 }
 
-- (void)viewDidLoad {
-  [super viewDidLoad];
-  
+- (UIViewController *)fullscreenViewController {
+  if (!_fullscreenViewController) {
+    _fullscreenViewController = [[UIViewController alloc] init];
+  }
+  return _fullscreenViewController;
 }
 
 - (void)disableBuiltInAdLearnMoreButton:(OOOoyalaPlayer *)player {
@@ -251,49 +254,52 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   }
   
   _fullscreen = fullscreen;
-  [self notifyFullScreenChange : _fullscreen];
+  [self notifyFullScreenChange:_fullscreen];
   if (_fullscreen) {
     [self.view removeFromSuperview];
     
     if(self.parentViewController){
       self.inlineViewController = self.parentViewController;
-      [self.inlineViewController presentViewController:[[UIViewController alloc] init] animated:NO completion:nil];
+      [self.inlineViewController presentViewController:self.fullscreenViewController animated:NO completion:nil];
       [self removeFromParentViewController];
     }
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    self.inlineRootViewController = window.rootViewController;
     
-    [_movieFullScreenView setFrame:window.bounds];
+    [self.movieFullScreenView setFrame:window.bounds];
+    self.fullscreenViewController.view = self.movieFullScreenView;
     
-    [window addSubview:_movieFullScreenView];
-    [_movieFullScreenView addSubview:self.view];
+    window.rootViewController = self.fullscreenViewController;
+    [self.fullscreenViewController.view addSubview:self.view];
+    
     [self.view setFrame:window.bounds];
     self.view.alpha = 0.0f;
     
-    if (UIAccessibilityIsVoiceOverRunning()) {
-      [self.inlineViewController dismissViewControllerAnimated:NO completion:nil];
-    }
-    
     [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-      _movieFullScreenView.alpha = 1.f;
+      self.movieFullScreenView.alpha = 1.f;
       self.view.alpha = 1.f;
-    } completion:^(BOOL finished) {
-      
-    }];
+    } completion:nil];
   } else {
-    [_parentView addSubview:self.view];
-    [self.view setFrame:_parentView.bounds];
+    [self.parentView addSubview:self.view];
+    [self.view setFrame:self.parentView.bounds];
     
+    // removes the presented fullscreenViewController
     [self.inlineViewController dismissViewControllerAnimated:NO completion:nil];
+    
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+    window.rootViewController = self.inlineRootViewController;
+    self.inlineRootViewController = nil;
+    
     [self.inlineViewController addChildViewController:self];
     self.inlineViewController = nil;
     
     self.view.alpha = 0.0f;
     
     [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-      _movieFullScreenView.alpha = 0.f;
+      self.movieFullScreenView.alpha = 0.f;
       self.view.alpha = 1.f;
     } completion:^(BOOL finished) {
-      [_movieFullScreenView removeFromSuperview];
+      [self.movieFullScreenView removeFromSuperview];
     }];
   }
   if( wasPlaying ) {
