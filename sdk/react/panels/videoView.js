@@ -118,6 +118,14 @@ var VideoView = React.createClass({
     }
   },
 
+  _placeholderTapHandler: function(event) {
+    if (this.props.screenReaderEnabled) {
+      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
+    } else {
+      this.props.handlers.handleVideoTouch(event);
+    }
+  },
+
   _createOnIcon: function(index, func) {
     return function() {
       func(index);
@@ -158,10 +166,11 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     return (
       <View
+        reactTag={1}
         accessible={true}
-        accessibilityLabel={"Video player"}
+        accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
-        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+        onTouchEnd={(event) => this._placeholderTapHandler(event)}>
       </View>);
   },
 
@@ -356,7 +365,8 @@ var VideoView = React.createClass({
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
-    
+
+    // for renderPlayPause, if the screen reader is enabled, we want to hide the button
     return (
       <View
         accessible={false}
@@ -364,7 +374,7 @@ var VideoView = React.createClass({
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldShowControls)}
+        {this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
         {this._renderLoading()}
