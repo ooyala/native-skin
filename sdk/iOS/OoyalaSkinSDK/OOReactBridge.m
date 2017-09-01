@@ -21,6 +21,7 @@
 #import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
 #import "OOConstant.h"
+#import "NSMutableDictionary+Utils.h"
 
 @interface OOReactBridge()
 @property (nonatomic, weak) OOSkinViewController *controller;
@@ -87,8 +88,40 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [self handleOverlay:[parameters objectForKey:@"clickUrl"]];
     } else if ([buttonName isEqualToString:@"PIP"]) {
       [self handlePip];
+    } else if ([buttonName isEqualToString:@"stereoscopic"]){
+        [self handleStereoscopic];
     }
   });
+}
+
+RCT_EXPORT_METHOD(onTouchEventMove:(NSDictionary *)params) {
+    NSNumber *x = [params objectForKey:@"x_location"];
+    NSNumber *y = [params objectForKey:@"y_location"];
+    
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+    [result mergeWith:@{@"eventName" : @"move"}];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TestNotification" object:result];
+}
+
+RCT_EXPORT_METHOD(onTouchEventEnd:(NSDictionary *)params) {
+    NSNumber *x = [params objectForKey:@"x_location"];
+    NSNumber *y = [params objectForKey:@"y_location"];
+    
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+    [result mergeWith:@{@"eventName" : @"end"}];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TestNotification" object:result];
+}
+
+RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
+    NSNumber *x = [params objectForKey:@"x_location"];
+    NSNumber *y = [params objectForKey:@"y_location"];
+    
+    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+    [result mergeWith:@{@"eventName" : @"start"}];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"TestNotification" object:result];
 }
 
 - (void)handlePip {
@@ -156,6 +189,10 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 
 - (void)handleLanguageSelection:(NSString *)language {
   [self.controller.player setClosedCaptionsLanguage:language];
+}
+
+- (void)handleStereoscopic {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"SwitchScene" object:nil];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {

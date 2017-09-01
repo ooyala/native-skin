@@ -25,6 +25,7 @@
 #import "OOVolumeManager.h"
 #import "OOSkinPlayerObserver.h"
 #import "NSDictionary+Utils.h"
+#import "OOSkinViewController+Internal.h"
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define CC_STYLING_CHANGED_NOTIFICATION @"ccStylingChanged"
@@ -46,6 +47,8 @@
 @property BOOL isReactReady;
 @property OOSkinPlayerObserver *playerObserver;
 @property (nonatomic, strong, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
+
+@property (nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 @end
 
 @implementation OOSkinViewController
@@ -83,6 +86,9 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                               } launchOptions:nil];
 
     _reactView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"OoyalaSkin" initialProperties:_skinConfig];
+    
+    //[self disableReactViewInteraction];
+
 
     _queuedEvents = [NSMutableArray new];
     _parentView = parentView;
@@ -337,7 +343,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)disableReactViewInteraction {
   _reactView.userInteractionEnabled = NO;
-
 }
 - (void)enableReactViewInteraction {
   _reactView.userInteractionEnabled = YES;

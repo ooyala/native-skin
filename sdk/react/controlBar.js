@@ -114,6 +114,10 @@ var ControlBar = React.createClass({
     this.props.onPress && this.props.onPress(BUTTON_NAMES.REWIND);
   },
 
+	onStereoscopicPress: function () {
+		this.props.onPress(BUTTON_NAMES.STEREOSCOPIC);
+	},
+
   render: function() {
 
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
@@ -156,6 +160,12 @@ var ControlBar = React.createClass({
         iconTouchableStyle: styles.iconTouchable,
         durationString: this.getDurationString()
       },
+      stereoscopic: {
+      	onPress: this.onStereoscopicPress,
+				iconTouchableStyle: styles.iconTouchable,
+				style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+				icon: this.props.config.icons.share
+			},
       fullscreen: {
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,

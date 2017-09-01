@@ -160,25 +160,33 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
 /*
  * This could either reset the lastPressedTime, or zero it to force the hide
  */
-OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
+OoyalaSkinCore.prototype.handleVideoEndTouch = function(event) {
+	this.bridge.onTouchEventEnd({"x_location" : event.nativeEvent.locationX, "y_location" : event.nativeEvent.locationY});
   var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
   if (isPastAutoHideTime) {
     this.handleControlsTouch();
   } else {
-    Log.verbose("handleVideoTouch - Time Zeroed");
+    Log.verbose("handleVideoEndTouch - Time Zeroed");
     this.skin.setState({lastPressedTime: new Date(0)})
   }
 }
 
+OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event){
+	this.bridge.onTouchEventMove({"x_location" : event.nativeEvent.locationX, "y_location" : event.nativeEvent.locationY});
+}
+
+OoyalaSkinCore.prototype.handleVideoStartTouch = function(event){
+	this.bridge.onTouchEventStart({"x_location" : event.nativeEvent.locationX, "y_location" : event.nativeEvent.locationY});
+}
 /*
  * Hard reset lastPressedTime, either due to button press or otherwise
  */
 OoyalaSkinCore.prototype.handleControlsTouch = function() {
   if (this.skin.props.controlBar.autoHide === true) {
-    Log.verbose("handleVideoTouch - Time set");
+    Log.verbose("handleVideoEndTouch - Time set");
     this.skin.setState({lastPressedTime: new Date()});
   } else {
-    Log.verbose("handleVideoTouch infinite time");
+    Log.verbose("handleVideoEndTouch infinite time");
     this.skin.setState({lastPressedTime: new Date(MAX_DATE_VALUE)});
   }
 }
