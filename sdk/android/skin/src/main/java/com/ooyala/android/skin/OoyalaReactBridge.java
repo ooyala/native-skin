@@ -44,6 +44,16 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   }
 
   /******** BridgeEventHandler Passthroughs **********/
+
+  @ReactMethod
+  public void onTouchEventEnd(ReadableMap params){}
+
+  @ReactMethod
+  public void onTouchEventMove(ReadableMap params){}
+
+  @ReactMethod
+  public void onTouchEventStart(ReadableMap params){}
+
   @ReactMethod
   public void onMounted() {
     handler.onMounted();
