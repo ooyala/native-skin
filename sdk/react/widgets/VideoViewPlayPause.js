@@ -38,7 +38,7 @@ var VideoViewPlayPause = React.createClass({
     initialPlay: React.PropTypes.bool
   },
 
-  getInitialState: function() {      
+  getInitialState: function() {
     return {
       play: {
         animationScale: new Animated.Value(1),
@@ -146,10 +146,10 @@ var VideoViewPlayPause = React.createClass({
     var size = {position: 'absolute'};
 
     return (
-      
-      <View accessible={true} accessibilityLabel={this.state.play.animationOpacity._value ? "play" : "pause"} accessibilityComponentType="button" 
-         style={[size]}> 
-        <Animated.Text accessible={false} 
+
+      <View accessible={false} 
+         style={[size]}>
+        <Animated.Text accessible={false}
           style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
           {this.props.icons[name].icon}
         </Animated.Text>
@@ -172,9 +172,9 @@ var VideoViewPlayPause = React.createClass({
     if(this.props.style != null) {
       positionStyle = this.props.style;
     }
-    
+
     else if (this.props.position == "center") {
-      
+
       var topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * scaleMultiplier) * 0.5);
       var leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * scaleMultiplier) * 0.5);
 
@@ -184,7 +184,7 @@ var VideoViewPlayPause = React.createClass({
     } else {
       positionStyle = styles[this.props.position];
     }
-    
+
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     var opacity = {opacity: this.state.widget.animationOpacity};
 
@@ -203,7 +203,7 @@ var VideoViewPlayPause = React.createClass({
         sizeStyle.paddingRight = this.props.buttonWidth;
         sizeStyle.height = this.props.buttonHeight * scaleMultiplier;
         sizeStyle.width = this.props.buttonWidth * scaleMultiplier;
-        
+
         return (
           <TouchableHighlight
             onPress={() => this.onPress()}
@@ -222,7 +222,7 @@ var VideoViewPlayPause = React.createClass({
     }
     else{
       return (
-        <TouchableHighlight 
+        <TouchableHighlight
           onPress={() => this.onPress()}
           style={[positionStyle]}
           underlayColor="transparent"

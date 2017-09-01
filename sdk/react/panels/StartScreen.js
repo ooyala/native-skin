@@ -108,16 +108,16 @@ var StartScreen = React.createClass({
       var fullscreen = (this.props.config.startScreen.promoImageSize == 'default');
 
       return (
-        <Image 
+        <Image
           source={{uri: this.props.promoUrl}}
-          style={fullscreen ? 
+          style={fullscreen ?
             {position:'absolute', top:0, left:0, width:this.props.width, height: this.props.height} :
              styles.promoImageSmall}
           resizeMode={Image.resizeMode.contain}>
         </Image>
       );
     }
-    
+
     return null;
   },
 
@@ -125,24 +125,28 @@ var StartScreen = React.createClass({
     var waterMarkImageLocation = styles.waterMarkImageSE;
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-        source={{uri: IMG_URLS.OOYALA_LOGO}} 
+        source={{uri: IMG_URLS.OOYALA_LOGO}}
         resizeMode={Image.resizeMode.contain}>
       </Image>
     );
   },
 
-  render: function() {  
+  render: function() {
     var promoImage = this.getPromoImage();
     var playButton = this.getPlayButton();
     var infoPanel = this.getInfoPanel();
     var waterMarkImage = this.getWaterMark();
- 
+
 
     return (
-     <View style={styles.container}>
+     <View
+     reactTag={1}
+     accessible={true}
+     accessibilityLabel={"Video player. Tap twice to play"}
+     style={styles.container}>
        {promoImage}
        {waterMarkImage}
-       {infoPanel} 
+       {infoPanel}
        {playButton}
       </View>
    );

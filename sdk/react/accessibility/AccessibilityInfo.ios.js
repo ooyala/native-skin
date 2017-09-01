@@ -115,6 +115,15 @@ var AccessibilityInfo = {
   },
 
   /**
+   * iOS-Only. Set accessibility focus to a react component.
+   */
+  setAccessibilityFocus: function(
+    reactTag: number
+  ): void {
+    AccessibilityManager.setAccessibilityFocus(reactTag);
+  },
+
+  /**
    * Remove an event handler.
    */
   removeEventListener: function(

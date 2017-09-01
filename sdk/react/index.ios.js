@@ -75,6 +75,8 @@ var OoyalaSkin = React.createClass({
         screenReaderEnabled: isEnabled
       });
     });
+
+    AccessibilityInfo.setAccessibilityFocus(1);
   },
 
   componentWillUnmount: function() {
