@@ -44,7 +44,8 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'playStarted',              (event) => this.onPlayStarted(event) ],
     [ 'error',                    (event) => this.onError(event) ],
     [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ],
-    [ 'controllerKeyPressEvent',(event) => this.onControllerKeyPressed(event) ]
+    [ 'controllerKeyPressEvent',(event) => this.onControllerKeyPressed(event) ],
+    [ 'vrContent']
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
