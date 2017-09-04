@@ -101,7 +101,7 @@ RCT_EXPORT_METHOD(onTouchEventMove:(NSDictionary *)params) {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
     [result mergeWith:@{@"eventName" : @"move"}];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"TestNotification" object:result];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 RCT_EXPORT_METHOD(onTouchEventEnd:(NSDictionary *)params) {
@@ -111,7 +111,7 @@ RCT_EXPORT_METHOD(onTouchEventEnd:(NSDictionary *)params) {
     NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
     [result mergeWith:@{@"eventName" : @"end"}];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"TestNotification" object:result];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
@@ -121,7 +121,7 @@ RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
     NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
     [result mergeWith:@{@"eventName" : @"start"}];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"TestNotification" object:result];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 - (void)handlePip {
@@ -192,7 +192,7 @@ RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
 }
 
 - (void)handleStereoscopic {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"SwitchScene" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {

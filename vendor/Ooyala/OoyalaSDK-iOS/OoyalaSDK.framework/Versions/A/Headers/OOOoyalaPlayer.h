@@ -321,6 +321,29 @@ extern NSString *const OOOoyalaPlayerBufferingCompletedNotification;
 extern NSString *const OOLiveClosedCaptionsLanguage;
 
 /**
+ *  \memberof OOOoyalaPlayer
+ * 	\brief Notification when we handle vr metatag.
+ * 	\details UserInfo contains "isVR"
+ */
+extern NSString *const OOOoyalaPlayerVideoHasVRContent;
+
+/**
+ * \memberof OOOoyalaPlayer
+ * \brief Notification when video view handle touch
+ * \details Data contains touch coordinates and event name.
+ */
+
+extern NSString *const OOOoyalaPlayerHandleTouchNotification;
+
+
+/**
+ * \memberof OOOoyalaPlayer
+ * \brief Notification when pressed switch between stereo and mono
+ * \details No additional data provided.
+ */
+
+extern NSString *const OOOoyalaPlayerSwitchSceneNotification;
+/**
  * The OoyalaPlayer is the heart of the playback system.
  * Use it to configure and control asset playback, and to be aware of playback state changes.
 * \ingroup key
