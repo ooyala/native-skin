@@ -65,6 +65,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdOverlayNotification:) name:OOOoyalaPlayerAdOverlayNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekStartedNotification:) name:OOOoyalaPlayerSeekStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekCompletedNotification:) name:OOOoyalaPlayerSeekCompletedNotification object:self.player];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasVRContentNotification:) name:OOOoyalaPlayerVideoHasVRContent object:self.player];
     
   }
 }
@@ -335,6 +336,11 @@
 
 - (void) bridgeEmbedCodeNotification:(NSNotification *)notification {
   [self.viewController sendBridgeEventWithName:notification.name body:nil];
+}
+
+- (void) bridgeHasVRContentNotification:(NSNotification *)notification{
+	NSDictionary *userInfo = notification.userInfo;
+	[self.viewController sendBridgeEventWithName:notification.name body:userInfo];
 }
 
 - (void)dealloc {
