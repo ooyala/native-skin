@@ -96,6 +96,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
+      vrContent={this.skin.state.vrContent}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
         onAdOverlay: (value)=>this.core.handleAdOverlayPress(value),

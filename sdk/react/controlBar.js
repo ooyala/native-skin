@@ -49,6 +49,7 @@ var ControlBar = React.createClass({
     handleControlsTouch: React.PropTypes.func.isRequired,
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
+    vrContent: React.PropTypes.bool.isRequired,
   },
 
   getDefaultProps: function() {
@@ -214,12 +215,21 @@ var ControlBar = React.createClass({
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
 
-    for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
+    for (var i = 0; i < itemCollapsingResults.fit.length; i++) {
       var widget = itemCollapsingResults.fit[i];
-      controlBarWidgets.push(<ControlBarWidget
-        key={i}
-        widgetType={widget}
-        options={widgetOptions}/>);
+      if (widget.name === "stereoscopic") {
+        if (this.props.vrContent) {
+          controlBarWidgets.push(<ControlBarWidget
+            key={i}
+            widgetType={widget}
+            options={widgetOptions}/>);
+        }
+      } else {
+        controlBarWidgets.push(<ControlBarWidget
+          key={i}
+          widgetType={widget}
+          options={widgetOptions}/>);
+      }
     }
 
     var widthStyle = {width:this.props.width};
