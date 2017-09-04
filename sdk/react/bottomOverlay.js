@@ -234,7 +234,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       handleControlsTouch={this.props.handleControlsTouch}
       showWatermark={this.props.showWatermark}
       config={this.props.config}
-			vrContent={this.props.vrContent} />);
+      vrContent={this.props.vrContent}/>);
   },
 
   playedPercent: function(playhead, duration) {

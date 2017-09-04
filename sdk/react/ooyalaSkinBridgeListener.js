@@ -265,14 +265,9 @@ OoyalaSkinBridgeListener.prototype.onControllerKeyPressed = function(e) {
 };
 
 OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
-	Log.log("VR Content notification received with event: " + e);
-	for(let key in e) {
-		const value = e[key];
-		Log.log("VR Content notification has key: " + key + " and value: " + value);
-	}
   this.skin.setState({
-		vrContent: e.vrContent
-	})
+    vrContent: e.vrContent
+  })
 };
 
 module.exports = OoyalaSkinBridgeListener;
