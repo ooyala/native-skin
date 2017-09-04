@@ -76,7 +76,8 @@ var OoyalaSkin = React.createClass({
       });
     });
 
-    AccessibilityInfo.setAccessibilityFocus(1);
+    // TODO: Figure out how to add setAccessibilityFocus method from the ObjC side
+    // AccessibilityInfo.setAccessibilityFocus(1);
   },
 
   componentWillUnmount: function() {
