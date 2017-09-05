@@ -55,7 +55,9 @@ RCT_EXPORT_METHOD(onMounted) {
 }
 
 RCT_EXPORT_METHOD(onLanguageSelected:(NSDictionary *)parameters) {
-  [self handleLanguageSelection:[parameters objectForKey:@"language"]];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self handleLanguageSelection:[parameters objectForKey:@"language"]];
+  });
 }
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
