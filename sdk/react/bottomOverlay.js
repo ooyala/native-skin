@@ -134,7 +134,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     var scrubberStyle = this._customizeScrubber();
 
     return (
-      <View accessible={true} accessibilityLabel={STRING_CONSTANTS.VIDEO_SEEK_SCRUBBER} style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
+      <View style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
       </View>
       );
   },
@@ -280,13 +280,13 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
 
   handleTouchEnd: function(event) {
     this.props.handleControlsTouch();
-    if (this.isMounted()) {
-      if (this.state.touch && this.props.onScrub) {
+     if (this.isMounted()) {
+       if (this.state.touch && this.props.onScrub) {
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
         this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
-      } 
-    }
-    this.setState({touch:false, x:null}); 
+       }
+     }
+     this.setState({touch:false, x:null});
   },
 
   renderDefault: function(widthStyle) {

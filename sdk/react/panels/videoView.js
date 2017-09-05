@@ -125,6 +125,14 @@ var VideoView = React.createClass({
     }
   },
 
+  _placeholderTapHandler: function(event) {
+    if (this.props.screenReaderEnabled) {
+      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
+    } else {
+      this.props.handlers.handleVideoTouch(event);
+    }
+  },
+
   _createOnIcon: function(index, func) {
     return function() {
       func(index);
@@ -166,8 +174,11 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     return (
       <View
+        reactTag={1}
+        accessible={true}
+        accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
-        onTouchEnd={(event) => this.props.handlers.handleVideoEndTouch(event)}
+        onTouchEnd={(event) => this._placeholderTapHandler(event)}
         onTouchMove={(event) => this.props.handlers.handleVideoMoveTouch(event)}
         onTouchStart={(event) => this.props.handlers.handleVideoStartTouch(event)}
 				onTouchCancel={(event) => this.props.handlers.handleVideoEndTouch(event)}
@@ -307,6 +318,7 @@ var VideoView = React.createClass({
 
     return (
       <View
+        accesible={false}
         style={{height:height, width:width}}>
         <TouchableHighlight
           style={{left: left, bottom: 10, width:width, height:height}}
@@ -364,15 +376,17 @@ var VideoView = React.createClass({
 
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    var shouldShowControls = !isPastAutoHideTime;
+    var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
 
+    // for renderPlayPause, if the screen reader is enabled, we want to hide the button
     return (
       <View
+        accessible={false}
         style={styles.container}>
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldShowControls)}
+        {this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
         {this._renderLoading()}

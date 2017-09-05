@@ -29,6 +29,7 @@ var {
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance;
+var AccessibilityInfo = require("./accessibility/AccessibilityInfo");
 
 var OoyalaSkin = React.createClass({
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -60,9 +61,10 @@ var OoyalaSkin = React.createClass({
       alertMessage: '',
       error: null,
       platform:PLATFORMS.ANDROID,
+      screenReaderEnabled: false,
     };
   },
-  
+
   componentWillMount: function() {
     OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
     OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
@@ -73,10 +75,31 @@ var OoyalaSkin = React.createClass({
     BackAndroid.addEventListener('hardwareBackPress', function () {
       return OoyalaSkinCoreInstance.onBackPressed();
     });
+
+    AccessibilityInfo.addEventListener(
+      'change',
+      this._handleScreenReaderToggled
+    );
+    AccessibilityInfo.fetch().done((isEnabled) => {
+      this.setState({
+        screenReaderEnabled: isEnabled
+      });
+    });
   },
 
   componentWillUnmount: function() {
     OoyalaSkinCoreInstance.unmount();
+
+    AccessibilityInfo.removeEventListener(
+      'change',
+      this._handleScreenReaderToggled
+    );
+  },
+
+  _handleScreenReaderToggled: function(isEnabled) {
+    this.setState({
+      screenReaderEnabled: isEnabled
+    });
   },
 
   renderLoadingScreen: function() {
@@ -85,14 +108,14 @@ var OoyalaSkin = React.createClass({
         style={styles.loading}
         size="large"
       />
-    );     
+    );
   },
 
   renderVideoView: function() {
     return (
       <View style={styles.container}>
           <Text>{this.state.playerState}</Text>
-      </View>); 
+      </View>);
   },
 
   render: function() {
