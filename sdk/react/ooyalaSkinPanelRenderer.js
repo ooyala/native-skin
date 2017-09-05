@@ -27,7 +27,6 @@ var LanguageSelectionPanel = require('./panels/languageSelectionPanel');
 var AdPlaybackScreen = require('./panels/adPlaybackScreen')
 
 var OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
-  Log.log("OoyalaSkinPanelRenderer Created");
   this.skin = ooyalaSkin;
   this.core = ooyalaCore;
 };
@@ -97,12 +96,15 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
+      vrContent={this.skin.state.vrContent}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
         onAdOverlay: (value)=>this.core.handleAdOverlayPress(value),
         onAdOverlayDismiss: () => this.core.handleAdOverlayDismiss(),
         onScrub: (value) => this.core.handleScrub(value),
-        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleVideoEndTouch: (event) => this.core.handleVideoEndTouch(event),
+				handleVideoMoveTouch: (event) => this.core.handleVideoMoveTouch(event),
+				handleVideoStartTouch: (event) => this.core.handleVideoStartTouch(event),
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
@@ -159,7 +161,7 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
         onPress: (value) => this.core.handlePress(value),
         onIcon: (value)=>this.core.handleIconPress(value),
         onScrub: (value) => this.core.handleScrub(value),
-        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleVideoEndTouch: (event) => this.core.handleVideoEndTouch(event),
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}

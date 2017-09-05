@@ -54,7 +54,7 @@ var AdPlaybackScreen = React.createClass({
       onPress: React.PropTypes.func,
       onIcon: React.PropTypes.func,
       onScrub: React.PropTypes.func,
-      handleVideoTouch: React.PropTypes.func,
+      handleVideoEndTouch: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
@@ -161,7 +161,7 @@ var AdPlaybackScreen = React.createClass({
     return (
       <View
         style={styles.placeholder}
-        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+        onTouchEnd={(event) => this.props.handlers.handleVideoEndTouch(event)}>
         {adIcons}
       </View>);
   },
@@ -205,7 +205,7 @@ var AdPlaybackScreen = React.createClass({
   },
 
   handleTouchEnd: function(event) {
-    this.props.handlers.handleVideoTouch();
+    this.props.handlers.handleVideoEndTouch();
   },
 
   _renderAdIcons: function() {

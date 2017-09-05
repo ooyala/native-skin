@@ -31,6 +31,10 @@ var autohideDelay = 5000;
 var panelStyles = require('./style/panelStyles.json');
 
 var {
+	PanResponder
+} = React;
+
+var {
   BUTTON_NAMES,
   PLATFORMS,
   IMG_URLS,
@@ -52,12 +56,15 @@ var VideoView = React.createClass({
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
+    vrContent: React.PropTypes.bool,
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,
       onAdOverlay: React.PropTypes.func,
       onAdOverlayDismiss: React.PropTypes.func,
       onScrub: React.PropTypes.func,
-      handleVideoTouch: React.PropTypes.func,
+      handleVideoEndTouch: React.PropTypes.func,
+			handleVideoMoveTouch: React.PropTypes.func,
+			handleVideoStartTouch: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
@@ -160,7 +167,8 @@ var VideoView = React.createClass({
         icons: this.props.config.icons,
         live: this.props.config.live,
         general: this.props.config.general
-      }} />);
+      }}
+      vrContent={this.props.vrContent}/>);
   },
 
   _renderPlaceholder: function() {
@@ -170,21 +178,25 @@ var VideoView = React.createClass({
         accessible={true}
         accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
-        onTouchEnd={(event) => this._placeholderTapHandler(event)}>
+        onTouchEnd={(event) => this._placeholderTapHandler(event)}
+        onTouchMove={(event) => this.props.handlers.handleVideoMoveTouch(event)}
+        onTouchStart={(event) => this.props.handlers.handleVideoStartTouch(event)}
+				onTouchCancel={(event) => this.props.handlers.handleVideoEndTouch(event)}
+			>
       </View>);
   },
 
   _renderBottom: function() {
     var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
     var waterMarkName;
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+    if(this.props.platform === Constants.PLATFORMS.ANDROID) {
       waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
     }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
-    }
+		if (this.props.platform === Constants.PLATFORMS.IOS) {
+	waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
+}
 
-    if (waterMarkName) {
+		if (waterMarkName) {
       var watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
     }
 
@@ -209,7 +221,7 @@ var VideoView = React.createClass({
       return (
         <View
           style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
-          onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+          onTouchEnd={(event) => this.props.handlers.handleVideoEndTouch(event)}>
           <View
             style={[{backgroundColor:this.props.captionStyles.backgroundColor}]}>
             <Text style={[panelStyles.closedCaptions, ccStyle]}>
@@ -355,7 +367,7 @@ var VideoView = React.createClass({
   },
 
   handleTouchEnd: function(event) {
-    this.props.handlers.handleVideoTouch();
+    this.props.handlers.handleVideoEndTouch();
   },
 
   handleOverlayClick: function() {

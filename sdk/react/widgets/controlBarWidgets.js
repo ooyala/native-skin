@@ -177,7 +177,8 @@ var controlBarWidget = React.createClass({
       "share": this.shareWidget,
       "closedCaption": this.closedCaptionWidget,
       "bitrateSelector": this.bitrateSelectorWidget,
-      "live": this.liveWidget
+      "live": this.liveWidget,
+      "stereoscopic": this.moreOptionsWidget
     };
     if( this.props.widgetType.name in widgetsMap ) {
       var widgetOptions = this.props.options[this.props.widgetType.name];

@@ -9,7 +9,7 @@ var {
   LOG_LEVEL,
 } = Constants;
 
-var level = LOG_LEVEL.INFO;
+var level = LOG_LEVEL.VERBOSE;
 
 var Log = {
   setLogLevel: function(l){

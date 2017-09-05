@@ -1,4 +1,4 @@
-package com.ooyala.android.skin.util;
+package com.ooyala.android.skin.fullscreenutils;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -13,17 +14,22 @@ import android.widget.FrameLayout;
 
 import com.ooyala.android.skin.OoyalaSkinLayout;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+
 /**
  * RecyclerViewFullScreenManager is a class developed to support a full screen mode with RecyclerView
  */
 
 public class RecyclerViewFullScreenManager {
+
+	private static final String TAG = RecyclerViewFullScreenManager.class.getName();
 	private static final int ANIMATION_DURATION = 300;
 
 	private FrameLayout expandedLayout;
-	private FrameLayout currentParentLayout;
+	private FrameLayout currentPlayerLayout;
+	private ViewGroup playerParentLayout;
 	private Animator currentAnimator;
-	private OoyalaSkinLayout currentPlayerLayout;
+	private ViewGroup.LayoutParams savedParams;
 
 	public RecyclerViewFullScreenManager(FrameLayout expandedLayout) {
 		this.expandedLayout = expandedLayout;
@@ -56,6 +62,7 @@ public class RecyclerViewFullScreenManager {
 		set.setDuration(ANIMATION_DURATION);
 		set.setInterpolator(new DecelerateInterpolator());
 		set.addListener(new AnimatorListenerAdapter() {
+
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				cancelAnimation();
@@ -72,6 +79,7 @@ public class RecyclerViewFullScreenManager {
 	}
 
 	public void expandPlayerLayout(OoyalaSkinLayout playerLayout) throws RuntimeException{
+		Log.d(TAG, "Called expand layout function");
 		if (expandedLayout.getVisibility() != View.INVISIBLE) {
 			return;
 		}
@@ -88,10 +96,16 @@ public class RecyclerViewFullScreenManager {
 			throw new RuntimeException("Player layout should be contained in FrameLayout");
 		}
 
-		currentPlayerLayout = playerLayout;
-		currentParentLayout = (FrameLayout) playerLayout.getParent();
-		currentParentLayout.removeView(playerLayout);
-		expandedLayout.addView(playerLayout);
+		currentPlayerLayout = (FrameLayout) playerLayout.getParent();
+		playerParentLayout = (ViewGroup) currentPlayerLayout.getParent();
+		((ViewGroup) currentPlayerLayout.getParent()).removeView(currentPlayerLayout);
+		savedParams = currentPlayerLayout.getLayoutParams();
+		expandedLayout.addView(currentPlayerLayout);
+
+		ViewGroup.LayoutParams params = currentPlayerLayout.getLayoutParams();
+		params.height = MATCH_PARENT;
+		params.width = MATCH_PARENT;
+		currentPlayerLayout.setLayoutParams(params);
 
 		final Point globalOffset = new Point();
 		final Rect startBounds = new Rect();
@@ -121,6 +135,12 @@ public class RecyclerViewFullScreenManager {
 		set.setDuration(ANIMATION_DURATION);
 		set.setInterpolator(new DecelerateInterpolator());
 		set.addListener(new AnimatorListenerAdapter() {
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				super.onAnimationStart(animation);
+			}
+
 			@Override
 			public void onAnimationEnd(Animator animation) {
 				currentAnimator = null;
@@ -174,11 +194,12 @@ public class RecyclerViewFullScreenManager {
 	}
 
 	private void cancelAnimation() {
-		if (currentParentLayout != null && currentPlayerLayout.getParent() == expandedLayout) {
+		if (currentPlayerLayout != null && currentPlayerLayout.getParent() == expandedLayout) {
 			expandedLayout.removeAllViews();
 			expandedLayout.setVisibility(View.INVISIBLE);
 
-			currentParentLayout.addView(currentPlayerLayout);
+			playerParentLayout.addView(currentPlayerLayout);
+			currentPlayerLayout.setLayoutParams(savedParams);
 
 			currentPlayerLayout.setVisibility(View.VISIBLE);
 			currentPlayerLayout.setAlpha(1f);
