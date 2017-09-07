@@ -46,6 +46,7 @@ OoyalaSkinPanelRenderer.prototype.renderStartScreen = function() {
       height={this.skin.state.height}
       platform={this.skin.state.platform}
       playhead={this.skin.state.playhead}
+      screenReaderEnabled={this.skin.state.screenReaderEnabled}
       onPress={(name) => this.core.handlePress(name)}/>
   );
 };

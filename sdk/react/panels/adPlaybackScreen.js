@@ -58,6 +58,7 @@ var AdPlaybackScreen = React.createClass({
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
+    screenReaderEnabled: React.PropTypes.bool,
     showWatermark: React.PropTypes.bool,
     config: React.PropTypes.object,
     nextVideo: React.PropTypes.object,
