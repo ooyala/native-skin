@@ -61,6 +61,7 @@ var VideoView = React.createClass({
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
+    screenReaderEnabled: React.PropTypes.bool,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     caption: React.PropTypes.string,
