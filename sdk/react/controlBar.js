@@ -165,7 +165,7 @@ var ControlBar = React.createClass({
       	onPress: this.onStereoscopicPress,
 				iconTouchableStyle: styles.iconTouchable,
 				style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-				icon: this.props.config.icons.share
+				icon: this.props.config.icons.stereoscopic
 			},
       fullscreen: {
         onPress: this.onFullscreenPress,
