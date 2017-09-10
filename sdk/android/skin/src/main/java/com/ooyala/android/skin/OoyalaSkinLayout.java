@@ -1,6 +1,8 @@
 package com.ooyala.android.skin;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -17,10 +19,13 @@ public class OoyalaSkinLayout extends FrameLayout {
   private FrameLayout _playerFrame;
 
   private int viewWidth,viewHeight,prevWidth,prevHeight;
+  private int sourceWidth;
+  private int sourceHeight;
   private FrameChangeCallback frameChangeCallback;
 
   private WindowManager windowManager;
   private boolean fullscreen = false;
+  private int screenOrientation;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
@@ -143,9 +148,12 @@ public class OoyalaSkinLayout extends FrameLayout {
         return;
     }
 
-    this.fullscreen = fullscreen;
-    if(fullscreen) {
+    boolean changed = this.fullscreen != fullscreen;
 
+    this.fullscreen = fullscreen;
+
+    Context context = getContext();
+    if (fullscreen) {
       DisplayMetrics displayMetrics = new DisplayMetrics();
       if (SDK_INT >= JELLY_BEAN_MR1) {
         windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
@@ -155,13 +163,32 @@ public class OoyalaSkinLayout extends FrameLayout {
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
       }
 
+      if (context instanceof Activity) {
+        Activity activity = (Activity) getContext();
+        if (changed) {
+          screenOrientation = activity.getRequestedOrientation();
+        }
+        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+      }
+
+      // Store the source size of the layout
+      if (changed) {
+        sourceWidth = getLayoutParams().width;
+        sourceHeight = getLayoutParams().height;
+      }
+
       getLayoutParams().width = displayMetrics.widthPixels;
       getLayoutParams().height = displayMetrics.heightPixels;
       bringToFront();
     } else {
-      // found out that setting width and height to -1 will reset them to the original values
-      getLayoutParams().width = -1;
-      getLayoutParams().height = -1;
+      // Restore the width and height of the skin layout
+      getLayoutParams().width = sourceWidth;
+      getLayoutParams().height = sourceHeight;
+
+      if (context instanceof Activity) {
+        Activity activity = (Activity) getContext();
+        activity.setRequestedOrientation(screenOrientation);
+      }
     }
     toggleSystemUI(fullscreen);
   }
