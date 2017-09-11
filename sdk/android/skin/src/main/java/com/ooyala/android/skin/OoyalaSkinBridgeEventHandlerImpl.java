@@ -29,6 +29,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_SKIP = "Skip";
   private static final String BUTTON_ADICON = "Icon";
   private static final String BUTTON_ADOVERLAY = "Overlay";
+  private static final String BUTTON_STEREOSCOPIC = "stereoscopic";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -76,6 +77,8 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
           } else if (buttonName.equals(BUTTON_ADOVERLAY)) {
             String clickUrl = parameters.getString("clickUrl");
             _player.onAdOverlayClicked(clickUrl);
+          } else if (buttonName.equals(BUTTON_STEREOSCOPIC)) {
+            _player.switchVRMode();
           }
         }
       });
