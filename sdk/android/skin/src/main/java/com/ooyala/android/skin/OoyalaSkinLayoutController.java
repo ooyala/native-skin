@@ -14,23 +14,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.facebook.react.common.LifecycleState;
-import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
-import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
+import com.ooyala.android.player.vrexoplayer.glvideoview.effects.ImmersiveEffect;
 import com.ooyala.android.skin.configuration.SkinOptions;
+import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.skin.util.SkinConfigUtil;
 import com.ooyala.android.ui.LayoutController;
@@ -45,8 +46,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
-import java.util.Observer;
-
 
 /**
  * The OoyalaSkinLayoutController is the primary class of the Ooyala Skin SDK
@@ -324,6 +323,12 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public void setFullscreen(boolean isFullscreen) {
+
+    // The full screen button disables STEREO mode
+    if (_player.getVRMode() == ImmersiveEffect.Mode.STEREO && !isFullscreen) {
+      _player.setVRMode(ImmersiveEffect.Mode.MONO);
+    }
+
     _layout.setFullscreen(isFullscreen);
     sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
   }

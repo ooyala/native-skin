@@ -162,6 +162,14 @@ var controlBarWidget = React.createClass({
     // TODO implement
     return null;
   },
+
+  stereoscopicWidget: function(options){
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    let fontString = options.icon.fontString;
+    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      <Text style={[options.style, fontFamilyStyle]}>{fontString}</Text>
+    </TouchableHighlight>);
+  },
   render: function() {
 
     var widgetsMap = {
@@ -178,7 +186,7 @@ var controlBarWidget = React.createClass({
       "closedCaption": this.closedCaptionWidget,
       "bitrateSelector": this.bitrateSelectorWidget,
       "live": this.liveWidget,
-      "stereoscopic": this.moreOptionsWidget
+      "stereoscopic": this.stereoscopicWidget
     };
     if( this.props.widgetType.name in widgetsMap ) {
       var widgetOptions = this.props.options[this.props.widgetType.name];
