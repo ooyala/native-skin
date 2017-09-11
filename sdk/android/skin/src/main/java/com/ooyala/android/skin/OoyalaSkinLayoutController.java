@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -112,6 +113,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   private List<Pair<String, WritableMap>> queuedEvents;
   private boolean isReactMounted;
+  private int screenOrientation;
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
    *
@@ -329,8 +331,25 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       _player.setVRMode(ImmersiveEffect.Mode.MONO);
     }
 
+    // Store the screen orientation
+    storeScreenOrientation(isFullscreen);
+
     _layout.setFullscreen(isFullscreen);
     sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
+  }
+
+  private void storeScreenOrientation(boolean isFullscreen) {
+    boolean changed = isFullscreen() != isFullscreen;
+    Context context = getLayout().getContext();
+
+    if (isFullscreen) {
+      if (context instanceof Activity) {
+        Activity activity = (Activity) context;
+        if (changed) {
+          screenOrientation = activity.getRequestedOrientation();
+        }
+      }
+    }
   }
 
   void sendNotification(String notificationName) {
@@ -405,6 +424,24 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   public void setFullscreenButtonShowing(boolean showing) {
 
+  }
+
+  @Override
+  public void switchVRMode(ImmersiveEffect.Mode mode) {
+    Context context = getLayout().getContext();
+    if (context instanceof Activity) {
+      Activity activity = (Activity) context;
+      switch (mode) {
+        case MONO:
+          // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
+          activity.setRequestedOrientation(screenOrientation);
+          break;
+        case STEREO:
+          // Set up landscape orientation for STEREO mode
+          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+          break;
+      }
+    }
   }
 
   /****** End LayoutController **********/
