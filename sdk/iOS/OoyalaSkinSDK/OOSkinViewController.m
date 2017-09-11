@@ -87,9 +87,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                               } launchOptions:nil];
 
     _reactView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"OoyalaSkin" initialProperties:_skinConfig];
-    
-    //[self disableReactViewInteraction];
-
 
     _queuedEvents = [NSMutableArray new];
     _parentView = parentView;

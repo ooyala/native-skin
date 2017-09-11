@@ -125,12 +125,10 @@ task copyLibs(type: Copy) {
 tasks.copyLibs.execute()
 
 dependencies {
-   // compile files('libs/OoyalaSDK.jar')
-    compile project(':core')
+    compile files('libs/OoyalaSDK.jar')
+    //compile project(':core')
     compile 'com.android.support:appcompat-v7:25.4.0'
     compile 'com.android.support:recyclerview-v7:25.4.0'
-//    compile files('libs/OoyalaSDK.jar')
-    compile project(':core')
     compile 'com.facebook.fresco:fresco:0.11.0'
     compile 'com.facebook.fresco:imagepipeline-okhttp3:0.11.0'
     compile 'com.facebook.stetho:stetho:1.2.0'
