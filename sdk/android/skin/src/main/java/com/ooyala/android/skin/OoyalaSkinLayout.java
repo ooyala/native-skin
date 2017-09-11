@@ -1,8 +1,6 @@
 package com.ooyala.android.skin;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -25,7 +23,6 @@ public class OoyalaSkinLayout extends FrameLayout {
 
   private WindowManager windowManager;
   private boolean fullscreen = false;
-  private int screenOrientation;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
@@ -152,7 +149,6 @@ public class OoyalaSkinLayout extends FrameLayout {
 
     this.fullscreen = fullscreen;
 
-    Context context = getContext();
     if (fullscreen) {
       DisplayMetrics displayMetrics = new DisplayMetrics();
       if (SDK_INT >= JELLY_BEAN_MR1) {
@@ -161,14 +157,6 @@ public class OoyalaSkinLayout extends FrameLayout {
         //TODO: Android 16 and below will show a poor fullscreen experience right now
         // It will not fill the screen where the navigation bar is supposed to be
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-      }
-
-      if (context instanceof Activity) {
-        Activity activity = (Activity) getContext();
-        if (changed) {
-          screenOrientation = activity.getRequestedOrientation();
-        }
-        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
       }
 
       // Store the source size of the layout
@@ -184,11 +172,6 @@ public class OoyalaSkinLayout extends FrameLayout {
       // Restore the width and height of the skin layout
       getLayoutParams().width = sourceWidth;
       getLayoutParams().height = sourceHeight;
-
-      if (context instanceof Activity) {
-        Activity activity = (Activity) getContext();
-        activity.setRequestedOrientation(screenOrientation);
-      }
     }
     toggleSystemUI(fullscreen);
   }
