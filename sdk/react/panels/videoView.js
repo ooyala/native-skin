@@ -155,6 +155,7 @@ var VideoView = React.createClass({
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={show}
+      screenReaderEnabled={this.props.screenReaderEnabled}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
