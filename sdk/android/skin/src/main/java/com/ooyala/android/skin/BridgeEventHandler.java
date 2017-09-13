@@ -22,4 +22,11 @@ public interface BridgeEventHandler {
 
   void onLanguageSelected(ReadableMap parameters);
 
+  void onTouchEventEnd(ReadableMap params);
+
+  void onTouchEventMove(ReadableMap params);
+
+  void onTouchEventStart(ReadableMap params);
+
+
 }

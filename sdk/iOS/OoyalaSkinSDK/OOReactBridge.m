@@ -89,7 +89,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     } else if ([buttonName isEqualToString:@"PIP"]) {
       [self handlePip];
     } else if ([buttonName isEqualToString:@"stereoscopic"]){
-        [self handleStereoscopic];
+      [self handleStereoscopic];
     }
   });
 }
@@ -192,7 +192,8 @@ RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
 }
 
 - (void)handleStereoscopic {
-    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+  [self.controller toggleFullscreen];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {

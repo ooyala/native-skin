@@ -25,6 +25,9 @@ var {
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE,
 } = Constants;
+
+var ClickRadius = 20;
+var startedClickX, startedClickY;
 var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
 var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
 
@@ -160,24 +163,67 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
 /*
  * This could either reset the lastPressedTime, or zero it to force the hide
  */
-OoyalaSkinCore.prototype.handleVideoEndTouch = function(event) {
-	this.bridge.onTouchEventEnd({"x_location" : event.nativeEvent.locationX, "y_location" : event.nativeEvent.locationY});
-  var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
-  if (isPastAutoHideTime) {
-    this.handleControlsTouch();
+OoyalaSkinCore.prototype.handleVideoEndTouch = function(event, gestureState) {
+  if (this.skin.state.vrContent) {
+    if (isClick(event.nativeEvent.pageX, event.nativeEvent.pageY)){
+      showControls.call(this);
+    }
+    Log.verbose("Touch end gesture have keys: " + gestureState);
+    this.bridge.onTouchEventEnd({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "dx": gestureState.dx,
+      "dy": gestureState.dy,
+      "vx": gestureState.vx,
+      "vy": gestureState.vy
+    });
   } else {
-    Log.verbose("handleVideoEndTouch - Time Zeroed");
-    this.skin.setState({lastPressedTime: new Date(0)})
+    showControls.call(this);
   }
-}
 
-OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event){
-	this.bridge.onTouchEventMove({"x_location" : event.nativeEvent.locationX, "y_location" : event.nativeEvent.locationY});
-}
+  function showControls() {
+    var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
+    if (isPastAutoHideTime) {
+      this.handleControlsTouch();
+    } else {
+      Log.verbose("handleVideoEndTouch - Time Zeroed");
+      this.skin.setState({lastPressedTime: new Date(0)})
+    }
+  }
 
-OoyalaSkinCore.prototype.handleVideoStartTouch = function(event){
-	this.bridge.onTouchEventStart({"x_location" : event.nativeEvent.locationX, "y_location" : event.nativeEvent.locationY});
-}
+  showControls.call(this);
+},
+
+OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event, gestureState){
+  if (this.skin.state.vrContent) {
+    this.bridge.onTouchEventMove({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "dx": gestureState.dx,
+      "dy": gestureState.dy,
+      "vx": gestureState.vx,
+      "vy": gestureState.vy
+    });
+  }
+},
+
+OoyalaSkinCore.prototype.handleVideoStartTouch = function(event, gestureState){
+  if (this.skin.state.vrContent) {
+    startedClickX = event.nativeEvent.pageX;
+    startedClickY = event.nativeEvent.pageY;
+    this.bridge.onTouchEventStart({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "dx": gestureState.dx,
+      "dy": gestureState.dy,
+      "vx": gestureState.vx,
+      "vy": gestureState.vy
+    });
+  }
+},
 /*
  * Hard reset lastPressedTime, either due to button press or otherwise
  */
@@ -189,7 +235,7 @@ OoyalaSkinCore.prototype.handleControlsTouch = function() {
     Log.verbose("handleVideoEndTouch infinite time");
     this.skin.setState({lastPressedTime: new Date(MAX_DATE_VALUE)});
   }
-}
+},
 
 OoyalaSkinCore.prototype.pushToOverlayStackAndMaybePause = function(overlay) {
   if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {
@@ -229,5 +275,9 @@ OoyalaSkinCore.prototype.renderScreen = function() {
   }
 
   return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.inAdPod, this.skin.state.screenType);
+}
+
+function isClick(endX, endY) {
+  return Math.sqrt( (endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endX - startedClickX)) < ClickRadius;
 }
 module.exports = OoyalaSkinCore;
