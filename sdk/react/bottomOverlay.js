@@ -206,9 +206,9 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     // increase or decrease playhead by X seconds
     var newPlayhead = this.props.playhead - value;
     if (newPlayhead >= 0) {
-      newPlayhead = this.props.playhead - VALUES.SEEK_BACKWARD;
+      newPlayhead = this.props.playhead - VALUES.SEEK_VALUE;
     } else {
-      newPlayhead = this.props.playhead + VALUES.SEEK_FORWARD;
+      newPlayhead = this.props.playhead + VALUES.SEEK_VALUE;
     }
 
     var seekPercent = this.playedPercent(newPlayhead, this.props.duration);
