@@ -21,7 +21,8 @@ var {
   IMG_URLS,
   UI_SIZES,
   STRING_CONSTANTS,
-  PLATFORMS
+  PLATFORMS,
+  VALUES,
 } = Constants;
 
 var Log = require('./log');
@@ -187,7 +188,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
           maximumTrackTintColor={maximumTrackTintColor}
           value={this.props.playhead}
           maximumValue={this.props.duration}
-          step={5}
+          step={1.0}
           onValueChange={this._onValueChange} />
       );
     } else {
@@ -202,7 +203,15 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
   },
 
   _onValueChange: function(value) {
-    var seekPercent = this.playedPercent(value, this.props.duration);
+    // increase or decrease playhead by X seconds
+    var newPlayhead = this.props.playhead - value;
+    if (newPlayhead >= 0) {
+      newPlayhead = this.props.playhead - VALUES.SEEK_VALUE;
+    } else {
+      newPlayhead = this.props.playhead + VALUES.SEEK_VALUE;
+    }
+
+    var seekPercent = this.playedPercent(newPlayhead, this.props.duration);
     this.props.onScrub(seekPercent);
   },
 
