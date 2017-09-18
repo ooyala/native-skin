@@ -192,8 +192,7 @@ RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
 }
 
 - (void)handleStereoscopic {
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
-  [self.controller toggleFullscreen];
+    [self.controller toggleStereoMode];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
