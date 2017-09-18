@@ -10,6 +10,6 @@
 
 @interface OOSkinFullScreenViewController : UIViewController
 
-@property (nonatomic) BOOL isStereoMode;
+@property(nonatomic) BOOL isStereoMode;
 
 @end
