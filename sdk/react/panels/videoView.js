@@ -69,6 +69,7 @@ var VideoView = React.createClass({
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
+    screenReaderEnabled: React.PropTypes.bool,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     caption: React.PropTypes.string,
@@ -194,6 +195,7 @@ var VideoView = React.createClass({
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={show}
+      screenReaderEnabled={this.props.screenReaderEnabled}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
