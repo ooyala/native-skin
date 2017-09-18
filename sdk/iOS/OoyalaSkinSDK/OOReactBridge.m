@@ -99,30 +99,30 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 RCT_EXPORT_METHOD(onTouchEventMove:(NSDictionary *)params) {
     NSNumber *x = [params objectForKey:@"x_location"];
     NSNumber *y = [params objectForKey:@"y_location"];
-    
+
     NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
     [result mergeWith:@{@"eventName" : @"move"}];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 RCT_EXPORT_METHOD(onTouchEventEnd:(NSDictionary *)params) {
     NSNumber *x = [params objectForKey:@"x_location"];
     NSNumber *y = [params objectForKey:@"y_location"];
-    
+
     NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
     [result mergeWith:@{@"eventName" : @"end"}];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
     NSNumber *x = [params objectForKey:@"x_location"];
     NSNumber *y = [params objectForKey:@"y_location"];
-    
+
     NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
     [result mergeWith:@{@"eventName" : @"start"}];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
@@ -194,8 +194,7 @@ RCT_EXPORT_METHOD(onTouchEventStart: (NSDictionary *)params){
 }
 
 - (void)handleStereoscopic {
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
-  [self.controller toggleFullscreen];
+  [self.controller toggleStereoMode];
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
@@ -228,13 +227,13 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   if ([action isEqualToString:@"click"]) {
     NSString *embedCode = [parameters objectForKey:embedCodeKey];
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendClick:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
-      [player setEmbedCode:embedCode];
-      [player play];
+        [OODiscoveryManager sendClick:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+        [player setEmbedCode:embedCode];
+        [player play];
     });
   } else if ([action isEqualToString:@"impress"]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendImpression:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+        [OODiscoveryManager sendImpression:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
     });
   }
 }
