@@ -29,10 +29,11 @@ var ResponsiveDesignManager = require('../responsiveDesignManager');
 var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
 var panelStyles = require('./style/panelStyles.json');
+var ReactNative = require('react-native');
 
 var {
-	PanResponder
-} = React;
+  PanResponder
+} = ReactNative;
 
 var {
   BUTTON_NAMES,
@@ -63,8 +64,8 @@ var VideoView = React.createClass({
       onAdOverlayDismiss: React.PropTypes.func,
       onScrub: React.PropTypes.func,
       handleVideoEndTouch: React.PropTypes.func,
-			handleVideoMoveTouch: React.PropTypes.func,
-			handleVideoStartTouch: React.PropTypes.func,
+      handleVideoMoveTouch: React.PropTypes.func,
+      handleVideoStartTouch: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
@@ -87,6 +88,38 @@ var VideoView = React.createClass({
 
   },
 
+  componentWillMount: function() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => {
+        return true;
+      },
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => {
+        return true;
+      },
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        return true;
+      },
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
+        return true;
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) => {
+        return true;
+      },
+      onPanResponderGrant: (evt, gestureState) => {
+        this.props.handlers.handleVideoStartTouch(evt, gestureState);
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        this.props.handlers.handleVideoMoveTouch(evt, gestureState);
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        this._placeholderTapHandler(evt, gestureState);
+      },
+      onPanResponderTerminate: (evt, gestureState) => {
+        this._placeholderTapHandler(evt, gestureState);
+      },
+    });
+  },
+
   getInitialState: function() {
     return {
     };
@@ -98,7 +131,7 @@ var VideoView = React.createClass({
       return ({
         label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
-          Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
+            Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
         onGoLive: isLive? null : this.onGoLive});
     } else {
       return null;
@@ -125,11 +158,11 @@ var VideoView = React.createClass({
     }
   },
 
-  _placeholderTapHandler: function(event) {
+  _placeholderTapHandler: function(event, gestureEvent) {
     if (this.props.screenReaderEnabled) {
       this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
     } else {
-      this.props.handlers.handleVideoTouch(event);
+      this.props.handlers.handleVideoEndTouch(event, gestureEvent);
     }
   },
 
@@ -178,11 +211,8 @@ var VideoView = React.createClass({
         accessible={true}
         accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
-        onTouchEnd={(event) => this._placeholderTapHandler(event)}
-        onTouchMove={(event) => this.props.handlers.handleVideoMoveTouch(event)}
-        onTouchStart={(event) => this.props.handlers.handleVideoStartTouch(event)}
-				onTouchCancel={(event) => this.props.handlers.handleVideoEndTouch(event)}
-			>
+        {...this._panResponder.panHandlers}
+      >
       </View>);
   },
 
@@ -192,11 +222,11 @@ var VideoView = React.createClass({
     if(this.props.platform === Constants.PLATFORMS.ANDROID) {
       waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
     }
-		if (this.props.platform === Constants.PLATFORMS.IOS) {
-	waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
-}
+    if (this.props.platform === Constants.PLATFORMS.IOS) {
+      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
+    }
 
-		if (waterMarkName) {
+    if (waterMarkName) {
       var watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
     }
 
@@ -229,7 +259,7 @@ var VideoView = React.createClass({
             </Text>
           </View>
         </View>
-        );
+      );
     }
     return null;
   },
@@ -288,11 +318,11 @@ var VideoView = React.createClass({
     if (waterMarkName) {
       return (
         <View
-            style={{flex:1, justifyContent:"flex-end", alignItems:"flex-end"}}>
-            <VideoWaterMark
-              buttonWidth={VideoWaterMarkSize}
-              buttonHeight={VideoWaterMarkSize}
-              waterMarkName={waterMarkName}/>
+          style={{flex:1, justifyContent:"flex-end", alignItems:"flex-end"}}>
+          <VideoWaterMark
+            buttonWidth={VideoWaterMarkSize}
+            buttonHeight={VideoWaterMarkSize}
+            waterMarkName={waterMarkName}/>
         </View>
       );
     }
@@ -350,10 +380,10 @@ var VideoView = React.createClass({
     var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
     if (this.props.loading) {
       return (
-       <ActivityIndicator
+        <ActivityIndicator
           style={loadingStyle}
           size="large"
-      />
+        />
       );
     }
   },
@@ -396,3 +426,4 @@ var VideoView = React.createClass({
 });
 
 module.exports = VideoView;
+

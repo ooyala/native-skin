@@ -1,5 +1,7 @@
 package com.ooyala.android.skin;
 
+import android.util.Log;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -46,13 +48,19 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   /******** BridgeEventHandler Passthroughs **********/
 
   @ReactMethod
-  public void onTouchEventEnd(ReadableMap params){}
+  public void onTouchEventEnd(ReadableMap params){
+    handler.onTouchEventEnd(params);
+  }
 
   @ReactMethod
-  public void onTouchEventMove(ReadableMap params){}
+  public void onTouchEventMove(ReadableMap params){
+    handler.onTouchEventMove(params);
+  }
 
   @ReactMethod
-  public void onTouchEventStart(ReadableMap params){}
+  public void onTouchEventStart(ReadableMap params){
+    handler.onTouchEventStart(params);
+  }
 
   @ReactMethod
   public void onMounted() {

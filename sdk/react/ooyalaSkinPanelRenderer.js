@@ -102,9 +102,9 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
         onAdOverlay: (value)=>this.core.handleAdOverlayPress(value),
         onAdOverlayDismiss: () => this.core.handleAdOverlayDismiss(),
         onScrub: (value) => this.core.handleScrub(value),
-        handleVideoEndTouch: (event) => this.core.handleVideoEndTouch(event),
-				handleVideoMoveTouch: (event) => this.core.handleVideoMoveTouch(event),
-				handleVideoStartTouch: (event) => this.core.handleVideoStartTouch(event),
+        handleVideoEndTouch: (event, gestureState) => this.core.handleVideoEndTouch(event, gestureState),
+				handleVideoMoveTouch: (event, gestureState) => this.core.handleVideoMoveTouch(event, gestureState),
+				handleVideoStartTouch: (event, gestureState) => this.core.handleVideoStartTouch(event, gestureState),
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
