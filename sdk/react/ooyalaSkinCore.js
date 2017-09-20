@@ -168,7 +168,6 @@ OoyalaSkinCore.prototype.handleVideoEndTouch = function(event, gestureState) {
     if (isClick(event.nativeEvent.pageX, event.nativeEvent.pageY)){
       showControls.call(this);
     }
-    Log.verbose("Touch end gesture have keys: " + gestureState);
     this.bridge.onTouchEventEnd({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
@@ -191,8 +190,6 @@ OoyalaSkinCore.prototype.handleVideoEndTouch = function(event, gestureState) {
       this.skin.setState({lastPressedTime: new Date(0)})
     }
   }
-
-  showControls.call(this);
 },
 
 OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event, gestureState){
@@ -213,6 +210,7 @@ OoyalaSkinCore.prototype.handleVideoStartTouch = function(event, gestureState){
   if (this.skin.state.vrContent) {
     startedClickX = event.nativeEvent.pageX;
     startedClickY = event.nativeEvent.pageY;
+
     this.bridge.onTouchEventStart({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
@@ -278,6 +276,6 @@ OoyalaSkinCore.prototype.renderScreen = function() {
 }
 
 function isClick(endX, endY) {
-  return Math.sqrt( (endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endX - startedClickX)) < ClickRadius;
+  return Math.sqrt( (endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < ClickRadius;
 }
 module.exports = OoyalaSkinCore;
