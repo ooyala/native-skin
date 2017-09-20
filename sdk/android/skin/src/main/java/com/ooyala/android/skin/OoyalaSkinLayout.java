@@ -146,8 +146,19 @@ public class OoyalaSkinLayout extends FrameLayout {
     }
 
     boolean changed = this.fullscreen != fullscreen;
-
     this.fullscreen = fullscreen;
+
+    if (changed) {
+      if (fullscreen) {
+        // Store the source size of the layout
+        sourceWidth = getLayoutParams().width;
+        sourceHeight = getLayoutParams().height;
+      } else {
+        // Restore the width and height of the skin layout
+        getLayoutParams().width = sourceWidth;
+        getLayoutParams().height = sourceHeight;
+      }
+    }
 
     if (fullscreen) {
       DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -159,19 +170,9 @@ public class OoyalaSkinLayout extends FrameLayout {
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
       }
 
-      // Store the source size of the layout
-      if (changed) {
-        sourceWidth = getLayoutParams().width;
-        sourceHeight = getLayoutParams().height;
-      }
-
       getLayoutParams().width = displayMetrics.widthPixels;
       getLayoutParams().height = displayMetrics.heightPixels;
       bringToFront();
-    } else {
-      // Restore the width and height of the skin layout
-      getLayoutParams().width = sourceWidth;
-      getLayoutParams().height = sourceHeight;
     }
     toggleSystemUI(fullscreen);
   }
