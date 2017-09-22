@@ -107,16 +107,16 @@ var VideoView = React.createClass({
         return true;
       },
       onPanResponderGrant: (evt, gestureState) => {
-        this.props.handlers.handleVideoStartTouch(evt, gestureState);
+        this.props.handlers.handleVideoStartTouch(evt);
       },
       onPanResponderMove: (evt, gestureState) => {
-        this.props.handlers.handleVideoMoveTouch(evt, gestureState);
+        this.props.handlers.handleVideoMoveTouch(evt);
       },
       onPanResponderRelease: (evt, gestureState) => {
-        this._placeholderTapHandler(evt, gestureState);
+        this._placeholderTapHandler(evt);
       },
       onPanResponderTerminate: (evt, gestureState) => {
-        this._placeholderTapHandler(evt, gestureState);
+        this._placeholderTapHandler(evt);
       },
     });
   },
@@ -159,11 +159,11 @@ var VideoView = React.createClass({
     }
   },
 
-  _placeholderTapHandler: function(event, gestureEvent) {
+  _placeholderTapHandler: function(event) {
     if (this.props.screenReaderEnabled) {
       this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
     } else {
-      this.props.handlers.handleVideoEndTouch(event, gestureEvent);
+      this.props.handlers.handleVideoEndTouch(event);
     }
   },
 
@@ -213,7 +213,9 @@ var VideoView = React.createClass({
         accessible={true}
         accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
-        {...this._panResponder.panHandlers}
+        onTouchStart={(event) => this.props.handlers.handleVideoStartTouch(event)}
+        onTouchMove={(event) => this.props.handlers.handleVideoMoveTouch(event)}
+        onTouchEnd={(event) => this._placeholderTapHandler(event)}
       >
       </View>);
   },
@@ -428,4 +430,3 @@ var VideoView = React.createClass({
 });
 
 module.exports = VideoView;
-

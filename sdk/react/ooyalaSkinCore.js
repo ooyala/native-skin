@@ -163,7 +163,7 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
 /*
  * This could either reset the lastPressedTime, or zero it to force the hide
  */
-OoyalaSkinCore.prototype.handleVideoEndTouch = function(event, gestureState) {
+OoyalaSkinCore.prototype.handleVideoEndTouch = function(event) {
   if (this.skin.state.vrContent) {
     if (isClick(event.nativeEvent.pageX, event.nativeEvent.pageY)){
       showControls.call(this);
@@ -171,11 +171,7 @@ OoyalaSkinCore.prototype.handleVideoEndTouch = function(event, gestureState) {
     this.bridge.onTouchEventEnd({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp,
-      "dx": gestureState.dx,
-      "dy": gestureState.dy,
-      "vx": gestureState.vx,
-      "vy": gestureState.vy
+      "touchTime" : event.nativeEvent.timestamp
     });
   } else {
     showControls.call(this);
@@ -192,21 +188,17 @@ OoyalaSkinCore.prototype.handleVideoEndTouch = function(event, gestureState) {
   }
 },
 
-OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event, gestureState){
+OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event){
   if (this.skin.state.vrContent) {
     this.bridge.onTouchEventMove({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp,
-      "dx": gestureState.dx,
-      "dy": gestureState.dy,
-      "vx": gestureState.vx,
-      "vy": gestureState.vy
+      "touchTime" : event.nativeEvent.timestamp
     });
   }
 },
 
-OoyalaSkinCore.prototype.handleVideoStartTouch = function(event, gestureState){
+OoyalaSkinCore.prototype.handleVideoStartTouch = function(event){
   if (this.skin.state.vrContent) {
     startedClickX = event.nativeEvent.pageX;
     startedClickY = event.nativeEvent.pageY;
@@ -214,11 +206,7 @@ OoyalaSkinCore.prototype.handleVideoStartTouch = function(event, gestureState){
     this.bridge.onTouchEventStart({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp,
-      "dx": gestureState.dx,
-      "dy": gestureState.dy,
-      "vx": gestureState.vx,
-      "vy": gestureState.vy
+      "touchTime" : event.nativeEvent.timestamp
     });
   }
 },
