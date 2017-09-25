@@ -156,8 +156,10 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     long eventTime = SystemClock.uptimeMillis();
     float x = (float) reactNativeTouchParams.getDouble("x_location");
     float y = (float) reactNativeTouchParams.getDouble("y_location");
+    boolean isScroll = reactNativeTouchParams.getBoolean("isScroll");
+
     int metastats = 0;
     MotionEvent event = MotionEvent.obtain(downTime, eventTime, action, x, y, metastats);
-    _player.passTouchEventToVRView(event);
+    _player.passTouchEventToVRView(event, isScroll);
   }
 }
