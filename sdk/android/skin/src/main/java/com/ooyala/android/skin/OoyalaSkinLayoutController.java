@@ -30,7 +30,7 @@ import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
-import com.ooyala.android.player.vrexoplayer.glvideoview.effects.ImmersiveEffect;
+import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
 import com.ooyala.android.skin.configuration.SkinOptions;
 import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.ooyala.android.skin.util.ReactUtil;
@@ -339,8 +339,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   public void setFullscreen(boolean isFullscreen) {
 
     // The full screen button disables STEREO mode
-    if (_player.getVRMode() == ImmersiveEffect.Mode.STEREO && !isFullscreen) {
-      _player.setVRMode(ImmersiveEffect.Mode.MONO);
+    if (_player.getVRMode() == VrMode.STEREO && !isFullscreen) {
+      _player.setVRMode(VrMode.MONO);
     }
 
     // Store the screen orientation
@@ -439,7 +439,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   @Override
-  public void switchVRMode(ImmersiveEffect.Mode mode) {
+  public void switchVRMode(VrMode mode) {
     Context context = getLayout().getContext();
     if (context instanceof Activity) {
       Activity activity = (Activity) context;
