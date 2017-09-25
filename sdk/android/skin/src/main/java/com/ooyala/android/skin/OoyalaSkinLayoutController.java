@@ -81,6 +81,18 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    */
   public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
 
+  /**
+   * OoyalaNotification name when the VR mode has changed to MONO.
+   * No "data" is passed in the OoyalaNotification.
+   */
+  public static final String VR_MODE_MONO_NOTIFICATION_NAME = "vrModeMono";
+
+  /**
+   * OoyalaNotification name when the VR mode has changed to STEREO.
+   * No "data" is passed in the OoyalaNotification.
+   */
+  public static final String VR_MODE_STEREO_NOTIFICATION_NAME = "vrModeStereo";
+
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
@@ -435,10 +447,14 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         case MONO:
           // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
           activity.setRequestedOrientation(screenOrientation);
+          sendNotification(VR_MODE_MONO_NOTIFICATION_NAME);
           break;
         case STEREO:
           // Set up landscape orientation for STEREO mode
           activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+          sendNotification(VR_MODE_STEREO_NOTIFICATION_NAME);
+          break;
+        case NONE:
           break;
       }
     }
