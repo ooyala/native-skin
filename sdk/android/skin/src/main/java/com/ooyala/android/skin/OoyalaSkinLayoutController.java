@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -14,23 +15,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.facebook.react.common.LifecycleState;
-import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
-import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
+import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
 import com.ooyala.android.skin.configuration.SkinOptions;
+import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.skin.util.SkinConfigUtil;
 import com.ooyala.android.ui.LayoutController;
@@ -45,8 +47,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
-import java.util.Observer;
-
 
 /**
  * The OoyalaSkinLayoutController is the primary class of the Ooyala Skin SDK
@@ -81,6 +81,18 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    */
   public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
 
+  /**
+   * OoyalaNotification name when the VR mode has changed to MONO.
+   * No "data" is passed in the OoyalaNotification.
+   */
+  public static final String VR_MODE_MONO_NOTIFICATION_NAME = "vrModeMono";
+
+  /**
+   * OoyalaNotification name when the VR mode has changed to STEREO.
+   * No "data" is passed in the OoyalaNotification.
+   */
+  public static final String VR_MODE_STEREO_NOTIFICATION_NAME = "vrModeStereo";
+
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
@@ -113,6 +125,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   private List<Pair<String, WritableMap>> queuedEvents;
   private boolean isReactMounted;
+  private int screenOrientation;
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
    *
@@ -324,8 +337,31 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public void setFullscreen(boolean isFullscreen) {
+
+    // The full screen button disables STEREO mode
+    if (_player.getVRMode() == VrMode.STEREO && !isFullscreen) {
+      _player.setVRMode(VrMode.MONO);
+    }
+
+    // Store the screen orientation
+    storeScreenOrientation(isFullscreen);
+
     _layout.setFullscreen(isFullscreen);
     sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
+  }
+
+  private void storeScreenOrientation(boolean isFullscreen) {
+    boolean changed = isFullscreen() != isFullscreen;
+    Context context = getLayout().getContext();
+
+    if (isFullscreen) {
+      if (context instanceof Activity) {
+        Activity activity = (Activity) context;
+        if (changed) {
+          screenOrientation = activity.getRequestedOrientation();
+        }
+      }
+    }
   }
 
   void sendNotification(String notificationName) {
@@ -400,6 +436,28 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   public void setFullscreenButtonShowing(boolean showing) {
 
+  }
+
+  @Override
+  public void switchVRMode(VrMode mode) {
+    Context context = getLayout().getContext();
+    if (context instanceof Activity) {
+      Activity activity = (Activity) context;
+      switch (mode) {
+        case MONO:
+          // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
+          activity.setRequestedOrientation(screenOrientation);
+          sendNotification(VR_MODE_MONO_NOTIFICATION_NAME);
+          break;
+        case STEREO:
+          // Set up landscape orientation for STEREO mode
+          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+          sendNotification(VR_MODE_STEREO_NOTIFICATION_NAME);
+          break;
+        case NONE:
+          break;
+      }
+    }
   }
 
   /****** End LayoutController **********/

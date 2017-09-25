@@ -17,6 +17,8 @@ public class OoyalaSkinLayout extends FrameLayout {
   private FrameLayout _playerFrame;
 
   private int viewWidth,viewHeight,prevWidth,prevHeight;
+  private int sourceWidth;
+  private int sourceHeight;
   private FrameChangeCallback frameChangeCallback;
 
   private WindowManager windowManager;
@@ -143,9 +145,22 @@ public class OoyalaSkinLayout extends FrameLayout {
         return;
     }
 
+    boolean changed = this.fullscreen != fullscreen;
     this.fullscreen = fullscreen;
-    if(fullscreen) {
 
+    if (changed) {
+      if (fullscreen) {
+        // Store the source size of the layout
+        sourceWidth = getLayoutParams().width;
+        sourceHeight = getLayoutParams().height;
+      } else {
+        // Restore the width and height of the skin layout
+        getLayoutParams().width = sourceWidth;
+        getLayoutParams().height = sourceHeight;
+      }
+    }
+
+    if (fullscreen) {
       DisplayMetrics displayMetrics = new DisplayMetrics();
       if (SDK_INT >= JELLY_BEAN_MR1) {
         windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
@@ -158,10 +173,6 @@ public class OoyalaSkinLayout extends FrameLayout {
       getLayoutParams().width = displayMetrics.widthPixels;
       getLayoutParams().height = displayMetrics.heightPixels;
       bringToFront();
-    } else {
-      // found out that setting width and height to -1 will reset them to the original values
-      getLayoutParams().width = -1;
-      getLayoutParams().height = -1;
     }
     toggleSystemUI(fullscreen);
   }

@@ -3,8 +3,10 @@ package com.ooyala.android.skin;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.MotionEvent;
 
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.util.DebugMode;
@@ -29,6 +31,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_SKIP = "Skip";
   private static final String BUTTON_ADICON = "Icon";
   private static final String BUTTON_ADOVERLAY = "Overlay";
+  private static final String BUTTON_STEREOSCOPIC = "stereoscopic";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -76,6 +79,8 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
           } else if (buttonName.equals(BUTTON_ADOVERLAY)) {
             String clickUrl = parameters.getString("clickUrl");
             _player.onAdOverlayClicked(clickUrl);
+          } else if (buttonName.equals(BUTTON_STEREOSCOPIC)) {
+            _player.switchVRMode();
           }
         }
       });
@@ -129,5 +134,32 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   public void onLanguageSelected(ReadableMap parameters) {
     _player.setClosedCaptionsLanguage(parameters.getString("language"));
+  }
+
+  @Override
+  public void onTouchEventEnd(ReadableMap params) {
+    createMotionEventAndPassIt(params, MotionEvent.ACTION_UP);
+  }
+
+  @Override
+  public void onTouchEventMove(ReadableMap params) {
+    createMotionEventAndPassIt(params, MotionEvent.ACTION_MOVE);
+  }
+
+  @Override
+  public void onTouchEventStart(ReadableMap params) {
+    createMotionEventAndPassIt(params, MotionEvent.ACTION_DOWN);
+  }
+
+  private void createMotionEventAndPassIt(ReadableMap reactNativeTouchParams, int action){
+    long downTime = reactNativeTouchParams.getInt("touchTime");
+    long eventTime = SystemClock.uptimeMillis();
+    float x = (float) reactNativeTouchParams.getDouble("x_location");
+    float y = (float) reactNativeTouchParams.getDouble("y_location");
+    boolean isScroll = reactNativeTouchParams.getBoolean("isScroll");
+
+    int metastats = 0;
+    MotionEvent event = MotionEvent.obtain(downTime, eventTime, action, x, y, metastats);
+    _player.passTouchEventToVRView(event, isScroll);
   }
 }

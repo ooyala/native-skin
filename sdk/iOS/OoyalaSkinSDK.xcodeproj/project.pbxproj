@@ -45,6 +45,10 @@
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
 		45ED11791B9F6377004968DE /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45ED11781B9F6369004968DE /* libRCTWebSocket.a */; };
 		45ED117A1B9F637C004968DE /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45ED11721B9F634E004968DE /* libRCTNetwork.a */; };
+		523E3F1E1F548B2900C29D8D /* NSDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */; };
+		52A09FC11F69873E00884D90 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A09FC01F69873E00884D90 /* OoyalaSDK.framework */; };
+		52A0A01E1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A0A01C1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h */; };
+		52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */; };
 		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
 		5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -60,7 +64,6 @@
 		9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		979B01301B910A040032F5CF /* OOConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 979B012E1B910A040032F5CF /* OOConstant.h */; };
 		979B01311B910A040032F5CF /* OOConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 979B012F1B910A040032F5CF /* OOConstant.m */; };
-		97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CF89F01B50642C008E0470 /* OoyalaSDK.framework */; };
 		97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */; };
 		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
 		CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */; };
@@ -77,7 +80,6 @@
 		CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B591BE279040056784E /* NSString+Utils.m */; };
 		CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */; };
 		CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */; };
-		CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */; };
 		CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */; };
 		CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */ = {isa = PBXBuildFile; fileRef = CAF600E61C3307D800CBB708 /* OOActivityView.h */; };
 		CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = CAF600E71C3307D800CBB708 /* OOActivityView.m */; };
@@ -197,6 +199,10 @@
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		45ED11731B9F6369004968DE /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
+		523E3F001F54820A00C29D8D /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../../../../../../Library/Developer/Xcode/DerivedData/SampleApps-dqptgznbyjbxtfffyvwtbzrlkhnd/Build/Products/Debug-iphonesimulator/OoyalaSDK.framework"; sourceTree = "<group>"; };
+		52A09FC01F69873E00884D90 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../../../../ios/ios-sdk/sdk/build/Debug-iphoneos/OoyalaSDK.framework"; sourceTree = "<group>"; };
+		52A0A01C1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinFullScreenViewController.h; sourceTree = "<group>"; };
+		52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinFullScreenViewController.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
 		5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinAutoUpdatingClosedCaptionsStyle.m; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,7 +254,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97CF89F11B50642C008E0470 /* OoyalaSDK.framework in Frameworks */,
+				52A09FC11F69873E00884D90 /* OoyalaSDK.framework in Frameworks */,
 				972ED8D41AE7080C005043DC /* libRCTText.a in Frameworks */,
 				45ED11791B9F6377004968DE /* libRCTWebSocket.a in Frameworks */,
 				972ED8D31AE70806005043DC /* libRCTImage.a in Frameworks */,
@@ -363,6 +369,8 @@
 				CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */,
 				CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */,
 				9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */,
+				52A0A01C1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h */,
+				52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
 				CA742B4E1BE2761D0056784E /* Utils */,
@@ -442,6 +450,8 @@
 		FF12905E1AEABA9B00664374 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				52A09FC01F69873E00884D90 /* OoyalaSDK.framework */,
+				523E3F001F54820A00C29D8D /* OoyalaSDK.framework */,
 				97CF89F01B50642C008E0470 /* OoyalaSDK.framework */,
 				CA2C6FC51BEA8C53006B86BC /* libz.tbd */,
 				CA2C6FC31BEA8C26006B86BC /* MessageUI.framework */,
@@ -468,12 +478,12 @@
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
 				0B55FDAE1E2EFC5D0019A764 /* OOQueuedEvent.h in Headers */,
 				0BCABDA51C7F781200989005 /* OOSkinPlayerObserver.h in Headers */,
-				CABBC4E71BED017A00A8464A /* NSDictionary+Utils.h in Headers */,
 				0BCABDA11C7F77A900989005 /* OOVolumeViewManager.h in Headers */,
 				0BCABD9F1C7F77A900989005 /* OOGradientViewManager.h in Headers */,
 				0BCABD991C7F77A900989005 /* CountdownViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
 				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
+				523E3F1E1F548B2900C29D8D /* NSDictionary+Utils.h in Headers */,
 				0BCABD9B1C7F77A900989005 /* OOClosedCaptionsViewManager.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
@@ -484,6 +494,7 @@
 				0BCABD971C7F77A900989005 /* CountdownView.h in Headers */,
 				97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */,
 				0BCABD9D1C7F77A900989005 /* OOGradientView.h in Headers */,
+				52A0A01E1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
 			);
@@ -710,6 +721,7 @@
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
 				0B55FDAF1E2EFC5D0019A764 /* OOQueuedEvent.m in Sources */,
 				0BCABD981C7F77A900989005 /* CountdownView.m in Sources */,
+				52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */,
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */,
@@ -884,7 +896,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -895,10 +909,11 @@
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -910,6 +925,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = NO;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -920,9 +936,10 @@
 				);
 				INFOPLIST_FILE = OoyalaSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";

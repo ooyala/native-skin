@@ -25,6 +25,9 @@ var {
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE,
 } = Constants;
+
+var ClickRadius = 5;
+var startedClickX, startedClickY;
 var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
 var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
 
@@ -160,16 +163,57 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
 /*
  * This could either reset the lastPressedTime, or zero it to force the hide
  */
-OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
-  var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
-  if (isPastAutoHideTime) {
-    this.handleControlsTouch();
+OoyalaSkinCore.prototype.handleVideoEndTouch = function(event) {
+  if (this.skin.state.vrContent) {
+    var isClicked = isClick(event.nativeEvent.pageX, event.nativeEvent.pageY);
+    if (isClicked){
+      showControls.call(this);
+    }
+    this.bridge.onTouchEventEnd({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "isScroll": !isClicked
+    });
   } else {
-    Log.verbose("handleVideoTouch - Time Zeroed");
-    this.skin.setState({lastPressedTime: new Date(0)})
+    showControls.call(this);
   }
-}
 
+  function showControls() {
+    var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
+    if (isPastAutoHideTime) {
+      this.handleControlsTouch();
+    } else {
+      Log.verbose("handleVideoEndTouch - Time Zeroed");
+      this.skin.setState({lastPressedTime: new Date(0)})
+    }
+  }
+},
+
+OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event){
+  if (this.skin.state.vrContent) {
+    this.bridge.onTouchEventMove({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "isScroll": false
+    });
+  }
+},
+
+OoyalaSkinCore.prototype.handleVideoStartTouch = function(event){
+  if (this.skin.state.vrContent) {
+    startedClickX = event.nativeEvent.pageX;
+    startedClickY = event.nativeEvent.pageY;
+
+    this.bridge.onTouchEventStart({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "isScroll": false
+    });
+  }
+},
 /*
  * Hard reset lastPressedTime, either due to button press or otherwise
  */
@@ -178,10 +222,10 @@ OoyalaSkinCore.prototype.handleControlsTouch = function() {
     Log.verbose("handleVideoTouch - Time set");
     this.skin.setState({lastPressedTime: new Date()});
   } else {
-    Log.verbose("handleVideoTouch infinite time");
+    Log.verbose("handleVideoEndTouch infinite time");
     this.skin.setState({lastPressedTime: new Date(MAX_DATE_VALUE)});
   }
-}
+},
 
 OoyalaSkinCore.prototype.pushToOverlayStackAndMaybePause = function(overlay) {
   if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {
@@ -221,5 +265,9 @@ OoyalaSkinCore.prototype.renderScreen = function() {
   }
 
   return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.inAdPod, this.skin.state.screenType);
+}
+
+function isClick(endX, endY) {
+  return Math.sqrt( (endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < ClickRadius;
 }
 module.exports = OoyalaSkinCore;

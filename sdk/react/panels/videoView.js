@@ -29,6 +29,11 @@ var ResponsiveDesignManager = require('../responsiveDesignManager');
 var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
 var panelStyles = require('./style/panelStyles.json');
+var ReactNative = require('react-native');
+
+var {
+  PanResponder
+} = ReactNative;
 
 var {
   BUTTON_NAMES,
@@ -52,12 +57,15 @@ var VideoView = React.createClass({
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
+    vrContent: React.PropTypes.bool,
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,
       onAdOverlay: React.PropTypes.func,
       onAdOverlayDismiss: React.PropTypes.func,
       onScrub: React.PropTypes.func,
-      handleVideoTouch: React.PropTypes.func,
+      handleVideoEndTouch: React.PropTypes.func,
+      handleVideoMoveTouch: React.PropTypes.func,
+      handleVideoStartTouch: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
@@ -81,6 +89,38 @@ var VideoView = React.createClass({
 
   },
 
+  componentWillMount: function() {
+    this._panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: (evt, gestureState) => {
+        return true;
+      },
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => {
+        return true;
+      },
+      onMoveShouldSetPanResponder: (evt, gestureState) => {
+        return true;
+      },
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => {
+        return true;
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) => {
+        return true;
+      },
+      onPanResponderGrant: (evt, gestureState) => {
+        this.props.handlers.handleVideoStartTouch(evt);
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        this.props.handlers.handleVideoMoveTouch(evt);
+      },
+      onPanResponderRelease: (evt, gestureState) => {
+        this._placeholderTapHandler(evt);
+      },
+      onPanResponderTerminate: (evt, gestureState) => {
+        this._placeholderTapHandler(evt);
+      },
+    });
+  },
+
   getInitialState: function() {
     return {
     };
@@ -92,7 +132,7 @@ var VideoView = React.createClass({
       return ({
         label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
-          Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
+            Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
         onGoLive: isLive? null : this.onGoLive});
     } else {
       return null;
@@ -123,7 +163,7 @@ var VideoView = React.createClass({
     if (this.props.screenReaderEnabled) {
       this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
     } else {
-      this.props.handlers.handleVideoTouch(event);
+      this.props.handlers.handleVideoEndTouch(event);
     }
   },
 
@@ -162,7 +202,8 @@ var VideoView = React.createClass({
         icons: this.props.config.icons,
         live: this.props.config.live,
         general: this.props.config.general
-      }} />);
+      }}
+      vrContent={this.props.vrContent}/>);
   },
 
   _renderPlaceholder: function() {
@@ -172,17 +213,20 @@ var VideoView = React.createClass({
         accessible={true}
         accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
-        onTouchEnd={(event) => this._placeholderTapHandler(event)}>
+        onTouchStart={(event) => this.props.handlers.handleVideoStartTouch(event)}
+        onTouchMove={(event) => this.props.handlers.handleVideoMoveTouch(event)}
+        onTouchEnd={(event) => this._placeholderTapHandler(event)}
+      >
       </View>);
   },
 
   _renderBottom: function() {
     var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
     var waterMarkName;
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+    if(this.props.platform === Constants.PLATFORMS.ANDROID) {
       waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
     }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
+    if (this.props.platform === Constants.PLATFORMS.IOS) {
       waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
     }
 
@@ -211,7 +255,7 @@ var VideoView = React.createClass({
       return (
         <View
           style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
-          onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+          onTouchEnd={(event) => this.props.handlers.handleVideoEndTouch(event)}>
           <View
             style={[{backgroundColor:this.props.captionStyles.backgroundColor}]}>
             <Text style={[panelStyles.closedCaptions, ccStyle]}>
@@ -219,7 +263,7 @@ var VideoView = React.createClass({
             </Text>
           </View>
         </View>
-        );
+      );
     }
     return null;
   },
@@ -278,11 +322,11 @@ var VideoView = React.createClass({
     if (waterMarkName) {
       return (
         <View
-            style={{flex:1, justifyContent:"flex-end", alignItems:"flex-end"}}>
-            <VideoWaterMark
-              buttonWidth={VideoWaterMarkSize}
-              buttonHeight={VideoWaterMarkSize}
-              waterMarkName={waterMarkName}/>
+          style={{flex:1, justifyContent:"flex-end", alignItems:"flex-end"}}>
+          <VideoWaterMark
+            buttonWidth={VideoWaterMarkSize}
+            buttonHeight={VideoWaterMarkSize}
+            waterMarkName={waterMarkName}/>
         </View>
       );
     }
@@ -340,10 +384,10 @@ var VideoView = React.createClass({
     var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
     if (this.props.loading) {
       return (
-       <ActivityIndicator
+        <ActivityIndicator
           style={loadingStyle}
           size="large"
-      />
+        />
       );
     }
   },
@@ -357,7 +401,7 @@ var VideoView = React.createClass({
   },
 
   handleTouchEnd: function(event) {
-    this.props.handlers.handleVideoTouch();
+    this.props.handlers.handleVideoEndTouch();
   },
 
   handleOverlayClick: function() {

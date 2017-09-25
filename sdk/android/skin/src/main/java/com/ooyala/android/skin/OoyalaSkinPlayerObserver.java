@@ -72,6 +72,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeSeekStartNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeSeekCompletedNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.HAS_VR_CONTENT_NOTIFICATION_NAME.equals(notificationName)){
+      bridgeVRContentNotification(((OoyalaNotification) argN).getData());
     }
   }
 
@@ -214,5 +216,10 @@ class OoyalaSkinPlayerObserver implements Observer {
       WritableMap params = Arguments.createMap();
       params.putString("text", ccText);
       _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
+  }
+
+  private void bridgeVRContentNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildVRParams(data);
+    _layoutController.sendEvent(OoyalaPlayer.HAS_VR_CONTENT_NOTIFICATION_NAME, params);
   }
 }
