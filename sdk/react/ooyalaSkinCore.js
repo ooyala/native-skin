@@ -26,7 +26,7 @@ var {
   MAX_DATE_VALUE,
 } = Constants;
 
-var ClickRadius = 20;
+var ClickRadius = 5;
 var startedClickX, startedClickY;
 var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
 var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
@@ -165,13 +165,15 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
  */
 OoyalaSkinCore.prototype.handleVideoEndTouch = function(event) {
   if (this.skin.state.vrContent) {
-    if (isClick(event.nativeEvent.pageX, event.nativeEvent.pageY)){
+    var isClicked = isClick(event.nativeEvent.pageX, event.nativeEvent.pageY);
+    if (isClicked){
       showControls.call(this);
     }
     this.bridge.onTouchEventEnd({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp
+      "touchTime" : event.nativeEvent.timestamp,
+      "isScroll": !isClicked
     });
   } else {
     showControls.call(this);
@@ -193,7 +195,8 @@ OoyalaSkinCore.prototype.handleVideoMoveTouch = function(event){
     this.bridge.onTouchEventMove({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp
+      "touchTime" : event.nativeEvent.timestamp,
+      "isScroll": false
     });
   }
 },
@@ -206,7 +209,8 @@ OoyalaSkinCore.prototype.handleVideoStartTouch = function(event){
     this.bridge.onTouchEventStart({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp
+      "touchTime" : event.nativeEvent.timestamp,
+      "isScroll": false
     });
   }
 },
