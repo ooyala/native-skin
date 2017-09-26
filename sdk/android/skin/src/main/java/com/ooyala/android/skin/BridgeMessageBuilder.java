@@ -309,4 +309,12 @@ class BridgeMessageBuilder {
     }
       return params;
   }
+
+  public static WritableMap buildVRParams(Object data){
+    WritableMap params = Arguments.createMap();
+    if (data != null && data instanceof Boolean){
+      params.putBoolean("vrContent", (Boolean) data);
+    }
+    return params;
+  }
 }

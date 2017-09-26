@@ -77,4 +77,19 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   public void onLanguageSelected(ReadableMap parameters) {
     handler.onLanguageSelected(parameters);
   }
+
+  @ReactMethod
+  public void handleTouchStart(ReadableMap parameters){
+    handler.handleTouchStart(parameters);
+  }
+
+  @ReactMethod
+  public void handleTouchMove(ReadableMap parameters){
+    handler.handleTouchMove(parameters);
+  }
+
+  @ReactMethod
+  public void handleTouchEnd(ReadableMap parameters){
+    handler.handleTouchEnd(parameters);
+  }
 }

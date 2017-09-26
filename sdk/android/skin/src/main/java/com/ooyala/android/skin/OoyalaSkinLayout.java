@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -17,6 +18,8 @@ public class OoyalaSkinLayout extends FrameLayout {
   private FrameLayout _playerFrame;
 
   private int viewWidth,viewHeight,prevWidth,prevHeight;
+  private int sourceWidth, sourceHeight;
+
   private FrameChangeCallback frameChangeCallback;
 
   private WindowManager windowManager;
@@ -142,10 +145,24 @@ public class OoyalaSkinLayout extends FrameLayout {
     if (null == windowManager) {
         return;
     }
+    boolean changed = this.fullscreen != fullscreen;
+    ViewGroup.LayoutParams layoutParams = getLayoutParams();
+
+
+    if (changed) {
+      if (fullscreen) {
+        //Store the source size of the layout
+        sourceWidth = layoutParams.width;
+        sourceHeight = layoutParams.height;
+      } else {
+        // Restore width and height of the skin layout
+        layoutParams.width = sourceWidth;
+        layoutParams.height = sourceHeight;
+      }
+    }
 
     this.fullscreen = fullscreen;
     if(fullscreen) {
-
       DisplayMetrics displayMetrics = new DisplayMetrics();
       if (SDK_INT >= JELLY_BEAN_MR1) {
         windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
@@ -154,14 +171,9 @@ public class OoyalaSkinLayout extends FrameLayout {
         // It will not fill the screen where the navigation bar is supposed to be
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
       }
-
-      getLayoutParams().width = displayMetrics.widthPixels;
-      getLayoutParams().height = displayMetrics.heightPixels;
+      layoutParams.width = displayMetrics.widthPixels;
+      layoutParams.height = displayMetrics.heightPixels;
       bringToFront();
-    } else {
-      // found out that setting width and height to -1 will reset them to the original values
-      getLayoutParams().width = -1;
-      getLayoutParams().height = -1;
     }
     toggleSystemUI(fullscreen);
   }

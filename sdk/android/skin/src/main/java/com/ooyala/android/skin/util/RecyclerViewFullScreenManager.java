@@ -47,12 +47,12 @@ public class RecyclerViewFullScreenManager {
 
 		AnimatorSet set = new AnimatorSet();
 		set
-				.play(ObjectAnimator.ofFloat(expandedLayout, View.X, startBounds.left))
-				.with(ObjectAnimator.ofFloat(expandedLayout, View.Y, startBounds.top))
-				.with(ObjectAnimator
-						.ofFloat(expandedLayout, View.SCALE_X, startScaleFinal))
-				.with(ObjectAnimator
-						.ofFloat(expandedLayout, View.SCALE_Y, startScaleFinal));
+			.play(ObjectAnimator.ofFloat(expandedLayout, View.X, startBounds.left))
+			.with(ObjectAnimator.ofFloat(expandedLayout, View.Y, startBounds.top))
+			.with(ObjectAnimator
+				.ofFloat(expandedLayout, View.SCALE_X, startScaleFinal))
+			.with(ObjectAnimator
+				.ofFloat(expandedLayout, View.SCALE_Y, startScaleFinal));
 		set.setDuration(ANIMATION_DURATION);
 		set.setInterpolator(new DecelerateInterpolator());
 		set.addListener(new AnimatorListenerAdapter() {
@@ -112,12 +112,12 @@ public class RecyclerViewFullScreenManager {
 
 		AnimatorSet set = new AnimatorSet();
 		set
-				.play(ObjectAnimator.ofFloat(expandedLayout, View.X, startBounds.left,
-						finalBounds.left))
-				.with(ObjectAnimator.ofFloat(expandedLayout, View.Y, startBounds.top,
-						finalBounds.top))
-				.with(ObjectAnimator.ofFloat(expandedLayout, View.SCALE_X, startScale, 1f))
-				.with(ObjectAnimator.ofFloat(expandedLayout, View.SCALE_Y, startScale, 1f));
+			.play(ObjectAnimator.ofFloat(expandedLayout, View.X, startBounds.left,
+				finalBounds.left))
+			.with(ObjectAnimator.ofFloat(expandedLayout, View.Y, startBounds.top,
+				finalBounds.top))
+			.with(ObjectAnimator.ofFloat(expandedLayout, View.SCALE_X, startScale, 1f))
+			.with(ObjectAnimator.ofFloat(expandedLayout, View.SCALE_Y, startScale, 1f));
 		set.setDuration(ANIMATION_DURATION);
 		set.setInterpolator(new DecelerateInterpolator());
 		set.addListener(new AnimatorListenerAdapter() {

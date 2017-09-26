@@ -3,8 +3,10 @@ package com.ooyala.android.skin;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.view.MotionEvent;
 
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.util.DebugMode;
@@ -29,6 +31,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_SKIP = "Skip";
   private static final String BUTTON_ADICON = "Icon";
   private static final String BUTTON_ADOVERLAY = "Overlay";
+  private static final String BUTTON_STEREOSCOPIC = "stereoscopic";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -76,6 +79,8 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
           } else if (buttonName.equals(BUTTON_ADOVERLAY)) {
             String clickUrl = parameters.getString("clickUrl");
             _player.onAdOverlayClicked(clickUrl);
+          } else if (buttonName.equals(BUTTON_STEREOSCOPIC)){
+            _player.switchVRMode();
           }
         }
       });
@@ -129,5 +134,31 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   public void onLanguageSelected(ReadableMap parameters) {
     _player.setClosedCaptionsLanguage(parameters.getString("language"));
+  }
+
+  @Override
+  public void handleTouchStart(ReadableMap parameters) {
+    createMotionEventAndPassThrough(parameters, MotionEvent.ACTION_DOWN);
+  }
+
+  @Override
+  public void handleTouchMove(ReadableMap parameters) {
+    createMotionEventAndPassThrough(parameters, MotionEvent.ACTION_MOVE);
+  }
+
+  @Override
+  public void handleTouchEnd(ReadableMap parameters) {
+    createMotionEventAndPassThrough(parameters, MotionEvent.ACTION_UP);
+  }
+
+  private void createMotionEventAndPassThrough(ReadableMap params, int action){
+    final boolean isScroll = params.getBoolean("isClick");
+    final float xLocation = (float) params.getDouble("x_location");
+    final float yLocation = (float) params.getDouble("y_location");
+    final long timestampTouchStart = (long) params.getDouble("touchTime");
+    final long timestampTouchEnd = SystemClock.uptimeMillis();
+    final int metastats = 0;
+    MotionEvent event = MotionEvent.obtain(timestampTouchStart, timestampTouchEnd, action, xLocation, yLocation, metastats);
+    _player.passTouchEventToVRView(event, !isScroll);
   }
 }
