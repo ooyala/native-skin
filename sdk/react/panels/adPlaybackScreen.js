@@ -263,7 +263,7 @@ var AdPlaybackScreen = React.createClass({
 
       var playButtonIfPaused;
       if (!this.props.playing) {
-        playButtonIfPaused = this._renderPlayPause(shouldShowControls)
+        playButtonIfPaused = this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls)
       }
       return (
         <View
@@ -279,7 +279,7 @@ var AdPlaybackScreen = React.createClass({
           style={styles.container}>
           {adBar}
           {this._renderPlaceholder(adIcons)}
-          {this._renderPlayPause(shouldShowControls) }
+          {this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls) }
           {this._renderBottomOverlay(shouldShowControls) }
         </View>
       );
