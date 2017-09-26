@@ -177,7 +177,7 @@ OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
   if (this.skin.state.vrContent){
     let isClicked = isClick(event.nativeEvent.pageX, event.nativeEvent.pageY);
     if (isClicked) {
-      showControlsPanel();
+      showControlsPanel.call(this);
     }
     this.bridge.handleTouchEnd({
       "x_location" : event.nativeEvent.pageX,
@@ -186,7 +186,7 @@ OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
       "isClicked"  : isClicked
     });
   } else {
-    showControlsPanel();
+    showControlsPanel.call(this);
   }
 }
 
@@ -269,7 +269,7 @@ OoyalaSkinCore.prototype.renderScreen = function() {
 }
 
 //return boolean -> touch end was in clickRadius from touch start
-function isClick(endX, endY) {
+let isClick = function(endX, endY) {
   return Math.sqrt((endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
 }
 module.exports = OoyalaSkinCore;
