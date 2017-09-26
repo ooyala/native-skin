@@ -179,7 +179,7 @@ OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
     if (isClicked) {
       showControlsPanel();
     }
-    this.bridge.onTouchEventEnd({
+    this.bridge.handleTouchEnd({
       "x_location" : event.nativeEvent.pageX,
       "y_location" : event.nativeEvent.pageY,
       "touchTime"  : event.nativeEvent.timestamp,
@@ -192,7 +192,7 @@ OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
 
 OoyalaSkinCore.prototype.handleVideoTouchMove = function (event) {
   if (this.skin.state.vrContent) {
-    this.bridge.onTouchEventMove({
+    this.bridge.handleTouchMove({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
       "touchTime" : event.nativeEvent.timestamp,
@@ -206,7 +206,7 @@ OoyalaSkinCore.prototype.handleVideoTouchStart = function (event) {
     startedClickX = event.nativeEvent.pageX;
     startedClickY = event.nativeEvent.pageY;
 
-    this.bridge.onTouchEventStart({
+    this.bridge.handleTouchStart({
       "x_location": event.nativeEvent.pageX,
       "y_location": event.nativeEvent.pageY,
       "touchTime" : event.nativeEvent.timestamp,
