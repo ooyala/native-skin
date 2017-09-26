@@ -152,13 +152,13 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   }
 
   private void createMotionEventAndPassThrough(ReadableMap params, int action){
-    final boolean isScroll = params.getBoolean("isClick");
+    final boolean isClicked = params.getBoolean("isClicked");
     final float xLocation = (float) params.getDouble("x_location");
     final float yLocation = (float) params.getDouble("y_location");
     final long timestampTouchStart = (long) params.getDouble("touchTime");
     final long timestampTouchEnd = SystemClock.uptimeMillis();
     final int metastats = 0;
     MotionEvent event = MotionEvent.obtain(timestampTouchStart, timestampTouchEnd, action, xLocation, yLocation, metastats);
-    _player.passTouchEventToVRView(event, !isScroll);
+    _player.passTouchEventToVRView(event, !isClicked);
   }
 }
