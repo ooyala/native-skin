@@ -50,6 +50,7 @@ var ControlBar = React.createClass({
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
     vrContent: React.PropTypes.bool.isRequired,
+	targetDeviceTV: React.PropTypes.bool.isRequired
   },
 
   getDefaultProps: function() {
@@ -228,10 +229,14 @@ var ControlBar = React.createClass({
         options={widgetOptions}/>;
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
-        if (this.props.vrContent){
+        if (this.props.vrContent && !this.props.targetDeviceTV){
           pushControll(item);
         }
-      } else {
+      } else if (widget.name === BUTTON_NAMES.FULLSCREEN) {
+		if (!this.props.targetDeviceTV) {
+          pushControll(item);
+        }
+	  } else {
         pushControll(item);
       }
     }

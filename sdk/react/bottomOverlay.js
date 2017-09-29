@@ -61,6 +61,7 @@ var BottomOverlay = React.createClass({
     screenReaderEnabled: React.PropTypes.bool,
     config: React.PropTypes.object,
     vrContent: React.PropTypes.bool,
+	targetDeviceTV: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
@@ -268,7 +269,8 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       handleControlsTouch={this.props.handleControlsTouch}
       showWatermark={this.props.showWatermark}
       config={this.props.config}
-      vrContent={this.props.vrContent} />);
+      vrContent={this.props.vrContent}
+	  targetDeviceTV={this.props.targetDeviceTV} />);
   },
 
   playedPercent: function(playhead, duration) {

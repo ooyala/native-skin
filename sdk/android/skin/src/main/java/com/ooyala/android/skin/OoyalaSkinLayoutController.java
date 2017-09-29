@@ -94,6 +94,14 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    */
   public static final String VR_MODE_STEREO_NOTIFICATION_NAME = "vrModeStereo";
 
+  /**
+   * Notifies that the target is Android TV/Amazon Fire TV
+   * No "data" is passed in the OoyalaNotification.
+   */
+  public static final String TARGET_DEVICE_TV_NOTIFICATION_NAME = "targetDeviceTV";
+
+  private final int REWIND_STEP = 10000; //10sec
+
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
@@ -220,6 +228,21 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
                     FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
+
+    boolean isTargetTV = isTargetDeviceTV();
+    if (isTargetTV) {
+      _layout.setFullscreen(true);
+    }
+    targetDeviceTVNotification(isTargetTV);
+  }
+
+  private boolean isTargetDeviceTV() {
+    return _layout.getContext().getPackageManager().hasSystemFeature("amazon.hardware.fire_tv");
+  }
+
+  private void targetDeviceTVNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildTargetDeviceParams(data);
+    sendEvent(TARGET_DEVICE_TV_NOTIFICATION_NAME, params);
   }
 
   public void ccStyleChanged() {
@@ -394,28 +417,109 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   public boolean onKeyUp(int keyCode, KeyEvent event) {
+    if (_player.hasVRContent()){
+      return handleKeyUpVR(keyCode, event);
+    }
     return false;
   }
 
   public boolean onKeyDown(int keyCode, KeyEvent event) {
-    sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
+    boolean handled = false;
     switch (keyCode) {
       case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
       case KeyEvent.KEYCODE_DPAD_CENTER:
-        if (_player.isPlaying()) {
-          _player.pause();
-        } else {
-          _player.play();
+        if (event.getRepeatCount() == 0) {
+          if (_player.isPlaying()) {
+            _player.pause();
+          } else {
+            _player.play();
+            handled = true;
+          }
         }
+        sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
         break;
       case KeyEvent.KEYCODE_MEDIA_REWIND:
-        _player.seek(_player.getPlayheadTime() - 10000); // << -10sec
+        _player.seek(_player.getPlayheadTime() - REWIND_STEP); // << -10sec
+        sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
+        handled = true;
         break;
       case KeyEvent.KEYCODE_MEDIA_FAST_FORWARD:
-        _player.seek(_player.getPlayheadTime() + 10000); // >> +10sec
+        _player.seek(_player.getPlayheadTime() + REWIND_STEP); // >> +10sec
+        sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
+        handled = true;
+        break;
+      case KeyEvent.KEYCODE_DPAD_UP:
+      case KeyEvent.KEYCODE_DPAD_DOWN:
+      case KeyEvent.KEYCODE_DPAD_LEFT:
+      case KeyEvent.KEYCODE_DPAD_RIGHT:
+        if (_player.hasVRContent()) {
+          handled = handleKeyDownVR(keyCode, event);
+        } else {
+          handled = handleKeyDown(keyCode, event);
+          sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
+        }
         break;
     }
-    return false;
+    return handled;
+  }
+
+  private boolean handleKeyDownVR(int keyCode, KeyEvent event) {
+    if (event.getRepeatCount() != 0) {
+      return false;
+    }
+
+    boolean handled = false;
+    switch (keyCode) {
+      case KeyEvent.KEYCODE_DPAD_UP:
+        _player.rotateVRContentY(-1);
+        handled = true;
+        break;
+      case KeyEvent.KEYCODE_DPAD_DOWN:
+        _player.rotateVRContentY(1);
+        handled = true;
+        break;
+      case KeyEvent.KEYCODE_DPAD_LEFT:
+        _player.rotateVRContentX(-1);
+        handled = true;
+        break;
+      case KeyEvent.KEYCODE_DPAD_RIGHT:
+        _player.rotateVRContentX(1);
+        handled = true;
+        break;
+    }
+    return handled;
+  }
+
+  private boolean handleKeyDown(int keyCode, KeyEvent event) {
+    boolean handled = false;
+    switch (keyCode) {
+      case KeyEvent.KEYCODE_DPAD_LEFT:
+        _player.seek(_player.getPlayheadTime() - REWIND_STEP);
+        handled = true;
+        break;
+      case KeyEvent.KEYCODE_DPAD_RIGHT:
+        _player.seek(_player.getPlayheadTime() + REWIND_STEP);
+        handled = true;
+        break;
+    }
+    return handled;
+  }
+
+  private boolean handleKeyUpVR(int keyCode, KeyEvent event) {
+    boolean handled = false;
+    switch (keyCode) {
+      case KeyEvent.KEYCODE_DPAD_UP:
+      case KeyEvent.KEYCODE_DPAD_DOWN:
+        _player.rotateVRContentY(0);
+        handled = true;
+        break;
+      case KeyEvent.KEYCODE_DPAD_LEFT:
+      case KeyEvent.KEYCODE_DPAD_RIGHT:
+        _player.rotateVRContentX(0);
+        handled = true;
+        break;
+    }
+    return handled;
   }
 
   public void addVideoView(View videoView) {

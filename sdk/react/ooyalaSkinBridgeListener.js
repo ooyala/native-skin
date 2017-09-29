@@ -45,7 +45,8 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'error',                    (event) => this.onError(event) ],
     [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ],
     [ 'controllerKeyPressEvent',  (event) => this.onControllerKeyPressed(event) ],
-    [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ]
+    [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ],
+	[ 'targetDeviceTVEvent',      (event) => this.handleTargetDeviceTV(event) ]
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -268,6 +269,12 @@ OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
   this.skin.setState({
     vrContent: e.vrContent
   });
+};
+
+OoyalaSkinBridgeListener.prototype.handleTargetDeviceTV = function (e) {
+  this.skin.setState({
+    targetDeviceTV: e.targetDeviceTV
+  })
 };
 
 module.exports = OoyalaSkinBridgeListener;
