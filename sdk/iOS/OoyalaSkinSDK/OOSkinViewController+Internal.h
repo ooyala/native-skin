@@ -29,5 +29,6 @@
 // see: OOSkinPlayerObserver bridgeAdTappedNotification
 - (void)playPauseFromAdTappedNotification;
 
+- (void)toggleStereoMode;
 
 @end

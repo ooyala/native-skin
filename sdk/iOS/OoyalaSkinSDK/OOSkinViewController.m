@@ -25,6 +25,7 @@
 #import "OOVolumeManager.h"
 #import "OOSkinPlayerObserver.h"
 #import "NSDictionary+Utils.h"
+#import "OOSkinFullScreenViewController.h"
 
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define CC_STYLING_CHANGED_NOTIFICATION @"ccStylingChanged"
@@ -47,6 +48,11 @@
 @property BOOL isReactReady;
 @property OOSkinPlayerObserver *playerObserver;
 @property (nonatomic, strong, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
+
+@property (nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic) BOOL isPreviousFullScreen;
+@property (nonatomic) BOOL isStereoMode;
+@property (nonatomic) UIInterfaceOrientation previousOrientation;
 @end
 
 @implementation OOSkinViewController
@@ -124,7 +130,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (UIViewController *)fullscreenViewController {
   if (!_fullscreenViewController) {
-    _fullscreenViewController = [[UIViewController alloc] init];
+    _fullscreenViewController = [[OOSkinFullScreenViewController alloc] init];
   }
   return _fullscreenViewController;
 }
@@ -313,9 +319,52 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                                     userInfo:@{@"fullScreen": @(isFullscreen)}];
 }
 
+#pragma mark - StereoMode handlers
+
+- (void)enterStereoMode {
+ _previousOrientation = [UIApplication sharedApplication].statusBarOrientation;
+ OOSkinFullScreenViewController *fullScreenController = nil;
+ if (self.fullscreenViewController) {
+    fullScreenController = (OOSkinFullScreenViewController *)self.fullscreenViewController;
+    fullScreenController.isStereoMode = YES;
+  }
+  
+  if (!_fullscreen){
+    [self setFullscreen:YES];
+    _isPreviousFullScreen = NO;
+  } else {
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+    _isPreviousFullScreen = YES;
+  }
+}
+
+- (void)exitStereoMode {
+  OOSkinFullScreenViewController *fullScreenController = nil;
+  if (self.fullscreenViewController) {
+    fullScreenController = (OOSkinFullScreenViewController *)self.fullscreenViewController;
+    fullScreenController.isStereoMode = NO;
+  }
+  if (!_isPreviousFullScreen){
+    [self setFullscreen:NO];
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationMaskPortrait] forKey:@"orientation"];
+  } else {
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:_previousOrientation] forKey:@"orientation"];
+  }
+}
+
 @end
 
 @implementation OOSkinViewController(Internal)
+
+- (void)toggleStereoMode {
+  if (_isStereoMode) {
+    [self exitStereoMode];
+  } else {
+    [self enterStereoMode];
+  }
+  _isStereoMode = !_isStereoMode;
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+}
 
 - (void)toggleFullscreen {
   [self setFullscreen:!self.isFullscreen];
