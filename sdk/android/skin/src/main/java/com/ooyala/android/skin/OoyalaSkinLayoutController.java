@@ -66,7 +66,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private static final String KEY_PERCENTAG = "percentage";
   private static final String KEY_LANGUAGE = "language";
   private static final String KEY_AVAILABLE_LANGUAGE_FILE = "availableLanguageFile";
-  private static final String KEY_ANDROID_RESOURCE = "HAS_VR_CONTENT_NOTIFICATION_NAMEandroidResource";
+  private static final String KEY_ANDROID_RESOURCE = "androidResource";
   private static final String KEY_LOCALIZATION = "localization";
   private static final String KEY_LOCALE = "locale";
   private static final String KEY_DEFAULT_LANGUAGE = "defaultLanguage";
