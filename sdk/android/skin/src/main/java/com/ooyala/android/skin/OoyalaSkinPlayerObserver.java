@@ -219,7 +219,7 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeVRContentNotification(Object data){
-    WritableMap params = BridgeMessageBuilder.buildVRParams(data);
-    _layoutController.sendEvent(OoyalaPlayer.HAS_VR_CONTENT_NOTIFICATION_NAME, params);
+   /* WritableMap params = BridgeMessageBuilder.buildVRParams(data);
+    _layoutController.sendEvent(OoyalaPlayer.HAS_VR_CONTENT_NOTIFICATION_NAME, params);*/
   }
 }
