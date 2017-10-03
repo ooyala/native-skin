@@ -293,6 +293,12 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  @Override
+  public void publishVRContent(boolean hasVRContent) {
+    WritableMap params = BridgeMessageBuilder.buildVRParams(hasVRContent);
+    sendEvent("vrContentEvent", params);
+  }
+
   private void saveUpNextSetting(JSONObject config) {
     try {
       _isUpNextEnabled = config.getJSONObject("upNext").getBoolean("showUpNext");
