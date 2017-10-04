@@ -28,12 +28,16 @@
 #import "OOSkinViewController+Internal.h"
 #import "OOSkinFullScreenViewController.h"
 
+
 #define DISCOVERY_RESULT_NOTIFICATION @"discoveryResultsReceived"
 #define CC_STYLING_CHANGED_NOTIFICATION @"ccStylingChanged"
 #define FULLSCREEN_ANIMATION_DURATION 0.5
 #define FULLSCREEN_ANIMATION_DELAY 0
 
+
 @interface OOSkinViewController ()
+
+#pragma mark - Properties
 
 @property(nonatomic) RCTRootView *reactView;
 @property(nonatomic) OOReactBridge *ooBridge;
@@ -52,19 +56,32 @@
 
 @property(nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 
-@property(nonatomic) BOOL isPreviousFullscreen;
-@property(nonatomic) BOOL isStereoMode;
-@property(nonatomic) UIInterfaceOrientation previousOrientation;
+// VR properties
+@property (nonatomic) BOOL isVRStereoMode;
+
+// Interface orientation properties
+@property (nonatomic) BOOL isManualOrientaionChange;
+@property (nonatomic) BOOL isFullScreenPreviousState;
+
+#if !TARGET_OS_TV
+@property (nonatomic) UIInterfaceOrientation currentInterfaceOrientation;
+@property (nonatomic) UIInterfaceOrientation previousInterfaceOrientation;
+#endif
 
 @end
 
+
 @implementation OOSkinViewController
+
+#pragma mark - Constants
 
 static NSString *outputVolumeKey = @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey = @"frame";
 
 NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreenChanged";
+
+#pragma mark - Initialization
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)skinOptions
@@ -79,12 +96,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _skinConfig = [NSDictionary dictionaryFromSkinConfigFile:_skinOptions.configFileName
                                                   mergedWith:_skinOptions.overrideConfigs];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onReactReady:) name:RCTContentDidAppearNotification object:_reactView];
     _isReactReady = NO;
 
     self.ooBridge = [OOReactBridge new];
-    //Passing self.ooBridge itself in the anonymous function counts as a self strong reference.
-    //I create a copy of the pointer to avoid that
+    // Passing self.ooBridge itself in the anonymous function counts as a self strong reference.
+    // I create a copy of the pointer to avoid that
     OOReactBridge *newBridge = self.ooBridge;
 
     RCTBridge *bridge = [[RCTBridge alloc] initWithBundleURL:skinOptions.jsCodeLocation
@@ -104,7 +120,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
     [self.view addSubview:_player.view];
 
-    //InitializeReactView and add to master view
+    // InitializeReactView and add to master view
     [_reactView setFrame:rect];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
@@ -124,19 +140,72 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _movieFullScreenView = [[UIView alloc] init];
     _movieFullScreenView.alpha = 0.f;
     _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    [_movieFullScreenView setBackgroundColor:[UIColor blackColor]];
     MACaptionAppearanceSetDisplayType(kMACaptionAppearanceDomainUser, kMACaptionAppearanceDisplayTypeForcedOnly);
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onApplicationDidBecomeActive:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    // Add notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onReactReady:)
+                                                 name:RCTContentDidAppearNotification
+                                               object:_reactView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(onApplicationDidBecomeActive:)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(vrPlayerDidConfiguredAction)
+                                                 name:OOOoyalaVRPlayerDidConfigured
+                                               object:nil];
+    
+    // VR properties
+    _isVRStereoMode = NO;
+    
+    // Interface orientation support
+#if !TARGET_OS_TV
+    _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+#endif
+    _isManualOrientaionChange = NO;
+    _isFullScreenPreviousState = self.isFullscreen;
   }
+  
   return self;
 }
 
-- (UIViewController *)fullscreenViewController {
-  if (!_fullscreenViewController) {
-    _fullscreenViewController = [[OOSkinFullScreenViewController alloc] init];
-  }
-  return _fullscreenViewController;
+- (void)dealloc {
+  LOG(@"OOSkinViewController.dealloc")
+  [self.view removeObserver:self forKeyPath:kViewChangeKey];
+  [OOVolumeManager removeVolumeObserver:self];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [self.ooBridge deregisterController:self];
+  [self.player destroy];
 }
+
+#pragma mark - Override view controller functions
+
+#if !TARGET_OS_TV
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+  if (_fullscreen) {
+    return [_fullscreenViewController supportedInterfaceOrientations];
+  } else {
+    return UIInterfaceOrientationMaskAll;
+  }
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  if (_fullscreen) {
+    return [_fullscreenViewController shouldAutorotateToInterfaceOrientation:interfaceOrientation];
+  } else {
+    return YES;
+  }
+}
+
+- (BOOL)prefersStatusBarHidden {
+  return _fullscreen;
+}
+#endif
+
+#pragma mark - Private functions
 
 - (void)disableBuiltInAdLearnMoreButton:(OOOoyalaPlayer *)player {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -149,7 +218,146 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   }
 }
 
-#pragma mark Discovery UI
+- (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion {
+  if (fullscreen == _fullscreen) {
+    
+    // Notify what fullscreen did changed
+    if (completion) {
+      completion();
+    }
+    
+    return;
+  }
+  
+  _fullscreen = fullscreen;
+  
+  BOOL wasPlaying = self.player.isPlaying;
+  
+  // Pause player if needed for change fullScreen mode action duration
+  if (wasPlaying) {
+    [_player pause];
+  }
+
+  // Perform changes for fullscreen/inline mode
+  if (fullscreen) {
+    [self openFullscreenMode:^{
+      
+      // Notify observers what screen state changed
+      [self notifyFullScreenChange:_fullscreen];
+      
+      // Notify what fullscreen did changed
+      if (completion) {
+        completion();
+      }
+      // Resume player if needed after fullscreen mode action
+      if (wasPlaying) {
+        [self.player play];
+      }
+    }];
+  } else {
+    [self openInlineMode:^{
+      
+      // Notify observers what screen state changed
+      [self notifyFullScreenChange:_fullscreen];
+      
+      // Notify what fullscreen did changed
+      if (completion) {
+        completion();
+      }
+      // Resume player if needed after fullscreen mode action
+      if (wasPlaying) {
+        [self.player play];
+      }
+    }];
+  }
+}
+
+- (void)openFullscreenMode:(nullable void (^)())completion {
+  UIWindow *window = [UIApplication sharedApplication].keyWindow;
+  _inlineRootViewController = window.rootViewController;
+  
+  // Remove video view from container
+  [self.view removeFromSuperview];
+  self.view.frame = _parentView.frame;
+  
+  // Save parent view controller
+  _inlineViewController = self.parentViewController;
+  [self removeFromParentViewController];
+  
+  // Add fullscreen view controller on inline view controller
+  [_inlineViewController addChildViewController:self.fullscreenViewController];
+  [_inlineViewController.view addSubview:self.fullscreenViewController.view];
+  
+  self.fullscreenViewController.view.frame = window.bounds;
+  [self.fullscreenViewController.view addSubview:self.view];
+  
+  // Perform animations
+  [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
+    [self.view setFrame:window.bounds];
+  } completion:^(BOOL finished) {
+    [self.fullscreenViewController.view removeFromSuperview];
+    [self.fullscreenViewController removeFromParentViewController];
+    [self.fullscreenViewController addChildViewController:self];
+    
+    // Change window root view controller
+    [window setRootViewController:self.fullscreenViewController];
+    [window makeKeyAndVisible];
+    
+    // Completion
+    if (completion) {
+      completion();
+    }
+  }];
+}
+
+- (void)openInlineMode:(nullable void (^)())completion {
+  UIWindow *window = [UIApplication sharedApplication].keyWindow;
+  
+  window.frame = [UIScreen mainScreen].bounds;
+  window.rootViewController = _inlineRootViewController;
+  
+  [_inlineViewController.view addSubview:self.fullscreenViewController.view];
+  [_inlineViewController addChildViewController:self.fullscreenViewController];
+  
+  self.fullscreenViewController.view.frame = _inlineViewController.view.frame;
+  
+  [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
+    self.view.frame = _parentView.frame;
+  } completion:^(BOOL finished) {
+    
+    [self removeFromParentViewController];
+    [self.fullscreenViewController.view removeFromSuperview];
+    [self.fullscreenViewController removeFromParentViewController];
+    
+    [_parentView addSubview:self.view];
+    [_inlineViewController addChildViewController:self];
+    
+    self.view.frame = _parentView.bounds;
+    
+    // Notify observers what screen sate changed
+    [self notifyFullScreenChange:_fullscreen];
+    
+    // Completion
+    if (completion) {
+      completion();
+    }
+  }];
+}
+
+- (UIViewController *)fullscreenViewController {
+  if (!_fullscreenViewController) {
+    _fullscreenViewController = [OOSkinFullScreenViewController new];
+  }
+  return _fullscreenViewController;
+}
+
+- (void)notifyFullScreenChange:(BOOL)isFullscreen {
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification
+                                                      object:self
+                                                    userInfo:@{@"fullScreen": @(isFullscreen)}];
+}
+
+#pragma mark - Discovery UI
 
 - (void)maybeLoadDiscovery:(NSString *)embedCode {
   if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
@@ -162,6 +370,8 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     }];
   }
 }
+
+#pragma mark - Public functions
 
 - (void)ccStyleChanged:(NSNotification *)notification {
   self.closedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
@@ -185,6 +395,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [params setObject:textOpacity forKey:@"textOpacity"];
   [params setObject:fontName forKey:@"fontName"];
   [self sendBridgeEventWithName:CC_STYLING_CHANGED_NOTIFICATION body:params];
+}
+
+- (void)sendBridgeEventWithName:(NSString *)eventName body:(id)body {
+  [self.ooBridge sendDeviceEventWithName:eventName body:body];
 }
 
 - (NSString *)hexStringFromColor:(UIColor *)color {
@@ -228,7 +442,8 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self sendBridgeEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];
 }
 
-// KVO
+#pragma mark - KVO
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
                         change:(NSDictionary *)change context:(void *)context {
   if (context == &kFrameChangeContext) {
@@ -244,137 +459,119 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   }
 }
 
-- (void)dealloc {
-  LOG(@"OOSkinViewController.dealloc")
-  [self.view removeObserver:self forKeyPath:kViewChangeKey];
-  [OOVolumeManager removeVolumeObserver:self];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [self.ooBridge deregisterController:self];
-  [self.player destroy];
-}
-
-- (void)setFullscreen:(BOOL)fullscreen {
-  if (fullscreen == _fullscreen) return;
-
-  BOOL wasPlaying = self.player.isPlaying;
-  if (wasPlaying) {
-    [_player pause];
-  }
-
-  _fullscreen = fullscreen;
-  [self notifyFullScreenChange:_fullscreen];
-  if (_fullscreen) {
-    [self.view removeFromSuperview];
-
-    if (self.parentViewController) {
-      self.inlineViewController = self.parentViewController;
-      [self.inlineViewController presentViewController:self.fullscreenViewController animated:NO completion:nil];
-      [self removeFromParentViewController];
-    }
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    self.inlineRootViewController = window.rootViewController;
-
-    [self.movieFullScreenView setFrame:window.bounds];
-    self.fullscreenViewController.view = self.movieFullScreenView;
-
-    window.rootViewController = self.fullscreenViewController;
-    [self.fullscreenViewController.view addSubview:self.view];
-
-    [self.view setFrame:window.bounds];
-    self.view.alpha = 0.0f;
-
-    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-        self.movieFullScreenView.alpha = 1.f;
-        self.view.alpha = 1.f;
-    }                completion:nil];
-  } else {
-    [self.parentView addSubview:self.view];
-    [self.view setFrame:self.parentView.bounds];
-
-    // removes the presented fullscreenViewController
-    [self.inlineViewController dismissViewControllerAnimated:NO completion:nil];
-
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    window.rootViewController = self.inlineRootViewController;
-    self.inlineRootViewController = nil;
-
-    [self.inlineViewController addChildViewController:self];
-    self.inlineViewController = nil;
-
-    self.view.alpha = 0.0f;
-
-    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-        self.movieFullScreenView.alpha = 0.f;
-        self.view.alpha = 1.f;
-    }                completion:^(BOOL finished) {
-        [self.movieFullScreenView removeFromSuperview];
-    }];
-  }
-  if (wasPlaying) {
-    [self.player play];
-  }
-
-}
-
-- (void)notifyFullScreenChange:(BOOL)isFullscreen {
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification object:self
-                                                    userInfo:@{@"fullScreen": @(isFullscreen)}];
-}
-
 #pragma mark - Stereo Mode Handle
 
 - (void)enterStereoMode {
-  _previousOrientation = [UIApplication sharedApplication].statusBarOrientation;
-
-  OOSkinFullScreenViewController *fullScreenController = nil;
-  if (self.fullscreenViewController) {
-    fullScreenController = (OOSkinFullScreenViewController *) self.fullscreenViewController;
-    fullScreenController.isStereoMode = YES;
-  }
-
-  if (!_fullscreen) {
-    [self setFullscreen:YES];
-    _isPreviousFullscreen = NO;
-  } else {
-    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationMaskLandscapeRight] forKey:@"orientation"];
-    _isPreviousFullscreen = YES;
-  }
+  
+  // Save previous full screen state
+  _isFullScreenPreviousState = _fullscreen;
+  
+  // Save previous interface orientation
+#if !TARGET_OS_TV
+  _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+#endif
+  
+  // Create weak self object
+  __weak OOSkinViewController *weakSelf = self;
+  
+  // Change screen mode if needed
+  [self setFullscreen:YES completion:^{
+    // Reset full screen view controller
+    OOSkinFullScreenViewController *fullScreenController = nil;
+    
+    if (weakSelf.fullscreenViewController) {
+      fullScreenController = (OOSkinFullScreenViewController *)weakSelf.fullscreenViewController;
+      fullScreenController.enableVRStereoMode = YES;
+    }
+    
+    // Manualy change device orientation on landscape right
+#if !TARGET_OS_TV
+    _isManualOrientaionChange = YES;
+    
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(UIApplication.sharedApplication.statusBarOrientationAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+      
+      // Notify observers what stereo mode did changed
+      [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+      
+      _isManualOrientaionChange = NO;
+    });
+#endif
+   }];
 }
 
 - (void)exitStereoMode {
+  
+  // Notify observers what stereo mode did changed
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+  
+  ((OOSkinFullScreenViewController *)_fullscreenViewController).enableVRStereoMode = NO;
+  
+  // Reset fullscreen view controller
   OOSkinFullScreenViewController *fullScreenController = nil;
+  
   if (self.fullscreenViewController) {
-    fullScreenController = (OOSkinFullScreenViewController *) self.fullscreenViewController;
-    fullScreenController.isStereoMode = NO;
+    fullScreenController = (OOSkinFullScreenViewController *)_fullscreenViewController;
+    fullScreenController.enableVRStereoMode = NO;
   }
+  
+  // Create weak self object
+  __weak OOSkinViewController *weakSelf = self;
+  
+  // Change screen mode if needed
+  [self setFullscreen:_isFullScreenPreviousState completion:^{
+    
+    // Manualy change device orientation for previous value
+#if !TARGET_OS_TV
+    _isManualOrientaionChange = YES;
+    
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:weakSelf.previousInterfaceOrientation] forKey:@"orientation"];
 
-  if (!_isPreviousFullscreen) {
-    [self setFullscreen:NO];
-    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationMaskPortrait] forKey:@"orientation"];
-  } else {
-    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:_previousOrientation] forKey:@"orientation"];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(UIApplication.sharedApplication.statusBarOrientationAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+      _isManualOrientaionChange = NO;
+    });
+#endif
+  }];
+}
+
+#pragma mark - Notifications
+
+- (void)vrPlayerDidConfiguredAction {
+  if (_isVRStereoMode) {
+    
+    // Notify observers what stereo mode did changed
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
   }
 }
 
 @end
 
+#pragma mark - (Internal implementation)
+
 @implementation OOSkinViewController (Internal)
 
 - (void)toggleStereoMode {
-  if (_isStereoMode) {
-    [self exitStereoMode];
-  } else {
-    [self enterStereoMode];
-  }
-  _isStereoMode = !_isStereoMode;
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    _isVRStereoMode = !_isVRStereoMode;
+    
+    if (_isVRStereoMode) {
+      [self enterStereoMode];
+    } else {
+      [self exitStereoMode];
+    }
+  });
 }
 
 - (void)toggleFullscreen {
-  if (self.fullscreen && self.isStereoMode) {
+  
+  // Save previous full screen state
+  _isFullScreenPreviousState = _fullscreen;
+  
+  if (_fullscreen && _isVRStereoMode) {
     [self toggleStereoMode];
   } else {
-    [self setFullscreen:!self.isFullscreen];
+    [self setFullscreen:!_fullscreen completion:NULL];
   }
 }
 
@@ -444,7 +641,4 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self.queuedEvents removeAllObjects];
 }
 
-- (void)sendBridgeEventWithName:(NSString *)eventName body:(id)body {
-  [self.ooBridge sendDeviceEventWithName:eventName body:body];
-}
 @end

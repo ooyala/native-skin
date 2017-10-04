@@ -12,6 +12,9 @@
 
 @optional
 
+/** Called when the device orientation did changed. */
+- (void)didInterfaceOrientationChanged;
+
 /** Called when the player enter fullscreen. */
 - (void)didEnterFullscreen;
 
