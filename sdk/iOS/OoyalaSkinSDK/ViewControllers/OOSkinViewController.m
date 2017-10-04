@@ -89,54 +89,54 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                  launchOptions:(NSDictionary *)options {
   if (self = [super init]) {
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
-
+    
     self.playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player skinViewController:self];
     [self disableBuiltInAdLearnMoreButton:player];
     _skinOptions = skinOptions;
     _skinConfig = [NSDictionary dictionaryFromSkinConfigFile:_skinOptions.configFileName
                                                   mergedWith:_skinOptions.overrideConfigs];
-
+    
     _isReactReady = NO;
-
+    
     self.ooBridge = [OOReactBridge new];
     // Passing self.ooBridge itself in the anonymous function counts as a self strong reference.
     // I create a copy of the pointer to avoid that
     OOReactBridge *newBridge = self.ooBridge;
-
+    
     RCTBridge *bridge = [[RCTBridge alloc] initWithBundleURL:skinOptions.jsCodeLocation
                                               moduleProvider:^NSArray * {
-                                                  return @[newBridge];
+                                                return @[newBridge];
                                               } launchOptions:nil];
-
+    
     _reactView = [[RCTRootView alloc] initWithBridge:bridge moduleName:@"OoyalaSkin" initialProperties:_skinConfig];
-
+    
     _queuedEvents = [NSMutableArray new];
     _parentView = parentView;
     CGRect rect = _parentView.bounds;
-
+    
     [self.view setFrame:rect];
     [_player.view setFrame:rect];
     [self.view addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
-
+    
     [self.view addSubview:_player.view];
-
+    
     // InitializeReactView and add to master view
     [_reactView setFrame:rect];
     [_reactView setOpaque:NO];
     [_reactView setBackgroundColor:[UIColor clearColor]];
     _reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
+    
     [self.view addSubview:_reactView];
-
+    
     [OOVolumeManager addVolumeObserver:self];
     [self.ooBridge registerController:self];
-
+    
     [_parentView addSubview:self.view];
     self.upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player bridge:self.ooBridge config:[self.skinConfig objectForKey:@"upNext"]];
-
+    
     // Pre-create the MovieFullscreenView to use when necessary
     _fullscreen = NO;
-
+    
     _movieFullScreenView = [[UIView alloc] init];
     _movieFullScreenView.alpha = 0.f;
     _movieFullScreenView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -237,7 +237,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (wasPlaying) {
     [_player pause];
   }
-
+  
   // Perform changes for fullscreen/inline mode
   if (fullscreen) {
     [self openFullscreenMode:^{
@@ -362,11 +362,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)maybeLoadDiscovery:(NSString *)embedCode {
   if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
     [OODiscoveryManager getResults:self.skinOptions.discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
-        if (error) {
-          LOG(@"discovery request failed, error is %@", error.description);
-        } else {
-          [self handleDiscoveryResults:results embedCode:embedCode];
-        }
+      if (error) {
+        LOG(@"discovery request failed, error is %@", error.description);
+      } else {
+        [self handleDiscoveryResults:results embedCode:embedCode];
+      }
     }];
   }
 }
@@ -403,15 +403,15 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (NSString *)hexStringFromColor:(UIColor *)color {
   const CGFloat *components = CGColorGetComponents(color.CGColor);
-
+  
   CGFloat r = components[0];
   CGFloat g = components[1];
   CGFloat b = components[2];
-
+  
   return [NSString stringWithFormat:@"#%02lX%02lX%02lX",
-                                    lroundf(r * 255),
-                                    lroundf(g * 255),
-                                    lroundf(b * 255)];
+          lroundf(r * 255),
+          lroundf(g * 255),
+          lroundf(b * 255)];
 }
 
 - (void)handleDiscoveryResults:(NSArray *)results embedCode:(NSString *)currentEmbedCode {
@@ -428,11 +428,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     // we assume we always get a string description, even if it is empty ("")
     NSString *description = [dict objectForKey:@"description"];
     NSDictionary *discoveryItem = @{@"name": name,
-      @"embedCode": embedCode,
-      @"imageUrl": imageUrl,
-      @"duration": duration,
-      @"bucketInfo": bucketInfo,
-      @"description": description};
+                                    @"embedCode": embedCode,
+                                    @"imageUrl": imageUrl,
+                                    @"duration": duration,
+                                    @"bucketInfo": bucketInfo,
+                                    @"description": description};
     [discoveryArray addObject:discoveryItem];
   }
   if ([discoveryArray count] > 0 && (discoveryArray[0] != nil)) {
@@ -449,7 +449,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (context == &kFrameChangeContext) {
     NSNumber *width = [NSNumber numberWithFloat:self.view.frame.size.width];
     NSNumber *height = [NSNumber numberWithFloat:self.view.frame.size.height];
-
+    
     NSDictionary *eventBody = @{@"width": width, @"height": height, @"fullscreen": [NSNumber numberWithBool:self.isFullscreen]};
     [self sendBridgeEventWithName:(NSString *) kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
@@ -488,9 +488,18 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 #if !TARGET_OS_TV
     _isManualOrientaionChange = YES;
     
+    NSTimeInterval delayFotDeviceOrientationAnimation = 0;
+    
+    // Change device orienation to lanscape right
+    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight) {
+      delayFotDeviceOrientationAnimation = 0;
+    } else {
+      delayFotDeviceOrientationAnimation = UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
+    }
+    
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(UIApplication.sharedApplication.statusBarOrientationAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayFotDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       
       // Notify observers what stereo mode did changed
       [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
@@ -498,7 +507,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
       _isManualOrientaionChange = NO;
     });
 #endif
-   }];
+  }];
 }
 
 - (void)exitStereoMode {
@@ -527,8 +536,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _isManualOrientaionChange = YES;
     
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:weakSelf.previousInterfaceOrientation] forKey:@"orientation"];
-
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(UIApplication.sharedApplication.statusBarOrientationAnimationDuration * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
+    NSTimeInterval delayFotDeviceOrientationAnimation = weakSelf.isFullScreenPreviousState ? 0 : UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayFotDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       _isManualOrientaionChange = NO;
     });
 #endif
@@ -589,13 +600,13 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     return;
   }
   _isReactReady = YES;
-
+  
   // PurgeEvents must happen after isReactReady, however, I'm not positive this is truly thread-safe.
   // If a notification is queued during PurgeEvents, there could be an execption
   [self purgeEvents];
-
+  
   [self sendBridgeEventWithName:VolumeChangeKey body:@{@"volume": @([OOVolumeManager getCurrentVolume])}];
-
+  
   [self ccStyleChanged:nil];
 }
 
@@ -642,3 +653,4 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 }
 
 @end
+
