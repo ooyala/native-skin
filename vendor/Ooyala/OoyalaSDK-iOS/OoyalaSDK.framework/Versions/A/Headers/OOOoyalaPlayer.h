@@ -330,9 +330,25 @@ extern NSString *const OOLiveClosedCaptionsLanguage;
 /**
  *  \memberof OOOoyalaPlayer
  * 	\brief Notification when we handle vr metatag.
- * 	\details UserInfo contains "isVR"
+ * 	\details UserInfo contains bool value "vrContent". YES if video is 360 otherwise NO
  */
 extern NSString *const OOOoyalaPlayerVideoHasVRContent;
+
+/**
+ * \memberof OOOoyalaPlayer
+ * \brief Notification when VR player did configured
+ * \details No additional data provided.
+ */
+
+extern NSString *const OOOoyalaVRPlayerDidConfigured;
+
+/**
+ * \memberof OOOoyalaPlayer
+ * \brief Notification when pressed switch between stereo and mono
+ * \details No additional data provided.
+ */
+
+extern NSString *const OOOoyalaPlayerSwitchSceneNotification;
 
 /**
  * \memberof OOOoyalaPlayer
@@ -342,14 +358,6 @@ extern NSString *const OOOoyalaPlayerVideoHasVRContent;
 
 extern NSString *const OOOoyalaPlayerHandleTouchNotification;
 
-
-/**
- * \memberof OOOoyalaPlayer
- * \brief Notification when pressed switch between stereo and mono
- * \details No additional data provided.
- */
-
-extern NSString *const OOOoyalaPlayerSwitchSceneNotification;
 /**
  * The OoyalaPlayer is the heart of the playback system.
  * Use it to configure and control asset playback, and to be aware of playback state changes.
@@ -451,7 +459,6 @@ extern NSString *const OOOoyalaPlayerSwitchSceneNotification;
  * This property can be changed at any point after the OoyalaPlayer is initialized
  */
 @property (nonatomic) float volume;
-
 
 @property (nonatomic) NSString *customDrmData;
 @property (nonatomic, readonly) OOStreamPlayerMapping *streamPlayerMapping;

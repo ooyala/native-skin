@@ -336,6 +336,14 @@ extern NSString *const OOOoyalaPlayerVideoHasVRContent;
 
 /**
  * \memberof OOOoyalaPlayer
+ * \brief Notification when VR player did configured
+ * \details No additional data provided.
+ */
+
+extern NSString *const OOOoyalaVRPlayerDidConfigured;
+
+/**
+ * \memberof OOOoyalaPlayer
  * \brief Notification when pressed switch between stereo and mono
  * \details No additional data provided.
  */
