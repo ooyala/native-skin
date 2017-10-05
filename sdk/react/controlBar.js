@@ -232,7 +232,7 @@ var ControlBar = React.createClass({
         if (this.props.vrContent && !this.props.targetDeviceTV){
           pushControll(item);
         }
-      } else if (widget.name === BUTTON_NAMES.FULLSCREEN) {
+      } else if (widget.name.toUpperCase() === BUTTON_NAMES.FULLSCREEN.toUpperCase()) {
 		if (!this.props.targetDeviceTV) {
           pushControll(item);
         }

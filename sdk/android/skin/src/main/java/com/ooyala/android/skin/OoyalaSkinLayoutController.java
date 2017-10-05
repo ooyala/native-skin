@@ -98,7 +98,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    * Notifies that the target is Android TV/Amazon Fire TV
    * No "data" is passed in the OoyalaNotification.
    */
-  public static final String TARGET_DEVICE_TV_NOTIFICATION_NAME = "targetDeviceTV";
+  public static final String TARGET_DEVICE_TV_NOTIFICATION_NAME = "targetDeviceTVEvent";
 
   private final int REWIND_STEP = 10000; //10sec
 
@@ -479,11 +479,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_LEFT:
-        _player.rotateVRContentX(-1);
+        _player.rotateVRContentX(1);
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_RIGHT:
-        _player.rotateVRContentX(1);
+        _player.rotateVRContentX(-1);
         handled = true;
         break;
     }
