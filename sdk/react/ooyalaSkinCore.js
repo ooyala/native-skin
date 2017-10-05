@@ -163,6 +163,32 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
 /*
  * This could either reset the lastPressedTime, or zero it to force the hide
  */
+
+OoyalaSkinCore.prototype.handleVideoTouchStart = function (event) {
+  if (this.skin.state.vrContent){
+    startedClickX = event.nativeEvent.pageX;
+    startedClickY = event.nativeEvent.pageY;
+
+    this.bridge.handleTouchStart({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "isClicked" : false
+    });
+  }
+}
+
+OoyalaSkinCore.prototype.handleVideoTouchMove = function (event) {
+  if (this.skin.state.vrContent) {
+    this.bridge.handleTouchMove({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "isClicked" : false
+    });
+  }
+}
+
 OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
   function showControlsPanel() {
     var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
@@ -187,31 +213,6 @@ OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
     });
   } else {
     showControlsPanel.call(this);
-  }
-}
-
-OoyalaSkinCore.prototype.handleVideoTouchMove = function (event) {
-  if (this.skin.state.vrContent) {
-    this.bridge.handleTouchMove({
-      "x_location": event.nativeEvent.pageX,
-      "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp,
-      "isClicked" : false
-    });
-  }
-}
-
-OoyalaSkinCore.prototype.handleVideoTouchStart = function (event) {
-  if (this.skin.state.vrContent){
-    startedClickX = event.nativeEvent.pageX;
-    startedClickY = event.nativeEvent.pageY;
-
-    this.bridge.handleTouchStart({
-      "x_location": event.nativeEvent.pageX,
-      "y_location": event.nativeEvent.pageY,
-      "touchTime" : event.nativeEvent.timestamp,
-      "isClicked" : false
-    });
   }
 }
 
@@ -269,7 +270,7 @@ OoyalaSkinCore.prototype.renderScreen = function() {
 }
 
 //return boolean -> touch end was in clickRadius from touch start
-let isClick = function(endX, endY) {
+let isClick= function(endX, endY) {
   return Math.sqrt((endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
 }
 module.exports = OoyalaSkinCore;
