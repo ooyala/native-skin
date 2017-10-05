@@ -485,11 +485,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_LEFT:
-        _player.rotateVRContentX(1);
+        _player.rotateVRContentX(-1);
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_RIGHT:
-        _player.rotateVRContentX(-1);
+        _player.rotateVRContentX(1);
         handled = true;
         break;
     }
