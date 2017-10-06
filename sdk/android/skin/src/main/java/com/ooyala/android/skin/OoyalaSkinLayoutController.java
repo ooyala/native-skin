@@ -2,9 +2,11 @@ package com.ooyala.android.skin;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -15,24 +17,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.facebook.react.common.LifecycleState;
-import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
-import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
-import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
+import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
 import com.ooyala.android.skin.configuration.SkinOptions;
+import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.skin.util.SkinConfigUtil;
 import com.ooyala.android.ui.LayoutController;
@@ -47,6 +49,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
+
+import static android.content.Context.UI_MODE_SERVICE;
 
 
 /**
@@ -237,7 +241,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   private boolean isTargetDeviceTV() {
-    return _layout.getContext().getPackageManager().hasSystemFeature("amazon.hardware.fire_tv");
+    UiModeManager uiModeManager = (UiModeManager) _layout.getContext().getSystemService(UI_MODE_SERVICE);
+    return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
   }
 
   private void targetDeviceTVNotification(Object data) {
@@ -423,9 +428,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   public boolean onKeyUp(int keyCode, KeyEvent event) {
-    if (_player.hasVRContent()){
-      return handleKeyUpVR(keyCode, event);
-    }
     return false;
   }
 
@@ -477,19 +479,19 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     boolean handled = false;
     switch (keyCode) {
       case KeyEvent.KEYCODE_DPAD_UP:
-        _player.rotateVRContentY(-1);
+        _player.rotateVRContentUp();
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_DOWN:
-        _player.rotateVRContentY(1);
+        _player.rotateVRContentDown();
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_LEFT:
-        _player.rotateVRContentX(-1);
+        _player.rotateVRContentLeft();
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_RIGHT:
-        _player.rotateVRContentX(1);
+        _player.rotateVRContentRight();
         handled = true;
         break;
     }
@@ -505,23 +507,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         break;
       case KeyEvent.KEYCODE_DPAD_RIGHT:
         _player.seek(_player.getPlayheadTime() + REWIND_STEP);
-        handled = true;
-        break;
-    }
-    return handled;
-  }
-
-  private boolean handleKeyUpVR(int keyCode, KeyEvent event) {
-    boolean handled = false;
-    switch (keyCode) {
-      case KeyEvent.KEYCODE_DPAD_UP:
-      case KeyEvent.KEYCODE_DPAD_DOWN:
-        _player.rotateVRContentY(0);
-        handled = true;
-        break;
-      case KeyEvent.KEYCODE_DPAD_LEFT:
-      case KeyEvent.KEYCODE_DPAD_RIGHT:
-        _player.rotateVRContentX(0);
         handled = true;
         break;
     }
