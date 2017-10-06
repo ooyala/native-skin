@@ -12,11 +12,6 @@
 #import "OOEmbedTokenGenerator.h"
 
 
-extern NSString *const OOOoyalaPlayerViewControllerFullscreenEnter;
-extern NSString *const OOOoyalaPlayerViewControllerFullscreenExit;
-extern NSString *const OOOoyalaPlayerViewControllerInlineViewVisible;
-extern NSString *const OOOoyalaPlayerViewControllerFullscreenViewVisible;
-
 @class OOOoyalaAPIClient;
 @class OOControlsViewController;
 @class OOPlayerDomain;
@@ -25,11 +20,11 @@ extern NSString *const OOOoyalaPlayerViewControllerFullscreenViewVisible;
 @class OOCameraPanGestureRecognizer;
 @class OOOoyalaPlayerViewController;
 
-typedef NS_ENUM(NSInteger, OOOoyalaPlayerControlType) {
+typedef NS_ENUM(NSInteger, OOOoyalaTVPlayerControlType) {
   /** an inline player, expandable to fullscreen */
-  OOOoyalaPlayerControlTypeInline,
+  OOOoyalaTVPlayerControlTypeInline,
   /** a fullscreen player, not shrinkable to inline */
-  OOOoyalaPlayerControlTypeFullScreen
+  OOOoyalaTVPlayerControlTypeFullScreen
 };
 
 
@@ -37,9 +32,9 @@ typedef NS_ENUM(NSInteger, OOOoyalaPlayerControlType) {
  * Main ViewController class for Ooyala player.
  * Implements a default skin as well as convenience methods for accesssing and initializing underlying OOOoyalaPlayer.
  */
-@interface OOOoyalaPlayerViewController : UIViewController
+@interface OOOoyalaTVPlayerViewController : UIViewController
 
-@property (nonatomic, readonly) OOOoyalaPlayerControlType initialControlType; // initial state
+@property (nonatomic, readonly) OOOoyalaTVPlayerControlType initialControlType; // initial state
 @property (nonatomic, strong) OOOoyalaPlayer *player;
 
 @property (nonatomic, strong) UIView *inlineOverlay;
@@ -72,7 +67,7 @@ typedef NS_ENUM(NSInteger, OOOoyalaPlayerControlType) {
  * @param[in] controlType Selects inline or fullscreen only UI mode
  */
 - (id)initWithPlayer:(OOOoyalaPlayer *)player
-         controlType:(OOOoyalaPlayerControlType)controlType;
+         controlType:(OOOoyalaTVPlayerControlType)controlType;
 
 /**
  * Returns a dictionary of localization dictionaries. The keys are strings of locale codes.  the values are dictionaries of localized strings
