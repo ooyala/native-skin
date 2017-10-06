@@ -104,7 +104,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    */
   public static final String TARGET_DEVICE_TV_NOTIFICATION_NAME = "targetDeviceTVEvent";
 
-  private final int REWIND_STEP = 10000; //10sec
+  private final int REWIND_STEP = 10000; //10 sec
+  private final int FORWARD_DIRECTION = 1;
+  private final int BACKWARD_DIRECTION = -1;
+  private final int STOP_DIRECTION = 0;
+
 
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
@@ -428,6 +432,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   public boolean onKeyUp(int keyCode, KeyEvent event) {
+    if (_player.hasVRContent()){
+      return handleKeyUpVR(keyCode, event);
+    }
     return false;
   }
 
@@ -479,19 +486,19 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     boolean handled = false;
     switch (keyCode) {
       case KeyEvent.KEYCODE_DPAD_UP:
-        _player.rotateVRContentUp();
+        _player.rotateVRContentVertically(BACKWARD_DIRECTION);
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_DOWN:
-        _player.rotateVRContentDown();
+        _player.rotateVRContentVertically(FORWARD_DIRECTION);
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_LEFT:
-        _player.rotateVRContentLeft();
+        _player.rotateVRContentHorizontally(BACKWARD_DIRECTION);
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_RIGHT:
-        _player.rotateVRContentRight();
+        _player.rotateVRContentHorizontally(FORWARD_DIRECTION);
         handled = true;
         break;
     }
@@ -507,6 +514,23 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         break;
       case KeyEvent.KEYCODE_DPAD_RIGHT:
         _player.seek(_player.getPlayheadTime() + REWIND_STEP);
+        handled = true;
+        break;
+    }
+    return handled;
+  }
+
+  private boolean handleKeyUpVR(int keyCode, KeyEvent event) {
+    boolean handled = false;
+    switch (keyCode) {
+      case KeyEvent.KEYCODE_DPAD_UP:
+      case KeyEvent.KEYCODE_DPAD_DOWN:
+        _player.rotateVRContentVertically(STOP_DIRECTION);
+        handled = true;
+        break;
+      case KeyEvent.KEYCODE_DPAD_LEFT:
+      case KeyEvent.KEYCODE_DPAD_RIGHT:
+        _player.rotateVRContentHorizontally(STOP_DIRECTION);
         handled = true;
         break;
     }
