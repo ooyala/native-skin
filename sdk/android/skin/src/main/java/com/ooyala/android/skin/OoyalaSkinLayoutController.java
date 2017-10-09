@@ -15,24 +15,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.facebook.react.common.LifecycleState;
-import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
-import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
-import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
+import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
 import com.ooyala.android.skin.configuration.SkinOptions;
+import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.skin.util.SkinConfigUtil;
 import com.ooyala.android.ui.LayoutController;
@@ -84,15 +84,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   /**
    * OoyalaNotification name when the VR mode has changed to MONO.
-   * No "data" is passed in the OoyalaNotification.
+   * VR mode is passed in the OoyalaNotification.
    */
-  public static final String VR_MODE_MONO_NOTIFICATION_NAME = "vrModeMono";
-
-  /**
-   * OoyalaNotification name when the VR mode has changed to STEREO.
-   * No "data" is passed in the OoyalaNotification.
-   */
-  public static final String VR_MODE_STEREO_NOTIFICATION_NAME = "vrModeStereo";
+  public static final String VR_MODE_CHANGED_NOTIFICATION_NAME = "vrModeChanged";
 
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
@@ -200,13 +194,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _package = new OoyalaReactPackage(this);
     rootView = new ReactRootView(l.getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
-            .setApplication(app)
-            .setBundleAssetName(skinOptions.getBundleAssetName())
-            .setJSMainModuleName("index.android")
-            .addPackage(_package)
-            .setUseDeveloperSupport(BuildConfig.DEBUG)
-            .setInitialLifecycleState(LifecycleState.RESUMED)
-            .build();
+        .setApplication(app)
+        .setBundleAssetName(skinOptions.getBundleAssetName())
+        .setJSMainModuleName("index.android")
+        .addPackage(_package)
+        .setUseDeveloperSupport(BuildConfig.DEBUG)
+        .setInitialLifecycleState(LifecycleState.RESUMED)
+        .build();
     ccStyleChanged();
     // Reload JS from the react server. TODO: does not work after react upgrade
     if (skinOptions.getEnableReactJSServer()) {
@@ -215,9 +209,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
 
     FrameLayout.LayoutParams frameLP =
-            new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT);
+        new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
   }
@@ -365,11 +359,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     Context context = getLayout().getContext();
 
     if (isFullScreen) {
-      if (context instanceof Activity){
+      if (context instanceof Activity) {
         Activity activity = (Activity) context;
         if (changed) {
           screenOrientation = activity.getRequestedOrientation();
         }
+      } else {
+        DebugMode.logE(TAG, "Trying to store the screen orientation. The context isn't an instance of Activity.");
       }
     }
   }
@@ -457,16 +453,18 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         case MONO:
           // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
           activity.setRequestedOrientation(screenOrientation);
-          sendNotification(VR_MODE_MONO_NOTIFICATION_NAME);
+          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
           break;
         case STEREO:
           // Set up landscape orientation for STEREO mode
           activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-          sendNotification(VR_MODE_STEREO_NOTIFICATION_NAME);
+          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
           break;
         case NONE:
           break;
       }
+    } else {
+      DebugMode.logE(TAG, "Trying to switch VR mode. The context isn't an instance of Activity.");
     }
   }
 
@@ -513,9 +511,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
-      _player.getEmbedCode(),
-      _player.getPcode(),
-      ClientId.getId(_layout.getContext()), null, this);
+        _player.getEmbedCode(),
+        _player.getPcode(),
+        ClientId.getId(_layout.getContext()), null, this);
   }
 
   void handleShare() {

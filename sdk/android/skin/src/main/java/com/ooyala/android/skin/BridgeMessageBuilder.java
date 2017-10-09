@@ -3,6 +3,7 @@ package com.ooyala.android.skin;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
@@ -18,6 +19,7 @@ import com.ooyala.android.util.DebugMode;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Iterator;
 import java.util.Set;
 
@@ -34,14 +36,14 @@ class BridgeMessageBuilder {
     WritableArray cuePoints = Arguments.createArray();
     Set<Integer> cuePointsPercentValues = player.getCuePointsInPercentage();
     for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
-      int cuePointLocation =(int) Math.round ((i.next()/100.0)*duration);
+      int cuePointLocation = (int) Math.round((i.next() / 100.0) * duration);
       cuePoints.pushInt(cuePointLocation);
     }
 
     WritableArray languages = Arguments.createArray();
     Set<String> ccLanguages = player.getAvailableClosedCaptionsLanguages();
     for (Iterator<String> j = ccLanguages.iterator(); j.hasNext(); ) {
-      String languageItem=j.next();
+      String languageItem = j.next();
       languages.pushString(languageItem);
     }
     params.putDouble("duration", duration);
@@ -72,7 +74,7 @@ class BridgeMessageBuilder {
     return params;
   }
 
-  public static WritableMap buildCurrentItemChangedParams(OoyalaPlayer player, int width, int height,int currentVolume) {
+  public static WritableMap buildCurrentItemChangedParams(OoyalaPlayer player, int width, int height, int currentVolume) {
     WritableMap params = Arguments.createMap();
 
     Video currentItem = player.getCurrentItem();
@@ -93,7 +95,7 @@ class BridgeMessageBuilder {
       params.putBoolean("live", currentItem.isLive());
       params.putInt("width", width);
       params.putInt("height", height);
-      params.putInt("volume",currentVolume);
+      params.putInt("volume", currentVolume);
       if (currentItem.hasClosedCaptions()) {
         WritableArray languages = Arguments.createArray();
         for (String s : currentItem.getClosedCaptions().getLanguages()) {
@@ -137,14 +139,14 @@ class BridgeMessageBuilder {
     return params;
   }
 
-  private static double stringSize(String fontName,int fontStyle,int textSize,String text) {
+  private static double stringSize(String fontName, int fontStyle, int textSize, String text) {
     if (text == null) {
       DebugMode.logE(TAG, "Trying to perform stringSize on a null string");
       return 0;
     }
     Paint paint = new Paint();
     Rect bounds = new Rect();
-    Typeface typeface = Typeface.create(fontName,fontStyle);
+    Typeface typeface = Typeface.create(fontName, fontStyle);
     paint.setTypeface(typeface);
     paint.setTextSize(textSize);
     double size = paint.measureText(text);
@@ -158,7 +160,7 @@ class BridgeMessageBuilder {
     String fontName = "AvenirNext-DemiBold";
     int fontStyle = Typeface.BOLD;
     int textSize = 16;
-    if(data != null) {
+    if (data != null) {
       AdPodInfo ad = (AdPodInfo) data;
 
       String title = ad.getTitle() != null ? ad.getTitle() : "";
@@ -179,7 +181,7 @@ class BridgeMessageBuilder {
       Boolean adBar = ad.isAdbar();
       params.putBoolean("requireAdBar", adBar);
 
-      Boolean controls= ad.isControls();
+      Boolean controls = ad.isControls();
       params.putBoolean("requireControls", controls);
 
       Double skipoffset = ad.getSkipOffset();
@@ -208,7 +210,7 @@ class BridgeMessageBuilder {
       double skipAdInTime = stringSize(fontName, fontStyle, textSize, "Skip Ad in 00:00");
       argument.putDouble("skipadintime", skipAdInTime);
 
-      double count = stringSize(fontName, fontStyle, textSize, "(" + adsCount + "/" + unplayedCount + ")" );
+      double count = stringSize(fontName, fontStyle, textSize, "(" + adsCount + "/" + unplayedCount + ")");
       argument.putDouble("count", count);
 
       //TODO: Make sure this text is localized to correct language
@@ -250,7 +252,7 @@ class BridgeMessageBuilder {
     return icon;
   }
 
-  public static WritableMap buildCaptionsStyleParameters(ClosedCaptionsStyle closedCaptionsDeviceStyle,JSONObject closedCaptionsSkinStyles) {
+  public static WritableMap buildCaptionsStyleParameters(ClosedCaptionsStyle closedCaptionsDeviceStyle, JSONObject closedCaptionsSkinStyles) {
     WritableMap params = Arguments.createMap();
     int textColor = 16777215;
     int backgroundColor = 0;
@@ -276,11 +278,11 @@ class BridgeMessageBuilder {
 //      }
 //    }
     //params.putArray("textFont", closedCaptionsStyle.textFont);        //how to handle typeFace
-    params.putDouble("textSize",textSize );
-    params.putString("textColor","#"+String.format("%06x",textColor & 0xFFFFFF));
-    params.putString("backgroundColor","#"+String.format("%06x",backgroundColor & 0xFFFFFF));
+    params.putDouble("textSize", textSize);
+    params.putString("textColor", "#" + String.format("%06x", textColor & 0xFFFFFF));
+    params.putString("backgroundColor", "#" + String.format("%06x", backgroundColor & 0xFFFFFF));
     params.putInt("edgeType", edgeType);
-    params.putString("edgeColor","#"+String.format("%06x",edgeColor & 0xFFFFFF));
+    params.putString("edgeColor", "#" + String.format("%06x", edgeColor & 0xFFFFFF));
     return params;
   }
 
@@ -295,7 +297,7 @@ class BridgeMessageBuilder {
 
   public static WritableMap buildSeekParams(Object data) {
     WritableMap params = Arguments.createMap();
-    if(data != null) {
+    if (data != null) {
       SeekInfo seekInfo = (SeekInfo) data;
 
       double seekStart = seekInfo.getSeekStart() / 1000.0;
@@ -307,10 +309,10 @@ class BridgeMessageBuilder {
       double totalDuration = seekInfo.getTotalDuration() / 1000.0;
       params.putDouble("duration", totalDuration);
     }
-      return params;
+    return params;
   }
 
-  public static WritableMap buildVRParams(boolean data){
+  public static WritableMap buildVRParams(boolean data) {
     WritableMap params = Arguments.createMap();
     params.putBoolean("vrContent", data);
     return params;
