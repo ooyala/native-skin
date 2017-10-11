@@ -37,7 +37,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private OoyalaPlayer _player;
 
   public OoyalaSkinBridgeEventHandlerImpl(OoyalaSkinLayoutController layoutController, OoyalaPlayer player) {
-    _layoutController =  layoutController;
+    _layoutController = layoutController;
     _player = player;
   }
 
@@ -74,12 +74,12 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
             _layoutController.handleSkip();
           } else if (buttonName.equals(BUTTON_ADICON)) {
             String index = parameters.getString("index");
-            DebugMode.logD(TAG, "onIconClicked with index "+ index);
+            DebugMode.logD(TAG, "onIconClicked with index " + index);
             _layoutController.handleAdIconClick(Integer.parseInt(index));
           } else if (buttonName.equals(BUTTON_ADOVERLAY)) {
             String clickUrl = parameters.getString("clickUrl");
             _player.onAdOverlayClicked(clickUrl);
-          } else if (buttonName.equals(BUTTON_STEREOSCOPIC)){
+          } else if (buttonName.equals(BUTTON_STEREOSCOPIC)) {
             _player.switchVRMode();
           }
         }
@@ -97,9 +97,9 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   public void handleRewind() {
     int playheadTime = _player.getPlayheadTime();
-    System.out.println("in rewind time"+playheadTime);
+    System.out.println("in rewind time" + playheadTime);
     playheadTime = playheadTime - 10000;
-    System.out.println("in rewind time after -30 is "+playheadTime);
+    System.out.println("in rewind time after -30 is " + playheadTime);
     _player.seek(playheadTime);
   }
 
@@ -115,8 +115,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     String bucketInfo = parameters.getString("bucketInfo");
     String action = parameters.getString("action");
     final String embedCode = parameters.getString("embedCode");
-    if (action.equals("click"))
-    {
+    if (action.equals("click")) {
       DiscoveryManager.sendClick(_layoutController.discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, _layoutController);
       runOnUiThread(new Runnable() {
         @Override
@@ -126,8 +125,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
           _player.play();
         }
       });
-    }
-    else if(action.equals("impress")) {
+    } else if (action.equals("impress")) {
       DiscoveryManager.sendImpression(_layoutController.discoveryOptions, bucketInfo, _player.getPcode(), android_id, null, _layoutController);
     }
   }
@@ -151,7 +149,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     createMotionEventAndPassThrough(parameters, MotionEvent.ACTION_UP);
   }
 
-  private void createMotionEventAndPassThrough(ReadableMap params, int action){
+  private void createMotionEventAndPassThrough(ReadableMap params, int action) {
     final boolean isClicked = params.getBoolean("isClicked");
     final float xLocation = (float) params.getDouble("x_location");
     final float yLocation = (float) params.getDouble("y_location");
