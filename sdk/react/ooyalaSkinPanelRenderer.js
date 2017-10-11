@@ -98,12 +98,15 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
+      vrContent={this.skin.state.vrContent}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
         onAdOverlay: (value)=>this.core.handleAdOverlayPress(value),
         onAdOverlayDismiss: () => this.core.handleAdOverlayDismiss(),
         onScrub: (value) => this.core.handleScrub(value),
-        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleVideoTouchStart: (event) => this.core.handleVideoTouchStart(event),
+        handleVideoTouchMove: (event) => this.core.handleVideoTouchMove(event),
+        handleVideoTouchEnd: (event) => this.core.handleVideoTouchEnd(event),
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
@@ -160,7 +163,7 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
         onPress: (value) => this.core.handlePress(value),
         onIcon: (value)=>this.core.handleIconPress(value),
         onScrub: (value) => this.core.handleScrub(value),
-        handleVideoTouch: (event) => this.core.handleVideoTouch(event),
+        handleVideoTouch: (event) => this.core.handleVideoTouchEnd(event),
         handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
