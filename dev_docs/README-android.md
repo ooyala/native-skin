@@ -47,71 +47,119 @@ Just like all other sample applications, you can modify the ListViewController w
 
 The following will run you through linking the OoyalaSkinSDK source code to the OoyalaSkinSampleApp.  This will allow you to do cool things, like modify the UI code and add your own features
 
-At a high level - Android React Native allows you to set up a React JS server, then force your device/emulator to access that server to get up-to-date javascript.
-
 You will need to perform a number of steps to succeed here:
 
-## Set Up React Native to modify the Javascript
-The first step would be to get React Native set up and running, then to test it in the Sample App. Follow these steps to give that a shot:
+## Setup the Javascript code in the sample app
+At a high level - If you make changes to the javascript code you will need to bundle it using react native cli tools and add the new bundle to the sample application.
 
-### Setup React Native Dependencies
-
+### Setup React Native dependencies
 Please follow the requirements section of the following site: [http://facebook.github.io/react-native/docs/getting-started.html#requirements](http://facebook.github.io/react-native/docs/getting-started.html#requirements)
 
 ### Configure OoyalaSkinSDK React Project
-
 run `npm install` in the Ooyala Skin SDK
 
-    cd native-skin/sdk/react/ && npm install
+    `cd native-skin/sdk/react/ && npm install`
 
 run `git submodule update --init` to initialize the skin-config
 
-### Start React-Native server
-You need to start the react-native server to get your javascript to be applied to the sample application
+### Bundle the javascript into a file
+Whenever you make a change in the javascript code you need to bundle the javascript code into a single file and add it to the sample app. To do so you need to run the `react-native bundle` command, here is an example that will output the content to the file `index.android.jsbundle` in your current directory, you may want to use the same name (`index.android.jsbundle`) since that is the default name in the SkinSDK. Be sure to run this command from the `sdk/react/` folder after you installed the node dependencies.
 
-    cd native-skin/sdk/react/ && react-native start
+Example:
+`cd sdk/react/ && react-native bundle --dev=false --bundle-output index.android.jsbundle --entry-file index.android.js --platform android`
 
-To test - you can try to request [http://localhost:8081/index.android.bundle?platform=android&dev=true](http://localhost:8081/index.android.bundle?platform=android&dev=true) and see if results come back
+### Copy the bundled javascript into the sample app
+After you have the `index.android.jsbundle` file you need to copy it into the OoyalaSkinSampleApp. You need to copy it into the folder `app/src/main/assets/` of the Sample app.
 
-### Use the React Native javascript server in the Sample App
+### Comment out unnecessary Gradle tasks
+In the OoyalaSkinSampleApp open the file `app/build.gradle` and comment all the methods the _Task_ suffix. For Example:
 
-1. Modify Sample App Players to point to React Native JS server
+```
+//task copyAssetsTask(type: Copy) {
+//    from new File(vendorDir, 'Ooyala/OoyalaSkinSDK-Android/index.android.jsbundle')
+//    from new File(vendorDir, 'Ooyala/OoyalaSkinSDK-Android/skin-config/skin.json')
+//    into new File(projectDir, './src/main/assets')
+//    println "Assets updated."
+//}
+//tasks.copyAssetsTask.execute()
+//
+// comment out the rest of the other methods/tasks with xTask format as the name.
+```
 
-        SkinOptions skinOptions = new SkinOptions.Builder().setEnableReactJSServer(true).build();
-        playerLayoutController = new OoyalaSkinLayoutController(getApplication(), skinLayout, player, skinOptions);
-
-2. Enable your device/emulator to access your locally-hosted servers
-    Running the following command will allow your emulator/device to hit your locally hosted React Native JS server
-
-        adb -d reverse tcp:8081 tcp:8081
-### Run the Ooyala Skin Sample App in an emulator or device
-
-You should be able to run the application, and see your react-native server hit every time you load a video.
+### Run the OoyalaSkinSampleApp in an emulator or device
+You should be able to run the application and see that you are now using the javascript code you bundled in the app. In javascript you can try adding a `console.log` to verify you are using it. The log will be output in the android monitor of Android Studio.
 
 ## Set Up OoyalaSkinSDK Java Source Code to modify the Native code
-After you've tested the application using the React Native JS server, then you should connect the OoyalaSkinSDK Java Source Code to the application.
+You should also connect the OoyalaSkinSDK Java Source Code to the application.
 
-1. Open OoyalaSkinSampleApp Android Studio Project
-2. In OoyalaSkinSampleApp/settings.gradle, add the OoyalaSkinSDK module to your project
+* Open OoyalaSkinSampleApp Android Studio Project
+* In `OoyalaSkinSampleApp/settings.gradle`, add the `:skin` module to your project
 
-        include ':ooyalaSkinSDK'
-        project(':ooyalaSkinSDK').projectDir=new File(settingsDir, '../../native-skin/sdk/android/ooyalaSkinSDK/')
-3. In OoyalaSkinSampleApp/app/build.gradle, comment out the compiles OoyalaSDK.jar and OoyalaSkinSDK.jar, and add the OoyalaSkinSDK project
+```
+include ':skin'
+project(':skin').projectDir=new File(settingsDir, '../../native-skin/sdk/android/skin/')
+```
 
-        //    compile files('libs/OoyalaSDK.jar')
-        //    compile files('libs/OoyalaSkinSDK.jar')
-        compile project(':ooyalaSkinSDK')
+* You will get errors after trying to import the skin module. To fix them open `native-skin/sdk/android/build.gradle` and copy the `ext` variables defined and a couple of the classpath dependencies listed in the file into the `OoyalaSkinSampleApp/build.gradle` file. At the end the build.gradle from the sample app should look similar to the following code snippet:
 
+```
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.novoda:bintray-release:0.3.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+ext {
+    vendorDir = new File(projectDir, '../vendor')
+}
+
+project.ext.libraryVersion = 'X.X.X'
+project.ext.publishedGroupId = 'X'
+project.ext.bintrayRepo = "X"
+
+project.ext.developerId = 'X'
+project.ext.developerName = 'x'
+project.ext.developerEmail = 'email@email.com'
+
+project.ext.bintrayUser = 'X'
+project.ext.bintrayApiKey = 'X'
+
+project.ext.androidSDKPath = file("${projectDir}/../").absolutePath
+```
+
+* In `OoyalaSkinSampleApp/app/build.gradle`, comment out the compiled `OoyalaSDK.jar` and `OoyalaSkinSDK.jar`, and add the `:skin` module
+
+```
+dependencies {
+// compile files('libs/OoyalaSDK.jar')
+// compile files('libs/OoyalaSkinSDK.jar')
+compile project(':skin')
+
+... // more dependencies
+}
+```
 
 ### Connect Correct skin-config to OoyalaSkinSampleApp.  
 The Skin-config may have been updated since the last release, and if you are using the OoyalaSkinSDK source code, you will have to reference the correct version of the skin-config.  
 Assuming you have connected the OoyalaSkinSDK to the OoyalaSkinSampleApp:
 
-    1. Delete the existing 'skin-config' folder from OoyalaSkinSampleApp project
-    2. Add the new 'skin-config' files from native-skin/skin-config
+    1. Delete the existing `app/src/main/assets/skin-config` folder from OoyalaSkinSampleApp project
+    2. Add the new `skin-config` files from native-skin/skin-config into the same assets folder of the sample app.
+    3. Copy the `skin.json` from `skin-config` and put it in `app/src/main/assets/` outside of the skin-config folder.
 
 ### Run the Ooyala Skin Sample App in an emulator or device
-Now, you should be able to run the application, and see any modifications to the OoyalaSkinSDK within your application
+Now, you should be able to run the application, and see any modifications to the OoyalaSkinSDK (skin module) within your application
 
 # How to update an existing application with the Android Skin
 
@@ -186,7 +234,7 @@ Now, you should be able to run the application, and see any modifications to the
 ```
 public void onCreate(Bundle savedInstanceState) {
     ...
-    
+
     setContentView(R.layout.layout.xml);
 
     EMBED = getIntent().getExtras().getString("embed_code");
@@ -201,7 +249,7 @@ public void onCreate(Bundle savedInstanceState) {
 
     //Create the SkinOptions, and setup the LayoutController
     SkinOptions skinOptions = new SkinOptions.Builder().build();
-    playerLayoutController = new OoyalaSkinLayoutController(getApplication(), skinLayout, player, skinOptions);	
+    playerLayoutController = new OoyalaSkinLayoutController(getApplication(), skinLayout, player, skinOptions);
     ...
 
 }
@@ -211,7 +259,7 @@ public void onCreate(Bundle savedInstanceState) {
 
 1. Implement the Observer object in your Activity. For example:
     ```
-        public class OoyalaAndroidTestAppActivity extends Activity implements Observer 
+        public class OoyalaAndroidTestAppActivity extends Activity implements Observer
     ```
 2. Attach your activity to the skinPlayerLayoutController, like this:
     ```

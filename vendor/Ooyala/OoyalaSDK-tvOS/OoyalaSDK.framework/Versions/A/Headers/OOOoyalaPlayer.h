@@ -317,6 +317,13 @@ extern NSString *const OOOoyalaPlayerBufferingStartedNotification;
  */
 extern NSString *const OOOoyalaPlayerBufferingCompletedNotification;
 
+/**
+ * \memberof OOOoyalaPlayer
+ * \brief Notificaation when video get connected or disconnected to airplay.
+ * \details No additional data provided. This notification is for the user to know that phone is now connected or disconnected with airplay.
+ */
+extern NSString *const OOOoyalaplayerExternalPlaybackActiveNotification;
+
 /** the string for live closed captions */
 extern NSString *const OOLiveClosedCaptionsLanguage;
 
@@ -410,6 +417,9 @@ extern NSString *const OOLiveClosedCaptionsLanguage;
 @property (nonatomic) BOOL allowsExternalPlayback;
 @property (nonatomic) float playbackRate; /**< the rate of playback. 1 is the normal speed.  Set to .5 for half speed, 2 for double speed, etc. */
 @property (readonly, nonatomic) NSString *authToken; /**< The Auth Token provided by Ooyala Authorization, when using Ooyala Player Token */
+
+@property (readonly, nonatomic) NSString *playerSessionId; /**< A Session ID that is created at the initialization of OoyalaPlayer. Persists for the life of the OoyalaPlayer */
+@property (readonly, nonatomic) NSString *contentSessionId; /**< A Session ID that is created on the set of a new piece of content (i.e setEmbedCode). Persists until a new piece of content is set. Can be null if no video was set **/
 
 /**
  * The volume of the OoyalaPlayer, relative to the device's volume setting.

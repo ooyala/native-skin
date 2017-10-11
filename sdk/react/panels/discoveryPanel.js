@@ -27,6 +27,7 @@ var panelStyles = require('./style/panelStyles.json');
 var Constants = require('../constants');
 var Log = require('../log');
 var {
+  BUTTON_NAMES,
   SCREEN_TYPES,
 } = Constants;
 // TODO: read this from config.
@@ -265,14 +266,23 @@ var DiscoveryPanel = React.createClass({
     title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
     var panelIcon = this.props.config.icons.discovery.fontString;
 
+    // TO-DO for line (277-280) we can not change accessibility label value for text tags.
+    // This ability is added in latest react native 0.46 onwards
+    // so we can remove this piece of code once we upgrade.
     return (
     <View style={panelStyles.panelTitleView}>
       <Text style={[panelStyles.panelTitleText]}>
       {title}
       </Text>
-      <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+      <TouchableHighlight accessible={true} accessibilityLabel={BUTTON_NAMES.DISCOVERY}>
+        <View>
+          <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+        </View>
+      </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
-      <TouchableHighlight style = {[panelStyles.dismissButton]}
+      <TouchableHighlight 
+        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
+        style = {[panelStyles.dismissButton]}
         onPress={this.onDismissPress}>
         <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
       </TouchableHighlight>

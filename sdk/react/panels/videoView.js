@@ -61,6 +61,7 @@ var VideoView = React.createClass({
       handleControlsTouch: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
+    screenReaderEnabled: React.PropTypes.bool,
     closedCaptionsLanguage: React.PropTypes.string,
     availableClosedCaptionsLanguages: React.PropTypes.array,
     caption: React.PropTypes.string,
@@ -118,6 +119,14 @@ var VideoView = React.createClass({
     }
   },
 
+  _placeholderTapHandler: function(event) {
+    if (this.props.screenReaderEnabled) {
+      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
+    } else {
+      this.props.handlers.handleVideoTouch(event);
+    }
+  },
+
   _createOnIcon: function(index, func) {
     return function() {
       func(index);
@@ -146,6 +155,7 @@ var VideoView = React.createClass({
       showClosedCaptionsButton={shouldShowClosedCaptionsButton}
       showWatermark={this.props.showWatermark}
       isShow={show}
+      screenReaderEnabled={this.props.screenReaderEnabled}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -158,31 +168,56 @@ var VideoView = React.createClass({
   _renderPlaceholder: function() {
     return (
       <View
+        reactTag={1}
+        accessible={true}
+        accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
-        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
+        onTouchEnd={(event) => this._placeholderTapHandler(event)}>
       </View>);
   },
 
-  _renderClosedCaptions: function() {
-    var {height, width} = Dimensions.get('window');
-    if (height < width) width = height; // We just want the smaller of the two values, which represents the portrait device width
+  _renderBottom: function() {
+    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
+    var waterMarkName;
+    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
+      waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
+    }
+    if(this.props.platform == Constants.PLATFORMS.IOS) {
+      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
+    }
 
-    var scalingFactor = this.props.width/width;
-    var ccStyle = {fontSize: this.props.captionStyles.textSize * scalingFactor, color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
+    if (waterMarkName) {
+      var watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
+    }
+
+    return (
+      <View
+        style={{flexDirection:"row", justifyContent:"center", alignItems: "flex-end"}}>
+        {this._renderClosedCaptions(waterMarkName, VideoWaterMarkSize)}
+        {watermark}
+      </View>);
+  },
+
+  _renderClosedCaptions: function(waterMarkName, VideoWaterMarkSize) {
+    var containerPadding = 5;
+    var captionWidth = this.props.width - (containerPadding * 4);
+    if (waterMarkName) {
+      captionWidth = captionWidth - VideoWaterMarkSize;
+    }
+
+    var ccStyle = {color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
       backgroundColor:this.props.captionStyles.textBackgroundColor};
     if (this.props.caption) {
       return (
         <View
-          style={panelStyles.closedCaptionsContainer}
+          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
-          <View style={[panelStyles.closedCaptionsFlexibleSpace]}></View>
           <View
             style={[{backgroundColor:this.props.captionStyles.backgroundColor}]}>
-          <Text style={[panelStyles.closedCaptions, ccStyle]}>
-            {this.props.caption}
-          </Text>
+            <Text style={[panelStyles.closedCaptions, ccStyle]}>
+              {this.props.caption}
+            </Text>
           </View>
-          <View style={[panelStyles.closedCaptionsFlexibleSpace]}></View>
         </View>
         );
     }
@@ -239,22 +274,17 @@ var VideoView = React.createClass({
         </VideoViewPlayPause>);
   },
 
-  _renderVideoWaterMark: function() {
-    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
-    var waterMarkName;
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
-    }
+  _renderVideoWaterMark: function(waterMarkName, VideoWaterMarkSize) {
     if (waterMarkName) {
       return (
-        <VideoWaterMark
-          buttonWidth={VideoWaterMarkSize}
-          buttonHeight={VideoWaterMarkSize}
-          waterMarkName={waterMarkName}/>
-          );
+        <View
+            style={{flex:1, justifyContent:"flex-end", alignItems:"flex-end"}}>
+            <VideoWaterMark
+              buttonWidth={VideoWaterMarkSize}
+              buttonHeight={VideoWaterMarkSize}
+              waterMarkName={waterMarkName}/>
+        </View>
+      );
     }
   },
 
@@ -278,6 +308,7 @@ var VideoView = React.createClass({
 
     return (
       <View
+        accesible={false}
         style={{height:height, width:width}}>
         <TouchableHighlight
           style={{left: left, bottom: 10, width:width, height:height}}
@@ -316,7 +347,7 @@ var VideoView = React.createClass({
       );
     }
   },
-  
+
   handleScrub: function(value) {
     this.props.handlers.onScrub(value);
   },
@@ -335,16 +366,17 @@ var VideoView = React.createClass({
 
   render: function() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    var shouldShowControls = !isPastAutoHideTime;
+    var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
 
+    // for renderPlayPause, if the screen reader is enabled, we want to hide the button
     return (
       <View
+        accessible={false}
         style={styles.container}>
         {this._renderPlaceholder()}
-        {this._renderClosedCaptions()}
-        {this._renderVideoWaterMark()}
+        {this._renderBottom()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldShowControls)}
+        {this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
         {this._renderLoading()}

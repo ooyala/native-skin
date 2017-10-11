@@ -12,13 +12,17 @@ import {
   Text,
   TouchableHighlight,
   View,
+  Slider,
 } from 'react-native';
 
 var Constants = require('./constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
-  UI_SIZES
+  UI_SIZES,
+  STRING_CONSTANTS,
+  PLATFORMS,
+  VALUES,
 } = Constants;
 
 var Log = require('./log');
@@ -54,9 +58,10 @@ var BottomOverlay = React.createClass({
     shouldShowProgressBar: React.PropTypes.bool,
     live: React.PropTypes.object,
     shouldShowLandscape: React.PropTypes.bool,
+    screenReaderEnabled: React.PropTypes.bool,
     config: React.PropTypes.object,
   },
-  
+
   getDefaultProps: function() {
     return {"shouldShowProgressBar": true};
   },
@@ -103,13 +108,13 @@ var BottomOverlay = React.createClass({
     }
   },
 
-/* 
+/*
 If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
 */
   componentWillReceiveProps: function(nextProps) {
-    if (this.props.playhead != nextProps.playhead) { 
-       this.setState({cachedPlayhead:-1.0}); 
-    } 
+    if (this.props.playhead != nextProps.playhead) {
+       this.setState({cachedPlayhead:-1.0});
+    }
   },
 
   _renderProgressBarWidth: function() {
@@ -154,7 +159,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       scrubberHandleBorderColor = "white";
     }
-    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.getScrubberHandleColor(), 
+    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.getScrubberHandleColor(),
     borderRadius: 900, borderWidth: 1.5, borderColor: scrubberHandleBorderColor};
     return scrubberStyle;
   },
@@ -170,15 +175,46 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     var playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     if (this.state.cachedPlayhead >= 0.0) {
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
-    } 
-    return (
-      <View style={styles.progressBarStyle}>
-    {this._renderProgressBar(playedPercent)}
-    {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-    {this._renderCuePoints(this.props.cuePoints)}
-    </View>);
+    }
+
+    if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
+      var minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
+      var maximumTrackTintColor = this.props.config.controlBar.scrubberBar.bufferedColor;
+
+      return (
+        <Slider
+          style={[{flexDirection: "row", height: 5, marginVertical: 6, marginHorizontal: 20}]}
+          minimumTrackTintColor={minimumTrackTintColor}
+          maximumTrackTintColor={maximumTrackTintColor}
+          value={this.props.playhead}
+          maximumValue={this.props.duration}
+          step={1.0}
+          onValueChange={this._onValueChange} />
+      );
+    } else {
+      return (
+        <View
+        style={styles.progressBarStyle}>
+      {this._renderProgressBar(playedPercent)}
+      {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+      {this._renderCuePoints(this.props.cuePoints)}
+      </View>);
+    }
   },
-  
+
+  _onValueChange: function(value) {
+    // increase or decrease playhead by X seconds
+    var newPlayhead = this.props.playhead - value;
+    if (newPlayhead >= 0) {
+      newPlayhead = this.props.playhead - VALUES.SEEK_VALUE;
+    } else {
+      newPlayhead = this.props.playhead + VALUES.SEEK_VALUE;
+    }
+
+    var seekPercent = this.playedPercent(newPlayhead, this.props.duration);
+    this.props.onScrub(seekPercent);
+  },
+
   _getCuePointLeftOffset: function(cuePoint, progressBarWidth) {
     var cuePointPercent = cuePoint / this.props.duration;
     if (cuePointPercent > 1) {
@@ -276,18 +312,18 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
 
   handleTouchEnd: function(event) {
     this.props.handleControlsTouch();
-    if (this.isMounted()) {
-      if (this.state.touch && this.props.onScrub) {
+     if (this.isMounted()) {
+       if (this.state.touch && this.props.onScrub) {
         this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
         this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
-      } 
-    }
-    this.setState({touch:false, x:null}); 
+       }
+     }
+     this.setState({touch:false, x:null});
   },
 
   renderDefault: function(widthStyle) {
     return (
-      <Animated.View 
+      <Animated.View
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
         onTouchEnd={(event) => this.handleTouchEnd(event)}

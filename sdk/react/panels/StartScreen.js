@@ -35,6 +35,7 @@ var StartScreen = React.createClass({
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     platform: React.PropTypes.string,
+    screenReaderEnabled: React.PropTypes.bool,
   },
 
   handleClick: function() {
@@ -43,6 +44,9 @@ var StartScreen = React.createClass({
   // Gets the play button based on the current config settings
   getPlayButton: function() {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+
+    var isScreenReaderEnabled = this.props.screenReaderEnabled;
+
       if(this.props.config.startScreen.showPlayButton) {
         return (
           <VideoViewPlayPause
@@ -67,7 +71,7 @@ var StartScreen = React.createClass({
           platform={this.props.platform}
           fontSize={iconFontSize}
           playing={false}
-          showButton={true}>
+          showButton={!isScreenReaderEnabled}>
         </VideoViewPlayPause>);
       }
   },
@@ -108,16 +112,16 @@ var StartScreen = React.createClass({
       var fullscreen = (this.props.config.startScreen.promoImageSize == 'default');
 
       return (
-        <Image 
+        <Image
           source={{uri: this.props.promoUrl}}
-          style={fullscreen ? 
+          style={fullscreen ?
             {position:'absolute', top:0, left:0, width:this.props.width, height: this.props.height} :
              styles.promoImageSmall}
           resizeMode={Image.resizeMode.contain}>
         </Image>
       );
     }
-    
+
     return null;
   },
 
@@ -125,24 +129,35 @@ var StartScreen = React.createClass({
     var waterMarkImageLocation = styles.waterMarkImageSE;
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-        source={{uri: IMG_URLS.OOYALA_LOGO}} 
+        source={{uri: IMG_URLS.OOYALA_LOGO}}
         resizeMode={Image.resizeMode.contain}>
       </Image>
     );
   },
 
-  render: function() {  
+  _tapHandler: function(event) {
+    if (this.props.screenReaderEnabled) {
+      this.handleClick();
+    }
+  },
+
+  render: function() {
     var promoImage = this.getPromoImage();
     var playButton = this.getPlayButton();
     var infoPanel = this.getInfoPanel();
     var waterMarkImage = this.getWaterMark();
- 
+
 
     return (
-     <View style={styles.container}>
+     <View
+     reactTag={1}
+     accessible={true}
+     accessibilityLabel={"Video player. Tap twice to play"}
+     style={styles.container}
+     onTouchEnd={(event) => this._tapHandler(event)}>
        {promoImage}
        {waterMarkImage}
-       {infoPanel} 
+       {infoPanel}
        {playButton}
       </View>
    );
