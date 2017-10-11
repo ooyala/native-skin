@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -14,23 +15,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.facebook.react.common.LifecycleState;
-import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.ooyala.android.ClientId;
 import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.OoyalaPlayerLayout;
-import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
+import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
 import com.ooyala.android.skin.configuration.SkinOptions;
+import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.skin.util.SkinConfigUtil;
 import com.ooyala.android.ui.LayoutController;
@@ -45,17 +47,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
-import java.util.Observer;
 
 
 /**
  * The OoyalaSkinLayoutController is the primary class of the Ooyala Skin SDK
- *
+ * <p>
  * The OoyalaSkinLayoutController provides:
- *   - Manipulation of views in Layout
- *   - All of the React Native initialization
- *   - Observation of the OoyalaPlayer to provide up-to-date state to the UI
- *   - Handlers of all React Native callbacks
+ * - Manipulation of views in Layout
+ * - All of the React Native initialization
+ * - Observation of the OoyalaPlayer to provide up-to-date state to the UI
+ * - Handlers of all React Native callbacks
  */
 public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
   final String TAG = this.getClass().toString();
@@ -68,7 +69,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private static final String KEY_ANDROID_RESOURCE = "androidResource";
   private static final String KEY_LOCALIZATION = "localization";
   private static final String KEY_LOCALE = "locale";
-  private static final String KEY_DEFAULT_LANGUAGE= "defaultLanguage";
+  private static final String KEY_DEFAULT_LANGUAGE = "defaultLanguage";
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
 
@@ -80,6 +81,12 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    * isFullscreen = true/false
    */
   public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
+
+  /**
+   * OoyalaNotification name when the VR mode has changed to MONO.
+   * VR mode is passed in the OoyalaNotification.
+   */
+  public static final String VR_MODE_CHANGED_NOTIFICATION_NAME = "vrModeChanged";
 
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
@@ -113,6 +120,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   private List<Pair<String, WritableMap>> queuedEvents;
   private boolean isReactMounted;
+
+  private int screenOrientation;
+
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
    *
@@ -141,7 +151,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _player.setLayoutController(this);
 
     playerObserver = new OoyalaSkinPlayerObserver(this, player);
-    volumeObserver = new OoyalaSkinVolumeObserver(layout.getContext(),this);
+    volumeObserver = new OoyalaSkinVolumeObserver(layout.getContext(), this);
     eventHandler = new OoyalaSkinBridgeEventHandlerImpl(this, player);
 
     _package = null;
@@ -184,13 +194,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _package = new OoyalaReactPackage(this);
     rootView = new ReactRootView(l.getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
-            .setApplication(app)
-            .setBundleAssetName(skinOptions.getBundleAssetName())
-            .setJSMainModuleName("index.android")
-            .addPackage(_package)
-            .setUseDeveloperSupport(BuildConfig.DEBUG)
-            .setInitialLifecycleState(LifecycleState.RESUMED)
-            .build();
+        .setApplication(app)
+        .setBundleAssetName(skinOptions.getBundleAssetName())
+        .setJSMainModuleName("index.android")
+        .addPackage(_package)
+        .setUseDeveloperSupport(BuildConfig.DEBUG)
+        .setInitialLifecycleState(LifecycleState.RESUMED)
+        .build();
     ccStyleChanged();
     // Reload JS from the react server. TODO: does not work after react upgrade
     if (skinOptions.getEnableReactJSServer()) {
@@ -199,21 +209,22 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
 
     FrameLayout.LayoutParams frameLP =
-            new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT);
+        new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
   }
 
   public void ccStyleChanged() {
     closedCaptionsDeviceStyle = new ClosedCaptionsStyle(_layout.getContext());
-    WritableMap params =BridgeMessageBuilder.buildCaptionsStyleParameters(closedCaptionsDeviceStyle,closedCaptionsSkinStyle);
-    sendEvent(OoyalaPlayer.CC_STYLING_CHANGED_NOTIFICATION_NAME,params);
+    WritableMap params = BridgeMessageBuilder.buildCaptionsStyleParameters(closedCaptionsDeviceStyle, closedCaptionsSkinStyle);
+    sendEvent(OoyalaPlayer.CC_STYLING_CHANGED_NOTIFICATION_NAME, params);
   }
 
   /**
    * Get locale of device and inject localized file content into provided json object.
+   *
    * @param configJson
    * @param context
    */
@@ -224,14 +235,14 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       configJson.put(KEY_LOCALE, locale);
       HashMap<String, String> languageFileNames = getLocaleLanguageFileNames(configJson);
       JSONObject localizedResources = new JSONObject();
-      for(String languageKey : languageFileNames.keySet()) {
+      for (String languageKey : languageFileNames.keySet()) {
         String path = languageFileNames.get(languageKey);
         JSONObject localized = SkinConfigUtil.loadLocalizedResources(context, path);
-        if(localized != null) {
-            localizedResources.put(languageKey, localized);
+        if (localized != null) {
+          localizedResources.put(languageKey, localized);
         }
       }
-      if(localizedResources.length() > 0) {
+      if (localizedResources.length() > 0) {
         JSONObject localizationJson = new JSONObject();
         localizationJson.put(KEY_LOCALIZATION, localizedResources);
         SkinConfigUtil.applySkinOverridesInPlace(configJson, localizationJson);
@@ -248,8 +259,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     try {
       JSONArray localeFiles = configJson.getJSONObject(KEY_LOCALIZATION).getJSONArray(KEY_AVAILABLE_LANGUAGE_FILE);
 
-      for(int i = 0; i < localeFiles.length(); i++) {
-        JSONObject jsonObject = (JSONObject)localeFiles.get(i);
+      for (int i = 0; i < localeFiles.length(); i++) {
+        JSONObject jsonObject = (JSONObject) localeFiles.get(i);
         String localeCode = jsonObject.getString(KEY_LANGUAGE);
         String languageFile = jsonObject.getString(KEY_ANDROID_RESOURCE);
         languageFiles.put(localeCode, languageFile);
@@ -274,6 +285,12 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
       sendEvent("discoveryResultsReceived", params);
     }
+  }
+
+  @Override
+  public void publishVRContent(boolean hasVRContent) {
+    WritableMap params = BridgeMessageBuilder.buildVRParams(hasVRContent);
+    sendEvent("vrContentEvent", params);
   }
 
   private void saveUpNextSetting(JSONObject config) {
@@ -324,8 +341,33 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public void setFullscreen(boolean isFullscreen) {
+    if (_player != null && _player.hasVRContent()) {
+      if (_player.getVRMode() == VrMode.STEREO && !isFullscreen) {
+        _player.setVRMode(VrMode.MONO);
+      }
+
+      //Store screen orientation
+      storeScreenOrientation(isFullscreen);
+    }
+
     _layout.setFullscreen(isFullscreen);
     sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
+  }
+
+  private void storeScreenOrientation(boolean isFullScreen) {
+    boolean changed = isFullscreen() != isFullScreen;
+    Context context = getLayout().getContext();
+
+    if (isFullScreen) {
+      if (context instanceof Activity) {
+        Activity activity = (Activity) context;
+        if (changed) {
+          screenOrientation = activity.getRequestedOrientation();
+        }
+      } else {
+        DebugMode.logE(TAG, "Trying to store the screen orientation. The context isn't an instance of Activity.");
+      }
+    }
   }
 
   void sendNotification(String notificationName) {
@@ -362,7 +404,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     switch (keyCode) {
       case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
       case KeyEvent.KEYCODE_DPAD_CENTER:
-        if(_player.isPlaying()) {
+        if (_player.isPlaying()) {
           _player.pause();
         } else {
           _player.play();
@@ -400,6 +442,30 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   public void setFullscreenButtonShowing(boolean showing) {
 
+  }
+
+  @Override
+  public void switchVRMode(VrMode vrMode) {
+    Context context = getLayout().getContext();
+    if (context instanceof Activity) {
+      Activity activity = (Activity) context;
+      switch (vrMode) {
+        case MONO:
+          // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
+          activity.setRequestedOrientation(screenOrientation);
+          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
+          break;
+        case STEREO:
+          // Set up landscape orientation for STEREO mode
+          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
+          break;
+        case NONE:
+          break;
+      }
+    } else {
+      DebugMode.logE(TAG, "Trying to switch VR mode. The context isn't an instance of Activity.");
+    }
   }
 
   /****** End LayoutController **********/
@@ -445,9 +511,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
-            _player.getEmbedCode(),
-            _player.getPcode(),
-            ClientId.getId(_layout.getContext()), null, this);
+        _player.getEmbedCode(),
+        _player.getPcode(),
+        ClientId.getId(_layout.getContext()), null, this);
   }
 
   void handleShare() {
@@ -481,7 +547,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       if (!isReactMounted) {
         DebugMode.logW(TAG, "Trying to send event, but React is not mounted yet: " + event);
       }
-      if (_package.getBridge() == null ){
+      if (_package.getBridge() == null) {
         DebugMode.logW(TAG, "Trying to send event, but bridge does not exist yet: " + event);
       }
       queuedEvents.add(new Pair<>(event, map));
@@ -497,9 +563,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public void onResume(Activity activity,
-                          DefaultHardwareBackBtnHandler defaultBackButtonImpl) {
+                       DefaultHardwareBackBtnHandler defaultBackButtonImpl) {
     if (_reactInstanceManager != null) {
-      _reactInstanceManager.onHostResume(activity,defaultBackButtonImpl );
+      _reactInstanceManager.onHostResume(activity, defaultBackButtonImpl);
     }
     // hide navigation and notification bars after lockscreen
     // if video was in the fullscreen before screenlock

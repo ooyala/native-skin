@@ -270,7 +270,7 @@ OoyalaSkinCore.prototype.renderScreen = function() {
 }
 
 //return boolean -> touch end was in clickRadius from touch start
-let isClick = function (endX, endY) {
+let isClick= function(endX, endY) {
   return Math.sqrt((endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
 }
 module.exports = OoyalaSkinCore;
