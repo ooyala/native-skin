@@ -6,9 +6,10 @@
 //
 
 #import "OOTVGestureManager.h"
-#import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaTVSDK/OOOoyalaPlayer.h>
 #import "OOOoyalaTVPlayerViewController.h"
 #import "OOOoyalaTVConstants.h"
+
 
 @interface OOTVGestureManager()<UIGestureRecognizerDelegate> {
   CGPoint lastPanPoint;

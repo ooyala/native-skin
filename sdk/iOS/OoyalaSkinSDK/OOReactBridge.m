@@ -21,6 +21,7 @@
 #import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
 #import "OOConstant.h"
+#import "NSMutableDictionary+Utils.h"
 
 @interface OOReactBridge()
 @property (nonatomic, weak) OOSkinViewController *controller;
@@ -49,6 +50,7 @@ static NSString *upNextDismiss = @"upNextDismiss";
 static NSString *upNextClick = @"upNextClick";
 static NSString *adIconButtonName = @"Icon";
 static NSString *adOverlayButtonName = @"Overlay";
+static NSString *stereoscopicButtonName = @"stereoscopic";
 
 RCT_EXPORT_METHOD(onMounted) {
   LOG(@"onMounted - Not going to use at the moment");
@@ -89,8 +91,36 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
       [self handleOverlay:[parameters objectForKey:@"clickUrl"]];
     } else if ([buttonName isEqualToString:@"PIP"]) {
       [self handlePip];
+    } else if ([buttonName isEqualToString:stereoscopicButtonName]) {
+      [self handleStereoscopic];
     }
   });
+}
+
+RCT_EXPORT_METHOD(handleTouchMove:(NSDictionary *)params) {
+  LOG(@"Touch event handle - event move");
+  NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+  [result mergeWith:@{@"eventName" : @"move"}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+}
+
+RCT_EXPORT_METHOD(handleTouchEnd:(NSDictionary *)params) {
+  LOG(@"Touch event handle - event end");
+  NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+  [result mergeWith:@{@"eventName" : @"end"}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+}
+
+RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
+  LOG(@"Touch event handle - event start");
+  NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+  [result mergeWith:@{@"eventName" : @"start"}];
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+}
+
+
+- (void)handleStereoscopic {
+  [self.controller toggleStereoMode];
 }
 
 - (void)handlePip {
@@ -190,13 +220,13 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   if ([action isEqualToString:@"click"]) {
     NSString *embedCode = [parameters objectForKey:embedCodeKey];
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendClick:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
-      [player setEmbedCode:embedCode];
-      [player play];
+        [OODiscoveryManager sendClick:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+        [player setEmbedCode:embedCode];
+        [player play];
     });
   } else if ([action isEqualToString:@"impress"]) {
     dispatch_async(dispatch_get_main_queue(), ^{
-      [OODiscoveryManager sendImpression:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
+        [OODiscoveryManager sendImpression:self.controller.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:player.pcode parameters:nil];
     });
   }
 }
