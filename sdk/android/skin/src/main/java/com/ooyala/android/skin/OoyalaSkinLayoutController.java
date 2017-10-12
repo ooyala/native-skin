@@ -2,11 +2,9 @@ package com.ooyala.android.skin;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -50,7 +48,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 
-import static android.content.Context.UI_MODE_SERVICE;
+import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
 
 
 /**
@@ -237,16 +235,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
 
-    boolean isTargetTV = isTargetDeviceTV();
+    boolean isTargetTV = isTargetDeviceTV(_layout.getContext());
     if (isTargetTV) {
       _layout.setFullscreen(true);
     }
     targetDeviceTVNotification(isTargetTV);
-  }
-
-  private boolean isTargetDeviceTV() {
-    UiModeManager uiModeManager = (UiModeManager) _layout.getContext().getSystemService(UI_MODE_SERVICE);
-    return uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;
   }
 
   private void targetDeviceTVNotification(Object data) {
