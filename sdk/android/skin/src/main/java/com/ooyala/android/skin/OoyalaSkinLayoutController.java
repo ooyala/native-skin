@@ -231,9 +231,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   private boolean isStereoSupportedParam() {
-    UiModeManager uiModeManager;
     Context context = _layout.getContext();
-    uiModeManager = (UiModeManager) context.getSystemService(UI_MODE_SERVICE);
+    UiModeManager uiModeManager = (UiModeManager) context.getSystemService(UI_MODE_SERVICE);
     if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
       return false;
     } else {
