@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.facebook.react.ReactInstanceManager;
@@ -48,6 +51,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 
+import android.app.UiModeManager;
+
+import static android.content.Context.UI_MODE_SERVICE;
 
 /**
  * The OoyalaSkinLayoutController is the primary class of the Ooyala Skin SDK
@@ -60,6 +66,8 @@ import java.util.Observable;
  */
 public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
   final String TAG = this.getClass().toString();
+
+  private static final double MAX_CARBOARD_DIAGONAL_INCH_VALUE = 6.5;
 
   private static final String KEY_NAME = "name";
   private static final String KEY_EMBEDCODE = "embedCode";
@@ -194,13 +202,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _package = new OoyalaReactPackage(this);
     rootView = new ReactRootView(l.getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
-        .setApplication(app)
-        .setBundleAssetName(skinOptions.getBundleAssetName())
-        .setJSMainModuleName("index.android")
-        .addPackage(_package)
-        .setUseDeveloperSupport(BuildConfig.DEBUG)
-        .setInitialLifecycleState(LifecycleState.RESUMED)
-        .build();
+            .setApplication(app)
+            .setBundleAssetName(skinOptions.getBundleAssetName())
+            .setJSMainModuleName("index.android")
+            .addPackage(_package)
+            .setUseDeveloperSupport(BuildConfig.DEBUG)
+            .setInitialLifecycleState(LifecycleState.RESUMED)
+            .build();
     ccStyleChanged();
     // Reload JS from the react server. TODO: does not work after react upgrade
     if (skinOptions.getEnableReactJSServer()) {
@@ -209,9 +217,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
 
     FrameLayout.LayoutParams frameLP =
-        new FrameLayout.LayoutParams(
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT);
+            new FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
   }
@@ -220,6 +228,21 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     closedCaptionsDeviceStyle = new ClosedCaptionsStyle(_layout.getContext());
     WritableMap params = BridgeMessageBuilder.buildCaptionsStyleParameters(closedCaptionsDeviceStyle, closedCaptionsSkinStyle);
     sendEvent(OoyalaPlayer.CC_STYLING_CHANGED_NOTIFICATION_NAME, params);
+  }
+
+  private boolean isStereoSupportedParam() {
+    Context context = _layout.getContext();
+    UiModeManager uiModeManager = (UiModeManager) context.getSystemService(UI_MODE_SERVICE);
+    if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
+      return false;
+    } else {
+      DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+
+      float yInches = metrics.heightPixels / metrics.ydpi;
+      float xInches = metrics.widthPixels / metrics.xdpi;
+      double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+      return diagonalInches <= MAX_CARBOARD_DIAGONAL_INCH_VALUE;
+    }
   }
 
   /**
@@ -287,11 +310,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
-  @Override
-  public void publishVRContent(boolean hasVRContent) {
-    WritableMap params = BridgeMessageBuilder.buildVRParams(hasVRContent);
-    sendEvent("vrContentEvent", params);
-  }
 
   private void saveUpNextSetting(JSONObject config) {
     try {
@@ -445,6 +463,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   @Override
+  public void publishVRContent(boolean hasVRContent) {
+    boolean isStereoSupported = isStereoSupportedParam();
+    WritableMap params = BridgeMessageBuilder.buildVRParams(hasVRContent, isStereoSupported);
+    sendEvent("vrContentEvent", params);
+  }
+
+  @Override
   public void switchVRMode(VrMode vrMode) {
     Context context = getLayout().getContext();
     if (context instanceof Activity) {
@@ -511,9 +536,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
-        _player.getEmbedCode(),
-        _player.getPcode(),
-        ClientId.getId(_layout.getContext()), null, this);
+            _player.getEmbedCode(),
+            _player.getPcode(),
+            ClientId.getId(_layout.getContext()), null, this);
   }
 
   void handleShare() {

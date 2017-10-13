@@ -312,9 +312,10 @@ class BridgeMessageBuilder {
     return params;
   }
 
-  public static WritableMap buildVRParams(boolean data) {
+  public static WritableMap buildVRParams(boolean vrContent, boolean isStereoSupported) {
     WritableMap params = Arguments.createMap();
-    params.putBoolean("vrContent", data);
+    params.putBoolean("vrContent", vrContent);
+    params.putBoolean("stereoSupported", isStereoSupported);
     return params;
   }
 }
