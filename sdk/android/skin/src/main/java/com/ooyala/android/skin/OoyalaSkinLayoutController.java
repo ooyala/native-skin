@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.facebook.react.ReactInstanceManager;
@@ -48,8 +51,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 
-import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
+import android.app.UiModeManager;
 
+import static android.content.Context.UI_MODE_SERVICE;
 
 /**
  * The OoyalaSkinLayoutController is the primary class of the Ooyala Skin SDK
@@ -62,6 +66,8 @@ import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
  */
 public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
   final String TAG = this.getClass().toString();
+
+  private static final double MAX_CARBOARD_DIAGONAL_INCH_VALUE = 6.5;
 
   private static final String KEY_NAME = "name";
   private static final String KEY_EMBEDCODE = "embedCode";
@@ -86,26 +92,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   /**
    * OoyalaNotification name when the VR mode has changed to MONO.
-   * No "data" is passed in the OoyalaNotification.
+   * VR mode is passed in the OoyalaNotification.
    */
-  public static final String VR_MODE_MONO_NOTIFICATION_NAME = "vrModeMono";
-
-  /**
-   * OoyalaNotification name when the VR mode has changed to STEREO.
-   * No "data" is passed in the OoyalaNotification.
-   */
-  public static final String VR_MODE_STEREO_NOTIFICATION_NAME = "vrModeStereo";
-
-  /**
-   * Notifies that the target is Android TV/Amazon Fire TV
-   * No "data" is passed in the OoyalaNotification.
-   */
-  public static final String TARGET_DEVICE_TV_NOTIFICATION_NAME = "targetDeviceTVEvent";
-
-  private final int REWIND_STEP = 10000; //10 sec
-  private final int FORWARD_DIRECTION = 1;
-  private final int BACKWARD_DIRECTION = -1;
-  private final int STOP_DIRECTION = 0;
+  public static final String VR_MODE_CHANGED_NOTIFICATION_NAME = "vrModeChanged";
 
 
   private OoyalaSkinLayout _layout;
@@ -234,23 +223,27 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
                     FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
-
-    boolean isTargetTV = isTargetDeviceTV(_layout.getContext());
-    if (isTargetTV) {
-      _layout.setFullscreen(true);
-    }
-    targetDeviceTVNotification(isTargetTV);
-  }
-
-  private void targetDeviceTVNotification(Object data) {
-    WritableMap params = BridgeMessageBuilder.buildTargetDeviceParams(data);
-    sendEvent(TARGET_DEVICE_TV_NOTIFICATION_NAME, params);
   }
 
   public void ccStyleChanged() {
     closedCaptionsDeviceStyle = new ClosedCaptionsStyle(_layout.getContext());
     WritableMap params = BridgeMessageBuilder.buildCaptionsStyleParameters(closedCaptionsDeviceStyle, closedCaptionsSkinStyle);
     sendEvent(OoyalaPlayer.CC_STYLING_CHANGED_NOTIFICATION_NAME, params);
+  }
+
+  private boolean isStereoSupportedParam() {
+    Context context = _layout.getContext();
+    UiModeManager uiModeManager = (UiModeManager) context.getSystemService(UI_MODE_SERVICE);
+    if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
+      return false;
+    } else {
+      DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+
+      float yInches = metrics.heightPixels / metrics.ydpi;
+      float xInches = metrics.widthPixels / metrics.xdpi;
+      double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+      return diagonalInches <= MAX_CARBOARD_DIAGONAL_INCH_VALUE;
+    }
   }
 
   /**
@@ -318,11 +311,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
-  @Override
-  public void publishVRContent(boolean hasVRContent) {
-    WritableMap params = BridgeMessageBuilder.buildVRParams(hasVRContent);
-    sendEvent("vrContentEvent", params);
-  }
 
   private void saveUpNextSetting(JSONObject config) {
     try {
@@ -390,11 +378,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     Context context = getLayout().getContext();
 
     if (isFullScreen) {
-      if (context instanceof Activity){
+      if (context instanceof Activity) {
         Activity activity = (Activity) context;
         if (changed) {
           screenOrientation = activity.getRequestedOrientation();
         }
+      } else {
+        DebugMode.logE(TAG, "Trying to store the screen orientation. The context isn't an instance of Activity.");
       }
     }
   }
@@ -555,6 +545,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   @Override
+  public void publishVRContent(boolean hasVRContent) {
+    boolean isStereoSupported = isStereoSupportedParam();
+    WritableMap params = BridgeMessageBuilder.buildVRParams(hasVRContent, isStereoSupported);
+    sendEvent("vrContentEvent", params);
+  }
+
+  @Override
   public void switchVRMode(VrMode vrMode) {
     Context context = getLayout().getContext();
     if (context instanceof Activity) {
@@ -563,16 +560,18 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         case MONO:
           // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
           activity.setRequestedOrientation(screenOrientation);
-          sendNotification(VR_MODE_MONO_NOTIFICATION_NAME);
+          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
           break;
         case STEREO:
           // Set up landscape orientation for STEREO mode
           activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-          sendNotification(VR_MODE_STEREO_NOTIFICATION_NAME);
+          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
           break;
         case NONE:
           break;
       }
+    } else {
+      DebugMode.logE(TAG, "Trying to switch VR mode. The context isn't an instance of Activity.");
     }
   }
 
@@ -619,9 +618,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
-      _player.getEmbedCode(),
-      _player.getPcode(),
-      ClientId.getId(_layout.getContext()), null, this);
+            _player.getEmbedCode(),
+            _player.getPcode(),
+            ClientId.getId(_layout.getContext()), null, this);
   }
 
   void handleShare() {

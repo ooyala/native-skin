@@ -52,8 +52,7 @@ var VideoView = React.createClass({
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
-    vrContent: React.PropTypes.bool,
-	targetDeviceTV: React.PropTypes.bool,
+    stereoSupported: React.PropTypes.bool,
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,
       onAdOverlay: React.PropTypes.func,
@@ -167,8 +166,7 @@ var VideoView = React.createClass({
         live: this.props.config.live,
         general: this.props.config.general
       }}
-      vrContent={this.props.vrContent}
-	  targetDeviceTV={this.props.targetDeviceTV}/>);
+      stereoSupported={this.props.stereoSupported}/>);
   },
 
   _renderPlaceholder: function() {
