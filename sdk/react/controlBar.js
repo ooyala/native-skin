@@ -233,7 +233,7 @@ var ControlBar = React.createClass({
           pushControll(item);
         }
       } else if (widget.name.toUpperCase() === BUTTON_NAMES.FULLSCREEN.toUpperCase()) {
-		if (!this.props.targetDeviceTV) {
+        if (!this.props.targetDeviceTV) {
           pushControll(item);
         }
 	  } else {
