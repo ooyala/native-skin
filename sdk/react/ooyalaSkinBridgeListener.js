@@ -266,7 +266,8 @@ OoyalaSkinBridgeListener.prototype.onControllerKeyPressed = function(e) {
 
 OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
   this.skin.setState({
-    vrContent: e.vrContent
+    vrContent: e.vrContent,
+    stereoSupported: e.stereoSupported
   });
 };
 
