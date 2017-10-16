@@ -224,7 +224,7 @@ Now, you should be able to run the application, and see any modifications to the
 7. Include **OoyalaSkinLayout** to **layout.xml** of activity that displays a player:
 
     ```
-    <com.ooyala.android.ooyalaskinsdk.OoyalaSkinLayout
+    <com.ooyala.android.skin.OoyalaSkinLayout
         android:id="@+id/ooyalaSkin"
     	...
     />
