@@ -11,7 +11,7 @@
 #import "OOOoyalaTVButton.h"
 #import "OOOoyalaTVLabel.h"
 #import "OOOoyalaTVBottomBars.h"
-#import <OoyalaTVSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOOoyalaPlayer.h>
 #import "OOTVGestureManager.h"
 
 @interface OOOoyalaTVPlayerViewController ()
