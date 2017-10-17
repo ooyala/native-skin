@@ -315,7 +315,7 @@ class BridgeMessageBuilder {
   public static WritableMap buildVRParams(boolean vrContent, boolean isStereoSupported) {
     WritableMap params = Arguments.createMap();
     params.putBoolean("vrContent", vrContent);
-    params.putBoolean("stereoSupported", isStereoSupported);
+    params.putBoolean("stereoSupported", vrContent && isStereoSupported);
     return params;
   }
 }
