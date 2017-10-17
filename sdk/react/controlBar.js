@@ -49,6 +49,8 @@ var ControlBar = React.createClass({
     handleControlsTouch: React.PropTypes.func.isRequired,
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
+    vrContent: React.PropTypes.bool.isRequired,
+    targetDeviceTV: React.PropTypes.bool.isRequired,
     stereoSupported: React.PropTypes.bool.isRequired,
   },
 
@@ -228,7 +230,7 @@ var ControlBar = React.createClass({
         options={widgetOptions}/>;
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
-        if (this.props.stereoSupported){
+        if ((this.props.vrContent && !this.props.targetDeviceTV) || this.props.stereoSupported){
           pushControll(item);
         }
 	    } else {
