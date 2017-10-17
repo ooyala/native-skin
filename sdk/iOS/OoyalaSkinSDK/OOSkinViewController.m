@@ -245,67 +245,139 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self.player destroy];
 }
 
-- (void)setFullscreen:(BOOL)fullscreen {
-  if (fullscreen == _fullscreen) return;
-  
-  BOOL wasPlaying = self.player.isPlaying;
-  if( wasPlaying ) {
-    [_player pause];
+- (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion {
+  if (fullscreen == _fullscreen) {
+    
+    // Notify what fullscreen did changed
+    if (completion) {
+      completion();
+    }
+    
+    return;
   }
   
   _fullscreen = fullscreen;
-  [self notifyFullScreenChange:_fullscreen];
-  if (_fullscreen) {
-    [self.view removeFromSuperview];
+  
+  // Perform changes for fullscreen/inline mode
+  [self changeFullscreenMode:fullscreen completion:^{
     
-    if(self.parentViewController){
-      self.inlineViewController = self.parentViewController;
-      [self.inlineViewController presentViewController:self.fullscreenViewController animated:NO completion:nil];
-      [self removeFromParentViewController];
+    // Notify what fullscreen did changed
+    if (completion) {
+      completion();
     }
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    self.inlineRootViewController = window.rootViewController;
-    
-    [self.movieFullScreenView setFrame:window.bounds];
-    self.fullscreenViewController.view = self.movieFullScreenView;
-    
-    window.rootViewController = self.fullscreenViewController;
-    [self.fullscreenViewController.view addSubview:self.view];
-    
-    [self.view setFrame:window.bounds];
-    self.view.alpha = 0.0f;
-    
-    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-      self.movieFullScreenView.alpha = 1.f;
-      self.view.alpha = 1.f;
-    } completion:nil];
+  }];
+}
+
+- (void)changeFullscreenMode:(BOOL)isFullscreen completion:(nullable void (^)())completion {
+  BOOL wasPlaying = self.player.isPlaying;
+  
+  // Pause player if needed for change fullScreen mode action duration
+  if (wasPlaying) {
+    [_player pause];
+  }
+  
+  if (isFullscreen) {
+    [self openFullscreenMode:^{
+      [self handleFulscreenChangedModeWithOldPlayingState:wasPlaying];
+      
+      // Notify what fullscreen did changed
+      if (completion) {
+        completion();
+      }
+    }];
   } else {
-    [self.parentView addSubview:self.view];
-    [self.view setFrame:self.parentView.bounds];
-    
-    // removes the presented fullscreenViewController
-    [self.inlineViewController dismissViewControllerAnimated:NO completion:nil];
-    
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    window.rootViewController = self.inlineRootViewController;
-    self.inlineRootViewController = nil;
-    
-    [self.inlineViewController addChildViewController:self];
-    self.inlineViewController = nil;
-    
-    self.view.alpha = 0.0f;
-    
-    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
-      self.movieFullScreenView.alpha = 0.f;
-      self.view.alpha = 1.f;
-    } completion:^(BOOL finished) {
-      [self.movieFullScreenView removeFromSuperview];
+    [self openInlineMode:^{
+      [self handleFulscreenChangedModeWithOldPlayingState:wasPlaying];
+      
+      // Notify what fullscreen did changed
+      if (completion) {
+        completion();
+      }
     }];
   }
-  if( wasPlaying ) {
+}
+
+- (void)handleFulscreenChangedModeWithOldPlayingState:(BOOL)wasPlaying {
+  
+  // Notify observers what screen state changed
+  [self notifyFullScreenChange:_fullscreen];
+  
+  // Resume player if needed after fullscreen mode action
+  if (wasPlaying) {
     [self.player play];
   }
+}
 
+- (void)openFullscreenMode:(nullable void (^)())completion {
+  UIWindow *window = [UIApplication sharedApplication].keyWindow;
+  _inlineRootViewController = window.rootViewController;
+  
+  // Remove video view from container
+  [self.view removeFromSuperview];
+  self.view.frame = _parentView.frame;
+  
+  // Save parent view controller
+  _inlineViewController = self.parentViewController;
+  [self removeFromParentViewController];
+  
+  // Add fullscreen view controller on inline view controller
+  [_inlineViewController addChildViewController:self.fullscreenViewController];
+  [_inlineViewController.view addSubview:self.fullscreenViewController.view];
+  
+  self.fullscreenViewController.view.frame = window.bounds;
+  [self.fullscreenViewController.view addSubview:self.view];
+  
+  // Perform animations
+  [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
+    [self.view setFrame:window.bounds];
+  } completion:^(BOOL finished) {
+    [self.fullscreenViewController.view removeFromSuperview];
+    [self.fullscreenViewController removeFromParentViewController];
+    [self.fullscreenViewController addChildViewController:self];
+    
+    // Change window root view controller
+    [window setRootViewController:self.fullscreenViewController];
+    [window makeKeyAndVisible];
+    
+    // Completion
+    if (completion) {
+      completion();
+    }
+  }];
+}
+
+- (void)openInlineMode:(nullable void (^)())completion {
+  UIWindow *window = [UIApplication sharedApplication].keyWindow;
+  
+  window.frame = [UIScreen mainScreen].bounds;
+  window.rootViewController = _inlineRootViewController;
+  
+  [_inlineViewController.view addSubview:self.fullscreenViewController.view];
+  [_inlineViewController addChildViewController:self.fullscreenViewController];
+  
+  self.fullscreenViewController.view.frame = _inlineViewController.view.frame;
+  
+  [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
+    self.view.frame = _parentView.frame;
+  } completion:^(BOOL finished) {
+    
+    [self removeFromParentViewController];
+    [self.fullscreenViewController.view removeFromSuperview];
+    [self.fullscreenViewController removeFromParentViewController];
+    
+    [_parentView addSubview:self.view];
+    [_inlineViewController addChildViewController:self];
+    
+    self.view.frame = _parentView.bounds;
+    
+    // Notify observers what screen sate changed
+    [self notifyFullScreenChange:_fullscreen];
+    
+    // Completion
+    if (completion) {
+      completion();
+    }
+  }];
 }
 
 - (void)notifyFullScreenChange:(BOOL) isFullscreen {
@@ -318,7 +390,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 @implementation OOSkinViewController(Internal)
 
 - (void)toggleFullscreen {
-  [self setFullscreen:!self.isFullscreen];
+  [self setFullscreen:!_fullscreen completion:NULL];
 }
 
 - (OOUpNextManager *)upNextManager {
