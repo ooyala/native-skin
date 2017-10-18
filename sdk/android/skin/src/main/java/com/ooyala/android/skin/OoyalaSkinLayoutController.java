@@ -2,11 +2,9 @@ package com.ooyala.android.skin;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.UiModeManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -50,7 +48,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 
-import static android.content.Context.UI_MODE_SERVICE;
 import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
 
 /**
@@ -88,31 +85,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    */
   public static final String FULLSCREEN_CHANGED_NOTIFICATION_NAME = "fullscreenChanged";
 
-  /**
-   * OoyalaNotification name when the VR mode has changed to MONO.
-   * No "data" is passed in the OoyalaNotification.
-   */
-  public static final String VR_MODE_MONO_NOTIFICATION_NAME = "vrModeMono";
-
-  /**
-   * OoyalaNotification name when the VR mode has changed to STEREO.
-   * No "data" is passed in the OoyalaNotification.
-   * VR mode is passed in the OoyalaNotification.
-   */
-  public static final String VR_MODE_STEREO_NOTIFICATION_NAME = "vrModeStereo";
-
-  /**
-   * Notifies that the target is Android TV/Amazon Fire TV
-   * No "data" is passed in the OoyalaNotification.
-   */
-  public static final String TARGET_DEVICE_TV_NOTIFICATION_NAME = "targetDeviceTVEvent";
-
   private final int REWIND_STEP = 10000; //10 sec
   private final int FORWARD_DIRECTION = 1;
   private final int BACKWARD_DIRECTION = -1;
   private final int STOP_DIRECTION = 0;
   public static final String VR_MODE_CHANGED_NOTIFICATION_NAME = "vrModeChanged";
-
 
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
@@ -146,7 +123,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   private List<Pair<String, WritableMap>> queuedEvents;
   private boolean isReactMounted;
-
+  private boolean isTargetTV;
   private int screenOrientation;
 
   /**
@@ -241,17 +218,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
 
-    boolean isTargetTV = isTargetDeviceTV(_layout.getContext());
+    isTargetTV = isTargetDeviceTV(_layout.getContext());
     if (isTargetTV) {
       _layout.setFullscreen(true);
       sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, true);
     }
-    targetDeviceTVNotification(isTargetTV);
-  }
-
-  private void targetDeviceTVNotification(Object data) {
-    WritableMap params = BridgeMessageBuilder.buildTargetDeviceParams(data);
-    sendEvent(TARGET_DEVICE_TV_NOTIFICATION_NAME, params);
   }
 
   public void ccStyleChanged() {
@@ -261,12 +232,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   private boolean isStereoSupportedParam() {
-    Context context = _layout.getContext();
-    UiModeManager uiModeManager = (UiModeManager) context.getSystemService(UI_MODE_SERVICE);
-    if (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION) {
+    if (isTargetTV) {
       return false;
     } else {
-      DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+      DisplayMetrics metrics = _layout.getContext().getResources().getDisplayMetrics();
 
       float yInches = metrics.heightPixels / metrics.ydpi;
       float xInches = metrics.widthPixels / metrics.xdpi;
