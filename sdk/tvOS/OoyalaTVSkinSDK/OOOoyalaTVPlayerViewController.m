@@ -274,9 +274,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)showClosedCaptionsButton {
     if (!self.closedCaptionMenuDisplayed){
         self.closedCaptionsMenuBar.alpha = 1.0;
-        [self addChildViewController:self.optionsViewController];
-        [self.player.view addSubview:self.optionsViewController.view];
-        [self.optionsViewController.view setHidden:YES];
     }
 }
 
@@ -393,17 +390,15 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     //We check if CC are available in this video asset
     if (self.player.isClosedCaptionsTrackAvailable){
         //Displaying CC menu
-        [self.player.view bringSubviewToFront:self.optionsViewController.view];
-        [self.optionsViewController.view setHidden:NO];
+        [self addChildViewController:self.optionsViewController];
+        [self.player.view addSubview:self.optionsViewController.view];
         [self setNeedsFocusUpdate];
-        [self updateFocusIfNeeded];
     }
 }
 
 - (void)removeClosedCaptionsMenu {
     if (self.optionsViewController.view.window){
-        //[self.optionsViewController.view removeFromSuperview];
-        [self.optionsViewController.view setHidden:YES];
+        [self.optionsViewController.view removeFromSuperview];
     }
 }
 

@@ -1,4 +1,4 @@
-#import <OOTVGestureManager.h>
+ #import <OOTVGestureManager.h>
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OOOoyalaTVPlayerViewController.h>
 #import <OOOoyalaTVConstants.h>
@@ -41,7 +41,7 @@
   self.tapPlayPauseGesture.delegate = self;
     
   self.tapUpGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closedCaptionsSelector:)];
-  self.tapUpGesture.allowedPressTypes = @[@(UIPressTypeUpArrow)]; //Change this
+  self.tapUpGesture.allowedPressTypes = @[@(UIPressTypeUpArrow)];
   self.tapUpGesture.delegate = self;
     
   self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipe:)];
@@ -56,7 +56,6 @@
     [self.tapPlayPauseGesture setCancelsTouchesInView:NO];
     [self.tapForwardGesture setCancelsTouchesInView:NO];
     [self.tapBackwardGesture setCancelsTouchesInView:NO];
-    //[self.tapUpGesture setCancelsTouchesInView:NO];
 }
 
 - (void)removeGestures {
@@ -121,7 +120,7 @@
 
 - (void)togglePlay:(id)sender {
     if (self.controller.closedCaptionMenuDisplayed){
-        [self.controller removeClosedCaptionsMenu];
+        [self.controller removeClosedCaptionsMenu];  
     }
       if ([self.controller.player isPlaying]) {
           [self.controller.player pause];
