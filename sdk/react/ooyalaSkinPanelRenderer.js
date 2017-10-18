@@ -98,7 +98,6 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
       cuePoints={this.skin.state.cuePoints}
-      targetDeviceTV={this.skin.state.targetDeviceTV}
       stereoSupported={this.skin.state.stereoSupported}
       handlers={{
         onPress: (value) => this.core.handlePress(value),

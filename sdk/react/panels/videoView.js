@@ -52,7 +52,6 @@ var VideoView = React.createClass({
     volume: React.PropTypes.number,
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
-    targetDeviceTV: React.PropTypes.bool,
     stereoSupported: React.PropTypes.bool,
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,

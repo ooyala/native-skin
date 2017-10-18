@@ -318,12 +318,4 @@ class BridgeMessageBuilder {
     params.putBoolean("stereoSupported", vrContent && isStereoSupported);
     return params;
   }
-
-  public static WritableMap buildTargetDeviceParams(Object data){
-    WritableMap params = Arguments.createMap();
-    if (data != null && data instanceof Boolean){
-      params.putBoolean("targetDeviceTV", (Boolean) data);
-    }
-    return params;
-  }
 }
