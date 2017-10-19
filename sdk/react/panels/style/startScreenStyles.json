@@ -2,6 +2,7 @@
   "container": {
     "flex": 1,
     "flexDirection": "column",
+    "backgroundColor": "black",
     "alignItems": "flex-start"
   },
 
