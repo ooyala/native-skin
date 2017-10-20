@@ -8,7 +8,7 @@
   "fullscreenContainer": {
     "flex": 1,
     "flexDirection": "column",
-    "backgroundColor": "transparent",
+    "backgroundColor": "black",
   },
 
   "promoImageSmall": {
