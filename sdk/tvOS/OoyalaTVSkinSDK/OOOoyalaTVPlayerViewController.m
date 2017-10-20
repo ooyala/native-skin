@@ -207,6 +207,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (self.player.state != OOOoyalaPlayerStateLoading) {
     [self.activityView stopAnimating];
   }
+    
+  [self showClosedCaptionsButton];
   
   [self updateTimeWithDuration:self.player.duration
                       playhead:self.player.playheadTime];
@@ -242,12 +244,9 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       CGRect frame = self.progressBarBackground.frame;
       frame.origin.y -= frame.size.height;
       self.progressBarBackground.frame = frame;
+      [self showClosedCaptionsButton];
     } completion: nil];
   }
-    if (self.player.currentItem.hasClosedCaptions){
-        [self showClosedCaptionsButton];
-    }
-    
 }
 
 - (void)hideProgressBar {
@@ -258,22 +257,16 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       CGRect frame = self.progressBarBackground.frame;
       frame.origin.y += frame.size.height;
       self.progressBarBackground.frame = frame;
+      //Hiding CC button
+      self.closedCaptionsMenuBar.alpha = 0.0;
     } completion: nil];
   }
     
-    [self hideClosedCaptionsButton];
-    
-}
-
-- (void)hideClosedCaptionsButton {
-    if (!self.closedCaptionMenuDisplayed){
-        self.closedCaptionsMenuBar.alpha = 0.0;
-    }
 }
 
 - (void)showClosedCaptionsButton {
-    if (!self.closedCaptionMenuDisplayed){
-        self.closedCaptionsMenuBar.alpha = 1.0;
+    if (self.player.currentItem.hasClosedCaptions && !self.closedCaptionMenuDisplayed){
+        self.closedCaptionsMenuBar.alpha = self.progressBarBackground.alpha;
     }
 }
 
