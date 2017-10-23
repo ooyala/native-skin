@@ -25,7 +25,10 @@
 
 @end
 
+
 @implementation OOTVGestureManager
+
+#pragma mark - Initialization
 
 - (instancetype)initWithController:(OOOoyalaTVPlayerViewController *)controller {
   if (self = [super init]) {
@@ -33,6 +36,8 @@
   }
   return self;
 }
+
+#pragma mark - Public functions
 
 - (void)addGestures {
   self.tapForwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
@@ -63,7 +68,8 @@
   [self.controller.view removeGestureRecognizer:self.panGesture];
 }
 
-#pragma mark Gesture Delegates
+#pragma mark - UIGestureRecognizerDelegate
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
   if (gestureRecognizer == self.tapPlayPauseGesture) {
     return NO;
@@ -93,6 +99,8 @@
   }
   return YES;
 }
+
+#pragma mark - Actions
 
 - (void)seek:(UITapGestureRecognizer *)sender {
 
@@ -139,7 +147,7 @@
         break;
       case UIGestureRecognizerStateChanged: {
         CGFloat distance = currentPoint.x - lastPanPoint.x;
-        if (abs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
+          if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
           lastPanPoint = currentPoint;
           lastPlayhead += distance * seekScale;
           [self.controller.player seek:lastPlayhead];
@@ -152,6 +160,32 @@
         break;
     }
   }
+}
+
+#pragma mark - Private functions
+
+- (void)notifyObserversTouchesMove {
+    
+//    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+//    [result mergeWith:@{@"eventName" : @"move"}];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+
+}
+
+- (void)notifyObserversTouchesBegin {
+    
+//    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+//    [result mergeWith:@{@"eventName" : @"start"}];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+    
+}
+
+- (void)notifyObserversTouchesEnd {
+    
+//    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
+//    [result mergeWith:@{@"eventName" : @"end"}];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+    
 }
 
 @end

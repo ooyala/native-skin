@@ -47,6 +47,8 @@
 		97C8DD201CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 97C8DD1E1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		97C8DD251CE14DFC007F3F54 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */; };
 		97F9E5A81CE2833A00AE5B56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F9E5A71CE2833A00AE5B56 /* UIKit.framework */; };
+		AC6671641F9E4A4700A355AD /* NSMutableDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AC6671621F9E4A4700A355AD /* NSMutableDictionary+Utils.h */; };
+		AC6671651F9E4A4700A355AD /* NSMutableDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AC6671631F9E4A4700A355AD /* NSMutableDictionary+Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,8 @@
 		97C8DD1F1CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVPlayerViewController.m; sourceTree = "<group>"; };
 		97C8DD241CE14DFC007F3F54 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		97F9E5A71CE2833A00AE5B56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AC6671621F9E4A4700A355AD /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
+		AC6671631F9E4A4700A355AD /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +176,7 @@
 		97C8DD131CE14CA2007F3F54 /* OoyalaTVSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
+				AC66715F1F9E4A0300A355AD /* Utils */,
 				97C8DD161CE14CA2007F3F54 /* Info.plist */,
 				0B28485C1D3EE670006F4AF8 /* OOOoyalaTVConstants.h */,
 				0B28485D1D3EE670006F4AF8 /* OOOoyalaTVConstants.m */,
@@ -185,6 +190,15 @@
 			path = OoyalaTVSkinSDK;
 			sourceTree = "<group>";
 		};
+		AC66715F1F9E4A0300A355AD /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				AC6671621F9E4A4700A355AD /* NSMutableDictionary+Utils.h */,
+				AC6671631F9E4A4700A355AD /* NSMutableDictionary+Utils.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -192,6 +206,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AC6671641F9E4A4700A355AD /* NSMutableDictionary+Utils.h in Headers */,
 				97976B341D59301500236AA8 /* OOTVGestureManager.h in Headers */,
 				0B2848621D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h in Headers */,
 				97C8DD201CE14D5A007F3F54 /* OOOoyalaTVPlayerViewController.h in Headers */,
@@ -257,6 +272,7 @@
 					};
 					97C8DD101CE14CA2007F3F54 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0900;
 					};
 					97C8DD2B1CE1533F007F3F54 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -349,6 +365,7 @@
 				0B2848671D3EEE9E006F4AF8 /* OOOoyalaTVButton.m in Sources */,
 				0B2848761D41925B006F4AF8 /* OOOoyalaTVBottomBars.m in Sources */,
 				0B2848631D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m in Sources */,
+				AC6671651F9E4A4700A355AD /* NSMutableDictionary+Utils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -481,6 +498,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = marker;
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -499,6 +517,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaTVSkinSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -507,6 +527,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -524,6 +545,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ooyala.OoyalaTVSkinSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
