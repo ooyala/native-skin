@@ -7,6 +7,5 @@
 @property (nonatomic, strong) OOOoyalaTVBar *optionsBar;
 @property (nonatomic, strong) UILabel *optionsTitle;
 
-- (BOOL)canBecomeFocused;
 - (instancetype)initWithFrame:(CGRect)frame;
 @end

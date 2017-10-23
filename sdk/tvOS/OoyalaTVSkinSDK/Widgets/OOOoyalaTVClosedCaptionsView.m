@@ -125,8 +125,8 @@ static CGFloat arbitraryScalingFactor = 1.2;
     NSUInteger startPostition = 0;
     for (NSString* line in separatedLines) {
         NSRange range = NSMakeRange(startPostition, line.length);
-        UITextPosition *start = [self positionFromPosition:beginning offset:range.location];
-        UITextPosition *end = [self positionFromPosition:start offset:range.length];
+        UITextPosition *start = [self positionFromPosition:beginning offset:(NSInteger)range.location];
+        UITextPosition *end = [self positionFromPosition:start offset:(NSInteger)range.length];
         UITextRange *textRange = [self textRangeFromPosition:start toPosition:end];
         CGRect textRect = [self firstRectForRange:textRange];
         
@@ -264,7 +264,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
     
     // Calculate height of the frame based on the width calculated above
     NSMutableString* resultText = [[NSMutableString alloc] init];
-    NSInteger lineCount = [lines count];
+    NSInteger lineCount = (NSInteger)[lines count];
     
     // Need to split some lines if those lines are longer than the maxWidth
     if (maxLineSize.width >= maxWidth) {
@@ -274,9 +274,9 @@ static CGFloat arbitraryScalingFactor = 1.2;
             NSMutableString* temp = [NSMutableString stringWithString:line];
             
             // Find the last whitespace before exceeding maxWidth and insert a new line char there to split that line
-            int prevWhitespaceIndex = 0;
-            for (int i = 0; i < [line length]; i++) {
-                char currentChar = [line characterAtIndex:i];
+            NSUInteger prevWhitespaceIndex = 0;
+            for (unsigned int i = 0; i < [line length]; i++) {
+                unichar currentChar = [line characterAtIndex:i];
                 CGSize subStringSize = [[line substringToIndex:i] sizeWithAttributes:@{NSFontAttributeName: self.textView.font}];
                 if (subStringSize.width > frameWidth) {
                     // Insert a newline char in previous index of whitespace to split current line into two lines
@@ -290,7 +290,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
             }
             
             // Reconstruct a new closed caption text with split lines
-            if (currentLineNum == [lines count]) {
+            if (currentLineNum == (NSInteger)[lines count]) {
                 if (temp != nil) {
                     [resultText appendString: temp];
                 }
@@ -318,7 +318,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
     CGRect newFrame = self.textView.frame;  
     
     CGFloat linePadding = 10;
-    newFrame.size = CGSizeMake(fmaxf(newSize.width, frameWidth), (maxLineSize.height + linePadding) * lineCount);
+    newFrame.size = CGSizeMake(fmaxf((float)newSize.width, (float)frameWidth), (maxLineSize.height + linePadding) * lineCount);
     
     CGFloat originalX = (self.frame.size.width - newFrame.size.width) / 2   ;
     self.textView.frame = CGRectMake(originalX, self.frame.size.height - newFrame.size.height - self.textViewEdge, frameWidth, (linePadding * 2 + maxLineSize.height * lineCount));

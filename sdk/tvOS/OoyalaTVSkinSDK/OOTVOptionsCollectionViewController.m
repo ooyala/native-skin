@@ -50,9 +50,9 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     self.optionList = [[NSArray alloc] initWithArray:[self.viewController availableOptions]];
     Pair *sectionPair = [[Pair alloc] init];
-    sectionPair = [self.optionList objectAtIndex:section];
+    sectionPair = [self.optionList objectAtIndex:(NSUInteger)section];
     
-    return sectionPair.value.count;
+    return (NSInteger)sectionPair.value.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -68,11 +68,11 @@
     
     // Set the data for this cell:
     Pair *sectionPair = [[Pair alloc] init];
-    sectionPair = [self.optionList objectAtIndex:indexPath.section];
-    cell.optionLabel.text = [sectionPair.value objectAtIndex:indexPath.row];
+    sectionPair = [self.optionList objectAtIndex:(NSUInteger)indexPath.section];
+    cell.optionLabel.text = [sectionPair.value objectAtIndex:(NSUInteger)indexPath.row];
     
     //We display check if cell was already selected
-    if (self.selectedLanguage != nil && [self.selectedLanguage isEqualToString:[cell.optionLabel.text stringByAppendingFormat:@"%d",indexPath.row]]){
+    if (self.selectedLanguage != nil && [self.selectedLanguage isEqualToString:[cell.optionLabel.text stringByAppendingFormat:@"%ld",(long)indexPath.row]]){
         [cell.checkedLabel setHidden:NO];
     }else {
         [cell.checkedLabel setHidden:YES];
@@ -93,7 +93,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     OOOoyalaTVOptionCell *cell = (OOOoyalaTVOptionCell *)[collectionView cellForItemAtIndexPath:indexPath];
     //Adding row to selected lenguage to avoid duplicate with "español"
-    self.selectedLanguage = [cell.optionLabel.text stringByAppendingFormat:@"%d",indexPath.row];
+    self.selectedLanguage = [cell.optionLabel.text stringByAppendingFormat:@"%ld",(long)indexPath.row];
     
     //We set selected CC lenguage in player
     [self.viewController.player setClosedCaptionsLanguage: cell.optionLabel.text];
