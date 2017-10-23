@@ -16,6 +16,9 @@ extern CGFloat const labelHeight;
 extern CGFloat const barHeight;
 extern CGFloat const barCornerRadius;
 extern CGFloat const bottomDistance;
+extern CGFloat const ccHeight;
+extern CGFloat const ccWidth;
+extern CGFloat const cornerRadius;
 
 extern CGFloat const hideBarInterval;
 
