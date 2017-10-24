@@ -15,6 +15,7 @@
 @property (nonatomic, strong) OOOoyalaTVBar *durationBar;
 @property (nonatomic, strong) OOOoyalaTVBar *progressBar;
 @property (nonatomic, strong) OOOoyalaTVBar *bufferBar;
+@property (nonatomic, strong) UILabel *closedCaptions;
 
 @end
 
