@@ -4,15 +4,8 @@
 #import <OOOoyalaTVOptionCell.h>
 #import <OOOoyalaTVPlayerViewController.h>
 #import <OoyalaTVSDK/OOOoyalaPlayer.h>
+#import "Pair.h"
 
-// This Pair class is a simple object that holds a string and array.
-@interface Pair : NSObject
-@property (nonatomic, assign) NSString *name;
-@property (nonatomic, assign) NSArray *value;
-@end
-
-@implementation Pair
-@end
 
 @implementation OOTVOptionsCollectionViewController
 

@@ -18,14 +18,13 @@
 #import <OoyalaTVSDK/OOOoyalaPlayer.h>
 #import <OoyalaTVSDK/OOCaption.h>
 #import <OoyalaTVSDK/OOClosedCaptions.h>
+#import "Pair.h"
 
 
 @interface OOOoyalaTVPlayerViewController ()
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
 @property (nonatomic, strong) OOTVGestureManager *gestureManager;
-
-
 @property (nonatomic, strong) OOOoyalaTVLabel *durationLabel;
 @property (nonatomic, strong) OOOoyalaTVLabel *playheadLabel;
 @property (nonatomic, strong) OOOoyalaTVButton *playPauseButton;
@@ -40,15 +39,6 @@
 
 @end
 
-// This Pair class is a simple object that holds a string and array.
-@interface Pair : NSObject
-@property (nonatomic) NSString *name;
-@property (nonatomic) NSArray *value;
-@end
-
-@implementation Pair
-@synthesize name, value;
-@end
 
 @implementation OOOoyalaTVPlayerViewController
 static NSDictionary *OOOoyalaPlayerViewControllerAvailableLocalizations;

@@ -151,13 +151,17 @@
 }
 
 - (void)onSwipe:(id)sender {
-    if (!self.controller.closedCaptionMenuDisplayed){
+  NSLog(@"--->>> onSwipe");
+  
+	if (!self.controller.closedCaptionMenuDisplayed) {
         if (sender == self.panGesture) {
             CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
             CGFloat viewWidth = self.controller.view.frame.size.width;
+          
             if (viewWidth == 0) {
                 viewWidth = 1920;
             }
+          
             CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
             [self.controller showProgressBar];
             
@@ -182,21 +186,23 @@
             }
         }
     }
-  }
+}
 
 
 #pragma mark - Private functions
 
 - (void)notifyObserversTouchesMove {
-    
+//  LOG(@"TV Touch event handle - event move");
+
 //    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
 //    [result mergeWith:@{@"eventName" : @"move"}];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:NULL];
 
 }
 
 - (void)notifyObserversTouchesBegin {
-    
+//  LOG(@"TV touch event handle - event begin");
+
 //    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
 //    [result mergeWith:@{@"eventName" : @"start"}];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
@@ -204,7 +210,8 @@
 }
 
 - (void)notifyObserversTouchesEnd {
-    
+//  LOG(@"TV touch event handle - event end");
+
 //    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
 //    [result mergeWith:@{@"eventName" : @"end"}];
 //    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
