@@ -49,6 +49,13 @@
 		97F9E5A81CE2833A00AE5B56 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F9E5A71CE2833A00AE5B56 /* UIKit.framework */; };
 		AC6671641F9E4A4700A355AD /* NSMutableDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = AC6671621F9E4A4700A355AD /* NSMutableDictionary+Utils.h */; };
 		AC6671651F9E4A4700A355AD /* NSMutableDictionary+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AC6671631F9E4A4700A355AD /* NSMutableDictionary+Utils.m */; };
+		C11CC87B1F21985C007D1F71 /* OOOoyalaTVClosedCaptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CC87A1F21985C007D1F71 /* OOOoyalaTVClosedCaptionsView.m */; };
+		C11CC8821F219D21007D1F71 /* OOOoyalaTVClosedCaptionsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CC8811F219D21007D1F71 /* OOOoyalaTVClosedCaptionsLabel.m */; };
+		C11CC8851F22F8D5007D1F71 /* OOTVOptionsCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CC8841F22F8D5007D1F71 /* OOTVOptionsCollectionView.m */; };
+		C13A47421F1FEEA5000B8A6B /* OOOoyalaTVOptionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C13A47411F1FEEA5000B8A6B /* OOOoyalaTVOptionCell.m */; };
+		C13A47451F1FF648000B8A6B /* OOTVOptionsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C13A47441F1FF648000B8A6B /* OOTVOptionsCollectionViewController.m */; };
+		C1C5BEAE1F1E761B0041D71E /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B4F2AC81DADAF890085E226 /* OoyalaSDK.framework */; };
+		C1C5BEB81F1E9CC60041D71E /* OOOoyalaTVTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C5BEB71F1E9CC60041D71E /* OOOoyalaTVTopBar.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +97,18 @@
 		97F9E5A71CE2833A00AE5B56 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		AC6671621F9E4A4700A355AD /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
 		AC6671631F9E4A4700A355AD /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
+		C11CC87A1F21985C007D1F71 /* OOOoyalaTVClosedCaptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVClosedCaptionsView.m; sourceTree = "<group>"; };
+		C11CC87C1F21986D007D1F71 /* OOOoyalaTVClosedCaptionsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVClosedCaptionsView.h; sourceTree = "<group>"; };
+		C11CC8801F219D03007D1F71 /* OOOoyalaTVClosedCaptionsLabel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVClosedCaptionsLabel.h; sourceTree = "<group>"; };
+		C11CC8811F219D21007D1F71 /* OOOoyalaTVClosedCaptionsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVClosedCaptionsLabel.m; sourceTree = "<group>"; };
+		C11CC8841F22F8D5007D1F71 /* OOTVOptionsCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOTVOptionsCollectionView.m; sourceTree = "<group>"; };
+		C11CC8861F22F8DF007D1F71 /* OOTVOptionsCollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOTVOptionsCollectionView.h; sourceTree = "<group>"; };
+		C13A47411F1FEEA5000B8A6B /* OOOoyalaTVOptionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVOptionCell.m; sourceTree = "<group>"; };
+		C13A47431F1FEEB0000B8A6B /* OOOoyalaTVOptionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVOptionCell.h; sourceTree = "<group>"; };
+		C13A47441F1FF648000B8A6B /* OOTVOptionsCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOTVOptionsCollectionViewController.m; sourceTree = "<group>"; };
+		C13A47461F1FF654000B8A6B /* OOTVOptionsCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOTVOptionsCollectionViewController.h; sourceTree = "<group>"; };
+		C1C5BEB71F1E9CC60041D71E /* OOOoyalaTVTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOOoyalaTVTopBar.m; sourceTree = "<group>"; };
+		C1C5BEB91F1E9CD00041D71E /* OOOoyalaTVTopBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOOoyalaTVTopBar.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +158,14 @@
 				0B28486F1D4011CD006F4AF8 /* OOOoyalaTVBar.m */,
 				0B2848731D41925B006F4AF8 /* OOOoyalaTVBottomBars.h */,
 				0B2848741D41925B006F4AF8 /* OOOoyalaTVBottomBars.m */,
+				C1C5BEB71F1E9CC60041D71E /* OOOoyalaTVTopBar.m */,
+				C1C5BEB91F1E9CD00041D71E /* OOOoyalaTVTopBar.h */,
+				C13A47411F1FEEA5000B8A6B /* OOOoyalaTVOptionCell.m */,
+				C13A47431F1FEEB0000B8A6B /* OOOoyalaTVOptionCell.h */,
+				C11CC87A1F21985C007D1F71 /* OOOoyalaTVClosedCaptionsView.m */,
+				C11CC87C1F21986D007D1F71 /* OOOoyalaTVClosedCaptionsView.h */,
+				C11CC8801F219D03007D1F71 /* OOOoyalaTVClosedCaptionsLabel.h */,
+				C11CC8811F219D21007D1F71 /* OOOoyalaTVClosedCaptionsLabel.m */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -185,6 +212,10 @@
 				97976B321D59301500236AA8 /* OOTVGestureManager.h */,
 				97976B331D59301500236AA8 /* OOTVGestureManager.m */,
 				97C8DD141CE14CA2007F3F54 /* OoyalaTVSkinSDK.h */,
+				C13A47441F1FF648000B8A6B /* OOTVOptionsCollectionViewController.m */,
+				C13A47461F1FF654000B8A6B /* OOTVOptionsCollectionViewController.h */,
+				C11CC8841F22F8D5007D1F71 /* OOTVOptionsCollectionView.m */,
+				C11CC8861F22F8DF007D1F71 /* OOTVOptionsCollectionView.h */,
 				0B28486D1D40014A006F4AF8 /* Widgets */,
 			);
 			path = OoyalaTVSkinSDK;
@@ -357,10 +388,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C13A47451F1FF648000B8A6B /* OOTVOptionsCollectionViewController.m in Sources */,
+				C1C5BEB81F1E9CC60041D71E /* OOOoyalaTVTopBar.m in Sources */,
 				0B2848711D4011CD006F4AF8 /* OOOoyalaTVBar.m in Sources */,
 				97976B351D59301500236AA8 /* OOTVGestureManager.m in Sources */,
+				C11CC8821F219D21007D1F71 /* OOOoyalaTVClosedCaptionsLabel.m in Sources */,
+				C13A47421F1FEEA5000B8A6B /* OOOoyalaTVOptionCell.m in Sources */,
 				0B28485F1D3EE670006F4AF8 /* OOOoyalaTVConstants.m in Sources */,
+				C11CC8851F22F8D5007D1F71 /* OOTVOptionsCollectionView.m in Sources */,
 				0B2277B51D13458F00640DD3 /* OOOoyalaTVPlayerViewController.m in Sources */,
+				C11CC87B1F21985C007D1F71 /* OOOoyalaTVClosedCaptionsView.m in Sources */,
 				0B28486C1D400139006F4AF8 /* OOOoyalaTVLabel.m in Sources */,
 				0B2848671D3EEE9E006F4AF8 /* OOOoyalaTVButton.m in Sources */,
 				0B2848761D41925B006F4AF8 /* OOOoyalaTVBottomBars.m in Sources */,
@@ -415,13 +452,18 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -431,17 +473,27 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -450,6 +502,7 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "";
 			};
 			name = Debug;
 		};
@@ -462,13 +515,18 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_ASSIGN_ENUM = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_IMPLICIT_SIGN_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -477,12 +535,22 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
+				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
+				GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_STRICT_SELECTOR_MATCH = YES;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = appletvos;
@@ -491,6 +559,7 @@
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
+				WARNING_CFLAGS = "";
 			};
 			name = Release;
 		};
@@ -499,6 +568,7 @@
 			buildSettings = {
 				BITCODE_GENERATION_MODE = marker;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -507,7 +577,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VendorLibraries",
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/**",
+				);
 				INFOPLIST_FILE = OoyalaTVSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -528,6 +601,7 @@
 			buildSettings = {
 				BITCODE_GENERATION_MODE = bitcode;
 				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_OBJC_MISSING_PROPERTY_SYNTHESIS = NO;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -536,7 +610,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/VendorLibraries",
 				);
-				HEADER_SEARCH_PATHS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/**",
+				);
 				INFOPLIST_FILE = OoyalaTVSkinSDK/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
