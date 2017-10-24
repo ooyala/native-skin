@@ -3,7 +3,7 @@
 #import <OOOoyalaTVConstants.h>
 #import <OOOoyalaTVOptionCell.h>
 #import <OOOoyalaTVPlayerViewController.h>
-#import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaTVSDK/OOOoyalaPlayer.h>
 
 // This Pair class is a simple object that holds a string and array.
 @interface Pair : NSObject
