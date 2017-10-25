@@ -9,6 +9,7 @@
 #import <OoyalaTVSDK/OOOoyalaPlayer.h>
 #import <OOOoyalaTVPlayerViewController.h>
 #import <OOOoyalaTVConstants.h>
+#import "NSMutableDictionary+Utils.h"
 
 
 @interface OOTVGestureManager()<UIGestureRecognizerDelegate> {
@@ -28,6 +29,15 @@
 
 
 @implementation OOTVGestureManager
+
+#pragma mark - Constants
+
+static NSString *kTouchEventNameKey = @"eventName";
+static NSString *kTouchStartEventName = @"start";
+static NSString *kTouchMoveEventName = @"move";
+static NSString *kTouchEndEventName = @"end";
+static NSString *kTouchXLocationFiledName = @"x_location";
+static NSString *kTouchYLocationFiledName = @"y_location";
 
 #pragma mark - Initialization
 
@@ -52,11 +62,11 @@
   self.tapPlayPauseGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlay:)];
   self.tapPlayPauseGesture.allowedPressTypes = @[@(UIPressTypePlayPause), @(UIPressTypeSelect)];
   self.tapPlayPauseGesture.delegate = self;
-    
+  
   self.tapUpGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closedCaptionsSelector:)];
   self.tapUpGesture.allowedPressTypes = @[@(UIPressTypeUpArrow)];
   self.tapUpGesture.delegate = self;
-    
+  
   self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipe:)];
   self.panGesture.delegate = self;
 
@@ -65,10 +75,10 @@
   [self.controller.view addGestureRecognizer:self.tapPlayPauseGesture];
   [self.controller.view addGestureRecognizer:self.panGesture];
   [self.controller.view addGestureRecognizer:self.tapUpGesture];
-    
-    [self.tapPlayPauseGesture setCancelsTouchesInView:NO];
-    [self.tapForwardGesture setCancelsTouchesInView:NO];
-    [self.tapBackwardGesture setCancelsTouchesInView:NO];
+  
+  [self.tapPlayPauseGesture setCancelsTouchesInView:NO];
+  [self.tapForwardGesture setCancelsTouchesInView:NO];
+  [self.tapBackwardGesture setCancelsTouchesInView:NO];
 }
 
 - (void)removeGestures {
@@ -102,13 +112,6 @@
   }
 
   return NO;
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-  if ((gestureRecognizer == self.panGesture) && self.controller.player.isPlaying) {
-    return NO;
-  }
-  return YES;
 }
 
 #pragma mark - Actions
@@ -147,75 +150,84 @@
 }
 
 - (void)closedCaptionsSelector: (UITapGestureRecognizer *)sender {
-    [self.controller setupClosedCaptionsMenu];
+  [self.controller setupClosedCaptionsMenu];
 }
 
 - (void)onSwipe:(id)sender {
-  NSLog(@"--->>> onSwipe");
   
-	if (!self.controller.closedCaptionMenuDisplayed) {
-        if (sender == self.panGesture) {
-            CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
-            CGFloat viewWidth = self.controller.view.frame.size.width;
-          
-            if (viewWidth == 0) {
-                viewWidth = 1920;
-            }
-          
-            CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
-            [self.controller showProgressBar];
-            
-            switch (self.panGesture.state) {
-                case UIGestureRecognizerStateBegan:
-                    lastPanPoint = currentPoint;
-                    lastPlayhead = self.controller.player.playheadTime;
-                    break;
-                case UIGestureRecognizerStateChanged: {
-                    CGFloat distance = currentPoint.x - lastPanPoint.x;
-                    if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
-                        lastPanPoint = currentPoint;
-                        lastPlayhead += distance * seekScale;
-                        [self.controller.player seek:lastPlayhead];
-                    }
-                    break;
-                }
-                case UIGestureRecognizerStateEnded:
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-}
+  // Notify observers what pan gesture state changed
+  if (sender == _panGesture && _controller.player.isPlaying) {
+    [self notifyObserversWhatPanGestureStateChangedWithPanGestureRecognizer:sender];
+  }
+  
+  if (!self.controller.closedCaptionMenuDisplayed && !self.controller.player.isPlaying) {
+    if (sender == self.panGesture) {
+      CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
+      CGFloat viewWidth = self.controller.view.frame.size.width;
 
+      if (viewWidth == 0) {
+          viewWidth = 1920;
+      }
+
+      CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
+      [self.controller showProgressBar];
+
+      switch (self.panGesture.state) {
+        case UIGestureRecognizerStateBegan:
+            lastPanPoint = currentPoint;
+            lastPlayhead = self.controller.player.playheadTime;
+            break;
+        case UIGestureRecognizerStateChanged: {
+            CGFloat distance = currentPoint.x - lastPanPoint.x;
+            if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
+                lastPanPoint = currentPoint;
+                lastPlayhead += distance * seekScale;
+                [self.controller.player seek:lastPlayhead];
+            }
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+            break;
+        default:
+            break;
+      }
+    }
+  }
+}
 
 #pragma mark - Private functions
 
-- (void)notifyObserversTouchesMove {
-//  LOG(@"TV Touch event handle - event move");
+- (void)notifyObserversWhatPanGestureStateChangedWithPanGestureRecognizer:(UIPanGestureRecognizer *)panRecognizer {
+  NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+  
+  switch (panRecognizer.state) {
+    case UIGestureRecognizerStateBegan: {
+      [result mergeWith:@{kTouchEventNameKey : kTouchStartEventName}];
+      break;
+    }
+      
+    case UIGestureRecognizerStateChanged: {
+      
+      NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
+      
+      CGPoint current = [panRecognizer translationInView:self.controller.view];
+      
+      dictionary[kTouchXLocationFiledName] = @(current.x);
+      dictionary[kTouchYLocationFiledName] = @(current.y);
+      
+      result = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
+      
+      [result mergeWith:@{kTouchEventNameKey : kTouchMoveEventName}];
 
-//    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
-//    [result mergeWith:@{@"eventName" : @"move"}];
-    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:NULL];
-
-}
-
-- (void)notifyObserversTouchesBegin {
-//  LOG(@"TV touch event handle - event begin");
-
-//    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
-//    [result mergeWith:@{@"eventName" : @"start"}];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
-    
-}
-
-- (void)notifyObserversTouchesEnd {
-//  LOG(@"TV touch event handle - event end");
-
-//    NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
-//    [result mergeWith:@{@"eventName" : @"end"}];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
-    
+      break;
+    }
+    default: {
+      [result mergeWith:@{kTouchEventNameKey : kTouchEndEventName}];
+      break;
+    }
+  }
+  
+  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 @end

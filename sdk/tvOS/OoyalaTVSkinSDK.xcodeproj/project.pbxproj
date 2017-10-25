@@ -218,6 +218,7 @@
 		97C8DD131CE14CA2007F3F54 /* OoyalaTVSkinSDK */ = {
 			isa = PBXGroup;
 			children = (
+				0B28486D1D40014A006F4AF8 /* Widgets */,
 				AC66715F1F9E4A0300A355AD /* Utils */,
 				97C8DD161CE14CA2007F3F54 /* Info.plist */,
 				0B28485C1D3EE670006F4AF8 /* OOOoyalaTVConstants.h */,
@@ -231,7 +232,6 @@
 				C13A47461F1FF654000B8A6B /* OOTVOptionsCollectionViewController.h */,
 				C11CC8841F22F8D5007D1F71 /* OOTVOptionsCollectionView.m */,
 				C11CC8861F22F8DF007D1F71 /* OOTVOptionsCollectionView.h */,
-				0B28486D1D40014A006F4AF8 /* Widgets */,
 				7531A7F51F9F6A05000832F7 /* Pair.h */,
 				7531A7F61F9F6A05000832F7 /* Pair.m */,
 			);
