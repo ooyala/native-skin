@@ -231,7 +231,7 @@ var ControlBar = React.createClass({
         if (this.props.stereoSupported){
           pushControll(item);
         }
-	  } else {
+      } else {
         pushControll(item);
       }
     }
