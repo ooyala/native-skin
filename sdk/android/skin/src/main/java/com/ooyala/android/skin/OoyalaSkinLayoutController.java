@@ -413,7 +413,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   public boolean onKeyUp(int keyCode, KeyEvent event) {
-    if (_player.hasVRContent()){
+    if (_player.getState() != OoyalaPlayer.State.ERROR && _player.hasVRContent()){
       return handleKeyUpVR(keyCode, event);
     }
     return false;
