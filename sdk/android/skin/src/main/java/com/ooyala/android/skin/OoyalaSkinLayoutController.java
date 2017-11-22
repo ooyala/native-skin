@@ -547,10 +547,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
           sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
           break;
         case NONE:
-          // Restore the screen orientation
-          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeNone");
-          break;
+          throw new IllegalStateException("Unreal NONE state in switchVRMode(vrMode) from " + this.getClass().getSimpleName());
       }
     } else {
       DebugMode.logE(TAG, "Trying to switch VR mode. The context isn't an instance of Activity.");
