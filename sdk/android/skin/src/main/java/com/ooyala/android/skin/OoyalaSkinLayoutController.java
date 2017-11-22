@@ -362,29 +362,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       if (_player.getVRMode() == VrMode.STEREO && !isFullscreen) {
         _player.setVRMode(VrMode.MONO);
       }
-
-      //Store screen orientation
-      storeScreenOrientation(isFullscreen);
     }
 
     _layout.setFullscreen(isFullscreen);
     sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
-  }
-
-  private void storeScreenOrientation(boolean isFullScreen) {
-    boolean changed = isFullscreen() != isFullScreen;
-    Context context = getLayout().getContext();
-
-    if (isFullScreen) {
-      if (context instanceof Activity) {
-        Activity activity = (Activity) context;
-        if (changed) {
-          screenOrientation = activity.getRequestedOrientation();
-        }
-      } else {
-        DebugMode.logE(TAG, "Trying to store the screen orientation. The context isn't an instance of Activity.");
-      }
-    }
   }
 
   void sendNotification(String notificationName) {
@@ -557,7 +538,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       switch (vrMode) {
         case MONO:
           // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
-          activity.setRequestedOrientation(screenOrientation);
+          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
           sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
           break;
         case STEREO:
@@ -566,6 +547,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
           sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
           break;
         case NONE:
+          // Restore the screen orientation
+          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeNone");
           break;
       }
     } else {
