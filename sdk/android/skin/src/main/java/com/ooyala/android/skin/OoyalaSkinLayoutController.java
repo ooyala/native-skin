@@ -59,7 +59,7 @@ import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
  * - Observation of the OoyalaPlayer to provide up-to-date state to the UI
  * - Handlers of all React Native callbacks
  */
-public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
+public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough, View.OnKeyListener {
   final String TAG = this.getClass().toString();
 
   private static final double MAX_CARBOARD_DIAGONAL_INCH_VALUE = 6.5;
@@ -124,7 +124,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private List<Pair<String, WritableMap>> queuedEvents;
   private boolean isReactMounted;
   private boolean isTargetTV;
-  private int screenOrientation;
 
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
@@ -223,6 +222,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       _layout.setFullscreen(true);
       sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, true);
     }
+
+    rootView.setFocusableInTouchMode(true);
+    rootView.requestFocus();
+    rootView.setOnKeyListener(this);
   }
 
   public void ccStyleChanged() {
@@ -695,5 +698,19 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   protected void finalize() throws Throwable {
     DebugMode.logV(TAG, "OoyalaSkinLayoutController Finalized");
     super.finalize();
+  }
+
+  @Override
+  public boolean onKey(View view, int i, KeyEvent keyEvent) {
+    if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+      switchVRMode(VrMode.MONO);
+    }
+    if(keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+      return this.onKeyDown(i, keyEvent);
+    }
+    if(keyEvent.getAction() == KeyEvent.ACTION_UP) {
+      return this.onKeyUp(i, keyEvent);
+    }
+    return true;
   }
 }
