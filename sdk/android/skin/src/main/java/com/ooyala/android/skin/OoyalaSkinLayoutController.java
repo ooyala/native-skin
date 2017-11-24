@@ -59,7 +59,7 @@ import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
  * - Observation of the OoyalaPlayer to provide up-to-date state to the UI
  * - Handlers of all React Native callbacks
  */
-public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough {
+public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough, View.OnKeyListener {
   final String TAG = this.getClass().toString();
 
   private static final double MAX_CARBOARD_DIAGONAL_INCH_VALUE = 6.5;
@@ -124,7 +124,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private List<Pair<String, WritableMap>> queuedEvents;
   private boolean isReactMounted;
   private boolean isTargetTV;
-  private int screenOrientation;
 
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
@@ -223,6 +222,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       _layout.setFullscreen(true);
       sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, true);
     }
+
+    rootView.setFocusableInTouchMode(true);
+    rootView.requestFocus();
+    rootView.setOnKeyListener(this);
   }
 
   public void ccStyleChanged() {
@@ -362,29 +365,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       if (_player.getVRMode() == VrMode.STEREO && !isFullscreen) {
         _player.setVRMode(VrMode.MONO);
       }
-
-      //Store screen orientation
-      storeScreenOrientation(isFullscreen);
     }
 
     _layout.setFullscreen(isFullscreen);
     sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
-  }
-
-  private void storeScreenOrientation(boolean isFullScreen) {
-    boolean changed = isFullscreen() != isFullScreen;
-    Context context = getLayout().getContext();
-
-    if (isFullScreen) {
-      if (context instanceof Activity) {
-        Activity activity = (Activity) context;
-        if (changed) {
-          screenOrientation = activity.getRequestedOrientation();
-        }
-      } else {
-        DebugMode.logE(TAG, "Trying to store the screen orientation. The context isn't an instance of Activity.");
-      }
-    }
   }
 
   void sendNotification(String notificationName) {
@@ -557,7 +541,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       switch (vrMode) {
         case MONO:
           // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
-          activity.setRequestedOrientation(screenOrientation);
+          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
           sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
           break;
         case STEREO:
@@ -566,7 +550,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
           sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
           break;
         case NONE:
-          break;
+          throw new IllegalStateException("Unreal NONE state in switchVRMode(vrMode) from " + this.getClass().getSimpleName());
       }
     } else {
       DebugMode.logE(TAG, "Trying to switch VR mode. The context isn't an instance of Activity.");
@@ -714,5 +698,19 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   protected void finalize() throws Throwable {
     DebugMode.logV(TAG, "OoyalaSkinLayoutController Finalized");
     super.finalize();
+  }
+
+  @Override
+  public boolean onKey(View view, int i, KeyEvent keyEvent) {
+    if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+      switchVRMode(VrMode.MONO);
+    }
+    if(keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+      return this.onKeyDown(i, keyEvent);
+    }
+    if(keyEvent.getAction() == KeyEvent.ACTION_UP) {
+      return this.onKeyUp(i, keyEvent);
+    }
+    return true;
   }
 }
