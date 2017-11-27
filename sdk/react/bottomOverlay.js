@@ -60,7 +60,7 @@ var BottomOverlay = React.createClass({
     shouldShowLandscape: React.PropTypes.bool,
     screenReaderEnabled: React.PropTypes.bool,
     config: React.PropTypes.object,
-    vrContent: React.PropTypes.bool,
+    stereoSupported: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
@@ -268,7 +268,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       handleControlsTouch={this.props.handleControlsTouch}
       showWatermark={this.props.showWatermark}
       config={this.props.config}
-      vrContent={this.props.vrContent} />);
+      stereoSupported={this.props.stereoSupported} />);
   },
 
   playedPercent: function(playhead, duration) {

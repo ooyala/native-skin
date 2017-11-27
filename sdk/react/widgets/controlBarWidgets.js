@@ -91,8 +91,8 @@ var controlBarWidget = React.createClass({
   discoveryWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
-    accessible={true} accessibilityLabel={BUTTON_NAMES.DISCOVERY} accessibilityComponentType="button"
-    style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      accessible={true} accessibilityLabel={BUTTON_NAMES.DISCOVERY} accessibilityComponentType="button"
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
     return null;
@@ -144,8 +144,8 @@ var controlBarWidget = React.createClass({
   shareWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
-    accessible={true} accessibilityLabel={BUTTON_NAMES.SHARE} accessibilityComponentType="button"
-    style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      accessible={true} accessibilityLabel={BUTTON_NAMES.SHARE} accessibilityComponentType="button"
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
@@ -153,8 +153,8 @@ var controlBarWidget = React.createClass({
   closedCaptionWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
-    accessible={true} accessibilityLabel={BUTTON_NAMES.CLOSED_CAPTIONS} accessibilityComponentType="button"
-    style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      accessible={true} accessibilityLabel={BUTTON_NAMES.CLOSED_CAPTIONS} accessibilityComponentType="button"
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   },
