@@ -31,37 +31,24 @@
 #import "OOVASTUtils.h"
 
 // Old UI classes
-#import "OOFCCTVRatingStampView.h"
-#import "OOFCCTVRatingVideoView.h"
-#import "OOUIUtils.h"
-#import "OOClosedCaptionsView.h"
-
-#if !TARGET_OS_TV // Check is tvOS
-
-#import "OOOoyalaPlayerViewController.h"
-
-#import "OOTransparentToolbar.h"
-#import "OOUIProgressSliderIOS7.h"
-#import "OOBufferView.h"
-#import "OOCuePointsView.h"
-#import "OOClosedCaptionsSelectorViewController.h"
-#import "OOClosedCaptionsSelectorBackgroundViewController.h"
-#import "OOClosedCaptionsButton.h"
-#import "OOAdsLearnMoreButton.h"
-#import "OOFullscreenButton.h"
-#import "OOPlayPauseButton.h"
-#import "OOVideoGravityButton.h"
-#import "OOVolumeButton.h"
-#import "iOS7ScrubberSliderFraming.h"
-#import "OOControlsViewController.h"
-#import "OOImagesIOS7.h"
-
-#else
-
-// TVOS GVR
-#import "OOOoyalaSimpleTVPlayerViewController.h"
-
-#endif
+#import <OoyalaSDK/OOFCCTVRatingStampView.h>
+#import <OoyalaSDK/OOFCCTVRatingVideoView.h>
+#import <OoyalaSDK/OOTransparentToolbar.h>
+#import <OoyalaSDK/OOBufferView.h>
+#import <OoyalaSDK/OOCuePointsView.h>
+#import <OoyalaSDK/OOClosedCaptionsSelectorViewController.h>
+#import <OoyalaSDK/OOClosedCaptionsSelectorBackgroundViewController.h>
+#import <OoyalaSDK/OOClosedCaptionsView.h>
+#import <OoyalaSDK/OOClosedCaptionsButton.h>
+#import <OoyalaSDK/OOAdsLearnMoreButton.h>
+#import <OoyalaSDK/OOFullscreenButton.h>
+#import <OoyalaSDK/OOPlayPauseButton.h>
+#import <OoyalaSDK/OOVideoGravityButton.h>
+#import <OoyalaSDK/OOVolumeButton.h>
+#import <OoyalaSDK/iOS7ScrubberSliderFraming.h>
+#import <OoyalaSDK/OOControlsViewController.h>
+#import <OoyalaSDK/OOImagesIOS7.h>
+#import <OoyalaSDK/OOUIUtils.h>
 
 // Performance Monitoring classes
 #import "OOPerformanceEventWatchMemoryProfiling.h"

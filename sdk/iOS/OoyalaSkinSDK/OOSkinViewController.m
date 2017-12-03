@@ -245,6 +245,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self.player destroy];
 }
 
+- (void)setFullscreen:(BOOL)fullscreen {
+  [self setFullscreen:fullscreen completion:nil];
+}
+
 - (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion {
   if (fullscreen == _fullscreen) {
     
