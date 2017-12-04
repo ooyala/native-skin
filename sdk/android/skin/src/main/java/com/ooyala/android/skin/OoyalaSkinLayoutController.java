@@ -30,7 +30,7 @@ import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
-import com.ooyala.android.player.vrexoplayer.glvideoview.effects.VrMode;
+import com.ooyala.android.player.VrMode;
 import com.ooyala.android.skin.configuration.SkinOptions;
 import com.ooyala.android.skin.util.BundleJSONConverter;
 import com.ooyala.android.skin.util.ReactUtil;
