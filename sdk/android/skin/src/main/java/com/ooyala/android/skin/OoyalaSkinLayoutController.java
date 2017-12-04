@@ -419,7 +419,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
         break;
       case KeyEvent.KEYCODE_MEDIA_REWIND:
-        _player.seek(_player.getPlayheadTime() - REWIND_STEP); // << -10sec
+        int timeAfterSeek = Math.max(0,  _player.getPlayheadTime() - REWIND_STEP);
+        _player.seek(timeAfterSeek); // << -10sec
         sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
         handled = true;
         break;
@@ -474,11 +475,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     boolean handled = false;
     switch (keyCode) {
       case KeyEvent.KEYCODE_DPAD_LEFT:
-        _player.seek(_player.getPlayheadTime() - REWIND_STEP);
+        int timeAfterSeek = Math.max(0,  _player.getPlayheadTime() - REWIND_STEP);
+        _player.seek(timeAfterSeek);
         handled = true;
         break;
       case KeyEvent.KEYCODE_DPAD_RIGHT:
-        _player.seek(_player.getPlayheadTime() + REWIND_STEP);
+        int timeInMillis = _player.getPlayheadTime() + REWIND_STEP;
+        _player.seek(timeInMillis);
         handled = true;
         break;
     }

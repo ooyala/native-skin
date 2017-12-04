@@ -115,7 +115,7 @@ repositories {
 }
 
 task copyLibs(type: Copy) {
-    from new File(projectDir, '../../../vendor/Ooyala/OoyalaSDK-Android/OoyalaSDK.jar')
+    from new File(projectDir, '../../../vendor/Ooyala/OoyalaVRSDK-Android/OoyalaVRSDK.jar')
     from new File(projectDir, '../../../vendor/Facebook/react-native-0.35.0.aar')
     into new File(projectDir, './libs')
     doLast {
@@ -126,7 +126,7 @@ task copyLibs(type: Copy) {
 tasks.copyLibs.execute()
 
 dependencies {
-    implementation files('libs/OoyalaSDK.jar')
+    implementation files('libs/OoyalaVRSDK.jar')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     implementation 'com.facebook.fresco:fresco:0.11.0'
