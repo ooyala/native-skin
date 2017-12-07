@@ -28,6 +28,9 @@ var {
 var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
 var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
 
+var clickRadius = 5;
+var startedClickX, startedClickY;
+
 var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
   this.skin = ooyalaSkin;
   this.bridge = eventBridge;
@@ -160,13 +163,56 @@ OoyalaSkinCore.prototype.shouldShowDiscoveryEndscreen = function() {
 /*
  * This could either reset the lastPressedTime, or zero it to force the hide
  */
-OoyalaSkinCore.prototype.handleVideoTouch = function(event) {
-  var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
-  if (isPastAutoHideTime) {
-    this.handleControlsTouch();
+
+OoyalaSkinCore.prototype.handleVideoTouchStart = function (event) {
+  if (this.skin.state.vrContent){
+    startedClickX = event.nativeEvent.pageX;
+    startedClickY = event.nativeEvent.pageY;
+
+    this.bridge.handleTouchStart({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "isClicked" : false
+    });
+  }
+}
+
+OoyalaSkinCore.prototype.handleVideoTouchMove = function (event) {
+  if (this.skin.state.vrContent) {
+    this.bridge.handleTouchMove({
+      "x_location": event.nativeEvent.pageX,
+      "y_location": event.nativeEvent.pageY,
+      "touchTime" : event.nativeEvent.timestamp,
+      "isClicked" : false
+    });
+  }
+}
+
+OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
+  function showControlsPanel() {
+    var isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
+    if (isPastAutoHideTime) {
+      this.handleControlsTouch();
+    } else {
+      Log.verbose("handleVideoTouch - Time Zeroed");
+      this.skin.setState({lastPressedTime: new Date(0)})
+    }
+  }
+
+  if (this.skin.state.vrContent){
+    let isClicked = isClick(event.nativeEvent.pageX, event.nativeEvent.pageY);
+    if (isClicked) {
+      showControlsPanel.call(this);
+    }
+    this.bridge.handleTouchEnd({
+      "x_location" : event.nativeEvent.pageX,
+      "y_location" : event.nativeEvent.pageY,
+      "touchTime"  : event.nativeEvent.timestamp,
+      "isClicked"  : isClicked
+    });
   } else {
-    Log.verbose("handleVideoTouch - Time Zeroed");
-    this.skin.setState({lastPressedTime: new Date(0)})
+    showControlsPanel.call(this);
   }
 }
 
@@ -221,5 +267,10 @@ OoyalaSkinCore.prototype.renderScreen = function() {
   }
 
   return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.inAdPod, this.skin.state.screenType);
+}
+
+//return boolean -> touch end was in clickRadius from touch start
+let isClick= function(endX, endY) {
+  return Math.sqrt((endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
 }
 module.exports = OoyalaSkinCore;

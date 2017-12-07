@@ -49,6 +49,7 @@ var ControlBar = React.createClass({
     handleControlsTouch: React.PropTypes.func.isRequired,
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
+    stereoSupported: React.PropTypes.bool.isRequired,
   },
 
   getDefaultProps: function() {
@@ -112,6 +113,10 @@ var ControlBar = React.createClass({
 
   onRewindPress: function() {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.REWIND);
+  },
+
+  onStereoscopicPress: function () {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.STEREOSCOPIC);
   },
 
   render: function() {
@@ -198,20 +203,38 @@ var ControlBar = React.createClass({
         style: styles.waterMarkImage,
         icon:waterMarkName,
         resizeMode: Image.resizeMode.contain
-      }
+      },
+      stereoscopic: {
+        onPress: this.onStereoscopicPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        icon: this.props.config.icons.stereoscopic
+      },
     };
 
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
 
-    for(var i = 0; i < itemCollapsingResults.fit.length; i++) {
-      var widget = itemCollapsingResults.fit[i];
-      controlBarWidgets.push(<ControlBarWidget
-        key={i}
-        widgetType={widget}
-        options={widgetOptions}/>);
+    function pushControl(item) {
+      controlBarWidgets.push(item)
     }
 
+    for (var i = 0; i < itemCollapsingResults.fit.length; i++) {
+      let widget = itemCollapsingResults.fit[i];
+
+      let item = <ControlBarWidget
+        key={i}
+        widgetType={widget}
+        options={widgetOptions}/>;
+
+      if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
+        if (this.props.stereoSupported){
+          pushControl(item);
+        }
+      } else {
+        pushControl(item);
+      }
+    }
     var widthStyle = {width:this.props.width};
     return (
       <View style={[styles.controlBarContainer, widthStyle]} onTouchEnd={this.props.handleControlsTouch}>
