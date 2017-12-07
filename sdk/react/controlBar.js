@@ -215,7 +215,7 @@ var ControlBar = React.createClass({
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
 
-    function pushControll(item) {
+    function pushControl(item) {
       controlBarWidgets.push(item)
     }
 
@@ -229,10 +229,10 @@ var ControlBar = React.createClass({
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
         if (this.props.stereoSupported){
-          pushControll(item);
+          pushControl(item);
         }
       } else {
-        pushControll(item);
+        pushControl(item);
       }
     }
     var widthStyle = {width:this.props.width};
