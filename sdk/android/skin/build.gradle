@@ -3,12 +3,12 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         ndk {
@@ -111,6 +111,7 @@ repositories {
     flatDir {
         dirs 'libs'
     }
+    google()
 }
 
 task copyLibs(type: Copy) {
@@ -125,21 +126,21 @@ task copyLibs(type: Copy) {
 tasks.copyLibs.execute()
 
 dependencies {
-    compile files('libs/OoyalaSDK.jar')
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
-    compile 'com.facebook.fresco:fresco:0.11.0'
-    compile 'com.facebook.fresco:imagepipeline-okhttp3:0.11.0'
-    compile 'com.facebook.stetho:stetho:1.2.0'
-    compile 'com.facebook.stetho:stetho-okhttp:1.2.0'
-    compile 'com.facebook.soloader:soloader:0.1.0'
-    compile 'com.fasterxml.jackson.core:jackson-core:2.2.3'
-    compile 'com.google.code.findbugs:jsr305:3.0.0'
-    compile 'com.squareup.okhttp3:okhttp:3.4.1'
-    compile 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
-    compile 'com.squareup.okhttp3:okhttp-ws:3.4.1'
-    compile 'com.squareup.okio:okio:1.9.0'
-    compile 'org.webkit:android-jsc:r174650'
-    compile (group:'com.facebook', name:'react-native', version:'0.35.0', ext:'aar')
-    compile 'javax.inject:javax.inject:1'
+    implementation files('libs/OoyalaSDK.jar')
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.facebook.fresco:fresco:0.11.0'
+    implementation 'com.facebook.fresco:imagepipeline-okhttp3:0.11.0'
+    implementation 'com.facebook.stetho:stetho:1.2.0'
+    implementation 'com.facebook.stetho:stetho-okhttp:1.2.0'
+    implementation 'com.facebook.soloader:soloader:0.1.0'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.2.3'
+    implementation 'com.google.code.findbugs:jsr305:3.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.4.1'
+    implementation 'com.squareup.okhttp3:okhttp-ws:3.4.1'
+    implementation 'com.squareup.okio:okio:1.9.0'
+    implementation 'org.webkit:android-jsc:r174650'
+    implementation (group:'com.facebook', name:'react-native', version:'0.35.0', ext:'aar')
+    implementation 'javax.inject:javax.inject:1'
 }
