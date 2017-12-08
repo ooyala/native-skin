@@ -538,25 +538,29 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public void switchVRMode(VrMode vrMode) {
+    switch (vrMode) {
+      case MONO:
+        // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+        sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
+        break;
+      case STEREO:
+        // Set up landscape orientation for STEREO mode
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
+        break;
+      case NONE:
+        throw new IllegalStateException("Unreal NONE state in switchVRMode(vrMode) from " + this.getClass().getSimpleName());
+    }
+  }
+
+  private void setRequestedOrientation(int requestedOrientation) {
     Context context = getLayout().getContext();
     if (context instanceof Activity) {
       Activity activity = (Activity) context;
-      switch (vrMode) {
-        case MONO:
-          // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
-          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
-          break;
-        case STEREO:
-          // Set up landscape orientation for STEREO mode
-          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
-          break;
-        case NONE:
-          throw new IllegalStateException("Unreal NONE state in switchVRMode(vrMode) from " + this.getClass().getSimpleName());
-      }
+      activity.setRequestedOrientation(requestedOrientation);
     } else {
-      DebugMode.logE(TAG, "Trying to switch VR mode. The context isn't an instance of Activity.");
+      DebugMode.logE(TAG, "Trying to set orientation. The context isn't an instance of Activity.");
     }
   }
 
@@ -705,8 +709,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public boolean onKey(View view, int i, KeyEvent keyEvent) {
-    if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK && _player.getVRMode() == VrMode.STEREO) {
-      switchVRMode(VrMode.MONO);
+    if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
     }
     if(keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
       return this.onKeyDown(i, keyEvent);
