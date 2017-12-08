@@ -705,7 +705,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public boolean onKey(View view, int i, KeyEvent keyEvent) {
-    if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK) {
+    if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK && _player.getVRMode() == VrMode.STEREO) {
       switchVRMode(VrMode.MONO);
     }
     if(keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
