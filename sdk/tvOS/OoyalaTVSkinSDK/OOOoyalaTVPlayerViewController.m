@@ -1,3 +1,10 @@
+//
+//  OOOoyalaTVPlayerViewController.m
+//  OoyalaTVSkinSDK
+//
+//  Copyright © 2016 Ooyala, Inc. All rights reserved.
+//
+
 #import <OOOoyalaTVPlayerViewController.h>
 #import <OOOoyalaTVConstants.h>
 #import <OOOoyalaTVGradientView.h>
@@ -5,20 +12,19 @@
 #import <OOOoyalaTVLabel.h>
 #import <OOOoyalaTVBottomBars.h>
 #import <OOOoyalaTVTopBar.h>
-#import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OOTVGestureManager.h>
 #import <OOTVOptionsCollectionViewController.h>
 #import <OOOoyalaTVClosedCaptionsView.h>
+#import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
+#import "Pair.h"
 
 
 @interface OOOoyalaTVPlayerViewController ()
 
 @property (nonatomic, strong) UIActivityIndicatorView *activityView;
 @property (nonatomic, strong) OOTVGestureManager *gestureManager;
-
-
 @property (nonatomic, strong) OOOoyalaTVLabel *durationLabel;
 @property (nonatomic, strong) OOOoyalaTVLabel *playheadLabel;
 @property (nonatomic, strong) OOOoyalaTVButton *playPauseButton;
@@ -33,15 +39,6 @@
 
 @end
 
-// This Pair class is a simple object that holds a string and array.
-@interface Pair : NSObject
-@property (nonatomic) NSString *name;
-@property (nonatomic) NSArray *value;
-@end
-
-@implementation Pair
-@synthesize name, value;
-@end
 
 @implementation OOOoyalaTVPlayerViewController
 static NSDictionary *OOOoyalaPlayerViewControllerAvailableLocalizations;
