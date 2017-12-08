@@ -98,21 +98,18 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 }
 
 RCT_EXPORT_METHOD(handleTouchMove:(NSDictionary *)params) {
-  LOG(@"Touch event handle - event move");
   NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
   [result mergeWith:@{@"eventName" : @"move"}];
   [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 RCT_EXPORT_METHOD(handleTouchEnd:(NSDictionary *)params) {
-  LOG(@"Touch event handle - event end");
   NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
   [result mergeWith:@{@"eventName" : @"end"}];
   [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
-  LOG(@"Touch event handle - event start");
   NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
   [result mergeWith:@{@"eventName" : @"start"}];
   [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];

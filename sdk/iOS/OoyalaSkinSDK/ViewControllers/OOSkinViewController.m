@@ -63,10 +63,8 @@
 @property (nonatomic) BOOL isManualOrientaionChange;
 @property (nonatomic) BOOL isFullScreenPreviousState;
 
-#if !TARGET_OS_TV
 @property (nonatomic) UIInterfaceOrientation currentInterfaceOrientation;
 @property (nonatomic) UIInterfaceOrientation previousInterfaceOrientation;
-#endif
 
 @end
 
@@ -162,9 +160,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _isVRStereoMode = NO;
     
     // Interface orientation support
-#if !TARGET_OS_TV
     _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-#endif
     _isManualOrientaionChange = NO;
     _isFullScreenPreviousState = self.isFullscreen;
   }
@@ -183,7 +179,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 #pragma mark - Override view controller functions
 
-#if !TARGET_OS_TV
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   if (_fullscreen) {
     return [_fullscreenViewController supportedInterfaceOrientations];
@@ -203,7 +198,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (BOOL)prefersStatusBarHidden {
   return _fullscreen;
 }
-#endif
 
 #pragma mark - Private functions
 
@@ -467,9 +461,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   _isFullScreenPreviousState = _fullscreen;
   
   // Save previous interface orientation
-#if !TARGET_OS_TV
   _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
-#endif
   
   // Create weak self object
   __weak OOSkinViewController *weakSelf = self;
@@ -485,7 +477,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     }
     
     // Manualy change device orientation on landscape right
-#if !TARGET_OS_TV
     _isManualOrientaionChange = YES;
     
     NSTimeInterval delayFotDeviceOrientationAnimation = 0;
@@ -506,7 +497,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
       
       _isManualOrientaionChange = NO;
     });
-#endif
   }];
 }
 
@@ -532,7 +522,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self setFullscreen:_isFullScreenPreviousState completion:^{
     
     // Manualy change device orientation for previous value
-#if !TARGET_OS_TV
     _isManualOrientaionChange = YES;
     
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:weakSelf.previousInterfaceOrientation] forKey:@"orientation"];
@@ -542,7 +531,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayFotDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       _isManualOrientaionChange = NO;
     });
-#endif
   }];
 }
 

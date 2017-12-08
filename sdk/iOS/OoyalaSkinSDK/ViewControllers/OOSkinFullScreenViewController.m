@@ -11,9 +11,7 @@
 @interface OOSkinFullScreenViewController ()
 
 // Interface orientation properties
-#if !TARGET_OS_TV
 @property (nonatomic) UIInterfaceOrientationMask supportedInterfaceOrientations;
-#endif
 
 @end
 
@@ -25,9 +23,7 @@
 - (void)setEnableVRStereoMode:(BOOL)newValue {
   _enableVRStereoMode = newValue;
 
-#if !TARGET_OS_TV
   _supportedInterfaceOrientations = newValue ? UIInterfaceOrientationMaskLandscapeRight : UIInterfaceOrientationMaskAll;
-#endif
 }
 
 #pragma mark - Initialization
@@ -35,16 +31,13 @@
 - (instancetype)init {
   if (self = [super init]) {
     _enableVRStereoMode = NO;
-#if !TARGET_OS_TV
     _supportedInterfaceOrientations = UIInterfaceOrientationMaskAll;
-#endif
   }
   return self;
 }
 
 #pragma mark - Override view controller functions
 
-#if !TARGET_OS_TV
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   return _supportedInterfaceOrientations;
 }
@@ -56,6 +49,5 @@
 - (BOOL)prefersStatusBarHidden {
   return YES;
 }
-#endif
 
 @end
