@@ -51,10 +51,10 @@
 #import "OOFullscreenButton.h"
 #import "OOPlayPauseButton.h"
 #import "OOVideoGravityButton.h"
+#import "ScrubberSliderFraming.h"
 #import "OOVolumeButton.h"
-#import "iOS7ScrubberSliderFraming.h"
 #import "OOControlsViewController.h"
-#import "OOImagesIOS7.h"
+#import "OOImages.h"
 
 #else
 

@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OOTVClosedCaptionsTextBackgroundView.h"
-#import <OoyalaTVSDK/OOClosedCaptionsStyle.h>
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
 
 
 @interface OOTVClosedCaptionsTextView : UITextView
