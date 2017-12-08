@@ -3,7 +3,7 @@
 #import <OOOoyalaTVConstants.h>
 #import <OOOoyalaTVOptionCell.h>
 #import <OOOoyalaTVPlayerViewController.h>
-#import <OoyalaTVSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOOoyalaPlayer.h>
 #import "Pair.h"
 
 

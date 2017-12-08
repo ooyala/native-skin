@@ -15,9 +15,9 @@
 #import <OOTVGestureManager.h>
 #import <OOTVOptionsCollectionViewController.h>
 #import <OOOoyalaTVClosedCaptionsView.h>
-#import <OoyalaTVSDK/OOOoyalaPlayer.h>
-#import <OoyalaTVSDK/OOCaption.h>
-#import <OoyalaTVSDK/OOClosedCaptions.h>
+#import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOCaption.h>
+#import <OoyalaSDK/OOClosedCaptions.h>
 #import "Pair.h"
 
 
