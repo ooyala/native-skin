@@ -4,23 +4,32 @@
 //
 
 #import "OOSkinViewController.h"
+
 @class OOUpNextManager;
 
 @interface OOSkinViewController (Internal)
 
-@property (nonatomic) NSDictionary *skinConfig;
-@property (nonatomic) NSMutableArray *queuedEvents; //QueuedEvent *
+@property(nonatomic) NSDictionary *skinConfig;
+@property(nonatomic) NSMutableArray *queuedEvents; //QueuedEvent *
 
 - (void)queueEventWithName:(NSString *)eventName body:(id)body;
+
 - (void)purgeEvents;
 
 - (void)toggleFullscreen;
+
+- (void)toggleStereoMode;
+
 - (BOOL)isReactReady;
+
 - (OOUpNextManager *)upNextManager;
+
 - (void)maybeLoadDiscovery:(NSString *)embedCode;
 
 - (void)disableReactViewInteraction;
+
 - (void)enableReactViewInteraction;
+
 - (BOOL)isReactViewInteractionEnabled;
 
 // Note: This is for IMA ad playback only.

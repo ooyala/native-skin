@@ -30,6 +30,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   CLOSED_CAPTIONS: 'closedCaption',
   SHARE: 'share',
   SETTING: 'settings',
+  STEREOSCOPIC: 'stereoscopic',
   NONE: 'None',
   // a dummy button to reset auto hide
   RESET_AUTOHIDE: 'ResetAutoHide',

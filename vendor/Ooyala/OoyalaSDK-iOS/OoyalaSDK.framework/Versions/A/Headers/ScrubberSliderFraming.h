@@ -1,5 +1,5 @@
 /**
- * @class iOS7ScrubberSliderFraming iOS7ScrubberSliderFraming.h "iOS7ScrubberSliderFraming.h"
+ * @class ScrubberSliderFraming ScrubberSliderFraming.h "ScrubberSliderFraming.h"
  * @copyright Copyright (c) 2015 Ooyala, Inc. All rights reserved.
  */
 
@@ -10,7 +10,7 @@
 /**
  * A class which helps measure the correct size for the scrubber, after all buttons have been measured
  */
-@interface iOS7ScrubberSliderFraming : NSObject
+@interface ScrubberSliderFraming : NSObject
 
 /**
  Measure the Scrubber Slider with buttons

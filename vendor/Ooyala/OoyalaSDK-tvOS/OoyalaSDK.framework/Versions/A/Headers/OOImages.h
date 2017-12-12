@@ -1,5 +1,5 @@
 //
-//  OOImagesIOS7.h
+//  OOImages.h
 //  OoyalaSDK
 //
 // Copyright (c) 2015 Ooyala, Inc. All rights reserved.
@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OOImagesIOS7 : NSObject
+@interface OOImages : NSObject
 
 + (UIImage *)playImage:(CGSize)size;
 + (UIImage *)pauseImage:(CGSize)size;
