@@ -107,7 +107,8 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
         handleVideoTouchStart: (event) => this.core.handleVideoTouchStart(event),
         handleVideoTouchMove: (event) => this.core.handleVideoTouchMove(event),
         handleVideoTouchEnd: (event) => this.core.handleVideoTouchEnd(event),
-        handleControlsTouch: () => this.core.handleControlsTouch()
+        handleControlsTouch: () => this.core.handleControlsTouch(),
+        showControls: () => this.core.showControls()
       }}
       lastPressedTime={this.skin.state.lastPressedTime}
       screenReaderEnabled={this.skin.state.screenReaderEnabled}
