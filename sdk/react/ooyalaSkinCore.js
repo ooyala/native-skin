@@ -200,7 +200,7 @@ OoyalaSkinCore.prototype.handleVideoTouchMove = function (event) {
 };
 
 OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
-  if (this.skin.state.vrContent && event){
+  if (this.skin.state.vrContent && event) {
     let isClicked = isClick(event.nativeEvent.pageX, event.nativeEvent.pageY);
     if (isClicked) {
       this.showControls();
