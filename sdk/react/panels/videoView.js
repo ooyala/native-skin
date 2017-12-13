@@ -62,6 +62,7 @@ var VideoView = React.createClass({
       handleVideoTouchMove: React.PropTypes.func,
       handleVideoTouchEnd: React.PropTypes.func,
       handleControlsTouch: React.PropTypes.func,
+      showControls: React.PropTypes.func,
     }),
     lastPressedTime: React.PropTypes.any,
     screenReaderEnabled: React.PropTypes.bool,
@@ -118,6 +119,7 @@ var VideoView = React.createClass({
         this.props.handlers.onPress(name);
       }
     } else {
+      this.props.handlers.showControls();
       this.props.handlers.onPress(name);
     }
   },
