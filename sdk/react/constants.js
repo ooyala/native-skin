@@ -40,6 +40,13 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PIP: 'PIP'
 };
 
+var VIEW_NAMES = {
+
+  // Time seek bar views
+  TIME_SEEK_BAR: 'seekBar',
+  TIME_SEEK_BAR_THUMB: 'seekBar_thumb',
+}
+
 var PLATFORMS = {
   ANDROID:'android',
   IOS: 'ios',
@@ -102,6 +109,7 @@ AUTOHIDE_DELAY = 5000;
 module.exports = {
   UI_SIZES,
   BUTTON_NAMES,
+  VIEW_NAMES,
   IMG_URLS,
   SCREEN_TYPES,
   OVERLAY_TYPES,

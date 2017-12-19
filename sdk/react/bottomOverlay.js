@@ -18,6 +18,7 @@ import {
 var Constants = require('./constants');
 var {
   BUTTON_NAMES,
+  VIEW_NAMES,
   IMG_URLS,
   UI_SIZES,
   STRING_CONSTANTS,
@@ -138,7 +139,10 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     var scrubberStyle = this._customizeScrubber();
 
     return (
-      <View style={[scrubberStyle, positionStyle,{width:scrubberSize, height:scrubberSize}]}>
+      <View 
+        testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
+        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
+        style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
       </View>
       );
   },
@@ -185,6 +189,8 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       return (
         <Slider
           style={[{flexDirection: "row", height: 5, marginVertical: 6, marginHorizontal: 20}]}
+          testID={VIEW_NAMES.TIME_SEEK_BAR} 
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR} 
           minimumTrackTintColor={minimumTrackTintColor}
           maximumTrackTintColor={maximumTrackTintColor}
           value={this.props.playhead}
@@ -194,12 +200,16 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       );
     } else {
       return (
-        <View
-        style={styles.progressBarStyle}>
-      {this._renderProgressBar(playedPercent)}
-      {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-      {this._renderCuePoints(this.props.cuePoints)}
-      </View>);
+        <View 
+          style={styles.progressBarStyle}
+          testID={VIEW_NAMES.TIME_SEEK_BAR} 
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR} 
+        > 
+          {this._renderProgressBar(playedPercent)}
+          {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+          {this._renderCuePoints(this.props.cuePoints)}
+        </View>
+      );
     }
   },
 
