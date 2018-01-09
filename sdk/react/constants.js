@@ -45,7 +45,10 @@ var VIEW_NAMES = {
   // Time seek bar views
   TIME_SEEK_BAR: 'seekBar',
   TIME_SEEK_BAR_THUMB: 'seekBar_thumb',
-}
+  TIME_SEEK_BAR_PLAYED: 'seekBar_played',
+  TIME_SEEK_BAR_BACKGROUND: 'seekBar_background',
+  TIME_SEEK_BAR_BUFFERED: 'seekBar_buffered'
+};
 
 var PLATFORMS = {
   ANDROID:'android',
