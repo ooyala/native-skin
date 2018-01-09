@@ -4,6 +4,7 @@
  */
 'use strict';
 
+let Constants = require('./constants');
 import React, { Component } from 'react';
 import {
   View,
@@ -11,8 +12,11 @@ import {
   LayoutAnimation
 } from 'react-native';
 
-var Utils = require('./utils');
-var styles = Utils.getStyles(require('./style/progressBarStyles.json'));
+let Utils = require('./utils');
+let styles = Utils.getStyles(require('./style/progressBarStyles.json'));
+let {
+  VIEW_NAMES
+} = Constants;
 
 var ProgressBar = React.createClass({
   propTypes: {
@@ -68,10 +72,26 @@ var ProgressBar = React.createClass({
     
     var progressStyles = StyleSheet.create({played:playedStyle, background:backgroundStyle, buffered:bufferedStyle});
     return (
-      <View style={styles.container}>
-        <View style={progressStyles.played} />
-        <View style={progressStyles.background} />
-        <View style={progressStyles.buffered} />
+      <View
+        style={styles.container}
+        testID={VIEW_NAMES.TIME_SEEK_BAR}
+        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
+      >
+        <View
+          style={progressStyles.played}
+          testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED} />
+
+        <View
+          style={progressStyles.background}
+          testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND} />
+
+        <View
+          style={progressStyles.buffered}
+          testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED} />
+
       </View>
     );
   }
