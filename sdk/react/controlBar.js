@@ -49,7 +49,7 @@ var ControlBar = React.createClass({
     handleControlsTouch: React.PropTypes.func.isRequired,
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
-    stereoSupported: React.PropTypes.bool.isRequired,
+    stereoSupported: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
