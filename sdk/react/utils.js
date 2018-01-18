@@ -215,6 +215,9 @@ var Utils = {
       /* Unknown error - TODO add to language files */ 
       case 28:
         return "An unknown error occurred";
+      /* GeoBlocking access denied - TODO add to language files */
+      case 31:
+        return "Geo access denied";
       /* Default to Unknown error */    
       default:
         return "An unknown error occurred";
