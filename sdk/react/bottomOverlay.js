@@ -26,6 +26,7 @@ var {
   VALUES,
 } = Constants;
 
+var AndroidAccessibility = require('NativeModules').AndroidAccessibility;
 var Log = require('./log');
 var Utils = require('./utils');
 var ProgressBar = require('./progressBar');
@@ -139,8 +140,9 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     var scrubberStyle = this._customizeScrubber();
 
     return (
-      <View 
+      <View
         testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
+        accessible={false}
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
       </View>
@@ -170,7 +172,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
   },
 
   _renderProgressBar: function(percent) {
-    return (<ProgressBar ref='progressBar' percent={percent} config={this.props.config} ad={this.props.ad}/>);
+    return (<ProgressBar accessible={false} ref='progressBar' percent={percent} config={this.props.config} ad={this.props.ad}/>);
   },
 
   _renderCompleteProgressBar: function() {
@@ -189,8 +191,8 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       return (
         <Slider
           style={[{flexDirection: "row", height: 5, marginVertical: 6, marginHorizontal: 20}]}
-          testID={VIEW_NAMES.TIME_SEEK_BAR} 
-          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR} 
+          testID={VIEW_NAMES.TIME_SEEK_BAR}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
           minimumTrackTintColor={minimumTrackTintColor}
           maximumTrackTintColor={maximumTrackTintColor}
           value={this.props.playhead}
@@ -199,8 +201,12 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
           onValueChange={this._onValueChange} />
       );
     } else {
+      var percentLabel = parseInt(playedPercent * 100, 10) + "%"
       return (
-        <View style={styles.progressBarStyle}>
+        <View
+          accessible={true}
+          accessibilityLabel={percentLabel}
+          style={styles.progressBarStyle}>
           {this._renderProgressBar(playedPercent)}
           {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
           {this._renderCuePoints(this.props.cuePoints)}
@@ -249,7 +255,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       var cuePoint = cuePoints[i];
       leftOffset = this._getCuePointLeftOffset(cuePoint, progressBarWidth);
       positionStyle = {top:topOffset, left:leftOffset};
-      cuePointView = (<View key={i} style={[styles.cuePoint, positionStyle,{width:cuePointSize, height:cuePointSize}]}>
+      cuePointView = (<View accessible={false} key={i} style={[styles.cuePoint, positionStyle,{width:cuePointSize, height:cuePointSize}]}>
                       </View>
                         );
       cuePointsView.push(cuePointView);
@@ -327,11 +333,18 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
        }
      }
      this.setState({touch:false, x:null});
+
+     if (Platform.OS === 'android') {
+       var playedPercent =  this.touchPercent(event.nativeEvent.pageX)
+       var percentLabel = parseInt(playedPercent * 100, 10) + "%"
+       AndroidAccessibility.announce(percentLabel);
+    }
   },
 
   renderDefault: function(widthStyle) {
     return (
       <Animated.View
+        accessible={false}
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
         onTouchEnd={(event) => this.handleTouchEnd(event)}
