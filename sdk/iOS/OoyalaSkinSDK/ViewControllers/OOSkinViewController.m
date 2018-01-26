@@ -367,6 +367,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 #pragma mark - Public functions
 
+- (void)setFullscreen:(BOOL)fullscreen {
+  [self setFullscreen:fullscreen completion:nil];
+}
+
 - (void)ccStyleChanged:(NSNotification *)notification {
   self.closedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
   NSMutableDictionary *params = [NSMutableDictionary new];
