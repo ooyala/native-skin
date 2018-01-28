@@ -212,9 +212,18 @@ var Utils = {
       /* Discovery POST failure - TODO add to language files */
       case 27:
         return "Failed to post discovery pins";
-      /* Unknown error - TODO add to language files */ 
+      /* Player format mismatch - TODO add to language files */
       case 28:
+        return "Player and player content do not correspond";
+      /* Failed to create VR player  - TODO add to language files  */
+      case 29:
+        return "Failed to create VR player";
+      /* Unknown error - TODO add to language files */
+      case 30:
         return "An unknown error occurred";
+      /* GeoBlocking access denied - TODO add to language files */
+      case 31:
+        return "Geo access denied";
       /* Default to Unknown error */    
       default:
         return "An unknown error occurred";
