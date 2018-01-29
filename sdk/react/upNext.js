@@ -83,7 +83,7 @@ var UpNext = React.createClass({
   },
 
   _renderDismissButton: function() {
-    return (<TouchableHighlight 
+    return (<TouchableHighlight
       accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
       onPress={this.dismissUpNext}
       underlayColor="transparent"
@@ -130,8 +130,13 @@ var UpNext = React.createClass({
           source={{uri: this.props.nextVideo.imageUrl}}
           style={styles.thumbnail} >
           <TouchableHighlight style={styles.thumbnail}
-            onPress={this.clickUpNext}>
-            <Text style={styles.countdownText}>{this.props.config.icons.play.fontString}</Text>
+            onPress={this.clickUpNext}
+            accesible={true}
+            accessibilityLabel={"Play up next video"}>
+            <Text style={styles.countdownText}
+              accesible={false}>
+              {this.props.config.icons.play.fontString}
+            </Text>
           </TouchableHighlight>
         </Image>
       );
