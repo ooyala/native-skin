@@ -334,7 +334,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
      }
      this.setState({touch:false, x:null});
 
-     if (Platform.OS === 'android') {
+     if (this.props.platform === PLATFORMS.ANDROID) {
        var playedPercent =  this.touchPercent(event.nativeEvent.pageX)
        var percentLabel = parseInt(playedPercent * 100, 10) + "%"
        AndroidAccessibility.announce(percentLabel);
