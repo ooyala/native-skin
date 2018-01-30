@@ -18,7 +18,6 @@ var styles = Utils.getStyles(require("./style/upNext.json"));
 var CountdownView = require("./widgets/countdownTimer");
 var CountdownViewAndroid = require("./widgets/countdownTimerAndroid");
 var ResponsiveDesignManager = require("./responsiveDesignManager");
-var Constants = require("./constants");
 
 var descriptionMinWidth = 140;
 var thumbnailWidth = 175;
@@ -131,8 +130,8 @@ var UpNext = React.createClass({
           style={styles.thumbnail} >
           <TouchableHighlight style={styles.thumbnail}
             onPress={this.clickUpNext}
-            accesible={true}
-            accessibilityLabel={"Play up next video"}>
+            accessible={true}
+            accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
             <Text style={styles.countdownText}
               accesible={false}>
               {this.props.config.icons.play.fontString}
