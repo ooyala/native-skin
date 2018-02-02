@@ -54,11 +54,11 @@ static NSString *kTouchYLocationFiledName = @"y_location";
   self.tapForwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
   self.tapForwardGesture.allowedPressTypes = @[@(UIPressTypeRightArrow)];
   self.tapForwardGesture.delegate = self;
-
+  
   self.tapBackwardGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(seek:)];
   self.tapBackwardGesture.allowedPressTypes = @[@(UIPressTypeLeftArrow)];
   self.tapBackwardGesture.delegate = self;
-
+  
   self.tapPlayPauseGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(togglePlay:)];
   self.tapPlayPauseGesture.allowedPressTypes = @[@(UIPressTypePlayPause), @(UIPressTypeSelect)];
   self.tapPlayPauseGesture.delegate = self;
@@ -69,7 +69,7 @@ static NSString *kTouchYLocationFiledName = @"y_location";
   
   self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onSwipe:)];
   self.panGesture.delegate = self;
-
+  
   [self.controller.view addGestureRecognizer:self.tapForwardGesture];
   [self.controller.view addGestureRecognizer:self.tapBackwardGesture];
   [self.controller.view addGestureRecognizer:self.tapPlayPauseGesture];
@@ -92,61 +92,51 @@ static NSString *kTouchYLocationFiledName = @"y_location";
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-  if (gestureRecognizer == self.tapPlayPauseGesture) {
-    return NO;
-  }
-  return YES;
+  return !((gestureRecognizer == self.tapPlayPauseGesture)
+           && [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-  if ((gestureRecognizer == self.panGesture) && (otherGestureRecognizer == self.tapPlayPauseGesture)) {
-    return YES;
-  }
-
   return NO;
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-  if ((gestureRecognizer == self.tapPlayPauseGesture) && (otherGestureRecognizer == self.panGesture)) {
-    return YES;
-  }
-
-  return NO;
+  return ((gestureRecognizer == self.tapPlayPauseGesture) && (otherGestureRecognizer == self.panGesture));
 }
 
 #pragma mark - Actions
 
 - (void)seek:(UITapGestureRecognizer *)sender {
-    if (self.controller.closedCaptionMenuDisplayed){
-        [self.controller removeClosedCaptionsMenu];
-    }
-        NSTimeInterval seekTo = self.controller.player.playheadTime;
-        if (sender == self.tapForwardGesture) {
-            seekTo += FF_SEEK_STEP;
-        } else if (sender == self.tapBackwardGesture) {
-            seekTo -= FF_SEEK_STEP;
-        }
-        
-        if (seekTo < 0) {
-            seekTo = 0;
-        } else if (seekTo > self.controller.player.duration) {
-            seekTo = self.controller.player.duration;
-        }
-        
-        [self.controller.player seek:seekTo];
-        [self.controller showProgressBar];
+  if (self.controller.closedCaptionMenuDisplayed){
+    [self.controller removeClosedCaptionsMenu];
   }
+  NSTimeInterval seekTo = self.controller.player.playheadTime;
+  if (sender == self.tapForwardGesture) {
+    seekTo += FF_SEEK_STEP;
+  } else if (sender == self.tapBackwardGesture) {
+    seekTo -= FF_SEEK_STEP;
+  }
+  
+  if (seekTo < 0) {
+    seekTo = 0;
+  } else if (seekTo > self.controller.player.duration) {
+    seekTo = self.controller.player.duration;
+  }
+  
+  [self.controller.player seek:seekTo];
+  [self.controller showProgressBar];
+}
 
 - (void)togglePlay:(id)sender {
-    if (self.controller.closedCaptionMenuDisplayed){
-        [self.controller removeClosedCaptionsMenu];  
-    }
-      if ([self.controller.player isPlaying]) {
-          [self.controller.player pause];
-      } else {
-          [self.controller.player play];
-      }
-      [self.controller showProgressBar];
+  if (self.controller.closedCaptionMenuDisplayed){
+    [self.controller removeClosedCaptionsMenu];
+  }
+  if ([self.controller.player isPlaying]) {
+    [self.controller.player pause];
+  } else {
+    [self.controller.player play];
+  }
+  [self.controller showProgressBar];
 }
 
 - (void)closedCaptionsSelector: (UITapGestureRecognizer *)sender {
@@ -164,32 +154,32 @@ static NSString *kTouchYLocationFiledName = @"y_location";
     if (sender == self.panGesture) {
       CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
       CGFloat viewWidth = self.controller.view.frame.size.width;
-
+      
       if (viewWidth == 0) {
-          viewWidth = 1920;
+        viewWidth = 1920;
       }
-
+      
       CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
       [self.controller showProgressBar];
-
+      
       switch (self.panGesture.state) {
         case UIGestureRecognizerStateBegan:
-            lastPanPoint = currentPoint;
-            lastPlayhead = self.controller.player.playheadTime;
-            break;
+          lastPanPoint = currentPoint;
+          lastPlayhead = self.controller.player.playheadTime;
+          break;
         case UIGestureRecognizerStateChanged: {
-            CGFloat distance = currentPoint.x - lastPanPoint.x;
-            if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
-                lastPanPoint = currentPoint;
-                lastPlayhead += distance * seekScale;
-                [self.controller.player seek:lastPlayhead];
-            }
-            break;
+          CGFloat distance = currentPoint.x - lastPanPoint.x;
+          if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
+            lastPanPoint = currentPoint;
+            lastPlayhead += distance * seekScale;
+            [self.controller.player seek:lastPlayhead];
+          }
+          break;
         }
         case UIGestureRecognizerStateEnded:
-            break;
+          break;
         default:
-            break;
+          break;
       }
     }
   }
@@ -218,7 +208,7 @@ static NSString *kTouchYLocationFiledName = @"y_location";
       result = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
       
       [result mergeWith:@{kTouchEventNameKey : kTouchMoveEventName}];
-
+      
       break;
     }
     default: {
