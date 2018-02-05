@@ -91,7 +91,7 @@ var VideoViewPlayPause = React.createClass({
   },
 
   onPress: function() {
-    if(this.props.showButton) {
+    if (this.props.showButton) {
       if (this.props.playing) {
         this.showPlayButton();
       } else {
@@ -146,7 +146,6 @@ var VideoViewPlayPause = React.createClass({
     var size = {position: 'absolute'};
 
     return (
-
       <View accessible={false} 
          style={[size]}>
         <Animated.Text accessible={false}
@@ -154,7 +153,6 @@ var VideoViewPlayPause = React.createClass({
           {this.props.icons[name].icon}
         </Animated.Text>
       </View>
-
     );
   },
 
@@ -169,11 +167,10 @@ var VideoViewPlayPause = React.createClass({
   // Gets the play button based on the current config settings
   render: function() {
     var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1 // increase area of play button on android to play scale animation correctly.
-    if(this.props.style != null) {
-      positionStyle = this.props.style;
-    }
 
-    else if (this.props.position == "center") {
+    if (this.props.style != null) {
+      positionStyle = this.props.style;
+    } else if (this.props.position == "center") {
 
       var topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * scaleMultiplier) * 0.5);
       var leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * scaleMultiplier) * 0.5);
@@ -184,19 +181,17 @@ var VideoViewPlayPause = React.createClass({
     } else {
       positionStyle = styles[this.props.position];
     }
-
+    
     var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     var opacity = {opacity: this.state.widget.animationOpacity};
 
     var playButton = this._renderButton(PLAY);
     var pauseButton = this._renderButton(PAUSE);
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      if(!this.props.showButton)
-      {
+    
+    if (this.props.platform == Constants.PLATFORMS.ANDROID) {
+      if (!this.props.showButton) {
         return null;
-      }
-      else
-      {
+      } else {
         sizeStyle.justifyContent = 'center';
         sizeStyle.alignSelf = 'center';
         sizeStyle.paddingTop = this.props.buttonHeight / scaleMultiplier;
@@ -206,6 +201,7 @@ var VideoViewPlayPause = React.createClass({
 
         return (
           <TouchableHighlight
+            testID={Constants.BUTTON_NAMES.PLAY_PAUSE}
             onPress={() => this.onPress()}
             style={[positionStyle]}
             underlayColor="transparent"
@@ -219,16 +215,16 @@ var VideoViewPlayPause = React.createClass({
           </TouchableHighlight>
         );
       }
-    }
-    else{
+    } else {
       return (
         <TouchableHighlight
+          testID={Constants.BUTTON_NAMES.PLAY_PAUSE}
           onPress={() => this.onPress()}
           style={[positionStyle]}
           underlayColor="transparent"
           activeOpacity={this.props.opacity}>
           <View>
-            <Animated.View style={[styles.androidPlayPauseButtonArea, sizeStyle, opacity, {position: 'absolute'}]}>
+            <Animated.View style={[styles.androidPlayPauseButtonArea, sizeStyle, opacity]}>
               {playButton}
               {pauseButton}
             </Animated.View>
@@ -237,6 +233,8 @@ var VideoViewPlayPause = React.createClass({
       );
     }
   }
+
+
 });
 
 module.exports = VideoViewPlayPause;

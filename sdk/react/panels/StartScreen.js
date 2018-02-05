@@ -18,6 +18,7 @@ var {
   IMG_URLS,
   UI_SIZES,
   BUTTON_NAMES,
+  VIEW_NAMES
 } = Constants;
 
 var RectButton = require('../widgets/RectButton');
@@ -47,32 +48,34 @@ var StartScreen = React.createClass({
 
     var isScreenReaderEnabled = this.props.screenReaderEnabled;
 
-      if(this.props.config.startScreen.showPlayButton) {
+      if (this.props.config.startScreen.showPlayButton) {
         return (
           <VideoViewPlayPause
-          icons={{
-            play: {
-              icon: this.props.config.icons.play.fontString,
-              fontFamily: this.props.config.icons.play.fontFamilyName
-            },
-            pause: {
-              icon: this.props.config.icons.pause.fontString,
-              fontFamily: this.props.config.icons.pause.fontFamilyName
-            }
-          }}
-          position={this.props.config.startScreen.playButtonPosition}
-          onPress={this.handleClick}
-          buttonStyle={this.props.config.startScreen.playIconStyle}
-          frameWidth={this.props.width}
-          frameHeight={this.props.height}
-          playhead={this.props.playhead}
-          buttonWidth={iconFontSize}
-          buttonHeight={iconFontSize}
-          platform={this.props.platform}
-          fontSize={iconFontSize}
-          playing={false}
-          showButton={!isScreenReaderEnabled}>
-        </VideoViewPlayPause>);
+            icons={{
+              play: {
+                icon: this.props.config.icons.play.fontString,
+                fontFamily: this.props.config.icons.play.fontFamilyName
+              },
+              pause: {
+                icon: this.props.config.icons.pause.fontString,
+                fontFamily: this.props.config.icons.pause.fontFamilyName
+              }
+            }}
+
+            position={this.props.config.startScreen.playButtonPosition}
+            onPress={this.handleClick}
+            buttonStyle={this.props.config.startScreen.playIconStyle}
+            frameWidth={this.props.width}
+            frameHeight={this.props.height}
+            playhead={this.props.playhead}
+            buttonWidth={iconFontSize}
+            buttonHeight={iconFontSize}
+            platform={this.props.platform}
+            fontSize={iconFontSize}
+            playing={false}
+            showButton={!isScreenReaderEnabled}>
+          </VideoViewPlayPause>
+        );
       }
   },
 
@@ -100,9 +103,12 @@ var StartScreen = React.createClass({
     }
 
     return (
-      <View style={infoPanelLocation}>
-        {infoPanelTitle}
-        {infoPanelDescription}
+      <View 
+        accessibilityLabel={Constants.VIEW_NAMES.INFO_PANEL} 
+        testID={Constants.VIEW_NAMES.INFO_PANEL}
+        style={infoPanelLocation}>
+          {infoPanelTitle}
+          {infoPanelDescription}
       </View>
     );
   },
@@ -113,6 +119,8 @@ var StartScreen = React.createClass({
 
       return (
         <Image
+          accessibilityLabel={Constants.VIEW_NAMES.PROMO_IMAGE}
+          testID={Constants.VIEW_NAMES.PROMO_IMAGE}
           source={{uri: this.props.promoUrl}}
           style={fullscreen ?
             {position:'absolute', top:0, left:0, width:this.props.width, height: this.props.height} :
@@ -129,16 +137,12 @@ var StartScreen = React.createClass({
     var waterMarkImageLocation = styles.waterMarkImageSE;
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
+        accessibilityLabel={Constants.VIEW_NAMES.WATER_MAR}
+        testID={Constants.VIEW_NAMES.WATER_MARK}
         source={{uri: IMG_URLS.OOYALA_LOGO}}
         resizeMode={Image.resizeMode.contain}>
       </Image>
     );
-  },
-
-  _tapHandler: function(event) {
-    if (this.props.screenReaderEnabled) {
-      this.handleClick();
-    }
   },
 
   render: function() {
@@ -147,21 +151,21 @@ var StartScreen = React.createClass({
     var infoPanel = this.getInfoPanel();
     var waterMarkImage = this.getWaterMark();
 
-
     return (
-     <View
-     reactTag={1}
-     accessible={true}
-     accessibilityLabel={"Video player. Tap twice to play"}
-     style={styles.container}
-     onTouchEnd={(event) => this._tapHandler(event)}>
-       {promoImage}
-       {waterMarkImage}
-       {infoPanel}
-       {playButton}
+      <View
+        reactTag={1}
+        accessibilityLabel={Constants.VIEW_NAMES.START_SCREEN}
+        testID={Constants.VIEW_NAMES.START_SCREEN}
+        style={styles.container}>
+          {promoImage}
+          {waterMarkImage}
+          {infoPanel}
+          {playButton}
       </View>
    );
-
   },
+
+
 });
+
 module.exports = StartScreen;

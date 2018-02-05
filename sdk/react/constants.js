@@ -42,6 +42,12 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
 
 var VIEW_NAMES = {
 
+  START_SCREEN: 'startScreen',
+  WATER_MARK: 'waterMark',
+  PROMO_IMAGE: 'promoImage',
+  INFO_PANEL: 'infoPanel', 
+  PLACEHOLDER: 'placeholder',
+
   // Time seek bar views
   TIME_SEEK_BAR: 'seekBar',
   TIME_SEEK_BAR_THUMB: 'seekBar_thumb',

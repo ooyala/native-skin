@@ -32,6 +32,7 @@ var panelStyles = require('./style/panelStyles.json');
 
 var {
   BUTTON_NAMES,
+  VIEW_NAMES,
   PLATFORMS,
   IMG_URLS,
   UI_SIZES,
@@ -177,6 +178,7 @@ var VideoView = React.createClass({
         reactTag={1}
         accessible={true}
         accessibilityLabel={"Video player. Tap twice to play or pause"}
+        testID={Constants.VIEW_NAMES.PLACEHOLDER}
         style={styles.placeholder}
         onTouchStart={(event) => this.props.handlers.handleVideoTouchStart(event)}
         onTouchMove={(event) => this.props.handlers.handleVideoTouchMove(event)}
