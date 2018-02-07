@@ -37,7 +37,8 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   SKIP: 'Skip',
   AD_ICON: 'Icon',
   AD_OVERLAY: 'Overlay',
-  PIP: 'PIP'
+  PIP: 'PIP',
+  UP_NEXT: 'Select up next',
 };
 
 var VIEW_NAMES = {
