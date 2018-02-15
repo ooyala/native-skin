@@ -205,6 +205,8 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       return (
         <View
           accessible={true}
+          testID={VIEW_NAMES.TIME_SEEK_BAR}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
           accessibilityLabel={percentLabel}
           style={styles.progressBarStyle}>
           {this._renderProgressBar(playedPercent)}
