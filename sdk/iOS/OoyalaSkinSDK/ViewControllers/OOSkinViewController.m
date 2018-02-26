@@ -223,9 +223,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 }
 
 - (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion {
+  
   if (fullscreen == _fullscreen) {
     
     // Notify what fullscreen did changed
+    
     if (completion) {
       completion();
     }
@@ -238,6 +240,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   BOOL wasPlaying = self.player.isPlaying;
   
   // Pause player if needed for change fullScreen mode action duration
+  
   if (wasPlaying) {
     [_player pause];
   }
@@ -245,24 +248,36 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   // Perform changes for fullscreen/inline mode
   
   __weak __typeof__(self) weakSelf = self;
+  
+  // Hide react view for start animation
+  
+  [self.reactView setHidden:YES];
 
+  // Perfrom animation
+  
   [self.fullscreenStateController setFullscreen:fullscreen completion:^{
-    
-    // Notify observers what screen state changed
-    
-    [weakSelf notifyFullScreenChange:fullscreen];
-    
-    // Notify what fullscreen did changed
-    
-    if (completion) {
-      completion();
-    }
-    
-    // Resume player if needed after fullscreen mode action
-    
-    if (wasPlaying) {
-      [weakSelf.player play];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+      
+      // Notify observers what screen state changed
+      
+      [weakSelf notifyFullScreenChange:fullscreen];
+      
+      // Notify what fullscreen did changed
+      
+      if (completion) {
+        completion();
+      }
+      
+      // Resume player if needed after fullscreen mode action
+      
+      if (wasPlaying) {
+        [weakSelf.player play];
+      }
+      
+      // Show react view for start animation
+      
+      [weakSelf.reactView setHidden:NO];
+    });
   }];
 }
 

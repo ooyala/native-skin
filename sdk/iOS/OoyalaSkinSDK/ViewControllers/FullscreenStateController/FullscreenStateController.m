@@ -7,6 +7,7 @@
 
 #import "FullscreenStateController.h"
 #import <UIKit/UIKit.h>
+#import "FullscreenStateOperation.h"
 
 
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -20,6 +21,7 @@
 @property (nonatomic) UIViewController *rootViewController; // Root VC from visible UIWindow
 @property (nonatomic) UIViewController *fullscreenViewController;
 @property (nonatomic) NSOperationQueue *operationQueue; // Queue for fullscreen animation
+@property (nonatomic) BOOL isFullscreen;
 
 @end
 
@@ -47,51 +49,29 @@
 #pragma mark - Public functions
 
 - (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion {
-  NSLog(@"---> Original op. coun = %lu", (unsigned long)self.operationQueue.operationCount);
-  
-  if (self.operationQueue.operationCount > 1) {
-    
-    for (NSOperation *oldOperation in self.operationQueue.operations) {
-      
+  for (NSOperation *operation in self.operationQueue.operations) {
+    if (!operation.isExecuting) {
+      [operation cancel];
     }
-    [self.operationQueue cancelAllOperations];
   }
   
-  NSLog(@"---> After cancel op. coun = %lu", (unsigned long)self.operationQueue.operationCount);
-  
-  NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
-    NSLog(@"---> run op");
-    
-    dispatch_group_t dispatchGroup = dispatch_group_create();
-    
-    dispatch_group_enter(dispatchGroup);
-    
-    if (operation.isCancelled) {
-      dispatch_group_leave(dispatchGroup);
+  NSOperation *operation = [[FullscreenStateOperation alloc] initWithFullscreen:fullscreen enterFullscreenBlock:^(void (^animationCompletion)(void)) {
+    if (self.isFullscreen == fullscreen) {
+      animationCompletion();
+    } else {
+      [self openFullscreenMode:^{
+        animationCompletion();
+      }];
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-      if (fullscreen) {
-        [self openFullscreenMode:^{
-          dispatch_group_leave(dispatchGroup);
-        }];
-      } else {
-        [self openInlineMode:^{
-          dispatch_group_leave(dispatchGroup);
-        }];
-      }
-    });
-    
-    dispatch_group_wait(dispatchGroup, DISPATCH_TIME_FOREVER);
-    
-    if (operation.isCancelled) {
-      return;
+  } enterInlineBlock:^(void (^animationCompletion)(void)) {
+    if (self.isFullscreen != fullscreen) {
+      [self openInlineMode:^{
+        animationCompletion();
+      }];
+    } else {
+      animationCompletion();
     }
-    
-    if (completion) {
-      completion();
-    }
-  }];
+  } andCompleteStateChanges:completion];
   
   [self.operationQueue addOperation:operation];
 }
@@ -143,6 +123,10 @@
     
     window.rootViewController = self.fullscreenViewController;
     
+    // Update current fullscreen state
+    
+    self.isFullscreen = YES;
+    
     // Completion
     
     if (completion) {
@@ -159,12 +143,12 @@
   window.rootViewController = self.rootViewController;
   [window addSubview:self.fullscreenViewController.view];
   [window bringSubviewToFront:self.fullscreenViewController.view];
-  
+
   // Convert rect for animation
   
   CGRect frameInFullscreenView = [self.parentView convertRect:self.containerView.frame
                                                        toView:self.fullscreenViewController.view];
-  
+
   [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
     self.videoView.frame = frameInFullscreenView;
   } completion:^(BOOL finished) {
@@ -175,7 +159,12 @@
     [self.containerView addSubview:self.videoView];
     self.videoView.frame = self.parentView.bounds;
     
+    // Update current fullscreen state
+    
+    self.isFullscreen = NO;
+
     // Completion
+    
     if (completion) {
       completion();
     }
