@@ -19,6 +19,7 @@
 @property (nonatomic) UIView *videoView;
 @property (nonatomic) UIViewController *rootViewController; // Root VC from visible UIWindow
 @property (nonatomic) UIViewController *fullscreenViewController;
+@property (nonatomic) NSOperationQueue *operationQueue; // Queue for fullscreen animation
 
 @end
 
@@ -37,6 +38,8 @@
     self.containerView = containerView;
     self.videoView = videoView;
     self.fullscreenViewController = fullscreenViewController;
+    
+    [self configure];
   }
   return self;
 }
@@ -44,14 +47,61 @@
 #pragma mark - Public functions
 
 - (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion {
-  if (fullscreen) {
-    [self openFullscreenMode:completion];
-  } else {
-    [self openInlineMode:completion];
+  NSLog(@"---> Original op. coun = %lu", (unsigned long)self.operationQueue.operationCount);
+  
+  if (self.operationQueue.operationCount > 1) {
+    
+    for (NSOperation *oldOperation in self.operationQueue.operations) {
+      
+    }
+    [self.operationQueue cancelAllOperations];
   }
+  
+  NSLog(@"---> After cancel op. coun = %lu", (unsigned long)self.operationQueue.operationCount);
+  
+  NSOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+    NSLog(@"---> run op");
+    
+    dispatch_group_t dispatchGroup = dispatch_group_create();
+    
+    dispatch_group_enter(dispatchGroup);
+    
+    if (operation.isCancelled) {
+      dispatch_group_leave(dispatchGroup);
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+      if (fullscreen) {
+        [self openFullscreenMode:^{
+          dispatch_group_leave(dispatchGroup);
+        }];
+      } else {
+        [self openInlineMode:^{
+          dispatch_group_leave(dispatchGroup);
+        }];
+      }
+    });
+    
+    dispatch_group_wait(dispatchGroup, DISPATCH_TIME_FOREVER);
+    
+    if (operation.isCancelled) {
+      return;
+    }
+    
+    if (completion) {
+      completion();
+    }
+  }];
+  
+  [self.operationQueue addOperation:operation];
 }
 
 #pragma mark - Private functions
+
+- (void)configure {
+  self.operationQueue = [NSOperationQueue new];
+  [self.operationQueue setMaxConcurrentOperationCount:1];
+}
 
 - (void)openFullscreenMode:(nullable void (^)())completion {
   UIWindow *window = [UIApplication sharedApplication].keyWindow;
@@ -71,7 +121,8 @@
   
   // Convert rect for animation
   
-  CGRect frameInWindow = [self.parentView convertRect:self.containerView.frame toView:window];
+  CGRect frameInWindow = [self.parentView convertRect:self.containerView.frame
+                                               toView:window];
   
   // Set start rect for video view
   
@@ -111,7 +162,8 @@
   
   // Convert rect for animation
   
-  CGRect frameInFullscreenView = [self.parentView convertRect:self.containerView.frame toView:self.fullscreenViewController.view];
+  CGRect frameInFullscreenView = [self.parentView convertRect:self.containerView.frame
+                                                       toView:self.fullscreenViewController.view];
   
   [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
     self.videoView.frame = frameInFullscreenView;

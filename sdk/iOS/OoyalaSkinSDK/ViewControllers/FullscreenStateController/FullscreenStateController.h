@@ -14,10 +14,10 @@
 
 @interface FullscreenStateController : NSObject
 
-- (instancetype _Nonnull)initWithParentView:(UIView *_Nonnull)parentView
-                              containerView:(UIView *_Nonnull)containerView
-                                  videoView:(UIView *_Nonnull)videoView
-                andFullscreenViewController:(UIViewController *_Nonnull)fullscreenViewController;
+- (nonnull instancetype)initWithParentView:(nonnull UIView *)parentView
+                              containerView:(nonnull UIView *)containerView
+                                  videoView:(nonnull UIView *)videoView
+                andFullscreenViewController:(nonnull UIViewController *)fullscreenViewController;
 
 - (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion;
 
