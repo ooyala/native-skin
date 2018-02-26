@@ -72,6 +72,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeSeekStartNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeSeekCompletedNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeMultiAudioEnabledNotification();
     }
   }
 
@@ -214,5 +216,10 @@ class OoyalaSkinPlayerObserver implements Observer {
       WritableMap params = Arguments.createMap();
       params.putString("text", ccText);
       _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
+  }
+
+  private void bridgeMultiAudioEnabledNotification() {
+    WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(_player);
+    _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
   }
 }
