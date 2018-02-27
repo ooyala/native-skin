@@ -333,7 +333,7 @@ class BridgeMessageBuilder {
 
       params.putBoolean("multiAudioEnabled", true);
       params.putArray("audioTracksTitles", audioTracksTitles);
-      }
+    }
     return params;
   }
 }
