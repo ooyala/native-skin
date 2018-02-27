@@ -9,8 +9,10 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Caption;
 import com.ooyala.android.item.ClosedCaptions;
+import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
 import com.ooyala.android.util.DebugMode;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -72,6 +74,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeSeekStartNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.SEEK_COMPLETED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeSeekCompletedNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeMultiAudioEnabledNotification();
     }
   }
 
@@ -214,5 +218,11 @@ class OoyalaSkinPlayerObserver implements Observer {
       WritableMap params = Arguments.createMap();
       params.putString("text", ccText);
       _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
+  }
+
+  private void bridgeMultiAudioEnabledNotification() {
+    List<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
+    WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
+    _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
   }
 }

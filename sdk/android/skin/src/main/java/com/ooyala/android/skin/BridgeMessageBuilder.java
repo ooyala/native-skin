@@ -14,6 +14,7 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Video;
+import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
 import com.ooyala.android.util.DebugMode;
 
 import org.json.JSONArray;
@@ -21,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 class BridgeMessageBuilder {
@@ -316,6 +318,19 @@ class BridgeMessageBuilder {
     WritableMap params = Arguments.createMap();
     params.putBoolean("vrContent", vrContent);
     params.putBoolean("stereoSupported", vrContent && isStereoSupported);
+    return params;
+  }
+
+  public static WritableMap buildMultiAudioParams(List<AudioTrack> audioTracks) {
+    WritableMap params = Arguments.createMap();
+    WritableArray audioTracksTitles = Arguments.createArray();
+
+    for (AudioTrack track : audioTracks) {
+      audioTracksTitles.pushString(track.getTrackTitle());
+    }
+
+    params.putBoolean("multiAudioEnabled", true);
+    params.putArray("audioTracksTitles", audioTracksTitles);
     return params;
   }
 }

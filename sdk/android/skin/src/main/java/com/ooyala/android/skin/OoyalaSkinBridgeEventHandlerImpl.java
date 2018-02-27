@@ -149,6 +149,11 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     createMotionEventAndPassThrough(parameters, MotionEvent.ACTION_UP);
   }
 
+  @Override
+  public void onAudioTrackSelected(ReadableMap parameters) {
+    _player.setAudioTrack(parameters.getString("audioTrack"));
+  }
+
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {
     final boolean isClicked = params.getBoolean("isClicked");
     final float xLocation = (float) params.getDouble("x_location");

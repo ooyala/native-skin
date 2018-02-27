@@ -92,4 +92,9 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   public void handleTouchEnd(ReadableMap parameters){
     handler.handleTouchEnd(parameters);
   }
+
+  @Override
+  public void onAudioTrackSelected(ReadableMap parameters) {
+    handler.onAudioTrackSelected(parameters);
+  }
 }

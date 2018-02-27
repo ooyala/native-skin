@@ -28,4 +28,6 @@ public interface BridgeEventHandler {
 
   void handleTouchEnd(ReadableMap parameters);
 
+  void onAudioTrackSelected(ReadableMap parameters);
+
 }
