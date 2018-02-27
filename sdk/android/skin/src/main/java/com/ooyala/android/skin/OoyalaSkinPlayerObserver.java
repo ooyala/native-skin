@@ -9,8 +9,10 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Caption;
 import com.ooyala.android.item.ClosedCaptions;
+import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
 import com.ooyala.android.util.DebugMode;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -219,7 +221,8 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeMultiAudioEnabledNotification() {
-    WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(_player);
+    List<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
+    WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
     _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
   }
 }

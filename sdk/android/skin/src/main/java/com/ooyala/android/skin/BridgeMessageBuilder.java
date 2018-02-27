@@ -21,8 +21,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 class BridgeMessageBuilder {
@@ -321,19 +321,16 @@ class BridgeMessageBuilder {
     return params;
   }
 
-  public static WritableMap buildMultiAudioParams(OoyalaPlayer player) {
+  public static WritableMap buildMultiAudioParams(List<AudioTrack> audioTracks) {
     WritableMap params = Arguments.createMap();
-    if (player.isMultiAudioAvailable()) {
-      ArrayList<AudioTrack> audioTracks = player.getAvailableAudioTracks();
-      WritableArray audioTracksTitles = Arguments.createArray();
+    WritableArray audioTracksTitles = Arguments.createArray();
 
-      for (AudioTrack track : audioTracks) {
-        audioTracksTitles.pushString(track.getTrackTitle());
-      }
-
-      params.putBoolean("multiAudioEnabled", true);
-      params.putArray("audioTracksTitles", audioTracksTitles);
+    for (AudioTrack track : audioTracks) {
+      audioTracksTitles.pushString(track.getTrackTitle());
     }
+
+    params.putBoolean("multiAudioEnabled", true);
+    params.putArray("audioTracksTitles", audioTracksTitles);
     return params;
   }
 }
