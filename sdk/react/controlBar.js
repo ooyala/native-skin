@@ -50,6 +50,7 @@ var ControlBar = React.createClass({
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
     stereoSupported: React.PropTypes.bool,
+    multiAudioEnabled: React.PropTypes.bool
   },
 
   getDefaultProps: function() {
@@ -117,6 +118,10 @@ var ControlBar = React.createClass({
 
   onStereoscopicPress: function () {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.STEREOSCOPIC);
+  },
+
+  onMultiAudioPress: function () {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.MULTI_AUDIO);
   },
 
   render: function() {
@@ -211,6 +216,12 @@ var ControlBar = React.createClass({
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.stereoscopic
       },
+      multiAudio: {
+        onPress: this.onMultiAudioPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        icon: this.props.config.icons.multiAudio,
+      },
     };
 
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
@@ -230,6 +241,10 @@ var ControlBar = React.createClass({
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
         if (this.props.stereoSupported){
+          pushControl(item);
+        }
+      } else if (widget.name === BUTTON_NAMES.MULTI_AUDIO) {
+        if (this.props.multiAudioEnabled){
           pushControl(item);
         }
       } else {

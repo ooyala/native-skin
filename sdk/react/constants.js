@@ -31,6 +31,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   SHARE: 'share',
   SETTING: 'settings',
   STEREOSCOPIC: 'stereoscopic',
+  MULTI_AUDIO: 'multiAudio',
   NONE: 'None',
   // a dummy button to reset auto hide
   RESET_AUTOHIDE: 'ResetAutoHide',
@@ -79,6 +80,7 @@ var OVERLAY_TYPES = {
   DISCOVERY_SCREEN: 'discovery_screen',
   MOREOPTION_SCREEN: 'moreOption',
   CLOSEDCAPTIONS_SCREEN: 'cc_screen',
+  MULTI_AUDIO_SCREEN: 'multi_audio_screen',
 }
 
 var OOSTATES = {
