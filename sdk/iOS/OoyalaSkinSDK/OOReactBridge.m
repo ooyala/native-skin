@@ -18,20 +18,27 @@
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
+#import <OoyalaSDK/OOAudioTrackProtocol.h>
 #import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
 #import "OOConstant.h"
 #import "NSMutableDictionary+Utils.h"
 
+
 @interface OOReactBridge()
+
 @property (nonatomic, weak) OOSkinViewController *controller;
 @property (nonatomic, weak) RCTBridge *rctBridge;
+
 @end
+
 
 @implementation OOReactBridge
 
-
 RCT_EXPORT_MODULE();
+
+#pragma mark - Constants
+
 static NSString *nameKey = @"name";
 static NSString *embedCodeKey = @"embedCode";
 static NSString *percentageKey = @"percentage";
@@ -51,6 +58,7 @@ static NSString *upNextClick = @"upNextClick";
 static NSString *adIconButtonName = @"Icon";
 static NSString *adOverlayButtonName = @"Overlay";
 static NSString *stereoscopicButtonName = @"stereoscopic";
+static NSString *audioTrackKey = @"audioTrack";
 
 RCT_EXPORT_METHOD(onMounted) {
   LOG(@"onMounted - Not going to use at the moment");
@@ -59,6 +67,12 @@ RCT_EXPORT_METHOD(onMounted) {
 RCT_EXPORT_METHOD(onLanguageSelected:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self handleLanguageSelection:[parameters objectForKey:@"language"]];
+  });
+}
+
+RCT_EXPORT_METHOD(onAudioTrackSelected:(NSDictionary *)parameters) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self handleAudioTrackSelection:[parameters objectForKey:audioTrackKey]];
   });
 }
 
@@ -115,7 +129,6 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
   [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
-
 - (void)handleStereoscopic {
   [self.controller toggleStereoMode];
 }
@@ -159,7 +172,7 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
   });
 }
 
--(void) handleSocialShare {
+- (void)handleSocialShare {
   [self.controller.player pause];
 }
 
@@ -185,6 +198,25 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
 
 - (void)handleLanguageSelection:(NSString *)language {
   [self.controller.player setClosedCaptionsLanguage:language];
+}
+
+- (void)handleAudioTrackSelection:(NSString *)audioTrackName {
+  
+  // TODO: Can we move this logic to core?
+  
+  for (OOAudioTrack *audioTrack in [self.controller.player availableAudioTracks]) {
+    
+    // This check is a temporary solution
+    // Need to wait conclusion about tracks names (how need create them) from Ooyala
+    
+    if (audioTrack.name == audioTrackName) {
+      [self.controller.player setDefaultAudioTrack:audioTrack];
+      [self.controller.player setAudioTrack:audioTrack];
+      return;
+    }
+  }
+  
+  LOG(@"handleAudioTrackSelection - Can't find audio track");
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
