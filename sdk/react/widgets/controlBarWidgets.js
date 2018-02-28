@@ -194,6 +194,16 @@ var controlBarWidget = React.createClass({
     </TouchableHighlight>);
   },
 
+  multiAudioWidget: function (options) {
+    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (<TouchableHighlight
+      testID={BUTTON_NAMES.MULTI_AUDIO}
+      accessible={true} accessibilityLabel={BUTTON_NAMES.MULTI_AUDIO} accessibilityComponentType="button"
+      style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
+    </TouchableHighlight>);
+  },
+
   render: function() {
 
     var widgetsMap = {
@@ -210,7 +220,8 @@ var controlBarWidget = React.createClass({
       "closedCaption": this.closedCaptionWidget,
       "bitrateSelector": this.bitrateSelectorWidget,
       "live": this.liveWidget,
-      "stereoscopic": this.stereoscopicWidget
+      "stereoscopic": this.stereoscopicWidget,
+      "multiAudio": this.multiAudioWidget
     };
     if( this.props.widgetType.name in widgetsMap ) {
       var widgetOptions = this.props.options[this.props.widgetType.name];

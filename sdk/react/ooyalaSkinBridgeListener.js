@@ -153,6 +153,7 @@ OoyalaSkinBridgeListener.prototype.onAdError = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
   Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+  
   this.skin.setState({
     title:e.title,
     description:e.description,
@@ -164,10 +165,16 @@ OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
     width:e.width,
     height:e.height,
     volume:e.volume,
-    caption:null});
+    caption:null,
+    multiAudioEnabled: e.multiAudioEnabled,
+    audioTracksTitles: e.audioTracksTitles,
+    selectedAudioTrack: e.selectedAudioTrack
+  });
+
   if (!this.skin.state.autoPlay) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
   };
+
   this.core.clearOverlayStack();
 };
 
