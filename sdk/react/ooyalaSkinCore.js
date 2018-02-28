@@ -67,6 +67,12 @@ OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
   this.bridge.onLanguageSelected({language:e});
 };
 
+OoyalaSkinCore.prototype.handleAudioTrackSelection = function(e) {
+  Log.log("onAudioTrackSelected:" + e);
+  this.skin.setState({selectedAudioTrack:e});
+  this.bridge.onAudioTrackSelected({audioTrack:e});
+};
+
 // event handlers.
 OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
   switch (buttonName) {
