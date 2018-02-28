@@ -207,7 +207,8 @@
   
   if (self.player.hasMultipleAudioTracks) {
     eventBody[@"multiAudioEnabled"] = [NSNumber numberWithBool:YES];
-    
+    eventBody[@"selectedAudioTrack"] = self.player.selectedAudioTrack.name;
+
     // Create audio tracks names array
     
     NSMutableArray *audioTracksTitles = [NSMutableArray new];
