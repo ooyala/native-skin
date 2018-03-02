@@ -12,10 +12,10 @@ import com.ooyala.android.item.ClosedCaptions;
 import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
 import com.ooyala.android.util.DebugMode;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 /**
  * The class that solely listens to the OoyalaPlayer, and responds based on the events
@@ -76,6 +76,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeSeekCompletedNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeMultiAudioEnabledNotification();
+    } else if (OoyalaPlayer.AUDIO_TRACK_SELECTED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeAudioTrackSelectedNotification();
     }
   }
 
@@ -221,8 +223,19 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeMultiAudioEnabledNotification() {
-    List<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
-    WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
-    _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
+    Set<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
+    if (!audioTracks.isEmpty()) {
+      WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
+      _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
+    }
+  }
+
+  private void bridgeAudioTrackSelectedNotification() {
+    AudioTrack selectedAudioTrack = _player.getCurrentAudioTrack();
+    if (selectedAudioTrack != null) {
+      WritableMap params = Arguments.createMap();
+      params.putString("selectedAudioTrack", selectedAudioTrack.getTrackTitle());
+      _layoutController.sendEvent(OoyalaPlayer.AUDIO_TRACK_SELECTED_NOTIFICATION_NAME, params);
+    }
   }
 }
