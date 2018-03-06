@@ -1,0 +1,72 @@
+{
+  "panelContainer": {
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "stretch"
+  },
+
+  "item": {
+    "minHeight": 33
+  },
+
+  "itemContainer": {
+    "flex": 1,
+    "flexDirection":"row",
+    "alignItems":"center",
+    "backgroundColor": "transparent"
+  },
+
+  "button": {
+    "flexDirection":"row",
+    "alignItems":"center",
+    "justifyContent": "center",
+    "backgroundColor": "transparent"
+  },
+
+  "selectedButton": {
+    "flexDirection":"row",
+    "alignItems":"center",
+    "justifyContent": "center",
+    "backgroundColor": "rgba(0, 0, 0, 0.2)"
+  },
+
+  "buttonText": {
+    "textAlign": "left",
+    "marginLeft": 8,
+    "marginRight": 32,
+    "color": "white",
+    "fontSize": 13,
+    "fontFamily": "Roboto",
+    "backgroundColor": "transparent"
+  },
+
+  "selectedButtonText": {
+    "textAlign": "left",
+    "marginLeft": 8,
+    "marginRight": 32,
+    "color": "#448aff",
+    "fontSize": 13,
+    "fontFamily": "Roboto",
+    "fontWeight": "bold",
+    "backgroundColor": "transparent"
+  },
+
+  "selectedCheckmarkContainer": {
+    "backgroundColor": "pink",
+    "height": 10,
+    "width": 14,
+    "maxHeight": 10,
+    "maxWidth": 14,
+    "marginLeft": 9,
+    "color": "#448aff"
+  },
+
+  "selectedCheckmarkIcon": {
+    "flex": 1,
+    "fontFamily": "ooyala-slick-type",
+    "fontSize": 16,
+    "color": "#448aff"
+  }
+
+      
+}

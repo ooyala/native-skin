@@ -67,6 +67,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekStartedNotification:) name:OOOoyalaPlayerSeekStartedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekCompletedNotification:) name:OOOoyalaPlayerSeekCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasVRContentNotification:) name:OOOoyalaPlayerVideoHasVRContent object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasMultiAudioNotification:) name:OOOoyalaPlayerMultiAudioEnabledNotification object:self.player];
   }
 }
 
@@ -202,25 +203,6 @@
                                  @"width":frameWidth,
                                  @"height":frameHeight,
                                  @"volume": volume}];
-  
-  // Multi audio
-  
-  if (self.player.hasMultipleAudioTracks) {
-    eventBody[@"multiAudioEnabled"] = [NSNumber numberWithBool:YES];
-    eventBody[@"selectedAudioTrack"] = self.player.selectedAudioTrack.name;
-
-    // Create audio tracks names array
-    
-    NSMutableArray *audioTracksTitles = [NSMutableArray new];
-    
-    for (OOAudioTrack *audioTrack in [self.player availableAudioTracks]) {
-      [audioTracksTitles addObject:audioTrack.name];
-    }
-    
-    eventBody[@"audioTracksTitles"] = audioTracksTitles;
-  } else {
-    eventBody[@"multiAudioEnabled"] = [NSNumber numberWithBool:NO];
-  }
   
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
   [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];
@@ -360,6 +342,21 @@
 - (void)bridgeHasVRContentNotification:(NSNotification *)notification {
   NSDictionary *userInfo = notification.userInfo;
   [self.viewController sendBridgeEventWithName:notification.name body:userInfo];
+}
+
+- (void)bridgeHasMultiAudioNotification:(NSNotification *)notification {
+  NSMutableDictionary *eventBody = [NSMutableDictionary new];
+  NSMutableArray *audioTracksTitles = [NSMutableArray new];
+  
+  for (OOAudioTrack *audioTrack in [self.player availableAudioTracks]) {
+    [audioTracksTitles addObject:audioTrack.name];
+  }
+
+  eventBody[@"selectedAudioTrack"] = self.player.selectedAudioTrack.name;
+  eventBody[@"audioTracksTitles"] = audioTracksTitles;
+  eventBody[@"multiAudioEnabled"] = [NSNumber numberWithBool:self.player.hasMultipleAudioTracks];
+  
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
 - (void)dealloc {

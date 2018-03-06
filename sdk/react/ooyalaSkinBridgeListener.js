@@ -45,7 +45,8 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'error',                    (event) => this.onError(event) ],
     [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ],
     [ 'controllerKeyPressEvent',  (event) => this.onControllerKeyPressed(event) ],
-    [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ]
+    [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ],
+    [ 'multiAudioEnabled',        (event) => this.handleVideoHasMultiAudio(event) ],
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -165,10 +166,7 @@ OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
     width:e.width,
     height:e.height,
     volume:e.volume,
-    caption:null,
-    multiAudioEnabled: e.multiAudioEnabled,
-    audioTracksTitles: e.audioTracksTitles,
-    selectedAudioTrack: e.selectedAudioTrack
+    caption:null
   });
 
   if (!this.skin.state.autoPlay) {
@@ -271,10 +269,11 @@ OoyalaSkinBridgeListener.prototype.onControllerKeyPressed = function(e) {
   this.core.handleControlsTouch();
 };
 
-OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
+OoyalaSkinBridgeListener.prototype.handleVideoHasMultiAudio = function (e) {
   this.skin.setState({
-    vrContent: e.vrContent,
-    stereoSupported: e.stereoSupported
+    multiAudioEnabled: e.multiAudioEnabled,
+    audioTracksTitles: e.audioTracksTitles,
+    selectedAudioTrack: e.selectedAudioTrack
   });
 };
 
