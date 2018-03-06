@@ -1,11 +1,11 @@
 {
+  "row": {  
+    "flex": 1,
+    "flexDirection": "row"
+  },
 
-    "row": {  
-      "flexDirection": "row"
-    },
-  
-    "column": {
-      "flexDirection": "column"
-    }
-
+  "column": {
+    "flex": 1,
+    "flexDirection": "column"
   }
+}

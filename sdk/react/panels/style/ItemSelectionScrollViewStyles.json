@@ -1,12 +1,7 @@
 {
-  "panelContainer": {
-    "flex": 1,
-    "flexDirection": "column",
-    "alignItems": "stretch"
-  },
-
   "item": {
-    "minHeight": 33
+    "minHeight": 33,
+    "backgroundColor": "transparent"
   },
 
   "itemContainer": {
@@ -17,6 +12,7 @@
   },
 
   "button": {
+    "flex": 1,
     "flexDirection":"row",
     "alignItems":"center",
     "justifyContent": "center",
@@ -24,6 +20,7 @@
   },
 
   "selectedButton": {
+    "flex": 1,
     "flexDirection":"row",
     "alignItems":"center",
     "justifyContent": "center",
@@ -32,7 +29,7 @@
 
   "buttonText": {
     "textAlign": "left",
-    "marginLeft": 8,
+    "minWidth": 0,
     "marginRight": 32,
     "color": "white",
     "fontSize": 13,
@@ -42,7 +39,7 @@
 
   "selectedButtonText": {
     "textAlign": "left",
-    "marginLeft": 8,
+    "minWidth": 0,
     "marginRight": 32,
     "color": "#448aff",
     "fontSize": 13,
@@ -66,7 +63,5 @@
     "fontFamily": "ooyala-slick-type",
     "fontSize": 16,
     "color": "#448aff"
-  }
-
-      
+  }  
 }

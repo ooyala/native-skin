@@ -7,7 +7,6 @@
 import React, { Component } from 'react';
 import {
   Animated,
-  ListView,
   ScrollView,
   StyleSheet,
   Text,
@@ -67,17 +66,13 @@ var ItemSelectionScrollView = React.createClass({
   render: function() {
     var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     return (
-      <Animated.View style={styles.panelContainer}>
-        <ScrollView indicatorStyle={"white"}>
-          <ItemSelectionList
-            horizontal={false}
-            data={this.props.items}
-            itemRender={this.renderItem}
-            width={this.props.width}
-            height={this.props.height}>
-          </ItemSelectionList>
-        </ScrollView>
-      </Animated.View>
+      <ItemSelectionList
+        horizontal={false}
+        data={this.props.items}
+        itemRender={this.renderItem}
+        width={this.props.width}
+        height={this.props.height}>
+      </ItemSelectionList>
     );
   },
 

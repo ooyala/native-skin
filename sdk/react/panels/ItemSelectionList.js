@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  TouchableHighlight,
   ScrollView
 } from 'react-native';
 
@@ -20,35 +19,28 @@ var ItemSelectionList = React.createClass({
   },
 
   renderItems: function(items) {
-    var itemStyle = this.props.horizontal ? styles.column : styles.row;
-
     var renderItem = this.renderItem;
     var renderedItems = items.map((item, index) => (
         this.props.itemRender(item, index)
     ));
       
-    return (
-     <View style={itemStyle}> 
-        {renderedItems}
-     </View>
-    );
+    return (renderedItems);
   },
 
   render: function() {
     var listBound = this.props.horizontal ? this.props.width : this.props.height;
     var itemBound = this.props.horizontal ? this.props.itemWidth : this.props.itemHeight;
+    var scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
 
     return (
-      <View style={{flex: 1}}>
-        <ScrollView
-          style={{flex: 1, width: this.props.width}}
-          horizontal={this.props.horizontal}
-          directionalLockEnabled={true}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        style={{scrollViewStyle}}
+        indicatorStyle={"white"} // Can't move this property to json styles file because it doesn't work
+        horizontal={this.props.horizontal}
+        directionalLockEnabled={true}>
           {this.renderItems(this.props.data)}
-        </ScrollView>
-      </View>);
+      </ScrollView>
+    );
   },
 
 

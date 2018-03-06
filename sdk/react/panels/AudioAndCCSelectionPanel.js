@@ -48,14 +48,6 @@ var AudioAndCCSelectionPanel = React.createClass({
     };
   },
 
-  getSelectedStyle: function() {
-    if (this.props.config.general.accentColor) {
-      return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
-    } else {
-      return styles.selectedButton;
-    }
-  },
-
   componentDidMount:function () {
     this.state.opacity.setValue(0);
     Animated.parallel([
