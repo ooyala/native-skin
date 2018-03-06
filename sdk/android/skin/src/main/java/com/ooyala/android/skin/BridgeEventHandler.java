@@ -30,4 +30,6 @@ public interface BridgeEventHandler {
 
   void onAudioTrackSelected(ReadableMap parameters);
 
+  void onDefaultAudioLanguageSet(ReadableMap parameters);
+
 }
