@@ -47,6 +47,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'controllerKeyPressEvent',  (event) => this.onControllerKeyPressed(event) ],
     [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ],
     [ 'multiAudioEnabled',        (event) => this.handleVideoHasMultiAudio(event) ],
+    [ 'audioTrackChanged',        (event) => this.handleAudioTrackChanged(event) ],
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -270,11 +271,20 @@ OoyalaSkinBridgeListener.prototype.onControllerKeyPressed = function(e) {
 };
 
 OoyalaSkinBridgeListener.prototype.handleVideoHasMultiAudio = function (e) {
+  Log.log("Vide has multi audio received");
   this.skin.setState({
     multiAudioEnabled: e.multiAudioEnabled,
     audioTracksTitles: e.audioTracksTitles,
     selectedAudioTrack: e.selectedAudioTrack
   });
 };
+
+OoyalaSkinBridgeListener.prototype.handleAudioTrackChanged = function (e) {
+  Log.log("Audio track changed received:" + e.selectedAudioTrack);
+  this.skin.setState({
+    selectedAudioTrack: e.selectedAudioTrack
+  });
+};
+
 
 module.exports = OoyalaSkinBridgeListener;

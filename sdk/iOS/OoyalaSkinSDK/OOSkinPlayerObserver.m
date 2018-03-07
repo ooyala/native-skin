@@ -68,6 +68,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekCompletedNotification:) name:OOOoyalaPlayerSeekCompletedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasVRContentNotification:) name:OOOoyalaPlayerVideoHasVRContent object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasMultiAudioNotification:) name:OOOoyalaPlayerMultiAudioEnabledNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAudioTrackChangedNotification:) name:OOOoyalaPlayerAudioTrackChangedNotification object:self.player];
   }
 }
 
@@ -355,6 +356,12 @@
   eventBody[@"selectedAudioTrack"] = self.player.selectedAudioTrack.name;
   eventBody[@"audioTracksTitles"] = audioTracksTitles;
   eventBody[@"multiAudioEnabled"] = [NSNumber numberWithBool:self.player.hasMultipleAudioTracks];
+  
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgeAudioTrackChangedNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = @{@"selectedAudioTrack": self.player.selectedAudioTrack.name};
   
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
