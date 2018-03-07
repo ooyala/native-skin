@@ -6,6 +6,7 @@
 
   "itemContainer": {
     "flex": 1,
+    "marginLeft": 32,
     "flexDirection":"row",
     "alignItems":"center",
     "backgroundColor": "transparent"
@@ -15,7 +16,6 @@
     "flex": 1,
     "flexDirection":"row",
     "alignItems":"center",
-    "justifyContent": "center",
     "backgroundColor": "transparent"
   },
 
@@ -23,7 +23,6 @@
     "flex": 1,
     "flexDirection":"row",
     "alignItems":"center",
-    "justifyContent": "center",
     "backgroundColor": "rgba(0, 0, 0, 0.2)"
   },
 
@@ -49,17 +48,17 @@
   },
 
   "selectedCheckmarkContainer": {
-    "backgroundColor": "pink",
-    "height": 10,
-    "width": 14,
-    "maxHeight": 10,
-    "maxWidth": 14,
+    "position": "absolute",
+    "top": 0,
+    "bottom": 0,
+    "alignItems": "center",
+    "justifyContent": "center",
+    "maxWidth": 20,
     "marginLeft": 9,
     "color": "#448aff"
   },
 
   "selectedCheckmarkIcon": {
-    "flex": 1,
     "fontFamily": "ooyala-slick-type",
     "fontSize": 16,
     "color": "#448aff"

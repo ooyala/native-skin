@@ -42,7 +42,7 @@ var ItemSelectionScrollView = React.createClass({
     var isSelectedItem = this.isSelected(item);
     var buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     var textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
-    var checkmarkIcon = isSelectedItem ? this.props.config.icons.dismiss.fontString : "";
+    var checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
     return (
       <TouchableHighlight
         key={index}

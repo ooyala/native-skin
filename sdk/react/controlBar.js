@@ -49,6 +49,7 @@ var ControlBar = React.createClass({
     handleControlsTouch: React.PropTypes.func.isRequired,
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
+    сlosedCaptionsEnabled: React.PropTypes.bool,
     stereoSupported: React.PropTypes.bool,
     multiAudioEnabled: React.PropTypes.bool
   },
@@ -231,6 +232,10 @@ var ControlBar = React.createClass({
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
         if (this.props.stereoSupported){
+          pushControl(item);
+        }
+      } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC)  {
+        if (this.props.multiAudioEnabled || this.props.сlosedCaptionsEnabled) {
           pushControl(item);
         }
       } else {

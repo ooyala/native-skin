@@ -39,8 +39,7 @@
   "panelHeaderViewLeftView": {
     "flex": 1,
     "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "red"
+    "alignItems": "center"
   },
 
   "panelHeaderViewLeftText": {
@@ -56,8 +55,7 @@
   "panelHeaderViewRightView": {
     "flex": 1,
     "alignItems": "center",
-    "flexDirection": "row",
-    "backgroundColor": "yellow"
+    "flexDirection": "row"
   },
 
   "panelHeaderViewRightText": {

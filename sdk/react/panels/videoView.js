@@ -140,7 +140,7 @@ var VideoView = React.createClass({
   },
 
   _renderBottomOverlay: function(show) {
-    var shouldShowClosedCaptionsButton =
+    var сlosedCaptionsEnabled =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
@@ -158,7 +158,7 @@ var VideoView = React.createClass({
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
       handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-      showClosedCaptionsButton={shouldShowClosedCaptionsButton}
+      сlosedCaptionsEnabled={сlosedCaptionsEnabled}
       showWatermark={this.props.showWatermark}
       isShow={show}
       screenReaderEnabled={this.props.screenReaderEnabled}

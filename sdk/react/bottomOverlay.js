@@ -62,6 +62,7 @@ var BottomOverlay = React.createClass({
     shouldShowLandscape: React.PropTypes.bool,
     screenReaderEnabled: React.PropTypes.bool,
     config: React.PropTypes.object,
+    сlosedCaptionsEnabled: React.PropTypes.bool, 
     stereoSupported: React.PropTypes.bool,
     multiAudioEnabled: React.PropTypes.bool
   },
@@ -282,6 +283,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
         handleControlsTouch={this.props.handleControlsTouch}
         showWatermark={this.props.showWatermark}
         config={this.props.config}
+        сlosedCaptionsEnabled={this.props.сlosedCaptionsEnabled}
         stereoSupported={this.props.stereoSupported}
         multiAudioEnabled={this.props.multiAudioEnabled}
       />

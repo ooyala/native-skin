@@ -68,9 +68,9 @@ var AudioAndCCSelectionPanel = React.createClass({
   },
 
   onClosedCaptionsLanguageSelected: function(name) {
-    var offButtonTitle = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
+    var offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
 
-    if (name == offButtonTitle) {
+    if (name == offButtonLocalizedTitle) {
       this.props.onSelectClosedCaptions("");
     } else if (this.props.selectedClosedCaptionsLanguage !== name) {
       this.props.onSelectClosedCaptions(name);
@@ -81,17 +81,31 @@ var AudioAndCCSelectionPanel = React.createClass({
     this.props.onDismiss();
   },
 
-  renderHeaderView: function() {
-    var audioTitle = Utils.localizedString(this.props.config.locale, "Audio", this.props.config.localizableStrings);
-    var subtitlesTitle = Utils.localizedString(this.props.config.locale, "Subtitles", this.props.config.localizableStrings);
+  renderHeaderView: function(hasMultiAudioTracks, hasClosedCaptions) {
+    var leftTitle;
+    var rightTitle;
 
+    var localizedAudioTitle = Utils.localizedString(this.props.config.locale, "Audio", this.props.config.localizableStrings);
+    var localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale, "Subtitles", this.props.config.localizableStrings);
+
+    if (hasMultiAudioTracks && hasClosedCaptions) {
+       leftTitle = localizedAudioTitle;
+       rightTitle = localizedSubtitlesTitle;
+    } else if (hasMultiAudioTracks) {
+      leftTitle = localizedAudioTitle;
+      rightTitle = "";
+    } else {
+      leftTitle = localizedSubtitlesTitle;
+      rightTitle = "";
+    }
+    
     return (
       <View style={styles.panelHeaderView}>
         <View style={styles.panelHeaderViewLeftView}>
-          <Text style={[styles.panelHeaderViewLeftText]}>{audioTitle}</Text>
+          <Text style={[styles.panelHeaderViewLeftText]}>{leftTitle}</Text>
         </View>
         <View style={styles.panelHeaderViewRightView}>
-          <Text style={[styles.panelHeaderViewRightText]}>{subtitlesTitle}</Text>
+          <Text style={[styles.panelHeaderViewRightText]}>{rightTitle}</Text>
           <TouchableHighlight style={styles.dismissButton}
             accessible={true}
             accessibilityLabel={BUTTON_NAMES.DISMISS} 
@@ -141,11 +155,40 @@ var AudioAndCCSelectionPanel = React.createClass({
       </ItemSelectionScrollView>
     );
   },
+
+  renderPanelsContainerView: function(hasMultiAudioTracks, hasClosedCaptions) {
+    if (hasMultiAudioTracks && hasClosedCaptions) {
+      // Return mixed panels with audio and CC
+      return (
+        <View style={styles.panelItemSelectionContainerView}>
+          {this.renderAudioSelectionScrollView()}
+          <View style={styles.panelItemSelectionContainerSeparationView}/>
+          {this.renderCCSelectionScrollView()}     
+        </View>
+      );
+    } else if (hasMultiAudioTracks) {
+      // Return only audio panel
+      return (
+        <View style={styles.panelItemSelectionContainerView}>
+          {this.renderAudioSelectionScrollView()}
+        </View>
+      );
+    } else {
+      // Return only CC panel
+      return (
+        <View style={styles.panelItemSelectionContainerView}>
+          {this.renderCCSelectionScrollView()}
+        </View>
+      );
+    }
+  },
+
   render: function() {
-    var hasMultiAudioTracks = false;
+    var hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
+    var hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
 
     if (this.props.selectedAudioTrackTitle && this.props.selectedAudioTrackTitle !== '') {
-        hasMultiAudioTracks = true;
+      hasMultiAudioTracks = true;
     }
 
     var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
@@ -153,14 +196,8 @@ var AudioAndCCSelectionPanel = React.createClass({
 
     return (
       <Animated.View style={[styles.panelContainer, styles.panel, animationStyle]}>
-        {this.renderHeaderView()}
-
-        <View style={styles.panelItemSelectionContainerView}>
-          {this.renderAudioSelectionScrollView()}
-          <View style={styles.panelItemSelectionContainerSeparationView}/>
-          {this.renderCCSelectionScrollView()}
-        </View>
-
+        {this.renderHeaderView(hasMultiAudioTracks, hasClosedCaptions)}
+        {this.renderPanelsContainerView(hasMultiAudioTracks, hasClosedCaptions)}
       </Animated.View>
     );
   },
