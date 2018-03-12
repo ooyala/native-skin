@@ -62,7 +62,9 @@ var BottomOverlay = React.createClass({
     shouldShowLandscape: React.PropTypes.bool,
     screenReaderEnabled: React.PropTypes.bool,
     config: React.PropTypes.object,
+    сlosedCaptionsEnabled: React.PropTypes.bool, 
     stereoSupported: React.PropTypes.bool,
+    multiAudioEnabled: React.PropTypes.bool
   },
 
   getDefaultProps: function() {
@@ -265,22 +267,27 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
   },
 
   _renderControlBar: function() {
-    return (<ControlBar
-      ref='controlBar'
-      primaryButton={this.props.primaryButton}
-      platform={this.props.platform}
-      playhead={this.props.playhead}
-      duration={this.props.duration}
-      volume={this.props.volume}
-      live={this.props.live}
-      width={this.props.width - 2 * leftMargin}
-      height={this.props.height}
-      fullscreen = {this.props.fullscreen}
-      onPress={this.props.onPress}
-      handleControlsTouch={this.props.handleControlsTouch}
-      showWatermark={this.props.showWatermark}
-      config={this.props.config}
-      stereoSupported={this.props.stereoSupported} />);
+    return (
+      <ControlBar
+        ref='controlBar'
+        primaryButton={this.props.primaryButton}
+        platform={this.props.platform}
+        playhead={this.props.playhead}
+        duration={this.props.duration}
+        volume={this.props.volume}
+        live={this.props.live}
+        width={this.props.width - 2 * leftMargin}
+        height={this.props.height}
+        fullscreen = {this.props.fullscreen}
+        onPress={this.props.onPress}
+        handleControlsTouch={this.props.handleControlsTouch}
+        showWatermark={this.props.showWatermark}
+        config={this.props.config}
+        сlosedCaptionsEnabled={this.props.сlosedCaptionsEnabled}
+        stereoSupported={this.props.stereoSupported}
+        multiAudioEnabled={this.props.multiAudioEnabled}
+      />
+    );
   },
 
   playedPercent: function(playhead, duration) {

@@ -53,6 +53,7 @@ var VideoView = React.createClass({
     fullscreen: React.PropTypes.bool,
     cuePoints: React.PropTypes.array,
     stereoSupported: React.PropTypes.bool,
+    multiAudioEnabled: React.PropTypes.bool,
     handlers:  React.PropTypes.shape({
       onPress: React.PropTypes.func,
       onAdOverlay: React.PropTypes.func,
@@ -139,7 +140,7 @@ var VideoView = React.createClass({
   },
 
   _renderBottomOverlay: function(show) {
-    var shouldShowClosedCaptionsButton =
+    var сlosedCaptionsEnabled =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
@@ -157,10 +158,12 @@ var VideoView = React.createClass({
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
       handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-      showClosedCaptionsButton={shouldShowClosedCaptionsButton}
+      сlosedCaptionsEnabled={сlosedCaptionsEnabled}
       showWatermark={this.props.showWatermark}
       isShow={show}
       screenReaderEnabled={this.props.screenReaderEnabled}
+      stereoSupported={this.props.stereoSupported}
+      multiAudioEnabled={this.props.multiAudioEnabled}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -168,7 +171,7 @@ var VideoView = React.createClass({
         live: this.props.config.live,
         general: this.props.config.general
       }}
-      stereoSupported={this.props.stereoSupported}/>);
+      />);
   },
 
   _renderPlaceholder: function() {
