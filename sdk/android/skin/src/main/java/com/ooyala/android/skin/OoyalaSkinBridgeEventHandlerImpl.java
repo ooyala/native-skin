@@ -151,12 +151,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   @Override
   public void onAudioTrackSelected(ReadableMap parameters) {
-    _player.setAudioTrack(parameters.getString("audioTrack"));
-  }
-
-  @Override
-  public void onDefaultAudioLanguageSet(ReadableMap parameters) {
-    _player.setSkinDefaultAudioLanguage(parameters.getString("language"));
+    _player.setUserDefinedAudioTrack(parameters.getString("audioTrack"));
   }
 
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {

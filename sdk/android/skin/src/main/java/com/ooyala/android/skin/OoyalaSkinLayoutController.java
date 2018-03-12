@@ -187,6 +187,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       try {
         launchOptions = BundleJSONConverter.convertToBundle(configJson);
         closedCaptionsSkinStyle = configJson.getJSONObject("closedCaptionOptions");
+        setDefaultAudioLanguage(configJson.getJSONObject("audio"));
       } catch (JSONException e) {
         e.printStackTrace();
         launchOptions = null;
@@ -294,6 +295,17 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       // Localization file for current locale is not set in config. Ignore.
     }
     return languageFiles;
+  }
+
+  private void setDefaultAudioLanguage(JSONObject audioLanguage) {
+    try {
+      String language = audioLanguage.getString("audioLanguage");
+      if (language != null) {
+        _player.setConfigDefaultAudioLanguage(language);
+      }
+    } catch (JSONException e) {
+      // Localization file for default audio language is not set in config. Ignore.
+    }
   }
 
   @Override
