@@ -270,6 +270,12 @@ OoyalaSkinBridgeListener.prototype.onControllerKeyPressed = function(e) {
   this.core.handleControlsTouch();
 };
 
+OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
+  this.skin.setState({
+    vrContent: e.vrContent,
+    stereoSupported: e.stereoSupported
+}); 
+
 OoyalaSkinBridgeListener.prototype.handleVideoHasMultiAudio = function (e) {
   Log.log("Vide has multi audio received");
   this.skin.setState({

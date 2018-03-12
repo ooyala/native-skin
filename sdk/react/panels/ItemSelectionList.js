@@ -34,7 +34,7 @@ var ItemSelectionList = React.createClass({
 
     return (
       <ScrollView
-        style={{scrollViewStyle}}
+        style={scrollViewStyle}
         indicatorStyle={"white"} // Can't move this property to json styles file because it doesn't work
         horizontal={this.props.horizontal}
         directionalLockEnabled={true}>

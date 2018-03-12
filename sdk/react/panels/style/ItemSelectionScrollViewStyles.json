@@ -54,8 +54,7 @@
     "alignItems": "center",
     "justifyContent": "center",
     "maxWidth": 20,
-    "marginLeft": 9,
-    "color": "#448aff"
+    "marginLeft": 9
   },
 
   "selectedCheckmarkIcon": {
