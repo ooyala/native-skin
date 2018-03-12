@@ -204,10 +204,8 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       var percentLabel = parseInt(playedPercent * 100, 10) + "%"
       return (
         <View
-          accessible={true}
           testID={VIEW_NAMES.TIME_SEEK_BAR}
           accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
-          accessibilityLabel={percentLabel}
           style={styles.progressBarStyle}>
           {this._renderProgressBar(playedPercent)}
           {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
