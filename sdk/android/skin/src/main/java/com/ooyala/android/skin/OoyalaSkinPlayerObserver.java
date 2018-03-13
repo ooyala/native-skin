@@ -224,10 +224,8 @@ class OoyalaSkinPlayerObserver implements Observer {
 
   private void bridgeMultiAudioEnabledNotification() {
     Set<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
-    if (!audioTracks.isEmpty()) {
-      WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
-      _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
-    }
+    WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
+    _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
   }
 
   private void bridgeAudioTrackSelectedNotification() {
