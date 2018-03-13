@@ -7,10 +7,6 @@
 import React, { Component } from 'react';
 import {
   Animated,
-  ListView,
-  ScrollView,
-  StyleSheet,
-  SwitchIOS,
   Text,
   TouchableHighlight,
   View,
@@ -19,13 +15,11 @@ import {
 var animationDuration = 1000;
 var Constants = require('../constants');
 var {
-  BUTTON_NAMES,
-  ICONS
+  BUTTON_NAMES
 } = Constants;
 
 var Utils = require('../utils');
 var styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
-var panelStyles = require('./style/panelStyles');
 var ItemSelectionScrollView = require('./ItemSelectionScrollView');
 
 var AudioAndCCSelectionPanel = React.createClass({
@@ -191,7 +185,6 @@ var AudioAndCCSelectionPanel = React.createClass({
       hasMultiAudioTracks = true;
     }
 
-    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     var animationStyle = {opacity:this.state.opacity};
 
     return (
@@ -206,4 +199,3 @@ var AudioAndCCSelectionPanel = React.createClass({
 });
 
 module.exports = AudioAndCCSelectionPanel;
-
