@@ -6,9 +6,6 @@
 
 import React, { Component } from 'react';
 import {
-  Animated,
-  ScrollView,
-  StyleSheet,
   Text,
   TouchableHighlight,
   View,
@@ -43,6 +40,7 @@ var ItemSelectionScrollView = React.createClass({
     var buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     var textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
     var checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
+
     return (
       <TouchableHighlight
         key={index}
@@ -67,11 +65,9 @@ var ItemSelectionScrollView = React.createClass({
     var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     return (
       <ItemSelectionList
-        horizontal={false}
+        horizontal={renderHorizontal}
         data={this.props.items}
-        itemRender={this.renderItem}
-        width={this.props.width}
-        height={this.props.height}>
+        itemRender={this.renderItem}>
       </ItemSelectionList>
     );
   },

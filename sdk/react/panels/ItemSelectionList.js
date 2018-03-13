@@ -1,7 +1,11 @@
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ */
+'use strict';
+
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  View,
   ScrollView
 } from 'react-native';
 
@@ -11,15 +15,10 @@ var ItemSelectionList = React.createClass({
   propTypes: {
     horizontal: React.PropTypes.bool,
     data: React.PropTypes.array,
-    itemRender: React.PropTypes.func,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    itemWidth: React.PropTypes.number,
-    itemHeight: React.PropTypes.number
+    itemRender: React.PropTypes.func
   },
 
   renderItems: function(items) {
-    var renderItem = this.renderItem;
     var renderedItems = items.map((item, index) => (
         this.props.itemRender(item, index)
     ));
@@ -28,10 +27,7 @@ var ItemSelectionList = React.createClass({
   },
 
   render: function() {
-    var listBound = this.props.horizontal ? this.props.width : this.props.height;
-    var itemBound = this.props.horizontal ? this.props.itemWidth : this.props.itemHeight;
     var scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
-
     return (
       <ScrollView
         style={scrollViewStyle}

@@ -7,8 +7,6 @@
   "itemContainer": {
     "flex": 1,
     "marginLeft": 32,
-    "flexDirection":"row",
-    "alignItems":"center",
     "backgroundColor": "transparent"
   },
 
