@@ -324,11 +324,12 @@ class BridgeMessageBuilder {
     WritableMap params = Arguments.createMap();
     WritableArray audioTracksTitles = Arguments.createArray();
 
-    for (AudioTrack track : audioTracks) {
-      audioTracksTitles.pushString(track.getTrackTitle());
+    if (audioTracks != null) {
+      for (AudioTrack track : audioTracks) {
+        audioTracksTitles.pushString(track.getTrackTitle());
+      }
     }
-
-    params.putBoolean("multiAudioEnabled", true);
+    params.putBoolean("multiAudioEnabled", audioTracksTitles.size() > 1);
     params.putArray("audioTracksTitles", audioTracksTitles);
     return params;
   }
