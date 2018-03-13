@@ -180,11 +180,6 @@ var AudioAndCCSelectionPanel = React.createClass({
   render: function() {
     var hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
     var hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
-
-    if (this.props.selectedAudioTrackTitle && this.props.selectedAudioTrackTitle !== '') {
-      hasMultiAudioTracks = true;
-    }
-
     var animationStyle = {opacity:this.state.opacity};
 
     return (

@@ -278,7 +278,7 @@ OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
 };
 
 OoyalaSkinBridgeListener.prototype.handleVideoHasMultiAudio = function (e) {
-  Log.log("Video has multi audio received");
+  Log.log("Video has multi audio received: " + e.multiAudioEnabled + " titles: " + e.audioTracksTitles + " selectedTrack: " + e.selectedAudioTrack);
   this.skin.setState({
     multiAudioEnabled: e.multiAudioEnabled,
     audioTracksTitles: e.audioTracksTitles,
