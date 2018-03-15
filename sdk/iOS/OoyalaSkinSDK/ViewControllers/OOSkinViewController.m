@@ -159,6 +159,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     // VR properties
     _isVRStereoMode = NO;
     
+    // Audio settings
+    
+    [self setupAudioSettingsFromConfig:_skinConfig];
+    
     // Interface orientation support
     _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
     _isManualOrientaionChange = NO;
@@ -349,6 +353,15 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification
                                                       object:self
                                                     userInfo:@{@"fullScreen": @(isFullscreen)}];
+}
+
+- (void)setupAudioSettingsFromConfig:(NSDictionary *)config {
+  NSDictionary *audioSettingsJSON = [config objectForKey:@"audio"];
+  NSString *defaultAudioLanguageCide = [audioSettingsJSON objectForKey:@"audioLanguage"];
+
+  if (defaultAudioLanguageCide) {
+    
+  }
 }
 
 #pragma mark - Discovery UI

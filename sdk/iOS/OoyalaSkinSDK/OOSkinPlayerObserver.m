@@ -350,10 +350,10 @@
   NSMutableArray *audioTracksTitles = [NSMutableArray new];
   
   for (OOAudioTrack *audioTrack in [self.player availableAudioTracks]) {
-    [audioTracksTitles addObject:audioTrack.name];
+    [audioTracksTitles addObject:audioTrack.title];
   }
 
-  eventBody[@"selectedAudioTrack"] = self.player.selectedAudioTrack.name;
+  eventBody[@"selectedAudioTrack"] = self.player.selectedAudioTrack.title;
   eventBody[@"audioTracksTitles"] = audioTracksTitles;
   eventBody[@"multiAudioEnabled"] = [NSNumber numberWithBool:self.player.hasMultipleAudioTracks];
   
