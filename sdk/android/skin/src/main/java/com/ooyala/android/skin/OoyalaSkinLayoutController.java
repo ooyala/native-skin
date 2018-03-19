@@ -297,6 +297,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     return languageFiles;
   }
 
+  /**
+   * Set the default audio language from skin.json provided the language exists.
+   *
+   * @param audioLanguage The part of the config that define the default audio language.
+   */
   private void setDefaultAudioLanguage(JSONObject audioLanguage) {
     try {
       String language = audioLanguage.getString("audioLanguage");

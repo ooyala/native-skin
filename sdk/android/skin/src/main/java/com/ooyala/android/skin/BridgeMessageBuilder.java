@@ -320,6 +320,11 @@ class BridgeMessageBuilder {
     return params;
   }
 
+  /**
+   * @return Multi audio params.
+   *
+   * @param audioTracks The list of available audio tracks for the current asset.
+   */
   public static WritableMap buildMultiAudioParams(Set<AudioTrack> audioTracks) {
     WritableMap params = Arguments.createMap();
     WritableArray audioTracksTitles = Arguments.createArray();

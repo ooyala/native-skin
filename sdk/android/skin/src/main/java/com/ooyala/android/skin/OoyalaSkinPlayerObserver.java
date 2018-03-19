@@ -222,12 +222,18 @@ class OoyalaSkinPlayerObserver implements Observer {
       _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
   }
 
+  /**
+   * Send the notification to Skin if multi audio is enabled or not for the current asset.
+   */
   private void bridgeMultiAudioEnabledNotification() {
     Set<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
     WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
     _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
   }
 
+  /**
+   * Send the notification to Skin if audio track is selected for the current asset.
+   */
   private void bridgeAudioTrackSelectedNotification() {
     AudioTrack selectedAudioTrack = _player.getCurrentAudioTrack();
     if (selectedAudioTrack != null) {
