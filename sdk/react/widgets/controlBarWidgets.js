@@ -53,7 +53,9 @@ var controlBarWidget = React.createClass({
         scrubberStyle.push({top: 5});
     }
     if (options.showVolume) {
+      let volumePercentLabel = "Volume percent is: " + options.volume;
         volumeScrubber = <VolumeView
+            accessibilityLabel={volumePercentLabel}
             style={scrubberStyle}
             color={options.volumeControlColor}
             volume={options.volume} />;

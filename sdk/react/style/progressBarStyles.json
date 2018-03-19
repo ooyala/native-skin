@@ -1,8 +1,9 @@
 {
   "container": {
+    "accessible": true,
   	"flexDirection": "row",
     "height": 3,
     "marginVertical": 6,
-    "marginHorizontal": 20,
+    "marginHorizontal": 20
   }
 }

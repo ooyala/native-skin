@@ -66,31 +66,34 @@ var ProgressBar = React.createClass({
       var bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
     }
 
-    var playedStyle = {backgroundColor: playedColor, flex: playedPercent};
-    var backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent};
-    var bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent};
+    var playedStyle = {backgroundColor: playedColor, flex: playedPercent, accessible: true};
+    var backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent, accessible: true};
+    var bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent, accessible: true};
     
     var progressStyles = StyleSheet.create({played:playedStyle, background:backgroundStyle, buffered:bufferedStyle});
     return (
       <View
-        style={styles.container}
+        height={3}
+        flexDirection={"row"}
+        marginVertical={6}
+        marginHorizontal={20}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
       >
         <View
           style={progressStyles.played}
           testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
-          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED} />
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}/>
 
         <View
           style={progressStyles.background}
           testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
-          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND} />
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}/>
 
         <View
           style={progressStyles.buffered}
           testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
-          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED} />
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}/>
 
       </View>
     );
