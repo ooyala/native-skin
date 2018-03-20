@@ -50,7 +50,7 @@
 		52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */; };
 		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
 		5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */; };
-		754CBCDA203DE7CF0086CE53 /* FullscreenStateController.h in Headers */ = {isa = PBXBuildFile; fileRef = 754CBCD8203DE7CF0086CE53 /* FullscreenStateController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		754CBCDA203DE7CF0086CE53 /* FullscreenStateController.h in Headers */ = {isa = PBXBuildFile; fileRef = 754CBCD8203DE7CF0086CE53 /* FullscreenStateController.h */; };
 		754CBCDB203DE7CF0086CE53 /* FullscreenStateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 754CBCD9203DE7CF0086CE53 /* FullscreenStateController.m */; };
 		75BCA7C91F850C2800B3F4E6 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75BCA7C81F850C2800B3F4E6 /* OoyalaSDK.framework */; };
 		75EA81B220441EAA000BDFE8 /* FullscreenStateOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 75EA81B020441EAA000BDFE8 /* FullscreenStateOperation.h */; };

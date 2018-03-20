@@ -15,14 +15,16 @@
 @property (nonatomic, copy) void (^completeStateChanges)();
 @property (nonatomic) BOOL isFullscreen;
 
-// 'executing' and 'finished' exist in NSOperation, but are readonly
-@property (atomic, assign) BOOL _executing;
-@property (atomic, assign) BOOL _finished;
+@property (atomic, readwrite) BOOL executing;
+@property (atomic, readwrite) BOOL finished;
 
 @end
 
 
 @implementation FullscreenStateOperation
+
+@synthesize executing = _executing;
+@synthesize finished = _finished;
 
 #pragma mark - Initialization
 
@@ -56,7 +58,7 @@
   }
   
   [self willChangeValueForKey:@"isExecuting"];
-  self._executing = YES;
+  self.executing = YES;
   [self didChangeValueForKey:@"isExecuting"];
   
   dispatch_group_t dispatchGroup = dispatch_group_create();
@@ -92,11 +94,11 @@
 }
 
 - (BOOL)isExecuting {
-  return self._executing;
+  return _executing;
 }
 
 - (BOOL)isFinished {
-  return self._finished;
+  return _finished;
 }
 
 #pragma mark - Private functions
@@ -105,8 +107,8 @@
   [self willChangeValueForKey:@"isFinished"];
   [self willChangeValueForKey:@"isExecuting"];
   
-  self._executing = NO;
-  self._finished = YES;
+  self.executing = NO;
+  self.finished = YES;
   
   [self didChangeValueForKey:@"isExecuting"];
   [self didChangeValueForKey:@"isFinished"];
@@ -117,7 +119,7 @@
   // Move the operation to the finished state if it is canceled
   
   [self willChangeValueForKey:@"isFinished"];
-  self._finished = YES;
+  self.finished = YES;
   [self didChangeValueForKey:@"isFinished"];
 }
 
