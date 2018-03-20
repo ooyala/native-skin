@@ -49,7 +49,9 @@ var ControlBar = React.createClass({
     handleControlsTouch: React.PropTypes.func.isRequired,
     live: React.PropTypes.object,
     config: React.PropTypes.object.isRequired,
+    сlosedCaptionsEnabled: React.PropTypes.bool,
     stereoSupported: React.PropTypes.bool,
+    multiAudioEnabled: React.PropTypes.bool
   },
 
   getDefaultProps: function() {
@@ -95,10 +97,6 @@ var ControlBar = React.createClass({
     this.props.onPress && this.props.onPress(BUTTON_NAMES.SHARE);
   },
 
-  onClosedCaptionsPress: function() {
-    this.props.onPress && this.props.onPress(BUTTON_NAMES.CLOSED_CAPTIONS);
-  },
-
   onDiscoveryPress: function() {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.DISCOVERY);
   },
@@ -117,6 +115,10 @@ var ControlBar = React.createClass({
 
   onStereoscopicPress: function () {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.STEREOSCOPIC);
+  },
+
+  onAudioAndCCPress: function () {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.AUDIO_AND_CC);
   },
 
   render: function() {
@@ -193,12 +195,6 @@ var ControlBar = React.createClass({
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       },
-      closedCaption: {
-        onPress: this.onClosedCaptionsPress,
-        iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.config.icons.cc
-      },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
@@ -210,6 +206,12 @@ var ControlBar = React.createClass({
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.stereoscopic
+      },
+      audioAndCC: {
+        onPress: this.onAudioAndCCPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        icon: this.props.config.icons.audioAndCC,
       },
     };
 
@@ -232,6 +234,10 @@ var ControlBar = React.createClass({
         if (this.props.stereoSupported){
           pushControl(item);
         }
+      } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC)  {
+        if (this.props.multiAudioEnabled || this.props.сlosedCaptionsEnabled) {
+          pushControl(item);
+        }
       } else {
         pushControl(item);
       }
@@ -243,6 +249,7 @@ var ControlBar = React.createClass({
       </View>
     );
   }
+
 });
 
 module.exports = ControlBar;

@@ -45,7 +45,9 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'error',                    (event) => this.onError(event) ],
     [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ],
     [ 'controllerKeyPressEvent',  (event) => this.onControllerKeyPressed(event) ],
-    [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ]
+    [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ],
+    [ 'multiAudioEnabled',        (event) => this.handleVideoHasMultiAudio(event) ],
+    [ 'audioTrackChanged',        (event) => this.handleAudioTrackChanged(event) ],
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -153,6 +155,7 @@ OoyalaSkinBridgeListener.prototype.onAdError = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
   Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
+  
   this.skin.setState({
     title:e.title,
     description:e.description,
@@ -164,10 +167,13 @@ OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
     width:e.width,
     height:e.height,
     volume:e.volume,
-    caption:null});
+    caption:null
+  });
+
   if (!this.skin.state.autoPlay) {
     this.skin.setState({screenType: SCREEN_TYPES.START_SCREEN});
   };
+
   this.core.clearOverlayStack();
 };
 
@@ -268,7 +274,24 @@ OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
   this.skin.setState({
     vrContent: e.vrContent,
     stereoSupported: e.stereoSupported
+  }); 
+};
+
+OoyalaSkinBridgeListener.prototype.handleVideoHasMultiAudio = function (e) {
+  Log.log("Video has multi audio received: " + e.multiAudioEnabled + " titles: " + e.audioTracksTitles + " selectedTrack: " + e.selectedAudioTrack);
+  this.skin.setState({
+    multiAudioEnabled: e.multiAudioEnabled,
+    audioTracksTitles: e.audioTracksTitles,
+    selectedAudioTrack: e.selectedAudioTrack
   });
 };
+
+OoyalaSkinBridgeListener.prototype.handleAudioTrackChanged = function (e) {
+  Log.log("Audio track changed received:" + e.selectedAudioTrack);
+  this.skin.setState({
+    selectedAudioTrack: e.selectedAudioTrack
+  });
+};
+
 
 module.exports = OoyalaSkinBridgeListener;

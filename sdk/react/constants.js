@@ -27,7 +27,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   // more option buttons
   DISCOVERY: 'discovery',
   QUALITY: 'quality',
-  CLOSED_CAPTIONS: 'closedCaption',
+  AUDIO_AND_CC: 'audioAndCC',
   SHARE: 'share',
   SETTING: 'settings',
   STEREOSCOPIC: 'stereoscopic',
@@ -78,7 +78,7 @@ var SCREEN_TYPES = {
 var OVERLAY_TYPES = {
   DISCOVERY_SCREEN: 'discovery_screen',
   MOREOPTION_SCREEN: 'moreOption',
-  CLOSEDCAPTIONS_SCREEN: 'cc_screen',
+  AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
 }
 
 var OOSTATES = {

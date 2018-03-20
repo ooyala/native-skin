@@ -67,14 +67,20 @@ OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
   this.bridge.onLanguageSelected({language:e});
 };
 
+OoyalaSkinCore.prototype.handleAudioTrackSelection = function(e) {
+  Log.log("onAudioTrackSelected:" + e);
+  this.skin.setState({selectedAudioTrack:e});
+  this.bridge.onAudioTrackSelected({audioTrack:e});
+};
+
 // event handlers.
 OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
   switch (buttonName) {
     case BUTTON_NAMES.DISCOVERY:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
       break;
-    case BUTTON_NAMES.CLOSED_CAPTIONS:
-      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
+    case BUTTON_NAMES.AUDIO_AND_CC:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
       break;
     case BUTTON_NAMES.SHARE:
       this.ooyalaSkinPanelRenderer.renderSocialOptions();
@@ -100,8 +106,8 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
     case BUTTON_NAMES.DISCOVERY:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
       break;
-    case BUTTON_NAMES.CLOSED_CAPTIONS:
-      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CLOSEDCAPTIONS_SCREEN);
+    case BUTTON_NAMES.AUDIO_AND_CC:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
       break;
     case BUTTON_NAMES.SHARE:
       this.ooyalaSkinPanelRenderer.renderSocialOptions();
