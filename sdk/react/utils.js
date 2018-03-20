@@ -229,6 +229,19 @@ var Utils = {
         return "An unknown error occurred";
     }
   },
+
+  makeAccessibilityLabelWithParams: function(baseLabel, value, type) {
+    switch (type) {
+      case "scrubber":
+        return `${value} ${baseLabel}`;
+      case "volume":
+        return `${baseLabel} ${value}`;
+      default:
+        return value;
+    }
+  }
 };
+
+
 
 module.exports = Utils;

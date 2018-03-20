@@ -17,7 +17,7 @@ var VolumeView = require('./VolumeView');
 var styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 var Log = require('../log');
 
-var Constants = require('./../constants');
+var Constants = require('../constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,

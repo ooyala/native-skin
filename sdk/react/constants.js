@@ -108,6 +108,14 @@ var VALUES = {
   SEEK_VALUE: 10,
 };
 
+let ACCESSIBILITY_LABELS = {
+  scrubberBarPercent: "% of video progress"
+};
+
+const ACCESSIBILITY_LABELS_TYPE = {
+  scrubber: "scrubber",
+};
+
 MAX_DATE_VALUE = 8640000000000000;
 AUTOHIDE_DELAY = 5000;
 module.exports = {
@@ -125,4 +133,6 @@ module.exports = {
   DESIRED_STATES,
   STRING_CONSTANTS,
   VALUES,
+  ACCESSIBILITY_LABELS,
+  ACCESSIBILITY_LABELS_TYPE
 };

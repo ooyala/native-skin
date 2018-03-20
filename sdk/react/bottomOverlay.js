@@ -7,12 +7,9 @@
 import React, { Component } from 'react';
 import {
   Animated,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
   View,
   Slider,
+  NativeModules
 } from 'react-native';
 
 var Constants = require('./constants');
@@ -26,7 +23,8 @@ var {
   VALUES,
 } = Constants;
 
-var AndroidAccessibility = require('NativeModules').AndroidAccessibility;
+const AccessibilityInfo = NativeModules.AccessibilityInfoModule;
+const AndroidAccessibility = NativeModules.AndroidAccessibility;
 var Log = require('./log');
 var Utils = require('./utils');
 var ProgressBar = require('./progressBar');
@@ -111,6 +109,15 @@ var BottomOverlay = React.createClass({
     }
   },
 
+  componentDidMount: function () {
+    console.log("AccessibilityInfo is: " + Object.getOwnPropertyNames(AccessibilityInfo));
+    AccessibilityInfo.fetch().done((isEnabled) => {
+      this.setState({
+        accessibilityEnabled: isEnabled
+      });
+    });
+  },
+
 /*
 If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
 */
@@ -172,7 +179,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
   },
 
   _renderProgressBar: function(percent) {
-    return (<ProgressBar accessible={true} ref='progressBar' percent={percent} config={this.props.config} ad={this.props.ad}/>);
+    return (<ProgressBar accessible={false} ref='progressBar' percent={percent} config={this.props.config} ad={this.props.ad}/>);
   },
 
   _renderCompleteProgressBar: function() {
@@ -184,7 +191,13 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
-    let percentLabel = parseInt(playedPercent * 100, 10) + "% of video progress";
+    let percentValue = parseInt(playedPercent * 100, 10);
+    let percentLabel = Utils.makeAccessibilityLabelWithParams(
+      Constants.ACCESSIBILITY_LABELS.scrubberBarPercent,
+      percentValue,
+      Constants.ACCESSIBILITY_LABELS_TYPE.scrubber
+    );
+
     if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
       var minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
       var maximumTrackTintColor = this.props.config.controlBar.scrubberBar.bufferedColor;
@@ -204,6 +217,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
     } else {
       return (
         <View
+          accessible={this.state.accessibilityEnabled}
           testID={VIEW_NAMES.TIME_SEEK_BAR}
           accessibilityLabel={percentLabel}
           style={styles.progressBarStyle}>
