@@ -19,17 +19,20 @@
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOSeekInfo.h>
-#import <OoyalaSDK/OOAudioTrackProtocol.h>
-
+#import <OoyalaSDK/OOMultiAudioProtocol.h>
+#import <OoyalaSDK/OOAudioTrack.h>
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
 #import "OOConstant.h"
+
 
 @interface OOSkinPlayerObserver ()
 
   @property (weak) OOOoyalaPlayer *player;
   @property (weak) OOSkinViewController *viewController;
+
 @end
+
 
 @implementation OOSkinPlayerObserver
   
@@ -193,17 +196,16 @@
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
   NSNumber *volume = [NSNumber numberWithFloat:[OOVolumeManager getCurrentVolume]];
   
-  NSMutableDictionary *eventBody = [[NSMutableDictionary alloc] initWithDictionary:
-                               @{@"title":title,
-                                 @"description":itemDescription,
-                                 @"promoUrl":promoUrl,
-                                 @"hostedAtUrl": hostedAtUrl,
-                                 @"duration":durationNumber,
-                                 @"live":live,
-                                 @"languages":closedCaptionsLanguages,
-                                 @"width":frameWidth,
-                                 @"height":frameHeight,
-                                 @"volume": volume}];
+  NSDictionary *eventBody = @{@"title":title,
+                              @"description":itemDescription,
+                              @"promoUrl":promoUrl,
+                              @"hostedAtUrl": hostedAtUrl,
+                              @"duration":durationNumber,
+                              @"live":live,
+                              @"languages":closedCaptionsLanguages,
+                              @"width":frameWidth,
+                              @"height":frameHeight,
+                              @"volume": volume};
   
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
   [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];
@@ -361,7 +363,7 @@
 }
 
 - (void)bridgeAudioTrackChangedNotification:(NSNotification *)notification {
-  NSDictionary *eventBody = @{@"selectedAudioTrack": self.player.selectedAudioTrack.name};
+  NSDictionary *eventBody = @{@"selectedAudioTrack": self.player.selectedAudioTrack.title};
   
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
