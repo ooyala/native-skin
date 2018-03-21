@@ -64,7 +64,7 @@ var AudioAndCCSelectionPanel = React.createClass({
   onClosedCaptionsLanguageSelected: function(name) {
     var offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
 
-    if (name == offButtonLocalizedTitle) {
+    if (name === offButtonLocalizedTitle) {
       this.props.onSelectClosedCaptions("");
     } else if (this.props.selectedClosedCaptionsLanguage !== name) {
       this.props.onSelectClosedCaptions(name);
@@ -135,7 +135,7 @@ var AudioAndCCSelectionPanel = React.createClass({
       this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle)
     }
 
-    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage == offButtonTitle || selectedClosedCaptionsLanguage == "") {
+    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === "") {
       selectedClosedCaptionsLanguage = offButtonTitle;
     }
 
