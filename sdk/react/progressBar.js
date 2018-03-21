@@ -66,17 +66,14 @@ var ProgressBar = React.createClass({
       var bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
     }
 
-    var playedStyle = {backgroundColor: playedColor, flex: playedPercent, accessible: true};
-    var backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent, accessible: true};
-    var bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent, accessible: true};
+    var playedStyle = {backgroundColor: playedColor, flex: playedPercent};
+    var backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent};
+    var bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent};
     
     var progressStyles = StyleSheet.create({played:playedStyle, background:backgroundStyle, buffered:bufferedStyle});
     return (
       <View
-        height={3}
-        flexDirection={"row"}
-        marginVertical={6}
-        marginHorizontal={20}
+        style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
       >
