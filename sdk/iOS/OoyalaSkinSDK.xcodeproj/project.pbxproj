@@ -50,7 +50,11 @@
 		52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */; };
 		5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */; };
 		5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */; };
+		754CBCDA203DE7CF0086CE53 /* FullscreenStateController.h in Headers */ = {isa = PBXBuildFile; fileRef = 754CBCD8203DE7CF0086CE53 /* FullscreenStateController.h */; };
+		754CBCDB203DE7CF0086CE53 /* FullscreenStateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 754CBCD9203DE7CF0086CE53 /* FullscreenStateController.m */; };
 		75BCA7C91F850C2800B3F4E6 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75BCA7C81F850C2800B3F4E6 /* OoyalaSDK.framework */; };
+		75EA81B220441EAA000BDFE8 /* FullscreenStateOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 75EA81B020441EAA000BDFE8 /* FullscreenStateOperation.h */; };
+		75EA81B320441EAA000BDFE8 /* FullscreenStateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EA81B120441EAA000BDFE8 /* FullscreenStateOperation.m */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8861AE6F008005043DC /* OOReactBridge.m */; };
 		972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8871AE6F008005043DC /* OOSkinViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -202,7 +206,11 @@
 		52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinFullScreenViewController.m; sourceTree = "<group>"; };
 		5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinAutoUpdatingClosedCaptionsStyle.h; sourceTree = "<group>"; };
 		5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinAutoUpdatingClosedCaptionsStyle.m; sourceTree = "<group>"; };
+		754CBCD8203DE7CF0086CE53 /* FullscreenStateController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FullscreenStateController.h; sourceTree = "<group>"; };
+		754CBCD9203DE7CF0086CE53 /* FullscreenStateController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FullscreenStateController.m; sourceTree = "<group>"; };
 		75BCA7C81F850C2800B3F4E6 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
+		75EA81B020441EAA000BDFE8 /* FullscreenStateOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FullscreenStateOperation.h; sourceTree = "<group>"; };
+		75EA81B120441EAA000BDFE8 /* FullscreenStateOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FullscreenStateOperation.m; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		972ED8851AE6F008005043DC /* OOReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactBridge.h; sourceTree = "<group>"; };
@@ -315,9 +323,21 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		754CBCD7203DE7BE0086CE53 /* FullscreenStateController */ = {
+			isa = PBXGroup;
+			children = (
+				754CBCD8203DE7CF0086CE53 /* FullscreenStateController.h */,
+				754CBCD9203DE7CF0086CE53 /* FullscreenStateController.m */,
+				75EA81B020441EAA000BDFE8 /* FullscreenStateOperation.h */,
+				75EA81B120441EAA000BDFE8 /* FullscreenStateOperation.m */,
+			);
+			path = FullscreenStateController;
+			sourceTree = "<group>";
+		};
 		757AE19E1F741A1E00D60C02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				754CBCD7203DE7BE0086CE53 /* FullscreenStateController */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
@@ -468,6 +488,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75EA81B220441EAA000BDFE8 /* FullscreenStateOperation.h in Headers */,
 				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
 				0B55FDAE1E2EFC5D0019A764 /* OOQueuedEvent.h in Headers */,
@@ -485,6 +506,7 @@
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
+				754CBCDA203DE7CF0086CE53 /* FullscreenStateController.h in Headers */,
 				0BCABD971C7F77A900989005 /* CountdownView.h in Headers */,
 				97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */,
 				0BCABD9D1C7F77A900989005 /* OOGradientView.h in Headers */,
@@ -703,6 +725,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */,
+				75EA81B320441EAA000BDFE8 /* FullscreenStateOperation.m in Sources */,
 				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
 				0BCABD9E1C7F77A900989005 /* OOGradientView.m in Sources */,
 				0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */,
@@ -716,6 +739,7 @@
 				0B55FDAF1E2EFC5D0019A764 /* OOQueuedEvent.m in Sources */,
 				0BCABD981C7F77A900989005 /* CountdownView.m in Sources */,
 				52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */,
+				754CBCDB203DE7CF0086CE53 /* FullscreenStateController.m in Sources */,
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */,

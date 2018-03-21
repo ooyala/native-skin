@@ -42,10 +42,6 @@
   return _supportedInterfaceOrientations;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  return NO;
-}
-
 - (BOOL)prefersStatusBarHidden {
   return YES;
 }
