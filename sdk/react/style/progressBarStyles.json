@@ -1,6 +1,5 @@
 {
   "container": {
-    "accessible": true,
   	"flexDirection": "row",
     "height": 3,
     "marginVertical": 6,
