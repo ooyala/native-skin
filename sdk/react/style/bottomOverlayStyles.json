@@ -2,14 +2,14 @@
   "container": {
     "flex": 0,
     "flexDirection": "column",
-    "backgroundColor": "rgba(0,0,0,0.3)",
+    "backgroundColor": "rgba(0,0,0,0.3)"
   },
   "bottomOverlayFlexibleSpace" : {
-    "flex":1,
+    "flex":1
   },
   "progressBarStyle":  {
-    "height":15
-    },
+    "flex":0
+  },
 
   "cuePoint": {
     "flex": 0,
