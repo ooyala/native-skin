@@ -357,10 +357,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)setupAudioSettingsFromConfig:(NSDictionary *)config {
   NSDictionary *audioSettingsJSON = [config objectForKey:@"audio"];
-  NSString *defaultAudioLanguageCide = [audioSettingsJSON objectForKey:@"audioLanguage"];
+  NSString *defaultAudioLanguageCode = [audioSettingsJSON objectForKey:@"audioLanguage"];
 
-  if (defaultAudioLanguageCide) {
-    
+  if (defaultAudioLanguageCode) {
+    [self.player setDefaultConfigAudioTrackLanguageCode:defaultAudioLanguageCode];
   }
 }
 
