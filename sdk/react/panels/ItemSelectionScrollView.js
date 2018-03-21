@@ -26,7 +26,7 @@ var ItemSelectionScrollView = React.createClass({
   },
 
   isSelected: function(name) {
-    return name && name !== '' && name == this.props.selectedItem;
+    return name && name !== "" && name === this.props.selectedItem;
   },
 
   onSelected: function(name) {
