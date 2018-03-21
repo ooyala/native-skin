@@ -23,7 +23,7 @@ var {
   VALUES,
 } = Constants;
 
-const AccessibilityInfo = NativeModules.AccessibilityInfoModule;
+const AccessibilityInfo = require('./accessibility/AccessibilityInfo');
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 var Log = require('./log');
 var Utils = require('./utils');
@@ -110,7 +110,6 @@ var BottomOverlay = React.createClass({
   },
 
   componentDidMount: function () {
-    console.log("AccessibilityInfo is: " + Object.getOwnPropertyNames(AccessibilityInfo));
     AccessibilityInfo.fetch().done((isEnabled) => {
       this.setState({
         accessibilityEnabled: isEnabled
