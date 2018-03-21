@@ -18,7 +18,8 @@
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
-#import <OoyalaSDK/OOAudioTrackProtocol.h>
+#import <OoyalaSDK/OOMultiAudioProtocol.h>
+#import <OoyalaSDK/OOAudioTrack.h>
 #import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
 #import "OOConstant.h"
@@ -209,7 +210,7 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
     // This check is a temporary solution
     // Need to wait conclusion about tracks names (how need create them) from Ooyala
     
-    if (audioTrack.name == audioTrackName) {
+    if ([audioTrack.title isEqualToString:audioTrackName]) {
       [self.controller.player setDefaultAudioTrack:audioTrack];
       [self.controller.player setAudioTrack:audioTrack];
       return;
