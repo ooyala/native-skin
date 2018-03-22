@@ -17,13 +17,14 @@ var VolumeView = require('./VolumeView');
 var styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 var Log = require('../log');
 
-var Constants = require('./../constants');
+var Constants = require('../constants');
 var {
   BUTTON_NAMES,
   IMG_URLS,
   STRING_CONSTANTS
   } = Constants;
 
+const VOLUME_MAX_LEVEL = 15;
 var controlBarWidget = React.createClass({
   propTypes: {
     widgetType: React.PropTypes.object,
@@ -53,10 +54,18 @@ var controlBarWidget = React.createClass({
         scrubberStyle.push({top: 5});
     }
     if (options.showVolume) {
-        volumeScrubber = <VolumeView
-            style={scrubberStyle}
-            color={options.volumeControlColor}
-            volume={options.volume} />;
+      var percenValue;
+      if (options.platform === Constants.PLATFORMS.ANDROID) {
+        percenValue = parseInt((options.volume * 100) / VOLUME_MAX_LEVEL);
+      } else {
+        percenValue = parseInt(options.volume * 100);
+      }
+      let volumePercentLabel = "Volume percent is: " + percenValue;
+      volumeScrubber = <VolumeView
+        accessibilityLabel={volumePercentLabel}
+        style={scrubberStyle}
+        color={options.volumeControlColor}
+        volume={options.volume}/>;
     }
 
     var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
