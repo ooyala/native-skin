@@ -50,8 +50,9 @@ var OoyalaSkin = React.createClass({
       // things which default to null and thus don't have to be stated:
       // selectedLanguage: null,
       // availableClosedCaptionsLanguages: null,
-      // selectedAudioTrack,
-      // audioTracksTitles,
+      // multiAudioEnabled: false,
+      // selectedAudioTrack: null,
+      // audioTracksTitles: null,
       alertTitle: '',
       alertMessage: '',
       error: null,
