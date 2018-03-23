@@ -108,12 +108,17 @@ var VALUES = {
   SEEK_VALUE: 10,
 };
 
-let ACCESSIBILITY_LABELS = {
-  scrubberBarPercent: "% of video progress"
+const VIEW_ACCESSIBILITY_NAMES = {
+  SCRUBBER_BAR_VIEW: 'Scrubber bar',
+  VOLUME_VIEW: 'Volume view'
+};
+
+const ACCESSIBILITY_LABELS = {
+  SEEK_BAR_INFO: 'Use two fingers to adjust the value'
 };
 
 const ACCESSIBILITY_LABELS_TYPE = {
-  scrubber: "scrubber",
+  SEEK_VIEWS: "seek_views",
 };
 
 MAX_DATE_VALUE = 8640000000000000;
@@ -133,6 +138,7 @@ module.exports = {
   DESIRED_STATES,
   STRING_CONSTANTS,
   VALUES,
+  VIEW_ACCESSIBILITY_NAMES,
   ACCESSIBILITY_LABELS,
   ACCESSIBILITY_LABELS_TYPE
 };

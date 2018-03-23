@@ -12,6 +12,7 @@ import {
   SliderIOS,
   TouchableHighlight
 } from 'react-native';
+import * as Utils from "../utils";
 
 var VolumeView = require('./VolumeView');
 var styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
@@ -54,15 +55,13 @@ var controlBarWidget = React.createClass({
         scrubberStyle.push({top: 5});
     }
     if (options.showVolume) {
-      var percenValue;
-      if (options.platform === Constants.PLATFORMS.ANDROID) {
-        percenValue = parseInt((options.volume * 100) / VOLUME_MAX_LEVEL);
-      } else {
-        percenValue = parseInt(options.volume * 100);
-      }
-      let volumePercentLabel = "Volume percent is: " + percenValue;
+      let volumeAccessibleLabel = Utils.makeAccessibilityLabelWithParams(
+        Constants.VIEW_ACCESSIBILITY_NAMES.VOLUME_VIEW,
+        Constants.ACCESSIBILITY_LABELS.SEEK_BAR_INFO,
+        Constants.ACCESSIBILITY_LABELS_TYPE.SEEK_VIEWS
+      );
       volumeScrubber = <VolumeView
-        accessibilityLabel={volumePercentLabel}
+        accessibilityLabel={volumeAccessibleLabel}
         style={scrubberStyle}
         color={options.volumeControlColor}
         volume={options.volume}/>;

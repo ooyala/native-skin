@@ -192,11 +192,10 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
-    let percentValue = parseInt(playedPercent * 100, 10);
-    let percentLabel = Utils.makeAccessibilityLabelWithParams(
-      Constants.ACCESSIBILITY_LABELS.scrubberBarPercent,
-      percentValue,
-      Constants.ACCESSIBILITY_LABELS_TYPE.scrubber
+    let scrubberBarAccessibilityLabel = Utils.makeAccessibilityLabelWithParams(
+      Constants.VIEW_ACCESSIBILITY_NAMES.SCRUBBER_BAR_VIEW,
+      Constants.ACCESSIBILITY_LABELS.SEEK_BAR_INFO,
+      Constants.ACCESSIBILITY_LABELS_TYPE.SEEK_VIEWS
     );
 
     if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
@@ -207,7 +206,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
         <Slider
           style={[{flexDirection: "row", height: 5, marginVertical: 6, marginHorizontal: 20}]}
           testID={VIEW_NAMES.TIME_SEEK_BAR}
-          accessibilityLabel={percentLabel}
+          accessibilityLabel={scrubberBarAccessibilityLabel}
           minimumTrackTintColor={minimumTrackTintColor}
           maximumTrackTintColor={maximumTrackTintColor}
           value={this.props.playhead}
@@ -220,7 +219,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
         <View
           accessible={this.state.accessibilityEnabled}
           testID={VIEW_NAMES.TIME_SEEK_BAR}
-          accessibilityLabel={percentLabel}
+          accessibilityLabel={scrubberBarAccessibilityLabel}
           style={styles.progressBarStyle}>
           {this._renderProgressBar(playedPercent)}
           {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
@@ -355,7 +354,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
      this.setState({touch:false, x:null});
 
      if (this.props.platform === PLATFORMS.ANDROID) {
-       let playedPercent =  this.touchPercent(event.nativeEvent.pageX)
+       let playedPercent =  this.touchPercent(event.nativeEvent.pageX);
        let percentLabel = "Progress bar moved to" + parseInt(playedPercent * 100, 10) + "%";
        AndroidAccessibility.announce(percentLabel);
     }
