@@ -230,12 +230,10 @@ var Utils = {
     }
   },
 
-  makeAccessibilityLabelWithParams: function(baseLabel, value, type) {
+  makeAccessibilityLabelWithParams: function(viewName, baseAccessibleLabel, type) {
     switch (type) {
-      case "scrubber":
-        return `${value} ${baseLabel}`;
-      case "volume":
-        return `${baseLabel} ${value}`;
+      case "seek_views":
+        return `${viewName}. ${baseAccessibleLabel}`;
       default:
         return value;
     }
