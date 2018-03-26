@@ -20,7 +20,7 @@
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOSeekInfo.h>
 #import <OoyalaSDK/OOMultiAudioProtocol.h>
-#import <OoyalaSDK/OOAudioTrack.h>
+#import <OoyalaSDK/OOAudioTrackProtocol.h>
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
 #import "OOConstant.h"
@@ -351,7 +351,7 @@
   NSMutableDictionary *eventBody = [NSMutableDictionary new];
   NSMutableArray *audioTracksTitles = [NSMutableArray new];
   
-  for (OOAudioTrack *audioTrack in [self.player availableAudioTracks]) {
+  for (id<OOAudioTrackProtocol> audioTrack in [self.player availableAudioTracks]) {
     [audioTracksTitles addObject:audioTrack.title];
   }
 

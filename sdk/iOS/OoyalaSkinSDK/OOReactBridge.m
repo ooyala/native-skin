@@ -19,7 +19,7 @@
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import <OoyalaSDK/OOMultiAudioProtocol.h>
-#import <OoyalaSDK/OOAudioTrack.h>
+#import <OoyalaSDK/OOAudioTrackProtocol.h>
 #import "OOSkinViewController+Internal.h"
 #import "OOUpNextManager.h"
 #import "OOConstant.h"
@@ -205,7 +205,7 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
   
   // TODO: Can we move this logic to core?
   
-  for (OOAudioTrack *audioTrack in [self.controller.player availableAudioTracks]) {
+  for (id<OOAudioTrackProtocol> audioTrack in [self.controller.player availableAudioTracks]) {
     
     // This check is a temporary solution
     // Need to wait conclusion about tracks names (how need create them) from Ooyala
