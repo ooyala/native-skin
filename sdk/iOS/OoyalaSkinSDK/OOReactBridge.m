@@ -225,8 +225,17 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
     OOOoyalaPlayer *player = self.controller.player;
     if (player) {
       CMTimeRange seekableRange = player.seekableTimeRange;
-      Float64 duration = CMTimeGetSeconds(seekableRange.duration);
+      
       Float64 start = CMTimeGetSeconds(seekableRange.start);
+      Float64 duration = CMTimeGetSeconds(seekableRange.duration);
+      
+      Float64 maxValueForSeek = start + duration;
+      Float64 timeForSeek = start + duration;
+
+      
+      
+      
+
       NSNumber *position = [parameters objectForKey:percentageKey];
       Float64 playhead = [position doubleValue] * duration + start;
       [player seek:playhead];
