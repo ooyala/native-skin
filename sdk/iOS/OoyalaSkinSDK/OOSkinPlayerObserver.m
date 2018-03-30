@@ -77,54 +77,68 @@
 
 
 // PBA-4831 Return total duration calculated from the seekable range
-- (NSNumber *) getTotalDuration:(OOOoyalaPlayer *)player {
-    CMTimeRange seekableRange = player.seekableTimeRange;
-    Float64 duration;
-    if (CMTIMERANGE_IS_INVALID(seekableRange)) {
-        duration = player.duration;
-    } else {
-        duration = CMTimeGetSeconds(seekableRange.duration);
-    }
-    return [NSNumber numberWithFloat:duration];
+- (NSNumber *)getTotalDuration:(OOOoyalaPlayer *)player {
+  CMTimeRange seekableRange = player.seekableTimeRange;
+  Float64 duration;
+  
+  if (CMTIMERANGE_IS_INVALID(seekableRange)) {
+    duration = player.duration;
+  } else {
+    duration = CMTimeGetSeconds(seekableRange.duration);
+  }
+  return [NSNumber numberWithFloat:duration];
 }
 
 // PBA-4831 Return adjusted playhead calculated from the seekable range
-- (NSNumber *) getAdjustedPlayhead: (OOOoyalaPlayer *)player {
-    CMTimeRange seekableRange = player.seekableTimeRange;
-    Float64 adjustedPlayhead;
-    if (CMTIMERANGE_IS_INVALID(seekableRange)) {
-      adjustedPlayhead = player.playheadTime;
-    } else {
-      adjustedPlayhead = player.playheadTime - CMTimeGetSeconds(seekableRange.start);
-    }
-    return [NSNumber numberWithFloat:adjustedPlayhead];
+- (NSNumber *)getAdjustedPlayhead: (OOOoyalaPlayer *)player {
+  CMTimeRange seekableRange = player.seekableTimeRange;
+  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
+  Float64 adjustedPlayhead;
+  
+  if (CMTIMERANGE_IS_INVALID(seekableRange)) {
+    adjustedPlayhead = player.playheadTime;
+  } else {
+    adjustedPlayhead = player.playheadTime - seekableStart;
+  }
+  return [NSNumber numberWithFloat:adjustedPlayhead];
 }
 
-- (void)bridgeSeekStartedNotification: (NSNotification *)notification {
-  
+- (void)bridgeSeekStartedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
-  NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
-  NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [self getTotalDuration: self.player];
-  NSDictionary *eventBody = @{
-                              @"seekstart":seekStart,
-                              @"seekend":seekEnd,
-                              @"duration":totalDuration};
+  
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
+  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
+  Float64 seekableDuration = CMTimeGetSeconds(seekableRange.duration);
+  Float64 seekStart = seekInfo.seekStart - seekableStart;
+  Float64 seekEnd = seekInfo.seekEnd - seekableStart;
+
+  NSDictionary *eventBody = @{@"seekstart":[NSNumber numberWithFloat:seekStart],
+                              @"seekend":[NSNumber numberWithFloat:seekEnd],
+                              @"duration":[NSNumber numberWithFloat:seekableDuration]};
+  
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
-- (void)bridgeSeekCompletedNotification: (NSNotification *)notification {
+- (void)bridgeSeekCompletedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
-  NSNumber *seekStart = [NSNumber numberWithFloat:seekInfo.seekStart];
-  NSNumber *seekEnd = [NSNumber numberWithFloat:seekInfo.seekEnd];
-  NSNumber *totalDuration = [self getTotalDuration: self.player];
-  NSDictionary *eventBody = @{
-                              @"seekstart":seekStart,
-                              @"seekend":seekEnd,
-                              @"duration":totalDuration,
+  
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
+  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
+  Float64 seekableDuration = CMTimeGetSeconds(seekableRange.duration);
+  Float64 seekStart = seekInfo.seekStart - seekableStart;
+  Float64 seekEnd = seekInfo.seekEnd - seekableStart;
+  
+  if (seekableStart > seekInfo.seekStart) {
+    seekStart = 0;
+  }
+  
+  NSDictionary *eventBody = @{@"seekstart":[NSNumber numberWithFloat:seekStart],
+                              @"seekend":[NSNumber numberWithFloat:seekEnd],
+                              @"duration":[NSNumber numberWithFloat:seekableDuration],
                               @"screenType":@"video"};
+  
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
@@ -155,12 +169,13 @@
   NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
 
-  NSDictionary *eventBody = @{@"duration":durationNumber,
+  NSDictionary *eventBody = @{
+    @"duration":durationNumber,
     @"playhead":playheadNumber,
     @"rate":rateNumber,
     @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages,
     @"cuePoints":cuePoints};
-
+  
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
   [self notifyClosedCaptionsUpdate];
 }
