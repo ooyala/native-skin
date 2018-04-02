@@ -305,7 +305,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private void setDefaultAudioLanguage(JSONObject audioLanguage) {
     try {
       String language = audioLanguage.getString("audioLanguage");
-      if (language != null) {
+      if (language != null && !language.isEmpty()) {
         _player.setConfigDefaultAudioLanguage(language);
       }
     } catch (JSONException e) {
