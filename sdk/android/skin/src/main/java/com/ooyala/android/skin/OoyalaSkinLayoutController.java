@@ -197,13 +197,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _package = new OoyalaReactPackage(this);
     rootView = new ReactRootView(l.getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
-            .setApplication(app)
-            .setBundleAssetName(skinOptions.getBundleAssetName())
-            .setJSMainModuleName("index.android")
-            .addPackage(_package)
-            .setUseDeveloperSupport(BuildConfig.DEBUG)
-            .setInitialLifecycleState(LifecycleState.RESUMED)
-            .build();
+        .setApplication(app)
+        .setBundleAssetName(skinOptions.getBundleAssetName())
+        .setJSMainModuleName("index.android")
+        .addPackage(_package)
+        .setUseDeveloperSupport(BuildConfig.DEBUG)
+        .setInitialLifecycleState(LifecycleState.RESUMED)
+        .build();
     ccStyleChanged();
     // Reload JS from the react server. TODO: does not work after react upgrade
     if (skinOptions.getEnableReactJSServer()) {
@@ -212,9 +212,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
 
     FrameLayout.LayoutParams frameLP =
-            new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT);
+        new FrameLayout.LayoutParams(
+            FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.MATCH_PARENT);
     l.addView(rootView, frameLP);
     rootView.setBackgroundColor(Color.TRANSPARENT);
 
@@ -414,7 +414,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   public boolean onKeyUp(int keyCode, KeyEvent event) {
-    if (_player.getState() != OoyalaPlayer.State.ERROR && _player.hasVRContent()){
+    if (_player.getState() != OoyalaPlayer.State.ERROR && _player.hasVRContent()) {
       return handleKeyUpVR(keyCode, event);
     }
     return false;
@@ -436,7 +436,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
         break;
       case KeyEvent.KEYCODE_MEDIA_REWIND:
-        int timeAfterSeek = Math.max(0,  _player.getPlayheadTime() - REWIND_STEP);
+        int timeAfterSeek = Math.max(0, _player.getPlayheadTime() - REWIND_STEP);
         _player.seek(timeAfterSeek); // << -10sec
         sendEvent(CONTROLLER_KEY_PRESS_EVENT, null);
         handled = true;
@@ -492,7 +492,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     boolean handled = false;
     switch (keyCode) {
       case KeyEvent.KEYCODE_DPAD_LEFT:
-        int timeAfterSeek = Math.max(0,  _player.getPlayheadTime() - REWIND_STEP);
+        int timeAfterSeek = Math.max(0, _player.getPlayheadTime() - REWIND_STEP);
         _player.seek(timeAfterSeek);
         handled = true;
         break;
@@ -555,25 +555,19 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public void switchVRMode(VrMode vrMode) {
-    Context context = getLayout().getContext();
-    if (context instanceof Activity) {
-      Activity activity = (Activity) context;
-      switch (vrMode) {
-        case MONO:
-          // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
-          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
-          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
-          break;
-        case STEREO:
-          // Set up landscape orientation for STEREO mode
-          activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
-          sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
-          break;
-        case NONE:
-          throw new IllegalStateException("Unreal NONE state in switchVRMode(vrMode) from " + this.getClass().getSimpleName());
-      }
-    } else {
-      DebugMode.logE(TAG, "Trying to switch VR mode. The context isn't an instance of Activity.");
+    switch (vrMode) {
+      case MONO:
+        // Restore the screen orientation for MONO mode after switching from landscape STEREO mode
+        setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+        sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeMono");
+        break;
+      case STEREO:
+        // Set up landscape orientation for STEREO mode
+        setOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        sendNotification(VR_MODE_CHANGED_NOTIFICATION_NAME, "vrModeStereo");
+        break;
+      case NONE:
+        throw new IllegalStateException("Unreal NONE state in switchVRMode(vrMode) from " + this.getClass().getSimpleName());
     }
   }
 
@@ -620,9 +614,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
-            _player.getEmbedCode(),
-            _player.getPcode(),
-            ClientId.getId(_layout.getContext()), null, this);
+        _player.getEmbedCode(),
+        _player.getPcode(),
+        ClientId.getId(_layout.getContext()), null, this);
   }
 
   void handleShare() {
@@ -708,9 +702,19 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     if (_reactInstanceManager != null) {
       _reactInstanceManager.destroy();
     }
+    setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
 
     DebugMode.logV(TAG, "SkinLayoutController Destroy");
+  }
 
+  private void setOrientation(int screenOrientationUser) {
+    Context context = getLayout().getContext();
+    if (context instanceof Activity) {
+      Activity activity = (Activity) context;
+      activity.setRequestedOrientation(screenOrientationUser);
+    } else {
+      DebugMode.logE(TAG, "Trying to set orientation. The context isn't an instance of Activity.");
+    }
   }
 
 
@@ -722,13 +726,13 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public boolean onKey(View view, int i, KeyEvent keyEvent) {
-    if(keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK && _player.getVRMode() == VrMode.STEREO) {
+    if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK && _player.getVRMode() == VrMode.STEREO) {
       _player.switchVRMode();
     }
-    if(keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+    if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
       return this.onKeyDown(i, keyEvent);
     }
-    if(keyEvent.getAction() == KeyEvent.ACTION_UP) {
+    if (keyEvent.getAction() == KeyEvent.ACTION_UP) {
       return this.onKeyUp(i, keyEvent);
     }
     return true;
