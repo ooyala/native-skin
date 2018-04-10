@@ -12,6 +12,15 @@
 @property(nonatomic) NSDictionary *skinConfig;
 @property(nonatomic) NSMutableArray *queuedEvents; //QueuedEvent *
 
+
+/**
+ Method is used to obtain real video view frame.
+ View controller's view frame may not be equal to video view frame.
+
+ @return The frame of video view
+ */
+- (CGRect)videoViewFrame;
+
 - (void)queueEventWithName:(NSString *)eventName body:(id)body;
 
 - (void)purgeEvents;

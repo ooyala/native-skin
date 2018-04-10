@@ -205,8 +205,8 @@
   NSString *promoUrl = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
   NSString *hostedAtUrl = self.player.currentItem.hostedAtURL ? self.player.currentItem.hostedAtURL : @"";
   NSNumber *durationNumber = [NSNumber numberWithFloat:self.player.currentItem.duration];
-  NSNumber *frameWidth = [NSNumber numberWithFloat:self.viewController.view.frame.size.width];
-  NSNumber *frameHeight = [NSNumber numberWithFloat:self.viewController.view.frame.size.height];
+  NSNumber *frameWidth = [NSNumber numberWithFloat:[self.viewController videoViewFrame].size.width];
+  NSNumber *frameHeight = [NSNumber numberWithFloat:[self.viewController videoViewFrame].size.height];
   NSNumber *live = [NSNumber numberWithBool:self.player.currentItem.live];
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
   NSNumber *volume = [NSNumber numberWithFloat:[OOVolumeManager getCurrentVolume]];
