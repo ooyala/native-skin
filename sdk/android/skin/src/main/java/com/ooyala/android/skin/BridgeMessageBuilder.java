@@ -42,7 +42,7 @@ class BridgeMessageBuilder {
     }
 
     WritableArray languages = Arguments.createArray();
-    Set<String> ccLanguages = player.getAvailableClosedCaptionsLanguages();
+    Set<String> ccLanguages = player.getAvailableClosedCaptionsLanguagesNames();
     for (Iterator<String> j = ccLanguages.iterator(); j.hasNext(); ) {
       String languageItem = j.next();
       languages.pushString(languageItem);
@@ -99,7 +99,7 @@ class BridgeMessageBuilder {
       params.putInt("volume", currentVolume);
       if (currentItem.hasClosedCaptions()) {
         WritableArray languages = Arguments.createArray();
-        for (String s : currentItem.getClosedCaptions().getLanguages()) {
+        for (String s : currentItem.getClosedCaptions().getLanguagesNames()) {
           languages.pushString(s);
         }
         params.putArray("languages", languages);

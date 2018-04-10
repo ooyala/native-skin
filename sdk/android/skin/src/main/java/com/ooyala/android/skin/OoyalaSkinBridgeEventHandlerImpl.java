@@ -9,6 +9,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
+import com.ooyala.android.item.Video;
 import com.ooyala.android.util.DebugMode;
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
@@ -131,7 +132,13 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   }
 
   public void onLanguageSelected(ReadableMap parameters) {
-    _player.setClosedCaptionsLanguage(parameters.getString("language"));
+    String languageName = parameters.getString("language");
+    String languageCode = languageName;
+    Video currentItem = _player.getCurrentItem();
+    if (currentItem != null && currentItem.getClosedCaptions() != null) {
+      languageCode = currentItem.getClosedCaptions().getLanguageCode(languageName);
+    }
+    _player.setClosedCaptionsLanguage(languageCode);
   }
 
   @Override
