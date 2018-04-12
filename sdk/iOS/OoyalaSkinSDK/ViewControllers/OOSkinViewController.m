@@ -503,6 +503,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 @implementation OOSkinViewController (Internal)
 
+- (CGRect)videoViewFrame {
+  return self.videoView.frame;
+}
+
 - (void)toggleStereoMode {
   dispatch_async(dispatch_get_main_queue(), ^{
     _isVRStereoMode = !_isVRStereoMode;
