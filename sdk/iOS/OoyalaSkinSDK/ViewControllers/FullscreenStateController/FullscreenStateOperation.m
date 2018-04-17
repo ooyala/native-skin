@@ -23,6 +23,8 @@
 
 @implementation FullscreenStateOperation
 
+#pragma mark - Synthesize properties
+
 @synthesize executing = _executing;
 @synthesize finished = _finished;
 
