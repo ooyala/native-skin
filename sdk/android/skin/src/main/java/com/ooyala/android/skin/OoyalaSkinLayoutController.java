@@ -187,7 +187,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       try {
         launchOptions = BundleJSONConverter.convertToBundle(configJson);
         closedCaptionsSkinStyle = configJson.getJSONObject("closedCaptionOptions");
-        setDefaultAudioLanguage(configJson.getJSONObject("audio"));
+        setDefaultAudioLanguage(configJson);
       } catch (JSONException e) {
         e.printStackTrace();
         launchOptions = null;
@@ -300,11 +300,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   /**
    * Set the default audio language from skin.json provided the language exists.
    *
-   * @param audioLanguage The part of the config that define the default audio language.
+   * @param audioParams The part of the config that define the default audio language.
    */
-  private void setDefaultAudioLanguage(JSONObject audioLanguage) {
+  private void setDefaultAudioLanguage(JSONObject audioParams) {
     try {
-      String language = audioLanguage.getString("audioLanguage");
+      String language = audioParams.getJSONObject("audio").getString("audioLanguage");
       if (language != null && !language.isEmpty()) {
         _player.setConfigDefaultAudioLanguage(language);
       }
