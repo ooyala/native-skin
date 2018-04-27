@@ -179,10 +179,12 @@ class OoyalaSkinPlayerObserver implements Observer {
       int errorCode = ex.getIntErrorCode();
       params.putInt("code", errorCode);
 
-      String descrptions = ex.getLocalizedMessage();
-      params.putString("description", descrptions != null ? descrptions : "");
-    }
+      int errorDescriptionCode = ex.getDescriptionCode();
+      params.putInt("descriptionCode", errorDescriptionCode);
 
+      String description = ex.getLocalizedMessage();
+      params.putString("description", description != null ? description : "");
+    }
     _layoutController.sendEvent(OoyalaPlayer.ERROR_NOTIFICATION_NAME, params);
   }
 

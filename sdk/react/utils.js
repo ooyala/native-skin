@@ -224,10 +224,20 @@ var Utils = {
       /* GeoBlocking access denied - TODO add to language files */
       case 31:
         return "Geo access denied";
+      /* Authorization error */
+      case 32:
+        return "AUTHORIZATION ERROR";
       /* Default to Unknown error */    
       default:
         return "An unknown error occurred";
     }
+  },
+
+  descriptionStringFromCode: {
+    /* Unable to register the device to this account */
+    22: "Unable to register this device to this account, as the maximum number of authorized devices has already been reached.",
+    /* Unable to access the content */
+    29: "Unable to access this content, as the maximum number of devices has already been authorized."
   },
 
   makeAccessibilityLabelWithParams: function(viewName, baseAccessibleLabel, type) {
