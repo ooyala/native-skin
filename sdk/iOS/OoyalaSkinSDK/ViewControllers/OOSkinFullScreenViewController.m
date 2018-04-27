@@ -38,6 +38,10 @@
 
 #pragma mark - Override view controller functions
 
+- (BOOL)prefersHomeIndicatorAutoHidden {
+  return YES;
+}
+
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   return _supportedInterfaceOrientations;
 }
