@@ -163,7 +163,7 @@ var Utils = {
         return "INVALID PLAYER TOKEN";
       /* Device limit has been reached */    
       case 11:
-        return "Device limit has been reached";
+        return "AUTHORIZATION ERROR";
       /* Devuce binding failed */    
       case 12:
         return "Device binding failed";
@@ -224,9 +224,6 @@ var Utils = {
       /* GeoBlocking access denied - TODO add to language files */
       case 31:
         return "Geo access denied";
-      /* Authorization error */
-      case 32:
-        return "AUTHORIZATION ERROR";
       /* Default to Unknown error */    
       default:
         return "An unknown error occurred";
