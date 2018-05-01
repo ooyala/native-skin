@@ -22,6 +22,7 @@
 @property (nonatomic) UIViewController *fullscreenViewController;
 @property (nonatomic) NSOperationQueue *operationQueue; // Queue for fullscreen animation
 @property (nonatomic) BOOL isFullscreen;
+@property (nonatomic) BOOL isOriginalStatusBarHidden;
 
 @end
 
@@ -81,10 +82,17 @@
 - (void)configure {
   self.operationQueue = [NSOperationQueue new];
   [self.operationQueue setMaxConcurrentOperationCount:1];
+  self.isOriginalStatusBarHidden = UIApplication.sharedApplication.isStatusBarHidden;
 }
 
 - (void)openFullscreenMode:(nullable void (^)())completion {
   UIWindow *window = [UIApplication sharedApplication].keyWindow;
+  
+  // Update original status bar state
+  
+  if (!self.isFullscreen) {
+    self.isOriginalStatusBarHidden = UIApplication.sharedApplication.isStatusBarHidden;
+  }
   
   // Save root VC
   
@@ -113,22 +121,24 @@
   [window addSubview:self.fullscreenViewController.view];
   [window bringSubviewToFront:self.fullscreenViewController.view];
   
-  // Perform animation
-  
   [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
     self.videoView.frame = window.bounds;
   } completion:^(BOOL finished) {
-    
+
     // Change root VC
-    
+
     window.rootViewController = self.fullscreenViewController;
-    
+
     // Update current fullscreen state
-    
+
     self.isFullscreen = YES;
     
-    // Completion
+    // Hide status bar (it needs when UIViewControllerBasedStatusBarAppearance = YES)
     
+    UIApplication.sharedApplication.statusBarHidden = YES;
+
+    // Completion
+
     if (completion) {
       completion();
     }
@@ -137,6 +147,10 @@
 
 - (void)openInlineMode:(nullable void (^)())completion {
   UIWindow *window = [UIApplication sharedApplication].keyWindow;
+  
+  // Show status bar if needed (it needs when UIViewControllerBasedStatusBarAppearance = YES)
+  
+  UIApplication.sharedApplication.statusBarHidden = self.isOriginalStatusBarHidden;
   
   // Add fullscreen VC on window as subview
   
@@ -148,7 +162,9 @@
   
   CGRect frameInFullscreenView = [self.parentView convertRect:self.containerView.frame
                                                        toView:self.fullscreenViewController.view];
-
+  
+  // Perform animation
+  
   [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
     self.videoView.frame = frameInFullscreenView;
   } completion:^(BOOL finished) {
@@ -164,7 +180,7 @@
     self.isFullscreen = NO;
 
     // Completion
-    
+
     if (completion) {
       completion();
     }

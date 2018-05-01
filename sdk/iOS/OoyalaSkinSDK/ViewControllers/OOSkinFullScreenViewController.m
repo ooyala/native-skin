@@ -42,8 +42,14 @@
   return _supportedInterfaceOrientations;
 }
 
+/// Called when UIViewControllerBasedStatusBarAppearance = YES
 - (BOOL)prefersStatusBarHidden {
   return YES;
+}
+
+/// Called when UIViewControllerBasedStatusBarAppearance = YES
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+  return UIStatusBarAnimationFade;
 }
 
 @end

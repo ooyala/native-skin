@@ -213,6 +213,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   return _fullscreen;
 }
 
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+  return UIStatusBarAnimationFade;
+}
+
 #pragma mark - Private functions
 
 - (void)disableBuiltInAdLearnMoreButton:(OOOoyalaPlayer *)player {
