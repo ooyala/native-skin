@@ -31,17 +31,25 @@ var ErrorScreen = React.createClass({
   },
 
   getDescription: function () {
-    if (this.props.error && this.props.error.description) {
-      var localizedDescription = 
-        Utils.localizedString(this.props.locale, this.props.error.description, this.props.localizableStrings);
-      Log.warn("ERROR: localized description:"+ localizedDescription);
-      return (
-        <Text style={styles.description}>
-          {localizedDescription} 
-        </Text>);
-    }
-    return null; 
-  },
+     if (this.props.error) {
+       var description = null;
+       if (this.props.error.descriptionCode) {
+         description = Utils.descriptionStringFromCode[this.props.error.descriptionCode]
+       }
+       if (!description && this.props.error.description) {
+         description = this.props.error.description
+       }
+       if (description) {
+        let localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+        Log.warn("ERROR: localized description:" + localizedDescription);
+        return (
+          <Text style={styles.description}>
+            {localizedDescription}
+          </Text>);
+       }
+     }
+     return null;
+   },
 
   render: function() {
     var title = this.getTitle();

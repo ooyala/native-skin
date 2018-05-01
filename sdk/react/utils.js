@@ -163,7 +163,7 @@ var Utils = {
         return "INVALID PLAYER TOKEN";
       /* Device limit has been reached */    
       case 11:
-        return "Device limit has been reached";
+        return "AUTHORIZATION ERROR";
       /* Devuce binding failed */    
       case 12:
         return "Device binding failed";
@@ -228,6 +228,13 @@ var Utils = {
       default:
         return "An unknown error occurred";
     }
+  },
+
+  descriptionStringFromCode: {
+    /* Unable to register the device to this account */
+    22: "Unable to register this device to this account, as the maximum number of authorized devices has already been reached.",
+    /* Unable to access the content */
+    29: "Unable to access this content, as the maximum number of devices has already been authorized."
   },
 
   makeAccessibilityLabelWithParams: function(viewName, baseAccessibleLabel, type) {
