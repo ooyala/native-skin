@@ -108,6 +108,16 @@ var VALUES = {
   SEEK_VALUE: 10,
 };
 
+const SAS_ERROR_CODES = {
+  '22': 'account_device_limit',
+  '29': 'entitlement_device_limit'
+};
+
+const ERROR_MESSAGE = {
+  'account_device_limit': 'Unable to register this device to this account, as the maximum number of authorized devices has already been reached. Error Code 22',
+  'entitlement_device_limit': 'Unable to access this content, as the maximum number of devices has already been authorized. Error Code 29'
+};
+
 const VIEW_ACCESSIBILITY_NAMES = {
   SCRUBBER_BAR_VIEW: 'Scrubber bar',
   VOLUME_VIEW: 'Volume view'
@@ -138,6 +148,8 @@ module.exports = {
   DESIRED_STATES,
   STRING_CONSTANTS,
   VALUES,
+  SAS_ERROR_CODES,
+  ERROR_MESSAGE,
   VIEW_ACCESSIBILITY_NAMES,
   ACCESSIBILITY_LABELS,
   ACCESSIBILITY_LABELS_TYPE
