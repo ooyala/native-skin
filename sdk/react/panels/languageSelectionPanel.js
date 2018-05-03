@@ -4,6 +4,8 @@
  */
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import {
   Animated,
@@ -30,24 +32,22 @@ var PreviewWidget = require('../languageSelectionPreview');
 var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
 var panelStyles = require('./style/panelStyles');
 
-var LanguageSelectionPanel = React.createClass({
-  propTypes: {
-    languages: React.PropTypes.array,
-    selectedLanguage: React.PropTypes.string,
-    onSelect: React.PropTypes.func,
-    onDismiss: React.PropTypes.func,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    config: React.PropTypes.object
-  },
+class LanguageSelectionPanel extends React.Component {
+  static propTypes = {
+    languages: PropTypes.array,
+    selectedLanguage: PropTypes.string,
+    onSelect: PropTypes.func,
+    onDismiss: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    config: PropTypes.object
+  };
 
-  getInitialState: function() {
-    return {
-      opacity: new Animated.Value(0)
-    };
-  },
+  state = {
+    opacity: new Animated.Value(0)
+  };
 
-  componentDidMount:function () {
+  componentDidMount() {
     this.state.opacity.setValue(0);
     Animated.parallel([
       Animated.timing(
@@ -58,34 +58,35 @@ var LanguageSelectionPanel = React.createClass({
           delay: 0
         }),
     ]).start();
-  },
+  }
 
-  isSelected: function(name) {
+  isSelected = (name) => {
     return name && name !== '' && name == this.props.selectedLanguage;
-  },
+  };
 
-  onSelected: function(name) {
+  onSelected = (name) => {
     if (this.props.selectedLanguage !== name) {
       this.props.onSelect(name);
     }
-  },
+  };
 
-  onDismissPress: function() {
+  onDismissPress = () => {
     this.props.onDismiss();
-  },
+  };
 
-  onSwitchToggled: function(switchOn) {
+  onSwitchToggled = (switchOn) => {
     if (switchOn) {
       this.onSelected(this.props.languages[0]);
     } else {
       this.onSelected('');
     }
-  },
+  };
 
-  onTouchEnd: function(event) {
+  onTouchEnd = (event) => {
     // ignore.
-  },
-  renderHeader: function(hasCC) {
+  };
+
+  renderHeader = (hasCC) => {
     var title = Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings);
     var switchOnText = Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings);
     var switchOffText = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
@@ -149,9 +150,9 @@ var LanguageSelectionPanel = React.createClass({
         </Text>
       </TouchableHighlight>
     </View>);
-  },
+  };
 
-  render: function() {
+  render() {
     var hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
@@ -190,17 +191,17 @@ var LanguageSelectionPanel = React.createClass({
         </ScrollView>
       </Animated.View>
     );
-  },
+  }
 
-  getSelectedStyle: function() {
+  getSelectedStyle = () => {
     if (this.props.config.general.accentColor) {
       return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
     } else {
       return styles.selectedButton;
     }
-  },
+  };
 
-  renderItem: function(item: object, itemId: number) {
+  renderItem = (item: object, itemId: number) => {
     var itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
     return (
       <TouchableHighlight
@@ -214,7 +215,7 @@ var LanguageSelectionPanel = React.createClass({
         </View>
       </TouchableHighlight>
     );
-  },
-});
+  };
+}
 
 module.exports = LanguageSelectionPanel;

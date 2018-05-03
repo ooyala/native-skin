@@ -1,5 +1,7 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import {
   Animated,
@@ -15,18 +17,16 @@ var {
   UI_SIZES
 } = Constants;
 
-var LanguageSelectionPreview = React.createClass({
-  propTypes: {
-    config: React.PropTypes.object,
-    selectedLanguage: React.PropTypes.string,
-    isVisible: React.PropTypes.bool
-  },
+class LanguageSelectionPreview extends React.Component {
+  static propTypes = {
+    config: PropTypes.object,
+    selectedLanguage: PropTypes.string,
+    isVisible: PropTypes.bool
+  };
 
-  getInitialState() {
-    return {
-      height: new Animated.Value(this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT: 0)
-    };
-  },
+  state = {
+    height: new Animated.Value(this.props.isVisible ? UI_SIZES.CC_PREVIEW_HEIGHT: 0)
+  };
 
   componentDidUpdate(prevProps, prevState) {
     this.state.height.setValue(this.props.isVisible ? 0 : UI_SIZES.CC_PREVIEW_HEIGHT);
@@ -35,7 +35,7 @@ var LanguageSelectionPreview = React.createClass({
       duration: 300,
       delay: 0
     }).start();
-  },
+  }
 
   render() {
     return (
@@ -48,6 +48,6 @@ var LanguageSelectionPreview = React.createClass({
       </Animated.View>
     );
   }
-});
+}
 
 module.exports = LanguageSelectionPreview;

@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
@@ -23,26 +25,26 @@ var {
 
 var Utils = require('./utils');
 
-var AdBar = React.createClass({
-  propTypes: {
-    ad: React.PropTypes.object,
-    playhead: React.PropTypes.number,
-    duration: React.PropTypes.number,
-    onPress: React.PropTypes.func,
-    width: React.PropTypes.number,
-    localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string
-  },
+class AdBar extends React.Component {
+  static propTypes = {
+    ad: PropTypes.object,
+    playhead: PropTypes.number,
+    duration: PropTypes.number,
+    onPress: PropTypes.func,
+    width: PropTypes.number,
+    localizableStrings: PropTypes.object,
+    locale: PropTypes.string
+  };
 
-  onLearnMore: function() { 
+  onLearnMore = () => { 
     this.props.onPress(BUTTON_NAMES.LEARNMORE);
-  }, 
+  };
 
-  onSkip: function() {
+  onSkip = () => {
     this.props.onPress(BUTTON_NAMES.SKIP);
-  },
+  };
 
-  generateResponsiveText: function(showLearnMore,showSkip) {
+  generateResponsiveText = (showLearnMore, showSkip) => {
     var textString;
     var adTitle = this.props.ad.title ? this.props.ad.title + " ": " ";
     var count = this.props.ad.count ? this.props.ad.count : 1;
@@ -95,9 +97,9 @@ var AdBar = React.createClass({
     } 
 
     return textString;
-  },
+  };
 
-  render: function() {
+  render() {
     var learnMoreButton;
     var showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
     var showSkip = this.props.playhead >= this.props.ad.skipoffset;
@@ -147,6 +149,6 @@ var AdBar = React.createClass({
       </View>
       );
   }
-});
+}
 
 module.exports = AdBar;

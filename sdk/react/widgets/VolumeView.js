@@ -1,15 +1,17 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import {
   View, 
   requireNativeComponent, 
 } from 'react-native';
-  
+
 var iface = {
   name: 'VolumeView',
   propTypes: {
-    volume: React.PropTypes.object,
+    volume: PropTypes.object,
   }
 };
 

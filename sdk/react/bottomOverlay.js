@@ -1,29 +1,29 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
+import createReactClass from 'create-react-class';
 import {
   Animated,
   View,
   Slider,
-  NativeModules
+  NativeModules,
+  AccessibilityInfo
 } from 'react-native';
 
 var Constants = require('./constants');
 var {
-  BUTTON_NAMES,
   VIEW_NAMES,
-  IMG_URLS,
   UI_SIZES,
-  STRING_CONSTANTS,
   PLATFORMS,
   VALUES,
 } = Constants;
 
-const AccessibilityInfo = require('./accessibility/AccessibilityInfo');
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 var Log = require('./log');
 var Utils = require('./utils');
@@ -32,42 +32,43 @@ var ControlBar = require('./controlBar');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
-var progressBarStyles = Utils.getStyles(require('./style/progressBarStyles.json'));
 var topMargin = 6;
 var leftMargin = 20;
 var progressBarHeight = 3;
 var scrubberSize = 14;
 var scrubTouchableDistance = 45;
 var cuePointSize = 8;
-var BottomOverlay = React.createClass({
+var BottomOverlay = createReactClass({
+  displayName: 'BottomOverlay',
 
   propTypes: {
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    primaryButton: React.PropTypes.string,
-    fullscreen: React.PropTypes.bool,
-    cuePoints: React.PropTypes.array,
-    playhead: React.PropTypes.number,
-    duration: React.PropTypes.number,
-    ad: React.PropTypes.object,
-    volume: React.PropTypes.number,
-    onPress: React.PropTypes.func,
-    onScrub: React.PropTypes.func,
-    handleControlsTouch: React.PropTypes.func.isRequired,
-    isShow: React.PropTypes.bool,
-    shouldShowProgressBar: React.PropTypes.bool,
-    live: React.PropTypes.object,
-    shouldShowLandscape: React.PropTypes.bool,
-    screenReaderEnabled: React.PropTypes.bool,
-    config: React.PropTypes.object,
-    сlosedCaptionsEnabled: React.PropTypes.bool, 
-    stereoSupported: React.PropTypes.bool,
-    multiAudioEnabled: React.PropTypes.bool
+    width: PropTypes.number,
+    height: PropTypes.number,
+    primaryButton: PropTypes.string,
+    fullscreen: PropTypes.bool,
+    cuePoints: PropTypes.array,
+    playhead: PropTypes.number,
+    duration: PropTypes.number,
+    ad: PropTypes.object,
+    volume: PropTypes.number,
+    onPress: PropTypes.func,
+    onScrub: PropTypes.func,
+    handleControlsTouch: PropTypes.func.isRequired,
+    isShow: PropTypes.bool,
+    shouldShowProgressBar: PropTypes.bool,
+    live: PropTypes.object,
+    shouldShowLandscape: PropTypes.bool,
+    screenReaderEnabled: PropTypes.bool,
+    config: PropTypes.object,
+    сlosedCaptionsEnabled: PropTypes.bool, 
+    stereoSupported: PropTypes.bool,
+    multiAudioEnabled: PropTypes.bool
   },
 
   getDefaultProps: function() {
     return {"shouldShowProgressBar": true};
   },
+
   getInitialState: function() {
     if (this.props.isShow) {
       return {
@@ -119,9 +120,9 @@ var BottomOverlay = React.createClass({
     });
   },
 
-/*
-If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
-*/
+  /*
+  If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
+  */
   componentWillReceiveProps: function(nextProps) {
     if (this.props.playhead != nextProps.playhead) {
        this.setState({cachedPlayhead:-1.0});

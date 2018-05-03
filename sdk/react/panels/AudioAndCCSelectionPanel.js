@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
@@ -22,27 +24,25 @@ var Utils = require('../utils');
 var styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
 var ItemSelectionScrollView = require('./ItemSelectionScrollView');
 
-var AudioAndCCSelectionPanel = React.createClass({
-  propTypes: {
-    audioTracksTitles: React.PropTypes.array,
-    selectedAudioTrackTitle: React.PropTypes.string,
-    closedCaptionsLanguages: React.PropTypes.array,
-    selectedClosedCaptionsLanguage: React.PropTypes.string,
-    onSelectAudioTrack: React.PropTypes.func,
-    onSelectClosedCaptions: React.PropTypes.func,
-    onDismiss: React.PropTypes.func,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    config: React.PropTypes.object
-  },
+class AudioAndCCSelectionPanel extends React.Component {
+  static propTypes = {
+    audioTracksTitles: PropTypes.array,
+    selectedAudioTrackTitle: PropTypes.string,
+    closedCaptionsLanguages: PropTypes.array,
+    selectedClosedCaptionsLanguage: PropTypes.string,
+    onSelectAudioTrack: PropTypes.func,
+    onSelectClosedCaptions: PropTypes.func,
+    onDismiss: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    config: PropTypes.object
+  };
 
-  getInitialState: function() {
-    return {
-      opacity: new Animated.Value(0)
-    };
-  },
+  state = {
+    opacity: new Animated.Value(0)
+  };
 
-  componentDidMount:function () {
+  componentDidMount() {
     this.state.opacity.setValue(0);
     Animated.parallel([
       Animated.timing(
@@ -53,15 +53,15 @@ var AudioAndCCSelectionPanel = React.createClass({
           delay: 0
         }),
     ]).start();
-  },
+  }
 
-  onAudioTrackSelected: function(name) {
+  onAudioTrackSelected = (name) => {
     if (this.props.selectedAudioTrackTitle !== name) {
       this.props.onSelectAudioTrack(name);
     }
-  },
+  };
 
-  onClosedCaptionsLanguageSelected: function(name) {
+  onClosedCaptionsLanguageSelected = (name) => {
     var offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
 
     if (name === offButtonLocalizedTitle) {
@@ -69,13 +69,13 @@ var AudioAndCCSelectionPanel = React.createClass({
     } else if (this.props.selectedClosedCaptionsLanguage !== name) {
       this.props.onSelectClosedCaptions(name);
     }
-  },
+  };
 
-  onDismissPress: function() {
+  onDismissPress = () => {
     this.props.onDismiss();
-  },
+  };
 
-  renderHeaderView: function(hasMultiAudioTracks, hasClosedCaptions) {
+  renderHeaderView = (hasMultiAudioTracks, hasClosedCaptions) => {
     var leftTitle;
     var rightTitle;
 
@@ -113,9 +113,9 @@ var AudioAndCCSelectionPanel = React.createClass({
         </View>
       </View>
     );
-  },
+  };
 
-  renderAudioSelectionScrollView: function() {
+  renderAudioSelectionScrollView = () => {
     return (
       <ItemSelectionScrollView 
         style={styles.panelItemSelectionView}
@@ -125,9 +125,9 @@ var AudioAndCCSelectionPanel = React.createClass({
         config={this.props.config}>
       </ItemSelectionScrollView>
     );
-  },
+  };
 
-  renderCCSelectionScrollView: function() {
+  renderCCSelectionScrollView = () => {
     var selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
     var offButtonTitle = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
 
@@ -148,9 +148,9 @@ var AudioAndCCSelectionPanel = React.createClass({
         config={this.props.config}>
       </ItemSelectionScrollView>
     );
-  },
+  };
 
-  renderPanelsContainerView: function(hasMultiAudioTracks, hasClosedCaptions) {
+  renderPanelsContainerView = (hasMultiAudioTracks, hasClosedCaptions) => {
     if (hasMultiAudioTracks && hasClosedCaptions) {
       // Return mixed panels with audio and CC
       return (
@@ -175,9 +175,9 @@ var AudioAndCCSelectionPanel = React.createClass({
         </View>
       );
     }
-  },
+  };
 
-  render: function() {
+  render() {
     var hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
     var hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
     var animationStyle = {opacity:this.state.opacity};
@@ -188,9 +188,7 @@ var AudioAndCCSelectionPanel = React.createClass({
         {this.renderPanelsContainerView(hasMultiAudioTracks, hasClosedCaptions)}
       </Animated.View>
     );
-  },
-  
-
-});
+  }
+}
 
 module.exports = AudioAndCCSelectionPanel;

@@ -22,16 +22,25 @@
     "bottom": 10,
     "left": 10,
   },
-  "androidPlayPauseButtonArea": {
+
+  "playPauseButtonArea": {
     "flex": 1,
     "flexDirection": "row",
-    "alignSelf": "center",
+    "alignSelf": "center"
+  },
+
+  "buttonTextContainer": {
+    "position": "absolute",
+    "justifyContent": "center",
+    "alignItems": "center",
+    "left": 0,
+    "right": 0,
+    "top": 0,
+    "bottom": 0
   },
 
   "buttonTextStyle": {
-    "flex": 1,
-    "alignSelf": "center",
-    "textAlign": "center",
     "color": "white"
   }
+
 }

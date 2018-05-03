@@ -1,7 +1,9 @@
+'use strict';
+
 /**
  * Created by dkao on 7/7/15.
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
@@ -26,13 +28,14 @@ var {
   } = Constants;
 
 const VOLUME_MAX_LEVEL = 15;
-var controlBarWidget = React.createClass({
-  propTypes: {
-    widgetType: React.PropTypes.object,
-    options: React.PropTypes.object
-  },
 
-  playPauseWidget: function (options) {
+class controlBarWidget extends React.Component {
+  static propTypes = {
+    widgetType: PropTypes.object,
+    options: PropTypes.object
+  };
+
+  playPauseWidget = (options) => {
     var iconMap = {
       "play": options.playIcon,
       "pause": options.pauseIcon,
@@ -46,9 +49,9 @@ var controlBarWidget = React.createClass({
         <Text style={[options.style, fontFamilyStyle]}>{iconMap[options.primaryActionButton].fontString}</Text>
       </TouchableHighlight>
     );
-  },
+  };
 
-  volumeWidget: function (options) {
+  volumeWidget = (options) => {
     var volumeScrubber = null;
     const scrubberStyle = [options.scrubberStyle];
     if (options.platform === Constants.PLATFORMS.IOS) {
@@ -81,9 +84,9 @@ var controlBarWidget = React.createClass({
         {volumeScrubber}
       </View>
     );
-  },
+  };
 
-  timeDurationWidget: function (options) {
+  timeDurationWidget = (options) => {
     if (options.onPress) {
       return (
         <TouchableHighlight onPress={options.onPress}>
@@ -100,13 +103,13 @@ var controlBarWidget = React.createClass({
         );
     }
 
-  },
+  };
 
-  flexibleSpaceWidget: function (options) {
+  flexibleSpaceWidget = (options) => {
     return (<View style={{flex: 1}} />);
-  },
+  };
 
-  discoveryWidget: function (options) {
+  discoveryWidget = (options) => {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.DISCOVERY}
@@ -115,9 +118,9 @@ var controlBarWidget = React.createClass({
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
     return null;
-  },
+  };
 
-  fullscreenWidget: function(options) {
+  fullscreenWidget = (options) => {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     var nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
     return (
@@ -127,9 +130,9 @@ var controlBarWidget = React.createClass({
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  },
+  };
 
-  moreOptionsWidget: function (options) {
+  moreOptionsWidget = (options) => {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (
     <TouchableHighlight 
@@ -138,16 +141,16 @@ var controlBarWidget = React.createClass({
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  },
+  };
 
-  rewindWidget: function (options) {
+  rewindWidget = (options) => {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  },
+  };
 
-  watermarkWidget: function (options) {
+  watermarkWidget = (options) => {
     if(options.shouldShow) {
       return (
         <View style={styles.watermark}>
@@ -160,9 +163,9 @@ var controlBarWidget = React.createClass({
     else {
       return null;
     }
-  },
+  };
 
-  shareWidget: function(options) {
+  shareWidget = (options) => {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.SHARE}
@@ -170,19 +173,19 @@ var controlBarWidget = React.createClass({
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  },
+  };
 
-  bitrateSelectorWidget: function(options) {
+  bitrateSelectorWidget = (options) => {
     // TODO implement
     return null;
-  },
+  };
 
-  liveWidget: function(options) {
+  liveWidget = (options) => {
     // TODO implement
     return null;
-  },
+  };
 
-  stereoscopicWidget: function (options) {
+  stereoscopicWidget = (options) => {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.STEREOSCOPIC}
@@ -190,9 +193,9 @@ var controlBarWidget = React.createClass({
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  },
+  };
 
-  audioAndCCWidget: function (options) {
+  audioAndCCWidget = (options) => {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.AUDIO_AND_CC}
@@ -200,9 +203,9 @@ var controlBarWidget = React.createClass({
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  },
+  };
 
-  render: function() {
+  render() {
 
     var widgetsMap = {
       "playPause": this.playPauseWidget,
@@ -229,7 +232,6 @@ var controlBarWidget = React.createClass({
       return <View></View>;
     }
   }
-
-});
+}
 
 module.exports = controlBarWidget;

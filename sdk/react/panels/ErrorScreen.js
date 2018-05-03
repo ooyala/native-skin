@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -9,14 +10,14 @@ var Log = require('../log');
 var Utils = require('../utils');
 var styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
 
-var ErrorScreen = React.createClass({
-  propTypes: {
-    error: React.PropTypes.object,
-    localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string
-  },
+class ErrorScreen extends React.Component {
+  static propTypes = {
+    error: PropTypes.object,
+    localizableStrings: PropTypes.object,
+    locale: PropTypes.string
+  };
 
-  getTitle: function() {
+  getTitle = () => {
     var errorCode = -1;
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
@@ -28,9 +29,9 @@ var ErrorScreen = React.createClass({
       <Text style={styles.title}>
         {localizedTitle}
       </Text>);
-  },
+  };
 
-  getDescription: function () {
+  getDescription = () => {
     if (this.props.error && this.props.error.description) {
       var localizedDescription = 
         Utils.localizedString(this.props.locale, this.props.error.description, this.props.localizableStrings);
@@ -41,9 +42,9 @@ var ErrorScreen = React.createClass({
         </Text>);
     }
     return null; 
-  },
+  };
 
-  render: function() {
+  render() {
     var title = this.getTitle();
     var description = this.getDescription();
     return (
@@ -54,7 +55,7 @@ var ErrorScreen = React.createClass({
         </View>
       </View>
     );
-  },
-});
+  }
+}
 
 module.exports = ErrorScreen;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -8,26 +9,27 @@ import {
 
 var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
 var Log = require('../log');
-var RectButton = React.createClass({
-  propTypes: {
-    icon: React.PropTypes.string,
-    name: React.PropTypes.string,
-    position: React.PropTypes.string,
-    onPress: React.PropTypes.func,
-    opacity: React.PropTypes.number,
-    frameWidth: React.PropTypes.number,
-    frameHeight: React.PropTypes.number,
-    buttonWidth: React.PropTypes.number,
-    buttonHeight: React.PropTypes.number,
-    buttonColor: React.PropTypes.string,
-    buttonStyle: React.PropTypes.object,
-    fontSize: React.PropTypes.number,
-    fontFamily: React.PropTypes.string,
+
+class RectButton extends React.Component {
+  static propTypes = {
+    icon: PropTypes.string,
+    name: PropTypes.string,
+    position: PropTypes.string,
+    onPress: PropTypes.func,
+    opacity: PropTypes.number,
+    frameWidth: PropTypes.number,
+    frameHeight: PropTypes.number,
+    buttonWidth: PropTypes.number,
+    buttonHeight: PropTypes.number,
+    buttonColor: PropTypes.string,
+    buttonStyle: PropTypes.object,
+    fontSize: PropTypes.number,
+    fontFamily: PropTypes.string,
     style:Text.propTypes.style,
-  },
+  };
 
   // Gets the play button based on the current config settings
-  render: function() {
+  render() {
     var fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
     var buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
     var positionStyle;
@@ -52,7 +54,7 @@ var RectButton = React.createClass({
           <Text style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle]}>{this.props.icon}</Text>
         </View>
       </TouchableHighlight>);
-  },
-});
+  }
+}
 
 module.exports = RectButton;

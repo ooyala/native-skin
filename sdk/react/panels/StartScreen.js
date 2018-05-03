@@ -1,4 +1,5 @@
 
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import {
@@ -24,25 +25,26 @@ var RectButton = require('../widgets/RectButton');
 var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
 var ResponsiveDesignManager = require('../responsiveDesignManager');
 
-var StartScreen = React.createClass({
-  propTypes: {
-    config: React.PropTypes.object,
-    title: React.PropTypes.string,
-    description: React.PropTypes.string,
-    promoUrl: React.PropTypes.string,
-    onPress: React.PropTypes.func,
-    playhead: React.PropTypes.number,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    platform: React.PropTypes.string,
-    screenReaderEnabled: React.PropTypes.bool,
-  },
+class StartScreen extends React.Component {
+  static propTypes = {
+    config: PropTypes.object,
+    title: PropTypes.string,
+    description: PropTypes.string,
+    promoUrl: PropTypes.string,
+    onPress: PropTypes.func,
+    playhead: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    platform: PropTypes.string,
+    screenReaderEnabled: PropTypes.bool,
+  };
 
-  handleClick: function() {
+  handleClick = () => {
     this.props.onPress(BUTTON_NAMES.PLAY);
-  },
+  };
+
   // Gets the play button based on the current config settings
-  getPlayButton: function() {
+  getPlayButton = () => {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
 
     var isScreenReaderEnabled = this.props.screenReaderEnabled;
@@ -74,10 +76,10 @@ var StartScreen = React.createClass({
           showButton={!isScreenReaderEnabled}>
         </VideoViewPlayPause>);
       }
-  },
+  };
 
   //Gets the infoPanel based on the current config settings
-  getInfoPanel: function() {
+  getInfoPanel = () => {
     var infoPanelTitle;
     if(this.props.config.startScreen.showTitle) {
       infoPanelTitle = (<Text style={[styles.infoPanelTitle, this.props.config.startScreen.titleFont]}>{this.props.title}</Text>);
@@ -105,9 +107,9 @@ var StartScreen = React.createClass({
         {infoPanelDescription}
       </View>
     );
-  },
+  };
 
-  getPromoImage: function() {
+  getPromoImage = () => {
     if (this.props.config.startScreen.showPromo && this.props.promoUrl) {
       var fullscreen = (this.props.config.startScreen.promoImageSize == 'default');
 
@@ -123,9 +125,9 @@ var StartScreen = React.createClass({
     }
 
     return null;
-  },
+  };
 
-  getWaterMark: function () {
+  getWaterMark = () => {
     var waterMarkImageLocation = styles.waterMarkImageSE;
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
@@ -133,15 +135,15 @@ var StartScreen = React.createClass({
         resizeMode={Image.resizeMode.contain}>
       </Image>
     );
-  },
+  };
 
-  _tapHandler: function(event) {
+  _tapHandler = (event) => {
     if (this.props.screenReaderEnabled) {
       this.handleClick();
     }
-  },
+  };
 
-  render: function() {
+  render() {
     var promoImage = this.getPromoImage();
     var playButton = this.getPlayButton();
     var infoPanel = this.getInfoPanel();
@@ -162,6 +164,7 @@ var StartScreen = React.createClass({
       </View>
    );
 
-  },
-});
+  }
+}
+
 module.exports = StartScreen;

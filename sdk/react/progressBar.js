@@ -1,10 +1,13 @@
+'use strict';
+
+let Constants = require('./constants');
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
-let Constants = require('./constants');
 import React, { Component } from 'react';
 import {
   View,
@@ -18,14 +21,14 @@ let {
   VIEW_NAMES
 } = Constants;
 
-var ProgressBar = React.createClass({
-  propTypes: {
-    percent: React.PropTypes.number,
-    config: React.PropTypes.object,
-    ad: React.PropTypes.object
-  },
+class ProgressBar extends React.Component {
+  static propTypes = {
+    percent: PropTypes.number,
+    config: PropTypes.object,
+    ad: PropTypes.object
+  };
 
-  getAdScrubberBarPlayedColor: function() {
+  getAdScrubberBarPlayedColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.adScrubberBar.playedColor) {
         Log.error("controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
@@ -36,9 +39,9 @@ var ProgressBar = React.createClass({
     } else {
       return this.props.config.general.accentColor;
     }
-  },
+  };
 
-  getScrubberBarPlayedColor: function() {
+  getScrubberBarPlayedColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.scrubberBar.playedColor) {
         Log.error("controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
@@ -49,9 +52,9 @@ var ProgressBar = React.createClass({
     } else {
        return this.props.config.general.accentColor;
     }
-  },
+  };
 
-  render: function() {
+  render() {
     var playedPercent = this.props.percent;
     var bufferedPercent = 0;
     var unbufferedPercent = 1 - playedPercent - bufferedPercent;
@@ -95,6 +98,6 @@ var ProgressBar = React.createClass({
       </View>
     );
   }
-});
+}
 
 module.exports = ProgressBar;

@@ -8,11 +8,12 @@
 
 #import "OOSkinViewController.h"
 #import "OOReactBridge.h"
-#import "RCTRootView.h"
 #import "OOUpNextManager.h"
 #import "OOLocaleHelper.h"
 #import "OOSkinOptions.h"
 #import "OOQueuedEvent.h"
+
+#import <React/RCTRootView.h>
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
