@@ -181,6 +181,9 @@ class OoyalaSkinPlayerObserver implements Observer {
 
       String descrptions = ex.getLocalizedMessage();
       params.putString("description", descrptions != null ? descrptions : "");
+
+      WritableMap userInfoParams = BridgeMessageBuilder.buildUserInfoParams(ex);
+      params.putMap("userInfo", userInfoParams);
     }
 
     _layoutController.sendEvent(OoyalaPlayer.ERROR_NOTIFICATION_NAME, params);
