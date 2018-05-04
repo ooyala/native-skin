@@ -578,11 +578,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   void handlePlayPause() {
-    if (_player.isPlaying()) {
-      _player.pause();
-    } else {
-      _player.play();
-    }
+    _player.handlePlayPause();
   }
 
   void handleLearnMore() {
