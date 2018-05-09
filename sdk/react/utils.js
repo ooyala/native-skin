@@ -129,84 +129,84 @@ var Utils = {
   stringForErrorCode: function(errorCode: int) {
     switch (errorCode) {
       /* Authorization failed - TODO add to language files */
-      case 0: 
+      case 0:
         return "Authorization failed";
       /* Authorization response invalid - TODO add to language files */
       case 1:
         return "Invalid Authorization Response";
-       /* Authorization heartbeat failed */  
+       /* Authorization heartbeat failed */
       case 2:
-        return "INVALID HEARTBEAT"
-       /* Content tree response invalid - TODO add to language files */  
+        return "Invalid Heartbeat"
+       /* Content tree response invalid - TODO add to language files */
       case 3:
         return "Content Tree Response Invalid";
-       /* Authorization signature invalid - TODO add to language files */  
+       /* Authorization signature invalid - TODO add to language files */
       case 4 :
         return "The signature of the Authorization Response is invalid";
-      /* Content tree next failed - TODO add to language files */    
+      /* Content tree next failed - TODO add to language files */
       case 5:
         return "Content Tree Next failed";
-      /* Playback failed */    
+      /* Playback failed */
       case 6:
-        return "PLAYBACK ERROR";
-      /* The asset is not encoded */    
+        return "Playback Error";
+      /* The asset is not encoded */
       case 7:
         return "This video isn't encoded for your device";
-      /* Internal error - TODO add to language files */    
+      /* Internal error - TODO add to language files */
       case 8:
         return "An internal error occurred";
-      /* Metadata response invalid */    
+      /* Metadata response invalid */
       case 9:
         return "Invalid Metadata";
-      /* Invalid authorization token */    
+      /* Invalid authorization token */
       case 10:
-        return "INVALID PLAYER TOKEN";
-      /* Device limit has been reached */    
+        return "Invalid Player Token";
+      /* Device limit has been reached */
       case 11:
-        return "Device limit has been reached";
-      /* Devuce binding failed */    
+        return "Authorization Error";
+      /* Device binding failed */
       case 12:
         return "Device binding failed";
-       /* Device id too long */   
+       /* Device id too long */
       case 13:
         return "Device ID is too long";
-      /* General DRM failure */    
+      /* General DRM failure */
       case 14:
         return "General error acquiring license";
-      /* DRM file download failure - TODO add to language files */    
+      /* DRM file download failure - TODO add to language files */
       case 15:
         return "Failed to download a required file during the DRM workflow";
-      /* DRM personalization failure - TODO add to language files */    
+      /* DRM personalization failure - TODO add to language files */
       case 16:
         return "Failed to complete device personalization during the DRM workflow";
-      /*  DRM rights server error - TODO add to language files */    
+      /*  DRM rights server error - TODO add to language files */
       case 17:
         return "Failed to get rights for asset during the DRM workflow";
-      /* Invalid discovery parameter - TODO add to language files */    
+      /* Invalid discovery parameter - TODO add to language files */
       case 18:
         return "The expected discovery parameters are not provided";
-      /* Discovery network error - TODO add to language files */    
+      /* Discovery network error - TODO add to language files */
       case 19:
         return "A discovery network error occurred";
-      /* Discovery response failure - TODO add to language files */    
+      /* Discovery response failure - TODO add to language files */
       case 20:
         return "A discovery response error occurred";
-      /* No available streams - TODO add to language files */    
+      /* No available streams - TODO add to language files */
       case 21:
         return "No available streams";
-      /* Pcode mismatch - TODO add to language files */    
+      /* Pcode mismatch - TODO add to language files */
       case 22:
         return "The provided PCode does not match the embed code owner";
-      /* Download error - TODO add to language files */   
+      /* Download error - TODO add to language files */
       case 23:
         return "A download error occurred";
-      /* Conncurrent streams */    
+      /* Conncurrent streams */
       case 24:
         return "You have exceeded the maximum number of concurrent streams";
-      /*  Advertising id failure - TODO add to language files */    
+      /*  Advertising id failure - TODO add to language files */
       case 25:
         return "Failed to return the advertising ID";
-      /* Discovery GET failure - TODO add to language files */    
+      /* Discovery GET failure - TODO add to language files */
       case 26:
         return "Failed to get discovery results";
       /* Discovery POST failure - TODO add to language files */
@@ -224,7 +224,7 @@ var Utils = {
       /* GeoBlocking access denied - TODO add to language files */
       case 31:
         return "Geo access denied";
-      /* Default to Unknown error */    
+      /* Default to Unknown error */
       default:
         return "An unknown error occurred";
     }
