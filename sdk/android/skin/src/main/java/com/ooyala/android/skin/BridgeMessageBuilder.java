@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 class BridgeMessageBuilder {
@@ -326,7 +327,7 @@ class BridgeMessageBuilder {
    *
    * @param audioTracks The list of available audio tracks for the current asset.
    */
-  public static WritableMap buildMultiAudioParams(Set<AudioTrack> audioTracks) {
+  public static WritableMap buildMultiAudioParams(List<AudioTrack> audioTracks) {
     WritableMap params = Arguments.createMap();
     WritableArray audioTracksTitles = Arguments.createArray();
 
