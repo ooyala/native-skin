@@ -202,6 +202,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 #pragma mark - Override view controller functions
 
+- (BOOL)prefersHomeIndicatorAutoHidden {
+  return YES;
+}
+
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   if (_fullscreen) {
     return [_fullscreenViewController supportedInterfaceOrientations];

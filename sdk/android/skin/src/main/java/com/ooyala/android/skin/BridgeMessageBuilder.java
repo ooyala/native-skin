@@ -10,6 +10,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.ooyala.android.AdIconInfo;
 import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
+import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
@@ -22,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 class BridgeMessageBuilder {
@@ -325,7 +327,7 @@ class BridgeMessageBuilder {
    *
    * @param audioTracks The list of available audio tracks for the current asset.
    */
-  public static WritableMap buildMultiAudioParams(Set<AudioTrack> audioTracks) {
+  public static WritableMap buildMultiAudioParams(List<AudioTrack> audioTracks) {
     WritableMap params = Arguments.createMap();
     WritableArray audioTracksTitles = Arguments.createArray();
 
@@ -336,6 +338,21 @@ class BridgeMessageBuilder {
     }
     params.putBoolean("multiAudioEnabled", audioTracksTitles.size() > 1);
     params.putArray("audioTracksTitles", audioTracksTitles);
+    return params;
+  }
+
+  /**
+   * @return User info params.
+   *
+   * @param exception The current Ooyala exception.
+   */
+  public static WritableMap buildUserInfoParams(OoyalaException exception) {
+    WritableMap params = Arguments.createMap();
+    JSONObject userInfo = exception.getUserInfo();
+    if (userInfo != null) {
+      int code = userInfo.optInt("code");
+      params.putInt("code", code);
+    }
     return params;
   }
 }

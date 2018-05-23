@@ -8,6 +8,11 @@ import {
 
 var Log = require('../log');
 var Utils = require('../utils');
+var Constants = require('../constants');
+var {
+  SAS_ERROR_CODES,
+  ERROR_MESSAGE,
+} = Constants;
 var styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
 
 class ErrorScreen extends React.Component {
@@ -23,7 +28,7 @@ class ErrorScreen extends React.Component {
       errorCode = this.props.error.code;
     }
     var title = Utils.stringForErrorCode(errorCode);
-    var localizedTitle = 
+    var localizedTitle =
       Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={styles.title}>
@@ -33,16 +38,20 @@ class ErrorScreen extends React.Component {
 
   getDescription = () => {
     if (this.props.error && this.props.error.description) {
-      var localizedDescription = 
-        Utils.localizedString(this.props.locale, this.props.error.description, this.props.localizableStrings);
-      Log.warn("ERROR: localized description:"+ localizedDescription);
+      var userInfo = this.props.error.userInfo || {};
+      var errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
+      var description = ERROR_MESSAGE[errorCode] || this.props.error.description;
+
+      var localizedDescription =
+        Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+      Log.warn("ERROR: localized description:" + localizedDescription);
       return (
         <Text style={styles.description}>
-          {localizedDescription} 
+          {localizedDescription}
         </Text>);
     }
-    return null; 
-  };
+    return null;
+  },
 
   render() {
     var title = this.getTitle();

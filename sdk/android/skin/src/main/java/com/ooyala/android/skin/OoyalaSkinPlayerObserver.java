@@ -12,10 +12,10 @@ import com.ooyala.android.item.ClosedCaptions;
 import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
 import com.ooyala.android.util.DebugMode;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Set;
 
 /**
  * The class that solely listens to the OoyalaPlayer, and responds based on the events
@@ -181,6 +181,9 @@ class OoyalaSkinPlayerObserver implements Observer {
 
       String descrptions = ex.getLocalizedMessage();
       params.putString("description", descrptions != null ? descrptions : "");
+
+      WritableMap userInfoParams = BridgeMessageBuilder.buildUserInfoParams(ex);
+      params.putMap("userInfo", userInfoParams);
     }
 
     _layoutController.sendEvent(OoyalaPlayer.ERROR_NOTIFICATION_NAME, params);
@@ -226,7 +229,7 @@ class OoyalaSkinPlayerObserver implements Observer {
    * Send the notification to Skin if multi audio is enabled or not for the current asset.
    */
   private void bridgeMultiAudioEnabledNotification() {
-    Set<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
+    List<AudioTrack> audioTracks = _player.getAvailableAudioTracks();
     WritableMap params = BridgeMessageBuilder.buildMultiAudioParams(audioTracks);
     _layoutController.sendEvent(OoyalaPlayer.MULTI_AUDIO_ENABLED_NOTIFICATION_NAME, params);
   }
