@@ -51,7 +51,7 @@ class ErrorScreen extends React.Component {
         </Text>);
     }
     return null;
-  },
+  };
 
   render() {
     var title = this.getTitle();
