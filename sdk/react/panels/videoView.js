@@ -282,7 +282,8 @@ class VideoView extends React.Component {
           playing={this.props.playing}
           loading={this.props.loading}
           initialPlay={this.props.initialPlay}>
-        </VideoViewPlayPause>);
+        </VideoViewPlayPause>
+      );
   };
 
   _renderVideoWaterMark = (waterMarkName, VideoWaterMarkSize) => {
