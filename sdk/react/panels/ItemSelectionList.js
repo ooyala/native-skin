@@ -4,14 +4,14 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ScrollView
 } from 'react-native';
 
-var styles=require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
+const styles=require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
 
-var ItemSelectionList = React.createClass({
+const ItemSelectionList = React.createClass({
   propTypes: {
     horizontal: React.PropTypes.bool,
     data: React.PropTypes.array,
@@ -19,7 +19,7 @@ var ItemSelectionList = React.createClass({
   },
 
   renderItems: function(items) {
-    var renderedItems = items.map((item, index) => (
+    const renderedItems = items.map((item, index) => (
         this.props.itemRender(item, index)
     ));
       
@@ -27,7 +27,7 @@ var ItemSelectionList = React.createClass({
   },
 
   render: function() {
-    var scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
+    const scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
     return (
       <ScrollView
         style={scrollViewStyle}
