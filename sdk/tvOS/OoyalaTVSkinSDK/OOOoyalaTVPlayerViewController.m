@@ -53,6 +53,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (self = [super init]) {
     [self setPlayer:player];
   }
+    
   return self;
 }
 
