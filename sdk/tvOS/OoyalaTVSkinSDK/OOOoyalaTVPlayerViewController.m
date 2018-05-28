@@ -53,7 +53,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (self = [super init]) {
     [self setPlayer:player];
   }
-    
   return self;
 }
 
@@ -268,6 +267,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     if (self.player.currentItem.hasClosedCaptions && !self.closedCaptionMenuDisplayed){
         self.closedCaptionsMenuBar.alpha = self.progressBarBackground.alpha;
     }
+    [self.player removeClosedCaptionsDuplicate];
 }
 
 - (UIView *)preferredFocusedView {
