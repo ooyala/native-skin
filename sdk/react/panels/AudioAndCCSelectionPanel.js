@@ -4,7 +4,7 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated,
   Text,
@@ -12,15 +12,15 @@ import {
   View,
 } from 'react-native';
 
-var animationDuration = 1000;
-var Constants = require('../constants');
-var {
+const animationDuration = 1000;
+const Constants = require('../constants');
+const {
   BUTTON_NAMES
 } = Constants;
 
-var Utils = require('../utils');
-var styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
-var ItemSelectionScrollView = require('./ItemSelectionScrollView');
+const Utils = require('../utils');
+const styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
+const ItemSelectionScrollView = require('./ItemSelectionScrollView');
 
 const stringConstants = {
   undefinedLanguageTitle: "Undefined language",
@@ -30,7 +30,7 @@ const stringConstants = {
   subtitlesHeaderViewSectionTitle: "Subtitles"
 }
 
-var AudioAndCCSelectionPanel = React.createClass({
+const AudioAndCCSelectionPanel = React.createClass({
   propTypes: {
     audioTracksTitles: React.PropTypes.array,
     selectedAudioTrackTitle: React.PropTypes.string,
@@ -64,9 +64,9 @@ var AudioAndCCSelectionPanel = React.createClass({
   },
 
   onAudioTrackSelected: function(name) {
-    let localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
-    let localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
-    var originalName = name;
+    const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
+    const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
+    let originalName = name;
 
     originalName = originalName.replace(localizedTitleForUndefinedLanguage, stringConstants.undefinedLanguageTitle);
     originalName = originalName.replace(localizedTitleForNoLinguisticContent, stringConstants.noLinguisticContentTitle);
@@ -77,7 +77,7 @@ var AudioAndCCSelectionPanel = React.createClass({
   },
 
   onClosedCaptionsLanguageSelected: function(name) {
-    var offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
+    const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
 
     if (name === offButtonLocalizedTitle) {
       this.props.onSelectClosedCaptions("");
@@ -91,11 +91,11 @@ var AudioAndCCSelectionPanel = React.createClass({
   },
 
   renderHeaderView: function(hasMultiAudioTracks, hasClosedCaptions) {
-    var leftTitle;
-    var rightTitle;
+    let leftTitle;
+    let rightTitle;
 
-    var localizedAudioTitle = Utils.localizedString(this.props.config.locale, stringConstants.audioHeaderViewSectionTitle, this.props.config.localizableStrings);
-    var localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale, stringConstants.subtitlesHeaderViewSectionTitle, this.props.config.localizableStrings);
+    const localizedAudioTitle = Utils.localizedString(this.props.config.locale, stringConstants.audioHeaderViewSectionTitle, this.props.config.localizableStrings);
+    const localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale, stringConstants.subtitlesHeaderViewSectionTitle, this.props.config.localizableStrings);
 
     if (hasMultiAudioTracks && hasClosedCaptions) {
        leftTitle = localizedAudioTitle;
@@ -131,10 +131,18 @@ var AudioAndCCSelectionPanel = React.createClass({
   },
 
   renderAudioSelectionScrollView: function() {
-    let localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
-    let localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
+    const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
+    const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
 
-    let itemsWithLocalizedUndefinedLanguage = this.props.audioTracksTitles.map(function(item) {
+    // Localize selected item
+
+    let selectedLocalizedItem = this.props.selectedAudioTrackTitle;
+    selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
+    selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForUndefinedLanguage);
+
+    // Localize other items
+
+    const itemsWithLocalizedUndefinedLanguage = this.props.audioTracksTitles.map(function(item) {
       let localizedItem = item;
 
       localizedItem = localizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
@@ -147,7 +155,7 @@ var AudioAndCCSelectionPanel = React.createClass({
       <ItemSelectionScrollView 
         style={styles.panelItemSelectionView}
         items={itemsWithLocalizedUndefinedLanguage}
-        selectedItem={this.props.selectedAudioTrackTitle}
+        selectedItem={selectedLocalizedItem}
         onSelect={(item) => this.onAudioTrackSelected(item)}
         config={this.props.config}>
       </ItemSelectionScrollView>
@@ -155,8 +163,8 @@ var AudioAndCCSelectionPanel = React.createClass({
   },
 
   renderCCSelectionScrollView: function() {
-    var selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
-    var offButtonTitle = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
+    const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
+    let selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
 
     if (!this.props.closedCaptionsLanguages || this.props.closedCaptionsLanguages[0] !== offButtonTitle) {
       this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle)
@@ -205,9 +213,9 @@ var AudioAndCCSelectionPanel = React.createClass({
   },
 
   render: function() {
-    var hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
-    var hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
-    var animationStyle = {opacity:this.state.opacity};
+    const hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
+    const hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
+    const animationStyle = {opacity:this.state.opacity};
 
     return (
       <Animated.View style={[styles.panelContainer, styles.panel, animationStyle]}>
