@@ -265,6 +265,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     if (self.player.currentItem.hasClosedCaptions && !self.closedCaptionMenuDisplayed){
         self.closedCaptionsMenuBar.alpha = self.progressBarBackground.alpha;
     }
+    [self.player disablePlaylistClosedCaptions];
 }
 
 - (UIView *)preferredFocusedView {
