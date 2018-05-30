@@ -117,7 +117,7 @@ repositories {
 task copyLibs(type: Copy) {
     from new File(projectDir, '../../../vendor/')
     from new File(projectDir, '../../../vendor/Ooyala/OoyalaSDK-Android/OoyalaSDK.aar')
-    from new File(projectDir, '../../../vendor/Facebook/react-native-0.35.0.aar')
+    from new File(projectDir, '../../../vendor/Facebook/react-native-0.55.4.aar')
     into new File(projectDir, './libs')
     doLast {
         println "Libs updated."
@@ -142,7 +142,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp-ws:3.4.1'
     implementation 'com.squareup.okio:okio:1.9.0'
     implementation 'org.webkit:android-jsc:r174650'
-    implementation (group:'com.facebook', name:'react-native', version:'0.35.0', ext:'aar')
+    implementation (group:'com.facebook', name:'react-native', version:'0.55.4', ext:'aar')
     implementation 'javax.inject:javax.inject:1'
-    implementation 'com.google.android.exoplayer:exoplayer:r2.5.3'
+    implementation 'com.google.android.exoplayer:exoplayer:2.6.1'
 }

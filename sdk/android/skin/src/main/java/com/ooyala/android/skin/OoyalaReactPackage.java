@@ -1,8 +1,6 @@
 package com.ooyala.android.skin;
 
 
-import javax.inject.Provider;
-import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.ModuleSpec;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -16,6 +14,8 @@ import com.ooyala.android.skin.view.VolumeViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Provider;
 
 /**
  * Created by zchen on 9/21/15.
@@ -36,7 +36,7 @@ class OoyalaReactPackage extends MainReactPackage {
     List<ModuleSpec> list =  new ArrayList<>();
     list.addAll(super.getNativeModules(context));
 
-    list.add(new ModuleSpec(AccessibilityModule.class, new Provider<NativeModule>() {
+    list.add(ModuleSpec.nativeModuleSpec(AccessibilityModule.class, new Provider<NativeModule>() {
       @Override
       public NativeModule get() {
         return new AccessibilityModule(context);
@@ -44,7 +44,7 @@ class OoyalaReactPackage extends MainReactPackage {
     }));
 
     //TODO: remove AccessibilityInfoModule when updating to latest version of react native
-    list.add(new ModuleSpec(AccessibilityInfoModule.class, new Provider<NativeModule>() {
+    list.add(ModuleSpec.nativeModuleSpec(AccessibilityInfoModule.class, new Provider<NativeModule>() {
       @Override
       public NativeModule get() {
         return new AccessibilityInfoModule(context);
@@ -52,7 +52,7 @@ class OoyalaReactPackage extends MainReactPackage {
     }));
 
     _bridge = new OoyalaReactBridge(context, _layoutcontroller.getBridgeEventHandler());
-    list.add(new ModuleSpec(OoyalaReactBridge.class, new Provider() {
+    list.add(ModuleSpec.nativeModuleSpec(OoyalaReactBridge.class, new Provider() {
       public NativeModule get() {
         return _bridge;
       }
@@ -61,10 +61,10 @@ class OoyalaReactPackage extends MainReactPackage {
     return list;
   }
 
-  @Override
-  public List<Class<? extends JavaScriptModule>> createJSModules() {
-    return super.createJSModules();
-  }
+//  @Override
+//  public List<Class<? extends JavaScriptModule>> createJSModules() {
+//    return super.createJSModules();
+//  }
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
