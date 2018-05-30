@@ -137,8 +137,10 @@ const AudioAndCCSelectionPanel = React.createClass({
     // Localize selected item
 
     let selectedLocalizedItem = this.props.selectedAudioTrackTitle;
-    selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
-    selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForUndefinedLanguage);
+    if (selectedLocalizedItem !== undefined) {
+      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
+      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForUndefinedLanguage);
+    }
 
     // Localize other items
 
