@@ -1,6 +1,7 @@
 package com.ooyala.android.skin;
 
 
+import com.facebook.react.bridge.JavaScriptModule;
 import com.facebook.react.bridge.ModuleSpec;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -13,6 +14,7 @@ import com.ooyala.android.skin.view.CountdownViewManager;
 import com.ooyala.android.skin.view.VolumeViewManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Provider;
@@ -61,10 +63,9 @@ class OoyalaReactPackage extends MainReactPackage {
     return list;
   }
 
-//  @Override
-//  public List<Class<? extends JavaScriptModule>> createJSModules() {
-//    return super.createJSModules();
-//  }
+  public List<Class<? extends JavaScriptModule>> createJSModules() {
+    return Collections.emptyList();
+  }
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
