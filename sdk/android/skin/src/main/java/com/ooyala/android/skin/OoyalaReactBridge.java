@@ -39,7 +39,9 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
     if (context.hasActiveCatalystInstance()) {
       context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(eventName, params);
     } else {
-      DebugMode.logW("TAG", "Trying to send an event without an active Catalyst Instance: " + eventName + ", Params:" + params.toString());
+      String paramsInfo = params != null ? params.toString() : "is null";
+      DebugMode.logW("TAG", "Trying to send an event without an active Catalyst Instance: "
+        + eventName + ", Params: " + paramsInfo);
     }
   }
 
