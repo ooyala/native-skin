@@ -11,7 +11,7 @@
 // This Pair class is a simple object that holds a string and array.
 @interface Pair : NSObject
 
-@property (nonatomic, assign) NSString *name;
-@property (nonatomic, assign) NSArray *value;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSArray *value;
 
 @end
