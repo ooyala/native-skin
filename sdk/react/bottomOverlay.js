@@ -219,6 +219,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
       return (
         <Animated.View
           testID={VIEW_NAMES.TIME_SEEK_BAR}
+          accessible={this.state.accessibilityEnabled}
           accessibilityLabel={scrubberBarAccessibilityLabel}
           onTouchStart={(event) => this.handleTouchStart(event)}
           onTouchMove={(event) => this.handleTouchMove(event)}
