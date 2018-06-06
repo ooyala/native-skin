@@ -32,14 +32,18 @@
 }
 
 - (void)dismissPresentedViewControllersWithCompletionBlock:(void (^)(void))completion {
-  [self dismissViewControllerAndStoreIt:_presentedViewController];
+  if (_presentedViewController != nil) {
+    [self dismissViewControllerAndStoreIt:_presentedViewController];
+  }
   if (completion) {
     completion();
   }
 }
 
 - (void)presentStoredControllers {
-  [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:_rootViewController];
+  if ([_storedPresentedViewControllers count] > 0) {
+    [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:_rootViewController];
+  }
 }
 
 #pragma mark - Private functions

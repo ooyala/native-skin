@@ -1,5 +1,4 @@
 //
-// Created by Ivan Sakharovskii on 6/6/18.
 // Copyright (c) 2018 ooyala. All rights reserved.
 //
 
@@ -8,7 +7,7 @@
 
 @interface PresentedViewControllerHelper : NSObject
 
-- (instancetype)initWithRootWiewController:(UIViewController *)rootViewController;
+- (_Nonnull instancetype)initWithRootWiewController:(UIViewController *)rootViewController;
 
 - (void)findAndStorePresentedViewController;
 

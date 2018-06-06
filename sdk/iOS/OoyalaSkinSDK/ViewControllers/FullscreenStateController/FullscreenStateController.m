@@ -185,9 +185,6 @@
     [self.videoView removeFromSuperview];
     
     [self.containerView addSubview:self.videoView];
-    CGPoint point = self.parentView.bounds.origin;
-    CGSize size = self.parentView.bounds.size;
-    NSLog(@"Bounds origin is: x ---- %f, y ---- %f and size is: width ---- %f,  height ---- %f", point.x, point.y, size.width, size.height);
     self.videoView.frame = self.parentView.bounds;
     
     // Update current fullscreen state
