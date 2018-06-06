@@ -79,10 +79,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 #pragma mark - Initialization
 
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
-                   skinOptions:(OOSkinOptions *)skinOptions
-                        parent:(UIView *)parentView
-                 launchOptions:(NSDictionary *)options {
+- (instancetype) initWithPlayer:(OOOoyalaPlayer *)player
+                    skinOptions:(OOSkinOptions *)skinOptions
+                         parent:(UIView *)parentView
+                  launchOptions:(NSDictionary *)options {
   if (self = [super init]) {
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
     
@@ -186,7 +186,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                                                                  videoView:self.videoView
                                                                andFullscreenViewController:self.fullscreenViewController];
   }
-  
   return self;
 }
 

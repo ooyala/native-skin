@@ -8,6 +8,7 @@
 #import "FullscreenStateController.h"
 #import <UIKit/UIKit.h>
 #import "FullscreenStateOperation.h"
+#import "PresentedViewControllerHelper.h"
 
 
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -23,6 +24,7 @@
 @property (nonatomic) NSOperationQueue *operationQueue; // Queue for fullscreen animation
 @property (nonatomic) BOOL isFullscreen;
 @property (nonatomic) BOOL isOriginalStatusBarHidden;
+@property (nonatomic) PresentedViewControllerHelper *presentedViewControllerHelper;
 
 @end
 
@@ -88,6 +90,7 @@
 - (void)openFullscreenMode:(nullable void (^)())completion {
   UIWindow *window = [UIApplication sharedApplication].keyWindow;
   
+  
   // Update original status bar state
   
   if (!self.isFullscreen) {
@@ -97,6 +100,11 @@
   // Save root VC
   
   self.rootViewController = window.rootViewController;
+  
+  // Store presented view controller
+  
+  self.presentedViewControllerHelper = [[PresentedViewControllerHelper alloc] initWithRootWiewController:self.rootViewController];
+  [_presentedViewControllerHelper findAndStorePresentedViewController];
   
   // Remove video view from container
   
@@ -126,8 +134,10 @@
   } completion:^(BOOL finished) {
 
     // Change root VC
-
-    window.rootViewController = self.fullscreenViewController;
+    
+    [_presentedViewControllerHelper dismissPresentedViewControllersWithCompletionBlock:^{
+      window.rootViewController = self.fullscreenViewController;
+    }];
 
     // Update current fullscreen state
 
@@ -136,7 +146,7 @@
     // Hide status bar (it needs when UIViewControllerBasedStatusBarAppearance = YES)
     
     UIApplication.sharedApplication.statusBarHidden = YES;
-
+    
     // Completion
 
     if (completion) {
@@ -155,6 +165,8 @@
   // Add fullscreen VC on window as subview
   
   window.rootViewController = self.rootViewController;
+  [self.presentedViewControllerHelper presentStoredControllers];
+  
   [window addSubview:self.fullscreenViewController.view];
   [window bringSubviewToFront:self.fullscreenViewController.view];
 
@@ -173,6 +185,9 @@
     [self.videoView removeFromSuperview];
     
     [self.containerView addSubview:self.videoView];
+    CGPoint point = self.parentView.bounds.origin;
+    CGSize size = self.parentView.bounds.size;
+    NSLog(@"Bounds origin is: x ---- %f, y ---- %f and size is: width ---- %f,  height ---- %f", point.x, point.y, size.width, size.height);
     self.videoView.frame = self.parentView.bounds;
     
     // Update current fullscreen state
