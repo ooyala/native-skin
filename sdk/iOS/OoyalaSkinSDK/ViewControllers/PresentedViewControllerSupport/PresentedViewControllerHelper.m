@@ -1,4 +1,7 @@
 //
+//  Prese
+//
+//
 // Copyright (c) 2018 ooyala. All rights reserved.
 //
 
@@ -7,25 +10,22 @@
 
 @interface PresentedViewControllerHelper ()
 
-@property (nonatomic) UIViewController *rootViewController;
-@property (nonatomic) UIViewController *presentedViewController;
 @property (nonatomic) NSMutableArray *storedPresentedViewControllers;
 
 @end
 
-@implementation PresentedViewControllerHelper {
-
-}
+@implementation PresentedViewControllerHelper
 
 #pragma mark - Initialization
 
-- (instancetype)initWithRootWiewController:(UIViewController *)rootViewController {
+- (instancetype)init {
   if (self = [super init]) {
-    self.rootViewController = rootViewController;
-    self.storedPresentedViewControllers = [NSMutableArray new];
+    _storedPresentedViewControllers = [NSMutableArray new];
   }
   return self;
 }
+
+#pragma mark - Public functions
 
 - (void)findAndStorePresentedViewController {
   self.presentedViewController = [self findPresentedViewController:_rootViewController];
@@ -33,22 +33,28 @@
 
 - (void)dismissPresentedViewControllersWithCompletionBlock:(void (^)(void))completion {
   if (_presentedViewController != nil) {
-    [self dismissViewControllerAndStoreIt:_presentedViewController];
-  }
-  if (completion) {
-    completion();
+    [self dismissViewControllerAndStoreIt:_presentedViewController withCompletionBlock:completion];
+  } else {
+    if (completion) {
+      completion();
+    }
   }
 }
 
-- (void)presentStoredControllers {
+- (void)presentStoredControllersWithCompletionBlock:(void (^)(void))completion {
   if ([_storedPresentedViewControllers count] > 0) {
-    [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:_rootViewController];
+    [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:_rootViewController withCompletionBlock:completion];
   }
+}
+
+- (void)clearData {
+  self.rootViewController = nil;
+  self.presentedViewController = nil;
 }
 
 #pragma mark - Private functions
 
-- (UIViewController *)findPresentedViewController:(UIViewController *)startedViewController {
+- (nullable UIViewController *)findPresentedViewController:(nonnull UIViewController *)startedViewController {
   if ([startedViewController isKindOfClass:[UINavigationController class]]) {
     return [self findPresentedViewController:[(UINavigationController *)startedViewController topViewController]];
   }
@@ -64,23 +70,31 @@
   return [self findPresentedViewController:startedViewController.presentedViewController];
 }
 
-- (void)dismissViewControllerAndStoreIt:(UIViewController *)viewController {
+- (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController withCompletionBlock:(void (^ __nullable)(void))completion {
   if ([viewController presentingViewController]) {
     __block UIViewController* presentedVC = [viewController presentedViewController];
     [viewController dismissViewControllerAnimated:NO completion:^{
       [_storedPresentedViewControllers addObject:viewController];
       if ([presentedVC presentingViewController]) {
-        [self dismissViewControllerAndStoreIt:presentedVC];
+        [self dismissViewControllerAndStoreIt:presentedVC withCompletionBlock:completion];
+      } else {
+        if (completion) {
+          completion();
+        }
       }
     }];
   }
 }
 
-- (void)presentViewController:(UIViewController *)viewControllerToPresent onViewController:(UIViewController *)baseViewController {
+- (void)presentViewController:(nonnull UIViewController *)viewControllerToPresent onViewController:(nonnull UIViewController *)baseViewController withCompletionBlock:(void (^ __nullable)(void))completion {
   [baseViewController presentViewController:viewControllerToPresent animated:NO completion:^{
     [_storedPresentedViewControllers removeObject:viewControllerToPresent];
     if ([_storedPresentedViewControllers count] > 0) {
-      [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:viewControllerToPresent];
+      [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:viewControllerToPresent withCompletionBlock:completion];
+    } else {
+      if (completion) {
+        completion();
+      }
     }
   }];
 }

@@ -5,14 +5,19 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+
 @interface PresentedViewControllerHelper : NSObject
 
-- (_Nonnull instancetype)initWithRootWiewController:(UIViewController *)rootViewController;
+@property (nullable, nonatomic) UIViewController *rootViewController;
+@property (nullable, nonatomic) UIViewController *presentedViewController;
+
 
 - (void)findAndStorePresentedViewController;
 
 - (void)dismissPresentedViewControllersWithCompletionBlock:(void (^ __nullable)(void))completion;
 
-- (void)presentStoredControllers;
+- (void)presentStoredControllersWithCompletionBlock:(void (^ __nullable)(void))completion;
+
+- (void)clearData;
 
 @end
