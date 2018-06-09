@@ -45,14 +45,6 @@ class OoyalaReactPackage extends MainReactPackage {
       }
     }));
 
-    //TODO: remove AccessibilityInfoModule when updating to latest version of react native
-    list.add(ModuleSpec.nativeModuleSpec(AccessibilityInfoModule.class, new Provider<NativeModule>() {
-      @Override
-      public NativeModule get() {
-        return new AccessibilityInfoModule(context);
-      }
-    }));
-
     _bridge = new OoyalaReactBridge(context, _layoutcontroller.getBridgeEventHandler());
     list.add(ModuleSpec.nativeModuleSpec(OoyalaReactBridge.class, new Provider() {
       public NativeModule get() {
@@ -61,10 +53,6 @@ class OoyalaReactPackage extends MainReactPackage {
     }));
 
     return list;
-  }
-
-  public List<Class<? extends JavaScriptModule>> createJSModules() {
-    return Collections.emptyList();
   }
 
   @Override

@@ -199,18 +199,14 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _reactInstanceManager = ReactInstanceManager.builder()
         .setApplication(app)
         .setBundleAssetName(skinOptions.getBundleAssetName())
-        .setJSMainModulePath("index")
-        .setJSBundleFile("index.android.jsbundle")
+        .setJSBundleFile("assets://index.android.jsbundle")
 //        .setJSMainModuleName("index.android")
         .addPackage(_package)
         .setUseDeveloperSupport(BuildConfig.DEBUG)
         .setInitialLifecycleState(LifecycleState.RESUMED)
         .build();
     ccStyleChanged();
-    // Reload JS from the react server. TODO: does not work after react upgrade
-    if (skinOptions.getEnableReactJSServer()) {
-      ReactUtil.reloadJs(_reactInstanceManager);
-    }
+
     rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
 
     FrameLayout.LayoutParams frameLP =
