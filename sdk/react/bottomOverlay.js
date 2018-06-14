@@ -219,19 +219,23 @@ var BottomOverlay = createReactClass({
           value={this.props.playhead}
           maximumValue={this.props.duration}
           step={1.0}
-          onValueChange={this._onValueChange} />
+          onValueChange={this._onValueChange}>
+        </Slider>
       );
     } else {
       return (
-        <View
-          accessible={this.state.accessibilityEnabled}
+        <Animated.View
           testID={VIEW_NAMES.TIME_SEEK_BAR}
+          accessible={this.state.accessibilityEnabled}
           accessibilityLabel={scrubberBarAccessibilityLabel}
+          onTouchStart={(event) => this.handleTouchStart(event)}
+          onTouchMove={(event) => this.handleTouchMove(event)}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}
           style={styles.progressBarStyle}>
           {this._renderProgressBar(playedPercent)}
           {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
           {this._renderCuePoints(this.props.cuePoints)}
-        </View>
+        </Animated.View>
       )
     }
   },
@@ -371,11 +375,7 @@ var BottomOverlay = createReactClass({
     return (
       <Animated.View
         accessible={false}
-        onTouchStart={(event) => this.handleTouchStart(event)}
-        onTouchMove={(event) => this.handleTouchMove(event)}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}
         style={[styles.container, widthStyle, {"height": this.state.height}]}>
-        {/*<View style ={[styles.bottomOverlayFlexibleSpace]}></View>*/}
         {this._renderCompleteProgressBar()}
         {<View style ={[styles.bottomOverlayFlexibleSpace]}></View>}
         {this._renderControlBar()}

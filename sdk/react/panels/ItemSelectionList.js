@@ -6,12 +6,12 @@
  */
 import PropTypes from 'prop-types';
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ScrollView
 } from 'react-native';
 
-var styles=require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
+const styles=require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
 
 class ItemSelectionList extends React.Component {
   static propTypes = {
@@ -21,15 +21,15 @@ class ItemSelectionList extends React.Component {
   };
 
   renderItems = (items) => {
-    var renderedItems = items.map((item, index) => (
+    const renderedItems = items.map((item, index) => (
         this.props.itemRender(item, index)
     ));
-      
+
     return (renderedItems);
   };
 
   render() {
-    var scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
+    const scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
     return (
       <ScrollView
         style={scrollViewStyle}

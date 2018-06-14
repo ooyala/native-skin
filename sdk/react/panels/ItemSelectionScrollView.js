@@ -6,16 +6,16 @@
  */
 import PropTypes from 'prop-types';
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
 
-var Utils = require('../utils');
-var ItemSelectionList = require('./ItemSelectionList');
-var styles = require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles'));
+const Utils = require('../utils');
+const ItemSelectionList = require('./ItemSelectionList');
+const styles = require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles'));
 
 class ItemSelectionScrollView extends React.Component {
   static propTypes = {
@@ -38,10 +38,10 @@ class ItemSelectionScrollView extends React.Component {
   };
 
   renderItem = (item, index) => {
-    var isSelectedItem = this.isSelected(item);
-    var buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
-    var textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
-    var checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
+    const isSelectedItem = this.isSelected(item);
+    const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
+    const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
+    const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
 
     return (
       <TouchableHighlight
@@ -64,7 +64,7 @@ class ItemSelectionScrollView extends React.Component {
   };
 
   render() {
-    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+    const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     return (
       <ItemSelectionList
         horizontal={renderHorizontal}

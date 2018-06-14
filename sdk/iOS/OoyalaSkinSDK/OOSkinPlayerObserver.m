@@ -249,10 +249,11 @@
   int errorCode = error ? error.code : -1;
   NSNumber *code = [NSNumber numberWithInt:errorCode];
   NSString *detail = _player.error.description ? self.player.error.description : @"";
+  NSDictionary *userInfo = self.player.error.userInfo ? self.player.error.userInfo : @{};
   NSDictionary *eventBody = @{
-                              @"code":code,
-                              @"description":detail,
-                              @"userInfo": self.player.error.userInfo
+                              @"code": code,
+                              @"description": detail,
+                              @"userInfo": userInfo
                               };
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
