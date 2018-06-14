@@ -60,7 +60,7 @@ var BottomOverlay = createReactClass({
     shouldShowLandscape: PropTypes.bool,
     screenReaderEnabled: PropTypes.bool,
     config: PropTypes.object,
-    сlosedCaptionsEnabled: PropTypes.bool, 
+    сlosedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool
   },
@@ -142,11 +142,11 @@ var BottomOverlay = createReactClass({
   },
 
   _renderProgressScrubber: function(percent) {
-    var progressBarWidth = this._renderProgressBarWidth();
-    var topOffset = this._renderTopOffset(scrubberSize);
-    var leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
-    var positionStyle = {top:topOffset, left:leftOffset};
-    var scrubberStyle = this._customizeScrubber();
+    const progressBarWidth = this._renderProgressBarWidth();
+    const topOffset = this._renderTopOffset(scrubberSize);
+    const leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
+    const positionStyle = {top:topOffset, left:leftOffset};
+    const scrubberStyle = this._customizeScrubber();
 
     return (
       <View
@@ -170,13 +170,19 @@ var BottomOverlay = createReactClass({
   },
 
   _customizeScrubber: function() {
-    var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
+    let scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
     if (!scrubberHandleBorderColor) {
       Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       scrubberHandleBorderColor = "white";
     }
-    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.getScrubberHandleColor(),
-    borderRadius: 900, borderWidth: 1.5, borderColor: scrubberHandleBorderColor};
+    const scrubberStyle = {
+      flex: 0,
+      position: "absolute",
+      backgroundColor: this.getScrubberHandleColor(),
+      borderRadius: 100,
+      borderWidth: 1.5,
+      borderColor: scrubberHandleBorderColor
+    };
     return scrubberStyle;
   },
 
