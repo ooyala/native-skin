@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
@@ -30,49 +32,47 @@ var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
 
-var ControlBar = React.createClass({
-  getInitialState: function() {
-    return {
-      showVolume: false,
-    };
-  },
+class ControlBar extends React.Component {
+  static propTypes = {
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    primaryButton: PropTypes.string.isRequired,
+    fullscreen: PropTypes.bool.isRequired,
+    playhead: PropTypes.number.isRequired,
+    duration: PropTypes.number.isRequired,
+    volume: PropTypes.number.isRequired,
+    onPress: PropTypes.func.isRequired,
+    handleControlsTouch: PropTypes.func.isRequired,
+    live: PropTypes.object,
+    config: PropTypes.object.isRequired,
+    сlosedCaptionsEnabled: PropTypes.bool,
+    stereoSupported: PropTypes.bool,
+    multiAudioEnabled: PropTypes.bool
+  };
 
-  propTypes: {
-    width: React.PropTypes.number.isRequired,
-    height: React.PropTypes.number.isRequired,
-    primaryButton: React.PropTypes.string.isRequired,
-    fullscreen: React.PropTypes.bool.isRequired,
-    playhead: React.PropTypes.number.isRequired,
-    duration: React.PropTypes.number.isRequired,
-    volume: React.PropTypes.number.isRequired,
-    onPress: React.PropTypes.func.isRequired,
-    handleControlsTouch: React.PropTypes.func.isRequired,
-    live: React.PropTypes.object,
-    config: React.PropTypes.object.isRequired,
-    сlosedCaptionsEnabled: React.PropTypes.bool,
-    stereoSupported: React.PropTypes.bool,
-    multiAudioEnabled: React.PropTypes.bool
-  },
+  static defaultProps = {playhead: 0, duration: 0};
 
-  getDefaultProps: function() {
-    return {playhead: 0, duration: 0};
-  },
-  getPlayHeadTimeString: function() {
+  state = {
+    showVolume: false,
+  };
+
+  getPlayHeadTimeString = () => {
     if (this.props.live) {
       return this.props.live.label;
     } else {
       return (Utils.secondsToString(this.props.playhead) + " - ");
     }
-  },
-  getDurationString: function() {
+  };
+
+  getDurationString = () => {
     if (this.props.live) {
       return null;
     } else {
       return Utils.secondsToString(this.props.duration);
     }
-  },
+  };
 
-  getVolumeControlColor: function() {
+  getVolumeControlColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.volumeControl.color) {
         Log.error("controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
@@ -83,45 +83,45 @@ var ControlBar = React.createClass({
     } else {
       return this.props.config.general.accentColor;
     }
-  },
+  };
 
-  onPlayPausePress: function() {
+  onPlayPausePress = () => {
     this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
-  },
+  };
 
-  onVolumePress: function() {
+  onVolumePress = () => {
     this.setState({showVolume:!this.state.showVolume});
-  },
+  };
 
-  onSocialSharePress: function() {
+  onSocialSharePress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.SHARE);
-  },
+  };
 
-  onDiscoveryPress: function() {
+  onDiscoveryPress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.DISCOVERY);
-  },
+  };
 
-  onFullscreenPress: function() {
+  onFullscreenPress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
-  },
+  };
 
-  onMorePress: function() {
+  onMorePress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
-  },
+  };
 
-  onRewindPress: function() {
+  onRewindPress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.REWIND);
-  },
+  };
 
-  onStereoscopicPress: function () {
+  onStereoscopicPress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.STEREOSCOPIC);
-  },
+  };
 
-  onAudioAndCCPress: function () {
+  onAudioAndCCPress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.AUDIO_AND_CC);
-  },
+  };
 
-  render: function() {
+  render() {
 
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
     var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
@@ -249,7 +249,6 @@ var ControlBar = React.createClass({
       </View>
     );
   }
-
-});
+}
 
 module.exports = ControlBar;

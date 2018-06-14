@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React from 'react';
 import {
@@ -11,22 +13,22 @@ import {
 
 const styles=require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
 
-const ItemSelectionList = React.createClass({
-  propTypes: {
-    horizontal: React.PropTypes.bool,
-    data: React.PropTypes.array,
-    itemRender: React.PropTypes.func
-  },
+class ItemSelectionList extends React.Component {
+  static propTypes = {
+    horizontal: PropTypes.bool,
+    data: PropTypes.array,
+    itemRender: PropTypes.func
+  };
 
-  renderItems: function(items) {
+  renderItems = (items) => {
     const renderedItems = items.map((item, index) => (
         this.props.itemRender(item, index)
     ));
-      
-    return (renderedItems);
-  },
 
-  render: function() {
+    return (renderedItems);
+  };
+
+  render() {
     const scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
     return (
       <ScrollView
@@ -37,9 +39,7 @@ const ItemSelectionList = React.createClass({
           {this.renderItems(this.props.data)}
       </ScrollView>
     );
-  },
-
-
-});
+  }
+}
 
 module.exports = ItemSelectionList;

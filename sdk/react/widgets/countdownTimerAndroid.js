@@ -1,4 +1,5 @@
 'use strict';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   View, 
@@ -12,8 +13,8 @@ if (Platform.OS === 'android') {
     name: 'CountdownView',
     propTypes: {
       ...View.propTypes,
-      countdown: React.PropTypes.object,
-      data: React.PropTypes.object,
+      countdown: PropTypes.object,
+      data: PropTypes.object,
     }
   };
 

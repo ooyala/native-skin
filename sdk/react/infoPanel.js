@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -9,13 +10,13 @@ var Utils = require('./utils');
 
 var styles = Utils.getStyles(require('./style/infoPanelStyles.json'));
 
-var InfoPanel = React.createClass ({
-	propTypes: {
-   title: React.PropTypes.string,
-   description: React.PropTypes.string,
-  },
+class InfoPanel extends React.Component {
+  static propTypes = {
+ title: PropTypes.string,
+ description: PropTypes.string,
+};
 
-  render: function() {
+  render() {
     var infoPanel;
 
     infoPanel = (
@@ -32,6 +33,6 @@ var InfoPanel = React.createClass ({
     );
 
   }
-});
+}
 
 module.exports = InfoPanel;

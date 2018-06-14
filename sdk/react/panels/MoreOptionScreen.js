@@ -1,5 +1,7 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import {
   Animated,
@@ -24,25 +26,23 @@ var {
 
 var dismissButtonSize = 20;
 
-var MoreOptionScreen = React.createClass({
-	propTypes: {
-    height: React.PropTypes.number,
-    onDismiss: React.PropTypes.func,
-    onOptionButtonPress: React.PropTypes.func,
-    config: React.PropTypes.object,
-    controlBarWidth: React.PropTypes.number
-	},
+class MoreOptionScreen extends React.Component {
+  static propTypes = {
+  height: PropTypes.number,
+  onDismiss: PropTypes.func,
+  onOptionButtonPress: PropTypes.func,
+  config: PropTypes.object,
+  controlBarWidth: PropTypes.number
+  };
 
-  getInitialState: function() {
-    return {
-      translateY: new Animated.Value(this.props.height),
-      opacity: new Animated.Value(0),
-      buttonOpacity: new Animated.Value(1),
-      button: '',
-    };
-  },
+  state = {
+    translateY: new Animated.Value(this.props.height),
+    opacity: new Animated.Value(0),
+    buttonOpacity: new Animated.Value(1),
+    button: '',
+  };
 
-  componentDidMount:function () {
+  componentDidMount() {
     this.state.translateY.setValue(this.props.height);
     this.state.opacity.setValue(0);
     Animated.parallel([
@@ -61,13 +61,13 @@ var MoreOptionScreen = React.createClass({
           delay: 0
         }),
     ]).start();
-  },
+  }
 
-  onOptionBtnPressWithPanel: function() {
+  onOptionBtnPressWithPanel = () => {
     this.props.onOptionButtonPress(this.state.button);
-  },
+  };
 
-  onOptionPress: function(buttonName) {
+  onOptionPress = (buttonName) => {
     if (BUTTON_NAMES.SHARE === buttonName) {
       this.props.onOptionButtonPress(buttonName);
     } else {
@@ -81,13 +81,13 @@ var MoreOptionScreen = React.createClass({
         }
       ).start(this.onOptionBtnPressWithPanel);
     }
-  },
+  };
 
-  onDismissBtnPress: function() {
+  onDismissBtnPress = () => {
     this.props.onDismiss();
-  },
+  };
 
-  onDismissPress: function(){
+  onDismissPress = () => {
     Animated.timing(
       this.state.opacity,
       {
@@ -96,9 +96,9 @@ var MoreOptionScreen = React.createClass({
         delay: 0
       }
     ).start(this.onDismissBtnPress);
-  },
+  };
 
-  _renderMoreOptionButtons: function(moreOptionButtons){
+  _renderMoreOptionButtons = (moreOptionButtons) => {
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.config.controlBarWidth, this.props.config.buttons );
     var buttons = itemCollapsingResults.overflow;
     for(var i = 0; i < buttons.length; i++){
@@ -131,9 +131,9 @@ var MoreOptionScreen = React.createClass({
 
       moreOptionButtons.push(moreOptionButton);
     }
-  },
+  };
 
-  _renderIcon: function(buttonName){
+  _renderIcon = (buttonName) => {
     var buttonIcon;
     switch(buttonName){
       case BUTTON_NAMES.DISCOVERY:
@@ -155,38 +155,38 @@ var MoreOptionScreen = React.createClass({
         break;
     }
     return buttonIcon;
-  },
+  };
 
-	render: function() {
-    var moreOptionButtons = [];
-    this._renderMoreOptionButtons(moreOptionButtons);
-    var dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS, styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
+  render() {
+  var moreOptionButtons = [];
+  this._renderMoreOptionButtons(moreOptionButtons);
+  var dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS, styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
 
-    var moreOptionRow;
-    var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
-  
-    moreOptionRow = (
-    <Animated.View
-      ref='moreOptionRow'
-      style={[styles.rowCenter, rowAnimationStyle]}>
-      {moreOptionButtons}
-    </Animated.View>);
-  
-    var dismissButtonRow = (
-      <View style={styles.dismissButtonTopRight}>
-        {dismissButton}
-      </View>
-    );
-    var animationStyle = {opacity:this.state.opacity};
-    var moreOptionScreen = (
-      <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
-        {moreOptionRow}
-        {dismissButtonRow}
-      </Animated.View>
-    );
+  var moreOptionRow;
+  var rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
 
-    return moreOptionScreen;
-  }
-});
+  moreOptionRow = (
+  <Animated.View
+    ref='moreOptionRow'
+    style={[styles.rowCenter, rowAnimationStyle]}>
+    {moreOptionButtons}
+  </Animated.View>);
+
+  var dismissButtonRow = (
+    <View style={styles.dismissButtonTopRight}>
+      {dismissButton}
+    </View>
+  );
+  var animationStyle = {opacity:this.state.opacity};
+  var moreOptionScreen = (
+    <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
+      {moreOptionRow}
+      {dismissButtonRow}
+    </Animated.View>
+  );
+
+  return moreOptionScreen;
+}
+}
 
 module.exports = MoreOptionScreen;

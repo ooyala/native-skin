@@ -3,30 +3,27 @@
  */
 'use strict';
 
-import React, { Component } from 'react';
-var Constants = require('./constants');
-var {
-  BUTTON_NAMES,
+import React from 'react';
+
+const Constants = require('./constants');
+const {
   SCREEN_TYPES,
   OVERLAY_TYPES,
-  OOSTATES,
-  PLATFORMS,
   DESIRED_STATES
 } = Constants;
-var Log = require('./log');
 
-var Dimensions = require('Dimensions');
-var ActivityView = require('NativeModules').OOActivityView;
-var StartScreen = require('./panels/StartScreen');
-var EndScreen = require('./panels/EndScreen');
-var ErrorScreen = require('./panels/ErrorScreen');
-var DiscoveryPanel = require('./panels/discoveryPanel');
-var MoreOptionScreen = require('./panels/MoreOptionScreen');
-var VideoView = require('./panels/videoView');
-var AdPlaybackScreen = require('./panels/adPlaybackScreen')
-var AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
+const Log = require('./log');
+const ActivityView = require('NativeModules').OOActivityView;
+const StartScreen = require('./panels/StartScreen');
+const EndScreen = require('./panels/EndScreen');
+const ErrorScreen = require('./panels/ErrorScreen');
+const DiscoveryPanel = require('./panels/discoveryPanel');
+const MoreOptionScreen = require('./panels/MoreOptionScreen');
+const VideoView = require('./panels/videoView');
+const AdPlaybackScreen = require('./panels/adPlaybackScreen')
+const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 
-var OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
+const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
   Log.log("OoyalaSkinPanelRenderer Created");
   this.skin = ooyalaSkin;
   this.core = ooyalaCore;
@@ -140,7 +137,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
-      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY ? true : false}
+      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
       loading={this.skin.state.loading}
       initialPlay={this.skin.state.initialPlay}>
     </VideoView>
@@ -183,7 +180,7 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
-      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY ? true : false}
+      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
       loading={this.skin.state.loading}
       initialPlay={this.skin.state.initialPlay}>
     </AdPlaybackScreen>

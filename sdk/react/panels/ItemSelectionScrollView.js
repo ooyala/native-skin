@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React from 'react';
 import {
@@ -15,27 +17,27 @@ const Utils = require('../utils');
 const ItemSelectionList = require('./ItemSelectionList');
 const styles = require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles'));
 
-const ItemSelectionScrollView = React.createClass({
-  propTypes: {
-    items: React.PropTypes.array,
-    selectedItem: React.PropTypes.string,
-    onSelect: React.PropTypes.func,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    config: React.PropTypes.object
-  },
+class ItemSelectionScrollView extends React.Component {
+  static propTypes = {
+    items: PropTypes.array,
+    selectedItem: PropTypes.string,
+    onSelect: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    config: PropTypes.object
+  };
 
-  isSelected: function(name) {
+  isSelected = (name) => {
     return name && name !== "" && name === this.props.selectedItem;
-  },
+  };
 
-  onSelected: function(name) {
+  onSelected = (name) => {
     if (this.props.selectedItem !== name) {
       this.props.onSelect(name);
     }
-  },
+  };
 
-  renderItem: function(item, index) {
+  renderItem = (item, index) => {
     const isSelectedItem = this.isSelected(item);
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
@@ -59,9 +61,9 @@ const ItemSelectionScrollView = React.createClass({
         </View>
       </TouchableHighlight>
     );
-  },
+  };
 
-  render: function() {
+  render() {
     const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     return (
       <ItemSelectionList
@@ -70,9 +72,7 @@ const ItemSelectionScrollView = React.createClass({
         itemRender={this.renderItem}>
       </ItemSelectionList>
     );
-  },
-
-
-});
+  }
+}
 
 module.exports = ItemSelectionScrollView;

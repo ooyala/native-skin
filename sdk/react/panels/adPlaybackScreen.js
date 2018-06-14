@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
@@ -36,50 +38,50 @@ var {
   AUTOHIDE_DELAY
 } = Constants;
 
-var AdPlaybackScreen = React.createClass({
-  propTypes: {
-    rate: React.PropTypes.number,
-    platform: React.PropTypes.string,
-    playhead: React.PropTypes.number,
-    buffered: React.PropTypes.number,
-    duration: React.PropTypes.number,
-    ad: React.PropTypes.object,
-    live: React.PropTypes.bool,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    volume: React.PropTypes.number,
-    fullscreen: React.PropTypes.bool,
-    cuePoints: React.PropTypes.array,
-    handlers:  React.PropTypes.shape({
-      onPress: React.PropTypes.func,
-      onIcon: React.PropTypes.func,
-      onScrub: React.PropTypes.func,
-      handleVideoTouch: React.PropTypes.func,
-      handleControlsTouch: React.PropTypes.func,
+class AdPlaybackScreen extends React.Component {
+  static propTypes = {
+    rate: PropTypes.number,
+    platform: PropTypes.string,
+    playhead: PropTypes.number,
+    buffered: PropTypes.number,
+    duration: PropTypes.number,
+    ad: PropTypes.object,
+    live: PropTypes.bool,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    volume: PropTypes.number,
+    fullscreen: PropTypes.bool,
+    cuePoints: PropTypes.array,
+    handlers:  PropTypes.shape({
+      onPress: PropTypes.func,
+      onIcon: PropTypes.func,
+      onScrub: PropTypes.func,
+      handleVideoTouch: PropTypes.func,
+      handleControlsTouch: PropTypes.func,
     }),
-    lastPressedTime: React.PropTypes.any,
-    screenReaderEnabled: React.PropTypes.bool,
-    showWatermark: React.PropTypes.bool,
-    config: React.PropTypes.object,
-    nextVideo: React.PropTypes.object,
-    upNextDismissed: React.PropTypes.bool,
-    localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string,
-    playing: React.PropTypes.bool,
-    loading: React.PropTypes.bool,
-    initialPlay: React.PropTypes.bool,
-  },
+    lastPressedTime: PropTypes.any,
+    screenReaderEnabled: PropTypes.bool,
+    showWatermark: PropTypes.bool,
+    config: PropTypes.object,
+    nextVideo: PropTypes.object,
+    upNextDismissed: PropTypes.bool,
+    localizableStrings: PropTypes.object,
+    locale: PropTypes.string,
+    playing: PropTypes.bool,
+    loading: PropTypes.bool,
+    initialPlay: PropTypes.bool,
+  };
 
-  componentWillReceiveProps: function(nextProps) {
+  static defaultProps = {playhead: 0, buffered: 0, duration: 1};
 
-  },
+  state = {
+  };
 
-  getInitialState: function() {
-    return {
-    };
-  },
+  componentWillReceiveProps(nextProps) {
 
-  generateLiveObject: function() {
+  }
+
+  generateLiveObject = () => {
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
       return ({
@@ -90,16 +92,16 @@ var AdPlaybackScreen = React.createClass({
     } else {
       return null;
     }
-  },
+  };
 
-  onGoLive: function() {
+  onGoLive = () => {
     Log.log("onGoLive");
     if (this.props.handlers.onScrub) {
       this.props.handlers.onScrub(1);
     }
-  },
+  };
 
-  handlePress: function(name) {
+  handlePress = (name) => {
     Log.verbose("VideoView Handle Press: " + name);
     if (this.state.showControls) {
       if (name == "LIVE") {
@@ -110,15 +112,15 @@ var AdPlaybackScreen = React.createClass({
     } else {
       this.props.handlers.onPress(name);
     }
-  },
+  };
 
-  _createOnIcon: function(index, func) {
+  _createOnIcon = (index, func) => {
     return function() {
       func(index);
     }
-  },
+  };
 
-  _renderBottomOverlay: function(show) {
+  _renderBottomOverlay = (show) => {
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
@@ -144,9 +146,9 @@ var AdPlaybackScreen = React.createClass({
         live: this.props.config.live,
         general: this.props.config.general
       }} />);
-  },
+  };
 
-  _renderAdBar: function() {
+  _renderAdBar = () => {
     return (<AdBar
         ad={this.props.ad}
         playhead={this.props.playhead}
@@ -156,18 +158,18 @@ var AdPlaybackScreen = React.createClass({
         localizableStrings={this.props.localizableStrings}
         locale={this.props.locale} />
       );
-  },
+  };
 
-  _renderPlaceholder: function(adIcons) {
+  _renderPlaceholder = (adIcons) => {
     return (
       <View
         style={styles.placeholder}
         onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
         {adIcons}
       </View>);
-  },
+  };
 
-  _renderPlayPause: function(show) {
+  _renderPlayPause = (show) => {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
       return (
         <VideoViewPlayPause
@@ -195,21 +197,17 @@ var AdPlaybackScreen = React.createClass({
           loading={this.props.loading}
           initialPlay={this.props.initialPlay}>
         </VideoViewPlayPause>);
-  },
+  };
 
-  handleScrub: function(value) {
+  handleScrub = (value) => {
     this.props.handlers.onScrub(value);
-  },
+  };
 
-  getDefaultProps: function() {
-    return {playhead: 0, buffered: 0, duration: 1};
-  },
-
-  handleTouchEnd: function(event) {
+  handleTouchEnd = (event) => {
     this.props.handlers.handleVideoTouch();
-  },
+  };
 
-  _renderAdIcons: function() {
+  _renderAdIcons = () => {
     var iconViews = [];
     for (var index in this.props.ad.icons) {
       var icon = this.props.ad.icons[index];
@@ -239,9 +237,9 @@ var AdPlaybackScreen = React.createClass({
       );
     }
     return iconViews;
-  },
+  };
 
-  render: function() {
+  render() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     var doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
@@ -285,6 +283,6 @@ var AdPlaybackScreen = React.createClass({
       );
     }
   }
-});
+}
 
 module.exports = AdPlaybackScreen;

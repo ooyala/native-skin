@@ -10,9 +10,9 @@ import {
   ActivityIndicator,
   StyleSheet,
   Text,
-  TouchableHighlight,
   View,
   BackAndroid,
+  AccessibilityInfo
 } from 'react-native';
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
@@ -29,51 +29,48 @@ var {
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance;
-var AccessibilityInfo = require("./accessibility/AccessibilityInfo");
 
-var OoyalaSkin = React.createClass({
+class OoyalaSkin extends React.Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
   // by the native bridge, and others are used purely on the non-native side.
   // consider using a leading underscore, or something?
-  getInitialState: function() {
-    return {
-      // states from react
-      screenType: SCREEN_TYPES.LOADING_SCREEN,
-      overlayStack: [],
-      // states from native
-      title: '',
-      description: '',
-      cuePoints: [],
-      promoUrl: '',
-      hostedAtUrl: '',
-      desiredState: DESIRED_STATES.DESIRED_PAUSE,
-      playhead: 0,
-      duration: 1,
-      rate: 0,
-      fullscreen: false,
-      lastPressedTime: new Date(0),
-      upNextDismissed: false,
-      showPlayButton: true,
-      // things which default to null and thus don't have to be stated:
-      // selectedLanguage: null,
-      // availableClosedCaptionsLanguages: null,
-      // multiAudioEnabled: false,
-      // selectedAudioTrack: null,
-      // audioTracksTitles: null,
-      alertTitle: '',
-      alertMessage: '',
-      error: null,
-      platform:PLATFORMS.ANDROID,
-      screenReaderEnabled: false,
-    };
-  },
+  state = {
+    // states from react
+    screenType: SCREEN_TYPES.LOADING_SCREEN,
+    overlayStack: [],
+    // states from native
+    title: '',
+    description: '',
+    cuePoints: [],
+    promoUrl: '',
+    hostedAtUrl: '',
+    desiredState: DESIRED_STATES.DESIRED_PAUSE,
+    playhead: 0,
+    duration: 1,
+    rate: 0,
+    fullscreen: false,
+    lastPressedTime: new Date(0),
+    upNextDismissed: false,
+    showPlayButton: true,
+    // things which default to null and thus don't have to be stated:
+    // selectedLanguage: null,
+    // availableClosedCaptionsLanguages: null,
+    // multiAudioEnabled: false,
+    // selectedAudioTrack: null,
+    // audioTracksTitles: null,
+    alertTitle: '',
+    alertMessage: '',
+    error: null,
+    platform:PLATFORMS.ANDROID,
+    screenReaderEnabled: false,
+  };
 
-  componentWillMount: function() {
+  componentWillMount() {
     OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
     OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     // eventBridge.queryState();
     BackAndroid.addEventListener('hardwareBackPress', function () {
       return OoyalaSkinCoreInstance.onBackPressed();
@@ -88,43 +85,43 @@ var OoyalaSkin = React.createClass({
         screenReaderEnabled: isEnabled
       });
     });
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     OoyalaSkinCoreInstance.unmount();
 
     AccessibilityInfo.removeEventListener(
       'change',
       this._handleScreenReaderToggled
     );
-  },
+  }
 
-  _handleScreenReaderToggled: function(isEnabled) {
+  _handleScreenReaderToggled = (isEnabled) => {
     this.setState({
       screenReaderEnabled: isEnabled
     });
-  },
+  };
 
-  renderLoadingScreen: function() {
+  renderLoadingScreen = () => {
      return (
        <ActivityIndicator
         style={styles.loading}
         size="large"
       />
     );
-  },
+  };
 
-  renderVideoView: function() {
+  renderVideoView = () => {
     return (
       <View style={styles.container}>
           <Text>{this.state.playerState}</Text>
       </View>);
-  },
+  };
 
-  render: function() {
+  render() {
     return OoyalaSkinCoreInstance.renderScreen();
   }
-});
+}
 
 var styles = StyleSheet.create({
   container: {

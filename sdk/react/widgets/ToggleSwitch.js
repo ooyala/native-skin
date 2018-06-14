@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
@@ -18,35 +20,33 @@ var Constants = require('../constants');
 var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.json'));
 
 // Tint props only work for iOS.
-var ToggleSwitch = React.createClass({
-  propTypes: {
-    switchOn: React.PropTypes.bool,
-    areClosedCaptionsAvailable: React.PropTypes.bool,
-    switchOnText: React.PropTypes.string,
-    switchOffText: React.PropTypes.string,
-    onValueChanged: React.PropTypes.func,
-    config: React.PropTypes.object,
-    onTintColor: React.PropTypes.string,
-    tintColor: React.PropTypes.string,
-    thumbTintColor: React.PropTypes.string,
-  },
+class ToggleSwitch extends React.Component {
+  static propTypes = {
+    switchOn: PropTypes.bool,
+    areClosedCaptionsAvailable: PropTypes.bool,
+    switchOnText: PropTypes.string,
+    switchOffText: PropTypes.string,
+    onValueChanged: PropTypes.func,
+    config: PropTypes.object,
+    onTintColor: PropTypes.string,
+    tintColor: PropTypes.string,
+    thumbTintColor: PropTypes.string,
+  };
 
-  getDefaultProps: function() {
-    return {
-      tintColor: '#DDDDDD',
-      thumbTintColor: '#FFFFFF'
-    };
-  },
+  static defaultProps = {
+    tintColor: '#DDDDDD',
+    thumbTintColor: '#FFFFFF'
+  };
 
-  onSwitchToggled: function() {
+  onSwitchToggled = () => {
     this.props.onValueChanged(!this.props.switchOn);
-  },
+  };
 
-  getOnTintColor: function() {
+  getOnTintColor = () => {
     return this.props.config.general.accentColor ? this.props.config.general.accentColor : '#498DFC';
-  },
+  };
 
-  render: function() {
+  render() {
     var onTextStyle = this.props.switchOn ? styles.highlightedText : styles.grayedText;
     var offTextStyle = this.props.switchOn ? styles.grayedText : styles.highlightedText;
     return (
@@ -63,7 +63,7 @@ var ToggleSwitch = React.createClass({
           <Text style={onTextStyle}>{this.props.switchOnText}</Text>
         </View>
     );
-  },
-});
+  }
+}
 
 module.exports = ToggleSwitch;

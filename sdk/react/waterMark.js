@@ -10,8 +10,8 @@ import {
 var Utils = require('./utils');
 var styles = Utils.getStyles();
 
-var WaterMark = React.createClass ({
-	render: function() {
+class WaterMark extends React.Component {
+    render() {
 		var waterMarkImageLocation = styles.waterMarkImageSE;
   	var waterMarkImage = (
     		<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
@@ -26,6 +26,6 @@ var WaterMark = React.createClass ({
     	</View>
   	);
 	}
-});
+}
 
 module.exports = WaterMark;

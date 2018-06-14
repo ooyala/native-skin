@@ -4,16 +4,16 @@
  */
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import {
   Animated,
+  ImageBackground,
   Image,
-  ListView,
-  StyleSheet,
   Text,
   TouchableHighlight,
   View,
-  ScrollView,
   DeviceEventEmitter
 } from 'react-native';
 
@@ -38,47 +38,45 @@ var rectHeight = 160;
 var widthThreshold = 300;
 
 var timerListenerAndroid;
-var DiscoveryPanel = React.createClass({
 
-  propTypes: {
-    onDismiss: React.PropTypes.func,
-    localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string,
-    dataSource: React.PropTypes.array,
-    onRowAction: React.PropTypes.func,
-    config: React.PropTypes.object,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    platform: React.PropTypes.string,
-    screenType: React.PropTypes.string,
-  },
+class DiscoveryPanel extends React.Component {
+  static propTypes = {
+    onDismiss: PropTypes.func,
+    localizableStrings: PropTypes.object,
+    locale: PropTypes.string,
+    dataSource: PropTypes.array,
+    onRowAction: PropTypes.func,
+    config: PropTypes.object,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    platform: PropTypes.string,
+    screenType: PropTypes.string,
+  };
 
-  getInitialState: function() {
-    return {
-      opacity: new Animated.Value(0),
-      showCountdownTimer: false,
-      counterTime: 0,
-      impressionsFired:false,
-    };
-  },
+  state = {
+    opacity: new Animated.Value(0),
+    showCountdownTimer: false,
+    counterTime: 0,
+    impressionsFired:false,
+  };
 
   /*
     onTimerCompleted is emitted by native CountdownViewAndroid component.
     Regular CountdownView uses onTimerCompleted callback defined in jsx
   */
-  onTimerCompleted: function(e: Event) {
+  onTimerCompleted = (e: Event) => {
     this.onRowSelected(e);
-  },
+  };
 
-  componentWillMount: function(e: Event) {
+  componentWillMount(e: Event) {
     timerListenerAndroid = DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted)
-  },
+  }
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     timerListenerAndroid.remove();
-  },
+  }
 
-  componentDidMount:function () {
+  componentDidMount() {
     // After the first render, we don't want to fire any more impressions requests
     this.setImpressionsFired(true);
 
@@ -96,43 +94,44 @@ var DiscoveryPanel = React.createClass({
     if (this.props.screenType === SCREEN_TYPES.END_SCREEN && this.props.config.discoveryScreen.showCountDownTimerOnEndScreen) {
       this.setCounterTime(parseInt(this.props.config.discoveryScreen.countDownTime));
     }
-  },
+  }
 
-  onRowSelected: function(row) {
+  onRowSelected = (row) => {
   	if (this.props.onRowAction) {
         this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
         this.setState({showCountdownTimer: false});
         timerListenerAndroid.remove();
   	}
-  },
+  };
 
-  onRowImpressed: function(row) {
+  onRowImpressed = (row) => {
     if (this.props.onRowAction && !this.state.impressionsFired) {
       this.props.onRowAction({action:"impress", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
     }
-  },
+  };
 
-  onStatusPressed: function() {
+  onStatusPressed = () => {
     this.setState({showCountdownTimer: false});
-  },
+  };
 
-  setCounterTime: function(time) {
+  setCounterTime = (time) => {
     this.setState({
       counterTime: time,
       showCountdownTimer: true,
     });
-  },
-  setImpressionsFired: function(value) {
+  };
+
+  setImpressionsFired = (value) => {
     this.setState({
       impressionsFired:value,
     });
-  },
+  };
 
-  onDismissPress: function() {
+  onDismissPress = () => {
     this.props.onDismiss();
-  },
+  };
 
-  render: function() {
+  render() {
     var numOfRectsInRow = Math.floor(this.props.width / rectWidth);
     var itemRect = {width: this.props.width / numOfRectsInRow, height: rectHeight};
     var thumbnailStyle = (this.props.width > this.props.height) ? styles.thumbnailLandscape : styles.thumbnailPortrait;
@@ -149,13 +148,13 @@ var DiscoveryPanel = React.createClass({
         {this.renderError()}
       </Animated.View>
     );
-  },
+  }
 
-  _isDiscoveryError: function() {
+  _isDiscoveryError = () => {
     return this.props.dataSource === null || this.props.dataSource.length === 0;
-  },
+  };
 
-  renderList: function(itemRect, thumbnailStyle, containerStyle) {
+  renderList = (itemRect, thumbnailStyle, containerStyle) => {
     var panelHeight = this.props.height - 40;
     var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     if (this._isDiscoveryError()) {
@@ -182,9 +181,9 @@ var DiscoveryPanel = React.createClass({
         </ResponsiveList>
       );
     }
-  },
+  };
 
-  renderCountdownTimer: function(item) {
+  renderCountdownTimer = (item) => {
     if(this.props.platform == Constants.PLATFORMS.ANDROID) {
       return (
           <CountdownViewAndroid
@@ -219,9 +218,16 @@ var DiscoveryPanel = React.createClass({
              onPress={this.onStatusPressed}
              onTimerCompleted={() => this.onRowSelected(item)} />);
     }
-  },
+  };
 
-  renderItem: function(item: object, sectionID: number, itemID: number, itemRect:Object, thumbnailStyle:object, columnContainerStyle:object) {
+  renderItem = (
+    item: object,
+    sectionID: number,
+    itemID: number,
+    itemRect:Object,
+    thumbnailStyle:object,
+    columnContainerStyle:object,
+  ) => {
     var title;
     if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
       title = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
@@ -233,11 +239,11 @@ var DiscoveryPanel = React.createClass({
     }
 
     var thumbnail = (
-      <Image
+      <ImageBackground
         source={{uri:item.imageUrl}}
         style={[thumbnailStyle, styles.thumbnailContainer]}>
         {circularStatus}
-      </Image>);
+      </ImageBackground>);
 
     this.onRowImpressed(item);
 
@@ -253,9 +259,9 @@ var DiscoveryPanel = React.createClass({
       </View>
      </TouchableHighlight>
     );
-  },
+  };
 
-  renderHeader: function() {
+  renderHeader = () => {
     var title;
     if (this.props.config.discoveryScreen.panelTitle) {
       if (this.props.config.discoveryScreen.panelTitle.imageUri && this.props.config.discoveryScreen.panelTitle.showImage) {
@@ -287,9 +293,9 @@ var DiscoveryPanel = React.createClass({
         <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
       </TouchableHighlight>
     </View>);
-  },
+  };
 
-  renderError: function() {
+  renderError = () => {
     var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
     var errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
     var errorFlexDirectionStyle = {flexDirection: "row"};
@@ -314,7 +320,7 @@ var DiscoveryPanel = React.createClass({
         </View>
       );
     }
-  },
-});
+  };
+}
 
 module.exports = DiscoveryPanel;
