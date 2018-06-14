@@ -76,13 +76,15 @@ OoyalaSkinBridgeListener.prototype.onSeekStarted = function(e) {
   });
 };
 
-OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
-  Log.log( "onSeekComplete");
-  this.skin.setState({
-    playhead: e.seekend,
-    duration: e.duration,
-    screenType: e.screenType,
-  });
+OoyalaSkinBridgeListener.prototype.onSeekComplete = function (e) {
+    Log.warn("onSeekComplete");
+    if(this.skin.state.screenType != SCREEN_TYPES.END_SCREEN) {
+        this.skin.setState({
+            playhead: e.seekend,
+            duration: e.duration,
+            screenType: e.screenType,
+        });
+    }
 };
 
 OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
