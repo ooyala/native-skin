@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   View,
@@ -17,6 +18,8 @@ var InfoPanel = require("../infoPanel");
 var BottomOverlay = require("../bottomOverlay");
 var Log = require("../log");
 var Constants = require("../constants");
+var ResponsiveDesignManager = require('../responsiveDesignManager');
+
 
 var {
   BUTTON_NAMES,
@@ -24,9 +27,9 @@ var {
 } = Constants;
 
 var EndScreen = React.createClass({
-	getInitialState: function() {
+  getInitialState: function () {
     return {
-      showControls:true,
+      showControls: true,
     };
   },
 
@@ -43,18 +46,19 @@ var EndScreen = React.createClass({
     upNextDismissed: React.PropTypes.bool,
     fullscreen: React.PropTypes.bool,
     handleControlsTouch: React.PropTypes.func,
+    loading: React.PropTypes.bool,
     onScrub: React.PropTypes.func,
   },
 
-  handleClick: function(name) {
+  handleClick: function (name) {
     this.props.onPress(name);
   },
 
-  handleTouchEnd: function(event) {
+  handleTouchEnd: function (event) {
     this.toggleControlBar();
   },
 
-  handlePress: function(name) {
+  handlePress: function (name) {
     Log.verbose("VideoView Handle Press: " + name);
     this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
@@ -68,14 +72,14 @@ var EndScreen = React.createClass({
     }
   },
 
-  _renderDefaultScreen: function(progressBar, controlBar) {
+  _renderDefaultScreen: function (progressBar, controlBar) {
     var endScreenConfig = this.props.config.endScreen || {};
     var replaybuttonLocation = styles.replaybuttonCenter;
     var replaybutton;
-    if(endScreenConfig.showReplayButton) {
+    if (endScreenConfig.showReplayButton) {
       var fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replaybutton = (
-        <TouchableHighlight 
+        <TouchableHighlight
           accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType="button"
           onPress={(name) => this.handleClick("PlayPause")}
           underlayColor="transparent"
@@ -88,15 +92,21 @@ var EndScreen = React.createClass({
     var title = endScreenConfig.showTitle ? this.props.title : null;
     var description = endScreenConfig.showDescription ? this.props.description : null;
     var infoPanel =
-      (<InfoPanel title={title} description={description} />);
+      (<InfoPanel title={title} description={description}/>);
 
     return (
       <View
         style={styles.fullscreenContainer}>
         <Image
-        source={{uri: this.props.promoUrl}}
-        style={[styles.fullscreenContainer,{position:"absolute", top:0, left:0, width:this.props.width, height: this.props.height}]}
-        resizeMode={Image.resizeMode.contain}>
+          source={{uri: this.props.promoUrl}}
+          style={[styles.fullscreenContainer, {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: this.props.width,
+            height: this.props.height
+          }]}
+          resizeMode={Image.resizeMode.contain}>
         </Image>
         {infoPanel}
         <View style={replaybuttonLocation}>
@@ -109,15 +119,15 @@ var EndScreen = React.createClass({
     );
   },
 
-  handleScrub: function(value) {
+  handleScrub: function (value) {
     this.props.onScrub(value);
   },
 
-  _renderBottomOverlay: function(show) {
+  _renderBottomOverlay: function (show) {
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
-      Log.log("duration: " +this.props.duration)
+    Log.log("duration: " + this.props.duration)
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
@@ -130,20 +140,50 @@ var EndScreen = React.createClass({
       shouldShowProgressBar={true}
       showWatermark={this.props.showWatermark}
       handleControlsTouch={() => this.props.handleControlsTouch()}
-      onScrub={(value)=>this.handleScrub(value)}
+      onScrub={(value) => this.handleScrub(value)}
       fullscreen={this.props.fullscreen}
       isShow={show}
+      loading={this.props.loading}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
         icons: this.props.config.icons,
         live: this.props.config.live,
         general: this.props.config.general
-      }} />);
+      }}/>);
   },
 
-  render: function() {
-      return this._renderDefaultScreen();
+  _renderLoading1: function () {
+    var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
+    var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
+    var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    var loadingStyle = {
+      position: 'absolute',
+      top: topOffset,
+      left: leftOffset,
+      width: loadingSize,
+      height: loadingSize
+    };
+    if (this.props.loading) {
+      return (
+        <ActivityIndicator
+          style={loadingStyle}
+          size="large"
+        />
+      );
+    }
+  },
+
+  render: function () {
+    return (
+      <View
+        accessible={false}
+        style={styles.container}>
+        {this._renderDefaultScreen()}
+        {this._renderLoading1()}
+      </View>
+    );
   }
 });
 
