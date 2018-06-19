@@ -187,7 +187,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                                                                  videoView:self.videoView
                                                                andFullscreenViewController:self.fullscreenViewController];
   }
-  
   return self;
 }
 

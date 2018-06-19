@@ -57,6 +57,8 @@
 		75BCA7C91F850C2800B3F4E6 /* OoyalaSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75BCA7C81F850C2800B3F4E6 /* OoyalaSDK.framework */; };
 		75EA81B220441EAA000BDFE8 /* FullscreenStateOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 75EA81B020441EAA000BDFE8 /* FullscreenStateOperation.h */; };
 		75EA81B320441EAA000BDFE8 /* FullscreenStateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EA81B120441EAA000BDFE8 /* FullscreenStateOperation.m */; };
+		8FE31CDEC619477E2097C575 /* PresentedViewControllerHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FE31BA138326EFA3DEFC4A0 /* PresentedViewControllerHelper.h */; };
+		8FE31D5F19758B7EC9E93886 /* PresentedViewControllerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE31519D412D48C72553671 /* PresentedViewControllerHelper.m */; };
 		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8861AE6F008005043DC /* OOReactBridge.m */; };
 		972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8871AE6F008005043DC /* OOSkinViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -310,6 +312,8 @@
 		75BCA7C81F850C2800B3F4E6 /* OoyalaSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OoyalaSDK.framework; path = "../../vendor/Ooyala/OoyalaSDK-iOS/OoyalaSDK.framework"; sourceTree = "<group>"; };
 		75EA81B020441EAA000BDFE8 /* FullscreenStateOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FullscreenStateOperation.h; sourceTree = "<group>"; };
 		75EA81B120441EAA000BDFE8 /* FullscreenStateOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FullscreenStateOperation.m; sourceTree = "<group>"; };
+		8FE31519D412D48C72553671 /* PresentedViewControllerHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PresentedViewControllerHelper.m; sourceTree = "<group>"; };
+		8FE31BA138326EFA3DEFC4A0 /* PresentedViewControllerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentedViewControllerHelper.h; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		972ED8851AE6F008005043DC /* OOReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactBridge.h; sourceTree = "<group>"; };
@@ -440,6 +444,7 @@
 		757AE19E1F741A1E00D60C02 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				8FE31CDE29E32B874699EEA9 /* PresentedViewControllerSupport */,
 				754CBCD7203DE7BE0086CE53 /* FullscreenStateController */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */,
@@ -448,6 +453,15 @@
 				52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		8FE31CDE29E32B874699EEA9 /* PresentedViewControllerSupport */ = {
+			isa = PBXGroup;
+			children = (
+				8FE31519D412D48C72553671 /* PresentedViewControllerHelper.m */,
+				8FE31BA138326EFA3DEFC4A0 /* PresentedViewControllerHelper.h */,
+			);
+			path = PresentedViewControllerSupport;
 			sourceTree = "<group>";
 		};
 		972ED8411AE6EEEB005043DC = {
@@ -633,6 +647,7 @@
 				52A0A01E1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h in Headers */,
 				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
+				8FE31CDEC619477E2097C575 /* PresentedViewControllerHelper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1027,6 +1042,7 @@
 				979B01311B910A040032F5CF /* OOConstant.m in Sources */,
 				0BCABDA21C7F77A900989005 /* OOVolumeViewManager.m in Sources */,
 				9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */,
+				8FE31D5F19758B7EC9E93886 /* PresentedViewControllerHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
