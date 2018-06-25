@@ -120,7 +120,9 @@ const ERROR_MESSAGE = {
 
 const VIEW_ACCESSIBILITY_NAMES = {
   SCRUBBER_BAR_VIEW: 'Scrubber bar',
-  VOLUME_VIEW: 'Volume view'
+  VOLUME_VIEW: 'Volume view',
+  MUTLIAUDIO_CELL: "Language cell",
+  CC_CELL: "Subtitle cell"
 };
 
 const ACCESSIBILITY_LABELS = {
@@ -129,6 +131,7 @@ const ACCESSIBILITY_LABELS = {
 
 const ACCESSIBILITY_LABELS_TYPE = {
   SEEK_VIEWS: "seek_views",
+  CELL_VIEWS: "cell_views"
 };
 
 MAX_DATE_VALUE = 8640000000000000;

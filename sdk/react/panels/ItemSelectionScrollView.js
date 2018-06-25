@@ -42,9 +42,12 @@ class ItemSelectionScrollView extends React.Component {
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
     const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
+    const accessibilityString = "";
 
     return (
       <TouchableHighlight
+        accessibility={true}
+        access
         key={index}
         style={styles.item}
         underlayColor="transparent" // Can't move this property to json styles file because it doesn't work
