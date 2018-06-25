@@ -251,6 +251,41 @@
 			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
 			remoteInfo = "privatedata-tvOS";
 		};
+		757A84CE20E11CDB00AC6070 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83CBBA2D1A601D0E00E9B192;
+			remoteInfo = React;
+		};
+		757A84EA20E11CE200AC6070 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 58B5119A1A9E6C1200147676;
+			remoteInfo = RCTText;
+		};
+		757A84EC20E11CE700AC6070 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45ED11731B9F6369004968DE /* RCTWebSocket.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 3C86DF451ADF2C930047B81A;
+			remoteInfo = RCTWebSocket;
+		};
+		757A84EE20E11CEE00AC6070 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8B41AE70307005043DC /* RCTImage.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 58B5115C1A9E6B3D00147676;
+			remoteInfo = RCTImage;
+		};
+		757A84F020E11CF300AC6070 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
+			remoteInfo = RCTNetwork;
+		};
 		972ED8A51AE6FC3E005043DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
@@ -667,6 +702,11 @@
 			buildRules = (
 			);
 			dependencies = (
+				757A84CF20E11CDB00AC6070 /* PBXTargetDependency */,
+				757A84EB20E11CE200AC6070 /* PBXTargetDependency */,
+				757A84ED20E11CE700AC6070 /* PBXTargetDependency */,
+				757A84EF20E11CEE00AC6070 /* PBXTargetDependency */,
+				757A84F120E11CF300AC6070 /* PBXTargetDependency */,
 			);
 			name = OoyalaSkinSDK;
 			productName = OoyalaSkinSDK;
@@ -1058,6 +1098,31 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		757A84CF20E11CDB00AC6070 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = React;
+			targetProxy = 757A84CE20E11CDB00AC6070 /* PBXContainerItemProxy */;
+		};
+		757A84EB20E11CE200AC6070 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTText;
+			targetProxy = 757A84EA20E11CE200AC6070 /* PBXContainerItemProxy */;
+		};
+		757A84ED20E11CE700AC6070 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTWebSocket;
+			targetProxy = 757A84EC20E11CE700AC6070 /* PBXContainerItemProxy */;
+		};
+		757A84EF20E11CEE00AC6070 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTImage;
+			targetProxy = 757A84EE20E11CEE00AC6070 /* PBXContainerItemProxy */;
+		};
+		757A84F120E11CF300AC6070 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTNetwork;
+			targetProxy = 757A84F020E11CF300AC6070 /* PBXContainerItemProxy */;
+		};
 		CA2C6FB61BEA8599006B86BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 972ED84A1AE6EEEB005043DC /* OoyalaSkinSDK */;
