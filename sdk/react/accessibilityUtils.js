@@ -7,21 +7,28 @@
 import Constants from './constants.js'
 
 const {
-  ACCESSIBILITY_LABELS_TYPE
+  VIEW_ACCESSIBILITY_NAMES,
+  ACCESSIBILITY_LABELS_TYPE,
+  CELL_TYPES
 } = Constants;
 
 const AccessibilityUtils = {
 
-  createAccessibilityLabel(labelType, baseLabel, param) {
-    let resultLabel;
-    switch (labelType) {
-      case ACCESSIBILITY_LABELS_TYPE.CELL_VIEWS:
-        resultLabel = param + " " + baseLabel;
-        break;
-
+  createAccessibilityLabelForCell(cellType, param) {
+    switch (cellType) {
+      case CELL_TYPES.MULTIAUDIO:
+        return param + " " + VIEW_ACCESSIBILITY_NAMES.MUTLIAUDIO_CELL;
+      case CELL_TYPES.SUBTITLES:
+        return param + " " + VIEW_ACCESSIBILITY_NAMES.CC_CELL;
+      default:
+        return "";
     }
-    return resultLabel;
+  },
+
+  createAccessibilityLabelForScrubber(scrubberType, param) {
+
   }
+
 };
 
 module.export = AccessibilityUtils;

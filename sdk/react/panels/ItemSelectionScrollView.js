@@ -13,7 +13,6 @@ import {
   View,
 } from 'react-native';
 import AccessibilityUtils from '../accessibilityUtils';
-import Constants from '../constants'
 
 const Utils = require('../utils');
 const ItemSelectionList = require('./ItemSelectionList');
@@ -26,7 +25,8 @@ class ItemSelectionScrollView extends React.Component {
     onSelect: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    config: PropTypes.object
+    config: PropTypes.object,
+    cellType: PropTypes.string
   };
 
   isSelected = (name) => {
@@ -44,7 +44,7 @@ class ItemSelectionScrollView extends React.Component {
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
     const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
-    const accessibilityString = AccessibilityUtils.createAccessibilityLabel(Constants.ACCESSIBILITY_LABELS_TYPE.CELL_VIEWS, Constants.VIEW_ACCESSIBILITY_NAMES.MUTLIAUDIO_CELL, item.title);
+    let accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item.title);
 
     return (
       <TouchableHighlight

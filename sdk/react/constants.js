@@ -118,6 +118,11 @@ const ERROR_MESSAGE = {
   'entitlement_device_limit': 'Unable to access this content, as the maximum number of devices has already been authorized. Error Code 29'
 };
 
+const CELL_TYPES = {
+  MULTIAUDIO: 'multiaudio',
+  SUBTITLES: "subtitles"
+};
+
 const VIEW_ACCESSIBILITY_NAMES = {
   SCRUBBER_BAR_VIEW: 'Scrubber bar',
   VOLUME_VIEW: 'Volume view',
@@ -127,11 +132,6 @@ const VIEW_ACCESSIBILITY_NAMES = {
 
 const ACCESSIBILITY_LABELS = {
   SEEK_BAR_INFO: 'Use two fingers to adjust the value'
-};
-
-const ACCESSIBILITY_LABELS_TYPE = {
-  SEEK_VIEWS: "seek_views",
-  CELL_VIEWS: "cell_views"
 };
 
 MAX_DATE_VALUE = 8640000000000000;
@@ -153,6 +153,7 @@ module.exports = {
   VALUES,
   SAS_ERROR_CODES,
   ERROR_MESSAGE,
+  CELL_TYPES,
   VIEW_ACCESSIBILITY_NAMES,
   ACCESSIBILITY_LABELS,
   ACCESSIBILITY_LABELS_TYPE
