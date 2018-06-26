@@ -12,11 +12,16 @@ const {
 
 const AccessibilityUtils = {
 
-  createAccessibilityLabel(labelType, param) {
+  createAccessibilityLabel(labelType, baseLabel, param) {
     let resultLabel;
     switch (labelType) {
       case ACCESSIBILITY_LABELS_TYPE.CELL_VIEWS:
+        resultLabel = param + " " + baseLabel;
+        break;
 
     }
+    return resultLabel;
   }
 };
+
+module.export = AccessibilityUtils;
