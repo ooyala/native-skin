@@ -3,12 +3,12 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'com.github.dcendents.android-maven'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         ndk {
@@ -23,7 +23,7 @@ android {
     }
 
     lintOptions {
-       warning 'InvalidPackage'
+        warning 'InvalidPackage'
     }
 }
 
@@ -128,10 +128,10 @@ tasks.copyLibs.execute()
 
 dependencies {
     implementation files('libs/OoyalaSDK.aar')
-    //implementation project(':core')
+//    implementation project(':core')
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
 
     //react-native dependencies
     implementation 'com.facebook.fresco:fresco:1.3.0'
@@ -149,5 +149,6 @@ dependencies {
     implementation 'org.webkit:android-jsc:r174650'
     implementation (group:'com.facebook', name:'react-native', version:'0.55.4', ext:'aar')
     implementation 'javax.inject:javax.inject:1'
-    implementation 'com.google.android.exoplayer:exoplayer:2.6.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
+
 }
