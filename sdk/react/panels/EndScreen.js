@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import {
+  ActivityIndicator,
   StyleSheet,
   Text,
   View,
@@ -10,7 +11,9 @@ import {
 
 var Utils = require("../utils");
 
+
 var styles = Utils.getStyles(require("./style/endScreenStyles.json"));
+var ResponsiveDesignManager = require('../responsiveDesignManager');
 var ProgressBar = require("../progressBar");
 var ControlBar = require("../controlBar");
 var WaterMark = require("../waterMark");
@@ -38,6 +41,7 @@ class EndScreen extends React.Component {
     upNextDismissed: PropTypes.bool,
     fullscreen: PropTypes.bool,
     handleControlsTouch: PropTypes.func,
+    loading: PropTypes.bool,
     onScrub: PropTypes.func,
   };
 
@@ -132,6 +136,7 @@ class EndScreen extends React.Component {
       onScrub={(value)=>this.handleScrub(value)}
       fullscreen={this.props.fullscreen}
       isShow={show}
+      loading={this.props.loading}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,
@@ -141,8 +146,37 @@ class EndScreen extends React.Component {
       }} />);
   };
 
+  _renderLoading ()  {
+    var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
+    var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
+    var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    var loadingStyle = {
+      position: 'absolute',
+      top: topOffset,
+      left: leftOffset,
+      width: loadingSize,
+      height: loadingSize
+    };
+    if (this.props.loading) {
+      return (
+        <ActivityIndicator
+          style={loadingStyle}
+          size="large"
+        />
+      );
+    }
+  };
+
   render() {
-      return this._renderDefaultScreen();
+    return (
+      <View
+      accessible={false}
+      style={styles.container}>
+      {this._renderDefaultScreen()}
+      {this._renderLoading()}
+    </View>
+    );
   }
 }
 
