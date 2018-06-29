@@ -80,7 +80,8 @@
   return [self findPresentedViewController:startedViewController.presentedViewController];
 }
 
-- (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController withCompletionBlock:(nullable void (^)(void))completion {
+- (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController
+                    withCompletionBlock:(nullable void (^)(void))completion {
   if ([viewController presentingViewController]) {
     UIViewController* presentedVC = [viewController presentedViewController];
     [viewController dismissViewControllerAnimated:NO completion:^{
@@ -96,7 +97,9 @@
   }
 }
 
-- (void)presentViewController:(nonnull UIViewController *)viewControllerToPresent onViewController:(nonnull UIViewController *)baseViewController withCompletionBlock:(nullable void (^)(void))completion {
+- (void)presentViewController:(nonnull UIViewController *)viewControllerToPresent
+             onViewController:(nonnull UIViewController *)baseViewController
+          withCompletionBlock:(nullable void (^)(void))completion {
   [baseViewController presentViewController:viewControllerToPresent animated:NO completion:^{
     [self.storedPresentedViewControllers removeObject:viewControllerToPresent];
     if ([self.storedPresentedViewControllers count] > 0) {

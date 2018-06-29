@@ -213,7 +213,7 @@
         completion();
       }
       
-      //Clear data for presented view controller helper
+      // Clear data for presented view controller helper
       
       [self.presentedViewControllerHelper clearData];
     }];
