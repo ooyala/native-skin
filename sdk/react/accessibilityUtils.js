@@ -8,7 +8,8 @@ import Constants from './constants.js'
 
 const {
   VIEW_ACCESSIBILITY_NAMES,
-  ACCESSIBILITY_LABELS_TYPE,
+  ACCESSIBILITY_LABELS,
+  SCRUBBER_TYPES,
   CELL_TYPES
 } = Constants;
 
@@ -25,9 +26,16 @@ const AccessibilityUtils = {
     }
   },
 
-  createAccessibilityLabelForScrubber(scrubberType, param) {
-
-  }
+  createAccessibilityLabelForScrubbers(scrubberType, param) {
+    switch (scrubberType) {
+      case SCRUBBER_TYPES.PROGRESS:
+        return param + " " + ACCESSIBILITY_LABELS.PROGRESS_BAR_INFO;
+      case SCRUBBER_TYPES.VOLUME:
+        return param + " " + ACCESSIBILITY_LABELS.VOLUME_BAR_INFO;
+      default:
+        return "";
+    }
+  },
 
 };
 
