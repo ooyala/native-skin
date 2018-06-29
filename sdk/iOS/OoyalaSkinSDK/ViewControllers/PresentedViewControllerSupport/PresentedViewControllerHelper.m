@@ -1,6 +1,6 @@
 //
 //  PresentedViewControllerHelper.m
-//  OoyalaSkin
+//  OoyalaSkinSDK
 //
 //
 // Copyright (c) 2018 ooyala. All rights reserved.
@@ -55,7 +55,7 @@
 - (void)clearData {
   self.rootViewController = nil;
   self.presentedViewController = nil;
-  self.storedPresentedViewControllers = nil;
+  [self.storedPresentedViewControllers removeAllObjects];
 }
 
 #pragma mark - Private functions
@@ -82,9 +82,9 @@
 
 - (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController withCompletionBlock:(nullable void (^)(void))completion {
   if ([viewController presentingViewController]) {
-    __block UIViewController* presentedVC = [viewController presentedViewController];
+    UIViewController* presentedVC = [viewController presentedViewController];
     [viewController dismissViewControllerAnimated:NO completion:^{
-      [_storedPresentedViewControllers addObject:viewController];
+      [self.storedPresentedViewControllers addObject:viewController];
       if ([presentedVC presentingViewController]) {
         [self dismissViewControllerAndStoreIt:presentedVC withCompletionBlock:completion];
       } else {
@@ -96,11 +96,11 @@
   }
 }
 
-- (void)presentViewController:(nonnull UIViewController *)viewControllerToPresent onViewController:(nonnull UIViewController *)baseViewController withCompletionBlock:(void (^ __nullable)(void))completion {
+- (void)presentViewController:(nonnull UIViewController *)viewControllerToPresent onViewController:(nonnull UIViewController *)baseViewController withCompletionBlock:(nullable void (^)(void))completion {
   [baseViewController presentViewController:viewControllerToPresent animated:NO completion:^{
-    [_storedPresentedViewControllers removeObject:viewControllerToPresent];
-    if ([_storedPresentedViewControllers count] > 0) {
-      [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:viewControllerToPresent withCompletionBlock:completion];
+    [self.storedPresentedViewControllers removeObject:viewControllerToPresent];
+    if ([self.storedPresentedViewControllers count] > 0) {
+      [self presentViewController:self.storedPresentedViewControllers.firstObject onViewController:viewControllerToPresent withCompletionBlock:completion];
     } else {
       if (completion) {
         completion();
