@@ -1,5 +1,6 @@
 //
-//  Prese
+//  PresentedViewControllerHelper.m
+//  OoyalaSkin
 //
 //
 // Copyright (c) 2018 ooyala. All rights reserved.
@@ -28,7 +29,7 @@
 #pragma mark - Public functions
 
 - (void)findAndStorePresentedViewController {
-  self.presentedViewController = [self findPresentedViewController:_rootViewController];
+  self.presentedViewController = [self findPresentedViewController:self.rootViewController];
 }
 
 - (void)dismissPresentedViewControllersWithCompletionBlock:(void (^)(void))completion {
@@ -43,13 +44,18 @@
 
 - (void)presentStoredControllersWithCompletionBlock:(void (^)(void))completion {
   if ([_storedPresentedViewControllers count] > 0) {
-    [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:_rootViewController withCompletionBlock:completion];
+    [self presentViewController:self.storedPresentedViewControllers.firstObject onViewController:_rootViewController withCompletionBlock:completion];
+  } else {
+    if (completion) {
+      completion();
+    }
   }
 }
 
 - (void)clearData {
   self.rootViewController = nil;
   self.presentedViewController = nil;
+  self.storedPresentedViewControllers = nil;
 }
 
 #pragma mark - Private functions
@@ -64,13 +70,17 @@
   }
   
   if (startedViewController.presentedViewController == nil || startedViewController.presentedViewController.isBeingDismissed) {
-    return startedViewController;
+    if (startedViewController.presentingViewController != nil) {
+      return startedViewController;
+    } else {
+      return nil;
+    }
   }
   
   return [self findPresentedViewController:startedViewController.presentedViewController];
 }
 
-- (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController withCompletionBlock:(void (^ __nullable)(void))completion {
+- (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController withCompletionBlock:(nullable void (^)(void))completion {
   if ([viewController presentingViewController]) {
     __block UIViewController* presentedVC = [viewController presentedViewController];
     [viewController dismissViewControllerAnimated:NO completion:^{

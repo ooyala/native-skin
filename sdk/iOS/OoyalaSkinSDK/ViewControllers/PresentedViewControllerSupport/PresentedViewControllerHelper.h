@@ -1,4 +1,7 @@
 //
+//  PresentedViewController.h
+//  OoyalaSkin
+//
 // Copyright (c) 2018 ooyala. All rights reserved.
 //
 
@@ -14,9 +17,9 @@
 
 - (void)findAndStorePresentedViewController;
 
-- (void)dismissPresentedViewControllersWithCompletionBlock:(void (^ __nullable)(void))completion;
+- (void)dismissPresentedViewControllersWithCompletionBlock:(nullable void (^)(void))completion;
 
-- (void)presentStoredControllersWithCompletionBlock:(void (^ __nullable)(void))completion;
+- (void)presentStoredControllersWithCompletionBlock:(nullable void (^)(void))completion;
 
 - (void)clearData;
 
