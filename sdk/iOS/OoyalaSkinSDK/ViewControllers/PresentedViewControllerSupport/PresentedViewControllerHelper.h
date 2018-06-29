@@ -5,7 +5,6 @@
 // Copyright (c) 2018 ooyala. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
 
