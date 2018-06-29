@@ -157,8 +157,6 @@
         completion();
       }
     }];
-
-    
   }];
 }
 
@@ -169,9 +167,7 @@
   
   UIApplication.sharedApplication.statusBarHidden = self.isOriginalStatusBarHidden;
   
-  // Add fullscreen VC on window as subview
-  UIInterfaceOrientation orientation = self.rootViewController.preferredInterfaceOrientationForPresentation;
-  NSLog(@"Preffered orientation is: %ldl", orientation);
+  // Set stored root view controller
   
   window.rootViewController = self.rootViewController;
 
@@ -216,9 +212,10 @@
       if (completion) {
         completion();
       }
+      
+      // Clear data for presented view controller helper
+      
       [self.presentedViewControllerHelper clearData];
-      UIInterfaceOrientation orientation = self.rootViewController.preferredInterfaceOrientationForPresentation;
-      NSLog(@"Preffered orientation is: %ldl", orientation);
     }];
   }];
 }
