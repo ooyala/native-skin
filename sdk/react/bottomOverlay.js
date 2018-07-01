@@ -22,9 +22,11 @@ var {
   UI_SIZES,
   PLATFORMS,
   VALUES,
+  ANNOUNCER_TYPES
 } = Constants;
 
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
+const AccessibilityUtils = require('./accessibilityUtils');
 var Log = require('./log');
 var Utils = require('./utils');
 var ProgressBar = require('./progressBar');
@@ -38,6 +40,8 @@ var progressBarHeight = 3;
 var scrubberSize = 14;
 var scrubTouchableDistance = 45;
 var cuePointSize = 8;
+let previousAnnouncing = 0;
+const accessibilityDelay = 2000; // Workaround for accessibility announcing for Android.
 var BottomOverlay = createReactClass({
   displayName: 'BottomOverlay',
 
@@ -199,11 +203,7 @@ var BottomOverlay = createReactClass({
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
-    let scrubberBarAccessibilityLabel = Utils.makeAccessibilityLabelWithParams(
-      Constants.VIEW_ACCESSIBILITY_NAMES.SCRUBBER_BAR_VIEW,
-      Constants.ACCESSIBILITY_LABELS.SEEK_BAR_INFO,
-      Constants.ACCESSIBILITY_LABELS_TYPE.SEEK_VIEWS
-    );
+    const scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
 
     if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
       var minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
@@ -352,6 +352,16 @@ var BottomOverlay = createReactClass({
     if (this.isMounted()) {
       this.setState({x:event.nativeEvent.pageX});
     }
+    if (this.props.platform === PLATFORMS.ANDROID) {
+      const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
+      const currentPercent = parseInt(playedPercent * 100, 10);
+      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
+      const currentAnnouncing = new Date().getTime();
+      if (previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityDelay) {
+        previousAnnouncing = currentAnnouncing;
+        AndroidAccessibility.announce(announcingLabel);
+      }
+    }
   },
 
   handleTouchEnd: function(event) {
@@ -365,9 +375,11 @@ var BottomOverlay = createReactClass({
      this.setState({touch:false, x:null});
 
      if (this.props.platform === PLATFORMS.ANDROID) {
-       let playedPercent =  this.touchPercent(event.nativeEvent.pageX);
-       let percentLabel = "Progress bar moved to" + parseInt(playedPercent * 100, 10) + "%";
-       AndroidAccessibility.announce(percentLabel);
+       const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
+       const currentPercent = parseInt(playedPercent * 100, 10);
+       const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
+       AndroidAccessibility.announce(announcingLabel);
+       previousAnnouncing = 0;
     }
   },
 
@@ -377,9 +389,9 @@ var BottomOverlay = createReactClass({
         accessible={false}
         style={[styles.container, widthStyle, {"height": this.state.height}]}>
         {this._renderCompleteProgressBar()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}></View>}
+        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
         {this._renderControlBar()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}></View> }
+        {<View style ={[styles.bottomOverlayFlexibleSpace]}/> }
       </Animated.View>
     );
   },

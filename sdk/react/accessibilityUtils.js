@@ -4,21 +4,22 @@
  */
 'use strict';
 
+import React, { Component } from 'react'
 import Constants from './constants.js'
 
 const {
   VIEW_ACCESSIBILITY_NAMES,
-  ACCESSIBILITY_LABELS,
-  SCRUBBER_TYPES,
+  ACCESSIBILITY_ANNOUNCERS,
+  ANNOUNCER_TYPES,
   CELL_TYPES
 } = Constants;
 
-const AccessibilityUtils = {
+let AccessibilityUtils = {
 
-  createAccessibilityLabelForCell(cellType, param) {
+  createAccessibilityLabelForCell: function(cellType, param) {
     switch (cellType) {
       case CELL_TYPES.MULTIAUDIO:
-        return param + " " + VIEW_ACCESSIBILITY_NAMES.MUTLIAUDIO_CELL;
+        return param + " " + VIEW_ACCESSIBILITY_NAMES.MULTIAUDIO_CELL;
       case CELL_TYPES.SUBTITLES:
         return param + " " + VIEW_ACCESSIBILITY_NAMES.CC_CELL;
       default:
@@ -26,12 +27,12 @@ const AccessibilityUtils = {
     }
   },
 
-  createAccessibilityLabelForScrubbers(scrubberType, param) {
-    switch (scrubberType) {
-      case SCRUBBER_TYPES.PROGRESS:
-        return param + " " + ACCESSIBILITY_LABELS.PROGRESS_BAR_INFO;
-      case SCRUBBER_TYPES.VOLUME:
-        return param + " " + ACCESSIBILITY_LABELS.VOLUME_BAR_INFO;
+  createAccessibilityAnnouncers: function(announcerType, param) {
+    switch (announcerType) {
+      case ANNOUNCER_TYPES.MOVING:
+        return ACCESSIBILITY_ANNOUNCERS.PROGRESS_BAR_MOVING + param + " %";
+      case ANNOUNCER_TYPES.MOVED:
+        return ACCESSIBILITY_ANNOUNCERS.PROGRESS_BAR_MOVED + param + " %";
       default:
         return "";
     }
@@ -39,4 +40,4 @@ const AccessibilityUtils = {
 
 };
 
-module.export = AccessibilityUtils;
+module.exports = AccessibilityUtils;

@@ -123,23 +123,23 @@ const CELL_TYPES = {
   SUBTITLES: "subtitles"
 };
 
-const SCRUBBER_TYPES = {
-  VOLUME: 'volume',
-  PROGRESS: 'progress'
-};
-
 const VIEW_ACCESSIBILITY_NAMES = {
   SCRUBBER_BAR_VIEW: 'Scrubber bar',
   VOLUME_VIEW: 'Volume view',
-  MUTLIAUDIO_CELL: "Language cell",
-  CC_CELL: "Subtitle cell",
-  PROHRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
-  VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value'
+  MULTIAUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
+  CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
+  PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
+  VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
 };
 
-const ACCESSIBILITY_LABELS = {
-  PROGRESS_BAR_INFO: 'percent of the video progress',
-  VOLUME_BAR_INFO: 'volume percent'
+const ACCESSIBILITY_ANNOUNCERS = {
+  PROGRESS_BAR_MOVING: 'Moving to ',
+  PROGRESS_BAR_MOVED: 'Moved to '
+};
+
+const ANNOUNCER_TYPES = {
+  MOVING: 'moving',
+  MOVED: 'moved'
 };
 
 MAX_DATE_VALUE = 8640000000000000;
@@ -163,5 +163,6 @@ module.exports = {
   ERROR_MESSAGE,
   CELL_TYPES,
   VIEW_ACCESSIBILITY_NAMES,
-  ACCESSIBILITY_LABELS
+  ACCESSIBILITY_ANNOUNCERS,
+  ANNOUNCER_TYPES,
 };

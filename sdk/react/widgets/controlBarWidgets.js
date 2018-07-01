@@ -15,8 +15,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 import * as Utils from "../utils";
-import AccessibilityUtils from '../accessibilityUtils';
 
+const AccessibilityUtils = require('../accessibilityUtils');
 const VolumeView = require('./VolumeView');
 const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 const Log = require('../log');

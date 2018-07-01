@@ -12,8 +12,8 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import AccessibilityUtils from '../accessibilityUtils';
 
+const AccessibilityUtils = require('../accessibilityUtils');
 const Utils = require('../utils');
 const ItemSelectionList = require('./ItemSelectionList');
 const styles = require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles'));
@@ -44,7 +44,7 @@ class ItemSelectionScrollView extends React.Component {
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
     const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
-    let accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item.title);
+    let accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item);
 
     return (
       <TouchableHighlight
