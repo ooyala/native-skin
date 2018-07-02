@@ -91,10 +91,10 @@ const BottomOverlay = createReactClass({
   },
 
   componentDidUpdate: function(prevProps, prevState) {
-    if(prevProps.width !== this.props.width && this.props.isShow) {
+    if (prevProps.width !== this.props.width && this.props.isShow) {
       this.state.height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
     }
-    if(prevProps.isShow !== this.props.isShow ) {
+    if (prevProps.isShow !== this.props.isShow ) {
       this.state.opacity.setValue(this.props.isShow? 0 : 1);
       this.state.height.setValue(this.props.isShow? 1 : ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
       Animated.parallel([
