@@ -163,7 +163,7 @@ class AudioAndCCSelectionPanel extends React.Component {
         selectedItem={selectedLocalizedItem}
         onSelect={(item) => this.onAudioTrackSelected(item)}
         config={this.props.config}
-        cellType={CELL_TYPES.MULTIAUDIO}>
+        cellType={CELL_TYPES.MULTI_AUDIO}>
       </ItemSelectionScrollView>
     );
   };

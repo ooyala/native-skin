@@ -18,8 +18,8 @@ let AccessibilityUtils = {
 
   createAccessibilityLabelForCell: function(cellType, param) {
     switch (cellType) {
-      case CELL_TYPES.MULTIAUDIO:
-        return param + " " + VIEW_ACCESSIBILITY_NAMES.MULTIAUDIO_CELL;
+      case CELL_TYPES.MULTI_AUDIO:
+        return param + " " + VIEW_ACCESSIBILITY_NAMES.MULTI_AUDIO_CELL;
       case CELL_TYPES.SUBTITLES:
         return param + " " + VIEW_ACCESSIBILITY_NAMES.CC_CELL;
       default:

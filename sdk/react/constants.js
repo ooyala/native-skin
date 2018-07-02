@@ -119,14 +119,14 @@ const ERROR_MESSAGE = {
 };
 
 const CELL_TYPES = {
-  MULTIAUDIO: 'multiaudio',
+  MULTI_AUDIO: 'multi_audio',
   SUBTITLES: "subtitles"
 };
 
 const VIEW_ACCESSIBILITY_NAMES = {
   SCRUBBER_BAR_VIEW: 'Scrubber bar',
   VOLUME_VIEW: 'Volume view',
-  MULTIAUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
+  MULTI_AUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
   PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
