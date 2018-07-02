@@ -158,7 +158,7 @@ class VideoView extends React.Component {
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
       handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-      сlosedCaptionsEnabled={сlosedCaptionsEnabled}
+      closedCaptionsEnabled={сlosedCaptionsEnabled}
       showWatermark={this.props.showWatermark}
       isShow={show}
       screenReaderEnabled={this.props.screenReaderEnabled}

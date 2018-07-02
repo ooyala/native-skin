@@ -27,7 +27,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   // more option buttons
   DISCOVERY: 'discovery',
   QUALITY: 'quality',
-  AUDIO_AND_CC: 'audioAndCC',
+  AUDIO_AND_CC: 'Audio and closed captions',
   SHARE: 'share',
   SETTING: 'settings',
   STEREOSCOPIC: 'stereoscopic',
@@ -118,17 +118,28 @@ const ERROR_MESSAGE = {
   'entitlement_device_limit': 'Unable to access this content, as the maximum number of devices has already been authorized. Error Code 29'
 };
 
+const CELL_TYPES = {
+  MULTI_AUDIO: 'multi_audio',
+  SUBTITLES: "subtitles"
+};
+
 const VIEW_ACCESSIBILITY_NAMES = {
   SCRUBBER_BAR_VIEW: 'Scrubber bar',
-  VOLUME_VIEW: 'Volume view'
+  VOLUME_VIEW: 'Volume view',
+  MULTI_AUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
+  CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
+  PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
+  VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
 };
 
-const ACCESSIBILITY_LABELS = {
-  SEEK_BAR_INFO: 'Use two fingers to adjust the value'
+const ACCESSIBILITY_ANNOUNCERS = {
+  PROGRESS_BAR_MOVING: 'Moving to ',
+  PROGRESS_BAR_MOVED: 'Moved to '
 };
 
-const ACCESSIBILITY_LABELS_TYPE = {
-  SEEK_VIEWS: "seek_views",
+const ANNOUNCER_TYPES = {
+  MOVING: 'moving',
+  MOVED: 'moved'
 };
 
 MAX_DATE_VALUE = 8640000000000000;
@@ -150,7 +161,8 @@ module.exports = {
   VALUES,
   SAS_ERROR_CODES,
   ERROR_MESSAGE,
+  CELL_TYPES,
   VIEW_ACCESSIBILITY_NAMES,
-  ACCESSIBILITY_LABELS,
-  ACCESSIBILITY_LABELS_TYPE
+  ACCESSIBILITY_ANNOUNCERS,
+  ANNOUNCER_TYPES,
 };

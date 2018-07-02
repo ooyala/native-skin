@@ -13,6 +13,7 @@ import {
   View,
 } from 'react-native';
 
+const AccessibilityUtils = require('../accessibilityUtils');
 const Utils = require('../utils');
 const ItemSelectionList = require('./ItemSelectionList');
 const styles = require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles'));
@@ -24,7 +25,8 @@ class ItemSelectionScrollView extends React.Component {
     onSelect: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    config: PropTypes.object
+    config: PropTypes.object,
+    cellType: PropTypes.string
   };
 
   isSelected = (name) => {
@@ -42,9 +44,12 @@ class ItemSelectionScrollView extends React.Component {
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
     const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
+    const accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item);
 
     return (
       <TouchableHighlight
+        accessibility={true}
+        accessibilityLabel={accessibilityString}
         key={index}
         style={styles.item}
         underlayColor="transparent" // Can't move this property to json styles file because it doesn't work
