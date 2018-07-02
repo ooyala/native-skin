@@ -44,7 +44,7 @@ class ItemSelectionScrollView extends React.Component {
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
     const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
-    let accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item);
+    const accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item);
 
     return (
       <TouchableHighlight
