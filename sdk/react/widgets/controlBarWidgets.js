@@ -13,10 +13,7 @@ import {
   SliderIOS,
   TouchableHighlight
 } from 'react-native';
-import * as Utils from "../utils";
 
-const AccessibilityUtils = require('../accessibilityUtils');
-const VolumeView = require('./VolumeView');
 const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 const Log = require('../log');
 
@@ -41,10 +38,11 @@ class controlBarWidget extends React.Component {
     };
     const fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
     return (
-      <TouchableHighlight onPress={options.onPress}
-                          testID={BUTTON_NAMES.PLAY_PAUSE}
-                          accessible={true}
-                          accessibilityLabel={BUTTON_NAMES.PLAY_PAUSE}>
+      <TouchableHighlight
+        onPress={options.onPress}
+        testID={BUTTON_NAMES.PLAY_PAUSE}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.PLAY_PAUSE}>
         <Text
           style={[options.style, fontFamilyStyle]}>
           {iconMap[options.primaryActionButton].fontString}
@@ -78,7 +76,9 @@ class controlBarWidget extends React.Component {
           accessibilityLabel={BUTTON_NAMES.VOLUME}
           style={[options.iconTouchableStyle]}
           onPress={options.onPress}>
-          <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
+          <Text style={[options.style, fontFamilyStyle]}>
+            {iconConfig.fontString}
+          </Text>
         </TouchableHighlight>
         {volumeScrubber}
       </View>
