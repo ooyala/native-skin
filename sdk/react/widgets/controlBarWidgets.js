@@ -5,29 +5,25 @@
  */
 import PropTypes from 'prop-types';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   Text,
   View,
   Image,
-  StyleSheet,
   SliderIOS,
   TouchableHighlight
 } from 'react-native';
 import * as Utils from "../utils";
 
-var VolumeView = require('./VolumeView');
-var styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
-var Log = require('../log');
+const VolumeView = require('./VolumeView');
+const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
+const Log = require('../log');
 
-var Constants = require('../constants');
-var {
+const Constants = require('../constants');
+const {
   BUTTON_NAMES,
-  IMG_URLS,
   STRING_CONSTANTS
-  } = Constants;
-
-const VOLUME_MAX_LEVEL = 15;
+} = Constants;
 
 class controlBarWidget extends React.Component {
   static propTypes = {
@@ -36,26 +32,30 @@ class controlBarWidget extends React.Component {
   };
 
   playPauseWidget = (options) => {
-    var iconMap = {
+    const iconMap = {
       "play": options.playIcon,
       "pause": options.pauseIcon,
       "replay": options.replayIcon
     };
-    var fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
+    const fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
     return (
       <TouchableHighlight onPress={options.onPress}>
-         testID={BUTTON_NAMES.PLAY_PAUSE}
-         accessible={true} accessibilityLabel={BUTTON_NAMES.PLAY_PAUSE}
-        <Text style={[options.style, fontFamilyStyle]}>{iconMap[options.primaryActionButton].fontString}</Text>
+        testID={BUTTON_NAMES.PLAY_PAUSE}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.PLAY_PAUSE}
+        <Text
+          style={[options.style, fontFamilyStyle]}>
+          {iconMap[options.primaryActionButton].fontString}
+        </Text>
       </TouchableHighlight>
     );
   };
 
   volumeWidget = (options) => {
-    var volumeScrubber = null;
+    let volumeScrubber = null;
     const scrubberStyle = [options.scrubberStyle];
     if (options.platform === Constants.PLATFORMS.IOS) {
-        scrubberStyle.push({top: 5});
+      scrubberStyle.push({top: 5});
     }
     if (options.showVolume) {
       let volumeAccessibleLabel = Utils.makeAccessibilityLabelWithParams(
@@ -70,16 +70,20 @@ class controlBarWidget extends React.Component {
         volume={options.volume}/>;
     }
 
-    var iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
-    var fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
+    const iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
+    const fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
     return (
-      <View 
+      <View
         style={[{flexDirection: 'row'}]}>
         <TouchableHighlight
           testID={BUTTON_NAMES.VOLUME}
-          accessible={true} accessibilityLabel={BUTTON_NAMES.VOLUME}
-          style={[options.iconTouchableStyle]} onPress={options.onPress}>
-          <Text style={[options.style, fontFamilyStyle]}>{iconConfig.fontString}</Text>
+          accessible={true}
+          accessibilityLabel={BUTTON_NAMES.VOLUME}
+          style={[options.iconTouchableStyle]}
+          onPress={options.onPress}>
+          <Text style={[options.style, fontFamilyStyle]}>
+            {iconConfig.fontString}
+          </Text>
         </TouchableHighlight>
         {volumeScrubber}
       </View>
@@ -89,76 +93,115 @@ class controlBarWidget extends React.Component {
   timeDurationWidget = (options) => {
     if (options.onPress) {
       return (
-        <TouchableHighlight onPress={options.onPress}>
-          <Text style={options.style}>{options.durationString}</Text>
+        <TouchableHighlight
+          onPress={options.onPress}>
+          <Text style={options.style}>
+            {options.durationString}
+          </Text>
         </TouchableHighlight>);
     } else {
-      var playHead = <Text style={options.playHeadTimeStyle} accessible={true} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
-      var duration = <Text style={options.durationStyle} accessible={true} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
+      const playheadAccessibilityLabel = options.playHeadTimeString + STRING_CONSTANTS.SECONDS;
+      const playHead = <Text
+        style={options.playHeadTimeStyle}
+        accessible={true}
+        accessibilityLabel={playheadAccessibilityLabel}>
+        {options.playHeadTimeString}
+      </Text>;
+      const durationAccessibilityLabel = options.durationString + STRING_CONSTANTS.TOTAL_SECONDS;
+      const duration = <Text
+        style={options.durationStyle} accessible={true}
+        accessibilityLabel={durationAccessibilityLabel}>
+        {options.durationString}
+      </Text>;
       return (
         <View style={options.completeTimeStyle}>
-        {playHead}
-        {duration}
+          {playHead}
+          {duration}
         </View>
-        );
+      );
     }
-
   };
 
   flexibleSpaceWidget = (options) => {
-    return (<View style={{flex: 1}} />);
+    return <View
+      style={{flex: 1}}
+    />;
   };
 
   discoveryWidget = (options) => {
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight
-      testID={BUTTON_NAMES.DISCOVERY}
-      accessible={true} accessibilityLabel={BUTTON_NAMES.DISCOVERY} accessibilityComponentType="button"
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
-    return null;
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (
+      <TouchableHighlight
+        testID={BUTTON_NAMES.DISCOVERY}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.DISCOVERY}
+        accessibilityComponentType="button"
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   fullscreenWidget = (options) => {
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    var nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    const nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
     return (
-    <TouchableHighlight 
-      testID={nameLabel}
-      accessible={true} accessibilityLabel={nameLabel} accessibilityComponentType="button" 
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+      <TouchableHighlight
+        testID={nameLabel}
+        accessible={true}
+        accessibilityLabel={nameLabel}
+        accessibilityComponentType="button"
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   moreOptionsWidget = (options) => {
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (
-    <TouchableHighlight 
-      testID={BUTTON_NAMES.MORE}
-      accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button" 
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+      <TouchableHighlight
+        testID={BUTTON_NAMES.MORE}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.MORE}
+        accessibilityComponentType="button"
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   rewindWidget = (options) => {
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (
+      <TouchableHighlight
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   watermarkWidget = (options) => {
-    if(options.shouldShow) {
+    if (options.shouldShow) {
       return (
         <View style={styles.watermark}>
-        <Image
-        style={options.style}
-        source={{uri: options.icon}}
-        resizeMode={options.resizeMode}/>
-      </View>);
+          <Image
+            style={options.style}
+            source={{uri: options.icon}}
+            resizeMode={options.resizeMode}/>
+        </View>);
     }
     else {
       return null;
@@ -166,13 +209,20 @@ class controlBarWidget extends React.Component {
   };
 
   shareWidget = (options) => {
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight
-      testID={BUTTON_NAMES.SHARE}
-      accessible={true} accessibilityLabel={BUTTON_NAMES.SHARE} accessibilityComponentType="button"
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (
+      <TouchableHighlight
+        testID={BUTTON_NAMES.SHARE}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.SHARE}
+        accessibilityComponentType="button"
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   bitrateSelectorWidget = (options) => {
@@ -186,28 +236,41 @@ class controlBarWidget extends React.Component {
   };
 
   stereoscopicWidget = (options) => {
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight
-      testID={BUTTON_NAMES.STEREOSCOPIC}
-      accessible={true} accessibilityLabel={BUTTON_NAMES.STEREOSCOPIC} accessibilityComponentType="button"
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (
+      <TouchableHighlight
+        testID={BUTTON_NAMES.STEREOSCOPIC}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.STEREOSCOPIC}
+        accessibilityComponentType="button"
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   audioAndCCWidget = (options) => {
-    var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (<TouchableHighlight
-      testID={BUTTON_NAMES.AUDIO_AND_CC}
-      accessible={true} accessibilityLabel={BUTTON_NAMES.AUDIO_AND_CC} accessibilityComponentType="button"
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (
+      <TouchableHighlight
+        testID={BUTTON_NAMES.AUDIO_AND_CC}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.AUDIO_AND_CC}
+        accessibilityComponentType="button"
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   render() {
-
-    var widgetsMap = {
+    const widgetsMap = {
       "playPause": this.playPauseWidget,
       "volume": this.volumeWidget,
       "timeDuration": this.timeDurationWidget,
@@ -223,13 +286,13 @@ class controlBarWidget extends React.Component {
       "stereoscopic": this.stereoscopicWidget,
       "audioAndCC": this.audioAndCCWidget
     };
-    if( this.props.widgetType.name in widgetsMap ) {
-      var widgetOptions = this.props.options[this.props.widgetType.name];
+    if (this.props.widgetType.name in widgetsMap) {
+      const widgetOptions = this.props.options[this.props.widgetType.name];
       return widgetsMap[this.props.widgetType.name](widgetOptions);
     }
     else {
-      Log.warn( "WARNING: unsupported widget name: " + this.props.widgetType.name );
-      return <View></View>;
+      Log.warn("WARNING: unsupported widget name: " + this.props.widgetType.name);
+      return <View/>;
     }
   }
 }
