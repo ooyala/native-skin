@@ -1,29 +1,29 @@
-'use strict';
-
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-import PropTypes from 'prop-types';
+'use strict';
 
 import React, { Component } from 'react';
-import createReactClass from 'create-react-class';
 import {
   Animated,
   View,
   Slider,
-  NativeModules,
-  AccessibilityInfo
+  NativeModules
 } from 'react-native';
 
 var Constants = require('./constants');
 var {
+  BUTTON_NAMES,
   VIEW_NAMES,
+  IMG_URLS,
   UI_SIZES,
+  STRING_CONSTANTS,
   PLATFORMS,
   VALUES,
 } = Constants;
 
+const AccessibilityInfo = require('./accessibility/AccessibilityInfo');
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 var Log = require('./log');
 var Utils = require('./utils');
@@ -32,43 +32,43 @@ var ControlBar = require('./controlBar');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
 
 var styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
+var progressBarStyles = Utils.getStyles(require('./style/progressBarStyles.json'));
 var topMargin = 6;
 var leftMargin = 20;
 var progressBarHeight = 3;
 var scrubberSize = 14;
 var scrubTouchableDistance = 45;
 var cuePointSize = 8;
-var BottomOverlay = createReactClass({
-  displayName: 'BottomOverlay',
+var BottomOverlay = React.createClass({
 
   propTypes: {
-    width: PropTypes.number,
-    height: PropTypes.number,
-    primaryButton: PropTypes.string,
-    fullscreen: PropTypes.bool,
-    cuePoints: PropTypes.array,
-    playhead: PropTypes.number,
-    duration: PropTypes.number,
-    ad: PropTypes.object,
-    volume: PropTypes.number,
-    onPress: PropTypes.func,
-    onScrub: PropTypes.func,
-    handleControlsTouch: PropTypes.func.isRequired,
-    isShow: PropTypes.bool,
-    shouldShowProgressBar: PropTypes.bool,
-    live: PropTypes.object,
-    shouldShowLandscape: PropTypes.bool,
-    screenReaderEnabled: PropTypes.bool,
-    config: PropTypes.object,
-    сlosedCaptionsEnabled: PropTypes.bool,
-    stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
+    primaryButton: React.PropTypes.string,
+    fullscreen: React.PropTypes.bool,
+    cuePoints: React.PropTypes.array,
+    playhead: React.PropTypes.number,
+    duration: React.PropTypes.number,
+    ad: React.PropTypes.object,
+    volume: React.PropTypes.number,
+    onPress: React.PropTypes.func,
+    onScrub: React.PropTypes.func,
+    handleControlsTouch: React.PropTypes.func.isRequired,
+    isShow: React.PropTypes.bool,
+    shouldShowProgressBar: React.PropTypes.bool,
+    live: React.PropTypes.object,
+    shouldShowLandscape: React.PropTypes.bool,
+    screenReaderEnabled: React.PropTypes.bool,
+    config: React.PropTypes.object,
+    сlosedCaptionsEnabled: React.PropTypes.bool, 
+    stereoSupported: React.PropTypes.bool,
+    multiAudioEnabled: React.PropTypes.bool,
+    moreOptionsEnabled: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
-    return {"shouldShowProgressBar": true};
+    return {"shouldShowProgressBar": true, "moreOptionsEnabled": true};
   },
-
   getInitialState: function() {
     if (this.props.isShow) {
       return {
@@ -120,9 +120,9 @@ var BottomOverlay = createReactClass({
     });
   },
 
-  /*
-  If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
-  */
+/*
+If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
+*/
   componentWillReceiveProps: function(nextProps) {
     if (this.props.playhead != nextProps.playhead) {
        this.setState({cachedPlayhead:-1.0});
@@ -142,11 +142,11 @@ var BottomOverlay = createReactClass({
   },
 
   _renderProgressScrubber: function(percent) {
-    const progressBarWidth = this._renderProgressBarWidth();
-    const topOffset = this._renderTopOffset(scrubberSize);
-    const leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
-    const positionStyle = {top:topOffset, left:leftOffset};
-    const scrubberStyle = this._customizeScrubber();
+    var progressBarWidth = this._renderProgressBarWidth();
+    var topOffset = this._renderTopOffset(scrubberSize);
+    var leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
+    var positionStyle = {top:topOffset, left:leftOffset};
+    var scrubberStyle = this._customizeScrubber();
 
     return (
       <View
@@ -170,19 +170,13 @@ var BottomOverlay = createReactClass({
   },
 
   _customizeScrubber: function() {
-    let scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
+    var scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
     if (!scrubberHandleBorderColor) {
       Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
       scrubberHandleBorderColor = "white";
     }
-    const scrubberStyle = {
-      flex: 0,
-      position: "absolute",
-      backgroundColor: this.getScrubberHandleColor(),
-      borderRadius: 100,
-      borderWidth: 1.5,
-      borderColor: scrubberHandleBorderColor
-    };
+    var scrubberStyle = {flex: 0, position: "absolute", backgroundColor: this.getScrubberHandleColor(),
+    borderRadius: 900, borderWidth: 1.5, borderColor: scrubberHandleBorderColor};
     return scrubberStyle;
   },
 
@@ -219,23 +213,19 @@ var BottomOverlay = createReactClass({
           value={this.props.playhead}
           maximumValue={this.props.duration}
           step={1.0}
-          onValueChange={this._onValueChange}>
-        </Slider>
+          onValueChange={this._onValueChange} />
       );
     } else {
       return (
-        <Animated.View
-          testID={VIEW_NAMES.TIME_SEEK_BAR}
+        <View
           accessible={this.state.accessibilityEnabled}
+          testID={VIEW_NAMES.TIME_SEEK_BAR}
           accessibilityLabel={scrubberBarAccessibilityLabel}
-          onTouchStart={(event) => this.handleTouchStart(event)}
-          onTouchMove={(event) => this.handleTouchMove(event)}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}
           style={styles.progressBarStyle}>
           {this._renderProgressBar(playedPercent)}
           {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
           {this._renderCuePoints(this.props.cuePoints)}
-        </Animated.View>
+        </View>
       )
     }
   },
@@ -309,6 +299,7 @@ var BottomOverlay = createReactClass({
         сlosedCaptionsEnabled={this.props.сlosedCaptionsEnabled}
         stereoSupported={this.props.stereoSupported}
         multiAudioEnabled={this.props.multiAudioEnabled}
+        moreOptionsEnabled={this.props.moreOptionsEnabled}
       />
     );
   },
@@ -375,7 +366,11 @@ var BottomOverlay = createReactClass({
     return (
       <Animated.View
         accessible={false}
+        onTouchStart={(event) => this.handleTouchStart(event)}
+        onTouchMove={(event) => this.handleTouchMove(event)}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}
         style={[styles.container, widthStyle, {"height": this.state.height}]}>
+        {/*<View style ={[styles.bottomOverlayFlexibleSpace]}></View>*/}
         {this._renderCompleteProgressBar()}
         {<View style ={[styles.bottomOverlayFlexibleSpace]}></View>}
         {this._renderControlBar()}

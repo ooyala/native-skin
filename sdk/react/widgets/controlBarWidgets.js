@@ -1,9 +1,7 @@
-'use strict';
-
 /**
  * Created by dkao on 7/7/15.
  */
-import PropTypes from 'prop-types';
+'use strict';
 
 import React, { Component } from 'react';
 import {
@@ -28,14 +26,13 @@ var {
   } = Constants;
 
 const VOLUME_MAX_LEVEL = 15;
+var controlBarWidget = React.createClass({
+  propTypes: {
+    widgetType: React.PropTypes.object,
+    options: React.PropTypes.object
+  },
 
-class controlBarWidget extends React.Component {
-  static propTypes = {
-    widgetType: PropTypes.object,
-    options: PropTypes.object
-  };
-
-  playPauseWidget = (options) => {
+  playPauseWidget: function (options) {
     var iconMap = {
       "play": options.playIcon,
       "pause": options.pauseIcon,
@@ -49,9 +46,9 @@ class controlBarWidget extends React.Component {
         <Text style={[options.style, fontFamilyStyle]}>{iconMap[options.primaryActionButton].fontString}</Text>
       </TouchableHighlight>
     );
-  };
+  },
 
-  volumeWidget = (options) => {
+  volumeWidget: function (options) {
     var volumeScrubber = null;
     const scrubberStyle = [options.scrubberStyle];
     if (options.platform === Constants.PLATFORMS.IOS) {
@@ -84,9 +81,9 @@ class controlBarWidget extends React.Component {
         {volumeScrubber}
       </View>
     );
-  };
+  },
 
-  timeDurationWidget = (options) => {
+  timeDurationWidget: function (options) {
     if (options.onPress) {
       return (
         <TouchableHighlight onPress={options.onPress}>
@@ -103,13 +100,13 @@ class controlBarWidget extends React.Component {
         );
     }
 
-  };
+  },
 
-  flexibleSpaceWidget = (options) => {
+  flexibleSpaceWidget: function (options) {
     return (<View style={{flex: 1}} />);
-  };
+  },
 
-  discoveryWidget = (options) => {
+  discoveryWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.DISCOVERY}
@@ -118,9 +115,9 @@ class controlBarWidget extends React.Component {
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
     return null;
-  };
+  },
 
-  fullscreenWidget = (options) => {
+  fullscreenWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     var nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
     return (
@@ -130,27 +127,30 @@ class controlBarWidget extends React.Component {
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  };
+  },
 
-  moreOptionsWidget = (options) => {
+  moreOptionsWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+  
     return (
-    <TouchableHighlight 
-      testID={BUTTON_NAMES.MORE}
-      accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button" 
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
-      <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
-  };
+      options.enabled ? 
+      <TouchableHighlight 
+        testID={BUTTON_NAMES.MORE}
+        accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button" 
+        style={[options.iconTouchableStyle]} 
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
+      </TouchableHighlight> : null);
+  },
 
-  rewindWidget = (options) => {
+  rewindWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  };
+  },
 
-  watermarkWidget = (options) => {
+  watermarkWidget: function (options) {
     if(options.shouldShow) {
       return (
         <View style={styles.watermark}>
@@ -163,9 +163,9 @@ class controlBarWidget extends React.Component {
     else {
       return null;
     }
-  };
+  },
 
-  shareWidget = (options) => {
+  shareWidget: function(options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.SHARE}
@@ -173,19 +173,19 @@ class controlBarWidget extends React.Component {
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  };
+  },
 
-  bitrateSelectorWidget = (options) => {
+  bitrateSelectorWidget: function(options) {
     // TODO implement
     return null;
-  };
+  },
 
-  liveWidget = (options) => {
+  liveWidget: function(options) {
     // TODO implement
     return null;
-  };
+  },
 
-  stereoscopicWidget = (options) => {
+  stereoscopicWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.STEREOSCOPIC}
@@ -193,9 +193,9 @@ class controlBarWidget extends React.Component {
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  };
+  },
 
-  audioAndCCWidget = (options) => {
+  audioAndCCWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (<TouchableHighlight
       testID={BUTTON_NAMES.AUDIO_AND_CC}
@@ -203,9 +203,9 @@ class controlBarWidget extends React.Component {
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
-  };
+  },
 
-  render() {
+  render: function() {
 
     var widgetsMap = {
       "playPause": this.playPauseWidget,
@@ -232,6 +232,7 @@ class controlBarWidget extends React.Component {
       return <View></View>;
     }
   }
-}
+
+});
 
 module.exports = controlBarWidget;
