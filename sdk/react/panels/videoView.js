@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
@@ -38,60 +40,58 @@ var {
   AUTOHIDE_DELAY
 } = Constants;
 
-var VideoView = React.createClass({
-  propTypes: {
-    rate: React.PropTypes.number,
-    platform: React.PropTypes.string,
-    playhead: React.PropTypes.number,
-    buffered: React.PropTypes.number,
-    duration: React.PropTypes.number,
-    adOverlay: React.PropTypes.object,
-    live: React.PropTypes.bool,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    volume: React.PropTypes.number,
-    fullscreen: React.PropTypes.bool,
-    cuePoints: React.PropTypes.array,
-    stereoSupported: React.PropTypes.bool,
-    multiAudioEnabled: React.PropTypes.bool,
-    handlers:  React.PropTypes.shape({
-      onPress: React.PropTypes.func,
-      onAdOverlay: React.PropTypes.func,
-      onAdOverlayDismiss: React.PropTypes.func,
-      onScrub: React.PropTypes.func,
-      handleVideoTouchStart: React.PropTypes.func,
-      handleVideoTouchMove: React.PropTypes.func,
-      handleVideoTouchEnd: React.PropTypes.func,
-      handleControlsTouch: React.PropTypes.func,
-      showControls: React.PropTypes.func,
+class VideoView extends React.Component {
+  static propTypes = {
+    rate: PropTypes.number,
+    platform: PropTypes.string,
+    playhead: PropTypes.number,
+    buffered: PropTypes.number,
+    duration: PropTypes.number,
+    adOverlay: PropTypes.object,
+    live: PropTypes.bool,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    volume: PropTypes.number,
+    fullscreen: PropTypes.bool,
+    cuePoints: PropTypes.array,
+    stereoSupported: PropTypes.bool,
+    multiAudioEnabled: PropTypes.bool,
+    handlers:  PropTypes.shape({
+      onPress: PropTypes.func,
+      onAdOverlay: PropTypes.func,
+      onAdOverlayDismiss: PropTypes.func,
+      onScrub: PropTypes.func,
+      handleVideoTouchStart: PropTypes.func,
+      handleVideoTouchMove: PropTypes.func,
+      handleVideoTouchEnd: PropTypes.func,
+      handleControlsTouch: PropTypes.func,
+      showControls: PropTypes.func,
     }),
-    lastPressedTime: React.PropTypes.any,
-    screenReaderEnabled: React.PropTypes.bool,
-    closedCaptionsLanguage: React.PropTypes.string,
-    availableClosedCaptionsLanguages: React.PropTypes.array,
-    caption: React.PropTypes.string,
-    captionStyles: React.PropTypes.object,
-    showWatermark: React.PropTypes.bool,
-    config: React.PropTypes.object,
-    nextVideo: React.PropTypes.object,
-    upNextDismissed: React.PropTypes.bool,
-    localizableStrings: React.PropTypes.object,
-    locale: React.PropTypes.string,
-    playing: React.PropTypes.bool,
-    loading: React.PropTypes.bool,
-    initialPlay: React.PropTypes.bool,
-  },
+    lastPressedTime: PropTypes.any,
+    screenReaderEnabled: PropTypes.bool,
+    closedCaptionsLanguage: PropTypes.string,
+    availableClosedCaptionsLanguages: PropTypes.array,
+    caption: PropTypes.string,
+    captionStyles: PropTypes.object,
+    showWatermark: PropTypes.bool,
+    config: PropTypes.object,
+    nextVideo: PropTypes.object,
+    upNextDismissed: PropTypes.bool,
+    localizableStrings: PropTypes.object,
+    locale: PropTypes.string,
+    playing: PropTypes.bool,
+    loading: PropTypes.bool,
+    initialPlay: PropTypes.bool,
+  };
 
-  componentWillReceiveProps: function(nextProps) {
+  state = {
+  };
 
-  },
+  componentWillReceiveProps(nextProps) {
 
-  getInitialState: function() {
-    return {
-    };
-  },
+  }
 
-  generateLiveObject: function() {
+  generateLiveObject = () => {
     if (this.props.live) {
       var isLive = this.props.playhead >= this.props.duration * 0.95;
       return ({
@@ -102,16 +102,16 @@ var VideoView = React.createClass({
     } else {
       return null;
     }
-  },
+  };
 
-  onGoLive: function() {
+  onGoLive = () => {
     Log.log("onGoLive");
     if (this.props.handlers.onScrub) {
       this.props.handlers.onScrub(1);
     }
-  },
+  };
 
-  handlePress: function(name) {
+  handlePress = (name) => {
     Log.verbose("VideoView Handle Press: " + name);
     if (this.state.showControls) {
       if (name == "LIVE") {
@@ -123,23 +123,23 @@ var VideoView = React.createClass({
       this.props.handlers.showControls();
       this.props.handlers.onPress(name);
     }
-  },
+  };
 
-  _placeholderTapHandler: function(event) {
+  _placeholderTapHandler = (event) => {
     if (this.props.screenReaderEnabled) {
       this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
     } else {
       this.props.handlers.handleVideoTouchEnd(event);
     }
-  },
+  };
 
-  _createOnIcon: function(index, func) {
+  _createOnIcon = (index, func) => {
     return function() {
       func(index);
     }
-  },
+  };
 
-  _renderBottomOverlay: function(show) {
+  _renderBottomOverlay = (show) => {
     var сlosedCaptionsEnabled =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -172,9 +172,9 @@ var VideoView = React.createClass({
         general: this.props.config.general
       }}
       />);
-  },
+  };
 
-  _renderPlaceholder: function() {
+  _renderPlaceholder = () => {
     return (
       <View
         reactTag={1}
@@ -185,9 +185,9 @@ var VideoView = React.createClass({
         onTouchMove={(event) => this.props.handlers.handleVideoTouchMove(event)}
         onTouchEnd={(event) => this._placeholderTapHandler(event)}>
       </View>);
-  },
+  };
 
-  _renderBottom: function() {
+  _renderBottom = () => {
     var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
     var waterMarkName;
     if(this.props.platform === Constants.PLATFORMS.ANDROID) {
@@ -207,9 +207,9 @@ var VideoView = React.createClass({
         {this._renderClosedCaptions(waterMarkName, VideoWaterMarkSize)}
         {watermark}
       </View>);
-  },
+  };
 
-  _renderClosedCaptions: function(waterMarkName, VideoWaterMarkSize) {
+  _renderClosedCaptions = (waterMarkName, VideoWaterMarkSize) => {
     var containerPadding = 5;
     var captionWidth = this.props.width - (containerPadding * 4);
     if (waterMarkName) {
@@ -233,9 +233,9 @@ var VideoView = React.createClass({
         );
     }
     return null;
-  },
+  };
 
-  _renderUpNext: function() {
+  _renderUpNext = () => {
     if (this.props.live) {
       return null;
     }
@@ -253,9 +253,9 @@ var VideoView = React.createClass({
       onPress={(value) => this.handlePress(value)}
       platform={this.props.platform}
       width={this.props.width}/>;
-  },
+  };
 
-  _renderPlayPause: function(show) {
+  _renderPlayPause = (show) => {
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
       return (
         <VideoViewPlayPause
@@ -282,10 +282,11 @@ var VideoView = React.createClass({
           playing={this.props.playing}
           loading={this.props.loading}
           initialPlay={this.props.initialPlay}>
-        </VideoViewPlayPause>);
-  },
+        </VideoViewPlayPause>
+      );
+  };
 
-  _renderVideoWaterMark: function(waterMarkName, VideoWaterMarkSize) {
+  _renderVideoWaterMark = (waterMarkName, VideoWaterMarkSize) => {
     if (waterMarkName) {
       return (
         <View
@@ -297,9 +298,9 @@ var VideoView = React.createClass({
         </View>
       );
     }
-  },
+  };
 
-  _renderAdOverlay: function() {
+  _renderAdOverlay = () => {
     if (!this.props.adOverlay) {
       return null;
     }
@@ -341,9 +342,9 @@ var VideoView = React.createClass({
           </View>
         </TouchableHighlight>
       </View>);
-  },
+  };
 
-  _renderLoading: function() {
+  _renderLoading = () => {
     var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
     var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
     var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
@@ -357,17 +358,17 @@ var VideoView = React.createClass({
         />
       );
     }
-  },
+  };
 
-  handleScrub: function(value) {
+  handleScrub = (value) => {
     this.props.handlers.onScrub(value);
-  },
+  };
 
-  handleOverlayClick: function() {
+  handleOverlayClick = () => {
     this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
-  },
+  };
 
-  render: function() {
+  render() {
     var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
 
@@ -386,6 +387,6 @@ var VideoView = React.createClass({
       </View>
     );
   }
-});
+}
 
 module.exports = VideoView;

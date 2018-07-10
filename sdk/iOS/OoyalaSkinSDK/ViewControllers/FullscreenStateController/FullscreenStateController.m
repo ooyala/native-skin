@@ -8,6 +8,7 @@
 #import "FullscreenStateController.h"
 #import <UIKit/UIKit.h>
 #import "FullscreenStateOperation.h"
+#import "PresentedViewControllerHelper.h"
 
 
 #define FULLSCREEN_ANIMATION_DURATION 0.5
@@ -23,6 +24,7 @@
 @property (nonatomic) NSOperationQueue *operationQueue; // Queue for fullscreen animation
 @property (nonatomic) BOOL isFullscreen;
 @property (nonatomic) BOOL isOriginalStatusBarHidden;
+@property (nonatomic) PresentedViewControllerHelper *presentedViewControllerHelper;
 
 @end
 
@@ -41,6 +43,7 @@
     self.containerView = containerView;
     self.videoView = videoView;
     self.fullscreenViewController = fullscreenViewController;
+    self.presentedViewControllerHelper = [PresentedViewControllerHelper new];
     
     [self configure];
   }
@@ -96,7 +99,14 @@
   
   // Save root VC
   
+  UIInterfaceOrientation orientation = self.rootViewController.preferredInterfaceOrientationForPresentation;
+  NSLog(@"Preffered orientation is: %ldl", (long)orientation);
   self.rootViewController = window.rootViewController;
+  
+  // Store presented view controller
+  
+  self.presentedViewControllerHelper.rootViewController = window.rootViewController;
+  [_presentedViewControllerHelper findAndStorePresentedViewController];
   
   // Remove video view from container
   
@@ -125,23 +135,30 @@
     self.videoView.frame = window.bounds;
   } completion:^(BOOL finished) {
 
-    // Change root VC
-
-    window.rootViewController = self.fullscreenViewController;
-
-    // Update current fullscreen state
-
-    self.isFullscreen = YES;
+    // Dismiss presented VCs
     
-    // Hide status bar (it needs when UIViewControllerBasedStatusBarAppearance = YES)
+    [_presentedViewControllerHelper dismissPresentedViewControllersWithCompletionBlock:^{
     
-    UIApplication.sharedApplication.statusBarHidden = YES;
+      // Change root VC
+      
+      window.rootViewController = self.fullscreenViewController;
+      
+      // Update current fullscreen state
+      
+      self.isFullscreen = YES;
+      
+      // Hide status bar (it needs when UIViewControllerBasedStatusBarAppearance = YES)
+      
+      UIApplication.sharedApplication.statusBarHidden = YES;
+      
+      // Completion
+      
+      if (completion) {
+        completion();
+      }
+    }];
 
-    // Completion
-
-    if (completion) {
-      completion();
-    }
+    
   }];
 }
 
@@ -153,37 +170,56 @@
   UIApplication.sharedApplication.statusBarHidden = self.isOriginalStatusBarHidden;
   
   // Add fullscreen VC on window as subview
+  UIInterfaceOrientation orientation = self.rootViewController.preferredInterfaceOrientationForPresentation;
+  NSLog(@"Preffered orientation is: %ldl", orientation);
   
   window.rootViewController = self.rootViewController;
-  [window addSubview:self.fullscreenViewController.view];
-  [window bringSubviewToFront:self.fullscreenViewController.view];
 
-  // Convert rect for animation
+  // Show presented view controllers
   
-  CGRect frameInFullscreenView = [self.parentView convertRect:self.containerView.frame
-                                                       toView:self.fullscreenViewController.view];
-  
-  // Perform animation
-  
-  [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
-    self.videoView.frame = frameInFullscreenView;
-  } completion:^(BOOL finished) {
+  [self.presentedViewControllerHelper presentStoredControllersWithCompletionBlock:^{
     
-    [self.fullscreenViewController.view removeFromSuperview];
-    [self.videoView removeFromSuperview];
+    // Choose viewController's view that shows parentView
     
-    [self.containerView addSubview:self.videoView];
-    self.videoView.frame = self.parentView.bounds;
+    UIView *viewControllersViewToShow;
     
-    // Update current fullscreen state
-    
-    self.isFullscreen = NO;
-
-    // Completion
-
-    if (completion) {
-      completion();
+    if (self.presentedViewControllerHelper.presentedViewController) {
+      viewControllersViewToShow = self.presentedViewControllerHelper.presentedViewController.view;
+      [window addSubview:self.fullscreenViewController.view];
+      [window bringSubviewToFront:self.fullscreenViewController.view];
+    } else {
+      viewControllersViewToShow = self.fullscreenViewController.view;
     }
+    
+    // Convert rect for animation
+    CGRect frameInFullscreenView = [self.parentView convertRect:self.containerView.frame
+                                                         toView:viewControllersViewToShow];
+    
+    // Perform animation
+    
+    [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
+      self.videoView.frame = frameInFullscreenView;
+    } completion:^(BOOL finished) {
+      
+      [self.fullscreenViewController.view removeFromSuperview];
+      [self.videoView removeFromSuperview];
+      
+      [self.containerView addSubview:self.videoView];
+      self.videoView.frame = self.parentView.bounds;
+      
+      // Update current fullscreen state
+      
+      self.isFullscreen = NO;
+      
+      // Completion
+      
+      if (completion) {
+        completion();
+      }
+      [self.presentedViewControllerHelper clearData];
+      UIInterfaceOrientation orientation = self.rootViewController.preferredInterfaceOrientationForPresentation;
+      NSLog(@"Preffered orientation is: %ldl", orientation);
+    }];
   }];
 }
 

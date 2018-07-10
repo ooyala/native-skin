@@ -7,11 +7,11 @@
 //
 
 #import "CountdownViewManager.h"
+#import "CountdownView.h"
 
 #import <UIKit/UIKit.h>
+#import <React/UIView+React.h>
 
-#import "CountdownView.h"
-#import "UIView+React.h"
 
 @implementation CountdownViewManager
 

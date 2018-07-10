@@ -1,11 +1,13 @@
 'use strict';
 
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 var Log = require('./log');
 
 var ReportMeasureMixin = {
   propTypes: {
-    onMeasure: React.PropTypes.func,
+    onMeasure: PropTypes.func,
   },
 
   componentDidMount: function() {

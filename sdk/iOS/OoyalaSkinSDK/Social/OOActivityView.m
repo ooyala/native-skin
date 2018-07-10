@@ -7,8 +7,10 @@
 //
 
 #import "OOActivityView.h"
-#import "RCTUtils.h"
-#import "RCTConvert.h"
+
+#import <React/RCTUtils.h>
+#import <React/RCTConvert.h>
+
 
 @implementation OOActivityView
 

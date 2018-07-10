@@ -2,6 +2,8 @@
 /**
  * Created by dkao on 9/4/15.
  */
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -12,16 +14,16 @@ import {
 
 var styles = require('../utils').getStyles(require('./style/CircularStatus.json'));
 
-var CircularStatus = React.createClass({
-  propTypes: {
-    current: React.PropTypes.number,
-    total: React.PropTypes.number,
-    diameter: React.PropTypes.number,
-    thickness: React.PropTypes.number,
-    onPress: React.PropTypes.func,
-  },
+class CircularStatus extends React.Component {
+  static propTypes = {
+    current: PropTypes.number,
+    total: PropTypes.number,
+    diameter: PropTypes.number,
+    thickness: PropTypes.number,
+    onPress: PropTypes.func,
+  };
 
-  renderCircularStatus: function() {
+  renderCircularStatus = () => {
 
     var edges = this.props.diameter;
     var segment_length = (this.props.diameter * Math.PI * 1.1) / edges;
@@ -63,23 +65,23 @@ var CircularStatus = React.createClass({
         {Math.floor(this.props.current)}
       </Text>}
     </View>);
-  },
+  };
 
-  renderClickableCircularStatus: function() {
+  renderClickableCircularStatus = () => {
     return (<TouchableHighlight
       underlayColor='transparent'
       onPress={() => this.props.onPress()}>
       {this.renderCircularStatus()}
     </TouchableHighlight>);
-  },
+  };
 
-  render: function() {
+  render() {
     if (this.props.onPress) {
     return this.renderClickableCircularStatus();
     } else {
       return this.renderCircularStatus();
     }
-  },
-});
+  }
+}
 
 module.exports = CircularStatus;

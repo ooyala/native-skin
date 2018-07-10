@@ -1,8 +1,10 @@
+'use strict';
+
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
  */
-'use strict';
+import PropTypes from 'prop-types';
 
 import React from 'react';
 import {
@@ -30,27 +32,25 @@ const stringConstants = {
   subtitlesHeaderViewSectionTitle: "Subtitles"
 }
 
-const AudioAndCCSelectionPanel = React.createClass({
-  propTypes: {
-    audioTracksTitles: React.PropTypes.array,
-    selectedAudioTrackTitle: React.PropTypes.string,
-    closedCaptionsLanguages: React.PropTypes.array,
-    selectedClosedCaptionsLanguage: React.PropTypes.string,
-    onSelectAudioTrack: React.PropTypes.func,
-    onSelectClosedCaptions: React.PropTypes.func,
-    onDismiss: React.PropTypes.func,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    config: React.PropTypes.object
-  },
+class AudioAndCCSelectionPanel extends React.Component {
+  static propTypes = {
+    audioTracksTitles: PropTypes.array,
+    selectedAudioTrackTitle: PropTypes.string,
+    closedCaptionsLanguages: PropTypes.array,
+    selectedClosedCaptionsLanguage: PropTypes.string,
+    onSelectAudioTrack: PropTypes.func,
+    onSelectClosedCaptions: PropTypes.func,
+    onDismiss: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    config: PropTypes.object
+  };
 
-  getInitialState: function() {
-    return {
-      opacity: new Animated.Value(0)
-    };
-  },
+  state = {
+    opacity: new Animated.Value(0)
+  };
 
-  componentDidMount:function () {
+  componentDidMount() {
     this.state.opacity.setValue(0);
     Animated.parallel([
       Animated.timing(
@@ -61,9 +61,10 @@ const AudioAndCCSelectionPanel = React.createClass({
           delay: 0
         }),
     ]).start();
-  },
+  }
 
-  onAudioTrackSelected: function(name) {
+
+  onAudioTrackSelected = (name) => {
     const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
     const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
     let originalName = name;
@@ -74,9 +75,10 @@ const AudioAndCCSelectionPanel = React.createClass({
     if (this.props.selectedAudioTrackTitle !== originalName) {
       this.props.onSelectAudioTrack(originalName);
     }
-  },
+  };
 
-  onClosedCaptionsLanguageSelected: function(name) {
+
+  onClosedCaptionsLanguageSelected = (name) => {
     const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
 
     if (name === offButtonLocalizedTitle) {
@@ -84,13 +86,13 @@ const AudioAndCCSelectionPanel = React.createClass({
     } else if (this.props.selectedClosedCaptionsLanguage !== name) {
       this.props.onSelectClosedCaptions(name);
     }
-  },
+  };
 
-  onDismissPress: function() {
+  onDismissPress = () => {
     this.props.onDismiss();
-  },
+  };
 
-  renderHeaderView: function(hasMultiAudioTracks, hasClosedCaptions) {
+  renderHeaderView = (hasMultiAudioTracks, hasClosedCaptions) => {
     let leftTitle;
     let rightTitle;
 
@@ -107,7 +109,7 @@ const AudioAndCCSelectionPanel = React.createClass({
       leftTitle = localizedSubtitlesTitle;
       rightTitle = "";
     }
-    
+
     return (
       <View style={styles.panelHeaderView}>
         <View style={styles.panelHeaderViewLeftView}>
@@ -117,7 +119,7 @@ const AudioAndCCSelectionPanel = React.createClass({
           <Text style={[styles.panelHeaderViewRightText]}>{rightTitle}</Text>
           <TouchableHighlight style={styles.dismissButton}
             accessible={true}
-            accessibilityLabel={BUTTON_NAMES.DISMISS} 
+            accessibilityLabel={BUTTON_NAMES.DISMISS}
             accessibilityComponentType="button"
             underlayColor="transparent" // Can't move this property to json style file because it doesn't works
             onPress={this.onDismissPress}>
@@ -128,9 +130,9 @@ const AudioAndCCSelectionPanel = React.createClass({
         </View>
       </View>
     );
-  },
+  };
 
-  renderAudioSelectionScrollView: function() {
+  renderAudioSelectionScrollView = () => {
     const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
     const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
 
@@ -154,7 +156,7 @@ const AudioAndCCSelectionPanel = React.createClass({
     });
 
     return (
-      <ItemSelectionScrollView 
+      <ItemSelectionScrollView
         style={styles.panelItemSelectionView}
         items={itemsWithLocalizedUndefinedLanguage}
         selectedItem={selectedLocalizedItem}
@@ -162,9 +164,9 @@ const AudioAndCCSelectionPanel = React.createClass({
         config={this.props.config}>
       </ItemSelectionScrollView>
     );
-  },
+  };
 
-  renderCCSelectionScrollView: function() {
+  renderCCSelectionScrollView = () => {
     const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
     let selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
 
@@ -185,16 +187,16 @@ const AudioAndCCSelectionPanel = React.createClass({
         config={this.props.config}>
       </ItemSelectionScrollView>
     );
-  },
+  };
 
-  renderPanelsContainerView: function(hasMultiAudioTracks, hasClosedCaptions) {
+  renderPanelsContainerView = (hasMultiAudioTracks, hasClosedCaptions) => {
     if (hasMultiAudioTracks && hasClosedCaptions) {
       // Return mixed panels with audio and CC
       return (
         <View style={styles.panelItemSelectionContainerView}>
           {this.renderAudioSelectionScrollView()}
           <View style={styles.panelItemSelectionContainerSeparationView}/>
-          {this.renderCCSelectionScrollView()}     
+          {this.renderCCSelectionScrollView()}
         </View>
       );
     } else if (hasMultiAudioTracks) {
@@ -212,9 +214,9 @@ const AudioAndCCSelectionPanel = React.createClass({
         </View>
       );
     }
-  },
+  };
 
-  render: function() {
+  render() {
     const hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
     const hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
     const animationStyle = {opacity:this.state.opacity};
@@ -225,9 +227,7 @@ const AudioAndCCSelectionPanel = React.createClass({
         {this.renderPanelsContainerView(hasMultiAudioTracks, hasClosedCaptions)}
       </Animated.View>
     );
-  },
-  
-
-});
+  }
+}
 
 module.exports = AudioAndCCSelectionPanel;

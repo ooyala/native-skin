@@ -1,9 +1,9 @@
+import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import {
-  StyleSheet,
   Text,
   View,
-  Image,
+  ImageBackground,
   TouchableHighlight,
 } from "react-native";
 
@@ -24,28 +24,28 @@ var thumbnailWidth = 175;
 var dismissButtonWidth = 10;
 var defaultCountdownVal = 10;
 
-var UpNext = React.createClass({
-  propTypes: {
-    config: React.PropTypes.object,
-    playhead: React.PropTypes.number,
-    duration: React.PropTypes.number,
-    ad: React.PropTypes.object,
-    nextVideo: React.PropTypes.object,
-    onPress: React.PropTypes.func,
-    upNextDismissed: React.PropTypes.bool,
-    width: React.PropTypes.number,
-    platform:React.PropTypes.string
-  },
+class UpNext extends React.Component {
+  static propTypes = {
+    config: PropTypes.object,
+    playhead: PropTypes.number,
+    duration: PropTypes.number,
+    ad: PropTypes.object,
+    nextVideo: PropTypes.object,
+    onPress: PropTypes.func,
+    upNextDismissed: PropTypes.bool,
+    width: PropTypes.number,
+    platform:PropTypes.string
+  };
 
-  dismissUpNext: function() {
+  dismissUpNext = () => {
     this.props.onPress("upNextDismiss");
-  },
+  };
 
-  clickUpNext: function() {
+  clickUpNext = () => {
     this.props.onPress("upNextClick");
-  },
+  };
 
-  upNextDuration: function() {
+  upNextDuration = () => {
     var upNextConfig = this.props.config.upNext || {};
     // TODO: Unit test this functionality, there're still some edge cases
     if (typeof upNextConfig.timeToShow === "string") {
@@ -75,13 +75,13 @@ var UpNext = React.createClass({
       // Not a valid string nor number, return default.
       return defaultCountdownVal;
     }
-  },
+  };
 
-  isWithinShowUpNextBounds: function() {
+  isWithinShowUpNextBounds = () => {
     return parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;
-  },
+  };
 
-  _renderDismissButton: function() {
+  _renderDismissButton = () => {
     return (<TouchableHighlight
       accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
       onPress={this.dismissUpNext}
@@ -92,10 +92,9 @@ var UpNext = React.createClass({
         {fontFamily: this.props.config.icons.dismiss.fontFamilyName}
       ]}>{this.props.config.icons.dismiss.fontString}</Text>
     </TouchableHighlight>);
-  },
+  };
 
-
-  renderCountdownTimer: function() {
+  renderCountdownTimer = () => {
     if(this.props.platform == Constants.PLATFORMS.ANDROID) {
       return <CountdownViewAndroid style={styles.countdownView}
         countdown={{
@@ -117,15 +116,14 @@ var UpNext = React.createClass({
         radius={9}
         fillAlpha={0.7} />
     }
-  },
+  };
 
-
-  render: function() {
+  render() {
     var upNextConfig = this.props.config.upNext || {};
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && upNextConfig.showUpNext === true && !this.props.ad && this.props.nextVideo != null) {
       var countdown = this.renderCountdownTimer();
       var upNextImage = (
-        <Image
+        <ImageBackground
           source={{uri: this.props.nextVideo.imageUrl}}
           style={styles.thumbnail} >
           <TouchableHighlight style={styles.thumbnail}
@@ -137,7 +135,7 @@ var UpNext = React.createClass({
               {this.props.config.icons.play.fontString}
             </Text>
           </TouchableHighlight>
-        </Image>
+        </ImageBackground>
       );
 
       var upNextDescription = (
@@ -163,7 +161,7 @@ var UpNext = React.createClass({
         );
       }
     return null;
-  },
-});
+  }
+}
 
 module.exports = UpNext;

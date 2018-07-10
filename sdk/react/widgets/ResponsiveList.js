@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -8,18 +10,19 @@ import {
 
 var styles=require('../utils').getStyles(require('./style/ResponsiveListStyles.json'));
 var placeHolderItem = "ResponsiveListPlaceHolder";
-var ResponsiveList = React.createClass({
-  propTypes: {
-    horizontal: React.PropTypes.bool,
-    data: React.PropTypes.array,
-    itemRender: React.PropTypes.func,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    itemWidth: React.PropTypes.number,
-    itemHeight: React.PropTypes.number
-  },
 
-  getSlices: function() {
+class ResponsiveList extends React.Component {
+  static propTypes = {
+    horizontal: PropTypes.bool,
+    data: PropTypes.array,
+    itemRender: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    itemWidth: PropTypes.number,
+    itemHeight: PropTypes.number
+  };
+
+  getSlices = () => {
     var listMeasure = this.props.horizontal ? this.props.height : this.props.width;
     var itemMeasure = this.props.horizontal ? this.props.itemHeight : this.props.itemWidth;
     var itemsPerSlice = Math.floor(listMeasure / itemMeasure);
@@ -46,9 +49,9 @@ var ResponsiveList = React.createClass({
     }
 
     return slices;
-  },
+  };
 
-  render: function() {
+  render() {
     var slices = this.getSlices();
     var listBound = this.props.horizontal ? this.props.width : this.props.height;
     var itemBound = this.props.horizontal ? this.props.itemWidth : this.props.itemHeight;
@@ -63,9 +66,9 @@ var ResponsiveList = React.createClass({
           {slices.map(this.renderSlice)}
         </ScrollView>
       </View>);
-  },
+  }
 
-  renderSlice: function(slice: object, i: number) {
+  renderSlice = (slice: object, i: number) => {
     var sliceStyle = this.props.horizontal ? styles.column : styles.row;
 
     var renderItem = this.renderItem;
@@ -78,16 +81,16 @@ var ResponsiveList = React.createClass({
       style={sliceStyle}>
       {renderedItem}
     </View>);
-  },
+  };
 
-  renderItem: function(item: object, sectionId: number, i: number) {
+  renderItem = (item: object, sectionId: number, i: number) => {
     var placeHolderStyle = {flex: 1, backgroundColor: "transparent", width:this.props.itemWidth, height: this.props.itemHeight};
     if (item === placeHolderItem) {
       return (<View key={sectionId} style={placeHolderStyle}></View>);
     } else {
       return this.props.itemRender(item, sectionId, i);
     }
-  }
-});
+  };
+}
 
 module.exports = ResponsiveList;

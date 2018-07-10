@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   Image,
@@ -18,28 +19,29 @@ var {
 
 
 
-var logo = React.createClass({
-  propTypes: {
-    buttonWidth: React.PropTypes.number.isRequired,
-    buttonHeight: React.PropTypes.number.isRequired,
-    waterMarkName: React.PropTypes.string.isRequired,
-  },
+class logo extends React.Component {
+  static propTypes = {
+    buttonWidth: PropTypes.number.isRequired,
+    buttonHeight: PropTypes.number.isRequired,
+    waterMarkName: PropTypes.string.isRequired,
+  };
 
-renderLogo: function(){
-  var waterMarkName = this.props.waterMarkName;
-  var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
-  return (
-        <View style={[styles.watermarkContainer]}>
-          <Image
-            style={sizeStyle}
-            source={{uri: waterMarkName}}
-            resizeMode={Image.resizeMode.contain}/>
-        </View>
-      );
-  },
+  renderLogo = () => {
+    var waterMarkName = this.props.waterMarkName;
+    var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
+    return (
+          <View style={[styles.watermarkContainer]}>
+            <Image
+              style={sizeStyle}
+              source={{uri: waterMarkName}}
+              resizeMode={Image.resizeMode.contain}/>
+          </View>
+        );
+    };
 
-  render: function() {
+  render() {
     return this.renderLogo();
   }
-});
+}
+
 module.exports = logo;

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -23,38 +24,36 @@ var {
   IMG_URLS
 } = Constants;
 
-var EndScreen = React.createClass({
-	getInitialState: function() {
-    return {
-      showControls:true,
-    };
-  },
+class EndScreen extends React.Component {
+  static propTypes = {
+    config: PropTypes.object,
+    title: PropTypes.string,
+    duration: PropTypes.number,
+    description: PropTypes.string,
+    promoUrl: PropTypes.string,
+    onPress: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    volume: PropTypes.number,
+    upNextDismissed: PropTypes.bool,
+    fullscreen: PropTypes.bool,
+    handleControlsTouch: PropTypes.func,
+    onScrub: PropTypes.func,
+  };
 
-  propTypes: {
-    config: React.PropTypes.object,
-    title: React.PropTypes.string,
-    duration: React.PropTypes.number,
-    description: React.PropTypes.string,
-    promoUrl: React.PropTypes.string,
-    onPress: React.PropTypes.func,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    volume: React.PropTypes.number,
-    upNextDismissed: React.PropTypes.bool,
-    fullscreen: React.PropTypes.bool,
-    handleControlsTouch: React.PropTypes.func,
-    onScrub: React.PropTypes.func,
-  },
+  state = {
+    showControls:true,
+  };
 
-  handleClick: function(name) {
+  handleClick = (name) => {
     this.props.onPress(name);
-  },
+  };
 
-  handleTouchEnd: function(event) {
+  handleTouchEnd = (event) => {
     this.toggleControlBar();
-  },
+  };
 
-  handlePress: function(name) {
+  handlePress = (name) => {
     Log.verbose("VideoView Handle Press: " + name);
     this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
@@ -66,9 +65,9 @@ var EndScreen = React.createClass({
     } else {
       this.props.onPress(name);
     }
-  },
+  };
 
-  _renderDefaultScreen: function(progressBar, controlBar) {
+  _renderDefaultScreen = (progressBar, controlBar) => {
     var endScreenConfig = this.props.config.endScreen || {};
     var replaybuttonLocation = styles.replaybuttonCenter;
     var replaybutton;
@@ -107,13 +106,13 @@ var EndScreen = React.createClass({
         </View>
       </View>
     );
-  },
+  };
 
-  handleScrub: function(value) {
+  handleScrub = (value) => {
     this.props.onScrub(value);
-  },
+  };
 
-  _renderBottomOverlay: function(show) {
+  _renderBottomOverlay = (show) => {
     var shouldShowClosedCaptionsButton =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
@@ -140,11 +139,11 @@ var EndScreen = React.createClass({
         live: this.props.config.live,
         general: this.props.config.general
       }} />);
-  },
+  };
 
-  render: function() {
+  render() {
       return this._renderDefaultScreen();
   }
-});
+}
 
 module.exports = EndScreen;
