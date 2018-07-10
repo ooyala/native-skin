@@ -136,9 +136,7 @@ var controlBarWidget = React.createClass({
       options.enabled ? 
       <TouchableHighlight 
         testID={BUTTON_NAMES.MORE}
-        accessible={true} 
-        accessibilityLabel={BUTTON_NAMES.MORE} 
-        accessibilityComponentType="button" 
+        accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button" 
         style={[options.iconTouchableStyle]} 
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
