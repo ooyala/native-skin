@@ -178,6 +178,7 @@ var ControlBar = React.createClass({
         icon: this.props.config.icons.rewind
       },
       moreOptions: {
+        enabled: this.props.moreOptionsEnabled,
         onPress: this.onMorePress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],

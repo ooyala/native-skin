@@ -68,6 +68,7 @@ var AdPlaybackScreen = React.createClass({
     playing: React.PropTypes.bool,
     loading: React.PropTypes.bool,
     initialPlay: React.PropTypes.bool,
+    moreOptionsEnabled: React.PropTypes.bool,
   },
 
   componentWillReceiveProps: function(nextProps) {
@@ -143,7 +144,8 @@ var AdPlaybackScreen = React.createClass({
         icons: this.props.config.icons,
         live: this.props.config.live,
         general: this.props.config.general
-      }} />);
+      }}
+      moreOptionsEnabled={false} />);
   },
 
   _renderAdBar: function() {
