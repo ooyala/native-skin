@@ -51,7 +51,8 @@ var ControlBar = React.createClass({
     config: React.PropTypes.object.isRequired,
     сlosedCaptionsEnabled: React.PropTypes.bool,
     stereoSupported: React.PropTypes.bool,
-    multiAudioEnabled: React.PropTypes.bool
+    multiAudioEnabled: React.PropTypes.bool,
+    moreOptionsEnabled: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {

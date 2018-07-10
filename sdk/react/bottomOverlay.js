@@ -63,7 +63,7 @@ var BottomOverlay = React.createClass({
     сlosedCaptionsEnabled: React.PropTypes.bool, 
     stereoSupported: React.PropTypes.bool,
     multiAudioEnabled: React.PropTypes.bool,
-    moreOptionsEnabled: React.PropTypes.bool
+    moreOptionsEnabled: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
