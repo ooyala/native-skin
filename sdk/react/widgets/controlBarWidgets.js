@@ -133,13 +133,13 @@ class controlBarWidget extends React.Component {
 
   moreOptionsWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (
+    return (option.enabled ?
     <TouchableHighlight
       testID={BUTTON_NAMES.MORE}
       accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button"
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+    </TouchableHighlight> : null);
   };
 
   rewindWidget = (options) => {
