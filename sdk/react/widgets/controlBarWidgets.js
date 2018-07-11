@@ -133,7 +133,7 @@ class controlBarWidget extends React.Component {
 
   moreOptionsWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (option.enabled ?
+    return (options.enabled ?
     <TouchableHighlight
       testID={BUTTON_NAMES.MORE}
       accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button"
