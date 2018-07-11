@@ -51,7 +51,8 @@ var ControlBar = React.createClass({
     config: React.PropTypes.object.isRequired,
     сlosedCaptionsEnabled: React.PropTypes.bool,
     stereoSupported: React.PropTypes.bool,
-    multiAudioEnabled: React.PropTypes.bool
+    multiAudioEnabled: React.PropTypes.bool,
+    moreOptionsEnabled: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
@@ -181,7 +182,8 @@ var ControlBar = React.createClass({
         onPress: this.onMorePress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.config.icons.ellipsis
+        icon: this.props.config.icons.ellipsis,
+        enabled: this.props.moreOptionsEnabled
       },
       discovery: {
         onPress: this.onDiscoveryPress,

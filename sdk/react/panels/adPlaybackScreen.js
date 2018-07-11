@@ -143,7 +143,8 @@ var AdPlaybackScreen = React.createClass({
         icons: this.props.config.icons,
         live: this.props.config.live,
         general: this.props.config.general
-      }} />);
+      }}
+      moreOptionsEnabled={false} />);
   },
 
   _renderAdBar: function() {

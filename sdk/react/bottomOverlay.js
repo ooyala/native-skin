@@ -62,11 +62,12 @@ var BottomOverlay = React.createClass({
     config: React.PropTypes.object,
     сlosedCaptionsEnabled: React.PropTypes.bool, 
     stereoSupported: React.PropTypes.bool,
-    multiAudioEnabled: React.PropTypes.bool
+    multiAudioEnabled: React.PropTypes.bool,
+    moreOptionsEnabled: React.PropTypes.bool,
   },
 
   getDefaultProps: function() {
-    return {"shouldShowProgressBar": true};
+    return {"shouldShowProgressBar": true, "moreOptionsEnabled": true};
   },
   getInitialState: function() {
     if (this.props.isShow) {
@@ -298,6 +299,7 @@ If the playhead position has changed, reset the cachedPlayhead to -1 so that it 
         сlosedCaptionsEnabled={this.props.сlosedCaptionsEnabled}
         stereoSupported={this.props.stereoSupported}
         multiAudioEnabled={this.props.multiAudioEnabled}
+        moreOptionsEnabled={this.props.moreOptionsEnabled}
       />
     );
   },

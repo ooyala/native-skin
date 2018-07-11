@@ -131,13 +131,13 @@ var controlBarWidget = React.createClass({
 
   moreOptionsWidget: function (options) {
     var fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (
+    return ( options.enabled ?
     <TouchableHighlight 
       testID={BUTTON_NAMES.MORE}
       accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button" 
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+    </TouchableHighlight> : null);
   },
 
   rewindWidget: function (options) {
