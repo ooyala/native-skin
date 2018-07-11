@@ -48,7 +48,8 @@ class ControlBar extends React.Component {
     сlosedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
-    showMoreOptionsButton: PropTypes.bool
+    showMoreOptionsButton: PropTypes.bool,
+    showAudioAndCCButton: PropTypes.bool
   };
 
   static defaultProps = {playhead: 0, duration: 0};
@@ -214,6 +215,7 @@ class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.audioAndCC,
+        enabled: this.props.showAudioAndCCButton
       },
     };
 
