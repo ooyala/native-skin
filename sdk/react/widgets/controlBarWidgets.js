@@ -93,16 +93,17 @@ class controlBarWidget extends React.Component {
           <Text style={options.style}>{options.durationString}</Text>
         </TouchableHighlight>);
     } else {
-      const playHead = <Text style={options.playHeadTimeStyle} accessible={true} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
-      const duration = <Text style={options.durationStyle} accessible={true} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
+      const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
+      const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
       return (
-        <View style={options.completeTimeStyle}>
+        <View
+          style={options.completeTimeStyle}
+          accessible={true}>
           {playHead}
           {duration}
         </View>
       );
     }
-
   };
 
   flexibleSpaceWidget = (options) => {
