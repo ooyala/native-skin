@@ -26,7 +26,6 @@
   },
   "dismissIcon": {
     "flex": 1,
-    "paddingBottom":20,
     "fontFamily": "ooyala-slick-type",
     "fontSize": 20,
     "color": "white"
