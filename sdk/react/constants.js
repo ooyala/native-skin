@@ -130,6 +130,8 @@ const VIEW_ACCESSIBILITY_NAMES = {
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
   PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
+  FORWARD_BUTTON: 'Forward button. Press twice to seek forward on ',
+  BACKWARD_BUTTON: 'Backward button. Press twice to seek backward on '
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {

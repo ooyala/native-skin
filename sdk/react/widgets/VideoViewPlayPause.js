@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   Animated
 } from 'react-native';
+import FwdButton from './FwdButton'
 
 const Constants = require('../constants');
 const {
@@ -15,6 +16,8 @@ const {
 const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
 const PLAY = "play";
 const PAUSE = "pause";
+const FORWARD = "seekForward";
+const BACKWARD = "seekBackward";
 
 class VideoViewPlayPause extends React.Component {
   static propTypes = {
@@ -29,7 +32,7 @@ class VideoViewPlayPause extends React.Component {
     buttonColor: PropTypes.string,
     buttonStyle: PropTypes.object,
     fontSize: PropTypes.number,
-    style:PropTypes.object,
+    style: PropTypes.object,
     showButton: PropTypes.bool,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
@@ -48,6 +51,10 @@ class VideoViewPlayPause extends React.Component {
     widget: {
       animationOpacity: new Animated.Value(0)
     },
+    seekButtons: {
+      animationScale: new Animated.Value(1),
+      animationOpacity: new Animated.Value(0)
+    },
     showInitialPlayAnimation: this.props.initialPlay,
     inAnimation: false
   };
@@ -58,10 +65,12 @@ class VideoViewPlayPause extends React.Component {
       this.state.widget.animationOpacity.setValue(1);
       this.state.play.animationOpacity.setValue(1);
       this.state.pause.animationOpacity.setValue(0);
+      this.state.seekButtons.animationOpacity.setValue(0);
     } else {
       this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
       this.state.play.animationOpacity.setValue(this.props.playing ? 0 : 1);
       this.state.pause.animationOpacity.setValue(this.props.playing ? 1 : 0);
+      this.state.seekButtons.animationOpacity.setValue(1);
     }
   }
 
@@ -102,7 +111,7 @@ class VideoViewPlayPause extends React.Component {
 
   onAnimationCompleted = (instance) => {
     this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
-    this.setState({inAnimation:false});
+    this.setState({inAnimation: false});
     this.syncButtons(this.props.playing);
   };
 
@@ -137,15 +146,36 @@ class VideoViewPlayPause extends React.Component {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state[name].animationOpacity};
     const animate = {transform: [{scale: this.state[name].animationScale}]};
-    const buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
+    const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
 
     return (
-      <View accessible={false} style={[styles.buttonTextContainer]}>
-        <Animated.Text accessible={false}
+      <View
+        accessible={false}
+        style={[styles.buttonTextContainer]}>
+        <Animated.Text
+          accessible={false}
           style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
           {this.props.icons[name].icon}
         </Animated.Text>
       </View>
+    );
+  };
+
+  _renderSeekButton = (name) => {
+    const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
+    const opacity = {opacity: this.state[name].animationOpacity};
+    const animate = {transform: [{scale: this.state[name].animationScale}]};
+    const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
+    const isForward = name === FORWARD;
+
+    return (
+      <FwdButton
+        isForward={isForward}
+        fontStyle={fontStyle}
+        animate={animate}
+        buttonColor={buttonColor}
+        opacity={opacity}
+        icon={this.props.icons[name]}/>
     );
   };
 
