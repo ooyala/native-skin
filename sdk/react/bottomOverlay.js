@@ -66,11 +66,13 @@ const BottomOverlay = createReactClass({
     config: PropTypes.object,
     closedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool
+    multiAudioEnabled: PropTypes.bool,
+    showMoreOptionsButton: PropTypes.bool,
+    showAudioAndCCButton: PropTypes.bool
   },
 
   getDefaultProps: function() {
-    return {"shouldShowProgressBar": true};
+    return {"shouldShowProgressBar": true, "showMoreOptionsButton": true, "showAudioAndCCButton": true};
   },
 
   getInitialState: function() {
@@ -312,6 +314,8 @@ const BottomOverlay = createReactClass({
         сlosedCaptionsEnabled={this.props.closedCaptionsEnabled}
         stereoSupported={this.props.stereoSupported}
         multiAudioEnabled={this.props.multiAudioEnabled}
+        showMoreOptionsButton={this.props.showMoreOptionsButton}
+        showAudioAndCCButton={this.props.showAudioAndCCButton}
       />
     );
   },

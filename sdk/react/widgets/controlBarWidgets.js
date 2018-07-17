@@ -134,13 +134,13 @@ class controlBarWidget extends React.Component {
 
   moreOptionsWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (
+    return (options.enabled ?
     <TouchableHighlight
       testID={BUTTON_NAMES.MORE}
       accessible={true} accessibilityLabel={BUTTON_NAMES.MORE} accessibilityComponentType="button"
       style={[options.iconTouchableStyle]} onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-    </TouchableHighlight>);
+    </TouchableHighlight> : null);
   };
 
   rewindWidget = (options) => {
@@ -197,7 +197,7 @@ class controlBarWidget extends React.Component {
 
   audioAndCCWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (
+    return (options.enabled ?
       <TouchableHighlight
         testID={BUTTON_NAMES.AUDIO_AND_CC}
         accessible={true}
@@ -206,7 +206,7 @@ class controlBarWidget extends React.Component {
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
-      </TouchableHighlight>
+      </TouchableHighlight> : null
     );
   };
 
