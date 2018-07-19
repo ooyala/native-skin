@@ -19,6 +19,8 @@ const PAUSE = "pause";
 const FORWARD = "seekForward";
 const BACKWARD = "seekBackward";
 
+const SEEKBUTTONS_MARGIN = 20;
+
 class VideoViewPlayPause extends React.Component {
   static propTypes = {
     icons: PropTypes.object,
@@ -149,33 +151,43 @@ class VideoViewPlayPause extends React.Component {
     const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
 
     return (
-      <View
+      <Animated.Text
         accessible={false}
-        style={[styles.buttonTextContainer]}>
-        <Animated.Text
-          accessible={false}
-          style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
-          {this.props.icons[name].icon}
-        </Animated.Text>
-      </View>
+        style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
+        {this.props.icons[name].icon}
+      </Animated.Text>
     );
   };
 
-  _renderSeekButton = (name) => {
+  _renderSeekButton = (name, scaleMultiplier) => {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
-    const opacity = {opacity: this.state[name].animationOpacity};
-    const animate = {transform: [{scale: this.state[name].animationScale}]};
+    const opacity = {opacity: this.state.seekButtons.animationOpacity};
+    const animate = {transform: [{scale: this.state.seekButtons.animationScale}]};
     const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
     const isForward = name === FORWARD;
+    let marginLeftValue = 0, marginRightValue = 0;
+    if (isForward) {
+      marginLeftValue = this.props.buttonWidth + SEEKBUTTONS_MARGIN/* * scaleMultiplier + SEEKBUTTONS_MARGIN*/;
+    } else {
+      marginRightValue = this.props.buttonWidth + SEEKBUTTONS_MARGIN/* * scaleMultiplier + SEEKBUTTONS_MARGIN*/;
+    }
+
+    console.log("Button width is: " + this.props.buttonWidth + " and SEEKBUTTONS_MARGIN is: " + SEEKBUTTONS_MARGIN
+      + " and margin values is: Left: " + marginLeftValue + " Right: " + marginRightValue);
+
+    const margin = {marginLeft: marginLeftValue, marginRight: marginRightValue};
 
     return (
       <FwdButton
         isForward={isForward}
+        timeValue={10}
+        currentPosition={10}
+        icon={this.props.icons[name].icon}
         fontStyle={fontStyle}
+        opacity={opacity}
         animate={animate}
         buttonColor={buttonColor}
-        opacity={opacity}
-        icon={this.props.icons[name]}/>
+      />
     );
   };
 
@@ -191,18 +203,13 @@ class VideoViewPlayPause extends React.Component {
   render() {
     const scaleMultiplier = this.props.platform === Constants.PLATFORMS.ANDROID ? 2 : 1; // increase area of play button on android to play scale animation correctly.
     let positionStyle = this.props.style;
+    let topOffset, leftOffset;
 
     if (positionStyle === null) {
       positionStyle = styles[this.props.position];
     } else if (this.props.position === "center") {
-      const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * scaleMultiplier) * 0.5);
-      const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * scaleMultiplier) * 0.5);
-
-      positionStyle = {
-        position: 'absolute',
-        top: topOffset,
-        left: leftOffset
-      };
+      topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * scaleMultiplier) * 0.5);
+      leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * scaleMultiplier) * 0.5);
     }
 
     const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
@@ -210,31 +217,37 @@ class VideoViewPlayPause extends React.Component {
 
     const playButton = this._renderButton(PLAY);
     const pauseButton = this._renderButton(PAUSE);
+    const backwardButton = this._renderSeekButton(BACKWARD, scaleMultiplier);
+    const forwardButton = this._renderSeekButton(FORWARD, scaleMultiplier);
+
+    const containerStyle = {
+      flexDirection: 'row',
+      flex: 0,
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    };
 
     if (this.props.platform === Constants.PLATFORMS.ANDROID) {
       if (!this.props.showButton) {
         return null;
       } else {
-        sizeStyle.justifyContent = 'center';
-        sizeStyle.alignSelf = 'center';
-        sizeStyle.paddingTop = this.props.buttonHeight / scaleMultiplier;
-        sizeStyle.paddingRight = this.props.buttonWidth;
         sizeStyle.height = this.props.buttonHeight * scaleMultiplier;
         sizeStyle.width = this.props.buttonWidth * scaleMultiplier;
 
         return (
-          <TouchableHighlight
-            onPress={() => this.onPress()}
-            style={[positionStyle]}
-            underlayColor="transparent"
-            activeOpacity={this.props.opacity}>
-            <View>
-              <Animated.View style={[styles.playPauseButtonArea, sizeStyle]}>
+          <View style={[containerStyle]}>
+            {backwardButton}
+            <TouchableHighlight
+              onPress={() => this.onPress()}
+              underlayColor="transparent"
+              activeOpacity={this.props.opacity}>
+              <Animated.View style={[sizeStyle]}>
                 {playButton}
                 {pauseButton}
               </Animated.View>
-            </View>
-          </TouchableHighlight>
+            </TouchableHighlight>
+            {forwardButton}
+          </View>
         );
       }
     } else {

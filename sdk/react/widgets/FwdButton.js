@@ -1,6 +1,9 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { TouchableHighlight } from 'react-native';
+import {
+  TouchableHighlight,
+  Animated
+} from 'react-native';
 
 const AccessibilityUtils = require('../accessibilityUtils');
 const Constants = require('../constants');
@@ -16,7 +19,7 @@ class FwdButton extends React.Component {
     fontStyle: PropTypes.object,
     opacity: PropTypes.object,
     animate: PropTypes.object,
-    buttonColor: PropTypes.object
+    buttonColor: PropTypes.object,
   };
 
   state = {
@@ -34,13 +37,12 @@ class FwdButton extends React.Component {
         accessible = {true}
         accessibilityLabel={accessibilityLabel}
         accessibilityComponentType="button"
-        style={[styles.buttonTextContainer]}
-        onPress={this.onPress}
+        onPress={() => this.onPress()}
         underlayColor="transparent">
         <Animated.Text
           accessible={false}
-          sstyle={[styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
-          {this.props.icons[name].icon}
+          style={[styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
+          {this.props.icon}
         </Animated.Text>
       </TouchableHighlight>
     );
@@ -50,3 +52,5 @@ class FwdButton extends React.Component {
 
   };
 };
+
+module.exports = FwdButton;
