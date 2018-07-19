@@ -267,6 +267,14 @@ class VideoView extends React.Component {
             pause: {
               icon: this.props.config.icons.pause.fontString,
               fontFamily: this.props.config.icons.pause.fontFamilyName
+            },
+            seekForward: {
+              icon: this.props.config.icons.seekForward.fontString,
+              fontFamily: this.props.config.icons.seekForward.fontFamilyName
+            },
+            seekBackward: {
+              icon: this.props.config.icons.seekBackward.fontString,
+              fontFamily: this.props.config.icons.seekBackward.fontFamilyName
             }
           }}
           position={"center"}
