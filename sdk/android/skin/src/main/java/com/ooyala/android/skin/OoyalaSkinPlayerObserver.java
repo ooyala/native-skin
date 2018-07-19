@@ -68,6 +68,8 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeAdErrorNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.LIVE_CC_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeLiveCCChangedNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.MANIFEST_CC_CHANGED_NOTIFICATION_NAME.equals(notificationName)) {
+      bridgeManifestCCChangedNotification(((OoyalaNotification) argN).getData());
     } else if (OoyalaPlayer.AD_OVERLAY_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAdOverlayNotification(((OoyalaNotification) argN).getData());;
     } else if (OoyalaPlayer.SEEK_STARTED_NOTIFICATION_NAME.equals(notificationName)) {
@@ -218,11 +220,27 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeLiveCCChangedNotification(Object data) {
+    Map<String, String> map = (Map<String, String>) data;
+    String ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
+    WritableMap params = Arguments.createMap();
+    params.putString("text", ccText);
+
+    _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
+  }
+
+  /**
+   * In manifest closed captions were received, send event to layout controller
+   * @param data from OooyalaNotification
+   */
+  private void bridgeManifestCCChangedNotification(Object data) {
+    String ccText = "";
+    if (data != null) {
       Map<String, String> map = (Map<String, String>) data;
-      String ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
-      WritableMap params = Arguments.createMap();
-      params.putString("text", ccText);
-      _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
+      ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
+    }
+    WritableMap params = Arguments.createMap();
+    params.putString("text", ccText);
+    _layoutController.sendEvent(CLOSED_CAPTIONS_UPDATE_EVENT, params);
   }
 
   /**
