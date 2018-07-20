@@ -69,6 +69,7 @@ OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
       description={this.skin.state.description}
       promoUrl={this.skin.state.promoUrl}
       duration={this.skin.state.duration}
+      loading={this.skin.state.loading}
       onPress={(name) => this.core.handlePress(name)}/>
   );
 };

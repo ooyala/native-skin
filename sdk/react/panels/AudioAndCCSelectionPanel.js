@@ -17,7 +17,8 @@ import {
 const animationDuration = 1000;
 const Constants = require('../constants');
 const {
-  BUTTON_NAMES
+  BUTTON_NAMES,
+  CELL_TYPES
 } = Constants;
 
 const Utils = require('../utils');
@@ -161,7 +162,8 @@ class AudioAndCCSelectionPanel extends React.Component {
         items={itemsWithLocalizedUndefinedLanguage}
         selectedItem={selectedLocalizedItem}
         onSelect={(item) => this.onAudioTrackSelected(item)}
-        config={this.props.config}>
+        config={this.props.config}
+        cellType={CELL_TYPES.MULTI_AUDIO}>
       </ItemSelectionScrollView>
     );
   };
@@ -184,7 +186,8 @@ class AudioAndCCSelectionPanel extends React.Component {
         items={this.props.closedCaptionsLanguages}
         selectedItem={selectedClosedCaptionsLanguage}
         onSelect={(item) => this.onClosedCaptionsLanguageSelected(item)}
-        config={this.props.config}>
+        config={this.props.config}
+        cellType={CELL_TYPES.SUBTITLES}>
       </ItemSelectionScrollView>
     );
   };

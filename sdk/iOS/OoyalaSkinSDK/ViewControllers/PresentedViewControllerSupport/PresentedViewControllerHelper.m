@@ -1,5 +1,6 @@
 //
-//  Prese
+//  PresentedViewControllerHelper.m
+//  OoyalaSkinSDK
 //
 //
 // Copyright (c) 2018 ooyala. All rights reserved.
@@ -28,7 +29,7 @@
 #pragma mark - Public functions
 
 - (void)findAndStorePresentedViewController {
-  self.presentedViewController = [self findPresentedViewController:_rootViewController];
+  self.presentedViewController = [self findPresentedViewController:self.rootViewController];
 }
 
 - (void)dismissPresentedViewControllersWithCompletionBlock:(void (^)(void))completion {
@@ -43,13 +44,18 @@
 
 - (void)presentStoredControllersWithCompletionBlock:(void (^)(void))completion {
   if ([_storedPresentedViewControllers count] > 0) {
-    [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:_rootViewController withCompletionBlock:completion];
+    [self presentViewController:self.storedPresentedViewControllers.firstObject onViewController:_rootViewController withCompletionBlock:completion];
+  } else {
+    if (completion) {
+      completion();
+    }
   }
 }
 
 - (void)clearData {
   self.rootViewController = nil;
   self.presentedViewController = nil;
+  [self.storedPresentedViewControllers removeAllObjects];
 }
 
 #pragma mark - Private functions
@@ -64,17 +70,22 @@
   }
   
   if (startedViewController.presentedViewController == nil || startedViewController.presentedViewController.isBeingDismissed) {
-    return startedViewController;
+    if (startedViewController.presentingViewController != nil) {
+      return startedViewController;
+    } else {
+      return nil;
+    }
   }
   
   return [self findPresentedViewController:startedViewController.presentedViewController];
 }
 
-- (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController withCompletionBlock:(void (^ __nullable)(void))completion {
+- (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController
+                    withCompletionBlock:(nullable void (^)(void))completion {
   if ([viewController presentingViewController]) {
-    __block UIViewController* presentedVC = [viewController presentedViewController];
+    UIViewController* presentedVC = [viewController presentedViewController];
     [viewController dismissViewControllerAnimated:NO completion:^{
-      [_storedPresentedViewControllers addObject:viewController];
+      [self.storedPresentedViewControllers addObject:viewController];
       if ([presentedVC presentingViewController]) {
         [self dismissViewControllerAndStoreIt:presentedVC withCompletionBlock:completion];
       } else {
@@ -86,11 +97,13 @@
   }
 }
 
-- (void)presentViewController:(nonnull UIViewController *)viewControllerToPresent onViewController:(nonnull UIViewController *)baseViewController withCompletionBlock:(void (^ __nullable)(void))completion {
+- (void)presentViewController:(nonnull UIViewController *)viewControllerToPresent
+             onViewController:(nonnull UIViewController *)baseViewController
+          withCompletionBlock:(nullable void (^)(void))completion {
   [baseViewController presentViewController:viewControllerToPresent animated:NO completion:^{
-    [_storedPresentedViewControllers removeObject:viewControllerToPresent];
-    if ([_storedPresentedViewControllers count] > 0) {
-      [self presentViewController:_storedPresentedViewControllers.firstObject onViewController:viewControllerToPresent withCompletionBlock:completion];
+    [self.storedPresentedViewControllers removeObject:viewControllerToPresent];
+    if ([self.storedPresentedViewControllers count] > 0) {
+      [self presentViewController:self.storedPresentedViewControllers.firstObject onViewController:viewControllerToPresent withCompletionBlock:completion];
     } else {
       if (completion) {
         completion();

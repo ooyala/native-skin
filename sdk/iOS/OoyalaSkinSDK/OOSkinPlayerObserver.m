@@ -125,13 +125,22 @@
   OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
   
   CMTimeRange seekableRange = self.player.seekableTimeRange;
-  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
-  Float64 seekableDuration = CMTimeGetSeconds(seekableRange.duration);
-  Float64 seekStart = seekInfo.seekStart - seekableStart;
-  Float64 seekEnd = seekInfo.seekEnd - seekableStart;
+  Float64 seekStart = seekInfo.seekStart;
+  Float64 seekEnd = seekInfo.seekEnd;
+  Float64 seekableDuration = self.player.duration;
   
-  if (seekableStart > seekInfo.seekStart) {
-    seekStart = 0;
+  // Check seekable range
+
+  if (CMTIMERANGE_IS_VALID(seekableRange)) {
+    Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
+    seekableDuration = CMTimeGetSeconds(seekableRange.duration);
+    
+    seekStart = seekInfo.seekStart - seekableStart;
+    seekEnd = seekInfo.seekEnd - seekableStart;
+    
+    if (seekableStart > seekInfo.seekStart) {
+      seekStart = 0;
+    }
   }
   
   NSDictionary *eventBody = @{@"seekstart":[NSNumber numberWithFloat:seekStart],
