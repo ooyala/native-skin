@@ -122,12 +122,13 @@ class controlBarWidget extends React.Component {
 
   fullscreenWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    const nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
+    const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN : VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
     return (
     <TouchableHighlight
       testID={nameLabel}
-      accessible={true} accessibilityLabel={nameLabel} accessibilityComponentType="button"
-      style={[options.iconTouchableStyle]} onPress={options.onPress}>
+      accessible={true} accessibilityLabel={nameLabel}
+      style={[options.iconTouchableStyle]}
+      onPress={options.onPress}>
       <Text style={[options.style, fontFamilyStyle]}>{options.icon.fontString}</Text>
     </TouchableHighlight>);
   };
