@@ -80,8 +80,9 @@ class StartScreen extends React.Component {
           platform={this.props.platform}
           fontSize={iconFontSize}
           playing={false}
-          showButton={!isScreenReaderEnabled}>
-        </VideoViewPlayPause>);
+          showButton={!isScreenReaderEnabled}
+          initialPlay={true}/>
+      );
     }
   };
 
