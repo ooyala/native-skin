@@ -13,12 +13,16 @@ import {
   Image,
   TouchableHighlight,
   View,
-  LayoutAnimation
+  LayoutAnimation,
+  NativeModules
 } from 'react-native';
+
+const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
 var Constants = require('./constants');
 var {
   BUTTON_NAMES,
+  ACCESSIBILITY_ANNOUNCERS,
   IMG_URLS,
   UI_SIZES
 } = Constants;
@@ -104,6 +108,9 @@ class ControlBar extends React.Component {
   };
 
   onFullscreenPress = () => {
+    if(this.props.platform === Constants.PLATFORMS.ANDROID) {
+        AndroidAccessibility.announce(ACCESSIBILITY_ANNOUNCERS.SCREEN_MODE_CHANGED);
+    }
     this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
   };
 

@@ -13,7 +13,6 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY: 'Play',
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'Fullscreen',
-  FULLSCREEN_CLOSE: 'Fullscreen Close',
   MORE: 'moreOptions',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
@@ -130,11 +129,14 @@ const VIEW_ACCESSIBILITY_NAMES = {
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
   PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
+  ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
+  EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {
   PROGRESS_BAR_MOVING: 'Moving to ',
-  PROGRESS_BAR_MOVED: 'Moved to '
+  PROGRESS_BAR_MOVED: 'Moved to ',
+  SCREEN_MODE_CHANGED: 'Screen mode changed'
 };
 
 const ANNOUNCER_TYPES = {
