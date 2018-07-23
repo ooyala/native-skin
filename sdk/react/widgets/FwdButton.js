@@ -14,7 +14,7 @@ class FwdButton extends React.Component {
   static propTypes = {
     isForward: PropTypes.bool.isRequired,
     timeValue: PropTypes.number.isRequired,
-    currentPosition: PropTypes.number.isRequired,
+    onSeek: PropTypes.func.isRequired,
     icon: PropTypes.string.isRequired,
     fontStyle: PropTypes.object,
     opacity: PropTypes.object,
@@ -49,8 +49,8 @@ class FwdButton extends React.Component {
   };
 
   onPress = () => {
-
+    this.props.onSeek(this.props.isForward);
   };
-};
+}
 
 module.exports = FwdButton;

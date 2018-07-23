@@ -16,23 +16,23 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
-var BottomOverlay = require('../bottomOverlay');
-var AdBar = require('../adBar');
-var UpNext = require('../upNext');
-var RectButton = require('../widgets/RectButton');
-var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-var Constants = require('../constants');
-var Log = require('../log');
-var Utils = require('../utils');
-var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var ResponsiveDesignManager = require('../responsiveDesignManager');
-var VideoWaterMark = require('../widgets/videoWaterMark');
-var autohideDelay = 5000;
-var panelStyles = require('./style/panelStyles.json');
+const Dimensions = require('Dimensions');
+const windowSize = Dimensions.get('window');
+const BottomOverlay = require('../bottomOverlay');
+const AdBar = require('../adBar');
+const UpNext = require('../upNext');
+const RectButton = require('../widgets/RectButton');
+const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
+const Constants = require('../constants');
+const Log = require('../log');
+const Utils = require('../utils');
+const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+const ResponsiveDesignManager = require('../responsiveDesignManager');
+const VideoWaterMark = require('../widgets/videoWaterMark');
+const autohideDelay = 5000;
+const panelStyles = require('./style/panelStyles.json');
 
-var {
+const {
   BUTTON_NAMES,
   PLATFORMS,
   IMG_URLS,
@@ -93,7 +93,7 @@ class VideoView extends React.Component {
 
   generateLiveObject = () => {
     if (this.props.live) {
-      var isLive = this.props.playhead >= this.props.duration * 0.95;
+      const isLive = this.props.playhead >= this.props.duration * 0.95;
       return ({
         label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
@@ -114,7 +114,7 @@ class VideoView extends React.Component {
   handlePress = (name) => {
     Log.verbose("VideoView Handle Press: " + name);
     if (this.state.showControls) {
-      if (name == "LIVE") {
+      if (name === "LIVE") {
         this.props.handlers.onScrub(1);
       } else {
         this.props.handlers.onPress(name);
@@ -123,6 +123,19 @@ class VideoView extends React.Component {
       this.props.handlers.showControls();
       this.props.handlers.onPress(name);
     }
+  };
+
+  onSeekPressed = (isForward) => {
+    const seekValue = this.props.config.seekFwd.seekValue * (isForward ? 1 : -1);
+    const currentPlayhead = this.props.playhead;
+    let resultedPlayhead = currentPlayhead + seekValue;
+    if (resultedPlayhead < 0) {
+      resultedPlayhead = 0;
+    } else if (resultedPlayhead > this.props.duration) {
+      resultedPlayhead = this.props.duration;
+    }
+    const resultedPlayheadPercent = resultedPlayhead / this.props.duration;
+    this.handleScrub(resultedPlayheadPercent);
   };
 
   _placeholderTapHandler = (event) => {
@@ -279,6 +292,7 @@ class VideoView extends React.Component {
           }}
           position={"center"}
           onPress={(name) => this.handlePress(name)}
+          onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
           frameWidth={this.props.width}
           frameHeight={this.props.height}
           buttonWidth={iconFontSize}

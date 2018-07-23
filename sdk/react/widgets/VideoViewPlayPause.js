@@ -24,6 +24,8 @@ class VideoViewPlayPause extends React.Component {
     icons: PropTypes.object,
     position: PropTypes.string,
     onPress: PropTypes.func,
+    onSeekPressed: PropTypes.func,
+    seekValue: PropTypes.number,
     opacity: PropTypes.number,
     frameWidth: PropTypes.number,
     frameHeight: PropTypes.number,
@@ -118,15 +120,15 @@ class VideoViewPlayPause extends React.Component {
   // Animations for play/pause transition
   animatePlayButton = () => {
     this.setState({inAnimation: true});
-    this.state.play.animationScale.setValue(1);
-    this.state.play.animationOpacity.setValue(1);
+    this.state.play.animationScale.setValue(0.5);
+    this.state.play.animationOpacity.setValue(0);
 
     Animated.parallel([
       Animated.timing(this.state.play.animationOpacity, {
-        toValue: 0
+        toValue: 1
       }),
       Animated.timing(this.state.play.animationScale, {
-        toValue: 2
+        toValue: 1
       }),
     ]).start(this.onAnimationCompleted);
   };
@@ -150,7 +152,6 @@ class VideoViewPlayPause extends React.Component {
   };
 
   _renderButton = (name) => {
-    console.log("Animation scale is: " + this.state[name].animationScale._value);
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state[name].animationOpacity};
     const animate = {transform: [{scale: this.state[name].animationScale}]};
@@ -165,8 +166,8 @@ class VideoViewPlayPause extends React.Component {
     );
   };
 
-  _renderSeekButton = (name) => {
-    const fontStyle = {fontSize: this.props.fontSize * 0.5, fontFamily: this.props.icons[name].fontFamily};
+  _renderSeekButton = (name, iconScale) => {
+    const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state.seekButtons.animationOpacity};
     const animate = {transform: [{scale: this.state.seekButtons.animationScale}]};
     const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
@@ -175,8 +176,8 @@ class VideoViewPlayPause extends React.Component {
     return (
       <FwdButton
         isForward={isForward}
-        timeValue={10}
-        currentPosition={10}
+        timeValue={this.props.seekValue}
+        onSeek={(isForward) => this.props.onSeekPressed(isForward)}
         icon={this.props.icons[name].icon}
         fontStyle={fontStyle}
         opacity={opacity}
@@ -196,9 +197,10 @@ class VideoViewPlayPause extends React.Component {
 
   // Gets the play button based on the current config settings
   render() {
+    const seekButtonScale = 0.5;
     const playPauseButton = this._renderPlayPauseButton();
-    const backwardButton = this._renderSeekButton(BACKWARD);
-    const forwardButton = this._renderSeekButton(FORWARD);
+    const backwardButton = this._renderSeekButton(BACKWARD, seekButtonScale);
+    const forwardButton = this._renderSeekButton(FORWARD, seekButtonScale);
 
     const containerStyle = {
       flexDirection: 'row',
