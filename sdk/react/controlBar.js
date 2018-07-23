@@ -13,12 +13,16 @@ import {
   Image,
   TouchableHighlight,
   View,
-  LayoutAnimation
+  LayoutAnimation,
+  NativeModules
 } from 'react-native';
+
+const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
 var Constants = require('./constants');
 var {
   BUTTON_NAMES,
+  ACCESSIBILITY_ANNOUNCERS,
   IMG_URLS,
   UI_SIZES
 } = Constants;
@@ -47,7 +51,9 @@ class ControlBar extends React.Component {
     config: PropTypes.object.isRequired,
     сlosedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool
+    multiAudioEnabled: PropTypes.bool,
+    showMoreOptionsButton: PropTypes.bool,
+    showAudioAndCCButton: PropTypes.bool
   };
 
   static defaultProps = {playhead: 0, duration: 0};
@@ -102,6 +108,9 @@ class ControlBar extends React.Component {
   };
 
   onFullscreenPress = () => {
+    if(this.props.platform === Constants.PLATFORMS.ANDROID) {
+        AndroidAccessibility.announce(ACCESSIBILITY_ANNOUNCERS.SCREEN_MODE_CHANGED);
+    }
     this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
   };
 
@@ -181,7 +190,8 @@ class ControlBar extends React.Component {
         onPress: this.onMorePress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.config.icons.ellipsis
+        icon: this.props.config.icons.ellipsis,
+        enabled: this.props.showMoreOptionsButton
       },
       discovery: {
         onPress: this.onDiscoveryPress,
@@ -212,6 +222,7 @@ class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.audioAndCC,
+        enabled: this.props.showAudioAndCCButton
       },
     };
 

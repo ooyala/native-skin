@@ -95,21 +95,12 @@ class controlBarWidget extends React.Component {
           </Text>
         </TouchableHighlight>);
     } else {
-      const playheadAccessibilityLabel = options.playHeadTimeString + STRING_CONSTANTS.SECONDS;
-      const playHead = <Text
-        style={options.playHeadTimeStyle}
-        accessible={true}
-        accessibilityLabel={playheadAccessibilityLabel}>
-        {options.playHeadTimeString}
-      </Text>;
-      const durationAccessibilityLabel = options.durationString + STRING_CONSTANTS.TOTAL_SECONDS;
-      const duration = <Text
-        style={options.durationStyle} accessible={true}
-        accessibilityLabel={durationAccessibilityLabel}>
-        {options.durationString}
-      </Text>;
+      const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
+      const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
       return (
-        <View style={options.completeTimeStyle}>
+        <View
+          style={options.completeTimeStyle}
+          accessible={true}>
           {playHead}
           {duration}
         </View>
@@ -142,13 +133,12 @@ class controlBarWidget extends React.Component {
 
   fullscreenWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    const nameLabel = options.fullscreen ? BUTTON_NAMES.FULLSCREEN_CLOSE : BUTTON_NAMES.FULLSCREEN;
+    const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN : VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
     return (
       <TouchableHighlight
         testID={nameLabel}
         accessible={true}
         accessibilityLabel={nameLabel}
-        accessibilityComponentType="button"
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -165,7 +155,6 @@ class controlBarWidget extends React.Component {
         testID={BUTTON_NAMES.MORE}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.MORE}
-        accessibilityComponentType="button"
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -249,8 +238,9 @@ class controlBarWidget extends React.Component {
 
   audioAndCCWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (
-      <TouchableHighlight
+    let widget = null;
+    if (options.enabled) {
+      widget = <TouchableHighlight
         testID={BUTTON_NAMES.AUDIO_AND_CC}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.AUDIO_AND_CC}
@@ -261,7 +251,8 @@ class controlBarWidget extends React.Component {
           {options.icon.fontString}
         </Text>
       </TouchableHighlight>
-    );
+    }
+    return widget;
   };
 
   render() {
