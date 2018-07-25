@@ -220,8 +220,11 @@ class OoyalaSkinPlayerObserver implements Observer {
   }
 
   private void bridgeLiveCCChangedNotification(Object data) {
-    Map<String, String> map = (Map<String, String>) data;
-    String ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
+    String ccText = "";
+    if (data != null) {
+      Map<String, String> map = (Map<String, String>) data;
+      ccText = map.containsKey(OoyalaPlayer.CLOSED_CAPTION_TEXT) ? map.get(OoyalaPlayer.CLOSED_CAPTION_TEXT) : "";
+    }
     WritableMap params = Arguments.createMap();
     params.putString("text", ccText);
 
