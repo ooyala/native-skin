@@ -157,7 +157,7 @@ class VideoViewPlayPause extends React.Component {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state[name].animationOpacity};
     const animate = {transform: [{scale: this.state[name].animationScale}]};
-    const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
+    const buttonColor = {color: this.props.buttonColor == null ? "white" : this.props.buttonColor};
 
     return (
       <Animated.Text
@@ -176,7 +176,7 @@ class VideoViewPlayPause extends React.Component {
     const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     const opacity = {opacity: this.state.seekButtons.animationOpacity};
     const animate = {transform: [{scale: this.state.seekButtons.animationScale}]};
-    const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
+    const buttonColor = {color: this.props.buttonColor == null ? "white" : this.props.buttonColor};
     const isForward = name === FORWARD;
     const seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
 
