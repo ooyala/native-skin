@@ -130,7 +130,7 @@ const VIEW_ACCESSIBILITY_NAMES = {
   PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
   FORWARD_BUTTON: 'Forward button. Press twice to seek forward on ',
-  BACKWARD_BUTTON: 'Backward button. Press twice to seek backward on '
+  BACKWARD_BUTTON: 'Backward button. Press twice to seek backward on ',
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
 };

@@ -126,7 +126,7 @@ class VideoView extends React.Component {
   };
 
   onSeekPressed = (isForward) => {
-    const seekValue = this.props.config.seekFwd.seekValue * (isForward ? 1 : -1);
+    const seekValue = (isForward) ? this.props.config.skipControls.skipForwardTime :  this.props.config.skipControls.skipBackwardTime * (-1);
     const currentPlayhead = this.props.playhead;
     let resultedPlayhead = currentPlayhead + seekValue;
     if (resultedPlayhead < 0) {
@@ -135,7 +135,8 @@ class VideoView extends React.Component {
       resultedPlayhead = this.props.duration;
     }
     const resultedPlayheadPercent = resultedPlayhead / this.props.duration;
-    this.handleScrub(resultedPlayheadPercent);
+    const roundPercent = +(Math.round(resultedPlayheadPercent + "e+2")  + "e-2")
+    this.handleScrub(roundPercent);
   };
 
   _placeholderTapHandler = (event) => {
@@ -282,17 +283,19 @@ class VideoView extends React.Component {
               fontFamily: this.props.config.icons.pause.fontFamilyName
             },
             seekForward: {
-              icon: this.props.config.icons.seekForward.fontString,
-              fontFamily: this.props.config.icons.seekForward.fontFamilyName
+              icon: this.props.config.icons.forward.fontString,
+              fontFamily: this.props.config.icons.forward.fontFamilyName
             },
             seekBackward: {
-              icon: this.props.config.icons.seekBackward.fontString,
-              fontFamily: this.props.config.icons.seekBackward.fontFamilyName
+              icon: this.props.config.icons.replay.fontString,
+              fontFamily: this.props.config.icons.replay.fontFamilyName
             }
           }}
           position={"center"}
           onPress={(name) => this.handlePress(name)}
           onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
+          seekForwardValue={this.props.config.skipControls.skipForwardTime}
+          seekBackwardValue={this.props.config.skipControls.skipBackwardTime}
           frameWidth={this.props.width}
           frameHeight={this.props.height}
           buttonWidth={iconFontSize}
@@ -300,6 +303,7 @@ class VideoView extends React.Component {
           platform={this.props.platform}
           fontSize={iconFontSize}
           showButton={show}
+          showSeekButtons={this.props.config.skipControls.enabled}
           rate={this.props.rate}
           playing={this.props.playing}
           loading={this.props.loading}

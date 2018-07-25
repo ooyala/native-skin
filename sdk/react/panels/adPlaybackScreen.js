@@ -185,12 +185,12 @@ class AdPlaybackScreen extends React.Component {
               fontFamily: this.props.config.icons.pause.fontFamilyName
             },
             seekForward: {
-              icon: this.props.config.icons.seekForward.fontString,
-              fontFamily: this.props.config.icons.seekForward.fontFamilyName
+              icon: this.props.config.icons.forward.fontString,
+              fontFamily: this.props.config.icons.forward.fontFamilyName
             },
             seekBackward: {
-              icon: this.props.config.icons.seekBackward.fontString,
-              fontFamily: this.props.config.icons.seekBackward.fontFamilyName
+              icon: this.props.config.icons.replay.fontString,
+              fontFamily: this.props.config.icons.replay.fontFamilyName
             }
           }}
           position={"center"}

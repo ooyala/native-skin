@@ -1,8 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   TouchableHighlight,
-  Animated
+  Animated,
+  View,
+  Text
 } from 'react-native';
 
 const AccessibilityUtils = require('../accessibilityUtils');
@@ -17,6 +19,7 @@ class FwdButton extends React.Component {
     onSeek: PropTypes.func.isRequired,
     icon: PropTypes.string.isRequired,
     fontStyle: PropTypes.object,
+    sizeStyle: PropTypes.object,
     opacity: PropTypes.object,
     animate: PropTypes.object,
     buttonColor: PropTypes.object,
@@ -32,18 +35,29 @@ class FwdButton extends React.Component {
 
   render() {
     const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, Constants.STRING_CONSTANTS.SECONDS);
+    const position = {
+      position: 'absolute'
+    };
     return (
       <TouchableHighlight
-        accessible = {true}
+        accessible={true}
         accessibilityLabel={accessibilityLabel}
         accessibilityComponentType="button"
         onPress={() => this.onPress()}
-        underlayColor="transparent">
-        <Animated.Text
-          accessible={false}
-          style={[styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
-          {this.props.icon}
-        </Animated.Text>
+        underlayColor="transparent"
+        style={[this.props.sizeStyle]}>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Text
+            accessible={false}
+            style={[position, styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
+            {this.props.icon}
+          </Text>
+          <Text
+            accessible={false}
+            style={[position, {fontSize: this.props.fontStyle.fontSize * 0.5}, this.props.buttonColor]}>
+            {this.props.timeValue}
+          </Text>
+        </View>
       </TouchableHighlight>
     );
   };

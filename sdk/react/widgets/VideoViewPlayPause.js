@@ -25,7 +25,8 @@ class VideoViewPlayPause extends React.Component {
     position: PropTypes.string,
     onPress: PropTypes.func,
     onSeekPressed: PropTypes.func,
-    seekValue: PropTypes.number,
+    seekForwardValue: PropTypes.number,
+    seekBackwardValue: PropTypes.number,
     opacity: PropTypes.number,
     frameWidth: PropTypes.number,
     frameHeight: PropTypes.number,
@@ -36,6 +37,7 @@ class VideoViewPlayPause extends React.Component {
     fontSize: PropTypes.number,
     style: PropTypes.object,
     showButton: PropTypes.bool,
+    showSeekButtons: PropTypes.bool,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
     initialPlay: PropTypes.bool
@@ -167,16 +169,22 @@ class VideoViewPlayPause extends React.Component {
   };
 
   _renderSeekButton = (name, iconScale) => {
+    if (!this.props.showSeekButtons) {
+      return <View/>
+    }
     const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
+    const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     const opacity = {opacity: this.state.seekButtons.animationOpacity};
     const animate = {transform: [{scale: this.state.seekButtons.animationScale}]};
     const buttonColor = {color: this.props.buttonColor === null ? "white" : this.props.buttonColor};
     const isForward = name === FORWARD;
+    const seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
 
     return (
       <FwdButton
         isForward={isForward}
-        timeValue={this.props.seekValue}
+        timeValue={seekValue}
+        sizeStyle={sizeStyle}
         onSeek={(isForward) => this.props.onSeekPressed(isForward)}
         icon={this.props.icons[name].icon}
         fontStyle={fontStyle}
@@ -209,6 +217,8 @@ class VideoViewPlayPause extends React.Component {
       alignItems: 'center'
     };
 
+    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
+
     if (!this.props.showButton) {
       return null;
     } else {
@@ -219,7 +229,8 @@ class VideoViewPlayPause extends React.Component {
             <TouchableHighlight
               onPress={() => this.onPress()}
               underlayColor="transparent"
-              activeOpacity={this.props.opacity}>
+              activeOpacity={this.props.opacity}
+              style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
               {playPauseButton}
             </TouchableHighlight>
             {forwardButton}
