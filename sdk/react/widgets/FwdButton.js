@@ -46,18 +46,18 @@ class FwdButton extends React.Component {
         onPress={() => this.onPress()}
         underlayColor="transparent"
         style={[this.props.sizeStyle]}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <Text
+        <Animated.View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <Animated.Text
             accessible={false}
             style={[position, styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
             {this.props.icon}
-          </Text>
+          </Animated.Text>
           <Text
             accessible={false}
             style={[position, {fontSize: this.props.fontStyle.fontSize * 0.5}, this.props.buttonColor]}>
             {this.props.timeValue}
           </Text>
-        </View>
+        </Animated.View>
       </TouchableHighlight>
     );
   };
