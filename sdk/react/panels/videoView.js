@@ -134,7 +134,7 @@ class VideoView extends React.Component {
     } else if (resultedPlayhead > this.props.duration) {
       resultedPlayhead = this.props.duration;
     }
-    const resultedPlayheadPercent = resultedPlayhead / this.props.duration;
+    const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
     const roundPercent = +(Math.round(resultedPlayheadPercent + "e+2")  + "e-2")
     this.handleScrub(roundPercent);
   };
