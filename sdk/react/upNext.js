@@ -123,19 +123,21 @@ class UpNext extends React.Component {
     if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && upNextConfig.showUpNext === true && !this.props.ad && this.props.nextVideo != null) {
       var countdown = this.renderCountdownTimer();
       var upNextImage = (
+      <TouchableHighlight
+      style={styles.thumbnail}
+      accessible={true}
+      onPress={this.clickUpNext}>
         <ImageBackground
-          source={{uri: this.props.nextVideo.imageUrl}}
-          style={styles.thumbnail} >
-          <TouchableHighlight style={styles.thumbnail}
-            onPress={this.clickUpNext}
-            accessible={true}
-            accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
-            <Text style={styles.countdownText}
-              accesible={false}>
-              {this.props.config.icons.play.fontString}
-            </Text>
-          </TouchableHighlight>
+        style={styles.thumbnailImage}
+        source={{uri: this.props.nextVideo.imageUrl}}
+        accessible={false}>
+          <Text
+          style={styles.thumbnailPlayButton}
+          accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
+          {this.props.config.icons.play.fontString}
+          </Text>
         </ImageBackground>
+      </TouchableHighlight>
       );
 
       var upNextDescription = (
