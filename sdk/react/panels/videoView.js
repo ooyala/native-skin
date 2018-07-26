@@ -140,7 +140,7 @@ class VideoView extends React.Component {
   };
 
   _renderBottomOverlay = (show) => {
-    var closedCaptionsEnabled =
+    const сlosedCaptionsEnabled =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
