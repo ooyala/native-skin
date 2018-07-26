@@ -11,7 +11,7 @@ const AccessibilityUtils = require('../accessibilityUtils');
 const Constants = require('../constants');
 const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
 
-class FwdButton extends React.Component {
+class SkipButton extends React.Component {
 
   static propTypes = {
     isForward: PropTypes.bool.isRequired,
@@ -67,4 +67,4 @@ class FwdButton extends React.Component {
   };
 }
 
-module.exports = FwdButton;
+module.exports = SkipButton;

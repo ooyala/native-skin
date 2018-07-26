@@ -5,7 +5,7 @@ import {
   TouchableHighlight,
   Animated
 } from 'react-native';
-import FwdButton from './FwdButton'
+import SkipButton from './SkipButton'
 
 const Constants = require('../constants');
 const {
@@ -55,7 +55,7 @@ class VideoViewPlayPause extends React.Component {
     widget: {
       animationOpacity: new Animated.Value(0)
     },
-    seekButtons: {
+    skipButtons: {
       animationScale: new Animated.Value(1),
       animationOpacity: new Animated.Value(0)
     },
@@ -69,12 +69,12 @@ class VideoViewPlayPause extends React.Component {
       this.state.widget.animationOpacity.setValue(1);
       this.state.play.animationOpacity.setValue(1);
       this.state.pause.animationOpacity.setValue(0);
-      this.state.seekButtons.animationOpacity.setValue(0);
+      this.state.skipButtons.animationOpacity.setValue(0);
     } else {
       this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
       this.state.play.animationOpacity.setValue(this.props.playing ? 0 : 1);
       this.state.pause.animationOpacity.setValue(this.props.playing ? 1 : 0);
-      this.state.seekButtons.animationOpacity.setValue(1);
+      this.state.skipButtons.animationOpacity.setValue(1);
     }
   }
 
@@ -174,14 +174,14 @@ class VideoViewPlayPause extends React.Component {
     }
     const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
     const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
-    const opacity = {opacity: this.state.seekButtons.animationOpacity};
-    const animate = {transform: [{scale: this.state.seekButtons.animationScale}]};
+    const opacity = {opacity: this.state.skipButtons.animationOpacity};
+    const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
     const buttonColor = {color: this.props.buttonColor == null ? "white" : this.props.buttonColor};
     const isForward = name === FORWARD;
     const seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
 
     return (
-      <FwdButton
+      <SkipButton
         isForward={isForward}
         timeValue={seekValue}
         sizeStyle={sizeStyle}
