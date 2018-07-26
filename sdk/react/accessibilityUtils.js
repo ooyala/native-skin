@@ -40,7 +40,7 @@ let AccessibilityUtils = {
 
   createAccessibilityForForwardButton: function(isForward, param, timeUnit) {
     const baseLabel = isForward ? VIEW_ACCESSIBILITY_NAMES.FORWARD_BUTTON : VIEW_ACCESSIBILITY_NAMES.BACKWARD_BUTTON;
-    return baseLabel + " " + param + " " + timeUnit;
+    return baseLabel + ' ' + param + ' ' + timeUnit;
   }
 
 };
