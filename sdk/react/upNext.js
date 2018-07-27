@@ -124,17 +124,17 @@ class UpNext extends React.Component {
       var countdown = this.renderCountdownTimer();
       var upNextImage = (
       <TouchableHighlight
-      style={styles.thumbnail}
-      accessible={true}
-      onPress={this.clickUpNext}>
+        style={styles.thumbnail}
+        accessible={true}
+        onPress={this.clickUpNext}>
         <ImageBackground
-        style={styles.thumbnailImage}
-        source={{uri: this.props.nextVideo.imageUrl}}
-        accessible={false}>
+          style={styles.thumbnailImage}
+          source={{uri: this.props.nextVideo.imageUrl}}
+          accessible={false}>
           <Text
-          style={styles.thumbnailPlayButton}
-          accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
-          {this.props.config.icons.play.fontString}
+            style={styles.thumbnailPlayButton}
+            accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
+            {this.props.config.icons.play.fontString}
           </Text>
         </ImageBackground>
       </TouchableHighlight>
