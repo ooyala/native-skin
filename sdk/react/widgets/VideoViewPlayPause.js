@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   Animated
 } from 'react-native';
+import SkipButton from './SkipButton'
 
 const Constants = require('../constants');
 const {
@@ -15,12 +16,17 @@ const {
 const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
 const PLAY = "play";
 const PAUSE = "pause";
+const FORWARD = "seekForward";
+const BACKWARD = "seekBackward";
 
 class VideoViewPlayPause extends React.Component {
   static propTypes = {
     icons: PropTypes.object,
     position: PropTypes.string,
     onPress: PropTypes.func,
+    onSeekPressed: PropTypes.func,
+    seekForwardValue: PropTypes.number,
+    seekBackwardValue: PropTypes.number,
     opacity: PropTypes.number,
     frameWidth: PropTypes.number,
     frameHeight: PropTypes.number,
@@ -29,8 +35,9 @@ class VideoViewPlayPause extends React.Component {
     buttonColor: PropTypes.string,
     buttonStyle: PropTypes.object,
     fontSize: PropTypes.number,
-    style:PropTypes.object,
+    style: PropTypes.object,
     showButton: PropTypes.bool,
+    showSeekButtons: PropTypes.bool,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
     initialPlay: PropTypes.bool
@@ -48,6 +55,10 @@ class VideoViewPlayPause extends React.Component {
     widget: {
       animationOpacity: new Animated.Value(0)
     },
+    skipButtons: {
+      animationScale: new Animated.Value(1),
+      animationOpacity: new Animated.Value(0)
+    },
     showInitialPlayAnimation: this.props.initialPlay,
     inAnimation: false
   };
@@ -58,10 +69,12 @@ class VideoViewPlayPause extends React.Component {
       this.state.widget.animationOpacity.setValue(1);
       this.state.play.animationOpacity.setValue(1);
       this.state.pause.animationOpacity.setValue(0);
+      this.state.skipButtons.animationOpacity.setValue(0);
     } else {
       this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
       this.state.play.animationOpacity.setValue(this.props.playing ? 0 : 1);
       this.state.pause.animationOpacity.setValue(this.props.playing ? 1 : 0);
+      this.state.skipButtons.animationOpacity.setValue(1);
     }
   }
 
@@ -102,22 +115,22 @@ class VideoViewPlayPause extends React.Component {
 
   onAnimationCompleted = (instance) => {
     this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
-    this.setState({inAnimation:false});
+    this.setState({inAnimation: false});
     this.syncButtons(this.props.playing);
   };
 
   // Animations for play/pause transition
   animatePlayButton = () => {
     this.setState({inAnimation: true});
-    this.state.play.animationScale.setValue(1);
-    this.state.play.animationOpacity.setValue(1);
+    this.state.play.animationScale.setValue(0.5);
+    this.state.play.animationOpacity.setValue(0);
 
     Animated.parallel([
       Animated.timing(this.state.play.animationOpacity, {
-        toValue: 0
+        toValue: 1
       }),
       Animated.timing(this.state.play.animationScale, {
-        toValue: 2
+        toValue: 1
       }),
     ]).start(this.onAnimationCompleted);
   };
@@ -133,19 +146,52 @@ class VideoViewPlayPause extends React.Component {
     this.state.play.animationOpacity.setValue(0);
   };
 
+  _renderPlayPauseButton = () => {
+    if (this.state[PLAY].animationOpacity._value === 0) {
+      return this._renderButton(PAUSE);
+    }
+    return this._renderButton(PLAY);
+  };
+
   _renderButton = (name) => {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state[name].animationOpacity};
     const animate = {transform: [{scale: this.state[name].animationScale}]};
-    const buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
+    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
 
     return (
-      <View accessible={false} style={[styles.buttonTextContainer]}>
-        <Animated.Text accessible={false}
-          style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
-          {this.props.icons[name].icon}
-        </Animated.Text>
-      </View>
+      <Animated.Text
+        accessible={false}
+        style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
+        {this.props.icons[name].icon}
+      </Animated.Text>
+    );
+  };
+
+  _renderSeekButton = (name, iconScale) => {
+    if (!this.props.showSeekButtons) {
+      return <View/>
+    }
+    const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
+    const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
+    const opacity = {opacity: this.state.skipButtons.animationOpacity};
+    const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
+    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
+    const isForward = name === FORWARD;
+    const seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
+
+    return (
+      <SkipButton
+        isForward={isForward}
+        timeValue={seekValue}
+        sizeStyle={sizeStyle}
+        onSeek={(isForward) => this.props.onSeekPressed(isForward)}
+        icon={this.props.icons[name].icon}
+        fontStyle={fontStyle}
+        opacity={opacity}
+        animate={animate}
+        buttonColor={buttonColor}
+      />
     );
   };
 
@@ -159,68 +205,37 @@ class VideoViewPlayPause extends React.Component {
 
   // Gets the play button based on the current config settings
   render() {
-    const scaleMultiplier = this.props.platform === Constants.PLATFORMS.ANDROID ? 2 : 1; // increase area of play button on android to play scale animation correctly.
-    let positionStyle = this.props.style;
+    const seekButtonScale = 0.5;
+    const playPauseButton = this._renderPlayPauseButton();
+    const backwardButton = this._renderSeekButton(BACKWARD, seekButtonScale);
+    const forwardButton = this._renderSeekButton(FORWARD, seekButtonScale);
 
-    if (positionStyle === null) {
-      positionStyle = styles[this.props.position];
-    } else if (this.props.position === "center") {
-      const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * scaleMultiplier) * 0.5);
-      const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * scaleMultiplier) * 0.5);
+    const containerStyle = {
+      flexDirection: 'row',
+      flex: 0,
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    };
 
-      positionStyle = {
-        position: 'absolute',
-        top: topOffset,
-        left: leftOffset
-      };
-    }
+    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
 
-    const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
-    const opacity = {opacity: this.state.widget.animationOpacity};
-
-    const playButton = this._renderButton(PLAY);
-    const pauseButton = this._renderButton(PAUSE);
-
-    if (this.props.platform === Constants.PLATFORMS.ANDROID) {
-      if (!this.props.showButton) {
-        return null;
-      } else {
-        sizeStyle.justifyContent = 'center';
-        sizeStyle.alignSelf = 'center';
-        sizeStyle.paddingTop = this.props.buttonHeight / scaleMultiplier;
-        sizeStyle.paddingRight = this.props.buttonWidth;
-        sizeStyle.height = this.props.buttonHeight * scaleMultiplier;
-        sizeStyle.width = this.props.buttonWidth * scaleMultiplier;
-
-        return (
-          <TouchableHighlight
-            onPress={() => this.onPress()}
-            style={[positionStyle]}
-            underlayColor="transparent"
-            activeOpacity={this.props.opacity}>
-            <View>
-              <Animated.View style={[styles.playPauseButtonArea, sizeStyle]}>
-                {playButton}
-                {pauseButton}
-              </Animated.View>
-            </View>
-          </TouchableHighlight>
-        );
-      }
+    if (!this.props.showButton) {
+      return null;
     } else {
       return (
-        <TouchableHighlight
-          onPress={() => this.onPress()}
-          style={[positionStyle]}
-          underlayColor="transparent"
-          activeOpacity={this.props.opacity}>
-          <View>
-            <Animated.View style={[styles.playPauseButtonArea, sizeStyle, opacity]}>
-              {playButton}
-              {pauseButton}
-            </Animated.View>
-          </View>
-        </TouchableHighlight>
+        <View style={[styles.buttonTextContainer]}>
+          <Animated.View style={[containerStyle]}>
+            {backwardButton}
+            <TouchableHighlight
+              onPress={() => this.onPress()}
+              underlayColor="transparent"
+              activeOpacity={this.props.opacity}
+              style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
+              {playPauseButton}
+            </TouchableHighlight>
+            {forwardButton}
+          </Animated.View>
+        </View>
       );
     }
   }

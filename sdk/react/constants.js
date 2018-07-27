@@ -9,7 +9,7 @@ UI_SIZES = {
   CC_PREVIEW_HEIGHT: 80,
 };
 
-var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
+const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY: 'Play',
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'Fullscreen',
@@ -40,7 +40,7 @@ var BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   UP_NEXT: 'Select up next',
 };
 
-var VIEW_NAMES = {
+const VIEW_NAMES = {
 
   // Time seek bar views
   TIME_SEEK_BAR: 'seekBar',
@@ -50,12 +50,12 @@ var VIEW_NAMES = {
   TIME_SEEK_BAR_BUFFERED: 'seekBar_buffered'
 };
 
-var PLATFORMS = {
+const PLATFORMS = {
   ANDROID:'android',
   IOS: 'ios',
 };
 
-var IMG_URLS = {
+const IMG_URLS = {
   FACEBOOK: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png',
   TWITTER: 'https://g.twimg.com/ios_homescreen_icon.png',
   GOOGLEPLUS: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300',
@@ -63,7 +63,7 @@ var IMG_URLS = {
   OOYALA_LOGO: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'
 };
 
-var SCREEN_TYPES = {
+const SCREEN_TYPES = {
   LOADING_SCREEN: 'loading',
   VIDEO_SCREEN: 'video',
   START_SCREEN: 'start',
@@ -74,22 +74,22 @@ var SCREEN_TYPES = {
   ERROR_SCREEN: 'error',
 };
 
-var OVERLAY_TYPES = {
+const OVERLAY_TYPES = {
   DISCOVERY_SCREEN: 'discovery_screen',
   MOREOPTION_SCREEN: 'moreOption',
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
 }
 
-var OOSTATES = {
+const OOSTATES = {
   PAUSED: 'paused',
 };
 
-var DESIRED_STATES = {
+const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',
   DESIRED_PLAY: 'desired_play',
 };
 
-var LOG_LEVEL = {
+const LOG_LEVEL = {
   VERBOSE: 4,
   INFO: 3,
   WARN: 2,
@@ -97,13 +97,13 @@ var LOG_LEVEL = {
   NONE: 0
 };
 
-var STRING_CONSTANTS = {
+const STRING_CONSTANTS = {
   SECONDS: 'seconds',
   TOTAL_SECONDS: 'seconds total time',
   VIDEO_SEEK_SCRUBBER: 'video scrubber'
 };
 
-var VALUES = {
+const VALUES = {
   SEEK_VALUE: 10,
 };
 
@@ -129,6 +129,8 @@ const VIEW_ACCESSIBILITY_NAMES = {
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
   PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
+  FORWARD_BUTTON: 'Forward button. Press twice to seek forward',
+  BACKWARD_BUTTON: 'Backward button. Press twice to seek backward',
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
 };
