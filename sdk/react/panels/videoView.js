@@ -154,7 +154,7 @@ class VideoView extends React.Component {
   };
 
   _renderBottomOverlay = (show) => {
-    const сlosedCaptionsEnabled =
+    const ссEnabled =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
@@ -172,8 +172,8 @@ class VideoView extends React.Component {
       onPress={(name) => this.handlePress(name)}
       onScrub={(value)=>this.handleScrub(value)}
       handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-      closedCaptionsEnabled={closedCaptionsEnabled}
-      showAudioAndCCButton={this.props.multiAudioEnabled || closedCaptionsEnabled}
+      closedCaptionsEnabled={ссEnabled}
+      showAudioAndCCButton={this.props.multiAudioEnabled || ссEnabled}
       showWatermark={this.props.showWatermark}
       isShow={show}
       screenReaderEnabled={this.props.screenReaderEnabled}
