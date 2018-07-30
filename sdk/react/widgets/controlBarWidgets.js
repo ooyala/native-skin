@@ -16,6 +16,7 @@ import {
 
 const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 const Log = require('../log');
+const VolumeView = require('./VolumeView');
 
 const Constants = require('../constants');
 const {
