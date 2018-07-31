@@ -45,6 +45,7 @@ class SkipButton extends React.Component {
         accessibilityComponentType="button"
         onPress={() => this.onPress()}
         underlayColor="transparent"
+        importantForAccessibility={'yes'}
         style={[this.props.sizeStyle]}>
         <Animated.View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Animated.Text

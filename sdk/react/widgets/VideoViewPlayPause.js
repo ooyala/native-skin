@@ -154,17 +154,30 @@ class VideoViewPlayPause extends React.Component {
   };
 
   _renderButton = (name) => {
+    console.log("Button name: " + name +  " animation opacity is: " + this.state[name].animationOpacity._value);
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state[name].animationOpacity};
     const animate = {transform: [{scale: this.state[name].animationScale}]};
     const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
+    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
+
+    const label = name + " button. Press twice to play video";
 
     return (
-      <Animated.Text
-        accessible={false}
-        style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
-        {this.props.icons[name].icon}
-      </Animated.Text>
+      <TouchableHighlight
+        accessible={true}
+        accessibilityLabel={label}
+        onPress={() => this.onPress()}
+        underlayColor="transparent"
+        activeOpacity={this.props.opacity}
+        importantForAccessibility={'auto'}
+        style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
+        <Animated.Text
+          accessible={false}
+          style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
+          {this.props.icons[name].icon}
+        </Animated.Text>
+      </TouchableHighlight>
     );
   };
 
@@ -217,8 +230,6 @@ class VideoViewPlayPause extends React.Component {
       alignItems: 'center'
     };
 
-    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
-
     if (!this.props.showButton) {
       return null;
     } else {
@@ -226,13 +237,7 @@ class VideoViewPlayPause extends React.Component {
         <View style={[styles.buttonTextContainer]}>
           <Animated.View style={[containerStyle]}>
             {backwardButton}
-            <TouchableHighlight
-              onPress={() => this.onPress()}
-              underlayColor="transparent"
-              activeOpacity={this.props.opacity}
-              style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
-              {playPauseButton}
-            </TouchableHighlight>
+            {playPauseButton}
             {forwardButton}
           </Animated.View>
         </View>

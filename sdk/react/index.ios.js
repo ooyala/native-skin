@@ -61,7 +61,7 @@ class OoyalaSkin extends React.Component {
   };
 
   componentWillMount() {
-    console.log("componentWillMount");
+    Log.verbose("componentWillMount");
     OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
     OoyalaSkinCoreInstance.mount(DeviceEventEmitter);
   }

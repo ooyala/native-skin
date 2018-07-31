@@ -46,8 +46,6 @@ class StartScreen extends React.Component {
   getPlayButton = () => {
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
 
-    const isScreenReaderEnabled = this.props.screenReaderEnabled;
-
     if (this.props.config.startScreen.showPlayButton) {
       return (
         <VideoViewPlayPause
@@ -80,7 +78,7 @@ class StartScreen extends React.Component {
           platform={this.props.platform}
           fontSize={iconFontSize}
           playing={false}
-          showButton={!isScreenReaderEnabled}
+          showButton={true}
           initialPlay={true}/>
       );
     }

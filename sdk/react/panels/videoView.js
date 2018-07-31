@@ -16,12 +16,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-const Dimensions = require('Dimensions');
-const windowSize = Dimensions.get('window');
 const BottomOverlay = require('../bottomOverlay');
-const AdBar = require('../adBar');
 const UpNext = require('../upNext');
-const RectButton = require('../widgets/RectButton');
 const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
 const Constants = require('../constants');
 const Log = require('../log');
@@ -29,7 +25,6 @@ const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 const ResponsiveDesignManager = require('../responsiveDesignManager');
 const VideoWaterMark = require('../widgets/videoWaterMark');
-const autohideDelay = 5000;
 const panelStyles = require('./style/panelStyles.json');
 
 const {
@@ -196,6 +191,7 @@ class VideoView extends React.Component {
         accessible={true}
         accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
+        importantForAccessibility={'no'}
         onTouchStart={(event) => this.props.handlers.handleVideoTouchStart(event)}
         onTouchMove={(event) => this.props.handlers.handleVideoTouchMove(event)}
         onTouchEnd={(event) => this._placeholderTapHandler(event)}>
@@ -304,7 +300,7 @@ class VideoView extends React.Component {
           platform={this.props.platform}
           fontSize={iconFontSize}
           showButton={show}
-          showSeekButtons={this.props.config.skipControls.enabled}
+          showSeekButtons={this.props.config.skipControls.enabled && show}
           rate={this.props.rate}
           playing={this.props.playing}
           loading={this.props.loading}
@@ -372,17 +368,16 @@ class VideoView extends React.Component {
   };
 
   _renderLoading = () => {
-    var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
-    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
-    var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
-    var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
-    var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
+    const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    const scaleMultiplier = this.props.platform === Constants.PLATFORMS.ANDROID ? 2 : 1;
+    const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
+    const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    const loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
     if (this.props.loading) {
       return (
         <ActivityIndicator
           style={loadingStyle}
-          size="large"
-        />
+          size="large"/>
       );
     }
   };
@@ -396,8 +391,8 @@ class VideoView extends React.Component {
   };
 
   render() {
-    var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
+    const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
+    const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
 
     // for renderPlayPause, if the screen reader is enabled, we want to hide the button
     return (
@@ -407,7 +402,7 @@ class VideoView extends React.Component {
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls)}
+        {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
         {this._renderLoading()}
