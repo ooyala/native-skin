@@ -133,6 +133,7 @@ const VIEW_ACCESSIBILITY_NAMES = {
   BACKWARD_BUTTON: 'Backward button. Press twice to seek backward',
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
+  PLAY_PAUSE_BUTTON: "button. Press twice to",
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {

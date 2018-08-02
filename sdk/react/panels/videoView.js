@@ -6,7 +6,7 @@
  */
 import PropTypes from 'prop-types';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -51,7 +51,7 @@ class VideoView extends React.Component {
     cuePoints: PropTypes.array,
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
-    handlers:  PropTypes.shape({
+    handlers: PropTypes.shape({
       onPress: PropTypes.func,
       onAdOverlay: PropTypes.func,
       onAdOverlayDismiss: PropTypes.func,
@@ -79,8 +79,7 @@ class VideoView extends React.Component {
     initialPlay: PropTypes.bool,
   };
 
-  state = {
-  };
+  state = {};
 
   componentWillReceiveProps(nextProps) {
 
@@ -92,8 +91,9 @@ class VideoView extends React.Component {
       return ({
         label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
-          Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
-        onGoLive: isLive? null : this.onGoLive});
+            Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
+        onGoLive: isLive ? null : this.onGoLive
+      });
     } else {
       return null;
     }
@@ -121,7 +121,7 @@ class VideoView extends React.Component {
   };
 
   onSeekPressed = (isForward) => {
-    const seekValue = (isForward) ? this.props.config.skipControls.skipForwardTime :  this.props.config.skipControls.skipBackwardTime * (-1);
+    const seekValue = (isForward) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime * (-1);
     const currentPlayhead = this.props.playhead;
     let resultedPlayhead = currentPlayhead + seekValue;
     if (resultedPlayhead < 0) {
@@ -130,7 +130,7 @@ class VideoView extends React.Component {
       resultedPlayhead = this.props.duration;
     }
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
-    const roundPercent = +(Math.round(resultedPlayheadPercent + "e+2")  + "e-2")
+    const roundPercent = +(Math.round(resultedPlayheadPercent + "e+2") + "e-2")
     this.handleScrub(roundPercent);
   };
 
@@ -143,7 +143,7 @@ class VideoView extends React.Component {
   };
 
   _createOnIcon = (index, func) => {
-    return function() {
+    return function () {
       func(index);
     }
   };
@@ -157,15 +157,15 @@ class VideoView extends React.Component {
       width={this.props.width}
       height={this.props.height}
       primaryButton={!this.props.playing ? "play" : "pause"}
-      fullscreen = {this.props.fullscreen}
-      cuePoints = {this.props.cuePoints}
+      fullscreen={this.props.fullscreen}
+      cuePoints={this.props.cuePoints}
       playhead={this.props.playhead}
       platform={this.props.platform}
       duration={this.props.duration}
       volume={this.props.volume}
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
-      onScrub={(value)=>this.handleScrub(value)}
+      onScrub={(value) => this.handleScrub(value)}
       handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
       closedCaptionsEnabled={ссEnabled}
       showAudioAndCCButton={this.props.multiAudioEnabled || ссEnabled}
@@ -181,7 +181,7 @@ class VideoView extends React.Component {
         live: this.props.config.live,
         general: this.props.config.general
       }}
-      />);
+    />);
   };
 
   _renderPlaceholder = () => {
@@ -199,49 +199,51 @@ class VideoView extends React.Component {
   };
 
   _renderBottom = () => {
-    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
-    var waterMarkName;
-    if(this.props.platform === Constants.PLATFORMS.ANDROID) {
+    const VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
+    let waterMarkName, watermark;
+    if (this.props.platform === Constants.PLATFORMS.ANDROID) {
       waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
     }
-    if(this.props.platform === Constants.PLATFORMS.IOS) {
+    if (this.props.platform === Constants.PLATFORMS.IOS) {
       waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
     }
 
     if (waterMarkName) {
-      var watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
+      watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
     }
 
     return (
       <View
-        style={{flexDirection:"row", justifyContent:"center", alignItems: "flex-end"}}>
+        style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end"}}>
         {this._renderClosedCaptions(waterMarkName, VideoWaterMarkSize)}
         {watermark}
       </View>);
   };
 
   _renderClosedCaptions = (waterMarkName, VideoWaterMarkSize) => {
-    var containerPadding = 5;
-    var captionWidth = this.props.width - (containerPadding * 4);
+    const containerPadding = 5;
+    let captionWidth = this.props.width - (containerPadding * 4);
     if (waterMarkName) {
       captionWidth = captionWidth - VideoWaterMarkSize;
     }
 
-    var ccStyle = {color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
-      backgroundColor:this.props.captionStyles.textBackgroundColor};
+    const ccStyle = {
+      color: this.props.captionStyles.textColor, fontFamily: this.props.captionStyles.fontName,
+      backgroundColor: this.props.captionStyles.textBackgroundColor
+    };
     if (this.props.caption) {
       return (
         <View
           style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
           <View
-            style={[{backgroundColor:this.props.captionStyles.backgroundColor}]}>
+            style={[{backgroundColor: this.props.captionStyles.backgroundColor}]}>
             <Text style={[panelStyles.closedCaptions, ccStyle]}>
               {this.props.caption}
             </Text>
           </View>
         </View>
-        );
+      );
     }
     return null;
   };
@@ -267,46 +269,46 @@ class VideoView extends React.Component {
   };
 
   _renderPlayPause = (show) => {
-    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-      return (
-        <VideoViewPlayPause
-          icons={{
-            play: {
-              icon: this.props.config.icons.play.fontString,
-              fontFamily: this.props.config.icons.play.fontFamilyName
-            },
-            pause: {
-              icon: this.props.config.icons.pause.fontString,
-              fontFamily: this.props.config.icons.pause.fontFamilyName
-            },
-            seekForward: {
-              icon: this.props.config.icons.forward.fontString,
-              fontFamily: this.props.config.icons.forward.fontFamilyName
-            },
-            seekBackward: {
-              icon: this.props.config.icons.replay.fontString,
-              fontFamily: this.props.config.icons.replay.fontFamilyName
-            }
-          }}
-          position={"center"}
-          onPress={(name) => this.handlePress(name)}
-          onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
-          seekForwardValue={this.props.config.skipControls.skipForwardTime}
-          seekBackwardValue={this.props.config.skipControls.skipBackwardTime}
-          frameWidth={this.props.width}
-          frameHeight={this.props.height}
-          buttonWidth={iconFontSize}
-          buttonHeight={iconFontSize}
-          platform={this.props.platform}
-          fontSize={iconFontSize}
-          showButton={show}
-          showSeekButtons={this.props.config.skipControls.enabled && show}
-          rate={this.props.rate}
-          playing={this.props.playing}
-          loading={this.props.loading}
-          initialPlay={this.props.initialPlay}>
-        </VideoViewPlayPause>
-      );
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    return (
+      <VideoViewPlayPause
+        icons={{
+          play: {
+            icon: this.props.config.icons.play.fontString,
+            fontFamily: this.props.config.icons.play.fontFamilyName
+          },
+          pause: {
+            icon: this.props.config.icons.pause.fontString,
+            fontFamily: this.props.config.icons.pause.fontFamilyName
+          },
+          seekForward: {
+            icon: this.props.config.icons.forward.fontString,
+            fontFamily: this.props.config.icons.forward.fontFamilyName
+          },
+          seekBackward: {
+            icon: this.props.config.icons.replay.fontString,
+            fontFamily: this.props.config.icons.replay.fontFamilyName
+          }
+        }}
+        position={"center"}
+        onPress={(name) => this.handlePress(name)}
+        onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
+        seekForwardValue={this.props.config.skipControls.skipForwardTime}
+        seekBackwardValue={this.props.config.skipControls.skipBackwardTime}
+        frameWidth={this.props.width}
+        frameHeight={this.props.height}
+        buttonWidth={iconFontSize}
+        buttonHeight={iconFontSize}
+        platform={this.props.platform}
+        fontSize={iconFontSize}
+        showButton={show}
+        showSeekButtons={this.props.config.skipControls.enabled && show}
+        rate={this.props.rate}
+        playing={this.props.playing}
+        loading={this.props.loading}
+        initialPlay={this.props.initialPlay}>
+      </VideoViewPlayPause>
+    );
   };
 
   _renderVideoWaterMark = (waterMarkName, VideoWaterMarkSize) => {
@@ -329,24 +331,24 @@ class VideoView extends React.Component {
     }
 
     //width and height of the ad overlay
-    var width = this.props.adOverlay.width;
-    var height = this.props.adOverlay.height;
+    let width = this.props.adOverlay.width;
+    let height = this.props.adOverlay.height;
 
     //if the width of the ad is larger than the player width
-    var sidePadding = 10;
-    var maxWidth = this.props.width - 2 * sidePadding;
+    const sidePadding = 10;
+    const maxWidth = this.props.width - 2 * sidePadding;
     if (width > maxWidth) {
       height = height / width * maxWidth;
       width = maxWidth;
     }
-    var left = (this.props.width - width) / 2;
+    const left = (this.props.width - width) / 2;
 
     return (
       <View
         accesible={false}
-        style={{height:height, width:width}}>
+        style={{height: height, width: width}}>
         <TouchableHighlight
-          style={{left: left, bottom: 10, width:width, height:height}}
+          style={{left: left, bottom: 10, width: width, height: height}}
           onPress={this.handleOverlayClick}>
           <View
             style={styles.container}>
@@ -372,7 +374,13 @@ class VideoView extends React.Component {
     const scaleMultiplier = this.props.platform === Constants.PLATFORMS.ANDROID ? 2 : 1;
     const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
     const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
-    const loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
+    const loadingStyle = {
+      position: 'absolute',
+      top: topOffset,
+      left: leftOffset,
+      width: loadingSize,
+      height: loadingSize
+    };
     if (this.props.loading) {
       return (
         <ActivityIndicator
