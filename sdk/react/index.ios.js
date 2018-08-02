@@ -12,7 +12,6 @@ import {
   AccessibilityInfo
 } from 'react-native';
 
-var Log = require('./log');
 var Constants = require('./constants');
 var {
   SCREEN_TYPES,
@@ -61,7 +60,6 @@ class OoyalaSkin extends React.Component {
   };
 
   componentWillMount() {
-    Log.verbose("componentWillMount");
     OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
     OoyalaSkinCoreInstance.mount(DeviceEventEmitter);
   }
@@ -82,7 +80,6 @@ class OoyalaSkin extends React.Component {
   }
 
   componentWillUnmount() {
-    Log.log("componentWillUnmount");
     OoyalaSkinCoreInstance.unmount();
 
     AccessibilityInfo.removeEventListener(
