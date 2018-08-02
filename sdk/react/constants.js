@@ -129,11 +129,11 @@ const VIEW_ACCESSIBILITY_NAMES = {
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
   PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
-  FORWARD_BUTTON: 'Forward button. Press twice to seek forward',
-  BACKWARD_BUTTON: 'Backward button. Press twice to seek backward',
+  FORWARD_BUTTON: 'Forward button. Tap twice to seek forward',
+  BACKWARD_BUTTON: 'Backward button. Tap twice to seek backward',
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
-  PLAY_PAUSE_BUTTON: "button. Press twice to",
+  PLAY_PAUSE_BUTTON: "button. Tap twice to",
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {
