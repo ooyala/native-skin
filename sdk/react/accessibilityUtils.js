@@ -41,6 +41,10 @@ let AccessibilityUtils = {
   createAccessibilityForForwardButton: function(isForward, param, timeUnit) {
     const baseLabel = isForward ? VIEW_ACCESSIBILITY_NAMES.FORWARD_BUTTON : VIEW_ACCESSIBILITY_NAMES.BACKWARD_BUTTON;
     return baseLabel + ' ' + param + ' ' + timeUnit;
+  },
+
+  createAccessibilityForPlayPauseButton: function(buttonName) {
+    return buttonName + ' ' + VIEW_ACCESSIBILITY_NAMES.PLAY_PAUSE_BUTTON + ' ' + buttonName;
   }
 
 };

@@ -45,6 +45,7 @@ class SkipButton extends React.Component {
         accessibilityComponentType="button"
         onPress={() => this.onPress()}
         underlayColor="transparent"
+        importantForAccessibility={'yes'}
         style={[this.props.sizeStyle]}>
         <Animated.View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <Animated.Text
@@ -52,11 +53,11 @@ class SkipButton extends React.Component {
             style={[position, styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
             {this.props.icon}
           </Animated.Text>
-          <Text
+          <Animated.Text
             accessible={false}
             style={[position, {fontSize: this.props.fontStyle.fontSize * 0.5}, this.props.buttonColor]}>
             {this.props.timeValue}
-          </Text>
+          </Animated.Text>
         </Animated.View>
       </TouchableHighlight>
     );

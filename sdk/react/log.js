@@ -26,9 +26,9 @@ var Log = {
       break;
     }
   },
-  
+
   warn: function(msg) {
-    if (level >= LOG_LEVEL.WARN) { 
+    if (level >= LOG_LEVEL.WARN) {
       console.warn(msg);
       return true;
     }
@@ -36,7 +36,7 @@ var Log = {
   },
 
   info: function(msg) {
-    if (level >= LOG_LEVEL.INFO) { 
+    if (level >= LOG_LEVEL.INFO) {
       console.info(msg);
       return true;
     }
@@ -44,7 +44,7 @@ var Log = {
   },
 
   error: function(msg) {
-    if (level >= LOG_LEVEL.ERROR) { 
+    if (level >= LOG_LEVEL.ERROR) {
       console.error(msg);
       return true;
     }
@@ -52,15 +52,15 @@ var Log = {
   },
 
   log: function(msg) {
-    if (level >= LOG_LEVEL.INFO) { 
+    if (level >= LOG_LEVEL.INFO) {
       console.log(msg);
       return true;
     }
     return false;
   },
-  
+
   verbose: function(msg) {
-    if (level >= LOG_LEVEL.VERBOSE) { 
+    if (level >= LOG_LEVEL.VERBOSE) {
       console.log(msg);
       return true;
     }

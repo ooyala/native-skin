@@ -8,6 +8,7 @@ import {
 import SkipButton from './SkipButton'
 
 const Constants = require('../constants');
+const AccessibilityUtils = require('../accessibilityUtils');
 const {
   BUTTON_NAMES
 } = Constants;
@@ -44,110 +45,42 @@ class VideoViewPlayPause extends React.Component {
   };
 
   state = {
-    play: {
+    playPause: {
       animationScale: new Animated.Value(1),
       animationOpacity: new Animated.Value(1)
-    },
-    pause: {
-      animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(0)
-    },
-    widget: {
-      animationOpacity: new Animated.Value(0)
     },
     skipButtons: {
       animationScale: new Animated.Value(1),
       animationOpacity: new Animated.Value(0)
     },
-    showInitialPlayAnimation: this.props.initialPlay,
-    inAnimation: false
+    playing: false
   };
 
   componentWillMount() {
-    // initialize animations.
+    this.state.playing = this.props.playing;
     if (this.props.initialPlay) {
-      this.state.widget.animationOpacity.setValue(1);
-      this.state.play.animationOpacity.setValue(1);
-      this.state.pause.animationOpacity.setValue(0);
       this.state.skipButtons.animationOpacity.setValue(0);
     } else {
-      this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
-      this.state.play.animationOpacity.setValue(this.props.playing ? 0 : 1);
-      this.state.pause.animationOpacity.setValue(this.props.playing ? 1 : 0);
       this.state.skipButtons.animationOpacity.setValue(1);
     }
   }
 
-  componentDidMount() {
-    if (this.state.showInitialPlayAnimation) {
-      this.animatePlayButton();
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-    if (nextProps.showButton !== this.props.showButton) {
-      const widgetOpacity = nextProps.showButton ? 1 : 0;
-
-      Animated.timing(this.state.widget.animationOpacity, {
-        toValue: widgetOpacity,
-      }).start();
-    }
-
     if (nextProps.playing !== this.props.playing) {
-      if (!this.state.inAnimation) {
-        this.syncButtons(nextProps.playing);
-      }
+      this.state.playing = nextProps.playing;
     }
-  }
+  };
 
   onPress = () => {
     if (this.props.showButton) {
-      if (this.props.playing) {
-        this.showPlayButton();
-      } else {
-        this.animatePlayButton();
-      }
       this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
     } else {
       this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
   };
 
-  onAnimationCompleted = (instance) => {
-    this.state.widget.animationOpacity.setValue(this.props.showButton ? 1 : 0);
-    this.setState({inAnimation: false});
-    this.syncButtons(this.props.playing);
-  };
-
-  // Animations for play/pause transition
-  animatePlayButton = () => {
-    this.setState({inAnimation: true});
-    this.state.play.animationScale.setValue(0.5);
-    this.state.play.animationOpacity.setValue(0);
-
-    Animated.parallel([
-      Animated.timing(this.state.play.animationOpacity, {
-        toValue: 1
-      }),
-      Animated.timing(this.state.play.animationScale, {
-        toValue: 1
-      }),
-    ]).start(this.onAnimationCompleted);
-  };
-
-  showPlayButton = () => {
-    this.state.pause.animationOpacity.setValue(0);
-    this.state.play.animationOpacity.setValue(1);
-    this.state.play.animationScale.setValue(1);
-  };
-
-  showPauseButton = () => {
-    this.state.pause.animationOpacity.setValue(1);
-    this.state.play.animationOpacity.setValue(0);
-  };
-
   _renderPlayPauseButton = () => {
-    if (this.state[PLAY].animationOpacity._value === 0) {
+    if (this.state.playing) {
       return this._renderButton(PAUSE);
     }
     return this._renderButton(PLAY);
@@ -155,16 +88,27 @@ class VideoViewPlayPause extends React.Component {
 
   _renderButton = (name) => {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
-    const opacity = {opacity: this.state[name].animationOpacity};
-    const animate = {transform: [{scale: this.state[name].animationScale}]};
+    const opacity = {opacity: this.state.playPause.animationOpacity};
+    const animate = {transform: [{scale: this.state.playPause.animationScale}]};
     const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
+    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
+    const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
 
     return (
-      <Animated.Text
-        accessible={false}
-        style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle, animate, opacity]}>
-        {this.props.icons[name].icon}
-      </Animated.Text>
+      <TouchableHighlight
+        accessible={true}
+        accessibilityLabel={label}
+        accessibilityComponentType="button"
+        onPress={() => this.onPress()}
+        underlayColor="transparent"
+        activeOpacity={this.props.opacity}
+        importantForAccessibility={'yes'}
+        style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
+        <Animated.Text
+          style={[styles.buttonTextStyle, fontStyle, buttonColor, animate, opacity]}>
+          {this.props.icons[name].icon}
+        </Animated.Text>
+      </TouchableHighlight>
     );
   };
 
@@ -195,14 +139,6 @@ class VideoViewPlayPause extends React.Component {
     );
   };
 
-  syncButtons = (playing) => {
-    if (playing) {
-      this.showPauseButton();
-    } else {
-      this.showPlayButton();
-    }
-  };
-
   // Gets the play button based on the current config settings
   render() {
     const seekButtonScale = 0.5;
@@ -217,8 +153,6 @@ class VideoViewPlayPause extends React.Component {
       alignItems: 'center'
     };
 
-    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
-
     if (!this.props.showButton) {
       return null;
     } else {
@@ -226,13 +160,7 @@ class VideoViewPlayPause extends React.Component {
         <View style={[styles.buttonTextContainer]}>
           <Animated.View style={[containerStyle]}>
             {backwardButton}
-            <TouchableHighlight
-              onPress={() => this.onPress()}
-              underlayColor="transparent"
-              activeOpacity={this.props.opacity}
-              style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
-              {playPauseButton}
-            </TouchableHighlight>
+            {playPauseButton}
             {forwardButton}
           </Animated.View>
         </View>

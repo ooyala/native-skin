@@ -16,7 +16,6 @@ import {
 } from 'react-native';
 
 var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
-var Log = require('./log');
 
 //calling class layout controller
 var eventBridge = require('NativeModules').OoyalaReactBridge;
