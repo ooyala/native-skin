@@ -325,7 +325,13 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 #pragma mark - Public functions
 
 - (void)setFullscreen:(BOOL)fullscreen {
-  [self setFullscreen:fullscreen completion:nil];
+  if (self.fullscreen == fullscreen) { return; }
+  
+  if (self.isVRStereoMode && !fullscreen) {
+    [self toggleStereoMode];
+  } else {
+    [self setFullscreen:fullscreen completion:NULL];
+  }
 }
 
 - (void)ccStyleChanged:(NSNotification *)notification {
@@ -528,14 +534,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 }
 
 - (void)toggleFullscreen {
-  
-  // Save previous full screen state
-  _isFullScreenPreviousState = _fullscreen;
-  
-  if (_fullscreen && _isVRStereoMode) {
+  if (self.isVRStereoMode) {
     [self toggleStereoMode];
   } else {
-    [self setFullscreen:!_fullscreen completion:NULL];
+    [self setFullscreen:!self.fullscreen completion:NULL];
   }
 }
 
