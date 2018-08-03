@@ -105,6 +105,8 @@ const STRING_CONSTANTS = {
 
 const VALUES = {
   SEEK_VALUE: 10,
+  MAX_SKIP_VALUE: 99,
+  MIN_SKIP_VALUE: 1,
 };
 
 const SAS_ERROR_CODES = {
