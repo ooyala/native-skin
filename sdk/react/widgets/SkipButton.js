@@ -35,12 +35,8 @@ class SkipButton extends React.Component {
 
   render() {
     const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, Constants.STRING_CONSTANTS.SECONDS);
-    let showedTimeValue;
-    if (this.props.timeValue < 1) {
-      showedTimeValue = 1;
-    } else if (this.props.timeValue > 99) {
-      showedTimeValue = 99;
-    }
+    let showedTimeValue = this.props.timeValue;
+    showedTimeValue = Math.min(Math.max(Constants.VALUES.MIN_SKIP_VALUE, showedTimeValue), Constants.VALUES.MAX_SKIP_VALUE);
     const position = {
       position: 'absolute'
     };

@@ -122,11 +122,7 @@ class VideoView extends React.Component {
 
   onSeekPressed = (isForward) => {
     let configSeekValue = (isForward) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
-    if (configSeekValue > 99) {
-      configSeekValue = 99;
-    } else if (configSeekValue < 1) {
-      configSeekValue = 1;
-    }
+    configSeekValue = Math.min(Math.max(Constants.VALUES.MIN_SKIP_VALUE, configSeekValue), Constants.VALUES.MAX_SKIP_VALUE);
     const seekValue = (isForward) ? configSeekValue : configSeekValue * (-1);
     const currentPlayhead = this.props.playhead;
     let resultedPlayhead = currentPlayhead + seekValue;
