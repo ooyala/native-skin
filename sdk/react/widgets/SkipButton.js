@@ -35,6 +35,12 @@ class SkipButton extends React.Component {
 
   render() {
     const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, Constants.STRING_CONSTANTS.SECONDS);
+    let showedTimeValue;
+    if (this.props.timeValue < 1) {
+      showedTimeValue = 1;
+    } else if (this.props.timeValue > 99) {
+      showedTimeValue = 99;
+    }
     const position = {
       position: 'absolute'
     };
@@ -56,7 +62,7 @@ class SkipButton extends React.Component {
           <Animated.Text
             accessible={false}
             style={[position, {fontSize: this.props.fontStyle.fontSize * 0.5}, this.props.buttonColor]}>
-            {this.props.timeValue}
+            {showedTimeValue}
           </Animated.Text>
         </Animated.View>
       </TouchableHighlight>

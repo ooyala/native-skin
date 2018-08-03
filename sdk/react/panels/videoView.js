@@ -121,7 +121,13 @@ class VideoView extends React.Component {
   };
 
   onSeekPressed = (isForward) => {
-    const seekValue = (isForward) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime * (-1);
+    let configSeekValue = (isForward) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
+    if (configSeekValue > 99) {
+      configSeekValue = 99;
+    } else if (configSeekValue < 1) {
+      configSeekValue = 1;
+    }
+    const seekValue = (isForward) ? configSeekValue : configSeekValue * (-1);
     const currentPlayhead = this.props.playhead;
     let resultedPlayhead = currentPlayhead + seekValue;
     if (resultedPlayhead < 0) {
@@ -130,7 +136,7 @@ class VideoView extends React.Component {
       resultedPlayhead = this.props.duration;
     }
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
-    const roundPercent = +(Math.round(resultedPlayheadPercent + "e+2") + "e-2")
+    const roundPercent = +(Math.round(resultedPlayheadPercent + "e+2") + "e-2");
     this.handleScrub(roundPercent);
   };
 
