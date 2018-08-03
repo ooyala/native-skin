@@ -232,7 +232,8 @@ const Utils = {
   },
 
   restrictSeekValueIfNeeded: function (seekValue) {
-    return Math.min(Math.max(Constants.VALUES.MIN_SKIP_VALUE, seekValue), Constants.VALUES.MAX_SKIP_VALUE);
+    let value = Math.min(Math.max(Constants.VALUES.MIN_SKIP_VALUE, seekValue), Constants.VALUES.MAX_SKIP_VALUE);
+    return value;
   }
 };
 
