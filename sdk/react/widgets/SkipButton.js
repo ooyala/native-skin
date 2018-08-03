@@ -35,6 +35,9 @@ class SkipButton extends React.Component {
 
   render() {
     const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, Constants.STRING_CONSTANTS.SECONDS);
+    const position = {
+      position: 'absolute'
+    };
     return (
       <TouchableHighlight
         accessible={true}
