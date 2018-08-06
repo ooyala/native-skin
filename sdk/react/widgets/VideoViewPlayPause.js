@@ -22,6 +22,8 @@ const BACKWARD = "seekBackward";
 
 class VideoViewPlayPause extends React.Component {
   static propTypes = {
+    seekEnabled: PropTypes.bool,
+    ffActive: PropTypes.bool,
     icons: PropTypes.object,
     position: PropTypes.string,
     onPress: PropTypes.func,
@@ -112,15 +114,16 @@ class VideoViewPlayPause extends React.Component {
     );
   };
 
-  _renderSeekButton = (name, iconScale) => {
-    if (!this.props.showSeekButtons) {
+  _renderSeekButton = (name, iconScale, active) => {
+    if (!this.props.showSeekButtons || !this.props.seekEnabled) {
       return <View/>
     }
+    Log.log("Video is live: " + this.props.isLive);
     const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
     const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     const opacity = {opacity: this.state.skipButtons.animationOpacity};
     const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
-    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
+    const buttonColor = {color: active ? !!this.props.buttonColor ? this.props.buttonColor : "white" : "gray"};
     const isForward = name === FORWARD;
     const seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
 
@@ -129,6 +132,7 @@ class VideoViewPlayPause extends React.Component {
         isForward={isForward}
         timeValue={seekValue}
         sizeStyle={sizeStyle}
+        disabled={!active}
         onSeek={(isForward) => this.props.onSeekPressed(isForward)}
         icon={this.props.icons[name].icon}
         fontStyle={fontStyle}
@@ -143,8 +147,8 @@ class VideoViewPlayPause extends React.Component {
   render() {
     const seekButtonScale = 0.5;
     const playPauseButton = this._renderPlayPauseButton();
-    const backwardButton = this._renderSeekButton(BACKWARD, seekButtonScale);
-    const forwardButton = this._renderSeekButton(FORWARD, seekButtonScale);
+    const backwardButton = this._renderSeekButton(BACKWARD, seekButtonScale, true);
+    const forwardButton = this._renderSeekButton(FORWARD, seekButtonScale, this.props.ffActive);
 
     const containerStyle = {
       flexDirection: 'row',

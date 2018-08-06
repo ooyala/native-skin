@@ -14,6 +14,7 @@ const styles = require('../utils').getStyles(require('./style/RectButtonStyles.j
 class SkipButton extends React.Component {
 
   static propTypes = {
+    disabled: PropTypes.bool.isRequired,
     isForward: PropTypes.bool.isRequired,
     timeValue: PropTypes.number.isRequired,
     onSeek: PropTypes.func.isRequired,
@@ -43,6 +44,7 @@ class SkipButton extends React.Component {
         accessible={true}
         accessibilityLabel={accessibilityLabel}
         accessibilityComponentType="button"
+        disabled={this.props.disabled}
         onPress={() => this.onPress()}
         underlayColor="transparent"
         importantForAccessibility={'yes'}
