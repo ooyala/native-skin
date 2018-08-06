@@ -99,7 +99,6 @@ class VideoViewPlayPause extends React.Component {
       <TouchableHighlight
         accessible={true}
         accessibilityLabel={label}
-        accessibilityComponentType="button"
         onPress={() => this.onPress()}
         underlayColor="transparent"
         activeOpacity={this.props.opacity}
