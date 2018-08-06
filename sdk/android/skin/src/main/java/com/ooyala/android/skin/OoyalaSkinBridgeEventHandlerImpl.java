@@ -134,11 +134,10 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onLanguageSelected(ReadableMap parameters) {
     String languageName = parameters.getString("language");
     String languageCode = languageName;
-    Video currentItem = _player.getCurrentItem();
-    if (currentItem != null && currentItem.getClosedCaptions() != null) {
-      languageCode = currentItem.getClosedCaptions().getLanguageCode(languageName);
+    if (_player != null && _player.getCurrentItem() != null) {
+      languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
+      _player.setClosedCaptionsLanguage(languageCode);
     }
-    _player.setClosedCaptionsLanguage(languageCode);
   }
 
   @Override
