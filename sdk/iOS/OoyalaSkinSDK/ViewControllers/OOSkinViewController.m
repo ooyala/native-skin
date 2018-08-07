@@ -64,6 +64,8 @@
 @property (nonatomic) BOOL isManualOrientaionChange;
 @property (nonatomic) BOOL isFullScreenPreviousState;
 @property (nonatomic) UIInterfaceOrientation previousInterfaceOrientation;
+@property (nonatomic) CGSize previousVideoSize;
+@property (nonatomic) NSTimeInterval delayForDeviceOrientationAnimation;
 
 @end
 
@@ -86,7 +88,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                  launchOptions:(NSDictionary *)options {
   if (self = [super init]) {
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
-    
+    _previousVideoSize = CGSizeZero;
     self.playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player skinViewController:self];
     [self disableBuiltInAdLearnMoreButton:player];
     _skinOptions = skinOptions;
@@ -123,7 +125,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     self.player.view.frame = parentViewBounds;
     self.reactView.frame = parentViewBounds;
     self.view.frame = parentViewBounds;
-    
+
     [self.videoView addSubview:self.player.view];
     [self.videoView addSubview:self.reactView];
     [self.view addSubview:self.videoView];
@@ -410,9 +412,14 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (context == &kFrameChangeContext) {
     NSNumber *width = [NSNumber numberWithFloat:self.videoView.frame.size.width];
     NSNumber *height = [NSNumber numberWithFloat:self.videoView.frame.size.height];
-    
+    CGSize nowSize = CGSizeMake(self.videoView.frame.size.width, self.videoView.frame.size.height);
+
     NSDictionary *eventBody = @{@"width": width, @"height": height, @"fullscreen": [NSNumber numberWithBool:self.isFullscreen]};
-    [self sendBridgeEventWithName:(NSString *) kFrameChangeContext body:eventBody];
+
+    if (!CGSizeEqualToSize(nowSize, self.previousVideoSize) && nowSize.width != 516) {
+      _previousVideoSize = nowSize;
+      [self sendBridgeEventWithName:(NSString *) kFrameChangeContext body:eventBody];
+    }
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
     [self sendBridgeEventWithName:VolumeChangeKey body:@{@"volume": @([change[NSKeyValueChangeNewKey] floatValue])}];
   } else {
@@ -445,19 +452,18 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     
     // Manualy change device orientation on landscape right
     _isManualOrientaionChange = YES;
-    
-    NSTimeInterval delayFotDeviceOrientationAnimation = 0;
-    
+
     // Change device orienation to lanscape right
     if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight) {
-      delayFotDeviceOrientationAnimation = 0;
+      weakSelf.delayForDeviceOrientationAnimation = 0;
     } else {
-      delayFotDeviceOrientationAnimation = UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
+      weakSelf.delayForDeviceOrientationAnimation = UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
     }
     
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIInterfaceOrientationLandscapeRight] forKey:@"orientation"];
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayFotDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    [UIViewController attemptRotationToDeviceOrientation];
+
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(weakSelf.delayForDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       
       // Notify observers what stereo mode did changed
       [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
@@ -492,10 +498,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _isManualOrientaionChange = YES;
     
     [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:weakSelf.previousInterfaceOrientation] forKey:@"orientation"];
+    [UIViewController attemptRotationToDeviceOrientation];
+
+    weakSelf.delayForDeviceOrientationAnimation = weakSelf.isFullScreenPreviousState ? 0 : UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
     
-    NSTimeInterval delayFotDeviceOrientationAnimation = weakSelf.isFullScreenPreviousState ? 0 : UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayFotDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(weakSelf.delayForDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       _isManualOrientaionChange = NO;
     });
   }];
