@@ -42,7 +42,6 @@ class SkipButton extends React.Component {
       <TouchableHighlight
         accessible={true}
         accessibilityLabel={accessibilityLabel}
-        accessibilityComponentType="button"
         onPress={() => this.onPress()}
         underlayColor="transparent"
         importantForAccessibility={'yes'}
