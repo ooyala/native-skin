@@ -32,7 +32,8 @@ const {
   PLATFORMS,
   IMG_URLS,
   UI_SIZES,
-  AUTOHIDE_DELAY
+  AUTOHIDE_DELAY,
+  VALUES
 } = Constants;
 
 class VideoView extends React.Component {
@@ -87,7 +88,7 @@ class VideoView extends React.Component {
 
   generateLiveObject = () => {
     if (this.props.live) {
-      const isLive = this.props.playhead >= this.props.duration * 0.95;
+      const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
       return ({
         label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
@@ -273,7 +274,7 @@ class VideoView extends React.Component {
   _renderPlayPause = (show) => {
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !this.props.config.live.forceDvrDisabled;
-    const notInLiveRegion = this.props.playhead <= this.props.duration * 0.95;
+    const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
     return (
       <VideoViewPlayPause
         icons={{

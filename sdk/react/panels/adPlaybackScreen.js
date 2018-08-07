@@ -35,7 +35,8 @@ var {
   PLATFORMS,
   IMG_URLS,
   UI_SIZES,
-  AUTOHIDE_DELAY
+  AUTOHIDE_DELAY,
+  VALUES
 } = Constants;
 
 class AdPlaybackScreen extends React.Component {
@@ -83,7 +84,7 @@ class AdPlaybackScreen extends React.Component {
 
   generateLiveObject = () => {
     if (this.props.live) {
-      var isLive = this.props.playhead >= this.props.duration * 0.95;
+      var isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
       return ({
         label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
