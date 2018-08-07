@@ -646,7 +646,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       if (_package.getBridge() == null) {
         DebugMode.logW(TAG, "Trying to send event, but bridge does not exist yet: " + event);
       }
-      queuedEvents.add(new Pair<>(event, map));
+      if (queuedEvents != null) {
+        queuedEvents.add(new Pair<>(event, map));
+      }
     }
   }
 
@@ -676,8 +678,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   public void onDestroy() {
+    Activity activity = getActivity();
     if (_reactInstanceManager != null) {
-      _reactInstanceManager.onHostDestroy();
+      _reactInstanceManager.onHostDestroy(activity);
     }
     destroy();
   }
@@ -689,21 +692,30 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     if (volumeObserver != null) {
       volumeObserver.destroy();
     }
-    if (rootView != null) {
-      rootView.unmountReactApplication();
-    }
+
     if (_reactInstanceManager != null) {
       _reactInstanceManager.destroy();
     }
+
+    if (rootView != null) {
+      rootView.unmountReactApplication();
+    }
+
+    if (queuedEvents != null) {
+      queuedEvents.clear();
+      queuedEvents = null;
+    }
+
+    deleteObservers();
+    removeVideoView();
     setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
 
     DebugMode.logV(TAG, "SkinLayoutController Destroy");
   }
 
   private void setOrientation(int screenOrientationUser) {
-    Context context = getLayout().getContext();
-    if (context instanceof Activity) {
-      Activity activity = (Activity) context;
+    Activity activity = getActivity();
+    if (activity != null) {
       activity.setRequestedOrientation(screenOrientationUser);
     } else {
       DebugMode.logE(TAG, "Trying to set orientation. The context isn't an instance of Activity.");
@@ -729,5 +741,15 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       return this.onKeyUp(i, keyEvent);
     }
     return true;
+  }
+
+  private Activity getActivity() {
+    FrameLayout layout = getLayout();
+    if (layout != null && layout.getContext() instanceof Activity ) {
+      Context context = layout.getContext();
+        return (Activity) context;
+    } else {
+      return null;
+    }
   }
 }

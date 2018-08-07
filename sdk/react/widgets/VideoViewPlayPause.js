@@ -8,6 +8,7 @@ import {
 import SkipButton from './SkipButton'
 
 const Constants = require('../constants');
+const Utils = require('../utils');
 const AccessibilityUtils = require('../accessibilityUtils');
 const {
   BUTTON_NAMES
@@ -100,7 +101,6 @@ class VideoViewPlayPause extends React.Component {
       <TouchableHighlight
         accessible={true}
         accessibilityLabel={label}
-        accessibilityComponentType="button"
         onPress={() => this.onPress()}
         underlayColor="transparent"
         activeOpacity={this.props.opacity}
@@ -124,7 +124,8 @@ class VideoViewPlayPause extends React.Component {
     const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
     const buttonColor = {color: active ? !!this.props.buttonColor ? this.props.buttonColor : "white" : "gray"};
     const isForward = name === FORWARD;
-    const seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
+    let seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
+    seekValue = Utils.restrictSeekValueIfNeeded(seekValue);
 
     return (
       <SkipButton
