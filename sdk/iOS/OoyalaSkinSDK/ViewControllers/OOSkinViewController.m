@@ -416,7 +416,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
     NSDictionary *eventBody = @{@"width": width, @"height": height, @"fullscreen": [NSNumber numberWithBool:self.isFullscreen]};
 
-    if (!CGSizeEqualToSize(nowSize, self.previousVideoSize) && nowSize.width != 516) {
+    if (!CGSizeEqualToSize(nowSize, self.previousVideoSize)) {
       _previousVideoSize = nowSize;
       [self sendBridgeEventWithName:(NSString *) kFrameChangeContext body:eventBody];
     }
