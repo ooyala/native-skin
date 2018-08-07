@@ -122,7 +122,13 @@ class VideoViewPlayPause extends React.Component {
     const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     const opacity = {opacity: this.state.skipButtons.animationOpacity};
     const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
-    const buttonColor = {color: active ? !!this.props.buttonColor ? this.props.buttonColor : "white" : "gray"};
+
+    let color = "gray";
+    if (active) {
+      color = !!this.props.buttonColor ? this.props.buttonColor : "white";
+    }
+    const buttonColor = {color: color};
+
     const isForward = name === FORWARD;
     let seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
     seekValue = Utils.restrictSeekValueIfNeeded(seekValue);
