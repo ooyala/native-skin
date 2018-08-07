@@ -118,7 +118,6 @@ class VideoViewPlayPause extends React.Component {
     if (!this.props.showSeekButtons || !this.props.seekEnabled) {
       return <View/>
     }
-    Log.log("Video is live: " + this.props.isLive);
     const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
     const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     const opacity = {opacity: this.state.skipButtons.animationOpacity};
