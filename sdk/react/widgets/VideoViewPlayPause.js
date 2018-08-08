@@ -82,6 +82,10 @@ class VideoViewPlayPause extends React.Component {
     }
   };
 
+  onPressBackground = () => {
+    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+  }
+
   _renderPlayPauseButton = () => {
     if (this.state.playing) {
       return this._renderButton(PAUSE);
@@ -168,11 +172,15 @@ class VideoViewPlayPause extends React.Component {
     } else {
       return (
         <View style={[styles.buttonTextContainer]}>
-          <Animated.View style={[containerStyle]}>
-            {backwardButton}
-            {playPauseButton}
-            {forwardButton}
-          </Animated.View>
+          <TouchableHighlight
+            style={[styles.buttonTextContainer]}
+            onPress={() => this.onPressBackground()}>
+            <Animated.View style={[containerStyle]}>
+              {backwardButton}
+              {playPauseButton}
+              {forwardButton}
+            </Animated.View>
+          </TouchableHighlight>
         </View>
       );
     }
