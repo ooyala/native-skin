@@ -273,7 +273,7 @@ class VideoView extends React.Component {
 
   _renderPlayPause = (show) => {
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-    const seekVisible = !this.props.config.live.forceDvrDisabled;
+    const seekVisible = !this.props.config.live.forceDvrDisabled || !this.props.live;
     const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
     return (
       <VideoViewPlayPause
