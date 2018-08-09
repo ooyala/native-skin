@@ -353,7 +353,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
     if (_package.getBridge() == null) {
       DebugMode.logE(TAG, "Got onMounted from React, but bridge is not yet available? Invalid State");
-    } else {
+    } else if (null != queuedEvents) {
       DebugMode.logE(TAG, "React mounted - replaying queued events");
       for (Pair<String, WritableMap> p : queuedEvents) {
         sendEvent(p.first, p.second);
