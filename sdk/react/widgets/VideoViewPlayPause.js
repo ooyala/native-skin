@@ -11,8 +11,10 @@ const Constants = require('../constants');
 const Utils = require('../utils');
 const AccessibilityUtils = require('../accessibilityUtils');
 const {
-  BUTTON_NAMES
+  BUTTON_NAMES,
+  VALUES
 } = Constants;
+const timerForSkipButtons = require('react-native-timer');
 
 // Uses the rectbutton styles
 const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
@@ -56,7 +58,8 @@ class VideoViewPlayPause extends React.Component {
       animationScale: new Animated.Value(1),
       animationOpacity: new Animated.Value(0)
     },
-    playing: false
+    playing: false,
+    skipCount: 0
   };
 
   componentWillMount() {
@@ -74,6 +77,10 @@ class VideoViewPlayPause extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    timerForSkipButtons.clearTimeout(this);
+  }
+
   onPress = () => {
     if (this.props.showButton) {
       this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
@@ -84,6 +91,20 @@ class VideoViewPlayPause extends React.Component {
 
   onPressBackground = () => {
     this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+  }
+
+  onSkipPress = (isForward) => {
+    timerForSkipButtons.clearTimeout(this);
+    const value = this.state.skipCount + (isForward ? 1 : -1);
+    this.setState({skipCount: value}, () => timerForSkipButtons.setTimeout(
+      this,
+      'sendSummedSkip',
+      () => {
+        this.props.onSeekPressed(this.state.skipCount);
+        this.setState({skipCount: 0});
+      },
+      VALUES.DELAY_BETWEEN_SKIPS_MS
+    ));
   }
 
   _renderPlayPauseButton = () => {
@@ -143,7 +164,7 @@ class VideoViewPlayPause extends React.Component {
         timeValue={seekValue}
         sizeStyle={sizeStyle}
         disabled={!active}
-        onSeek={(isForward) => this.props.onSeekPressed(isForward)}
+        onSeek={(isForward) => this.onSkipPress(isForward)}
         icon={this.props.icons[name].icon}
         fontStyle={fontStyle}
         opacity={opacity}
