@@ -125,9 +125,9 @@ class VideoView extends React.Component {
     if (skipCountValue == 0) { return null; }
 
     let configSeekValue = (skipCountValue > 0) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
-    //configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
+    configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
     const seekValue = configSeekValue * skipCountValue;
-    
+
     const currentPlayhead = this.props.playhead;
     let resultedPlayhead = currentPlayhead + seekValue;
     if (resultedPlayhead < 0) {
