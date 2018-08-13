@@ -26,6 +26,8 @@ class ItemSelectionList extends React.Component {
           this.props.itemRender(item, index)
       ));
       return (renderedItems);
+    } else {
+      return null;
     }
   };
 
