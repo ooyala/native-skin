@@ -21,11 +21,14 @@ class ItemSelectionList extends React.Component {
   };
 
   renderItems = (items) => {
-    const renderedItems = items.map((item, index) => (
-        this.props.itemRender(item, index)
-    ));
-
-    return (renderedItems);
+    if (typeof(items) !== "undefined") {
+      const renderedItems = items.map((item, index) => (
+          this.props.itemRender(item, index)
+      ));
+      return (renderedItems);
+    } else {
+      return null;
+    }
   };
 
   render() {
