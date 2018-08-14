@@ -203,8 +203,7 @@ class VideoViewPlayPause extends React.Component {
     const positionStyle = {
       position: 'absolute',
       top: topOffset,
-      left: leftOffset,
-      backgroundColor: 'blue'
+      left: leftOffset
     }
 
     if (!this.props.showButton) {
