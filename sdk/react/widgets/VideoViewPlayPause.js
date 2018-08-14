@@ -184,18 +184,39 @@ class VideoViewPlayPause extends React.Component {
       alignItems: 'center'
     };
 
+    const heightScaleFactor = 2;
+    let widthScaleFactor = 2;
+    if (!!this.props.showSeekButtons && !!this.props.seekEnabled) {
+      // we add 2 per each skip button.
+      // If you wanted to add more buttons horizontally, this value would change.
+      // TODO: Know which button is enabled only.
+      // It should be possible to show only one of the skip buttons that
+      // is not implemented yet. When implemented we need to take that into account here.
+      widthScaleFactor += 2;
+    }
+
+    const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * heightScaleFactor) * 0.5);
+    const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * widthScaleFactor) * 0.5);
+
+    // positionStyle is for the view that acts as the container of the buttons.
+    // We want it to be centered in the player area and it is dynamic because we have different buttons
+    const positionStyle = {
+      position: 'absolute',
+      top: topOffset,
+      left: leftOffset,
+      backgroundColor: 'blue'
+    }
+
     if (!this.props.showButton) {
       return null;
     } else {
       return (
-        <View style={[styles.buttonTextContainer]}>
-          <TouchableHighlight>
-            <Animated.View style={[containerStyle]}>
-              {backwardButton}
-              {playPauseButton}
-              {forwardButton}
-            </Animated.View>
-          </TouchableHighlight>
+        <View style={[positionStyle]}>
+          <Animated.View style={[containerStyle]}>
+            {backwardButton}
+            {playPauseButton}
+            {forwardButton}
+          </Animated.View>
         </View>
       );
     }
