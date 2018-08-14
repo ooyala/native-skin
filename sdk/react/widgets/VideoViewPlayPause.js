@@ -89,10 +89,6 @@ class VideoViewPlayPause extends React.Component {
     }
   };
 
-  onPressBackground = () => {
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
-  }
-
   onSkipPress = (isForward) => {
     timerForSkipButtons.clearTimeout(this);
     const value = this.state.skipCount + (isForward ? 1 : -1);
@@ -193,9 +189,7 @@ class VideoViewPlayPause extends React.Component {
     } else {
       return (
         <View style={[styles.buttonTextContainer]}>
-          <TouchableHighlight
-            style={[styles.buttonTextContainer]}
-            onPress={() => this.onPressBackground()}>
+          <TouchableHighlight>
             <Animated.View style={[containerStyle]}>
               {backwardButton}
               {playPauseButton}
@@ -206,7 +200,6 @@ class VideoViewPlayPause extends React.Component {
       );
     }
   }
-
 }
 
 module.exports = VideoViewPlayPause;
