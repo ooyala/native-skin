@@ -10,11 +10,10 @@ var {
   OVERLAY_TYPES,
 } = Constants;
 
-var OoyalaSkinBridgeListener = function(ooyalaSkin, ooyalaCore, eventBridge) {
+var OoyalaSkinBridgeListener = function(ooyalaSkin, ooyalaCore) {
   Log.log("SkinBridgeListener Created");
   this.skin = ooyalaSkin;
   this.core = ooyalaCore;
-
 };
 
 OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
@@ -157,7 +156,7 @@ OoyalaSkinBridgeListener.prototype.onAdError = function(e) {
 
 OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
   Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
-  
+
   this.skin.setState({
     title:e.title,
     description:e.description,
@@ -192,7 +191,7 @@ OoyalaSkinBridgeListener.prototype.onPlayStarted = function(e) {
 OoyalaSkinBridgeListener.prototype.onPlayComplete = function(e) {
   Log.log("Play Complete received: upNext dismissed: "  + this.skin.state.upNextDismissed);
   this.skin.setState({"playing": false, screenType: SCREEN_TYPES.END_SCREEN});
-  
+
   if (this.core.shouldShowDiscoveryEndscreen()) {
       this.core.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
   }
@@ -276,7 +275,7 @@ OoyalaSkinBridgeListener.prototype.handleVideoHasVRContent = function (e) {
   this.skin.setState({
     vrContent: e.vrContent,
     stereoSupported: e.stereoSupported
-  }); 
+  });
 };
 
 OoyalaSkinBridgeListener.prototype.handleVideoHasMultiAudio = function (e) {
