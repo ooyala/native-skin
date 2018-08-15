@@ -15,8 +15,7 @@
 
 @implementation NSDictionary (Utils)
 
-+ (NSDictionary *) dictionaryFromSkinConfigFile:(NSString *)filename mergedWith:(NSDictionary *)otherDict
-{
++ (NSDictionary *)dictionaryFromSkinConfigFile:(NSString *)filename mergedWith:(NSDictionary *)otherDict {
   NSDictionary *d = [NSDictionary dictionaryFromJson:filename];
   ASSERT(d != nil, @"missing skin configuration json" );
 
@@ -41,8 +40,7 @@
   return dict;
 }
 
-+ (NSDictionary *)dictionaryFromJson:(NSString *)filename
-{
++ (NSDictionary *)dictionaryFromJson:(NSString *)filename {
   NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:@"json"];
   NSData *data = [NSData dataWithContentsOfFile:filePath];
   if (data) {
@@ -55,7 +53,5 @@
   
   return nil;
 }
-
-
 
 @end

@@ -12,8 +12,7 @@ const int MAX_FONT_SIZE = 100;
 
 @implementation NSString (Utils)
 
-- (CGSize)textSizeWithFontFamily:(NSString *)fontFamily fontSize:(NSUInteger)fontSize;
-{
+- (CGSize)textSizeWithFontFamily:(NSString *)fontFamily fontSize:(NSUInteger)fontSize {
   if (fontSize >= MAX_FONT_SIZE) return CGSizeZero;
   
   // given an array of strings and other settings, compute the width of the strings to assist correct layout.

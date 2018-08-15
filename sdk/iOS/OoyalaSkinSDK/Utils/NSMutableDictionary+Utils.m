@@ -10,8 +10,7 @@
 
 @implementation NSMutableDictionary (Utils)
 
-- (void)mergeWith:(NSDictionary *)dict
-{
+- (void)mergeWith:(NSDictionary *)dict {
   for (id key in [dict allKeys]) {
     NSObject *value = [self objectForKey:key];
     if ([value isKindOfClass:[NSDictionary class]]) {
