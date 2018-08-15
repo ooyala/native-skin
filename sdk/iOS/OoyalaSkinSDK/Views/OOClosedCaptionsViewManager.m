@@ -16,7 +16,7 @@
 
 RCT_EXPORT_MODULE();
 
--(UIView *)view {
+- (UIView *)view {
   OOClosedCaptionsView *v = [OOClosedCaptionsView new];
   OOClosedCaptionsStyle *s = [[OOSkinAutoUpdatingClosedCaptionsStyle alloc] initWithClosedCaptionsView:v];
   v.style = s;
@@ -24,7 +24,7 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_CUSTOM_VIEW_PROPERTY(captionJSON, NSString, OOClosedCaptionsView) {
-  if( json ) { // apparently, empirically, an NSCFDictionary.
+  if (json) { // apparently, empirically, an NSCFDictionary.
     NSString *text = [json objectForKey:@"text"];
     // assumes that Float64 really == double, and that the json will use "." not e.g. "," for decimals.
     Float64 begin = [[json objectForKey:@"begin"] doubleValue];
