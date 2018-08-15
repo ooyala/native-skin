@@ -34,7 +34,7 @@ NSString * const kLocale = @"locale";
     defaultLocale = @"";
   }
 
-  NSArray *preferredOrder = [NSArray arrayWithObjects:config[kLocale], defaultLocale, @"en", nil];
+  NSArray *preferredOrder = @[config[kLocale], defaultLocale, @"en"];
   for (int i = 0; i < preferredOrder.count; ++i ) {
     NSDictionary *stringTable = [config[kLocalizableStrings] objectForKey:preferredOrder[i]];
     if (stringTable && [stringTable objectForKey:key]) {
