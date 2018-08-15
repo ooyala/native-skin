@@ -11,8 +11,10 @@ const Constants = require('../constants');
 const Utils = require('../utils');
 const AccessibilityUtils = require('../accessibilityUtils');
 const {
-  BUTTON_NAMES
+  BUTTON_NAMES,
+  VALUES
 } = Constants;
+const timerForSkipButtons = require('react-native-timer');
 
 // Uses the rectbutton styles
 const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
@@ -56,7 +58,8 @@ class VideoViewPlayPause extends React.Component {
       animationScale: new Animated.Value(1),
       animationOpacity: new Animated.Value(0)
     },
-    playing: false
+    playing: false,
+    skipCount: 0
   };
 
   componentWillMount() {
@@ -74,6 +77,10 @@ class VideoViewPlayPause extends React.Component {
     }
   };
 
+  componentWillUnmount() {
+    timerForSkipButtons.clearTimeout(this);
+  }
+
   onPress = () => {
     if (this.props.showButton) {
       this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
@@ -82,8 +89,18 @@ class VideoViewPlayPause extends React.Component {
     }
   };
 
-  onPressBackground = () => {
-    this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+  onSkipPress = (isForward) => {
+    timerForSkipButtons.clearTimeout(this);
+    const value = this.state.skipCount + (isForward ? 1 : -1);
+    this.setState({skipCount: value}, () => timerForSkipButtons.setTimeout(
+      this,
+      'sendSummedSkip',
+      () => {
+        this.props.onSeekPressed(this.state.skipCount);
+        this.setState({skipCount: 0});
+      },
+      VALUES.DELAY_BETWEEN_SKIPS_MS
+    ));
   }
 
   _renderPlayPauseButton = () => {
@@ -143,7 +160,7 @@ class VideoViewPlayPause extends React.Component {
         timeValue={seekValue}
         sizeStyle={sizeStyle}
         disabled={!active}
-        onSeek={(isForward) => this.props.onSeekPressed(isForward)}
+        onSeek={(isForward) => this.onSkipPress(isForward)}
         icon={this.props.icons[name].icon}
         fontStyle={fontStyle}
         opacity={opacity}
@@ -167,25 +184,42 @@ class VideoViewPlayPause extends React.Component {
       alignItems: 'center'
     };
 
+    const heightScaleFactor = 2;
+    let widthScaleFactor = 2;
+    if (!!this.props.showSeekButtons && !!this.props.seekEnabled) {
+      // we add 2 per each skip button.
+      // If you wanted to add more buttons horizontally, this value would change.
+      // TODO: Know which button is enabled only.
+      // It should be possible to show only one of the skip buttons that
+      // is not implemented yet. When implemented we need to take that into account here.
+      widthScaleFactor += 2;
+    }
+
+    const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * heightScaleFactor) * 0.5);
+    const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * widthScaleFactor) * 0.5);
+
+    // positionStyle is for the view that acts as the container of the buttons.
+    // We want it to be centered in the player area and it is dynamic because we have different buttons
+    const positionStyle = {
+      position: 'absolute',
+      top: topOffset,
+      left: leftOffset
+    }
+
     if (!this.props.showButton) {
       return null;
     } else {
       return (
-        <View style={[styles.buttonTextContainer]}>
-          <TouchableHighlight
-            style={[styles.buttonTextContainer]}
-            onPress={() => this.onPressBackground()}>
-            <Animated.View style={[containerStyle]}>
-              {backwardButton}
-              {playPauseButton}
-              {forwardButton}
-            </Animated.View>
-          </TouchableHighlight>
+        <View style={[positionStyle]}>
+          <Animated.View style={[containerStyle]}>
+            {backwardButton}
+            {playPauseButton}
+            {forwardButton}
+          </Animated.View>
         </View>
       );
     }
   }
-
 }
 
 module.exports = VideoViewPlayPause;

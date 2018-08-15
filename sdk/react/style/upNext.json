@@ -12,14 +12,15 @@
     flex: 2
   },
   thumbnailImage: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   thumbnailPlayButton: {
-    flex: 1,
     fontFamily: 'ooyala-slick-type',
     fontSize: 23,
+    alignSelf:'center',
     textAlign: 'center',
-    textAlignVertical: 'center',
     color: 'white'
   },
   countdownText: {

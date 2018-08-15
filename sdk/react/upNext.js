@@ -119,28 +119,33 @@ class UpNext extends React.Component {
   };
 
   render() {
-    var upNextConfig = this.props.config.upNext || {};
-    if(this.isWithinShowUpNextBounds() && !this.props.upNextDismissed && upNextConfig.showUpNext === true && !this.props.ad && this.props.nextVideo != null) {
-      var countdown = this.renderCountdownTimer();
-      var upNextImage = (
-      <TouchableHighlight
-        style={styles.thumbnail}
-        accessible={true}
-        onPress={this.clickUpNext}>
-        <ImageBackground
-          style={styles.thumbnailImage}
-          source={{uri: this.props.nextVideo.imageUrl}}
-          accessible={false}>
-          <Text
-            style={styles.thumbnailPlayButton}
-            accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
-            {this.props.config.icons.play.fontString}
-          </Text>
-        </ImageBackground>
-      </TouchableHighlight>
-      );
+    const upNextConfig = this.props.config.upNext || {};
 
-      var upNextDescription = (
+    if (this.isWithinShowUpNextBounds()
+      && !this.props.upNextDismissed
+      && upNextConfig.showUpNext === true
+      && !this.props.ad
+      && this.props.nextVideo != null) {
+
+      const countdown = this.renderCountdownTimer();
+      const upNextImage = (
+        <TouchableHighlight
+          style={styles.thumbnail}
+          accessible={true}
+          onPress={this.clickUpNext}>
+          <ImageBackground
+            style={styles.thumbnailImage}
+            source={{uri: this.props.nextVideo.imageUrl}}
+            accessible={false}>
+            <Text
+              style={styles.thumbnailPlayButton}
+              accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
+              {this.props.config.icons.play.fontString}
+            </Text>
+          </ImageBackground>
+        </TouchableHighlight>
+      );
+      const upNextDescription = (
         <View style={styles.textContainer}>
           {countdown}
           <View style={styles.titleContainer}>
@@ -153,7 +158,7 @@ class UpNext extends React.Component {
           </View>
         </View>
       );
-      var upNextDismissButton = this._renderDismissButton();
+      const upNextDismissButton = this._renderDismissButton();
         return (
           <View style={styles.container}>
             {upNextImage}

@@ -1,23 +1,23 @@
 {
-  "topRight": {  
+  "topRight": {
     "position": "absolute",
     "top": 10,
     "right": 10,
   },
 
   "topLeft": {
-    "position": "absolute",  
+    "position": "absolute",
     "top": 10,
     "left": 10,
   },
 
-  "bottomRight": { 
+  "bottomRight": {
     "position": "absolute",
     "bottom": 10,
     "right": 10,
   },
 
-  "bottomLeft": {  
+  "bottomLeft": {
     "position": "absolute",
     "bottom": 10,
     "left": 10,
@@ -27,16 +27,6 @@
     "flex": 1,
     "flexDirection": "row",
     "alignSelf": "center"
-  },
-
-  "buttonTextContainer": {
-    "position": "absolute",
-    "justifyContent": "center",
-    "alignItems": "center",
-    "left": 0,
-    "right": 0,
-    "top": 0,
-    "bottom": 0
   },
 
   "buttonTextStyle": {
