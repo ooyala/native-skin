@@ -23,7 +23,7 @@ const VideoView = require('./panels/videoView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 
-const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
+const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore) {
   Log.log("OoyalaSkinPanelRenderer Created");
   this.skin = ooyalaSkin;
   this.core = ooyalaCore;
