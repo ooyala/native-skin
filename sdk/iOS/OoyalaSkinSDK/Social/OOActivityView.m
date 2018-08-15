@@ -11,18 +11,15 @@
 #import <React/RCTUtils.h>
 #import <React/RCTConvert.h>
 
-
 @implementation OOActivityView
 
 RCT_EXPORT_MODULE();
 
--(dispatch_queue_t)methodQueue
-{
+-(dispatch_queue_t)methodQueue {
   return dispatch_get_main_queue();
 }
 
-RCT_EXPORT_METHOD(show:(NSDictionary *)options)
-{
+RCT_EXPORT_METHOD(show:(NSDictionary *)options) {
   
   NSMutableArray *items = [NSMutableArray new];
   
@@ -84,8 +81,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options)
   [controller presentViewController:activityVC animated:YES completion:nil];
 }
 
-- (UIViewController *)topMostViewController:(UIViewController *)root
-{
+- (UIViewController *)topMostViewController:(UIViewController *)root {
   if ([root isKindOfClass:[UITabBarController class]]) {
     UITabBarController *tabBarController = (UITabBarController *) root;
     return [self topMostViewController:tabBarController.selectedViewController];
@@ -99,8 +95,7 @@ RCT_EXPORT_METHOD(show:(NSDictionary *)options)
   }
 }
 
-- (NSURL *)shareURL:(id)link
-{
+- (NSURL *)shareURL:(id)link {
   NSString *urlStr = [RCTConvert NSString:link];
   NSURL *url;
   if (urlStr.length > 0 &&
