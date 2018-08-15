@@ -42,6 +42,14 @@
 		0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */; };
 		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
+		39EEE0E32122C36A00377DB3 /* OOReactSkinEventsEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		39EEE0E42122C36A00377DB3 /* OOReactSkinEventsEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */; };
+		39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		39EEE0E62122C36A00377DB3 /* OOReactSkinModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0E02122C36A00377DB3 /* OOReactSkinModel.m */; };
+		39EEE0E82122C44000377DB3 /* OOReactSkinBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0E72122C44000377DB3 /* OOReactSkinBridge.h */; };
+		39EEE0EA2122CDB800377DB3 /* OOReactSkinBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0E92122CDB800377DB3 /* OOReactSkinBridge.m */; };
+		39EEE0ED2122DEDF00377DB3 /* OOReactSkinBridgeModuleMain.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0EC2122DEDF00377DB3 /* OOReactSkinBridgeModuleMain.h */; };
+		39EEE0EF2122F6A200377DB3 /* OOReactSkinBridgeModuleMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0EE2122F6A200377DB3 /* OOReactSkinBridgeModuleMain.m */; };
 		523E3F1E1F548B2900C29D8D /* NSDictionary+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */; };
 		52A0A01E1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 52A0A01C1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h */; };
 		52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */; };
@@ -59,13 +67,11 @@
 		75EA81B320441EAA000BDFE8 /* FullscreenStateOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75EA81B120441EAA000BDFE8 /* FullscreenStateOperation.m */; };
 		8FE31CDEC619477E2097C575 /* PresentedViewControllerHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FE31BA138326EFA3DEFC4A0 /* PresentedViewControllerHelper.h */; };
 		8FE31D5F19758B7EC9E93886 /* PresentedViewControllerHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FE31519D412D48C72553671 /* PresentedViewControllerHelper.m */; };
-		972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8851AE6F008005043DC /* OOReactBridge.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8861AE6F008005043DC /* OOReactBridge.m */; };
 		972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 972ED8871AE6F008005043DC /* OOSkinViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 972ED8881AE6F008005043DC /* OOSkinViewController.m */; };
 		9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922771B8E37F300A61ACF /* OOSkinOptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9769227C1B8E37F300A61ACF /* OOSkinOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 976922781B8E37F300A61ACF /* OOSkinOptions.m */; };
-		9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */; };
+		9769227D1B8E37F300A61ACF /* OOSkinViewControllerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 976922791B8E37F300A61ACF /* OOSkinViewControllerDelegate.h */; };
 		9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		979B01301B910A040032F5CF /* OOConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 979B012E1B910A040032F5CF /* OOConstant.h */; };
 		979B01311B910A040032F5CF /* OOConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 979B012F1B910A040032F5CF /* OOConstant.m */; };
@@ -336,6 +342,15 @@
 		0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinPlayerObserver.m; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
+		39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinEventsEmitter.h; sourceTree = "<group>"; };
+		39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinEventsEmitter.m; sourceTree = "<group>"; };
+		39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinModel.h; sourceTree = "<group>"; };
+		39EEE0E02122C36A00377DB3 /* OOReactSkinModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinModel.m; sourceTree = "<group>"; };
+		39EEE0E72122C44000377DB3 /* OOReactSkinBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOReactSkinBridge.h; sourceTree = "<group>"; };
+		39EEE0E92122CDB800377DB3 /* OOReactSkinBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinBridge.m; sourceTree = "<group>"; };
+		39EEE0EB2122DCEB00377DB3 /* OOReactSkinBridgeModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOReactSkinBridgeModule.h; sourceTree = "<group>"; };
+		39EEE0EC2122DEDF00377DB3 /* OOReactSkinBridgeModuleMain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOReactSkinBridgeModuleMain.h; sourceTree = "<group>"; };
+		39EEE0EE2122F6A200377DB3 /* OOReactSkinBridgeModuleMain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinBridgeModuleMain.m; sourceTree = "<group>"; };
 		45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		45ED11731B9F6369004968DE /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		52A0A01C1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinFullScreenViewController.h; sourceTree = "<group>"; };
@@ -351,8 +366,6 @@
 		8FE31BA138326EFA3DEFC4A0 /* PresentedViewControllerHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PresentedViewControllerHelper.h; sourceTree = "<group>"; };
 		972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OoyalaSkinSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		972ED84F1AE6EEEB005043DC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		972ED8851AE6F008005043DC /* OOReactBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactBridge.h; sourceTree = "<group>"; };
-		972ED8861AE6F008005043DC /* OOReactBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactBridge.m; sourceTree = "<group>"; };
 		972ED8871AE6F008005043DC /* OOSkinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinViewController.h; sourceTree = "<group>"; };
 		972ED8881AE6F008005043DC /* OOSkinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinViewController.m; sourceTree = "<group>"; };
 		972ED8A11AE6FC3E005043DC /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
@@ -362,7 +375,7 @@
 		972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		976922771B8E37F300A61ACF /* OOSkinOptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinOptions.h; sourceTree = "<group>"; };
 		976922781B8E37F300A61ACF /* OOSkinOptions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinOptions.m; sourceTree = "<group>"; };
-		976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OOSkinViewController+Internal.h"; sourceTree = "<group>"; };
+		976922791B8E37F300A61ACF /* OOSkinViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOSkinViewControllerDelegate.h; sourceTree = "<group>"; };
 		9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OoyalaSkinSDK.h; sourceTree = "<group>"; };
 		979B012E1B910A040032F5CF /* OOConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOConstant.h; sourceTree = "<group>"; };
 		979B012F1B910A040032F5CF /* OOConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOConstant.m; sourceTree = "<group>"; };
@@ -445,6 +458,22 @@
 			path = Social;
 			sourceTree = "<group>";
 		};
+		39EEE0DA2122C36A00377DB3 /* React */ = {
+			isa = PBXGroup;
+			children = (
+				39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */,
+				39EEE0E02122C36A00377DB3 /* OOReactSkinModel.m */,
+				39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */,
+				39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */,
+				39EEE0E72122C44000377DB3 /* OOReactSkinBridge.h */,
+				39EEE0E92122CDB800377DB3 /* OOReactSkinBridge.m */,
+				39EEE0EB2122DCEB00377DB3 /* OOReactSkinBridgeModule.h */,
+				39EEE0EC2122DEDF00377DB3 /* OOReactSkinBridgeModuleMain.h */,
+				39EEE0EE2122F6A200377DB3 /* OOReactSkinBridgeModuleMain.m */,
+			);
+			path = React;
+			sourceTree = "<group>";
+		};
 		45ED116E1B9F634E004968DE /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -482,7 +511,7 @@
 				8FE31CDE29E32B874699EEA9 /* PresentedViewControllerSupport */,
 				754CBCD7203DE7BE0086CE53 /* FullscreenStateController */,
 				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
-				976922791B8E37F300A61ACF /* OOSkinViewController+Internal.h */,
+				976922791B8E37F300A61ACF /* OOSkinViewControllerDelegate.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
 				52A0A01C1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h */,
 				52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */,
@@ -525,12 +554,11 @@
 			children = (
 				9769227A1B8E37F300A61ACF /* OoyalaSkinSDK.h */,
 				757AE19E1F741A1E00D60C02 /* ViewControllers */,
+				39EEE0DA2122C36A00377DB3 /* React */,
 				979B012E1B910A040032F5CF /* OOConstant.h */,
 				979B012F1B910A040032F5CF /* OOConstant.m */,
 				97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */,
 				97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */,
-				972ED8851AE6F008005043DC /* OOReactBridge.h */,
-				972ED8861AE6F008005043DC /* OOReactBridge.m */,
 				0B55FDAC1E2EFC5D0019A764 /* OOQueuedEvent.h */,
 				0B55FDAD1E2EFC5D0019A764 /* OOQueuedEvent.m */,
 				5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */,
@@ -667,20 +695,23 @@
 				0BCABD991C7F77A900989005 /* CountdownViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
 				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
+				39EEE0ED2122DEDF00377DB3 /* OOReactSkinBridgeModuleMain.h in Headers */,
 				523E3F1E1F548B2900C29D8D /* NSDictionary+Utils.h in Headers */,
 				0BCABD9B1C7F77A900989005 /* OOClosedCaptionsViewManager.h in Headers */,
-				9769227D1B8E37F300A61ACF /* OOSkinViewController+Internal.h in Headers */,
+				9769227D1B8E37F300A61ACF /* OOSkinViewControllerDelegate.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
+				39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
 				5EA2FFA11B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h in Headers */,
+				39EEE0E32122C36A00377DB3 /* OOReactSkinEventsEmitter.h in Headers */,
 				754CBCDA203DE7CF0086CE53 /* FullscreenStateController.h in Headers */,
 				0BCABD971C7F77A900989005 /* CountdownView.h in Headers */,
 				97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */,
 				0BCABD9D1C7F77A900989005 /* OOGradientView.h in Headers */,
 				52A0A01E1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h in Headers */,
-				972ED8891AE6F008005043DC /* OOReactBridge.h in Headers */,
+				39EEE0E82122C44000377DB3 /* OOReactSkinBridge.h in Headers */,
 				2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */,
 				8FE31CDEC619477E2097C575 /* PresentedViewControllerHelper.h in Headers */,
 			);
@@ -1061,8 +1092,10 @@
 			files = (
 				CA742B631BE27C3A0056784E /* NSMutableDictionary+Utils.m in Sources */,
 				75EA81B320441EAA000BDFE8 /* FullscreenStateOperation.m in Sources */,
-				972ED88A1AE6F008005043DC /* OOReactBridge.m in Sources */,
+				39EEE0EA2122CDB800377DB3 /* OOReactSkinBridge.m in Sources */,
+				39EEE0E42122C36A00377DB3 /* OOReactSkinEventsEmitter.m in Sources */,
 				0BCABD9E1C7F77A900989005 /* OOGradientView.m in Sources */,
+				39EEE0E62122C36A00377DB3 /* OOReactSkinModel.m in Sources */,
 				0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
@@ -1074,6 +1107,7 @@
 				0B55FDAF1E2EFC5D0019A764 /* OOQueuedEvent.m in Sources */,
 				0BCABD981C7F77A900989005 /* CountdownView.m in Sources */,
 				52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */,
+				39EEE0EF2122F6A200377DB3 /* OOReactSkinBridgeModuleMain.m in Sources */,
 				754CBCDB203DE7CF0086CE53 /* FullscreenStateController.m in Sources */,
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
