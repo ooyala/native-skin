@@ -20,8 +20,7 @@
 
 @implementation CountdownView
 
-- (instancetype)init
-{
+- (instancetype)init {
   self = [super init];
   if (self) {
     self.canceled = NO;
@@ -29,29 +28,25 @@
   return self;
 }
 
-- (CAShapeLayer *)circleLayer
-{
+- (CAShapeLayer *)circleLayer {
   if (!_circleLayer) {
     _circleLayer = [[CAShapeLayer alloc] init];
   }
   return _circleLayer;
 }
 
-- (UILabel *)timerLabel
-{
+- (UILabel *)timerLabel {
   if (!_timerLabel) {
     _timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame))];
   }
   return _timerLabel;
 }
 
-- (void)setTime:(float)time
-{
+- (void)setTime:(float)time {
   _time = time;
 }
 
-- (void)setAutomatic:(BOOL)automatic
-{
+- (void)setAutomatic:(BOOL)automatic {
   _automatic = automatic;
   
   if (_automatic && !self.timer) {
@@ -59,8 +54,7 @@
   }
 }
 
-- (void)setCanceled:(BOOL)canceled
-{
+- (void)setCanceled:(BOOL)canceled {
   _canceled = canceled;
   if (_canceled && self.timer) {
     [self removeCircleLayer];
@@ -68,31 +62,23 @@
   }
 }
 
-- (void)setTimeLeft:(float)timeLeft
-{
+- (void)setTimeLeft:(float)timeLeft {
   _timeLeft = timeLeft;
   self.timerLabel.text = [NSString stringWithFormat:@"%.0f", _timeLeft];
   self.circleLayer.strokeEnd = (self.time - self.timeLeft) / self.time;
 }
 
-- (void)setFontSize:(float)fontSize
-{
+- (void)setFontSize:(float)fontSize {
   _fontSize = fontSize;
   self.timerLabel.font = [self.timerLabel.font fontWithSize:_fontSize];
 }
 
-- (void)setRadius:(CGFloat)radius
-{
+- (void)setRadius:(CGFloat)radius {
   _radius = radius;
-  if (_radius <= 15) {
-    self.fontSize = 10.0;
-  } else {
-    self.fontSize = 14.0;
-  }
+  self.fontSize = _radius <= 15 ? 10.0 : 14.0;
 }
 
-- (void)updateTimer:(NSTimer *)timer
-{
+- (void)updateTimer:(NSTimer *)timer {
   if (self.timeLeft < 0.1) {
     self.timeLeft = 0;
     [self.timer invalidate];
@@ -110,26 +96,22 @@
   self.timeLeft -= 0.1;
 }
 
-- (void)setFillAlpha:(float)fillAlpha
-{
+- (void)setFillAlpha:(float)fillAlpha {
   _fillAlpha = fillAlpha;
   self.circleLayer.fillColor = [self.fillColor colorWithAlphaComponent:_fillAlpha].CGColor;
 }
 
-- (void)setFillColor:(UIColor *)fillColor
-{
+- (void)setFillColor:(UIColor *)fillColor {
   _fillColor = fillColor;
   self.circleLayer.fillColor = [_fillColor colorWithAlphaComponent:self.fillAlpha].CGColor;
 }
 
-- (void)setStrokeColor:(UIColor *)strokeColor
-{
+- (void)setStrokeColor:(UIColor *)strokeColor {
   _strokeColor = strokeColor;
   self.circleLayer.strokeColor = _strokeColor.CGColor;
 }
 
-- (void)configure
-{
+- (void)configure {
   self.circleLayer.frame = self.bounds;
   self.circleLayer.lineWidth = 2;
   if (!self.circleLayer.superlayer) {
@@ -139,8 +121,7 @@
   [self configureTimerLabel];
 }
 
-- (void)configureTimerLabel
-{
+- (void)configureTimerLabel {
   self.timerLabel.textColor = [UIColor whiteColor];
   self.timerLabel.textAlignment = NSTextAlignmentCenter;
   self.timerLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:self.fontSize];
@@ -163,8 +144,7 @@
                                                     constant:0.0]];
 }
 
-- (UIBezierPath *)circlePath
-{
+- (UIBezierPath *)circlePath {
   return [UIBezierPath bezierPathWithArcCenter:CGPointMake(self.radius, self.radius)
                                         radius:self.radius
                                     startAngle:(-M_PI/2)
@@ -172,23 +152,20 @@
                                      clockwise:YES];
 }
 
-- (void)removeCircleLayer
-{
+- (void)removeCircleLayer {
   [self.circleLayer removeAnimationForKey:@"strokeEnd"];
   [self.circleLayer removeFromSuperlayer];
   
   [self.timerLabel removeFromSuperview];
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
   [self configure];
   self.circleLayer.path = [[self circlePath] CGPath];
   [super layoutSubviews];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
   [self.timer invalidate];
 }
 
