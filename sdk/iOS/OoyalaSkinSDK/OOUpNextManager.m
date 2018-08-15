@@ -4,24 +4,24 @@
 //
 
 #import "OOUpNextManager.h"
+#import "OOReactSkinModel.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
-#import "OOReactBridge.h"
 #import <OoyalaSDK/OODebugMode.h>
 
 @interface OOUpNextManager ()
 @property(nonatomic) BOOL upNextEnabled;
 @property (nonatomic, weak) OOOoyalaPlayer *player;
-@property (nonatomic, weak) OOReactBridge *ooBridge;
+@property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
 @property (nonatomic) BOOL isDismissed;
-@property (nonatomic) NSDictionary * nextVideo;
+@property (nonatomic) NSDictionary *nextVideo;
 @end
 
 @implementation OOUpNextManager
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
-                        bridge:(OOReactBridge *)bridge
-                 config:(NSDictionary *)config {
+              ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel
+                        config:(NSDictionary *)config {
 
   if (self = [super init]) {
   // Read the following value in from skin config
@@ -30,13 +30,19 @@
   // Save the player passed in with the init
   _player = player;
 
-  _ooBridge = bridge;
+  _ooReactSkinModel = ooReactSkinModel;
 
-  //listen to currentItemChanged, on, reset state (player.currentItem.embedCode)
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
+  // listen to currentItemChanged, on, reset state (player.currentItem.embedCode)
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(currentItemChangedNotification:)
+                                               name:OOOoyalaPlayerCurrentItemChangedNotification
+                                             object:_player];
 
-  //listen to ContentComplete, on, set Ec and play
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:_player];
+  // listen to ContentComplete, on, set Ec and play
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(playCompletedNotification:)
+                                               name:OOOoyalaPlayerPlayCompletedNotification
+                                             object:_player];
   }
 
   return self;
@@ -48,10 +54,10 @@
 
     // After the a new video has been set, let react know that isDismissed
     // is now false.
-    [self.ooBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
+    [self.ooReactSkinModel sendEventWithName:@"upNextDismissed" body: @{@"upNextDismissed": @(self.isDismissed)}];
 
     // Sets the next video to play in the upnext as specified by react.
-    [self.ooBridge sendDeviceEventWithName:@"setNextVideo" body:@{@"nextVideo" : _nextVideo}];
+    [self.ooReactSkinModel sendEventWithName:@"setNextVideo" body: @{@"nextVideo": _nextVideo}];
   }
 }
 
@@ -81,7 +87,7 @@
   self.isDismissed = YES;
 
   // Lets react know that dismiss has been pressed.
-  [self.ooBridge sendDeviceEventWithName:@"upNextDismissed" body:@{@"upNextDismissed" : [NSNumber numberWithBool:[self isDismissed]]}];
+  [self.ooReactSkinModel sendEventWithName:@"upNextDismissed" body: @{@"upNextDismissed": @(self.isDismissed)}];
 }
 
 - (void)dealloc {
