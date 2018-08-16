@@ -22,13 +22,20 @@
 
 @implementation OOUpNextManager
 
+#pragma mark - Constants
+static NSString *showUpNextKey     = @"showUpNext";
+static NSString *upNexDismissedKey = @"upNextDismissed";
+static NSString *setNextVideoKey   = @"setNextVideo";
+static NSString *embedCodeKey      = @"embedCode";
+
+#pragma mark - Methods
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
               ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel
                         config:(NSDictionary *)config {
 
   if (self = [super init]) {
   // Read the following value in from skin config
-  _upNextEnabled = [[config objectForKey:@"showUpNext"] boolValue];
+  _upNextEnabled = [[config objectForKey:showUpNextKey] boolValue];
 
   // Save the player passed in with the init
   _player = player;
@@ -57,10 +64,10 @@
 
     // After the a new video has been set, let react know that isDismissed
     // is now false.
-    [self.ooReactSkinModel sendEventWithName:@"upNextDismissed" body: @{@"upNextDismissed": @(self.isDismissed)}];
+    [self.ooReactSkinModel sendEventWithName:upNexDismissedKey body: @{upNexDismissedKey: @(self.isDismissed)}];
 
     // Sets the next video to play in the upnext as specified by react.
-    [self.ooReactSkinModel sendEventWithName:@"setNextVideo" body: @{@"nextVideo": _nextVideo}];
+    [self.ooReactSkinModel sendEventWithName:setNextVideoKey body: @{setNextVideoKey: _nextVideo}];
   }
 }
 
@@ -75,7 +82,7 @@
   // next video.
   LOG(@"Going to next video based on Up Next");
   if (!self.isDismissed && self.nextVideo != NULL) {
-    [[self player] setEmbedCode:[[self nextVideo] objectForKey:@"embedCode"]];
+    [[self player] setEmbedCode:[[self nextVideo] objectForKey:embedCodeKey]];
     [[self player] play];
   }
 }
@@ -90,7 +97,7 @@
   self.isDismissed = YES;
 
   // Lets react know that dismiss has been pressed.
-  [self.ooReactSkinModel sendEventWithName:@"upNextDismissed" body: @{@"upNextDismissed": @(self.isDismissed)}];
+  [self.ooReactSkinModel sendEventWithName:upNexDismissedKey body: @{upNexDismissedKey: @(self.isDismissed)}];
 }
 
 - (void)dealloc {
