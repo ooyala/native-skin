@@ -42,7 +42,6 @@
 @property (nonatomic) BOOL isManualOrientaionChange;
 @property (nonatomic) BOOL isFullScreenPreviousState;
 @property (nonatomic) UIInterfaceOrientation previousInterfaceOrientation;
-@property (nonatomic) CGSize previousVideoSize;
 @property (nonatomic) NSTimeInterval delayForDeviceOrientationAnimation;
 
 @end
@@ -67,16 +66,15 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                  launchOptions:(NSDictionary *)options {
   if (self = [super init]) {
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
-    _previousVideoSize = CGSizeZero;
+
     [self disableBuiltInAdLearnMoreButton:player];
     _skinOptions = skinOptions;
 
     _skinModel = [[OOReactSkinModel alloc] initWithWithPlayer:player skinOptions:_skinOptions skinControllerDelegate:self];
     _reactView = [_skinModel viewForModuleWithName:@"OoyalaSkin"];
 
-    _parentView = parentView;
-    
     // Video view configuration
+    _parentView = parentView;
     CGRect parentViewBounds = self.parentView.bounds;
     
     self.videoView = [UIView new];
@@ -280,14 +278,8 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (context == &kFrameChangeContext) {
     NSNumber *width = @(CGRectGetWidth(self.videoView.frame));
     NSNumber *height = @(CGRectGetHeight(self.videoView.frame));
-    CGSize nowSize = CGSizeMake(CGRectGetWidth(self.videoView.frame), CGRectGetHeight(self.videoView.frame));
-
     NSDictionary *eventBody = @{@"width": width, @"height": height, @"fullscreen": @(self.isFullscreen)};
-
-    if (!CGSizeEqualToSize(nowSize, self.previousVideoSize)) {
-      _previousVideoSize = nowSize;
-      [self.skinModel sendEventWithName:(NSString *) kFrameChangeContext body:eventBody];
-    }
+    [self.skinModel sendEventWithName:(NSString *) kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
     [self.skinModel sendEventWithName:VolumeChangeKey body:@{@"volume": @([change[NSKeyValueChangeNewKey] floatValue])}];
   } else {
@@ -296,6 +288,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 }
 
 #pragma mark - Stereo Mode Handle
+
 - (void)enterStereoMode {
   // Save previous full screen state
   _isFullScreenPreviousState = _fullscreen;
@@ -392,7 +385,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)toggleStereoMode {
   dispatch_async(dispatch_get_main_queue(), ^{
     _isVRStereoMode = !_isVRStereoMode;
-    _isVRStereoMode ? [self enterStereoMode] : [self exitStereoMode];
+    self.isVRStereoMode ? [self enterStereoMode] : [self exitStereoMode];
   });
 }
 
@@ -401,7 +394,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 }
 
 - (BOOL)reactViewInteractionEnabled {
-  return _reactView.userInteractionEnabled;
+  return self.reactView.userInteractionEnabled;
 }
 
 - (void)setReactViewInteractionEnabled:(BOOL)reactViewInteractionEnabled {
