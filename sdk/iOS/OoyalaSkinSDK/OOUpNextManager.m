@@ -5,17 +5,20 @@
 
 #import "OOUpNextManager.h"
 #import "OOReactSkinModel.h"
+
 #import <OoyalaSDK/OOOoyalaPlayer.h>
-#import <OoyalaSDK/OODiscoveryManager.h>
 #import <OoyalaSDK/OODebugMode.h>
 
 @interface OOUpNextManager ()
+
 @property(nonatomic) BOOL upNextEnabled;
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
 @property (nonatomic) BOOL isDismissed;
 @property (nonatomic) NSDictionary *nextVideo;
+
 @end
+
 
 @implementation OOUpNextManager
 
