@@ -366,9 +366,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   eventBody[titleKey] = adTitle;
   eventBody[skipOffsetKey] = skipoffset;
   eventBody[requireControlsKey] = requireControls;
-  if (icons) {
-    eventBody[iconsKey] = icons;
-  }
+  eventBody[iconsKey] = icons;
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 
   if (![adInfo[requireAdBarKey] boolValue]) {
@@ -412,13 +410,14 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
 - (void)bridgeHasMultiAudioNotification:(NSNotification *)notification {
   NSMutableArray *audioTracksTitles = [NSMutableArray new];
-  for (id<OOAudioTrackProtocol> audioTrack in [self.player availableAudioTracks]) {
+  for (id<OOAudioTrackProtocol> audioTrack in self.player.availableAudioTracks) {
     [audioTracksTitles addObject:audioTrack.title];
   }
 
-  NSDictionary *eventBody = @{selectedAudioTrackKey: self.player.selectedAudioTrack.title,
-                              audioTracksTitlesKey:  audioTracksTitles,
-                              multiAudioEnabledKey:  @(self.player.hasMultipleAudioTracks)};
+  NSMutableDictionary *eventBody = [NSMutableDictionary new];
+  eventBody[selectedAudioTrackKey] = self.player.selectedAudioTrack.title;
+  eventBody[audioTracksTitlesKey] = audioTracksTitles;
+  eventBody[multiAudioEnabledKey] = @(self.player.hasMultipleAudioTracks);
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
