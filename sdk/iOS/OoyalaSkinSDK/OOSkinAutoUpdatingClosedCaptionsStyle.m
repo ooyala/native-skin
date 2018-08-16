@@ -20,7 +20,7 @@
 
 - (instancetype)initWithClosedCaptionsView:(OOClosedCaptionsView*)ccView {
   self = [super init];
-  if( self ) {
+  if (self) {
     _ccView = ccView;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onApplicationDidBecomeActive:)
