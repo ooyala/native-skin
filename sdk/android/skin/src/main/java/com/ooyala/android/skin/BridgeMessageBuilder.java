@@ -22,7 +22,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -30,26 +29,25 @@ class BridgeMessageBuilder {
   private static final String TAG = BridgeMessageBuilder.class.getSimpleName();
 
   public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
-
-    WritableMap params = Arguments.createMap();
-
-    Double duration = player.getDuration() / 1000.0;
-    Double playhead = player.getPlayheadTime() / 1000.0;
-
+    int playerDuration = player.getDuration();
     WritableArray cuePoints = Arguments.createArray();
     Set<Integer> cuePointsPercentValues = player.getCuePointsInPercentage();
-    for (Iterator<Integer> i = cuePointsPercentValues.iterator(); i.hasNext(); ) {
-      int cuePointLocation = (int) Math.round((i.next() / 100.0) * duration);
-      cuePoints.pushInt(cuePointLocation);
+    for (Integer cuePoint : cuePointsPercentValues) {
+      Double cuePointLocation = ((cuePoint / 100.0) * playerDuration) / 1000.0;
+      cuePoints.pushDouble(cuePointLocation);
     }
 
     WritableArray languages = Arguments.createArray();
     Set<String> ccLanguages = player.getAvailableClosedCaptionsLanguagesNames();
-    for (Iterator<String> j = ccLanguages.iterator(); j.hasNext(); ) {
-      String languageItem = j.next();
+    for (String languageItem : ccLanguages) {
       languages.pushString(languageItem);
     }
-    params.putDouble("duration", duration);
+
+    Double duration = playerDuration / 1000.0;
+    Double playhead = player.getPlayheadTime() / 1000.0;
+
+    WritableMap params = Arguments.createMap();
+    params.putDouble("duration", duration );
     params.putDouble("playhead", playhead);
     params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);

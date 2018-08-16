@@ -1,30 +1,23 @@
 import PropTypes from 'prop-types';
-import React, { Component } from "react";
+import React from "react";
 import {
   ActivityIndicator,
-  StyleSheet,
   Text,
   View,
   Image,
   TouchableHighlight
 } from "react-native";
 
-var Utils = require("../utils");
+const Utils = require("../utils");
+const styles = Utils.getStyles(require("./style/endScreenStyles.json"));
+const ResponsiveDesignManager = require('../responsiveDesignManager');
+const InfoPanel = require("../infoPanel");
+const BottomOverlay = require("../bottomOverlay");
+const Log = require("../log");
+const Constants = require("../constants");
 
-
-var styles = Utils.getStyles(require("./style/endScreenStyles.json"));
-var ResponsiveDesignManager = require('../responsiveDesignManager');
-var ProgressBar = require("../progressBar");
-var ControlBar = require("../controlBar");
-var WaterMark = require("../waterMark");
-var InfoPanel = require("../infoPanel");
-var BottomOverlay = require("../bottomOverlay");
-var Log = require("../log");
-var Constants = require("../constants");
-
-var {
-  BUTTON_NAMES,
-  IMG_URLS
+const {
+  BUTTON_NAMES
 } = Constants;
 
 class EndScreen extends React.Component {
@@ -72,11 +65,12 @@ class EndScreen extends React.Component {
   };
 
   _renderDefaultScreen = (progressBar, controlBar) => {
-    var endScreenConfig = this.props.config.endScreen || {};
-    var replaybuttonLocation = styles.replaybuttonCenter;
-    var replaybutton;
-    if(endScreenConfig.showReplayButton) {
-      var fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
+    const endScreenConfig = this.props.config.endScreen || {};
+    const replaybuttonLocation = styles.replaybuttonCenter;
+    let replaybutton;
+
+    if (endScreenConfig.showReplayButton) {
+      const fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replaybutton = (
         <TouchableHighlight 
           accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType="button"
@@ -88,18 +82,22 @@ class EndScreen extends React.Component {
       );
     }
 
-    var title = endScreenConfig.showTitle ? this.props.title : null;
-    var description = endScreenConfig.showDescription ? this.props.description : null;
-    var infoPanel =
-      (<InfoPanel title={title} description={description} />);
+    const title = endScreenConfig.showTitle ? this.props.title : null;
+    const description = endScreenConfig.showDescription ? this.props.description : null;
+    const infoPanel = (<InfoPanel title={title} description={description} />);
 
     return (
-      <View
-        style={styles.fullscreenContainer}>
+      <View style={styles.fullscreenContainer}>
         <Image
-        source={{uri: this.props.promoUrl}}
-        style={[styles.fullscreenContainer,{position:"absolute", top:0, left:0, width:this.props.width, height: this.props.height}]}
-        resizeMode={Image.resizeMode.contain}>
+          source={{uri: this.props.promoUrl}}
+          style={
+            [styles.fullscreenContainer, {
+              position:"absolute",
+              top:0,
+              left:0,
+              width:this.props.width,
+              height: this.props.height}]}
+          resizeMode={Image.resizeMode.contain}>
         </Image>
         {infoPanel}
         <View style={replaybuttonLocation}>
@@ -117,10 +115,6 @@ class EndScreen extends React.Component {
   };
 
   _renderBottomOverlay = (show) => {
-    var shouldShowClosedCaptionsButton =
-      this.props.availableClosedCaptionsLanguages &&
-      this.props.availableClosedCaptionsLanguages.length > 0;
-      Log.log("duration: " +this.props.duration)
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
@@ -147,11 +141,11 @@ class EndScreen extends React.Component {
   };
 
   _renderLoading ()  {
-    var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
-    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
-    var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
-    var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
-    var loadingStyle = {
+    const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    const scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
+    const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
+    const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    const loadingStyle = {
       position: 'absolute',
       top: topOffset,
       left: leftOffset,
@@ -170,14 +164,13 @@ class EndScreen extends React.Component {
 
   render() {
     return (
-      <View
-      accessible={false}
-      style={styles.container}>
-      {this._renderDefaultScreen()}
-      {this._renderLoading()}
-    </View>
+      <View accessible={false} style={styles.container}>
+        {this._renderDefaultScreen()}
+        {this._renderLoading()}
+      </View>
     );
   }
+
 }
 
 module.exports = EndScreen;

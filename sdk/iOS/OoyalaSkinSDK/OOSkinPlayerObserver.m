@@ -72,6 +72,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasVRContentNotification:) name:OOOoyalaPlayerVideoHasVRContent object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasMultiAudioNotification:) name:OOOoyalaPlayerMultiAudioEnabledNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAudioTrackChangedNotification:) name:OOOoyalaPlayerAudioTrackChangedNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeCCManifestChangedNotification:) name:OOOoyalaPlayerCCManifestChangedNotification object:self.player.currentItem];
   }
 }
 
@@ -395,6 +396,14 @@
   NSDictionary *eventBody = @{@"selectedAudioTrack": self.player.selectedAudioTrack.title};
   
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+}
+
+- (void) bridgeCCManifestChangedNotification:(NSNotification *)notification{
+  NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
+  NSDictionary *eventBody = @{@"languages":closedCaptionsLanguages};
+  
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];
 }
 
 - (void)dealloc {

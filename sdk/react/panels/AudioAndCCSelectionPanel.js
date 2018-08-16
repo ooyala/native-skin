@@ -171,9 +171,10 @@ class AudioAndCCSelectionPanel extends React.Component {
   renderCCSelectionScrollView = () => {
     const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
     let selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
-
-    if (!this.props.closedCaptionsLanguages || this.props.closedCaptionsLanguages[0] !== offButtonTitle) {
-      this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle)
+    if (typeof(this.props.closedCaptionsLanguages) !== "undefined") {
+      if (!this.props.closedCaptionsLanguages || this.props.closedCaptionsLanguages[0] !== offButtonTitle) {
+        this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle)
+      }
     }
 
     if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === "") {

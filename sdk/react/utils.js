@@ -9,8 +9,9 @@ import {
   StyleSheet
 } from 'react-native';
 
-var Log = require('./log');
-var Utils = {
+const Log = require('./log');
+const Constants = require('./constants');
+const Utils = {
 
   renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
     var RectButton = require('./widgets/RectButton');
@@ -230,13 +231,9 @@ var Utils = {
     }
   },
 
-  makeAccessibilityLabelWithParams: function(viewName, baseAccessibleLabel, type) {
-    switch (type) {
-      case "seek_views":
-        return `${viewName}. ${baseAccessibleLabel}`;
-      default:
-        return value;
-    }
+  restrictSeekValueIfNeeded: function (seekValue) {
+    let value = Math.min(Math.max(Constants.VALUES.MIN_SKIP_VALUE, seekValue), Constants.VALUES.MAX_SKIP_VALUE);
+    return value;
   }
 };
 

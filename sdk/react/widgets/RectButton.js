@@ -45,7 +45,10 @@ class RectButton extends React.Component {
       positionStyle = styles[this.props.position];
     }
     return (
-      <TouchableHighlight accessible={true} accessibilityLabel={this.props.name} accessibilityComponentType="button"
+      <TouchableHighlight
+        accessible={true}
+        accessibilityLabel={this.props.name}
+        accessibilityComponentType="button"
         style={positionStyle}
         onPress={this.props.onPress}
         underlayColor="transparent"
