@@ -8,19 +8,21 @@
 
 #import "OOSkinPlayerObserver.h"
 #import "OOReactSkinModel.h"
+
+#import "NSString+Utils.h"
+#import "NSDictionary+Utils.h"
+#import "OOConstant.h"
+#import "OOLocaleHelper.h"
+#import "OOVolumeManager.h"
+
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOOoyalaError.h>
 #import <OoyalaSDK/OODebugMode.h>
-#import "OOLocaleHelper.h"
-#import "OOVolumeManager.h"
 #import <OoyalaSDK/OOClosedCaptions.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOSeekInfo.h>
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
-#import "NSString+Utils.h"
-#import "NSDictionary+Utils.h"
-#import "OOConstant.h"
 
 
 @interface OOSkinPlayerObserver ()
@@ -33,7 +35,7 @@
 
 @implementation OOSkinPlayerObserver
   
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel{
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel {
   _player = player;
   _ooReactSkinModel = ooReactSkinModel;
 
@@ -318,7 +320,6 @@
     [eventBody setObject:icons forKey:@"icons"];
   }
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
-
 
   if (![adInfo[@"requireAdBar"] boolValue]) {
     [self.ooReactSkinModel setReactViewInteractionEnabled:NO];

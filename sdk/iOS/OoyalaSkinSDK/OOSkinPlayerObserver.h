@@ -13,7 +13,7 @@
 
 @interface OOSkinPlayerObserver : NSObject
 
-- (instancetype) init __attribute__((unavailable("init not available")));
+- (instancetype)init __attribute__((unavailable("init not available")));
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel;
 
 - (void)bridgeCurrentItemChangedNotification:(NSNotification *)notification;
