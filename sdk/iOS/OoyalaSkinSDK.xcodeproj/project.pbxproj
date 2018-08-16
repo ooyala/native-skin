@@ -23,8 +23,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		0B55FDAE1E2EFC5D0019A764 /* OOQueuedEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B55FDAC1E2EFC5D0019A764 /* OOQueuedEvent.h */; };
-		0B55FDAF1E2EFC5D0019A764 /* OOQueuedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B55FDAD1E2EFC5D0019A764 /* OOQueuedEvent.m */; };
 		0B8E7F351BDFFC610078155C /* OoyalaSkinSDK.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */; };
 		0BCABD971C7F77A900989005 /* CountdownView.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BCABD8B1C7F77A900989005 /* CountdownView.h */; };
 		0BCABD981C7F77A900989005 /* CountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABD8C1C7F77A900989005 /* CountdownView.m */; };
@@ -42,6 +40,8 @@
 		0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */; };
 		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
+		391346C921257B9F0044D42D /* OOQueuedEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 391346B221257B9E0044D42D /* OOQueuedEvent.h */; };
+		391346CA21257B9F0044D42D /* OOQueuedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 391346C821257B9E0044D42D /* OOQueuedEvent.m */; };
 		39EEE0E32122C36A00377DB3 /* OOReactSkinEventsEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		39EEE0E42122C36A00377DB3 /* OOReactSkinEventsEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */; };
 		39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -323,8 +323,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0B55FDAC1E2EFC5D0019A764 /* OOQueuedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOQueuedEvent.h; sourceTree = "<group>"; };
-		0B55FDAD1E2EFC5D0019A764 /* OOQueuedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOQueuedEvent.m; sourceTree = "<group>"; };
 		0B8E7F341BDFFC610078155C /* OoyalaSkinSDK.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = OoyalaSkinSDK.xcassets; path = ../../OoyalaSkinSDK.xcassets; sourceTree = "<group>"; };
 		0BCABD8B1C7F77A900989005 /* CountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownView.h; sourceTree = "<group>"; };
 		0BCABD8C1C7F77A900989005 /* CountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownView.m; sourceTree = "<group>"; };
@@ -342,6 +340,8 @@
 		0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinPlayerObserver.m; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
+		391346B221257B9E0044D42D /* OOQueuedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOQueuedEvent.h; sourceTree = "<group>"; };
+		391346C821257B9E0044D42D /* OOQueuedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOQueuedEvent.m; sourceTree = "<group>"; };
 		39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinEventsEmitter.h; sourceTree = "<group>"; };
 		39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinEventsEmitter.m; sourceTree = "<group>"; };
 		39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinModel.h; sourceTree = "<group>"; };
@@ -465,6 +465,8 @@
 				39EEE0E02122C36A00377DB3 /* OOReactSkinModel.m */,
 				39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */,
 				39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */,
+				391346B221257B9E0044D42D /* OOQueuedEvent.h */,
+				391346C821257B9E0044D42D /* OOQueuedEvent.m */,
 				39EEE0E72122C44000377DB3 /* OOReactSkinBridge.h */,
 				39EEE0E92122CDB800377DB3 /* OOReactSkinBridge.m */,
 				39EEE0EB2122DCEB00377DB3 /* OOReactSkinBridgeModule.h */,
@@ -559,8 +561,6 @@
 				979B012F1B910A040032F5CF /* OOConstant.m */,
 				97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */,
 				97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */,
-				0B55FDAC1E2EFC5D0019A764 /* OOQueuedEvent.h */,
-				0B55FDAD1E2EFC5D0019A764 /* OOQueuedEvent.m */,
 				5EA2FF9F1B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.h */,
 				5EA2FFA01B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m */,
 				976922771B8E37F300A61ACF /* OOSkinOptions.h */,
@@ -688,9 +688,9 @@
 				75EA81B220441EAA000BDFE8 /* FullscreenStateOperation.h in Headers */,
 				979B01301B910A040032F5CF /* OOConstant.h in Headers */,
 				CA742B5A1BE279040056784E /* NSString+Utils.h in Headers */,
-				0B55FDAE1E2EFC5D0019A764 /* OOQueuedEvent.h in Headers */,
 				0BCABDA51C7F781200989005 /* OOSkinPlayerObserver.h in Headers */,
 				0BCABDA11C7F77A900989005 /* OOVolumeViewManager.h in Headers */,
+				391346C921257B9F0044D42D /* OOQueuedEvent.h in Headers */,
 				0BCABD9F1C7F77A900989005 /* OOGradientViewManager.h in Headers */,
 				0BCABD991C7F77A900989005 /* CountdownViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
@@ -1097,6 +1097,7 @@
 				0BCABD9E1C7F77A900989005 /* OOGradientView.m in Sources */,
 				39EEE0E62122C36A00377DB3 /* OOReactSkinModel.m in Sources */,
 				0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */,
+				391346CA21257B9F0044D42D /* OOQueuedEvent.m in Sources */,
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				0BCABD9C1C7F77A900989005 /* OOClosedCaptionsViewManager.m in Sources */,
@@ -1104,7 +1105,6 @@
 				CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
-				0B55FDAF1E2EFC5D0019A764 /* OOQueuedEvent.m in Sources */,
 				0BCABD981C7F77A900989005 /* CountdownView.m in Sources */,
 				52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */,
 				39EEE0EF2122F6A200377DB3 /* OOReactSkinBridgeModuleMain.m in Sources */,
