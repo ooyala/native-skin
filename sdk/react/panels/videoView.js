@@ -136,8 +136,7 @@ class VideoView extends React.Component {
       resultedPlayhead = this.props.duration;
     }
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
-    const roundPercent = +(Math.round(resultedPlayheadPercent + "e+2") + "e-2");
-    this.handleScrub(roundPercent);
+    this.handleScrub(resultedPlayheadPercent);
   };
 
   _placeholderTapHandler = (event) => {
