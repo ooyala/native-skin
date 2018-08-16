@@ -7,12 +7,12 @@
 //
 
 #import <React/RCTBridgeDelegate.h>
-#import <React/RCTRootView.h>
 #import "OOSkinViewControllerDelegate.h"
 
 @class OOOoyalaPlayer;
 @class OOSkinOptions;
 @class OOClosedCaptionsStyle;
+@class RCTRootView;
 
 @interface OOReactSkinModel : NSObject<RCTBridgeDelegate>
 
@@ -27,7 +27,6 @@
 - (void)sendEventWithName:(NSString *)eventName body:(id)body;
 - (void)setIsReactReady:(BOOL)isReactReady;
 - (void)ccStyleChanged:(NSNotification *)notification;
-//- (CGRect)videoViewFrame;
 
 // Note: This is for IMA ad playback only.
 // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
@@ -39,8 +38,9 @@
 
 @end
 
-@protocol OOReactSkinModelDelegate <NSObject>
 
+@protocol OOReactSkinModelDelegate <NSObject>
+// Handling events sent from RN
 - (void)toggleFullscreen;
 - (void)toggleStereoMode;
 - (void)handlePip;

@@ -6,13 +6,16 @@
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
+#import <React/RCTRootView.h>
+
 #import "OOReactSkinModel.h"
 #import "OOReactSkinBridge.h"
 #import "OOReactSkinBridgeModuleMain.h"
-#import "OOUpNextManager.h"
-#import "OOSkinPlayerObserver.h"
-#import "NSDictionary+Utils.h"
+
 #import "OOSkinOptions.h"
+#import "OOSkinPlayerObserver.h"
+#import "OOUpNextManager.h"
+#import "NSDictionary+Utils.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODebugMode.h>
@@ -33,6 +36,7 @@
 @end
 
 
+// TODO: Do we really need these to be global ?
 static NSString * const DISCOVERY_RESULT_NOTIFICATION = @"discoveryResultsReceived";
 static NSString * const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 
@@ -131,8 +135,8 @@ static NSString * const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 #pragma mark - Discovery UI
 
 - (void)maybeLoadDiscovery:(NSString *)embedCode {
-  if (_player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
-    [OODiscoveryManager getResults:self.skinOptions.discoveryOptions embedCode:embedCode pcode:_player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
+  if (self.player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
+    [OODiscoveryManager getResults:self.skinOptions.discoveryOptions embedCode:embedCode pcode:self.player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
       if (error) {
         LOG(@"discovery request failed, error is %@", error.description);
       } else {
@@ -181,7 +185,7 @@ static NSString * const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 }
 
 #pragma mark - OOReactSkinBridgeDelegate
-
+// Binding ooReactSkinModel as a delegate for handling RN events
 - (void)bridge:(OOReactSkinBridge *)bridge didLoadModule:(id<OOReactSkinBridgeModule>)module {
   if ([module isKindOfClass:[OOReactSkinBridgeModuleMain class]]) {
     [(OOReactSkinBridgeModuleMain*)module setSkinViewDelegate:self];
