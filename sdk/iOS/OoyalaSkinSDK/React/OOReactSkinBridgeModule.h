@@ -9,6 +9,7 @@
 #import <React/RCTBridgeModule.h>
 #import "OOReactSkinModel.h"
 
+// We can add more modules if needed
 typedef NS_ENUM(NSInteger, OOReactSkinBridgeModuleType) {
   OOReactSkinBridgeModuleTypeMain
 };
