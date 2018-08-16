@@ -8,13 +8,20 @@
 
 #import "OOLocaleHelper.h"
 
-NSString * const kLocalizableStrings = @"localization";
-NSString * const kLocale = @"locale";
+NSString *const kLocalizableStrings = @"localization";
+NSString *const kLocale = @"locale";
 
 @implementation OOLocaleHelper
 
+#pragma mark - Constants
+static NSString *defaultLanguage = @"defaultLanguage";
+static NSString *englishLanguage = @"en";
+static NSString *emptyLanguage   = @"";
+
+#pragma mark - Methods
+
 + (NSString *)preferredLanguageId {
-  NSString *preferredLanguageId = @"en";
+  NSString *preferredLanguageId = englishLanguage;
   if ([NSLocale preferredLanguages].count > 0) {
     NSString *locale = [[NSLocale preferredLanguages] objectAtIndex:0];
     preferredLanguageId = [locale substringToIndex:2];
@@ -23,18 +30,17 @@ NSString * const kLocale = @"locale";
   return preferredLanguageId;
 }
 
-+ (NSString *)localizedStringFromDictionary:(NSDictionary *)config forKey:(NSString *)key
-{
++ (NSString *)localizedStringFromDictionary:(NSDictionary *)config forKey:(NSString *)key {
   if (key.length <= 0) {
     return key;
   }
 
-  NSString *defaultLocale = [config[kLocalizableStrings] objectForKey:@"defaultLanguage"];
+  NSString *defaultLocale = [config[kLocalizableStrings] objectForKey:defaultLanguage];
   if (!defaultLocale) {
-    defaultLocale = @"";
+    defaultLocale = emptyLanguage;
   }
 
-  NSArray *preferredOrder = @[config[kLocale], defaultLocale, @"en"];
+  NSArray *preferredOrder = @[config[kLocale], defaultLocale, englishLanguage];
   for (int i = 0; i < preferredOrder.count; ++i ) {
     NSDictionary *stringTable = [config[kLocalizableStrings] objectForKey:preferredOrder[i]];
     if (stringTable && [stringTable objectForKey:key]) {
@@ -43,6 +49,5 @@ NSString * const kLocale = @"locale";
   }
   return key;
 }
-
 
 @end
