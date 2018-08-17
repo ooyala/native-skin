@@ -50,12 +50,16 @@
 @implementation OOSkinViewController
 
 #pragma mark - Constants
-
-static NSString *outputVolumeKey = @"outputVolume";
+static NSString *outputVolumeKey =     @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
-static NSString *kViewChangeKey = @"frame";
+static NSString *kViewChangeKey =      @"frame";
+static NSString *fullscreenKey =       @"fullScreen";
+static NSString *volumeKey =           @"volume";
+static NSString *widthKey =            @"width";
+static NSString *heightKey =           @"height";
 
 NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreenChanged";
+
 @synthesize reactViewInteractionEnabled;
 
 #pragma mark - Initialization
@@ -67,7 +71,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (self = [super init]) {
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
 
-    [self disableBuiltInAdLearnMoreButton:player];
+    _player = player;
     _skinOptions = skinOptions;
 
     _skinModel = [[OOReactSkinModel alloc] initWithWithPlayer:player skinOptions:_skinOptions skinControllerDelegate:self];
@@ -174,17 +178,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 #pragma mark - Private functions
 
-- (void)disableBuiltInAdLearnMoreButton:(OOOoyalaPlayer *)player {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  _player = player;
-  if (_player != nil) {
-    SEL selector = NSSelectorFromString(@"disableAdLearnMoreButton");
-    if ([player.options respondsToSelector:selector]) {
-      [player.options performSelector:selector];
-    }
-  }
-}
-
 - (void)setFullscreen:(BOOL)fullscreen completion:(nullable void (^)())completion {
   if (fullscreen == _fullscreen) {
     // Notify what fullscreen did changed
@@ -234,12 +227,12 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)notifyFullScreenChange:(BOOL)isFullscreen {
   [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification
                                                       object:self
-                                                    userInfo:@{@"fullScreen": @(isFullscreen)}];
+                                                    userInfo:@{fullscreenKey: @(isFullscreen)}];
 }
 
 - (void)onReactReady:(NSNotification *)notification {
   [self.skinModel setIsReactReady:YES];
-  [self.skinModel sendEventWithName:VolumeChangeKey body:@{@"volume": @([OOVolumeManager getCurrentVolume])}];
+  [self.skinModel sendEventWithName:VolumeChangeKey body:@{volumeKey: @([OOVolumeManager getCurrentVolume])}];
   [self ccStyleChanged:nil];
 }
 
@@ -278,10 +271,12 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (context == &kFrameChangeContext) {
     NSNumber *width = @(CGRectGetWidth(self.videoView.frame));
     NSNumber *height = @(CGRectGetHeight(self.videoView.frame));
-    NSDictionary *eventBody = @{@"width": width, @"height": height, @"fullscreen": @(self.isFullscreen)};
+    NSDictionary *eventBody = @{widthKey:      width,
+                                heightKey:     height,
+                                fullscreenKey: @(self.isFullscreen)};
     [self.skinModel sendEventWithName:(NSString *) kFrameChangeContext body:eventBody];
   } else if ([keyPath isEqualToString:outputVolumeKey]) {
-    [self.skinModel sendEventWithName:VolumeChangeKey body:@{@"volume": @([change[NSKeyValueChangeNewKey] floatValue])}];
+    [self.skinModel sendEventWithName:VolumeChangeKey body:@{volumeKey: @([change[NSKeyValueChangeNewKey] floatValue])}];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
