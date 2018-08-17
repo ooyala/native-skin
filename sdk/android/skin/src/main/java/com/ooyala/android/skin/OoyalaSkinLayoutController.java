@@ -188,6 +188,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         launchOptions = BundleJSONConverter.convertToBundle(configJson);
         closedCaptionsSkinStyle = configJson.getJSONObject("closedCaptionOptions");
         setDefaultAudioLanguage(configJson);
+        setInitialPlaybackSpeed(configJson);
       } catch (JSONException e) {
         e.printStackTrace();
         launchOptions = null;
@@ -307,6 +308,22 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       }
     } catch (JSONException e) {
       // Localization file for default audio language is not set in config. Ignore.
+    }
+  }
+
+  /**
+   * Set the initial playback speed from skin.json provided the speed exists.
+   *
+   * @param params The config.
+   */
+  private void setInitialPlaybackSpeed(JSONObject params) {
+    try {
+      float initialPlaybackSpeed = (float) params
+        .getJSONObject("general")
+        .getDouble("initialPlaybackSpeed");
+      _player.setInitialPlaybackSpeed(initialPlaybackSpeed);
+    } catch (JSONException e) {
+      // Default playback speed is not set in config. Ignore.
     }
   }
 
