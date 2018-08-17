@@ -37,8 +37,8 @@
 
 
 // TODO: Do we really need these to be global ?
-static NSString * const DISCOVERY_RESULT_NOTIFICATION = @"discoveryResultsReceived";
-static NSString * const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
+static NSString *const DISCOVERY_RESULT_NOTIFICATION = @"discoveryResultsReceived";
+static NSString *const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 
 @implementation OOReactSkinModel
 
