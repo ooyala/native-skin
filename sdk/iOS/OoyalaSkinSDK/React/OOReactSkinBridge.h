@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RCTBridge (OOReactSkinEventsEmitterable)
 
-@property (nonatomic, strong, readonly) OOReactSkinEventsEmitter *skinEventsEmitter;
+@property (nonatomic, readonly) OOReactSkinEventsEmitter *skinEventsEmitter;
 
 @end
 

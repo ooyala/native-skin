@@ -7,17 +7,17 @@
 //
 
 #import <React/RCTBridgeDelegate.h>
-#import "OOSkinViewControllerDelegate.h"
 
 @class OOOoyalaPlayer;
 @class OOSkinOptions;
 @class OOClosedCaptionsStyle;
 @class RCTRootView;
+@protocol OOSkinViewControllerDelegate;
 
 @interface OOReactSkinModel : NSObject<RCTBridgeDelegate>
 
 @property (nonatomic) NSDictionary *skinConfig;
-@property (nonatomic, strong, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
+@property (nonatomic, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
 @property (nonatomic, readonly) CGRect videoViewFrame;
 
 - (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player

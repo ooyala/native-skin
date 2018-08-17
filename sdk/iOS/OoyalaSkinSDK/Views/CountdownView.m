@@ -10,9 +10,9 @@
 
 @interface CountdownView ()
 
-@property (strong, nonatomic) CAShapeLayer *circleLayer;
-@property (strong, nonatomic) UILabel *timerLabel;
-@property (strong, nonatomic) NSTimer *timer;
+@property (nonatomic) CAShapeLayer *circleLayer;
+@property (nonatomic) UILabel *timerLabel;
+@property (nonatomic) NSTimer *timer;
 @property (nonatomic) BOOL canceled;
 @property (nonatomic) float fontSize;
 

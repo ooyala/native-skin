@@ -12,6 +12,7 @@
 #import "OOReactSkinBridge.h"
 #import "OOReactSkinBridgeModuleMain.h"
 
+#import "OOSkinViewControllerDelegate.h"
 #import "OOSkinOptions.h"
 #import "OOSkinPlayerObserver.h"
 #import "OOUpNextManager.h"
@@ -31,7 +32,7 @@
 @property OOSkinPlayerObserver *playerObserver;
 @property (nonatomic) OOSkinOptions *skinOptions;
 @property (nonatomic) OOUpNextManager *upNextManager;
-@property (nonatomic, strong, readwrite) RCTBridge *bridge;
+@property (nonatomic, readwrite) RCTBridge *bridge;
 
 @end
 
