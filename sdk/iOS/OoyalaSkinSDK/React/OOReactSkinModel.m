@@ -17,6 +17,7 @@
 #import "OOSkinPlayerObserver.h"
 #import "OOUpNextManager.h"
 #import "NSDictionary+Utils.h"
+#import "OOVolumeManager.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODebugMode.h>
@@ -43,6 +44,8 @@ static NSString *const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 
 @implementation OOReactSkinModel
 
+static NSString *volumeKey = @"volume";
+
 - (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player
                        skinOptions:(OOSkinOptions *)skinOptions
             skinControllerDelegate:(id<OOSkinViewControllerDelegate>)skinControllerDelegate {
@@ -54,6 +57,8 @@ static NSString *const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
     _skinConfig = [NSDictionary dictionaryFromSkinConfigFile:_skinOptions.configFileName
                                                   mergedWith:_skinOptions.overrideConfigs];
     _bridge = [[OOReactSkinBridge alloc] initWithDelegate:self launchOptions:nil];
+
+    [OOVolumeManager addVolumeObserver:self];
 
     _playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player ooReactSkinModel:self];
     _upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player ooReactSkinModel:self config:[self.skinConfig objectForKey:@"upNext"]];
@@ -75,6 +80,7 @@ static NSString *const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 
 - (void)setIsReactReady:(BOOL)isReactReady {
   self.bridge.skinEventsEmitter.isReactReady = isReactReady;
+  [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @([OOVolumeManager getCurrentVolume])}];
 }
 
 - (void)ccStyleChanged:(NSNotification *)notification {
@@ -177,6 +183,7 @@ static NSString *const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 
 - (void)dealloc {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [OOVolumeManager removeVolumeObserver:self];
 }
 
 #pragma mark - RCTBridgeDelegate
@@ -312,6 +319,17 @@ static NSString *const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
 
 - (void)toggleStereoMode {
   [self.skinControllerDelegate toggleStereoMode];
+}
+
+#pragma mark - KVO
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+                        change:(NSDictionary *)change context:(void *)context {
+  if ([keyPath isEqualToString:VolumePropertyKey]) {
+    [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @([change[NSKeyValueChangeNewKey] floatValue])}];
+  } else {
+    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+  }
 }
 
 @end

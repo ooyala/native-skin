@@ -17,7 +17,6 @@
 #import <OoyalaSDK/OOOptions.h>
 
 #import "OOConstant.h"
-#import "OOVolumeManager.h"
 #import "OOSkinViewControllerDelegate.h"
 #import "OOSkinFullScreenViewController.h"
 #import "FullscreenStateController.h"
@@ -50,11 +49,9 @@
 @implementation OOSkinViewController
 
 #pragma mark - Constants
-static NSString *outputVolumeKey =     @"outputVolume";
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey =      @"frame";
 static NSString *fullscreenKey =       @"fullScreen";
-static NSString *volumeKey =           @"volume";
 static NSString *widthKey =            @"width";
 static NSString *heightKey =           @"height";
 
@@ -104,9 +101,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     self.reactView.opaque = NO;
     self.reactView.backgroundColor = UIColor.clearColor;
     self.reactView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    
-    [OOVolumeManager addVolumeObserver:self];
-    
+        
     // Pre-create the MovieFullscreenView to use when necessary
     _fullscreen = NO;
     
@@ -149,7 +144,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)dealloc {
   LOG(@"OOSkinViewController.dealloc")
   [self.videoView removeObserver:self forKeyPath:kViewChangeKey];
-  [OOVolumeManager removeVolumeObserver:self];
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self.player destroy];
 }
@@ -232,7 +226,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)onReactReady:(NSNotification *)notification {
   [self.skinModel setIsReactReady:YES];
-  [self.skinModel sendEventWithName:VolumeChangeKey body:@{volumeKey: @([OOVolumeManager getCurrentVolume])}];
   [self ccStyleChanged:nil];
 }
 
@@ -274,9 +267,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     NSDictionary *eventBody = @{widthKey:      width,
                                 heightKey:     height,
                                 fullscreenKey: @(self.isFullscreen)};
-    [self.skinModel sendEventWithName:(NSString *) kFrameChangeContext body:eventBody];
-  } else if ([keyPath isEqualToString:outputVolumeKey]) {
-    [self.skinModel sendEventWithName:VolumeChangeKey body:@{volumeKey: @([change[NSKeyValueChangeNewKey] floatValue])}];
+    [self.skinModel sendEventWithName:(NSString *)kFrameChangeContext body:eventBody];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }
