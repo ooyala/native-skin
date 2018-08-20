@@ -11,11 +11,6 @@
 #import "PresentedViewControllerHelper.h"
 
 
-#pragma mark - Constants
-
-#define FULLSCREEN_ANIMATION_DURATION 0.4
-
-
 @interface FullscreenStateController()
 
 @property (nonatomic) UIView *parentView;
@@ -33,6 +28,10 @@
 
 
 @implementation FullscreenStateController
+
+#pragma mark - Constants
+
+static double const FULLSCREEN_ANIMATION_DURATION = 0.4;
 
 #pragma mark - Initialziation
 
