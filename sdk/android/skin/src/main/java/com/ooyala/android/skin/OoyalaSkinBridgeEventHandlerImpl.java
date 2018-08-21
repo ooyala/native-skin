@@ -106,8 +106,8 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   public void onScrub(ReadableMap percentage) {
     double percentValue = percentage.getDouble("percentage");
-    percentValue = percentValue * 100;
-    int percent = ((int) percentValue);
+    percentValue = percentValue * 100.0f; // percentage * 100 so it can deal fine with milliseconds
+    float percent =  (float) percentValue;
     _player.seekToPercent(percent);
   }
 
