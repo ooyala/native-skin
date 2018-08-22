@@ -318,10 +318,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    *
    * @param configJson The config.
    */
-
   private void setPlaybackSpeed(JSONObject configJson) {
     try {
-      JSONArray playbackSpeedRange = configJson.getJSONObject(KEY_PLAYBACK_SPEED).getJSONArray(KEY_PLAYBACK_OPTIONS);
+      JSONArray playbackSpeedRange = configJson.getJSONObject(KEY_PLAYBACK_SPEED)
+        .getJSONArray(KEY_PLAYBACK_OPTIONS);
       _player.setConfigPlaybackSpeedRange(playbackSpeedRange);
     } catch (JSONException e) {
       DebugMode.logD(TAG, "Playback speed range is not set in config. Ignore.");
