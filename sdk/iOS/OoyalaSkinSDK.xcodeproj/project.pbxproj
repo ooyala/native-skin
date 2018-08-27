@@ -493,8 +493,8 @@
 		8FE31CDE29E32B874699EEA9 /* PresentedViewControllerSupport */ = {
 			isa = PBXGroup;
 			children = (
-				8FE31519D412D48C72553671 /* PresentedViewControllerHelper.m */,
 				8FE31BA138326EFA3DEFC4A0 /* PresentedViewControllerHelper.h */,
+				8FE31519D412D48C72553671 /* PresentedViewControllerHelper.m */,
 			);
 			path = PresentedViewControllerSupport;
 			sourceTree = "<group>";
