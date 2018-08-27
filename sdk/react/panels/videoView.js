@@ -174,6 +174,7 @@ class VideoView extends React.Component {
       handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
       closedCaptionsEnabled={ссEnabled}
       showAudioAndCCButton={this.props.multiAudioEnabled || ссEnabled}
+      showPlaybackSpeedButton={true} // TODO: Add logic
       showWatermark={this.props.showWatermark}
       isShow={show}
       screenReaderEnabled={this.props.screenReaderEnabled}
@@ -184,7 +185,9 @@ class VideoView extends React.Component {
         buttons: this.props.config.buttons,
         icons: this.props.config.icons,
         live: this.props.config.live,
-        general: this.props.config.general
+        general: this.props.config.general,
+        selectedPlaybackSpeedRate: this.props.config.selectedPlaybackSpeedRate,
+
       }}
     />);
   };

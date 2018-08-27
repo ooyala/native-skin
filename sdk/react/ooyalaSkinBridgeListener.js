@@ -93,7 +93,9 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
     duration: e.duration,
     initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
-    cuePoints: e.cuePoints
+    cuePoints: e.cuePoints,
+    selectedPlaybackSpeedRate: 0.75,
+    playbackSpeedRates: [0.5, 0.75, 1, 2]
   });
 
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
