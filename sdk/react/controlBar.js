@@ -33,8 +33,11 @@ var ControlBarWidget = require('./widgets/controlBarWidgets');
 var CollapsingBarUtils = require('./collapsingBarUtils');
 var VolumeView = require('./widgets/VolumeView');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
-
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
+
+const constants = {
+  playbackSpeedRatePostfix: "x"
+};
 
 class ControlBar extends React.Component {
   static propTypes = {
@@ -80,7 +83,7 @@ class ControlBar extends React.Component {
   };
 
   getSelectedPlaybackSpeedRate = () => {
-    return this.props.config.selectedPlaybackSpeedRate; // .toString().concat("x")
+    return String(this.props.config.selectedPlaybackSpeedRate).concat(constants.playbackSpeedRatePostfix);
   };
 
   getVolumeControlColor = () => {

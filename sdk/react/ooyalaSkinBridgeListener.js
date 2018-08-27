@@ -48,6 +48,8 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ],
     [ 'multiAudioEnabled',        (event) => this.handleVideoHasMultiAudio(event) ],
     [ 'audioTrackChanged',        (event) => this.handleAudioTrackChanged(event) ],
+    [ 'playbackSpeedEnabled',     (event) => this.handlePlaybackSpeedEnabled(event) ],
+    [ 'playbackSpeedRateChanged', (event) => this.handlePlaybackSpeedRateChanged(event) ],
   ];
 
   for (var i = 0; i < listenerDefinitions.length; i++) {
@@ -93,9 +95,7 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
     duration: e.duration,
     initialPlay: false,
     availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
-    cuePoints: e.cuePoints,
-    selectedPlaybackSpeedRate: 0.75,
-    playbackSpeedRates: [0.5, 0.75, 1, 2]
+    cuePoints: e.cuePoints
   });
 
   if(this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
@@ -297,5 +297,22 @@ OoyalaSkinBridgeListener.prototype.handleAudioTrackChanged = function (e) {
   });
 };
 
+OoyalaSkinBridgeListener.prototype.handlePlaybackSpeedEnabled = function (e) {
+  Log.log("Video playback speed enabled: " + e.playbackSpeedEnabled 
+    + " playbackSpeedRates: " + e.playbackSpeedRates 
+    + " selectedPlaybackSpeedRate: " + e.selectedPlaybackSpeedRate);
+  this.skin.setState({
+    playbackSpeedEnabled: e.playbackSpeedEnabled,
+    playbackSpeedRates: e.playbackSpeedRates,
+    selectedPlaybackSpeedRate: e.selectedPlaybackSpeedRate
+  });
+};
+
+OoyalaSkinBridgeListener.prototype.handlePlaybackSpeedRateChanged = function (e) {
+  Log.log("Playback speed rate changed received:" + e.selectedAudioTrack);
+  this.skin.setState({
+    selectedPlaybackSpeedRate: e.selectedPlaybackSpeedRate
+  });
+};
 
 module.exports = OoyalaSkinBridgeListener;

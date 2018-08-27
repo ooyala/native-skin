@@ -100,9 +100,6 @@ class PlaybackSpeedPanel extends React.Component {
   };
 
   renderSelectionScrollView = () => {
-    this.props.playbackSpeedRates=[0.5, 0.75, 1.0, 2.0];
-    this.props.selectedPlaybackSpeedRate=1.0;
-
     const localizedTitleForNormalPlaybackSpeedRate = Utils.localizedString(
       this.props.config.locale, constants.normalPlaybackSpeedRateTitle, this.props.config.localizableStrings);
 
@@ -110,7 +107,7 @@ class PlaybackSpeedPanel extends React.Component {
 
     let selectedLocalizedItem = this.props.selectedPlaybackSpeedRate;
 
-    if (this.props.selectedPlaybackSpeedRate === constants.normalPlaybackSpeedRateValue) {
+    if (this.props.selectedPlaybackSpeedRate == constants.normalPlaybackSpeedRateValue) {
       selectedLocalizedItem = localizedTitleForNormalPlaybackSpeedRate;
     } else {
       selectedLocalizedItem = this.props.selectedPlaybackSpeedRate.toString().concat(constants.playbackSpeedRatePostfix)

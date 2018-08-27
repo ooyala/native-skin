@@ -51,6 +51,9 @@ class OoyalaSkin extends React.Component {
     // multiAudioEnabled: false,
     // selectedAudioTrack: null,
     // audioTracksTitles: null,
+    // playbackSpeedEnabled: false,
+    // playbackSpeedRates: null,
+    // selectedPlaybackSpeedRate: null
     alertTitle: '',
     alertMessage: '',
     error: null,
