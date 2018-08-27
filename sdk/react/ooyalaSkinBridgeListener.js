@@ -309,7 +309,7 @@ OoyalaSkinBridgeListener.prototype.handlePlaybackSpeedEnabled = function (e) {
 };
 
 OoyalaSkinBridgeListener.prototype.handlePlaybackSpeedRateChanged = function (e) {
-  Log.log("Playback speed rate changed received:" + e.selectedAudioTrack);
+  Log.log("Playback speed rate changed received:" + e.selectedPlaybackSpeedRate);
   this.skin.setState({
     selectedPlaybackSpeedRate: e.selectedPlaybackSpeedRate
   });
