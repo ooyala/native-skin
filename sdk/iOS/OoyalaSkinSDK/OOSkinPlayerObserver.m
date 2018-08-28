@@ -73,6 +73,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasMultiAudioNotification:) name:OOOoyalaPlayerMultiAudioEnabledNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAudioTrackChangedNotification:) name:OOOoyalaPlayerAudioTrackChangedNotification object:self.player];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeCCManifestChangedNotification:) name:OOOoyalaPlayerCCManifestChangedNotification object:self.player.currentItem];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlaybackSpeedEnabledNotification:) name:OOOoyalaPlayerPlaybackSpeedEnabledNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlaybackSpeedRateChangedNotification:) name:OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification object:self.player];
   }
 }
 
@@ -395,6 +397,22 @@
 - (void)bridgeAudioTrackChangedNotification:(NSNotification *)notification {
   NSDictionary *eventBody = @{@"selectedAudioTrack": self.player.selectedAudioTrack.title};
   
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {
+  NSMutableDictionary *eventBody = [NSMutableDictionary new];
+
+  eventBody[@"playbackSpeedEnabled"] = @(self.player.isPlaybackSpeedEnabled);
+  eventBody[@"playbackSpeedRates"] = self.player.availablePlaybackSpeedRates;
+  eventBody[@"selectedPlaybackSpeedRate"] = @(self.player.selectedPlaybackSpeedRate);
+
+  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgePlaybackSpeedRateChangedNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = @{@"selectedPlaybackSpeedRate": @(self.player.selectedPlaybackSpeedRate)};
+
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
 }
 
