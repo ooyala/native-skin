@@ -164,7 +164,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onPlaybackSpeedRateSelected(ReadableMap parameters) {
     Dynamic dynamic = parameters.getDynamic("playbackSpeedRate");
     String speed = dynamic.asString();
-    _player.setUserDefinedPlaybackSpeed(Float.parseFloat(speed));
+    _player.setSelectedPlaybackSpeed(Float.parseFloat(speed));
   }
 
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {
