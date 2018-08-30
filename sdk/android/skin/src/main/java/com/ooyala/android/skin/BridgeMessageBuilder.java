@@ -359,21 +359,9 @@ class BridgeMessageBuilder {
     WritableMap params = Arguments.createMap();
     if (data != null) {
       PlaybackNotificationInfo info = (PlaybackNotificationInfo) data;
-
-      WritableArray playbackSpeedRates = buildPlaybackSpeedRangeParam(info);
-      params.putArray("playbackSpeedRates", playbackSpeedRates);
       params.putBoolean("playbackSpeedEnabled", info.isPlaybackSpeedEnabled());
       params.putDouble("selectedPlaybackSpeedRate", info.getSpeed());
     }
     return params;
-  }
-
-  private static WritableArray buildPlaybackSpeedRangeParam(PlaybackNotificationInfo info) {
-    WritableArray result = Arguments.createArray();
-    Set<Float> playbackSpeedRange = info.getPlaybackSpeedRange();
-    for (Float speed : playbackSpeedRange) {
-      result.pushDouble(speed);
-    }
-    return result;
   }
 }
