@@ -149,6 +149,6 @@ dependencies {
     implementation 'org.webkit:android-jsc:r174650'
     implementation (group:'com.facebook', name:'react-native', version:'0.55.4', ext:'aar')
     implementation 'javax.inject:javax.inject:1'
-    implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.3'
 
 }
