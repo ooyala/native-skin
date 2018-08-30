@@ -75,6 +75,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private static final String KEY_DEFAULT_LANGUAGE = "defaultLanguage";
   private static final String KEY_BUCKETINFO = "bucketInfo";
   private static final String KEY_ACTION = "action";
+  private static final String KEY_PLAYBACK_SPEED = "playbackSpeed";
+  private static final String KEY_PLAYBACK_OPTIONS = "options";
 
   public static final String CONTROLLER_KEY_PRESS_EVENT = "controllerKeyPressEvent";
 
@@ -188,6 +190,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         launchOptions = BundleJSONConverter.convertToBundle(configJson);
         closedCaptionsSkinStyle = configJson.getJSONObject("closedCaptionOptions");
         setDefaultAudioLanguage(configJson);
+        setPlaybackSpeed(configJson);
       } catch (JSONException e) {
         e.printStackTrace();
         launchOptions = null;
@@ -310,6 +313,21 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  /**
+   * Set the initial playback speed from skin.json provided the speed exists.
+   *
+   * @param configJson The config.
+   */
+  private void setPlaybackSpeed(JSONObject configJson) {
+    try {
+      JSONArray playbackSpeedRange = configJson.getJSONObject(KEY_PLAYBACK_SPEED)
+        .getJSONArray(KEY_PLAYBACK_OPTIONS);
+      _player.setConfigPlaybackSpeedRange(playbackSpeedRange);
+    } catch (JSONException e) {
+      DebugMode.logD(TAG, "Playback speed range is not set in config. Ignore.");
+    }
+  }
+
   @Override
   public void callback(Object results, OoyalaException error) {
     if (results instanceof String && results.equals("OK")) {
@@ -353,7 +371,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
     if (_package.getBridge() == null) {
       DebugMode.logE(TAG, "Got onMounted from React, but bridge is not yet available? Invalid State");
-    } else {
+    } else if (queuedEvents != null) {
       DebugMode.logE(TAG, "React mounted - replaying queued events");
       for (Pair<String, WritableMap> p : queuedEvents) {
         sendEvent(p.first, p.second);
@@ -646,7 +664,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       if (_package.getBridge() == null) {
         DebugMode.logW(TAG, "Trying to send event, but bridge does not exist yet: " + event);
       }
-      queuedEvents.add(new Pair<>(event, map));
+      if (queuedEvents != null) {
+        queuedEvents.add(new Pair<>(event, map));
+      }
     }
   }
 
@@ -676,8 +696,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   public void onDestroy() {
+    Activity activity = getActivity();
     if (_reactInstanceManager != null) {
-      _reactInstanceManager.onHostDestroy();
+      _reactInstanceManager.onHostDestroy(activity);
     }
     destroy();
   }
@@ -689,21 +710,30 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     if (volumeObserver != null) {
       volumeObserver.destroy();
     }
-    if (rootView != null) {
-      rootView.unmountReactApplication();
-    }
+
     if (_reactInstanceManager != null) {
       _reactInstanceManager.destroy();
     }
+
+    if (rootView != null) {
+      rootView.unmountReactApplication();
+    }
+
+    if (queuedEvents != null) {
+      queuedEvents.clear();
+      queuedEvents = null;
+    }
+
+    deleteObservers();
+    removeVideoView();
     setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
 
     DebugMode.logV(TAG, "SkinLayoutController Destroy");
   }
 
   private void setOrientation(int screenOrientationUser) {
-    Context context = getLayout().getContext();
-    if (context instanceof Activity) {
-      Activity activity = (Activity) context;
+    Activity activity = getActivity();
+    if (activity != null) {
       activity.setRequestedOrientation(screenOrientationUser);
     } else {
       DebugMode.logE(TAG, "Trying to set orientation. The context isn't an instance of Activity.");
@@ -729,5 +759,15 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       return this.onKeyUp(i, keyEvent);
     }
     return true;
+  }
+
+  private Activity getActivity() {
+    FrameLayout layout = getLayout();
+    if (layout != null && layout.getContext() instanceof Activity ) {
+      Context context = layout.getContext();
+        return (Activity) context;
+    } else {
+      return null;
+    }
   }
 }

@@ -31,6 +31,7 @@
 @class OOManagedAdsPlugin;
 @class OOUserInfo;
 @class OOPlayer;
+@class OOSsaiAdsMetadata;
 
 /**
  * \defgroup key Most Commonly Used Classes
@@ -92,6 +93,26 @@ typedef NS_ENUM(NSInteger, OOUIProgressSliderMode) {
   OOUIProgressSliderModeNormal,
   OOUIProgressSliderModeLiveNoSrubber,
   OOUIProgressSliderModeElapsedDuration
+};
+
+/**
+ Defines states for Ooyala Analytics (IQ) tracking.
+ 
+ - OOIQAnalyticsTrackingStateDefault:
+    Analytics is enabled and sends data to analytics servers
+    Device guid will stay same until app is present on phone.
+    Device guid will be stored in local storage
+ - OOIQAnalyticsTrackingStateDisabled:
+    Analytics will be completely disabled and no data will be send to analytics servers
+ - OOIQAnalyticsTrackingStateAnonymous:
+    Analytics data will be send to analytics servers
+    Each time video plays new device guid will be generated
+    Device guid will NOT be stored on device.
+ */
+typedef NS_ENUM(NSUInteger, OOIQAnalyticsTrackingState) {
+  OOIQAnalyticsTrackingStateDefault,
+  OOIQAnalyticsTrackingStateDisabled,
+  OOIQAnalyticsTrackingStateAnonymous,
 };
 
 #define OOOOYALAPLAYER_DURATION_MISSING (-1)
@@ -250,6 +271,13 @@ extern NSString *const OOOoyalaPlayerAdErrorNotification;
 
 /**
  * \memberof OOOoyalaPlayer
+ * \brief The name used for notifications which fire when the closed captions are in manifest.
+ * \details Nothing is provided through UserInfo.
+ */
+extern NSString *const OOOoyalaPlayerCCManifestChangedNotification;
+
+/**
+ * \memberof OOOoyalaPlayer
  * \brief The name used for notifications which fire when the closed captions language is changed.
  * \details Nothing is provided through UserInfo. You can get the language from closedCaptionsLanguage.
  * @see closedCaptionsLanguage
@@ -369,6 +397,24 @@ extern NSString *const OOOoyalaPlayerMultiAudioEnabledNotification;
 extern NSString *const OOOoyalaPlayerAudioTrackChangedNotification;
 
 /**
+ *  \memberof OOOoyalaPlayer
+ *   \brief Notification when received the ads metadata for SSAI.
+ */
+extern NSString *const OOOoyalaPlayerSsaiAdsMetadataReceivedNotification;
+
+/**
+ *  \memberof OOOoyalaPlayer
+ *   \brief Notification when an ssai ad break has started.
+ */
+extern NSString *const OOOoyalaPlayerSsaiPlaySingleAdNotification;
+
+/**
+ *  \memberof OOOoyalaPlayer
+ *   \brief Notification when an SSAI ad break has ended.
+ */
+extern NSString *const OOOoyalaPlayerSsaiSingleAdPlayedNotification;
+
+/**
  * The OoyalaPlayer is the heart of the playback system.
  * Use it to configure and control asset playback, and to be aware of playback state changes.
 * \ingroup key
@@ -430,7 +476,20 @@ extern NSString *const OOOoyalaPlayerAudioTrackChangedNotification;
  * YES means to try to use local/debug DRM modes,
  * NO means to use regular DRM config.
  */
-+(void)setUseDebugDRMPlayback:(BOOL)enable;
++ (void)setUseDebugDRMPlayback:(BOOL)enable;
+
+/**
+ Use to get state for Ooyala Analytics (IQ) tracking.
+ @return Returns state for Ooyala Analytics (IQ) tracking.
+ */
++ (OOIQAnalyticsTrackingState)iqAnalyticsTrackingState;
+
+/**
+ Use to set different states for Ooyala Analytics (IQ) tracking. Default OOIQAnalyticsTrackingStateDefault.
+ @warning Property should be set before creating an instance of OOoyalaPlayer.
+ @param[in] state The IQ analytics state
+ */
++ (void)setIqAnalyticsTrackingState:(OOIQAnalyticsTrackingState)state;
 
 #pragma mark Properties
 
@@ -456,6 +515,9 @@ extern NSString *const OOOoyalaPlayerAudioTrackChangedNotification;
 @property (readonly, nonatomic, getter = isExternalPlaybackActive) BOOL externalPlaybackActive;
 
 @property (nonatomic) BOOL allowsExternalPlayback;
+
+@property (nonatomic) BOOL usesExternalPlaybackWhileExternalScreenIsActive; /** When external playback is enabled, this will share the video view to the external screen only, instead of mirroring the device. */
+
 @property (nonatomic) float playbackRate; /**< the rate of playback. 1 is the normal speed.  Set to .5 for half speed, 2 for double speed, etc. */
 @property (readonly, nonatomic) NSString *authToken; /**< The Auth Token provided by Ooyala Authorization, when using Ooyala Player Token */
 
@@ -913,5 +975,6 @@ if ([notification.name isEqualToString:OOOoyalaPlayerStateChangedNotification]) 
  * Disables the CC in the HLS Playlist.
  */
 - (void)disablePlaylistClosedCaptions;
+
 
 @end

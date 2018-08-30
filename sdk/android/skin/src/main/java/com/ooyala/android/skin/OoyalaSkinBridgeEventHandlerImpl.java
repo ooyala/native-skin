@@ -106,8 +106,8 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   public void onScrub(ReadableMap percentage) {
     double percentValue = percentage.getDouble("percentage");
-    percentValue = percentValue * 100;
-    int percent = ((int) percentValue);
+    percentValue = percentValue * 100.0f; // percentage * 100 so it can deal fine with milliseconds
+    float percent =  (float) percentValue;
     _player.seekToPercent(percent);
   }
 
@@ -134,11 +134,10 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onLanguageSelected(ReadableMap parameters) {
     String languageName = parameters.getString("language");
     String languageCode = languageName;
-    Video currentItem = _player.getCurrentItem();
-    if (currentItem != null && currentItem.getClosedCaptions() != null) {
-      languageCode = currentItem.getClosedCaptions().getLanguageCode(languageName);
+    if (_player != null && _player.getCurrentItem() != null) {
+      languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
+      _player.setClosedCaptionsLanguage(languageCode);
     }
-    _player.setClosedCaptionsLanguage(languageCode);
   }
 
   @Override

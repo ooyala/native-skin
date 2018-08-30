@@ -132,7 +132,8 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
         upNext: this.skin.props.upNext,
         icons: this.skin.props.icons,
         adScreen: this.skin.props.adScreen,
-        live: this.skin.props.live
+        live: this.skin.props.live,
+        skipControls: this.skin.props.skipControls
       }}
       nextVideo={this.skin.state.nextVideo}
       upNextDismissed={this.skin.state.upNextDismissed}

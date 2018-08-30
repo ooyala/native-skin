@@ -6,7 +6,7 @@
  */
 import PropTypes from 'prop-types';
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
   ActivityIndicator,
   Image,
@@ -16,28 +16,24 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
-var BottomOverlay = require('../bottomOverlay');
-var AdBar = require('../adBar');
-var UpNext = require('../upNext');
-var RectButton = require('../widgets/RectButton');
-var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-var Constants = require('../constants');
-var Log = require('../log');
-var Utils = require('../utils');
-var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-var ResponsiveDesignManager = require('../responsiveDesignManager');
-var VideoWaterMark = require('../widgets/videoWaterMark');
-var autohideDelay = 5000;
-var panelStyles = require('./style/panelStyles.json');
+const BottomOverlay = require('../bottomOverlay');
+const UpNext = require('../upNext');
+const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
+const Constants = require('../constants');
+const Log = require('../log');
+const Utils = require('../utils');
+const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+const ResponsiveDesignManager = require('../responsiveDesignManager');
+const VideoWaterMark = require('../widgets/videoWaterMark');
+const panelStyles = require('./style/panelStyles.json');
 
-var {
+const {
   BUTTON_NAMES,
   PLATFORMS,
   IMG_URLS,
   UI_SIZES,
-  AUTOHIDE_DELAY
+  AUTOHIDE_DELAY,
+  VALUES
 } = Constants;
 
 class VideoView extends React.Component {
@@ -56,7 +52,7 @@ class VideoView extends React.Component {
     cuePoints: PropTypes.array,
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
-    handlers:  PropTypes.shape({
+    handlers: PropTypes.shape({
       onPress: PropTypes.func,
       onAdOverlay: PropTypes.func,
       onAdOverlayDismiss: PropTypes.func,
@@ -84,8 +80,7 @@ class VideoView extends React.Component {
     initialPlay: PropTypes.bool,
   };
 
-  state = {
-  };
+  state = {};
 
   componentWillReceiveProps(nextProps) {
 
@@ -93,12 +88,13 @@ class VideoView extends React.Component {
 
   generateLiveObject = () => {
     if (this.props.live) {
-      var isLive = this.props.playhead >= this.props.duration * 0.95;
+      const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
       return ({
         label:
           isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
-          Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
-        onGoLive: isLive? null : this.onGoLive});
+            Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
+        onGoLive: isLive ? null : this.onGoLive
+      });
     } else {
       return null;
     }
@@ -114,7 +110,7 @@ class VideoView extends React.Component {
   handlePress = (name) => {
     Log.verbose("VideoView Handle Press: " + name);
     if (this.state.showControls) {
-      if (name == "LIVE") {
+      if (name === "LIVE") {
         this.props.handlers.onScrub(1);
       } else {
         this.props.handlers.onPress(name);
@@ -123,6 +119,24 @@ class VideoView extends React.Component {
       this.props.handlers.showControls();
       this.props.handlers.onPress(name);
     }
+  };
+
+  onSeekPressed = (skipCountValue) => {
+    if (skipCountValue == 0) { return null; }
+
+    let configSeekValue = (skipCountValue > 0) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
+    configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
+    const seekValue = configSeekValue * skipCountValue;
+
+    const currentPlayhead = this.props.playhead;
+    let resultedPlayhead = currentPlayhead + seekValue;
+    if (resultedPlayhead < 0) {
+      resultedPlayhead = 0;
+    } else if (resultedPlayhead > this.props.duration) {
+      resultedPlayhead = this.props.duration;
+    }
+    const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
+    this.handleScrub(resultedPlayheadPercent);
   };
 
   _placeholderTapHandler = (event) => {
@@ -134,13 +148,13 @@ class VideoView extends React.Component {
   };
 
   _createOnIcon = (index, func) => {
-    return function() {
+    return function () {
       func(index);
     }
   };
 
   _renderBottomOverlay = (show) => {
-    var сlosedCaptionsEnabled =
+    const ссEnabled =
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
@@ -148,17 +162,18 @@ class VideoView extends React.Component {
       width={this.props.width}
       height={this.props.height}
       primaryButton={!this.props.playing ? "play" : "pause"}
-      fullscreen = {this.props.fullscreen}
-      cuePoints = {this.props.cuePoints}
+      fullscreen={this.props.fullscreen}
+      cuePoints={this.props.cuePoints}
       playhead={this.props.playhead}
       platform={this.props.platform}
       duration={this.props.duration}
       volume={this.props.volume}
       live={this.generateLiveObject()}
       onPress={(name) => this.handlePress(name)}
-      onScrub={(value)=>this.handleScrub(value)}
+      onScrub={(value) => this.handleScrub(value)}
       handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-      closedCaptionsEnabled={сlosedCaptionsEnabled}
+      closedCaptionsEnabled={ссEnabled}
+      showAudioAndCCButton={this.props.multiAudioEnabled || ссEnabled}
       showWatermark={this.props.showWatermark}
       isShow={show}
       screenReaderEnabled={this.props.screenReaderEnabled}
@@ -171,7 +186,7 @@ class VideoView extends React.Component {
         live: this.props.config.live,
         general: this.props.config.general
       }}
-      />);
+    />);
   };
 
   _renderPlaceholder = () => {
@@ -181,6 +196,7 @@ class VideoView extends React.Component {
         accessible={true}
         accessibilityLabel={"Video player. Tap twice to play or pause"}
         style={styles.placeholder}
+        importantForAccessibility={'no'}
         onTouchStart={(event) => this.props.handlers.handleVideoTouchStart(event)}
         onTouchMove={(event) => this.props.handlers.handleVideoTouchMove(event)}
         onTouchEnd={(event) => this._placeholderTapHandler(event)}>
@@ -188,49 +204,51 @@ class VideoView extends React.Component {
   };
 
   _renderBottom = () => {
-    var VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
-    var waterMarkName;
-    if(this.props.platform === Constants.PLATFORMS.ANDROID) {
+    const VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
+    let waterMarkName, watermark;
+    if (this.props.platform === Constants.PLATFORMS.ANDROID) {
       waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
     }
-    if(this.props.platform === Constants.PLATFORMS.IOS) {
+    if (this.props.platform === Constants.PLATFORMS.IOS) {
       waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
     }
 
     if (waterMarkName) {
-      var watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
+      watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
     }
 
     return (
       <View
-        style={{flexDirection:"row", justifyContent:"center", alignItems: "flex-end"}}>
+        style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end"}}>
         {this._renderClosedCaptions(waterMarkName, VideoWaterMarkSize)}
         {watermark}
       </View>);
   };
 
   _renderClosedCaptions = (waterMarkName, VideoWaterMarkSize) => {
-    var containerPadding = 5;
-    var captionWidth = this.props.width - (containerPadding * 4);
+    const containerPadding = 5;
+    let captionWidth = this.props.width - (containerPadding * 4);
     if (waterMarkName) {
       captionWidth = captionWidth - VideoWaterMarkSize;
     }
 
-    var ccStyle = {color:this.props.captionStyles.textColor,fontFamily:this.props.captionStyles.fontName,
-      backgroundColor:this.props.captionStyles.textBackgroundColor};
+    const ccStyle = {
+      color: this.props.captionStyles.textColor, fontFamily: this.props.captionStyles.fontName,
+      backgroundColor: this.props.captionStyles.textBackgroundColor
+    };
     if (this.props.caption) {
       return (
         <View
           style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
           <View
-            style={[{backgroundColor:this.props.captionStyles.backgroundColor}]}>
+            style={[{backgroundColor: this.props.captionStyles.backgroundColor}]}>
             <Text style={[panelStyles.closedCaptions, ccStyle]}>
               {this.props.caption}
             </Text>
           </View>
         </View>
-        );
+      );
     }
     return null;
   };
@@ -256,34 +274,51 @@ class VideoView extends React.Component {
   };
 
   _renderPlayPause = (show) => {
-    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-      return (
-        <VideoViewPlayPause
-          icons={{
-            play: {
-              icon: this.props.config.icons.play.fontString,
-              fontFamily: this.props.config.icons.play.fontFamilyName
-            },
-            pause: {
-              icon: this.props.config.icons.pause.fontString,
-              fontFamily: this.props.config.icons.pause.fontFamilyName
-            }
-          }}
-          position={"center"}
-          onPress={(name) => this.handlePress(name)}
-          frameWidth={this.props.width}
-          frameHeight={this.props.height}
-          buttonWidth={iconFontSize}
-          buttonHeight={iconFontSize}
-          platform={this.props.platform}
-          fontSize={iconFontSize}
-          showButton={show}
-          rate={this.props.rate}
-          playing={this.props.playing}
-          loading={this.props.loading}
-          initialPlay={this.props.initialPlay}>
-        </VideoViewPlayPause>
-      );
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const seekVisible = !this.props.config.live.forceDvrDisabled || !this.props.live;
+    const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
+    return (
+      <VideoViewPlayPause
+        icons={{
+          play: {
+            icon: this.props.config.icons.play.fontString,
+            fontFamily: this.props.config.icons.play.fontFamilyName
+          },
+          pause: {
+            icon: this.props.config.icons.pause.fontString,
+            fontFamily: this.props.config.icons.pause.fontFamilyName
+          },
+          seekForward: {
+            icon: this.props.config.icons.forward.fontString,
+            fontFamily: this.props.config.icons.forward.fontFamilyName
+          },
+          seekBackward: {
+            icon: this.props.config.icons.replay.fontString,
+            fontFamily: this.props.config.icons.replay.fontFamilyName
+          }
+        }}
+        seekEnabled={seekVisible}
+        ffActive={this.props.live ? notInLiveRegion : true}
+        position={"center"}
+        onPress={(name) => this.handlePress(name)}
+        onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
+        seekForwardValue={this.props.config.skipControls.skipForwardTime}
+        seekBackwardValue={this.props.config.skipControls.skipBackwardTime}
+        frameWidth={this.props.width}
+        frameHeight={this.props.height}
+        buttonWidth={iconFontSize}
+        buttonHeight={iconFontSize}
+        platform={this.props.platform}
+        fontSize={iconFontSize}
+        showButton={show}
+        isLive={this.props.live}
+        showSeekButtons={this.props.config.skipControls.enabled && show}
+        rate={this.props.rate}
+        playing={this.props.playing}
+        loading={this.props.loading}
+        initialPlay={this.props.initialPlay}>
+      </VideoViewPlayPause>
+    );
   };
 
   _renderVideoWaterMark = (waterMarkName, VideoWaterMarkSize) => {
@@ -306,24 +341,24 @@ class VideoView extends React.Component {
     }
 
     //width and height of the ad overlay
-    var width = this.props.adOverlay.width;
-    var height = this.props.adOverlay.height;
+    let width = this.props.adOverlay.width;
+    let height = this.props.adOverlay.height;
 
     //if the width of the ad is larger than the player width
-    var sidePadding = 10;
-    var maxWidth = this.props.width - 2 * sidePadding;
+    const sidePadding = 10;
+    const maxWidth = this.props.width - 2 * sidePadding;
     if (width > maxWidth) {
       height = height / width * maxWidth;
       width = maxWidth;
     }
-    var left = (this.props.width - width) / 2;
+    const left = (this.props.width - width) / 2;
 
     return (
       <View
         accesible={false}
-        style={{height:height, width:width}}>
+        style={{height: height, width: width}}>
         <TouchableHighlight
-          style={{left: left, bottom: 10, width:width, height:height}}
+          style={{left: left, bottom: 10, width: width, height: height}}
           onPress={this.handleOverlayClick}>
           <View
             style={styles.container}>
@@ -345,17 +380,22 @@ class VideoView extends React.Component {
   };
 
   _renderLoading = () => {
-    var loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
-    var scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
-    var topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
-    var leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
-    var loadingStyle = {position: 'absolute', top:topOffset, left:leftOffset, width: loadingSize, height: loadingSize};
+    const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    const scaleMultiplier = this.props.platform === Constants.PLATFORMS.ANDROID ? 2 : 1;
+    const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
+    const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    const loadingStyle = {
+      position: 'absolute',
+      top: topOffset,
+      left: leftOffset,
+      width: loadingSize,
+      height: loadingSize
+    };
     if (this.props.loading) {
       return (
         <ActivityIndicator
           style={loadingStyle}
-          size="large"
-        />
+          size="large"/>
       );
     }
   };
@@ -369,8 +409,8 @@ class VideoView extends React.Component {
   };
 
   render() {
-    var isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    var shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
+    const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
+    const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
 
     // for renderPlayPause, if the screen reader is enabled, we want to hide the button
     return (
@@ -380,7 +420,7 @@ class VideoView extends React.Component {
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls)}
+        {this._renderPlayPause(shouldShowControls)}
         {this._renderUpNext()}
         {this._renderBottomOverlay(shouldShowControls)}
         {this._renderLoading()}

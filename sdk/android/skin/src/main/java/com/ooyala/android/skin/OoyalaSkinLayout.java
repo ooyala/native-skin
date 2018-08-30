@@ -15,7 +15,7 @@ import static android.os.Build.VERSION_CODES.KITKAT;
 
 public class OoyalaSkinLayout extends FrameLayout {
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
-  private FrameLayout _playerFrame;
+  private FrameLayout playerFrame;
 
   private int viewWidth,viewHeight,prevWidth,prevHeight;
   private int sourceWidth, sourceHeight;
@@ -62,19 +62,33 @@ public class OoyalaSkinLayout extends FrameLayout {
     createSubViews();
   }
 
-  private void createSubViews() {
-    FrameLayout.LayoutParams frameLP =
-            new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.MATCH_PARENT);
-    _playerFrame = new FrameLayout(this.getContext());
-    this.addView(_playerFrame, frameLP);
+  /**
+   * Set up a player frame
+   * Recommendation: use setupPlayerFrame() method only after release() method has been called
+   */
+  public void createSubViews() {
+    if (playerFrame == null) {
+      FrameLayout.LayoutParams frameLP =
+        new FrameLayout.LayoutParams(
+          FrameLayout.LayoutParams.MATCH_PARENT,
+          FrameLayout.LayoutParams.MATCH_PARENT);
+      playerFrame = new FrameLayout(this.getContext());
+      this.addView(playerFrame, frameLP);
 
-    this.windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+      this.windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+    }
+  }
+
+  /**
+   * This will release all the resources held by OoyalaSkinLayout.
+   */
+  public void release() {
+    removeAllViews();
+    playerFrame = null;
   }
 
   public FrameLayout getAdView() {
-    return _playerFrame;
+    return playerFrame;
   }
 
   @Override
@@ -92,7 +106,7 @@ public class OoyalaSkinLayout extends FrameLayout {
   }
 
   public FrameLayout getPlayerLayout() {
-    return _playerFrame;
+    return playerFrame;
   }
 
   public int getViewWidth() {
