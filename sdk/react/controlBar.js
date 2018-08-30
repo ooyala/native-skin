@@ -83,7 +83,10 @@ class ControlBar extends React.Component {
   };
 
   getSelectedPlaybackSpeedRate = () => {
-    return String(this.props.config.selectedPlaybackSpeedRate).concat(constants.playbackSpeedRatePostfix);
+    const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(this.props.config.selectedPlaybackSpeedRate)).toFixed(2))
+    const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
+
+    return selectedPlaybackSpeedRateString.concat(constants.playbackSpeedRatePostfix);
   };
 
   getVolumeControlColor = () => {

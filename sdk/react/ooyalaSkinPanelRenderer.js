@@ -216,7 +216,7 @@ OoyalaSkinPanelRenderer.prototype.renderAudioAndCCSelectionPanel = function() {
 OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
   return (
     <PlaybackSpeedPanel
-      playbackSpeedRates={this.skin.state.playbackSpeedRates}
+      playbackSpeedRates={this.skin.props.playbackSpeed.options}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       width={this.skin.state.width}
       height={this.skin.state.height}

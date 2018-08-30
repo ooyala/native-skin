@@ -56,7 +56,7 @@ class PlaybackSpeedPanel extends React.Component {
         }),
     ]).start();
   }
-
+  
   onPlaybackSpeedRateSelected = (playbackSpeedRate) => {
     const localizedTitleForNormalPlaybackSpeedRate = Utils.localizedString(
       this.props.config.locale, constants.normalPlaybackSpeedRateTitle, this.props.config.localizableStrings);
@@ -68,7 +68,7 @@ class PlaybackSpeedPanel extends React.Component {
     } else {
       originalPlaybackSpeedRate = playbackSpeedRate.toString().substring(0, playbackSpeedRate.toString().length - 1)
     }
-
+    
     if (this.props.selectedPlaybackSpeedRate !== originalPlaybackSpeedRate) {
       this.props.onSelectPlaybackSpeedRate(originalPlaybackSpeedRate);
     }
@@ -113,9 +113,30 @@ class PlaybackSpeedPanel extends React.Component {
       selectedLocalizedItem = this.props.selectedPlaybackSpeedRate.toString().concat(constants.playbackSpeedRatePostfix)
     }
 
-    // Add postfix for playback speed rates
+    // Validate playback speed rates
+    
+    const validatedPlaybackSpeedRates = this.props.playbackSpeedRates.reduce((result, item) => {
+      const number = parseFloat(item);
+            
+      if (!isNaN(number) && number > 0) {
+        result.push(parseFloat(number.toFixed(2)));
+      }
+      return result;
+    }, []);
 
-    const convertedPlaybackSpeedRates = this.props.playbackSpeedRates.map(function (item) {
+    // Add a normal playback speed rate if needed
+    
+    if (!validatedPlaybackSpeedRates.includes(constants.normalPlaybackSpeedRateValue)) {
+      validatedPlaybackSpeedRates.push(constants.normalPlaybackSpeedRateValue)
+    }
+
+    // Sort playback speed rates
+
+    validatedPlaybackSpeedRates.sort((a, b) => a - b);
+
+    // Add postfix for playback speed rates and remove duplicates if needed
+
+    const convertedPlaybackSpeedRates = [...new Set(validatedPlaybackSpeedRates)].map(item => {
       if (item === constants.normalPlaybackSpeedRateValue) {
         return localizedTitleForNormalPlaybackSpeedRate;
       } else {
