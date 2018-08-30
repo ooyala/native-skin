@@ -173,10 +173,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     
     [self setupAudioSettingsFromConfig:_skinConfig];
     
-    // Playback speed settings
-    
-    [self setupPlaybackSpeedSettingsFromConfig:self.skinConfig];
-    
     // Interface orientation support
     _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
     _isManualOrientaionChange = NO;
@@ -311,15 +307,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
   if (defaultAudioLanguageCode) {
     [self.player setDefaultConfigAudioTrackLanguageCode:defaultAudioLanguageCode];
-  }
-}
-
-- (void)setupPlaybackSpeedSettingsFromConfig:(NSDictionary *)config {
-  NSDictionary *playbackSpeedSettingsJSON = [config objectForKey:@"playbackSpeed"];
-  NSArray *availablePlaybackSpeedRates = [playbackSpeedSettingsJSON objectForKey:@"options"];
-  
-  if (availablePlaybackSpeedRates) {
-    self.player.availablePlaybackSpeedRates = availablePlaybackSpeedRates;
   }
 }
 

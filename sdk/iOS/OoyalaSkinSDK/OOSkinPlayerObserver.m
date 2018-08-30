@@ -404,7 +404,6 @@
   NSMutableDictionary *eventBody = [NSMutableDictionary new];
 
   eventBody[@"playbackSpeedEnabled"] = @(self.player.isPlaybackSpeedEnabled);
-  eventBody[@"playbackSpeedRates"] = self.player.availablePlaybackSpeedRates;
   eventBody[@"selectedPlaybackSpeedRate"] = @(self.player.selectedPlaybackSpeedRate);
 
   [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
