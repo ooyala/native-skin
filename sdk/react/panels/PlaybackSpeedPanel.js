@@ -110,13 +110,16 @@ class PlaybackSpeedPanel extends React.Component {
     if (this.props.selectedPlaybackSpeedRate == constants.normalPlaybackSpeedRateValue) {
       selectedLocalizedItem = localizedTitleForNormalPlaybackSpeedRate;
     } else {
-      selectedLocalizedItem = this.props.selectedPlaybackSpeedRate.toString().concat(constants.playbackSpeedRatePostfix)
+      const selectedLocalizedItemNumber = parseFloat(String(selectedLocalizedItem));
+      const selectedLocalizedItemString = parseFloat(selectedLocalizedItemNumber.toFixed(2));
+
+      selectedLocalizedItem = parseFloat(selectedLocalizedItemString).toString().concat(constants.playbackSpeedRatePostfix);
     }
 
     // Validate playback speed rates
     
     const validatedPlaybackSpeedRates = this.props.playbackSpeedRates.reduce((result, item) => {
-      const number = parseFloat(item);
+      const number = parseFloat(String(item));
             
       if (!isNaN(number) && number > 0) {
         result.push(parseFloat(number.toFixed(2)));
