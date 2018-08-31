@@ -33,6 +33,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_ADICON = "Icon";
   private static final String BUTTON_ADOVERLAY = "Overlay";
   private static final String BUTTON_STEREOSCOPIC = "stereoscopic";
+  private static final String PLAYBACK_SPEED_RATE = "playbackSpeedRate";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -162,7 +163,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   @Override
   public void onPlaybackSpeedRateSelected(ReadableMap parameters) {
-    Dynamic dynamic = parameters.getDynamic("playbackSpeedRate");
+    Dynamic dynamic = parameters.getDynamic(PLAYBACK_SPEED_RATE);
     String speed = dynamic.asString();
     _player.setSelectedPlaybackSpeed(Float.parseFloat(speed));
   }
