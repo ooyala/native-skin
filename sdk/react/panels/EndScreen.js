@@ -66,18 +66,18 @@ class EndScreen extends React.Component {
 
   _renderDefaultScreen = (progressBar, controlBar) => {
     const endScreenConfig = this.props.config.endScreen || {};
-    const replaybuttonLocation = styles.replaybuttonCenter;
-    let replaybutton;
+    const replayButtonLocation = styles.replayButtonCenter;
+    let replayButton;
 
     if (endScreenConfig.showReplayButton) {
       const fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
-      replaybutton = (
+      replayButton = (
         <TouchableHighlight 
           accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType="button"
           onPress={(name) => this.handleClick(BUTTON_NAMES.REPLAY)}
           underlayColor="transparent"
           activeOpacity={0.5}>
-          <Text style={[styles.replaybutton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
+          <Text style={[styles.replayButton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
         </TouchableHighlight>
       );
     }
@@ -100,8 +100,8 @@ class EndScreen extends React.Component {
           resizeMode={Image.resizeMode.contain}>
         </Image>
         {infoPanel}
-        <View style={replaybuttonLocation}>
-          {replaybutton}
+        <View style={replayButtonLocation}>
+          {replayButton}
         </View>
         <View style={styles.controlBarPosition}>
           {this._renderBottomOverlay(true)}
@@ -112,6 +112,7 @@ class EndScreen extends React.Component {
 
   handleScrub = (value) => {
     this.props.onScrub(value);
+    this.handleClick(BUTTON_NAMES.PLAY_PAUSE);
   };
 
   _renderBottomOverlay = (show) => {
