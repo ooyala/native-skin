@@ -29,6 +29,12 @@ extern NSString *const OOSkinViewControllerFullscreenChangedNotification; /* Fir
  */
 @property (nonatomic, getter=isFullscreen) BOOL fullscreen;
 
+/**
+ Auto enter/exit full screen mode when device orientation changed. Default NO.
+ @warning Doesn't work in VR mode.
+ */
+@property (nonatomic, getter=isAutoFullscreenWithRotatedEnabled) BOOL autoFullscreenWithRotatedEnabled __TVOS_PROHIBITED;
+
 - (instancetype)init __attribute__((unavailable("init not available")));
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)jsCodeLocation
