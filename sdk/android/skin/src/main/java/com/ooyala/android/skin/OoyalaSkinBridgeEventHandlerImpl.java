@@ -108,8 +108,8 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   }
 
   public void handleReplay() {
-    _layoutController.player.seek(0);
-    _layoutController.player.play();
+    _player.seek(0);
+    _player.play();
   }
 
   public void onScrub(ReadableMap percentage) {
