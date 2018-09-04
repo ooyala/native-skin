@@ -21,7 +21,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static String TAG = OoyalaSkinBridgeEventHandlerImpl.class.getSimpleName();
   private static final String BUTTON_PLAYPAUSE = "PlayPause";
   private static final String BUTTON_PLAY = "Play";
-  private static final String BUTTON_REPLAY = "Replay";
+  private static final String BUTTON_REPLAY = "replay";
   private static final String BUTTON_SHARE = "Share";
   private static final String BUTTON_REWIND = "rewind";
   private static final String BUTTON_SOCIALSHARE = "SocialShare";

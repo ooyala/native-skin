@@ -74,7 +74,7 @@ class EndScreen extends React.Component {
       replaybutton = (
         <TouchableHighlight 
           accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType="button"
-          onPress={(name) => this.handleClick("Replay")}
+          onPress={(name) => this.handleClick(BUTTON_NAMES.REPLAY)}
           underlayColor="transparent"
           activeOpacity={0.5}>
           <Text style={[styles.replaybutton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
