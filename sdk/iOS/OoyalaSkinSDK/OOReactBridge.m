@@ -46,6 +46,7 @@ static NSString *nameKey = @"name";
 static NSString *embedCodeKey = @"embedCode";
 static NSString *percentageKey = @"percentage";
 static NSString *playPauseButtonName = @"PlayPause";
+static NSString *replayButtonName = @"Replay";
 static NSString *playButtonName = @"Play";
 static NSString *rewindButtonName = @"rewind";
 static NSString *socialShareButtonName = @"SocialShare";
@@ -84,6 +85,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
     if ([buttonName isEqualToString:playPauseButtonName]) {
       [self handlePlayPause];
+    } else if([buttonName isEqualToString:replayButtonName]) {
+      [self handleReplay];
     } else if([buttonName isEqualToString:playButtonName]) {
       [self handlePlay];
     } else if([buttonName isEqualToString:rewindButtonName]) {
@@ -126,7 +129,7 @@ RCT_EXPORT_METHOD(handleTouchEnd:(NSDictionary *)params) {
   [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
-RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
+RCT_EXPORT_METHOD(handleTouchStart:(NSDictionary *)params){
   NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
   [result mergeWith:@{@"eventName" : @"start"}];
   [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
@@ -148,7 +151,7 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
   [self.controller.player onAdOverlayClicked:url];
 }
 
--(void) handlePlayPause {
+- (void)handlePlayPause {
   OOOoyalaPlayer *player = self.controller.player;
   if (player.state == OOOoyalaPlayerStatePlaying) {
     [player pause];
@@ -157,11 +160,17 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
   }
 }
 
--(void) handlePlay {
+- (void)handlePlay {
   [self.controller.player play];
 }
 
--(void) handleRewind {
+- (void)handleReplay {
+  OOOoyalaPlayer *player = self.controller.player;
+  [player seek:0];
+  [player play];
+}
+
+- (void) handleRewind {
   dispatch_async(dispatch_get_main_queue(), ^{
     OOOoyalaPlayer *player = self.controller.player;
     if (player) {

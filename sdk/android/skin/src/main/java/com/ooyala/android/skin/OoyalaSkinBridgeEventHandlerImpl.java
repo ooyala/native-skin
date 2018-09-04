@@ -21,6 +21,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static String TAG = OoyalaSkinBridgeEventHandlerImpl.class.getSimpleName();
   private static final String BUTTON_PLAYPAUSE = "PlayPause";
   private static final String BUTTON_PLAY = "Play";
+  private static final String BUTTON_REPLAY = "Replay";
   private static final String BUTTON_SHARE = "Share";
   private static final String BUTTON_REWIND = "rewind";
   private static final String BUTTON_SOCIALSHARE = "SocialShare";
@@ -59,6 +60,8 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
             _layoutController.handlePlay();
           } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
             _layoutController.handlePlayPause();
+          } else if (buttonName.equals(BUTTON_REPLAY)) {
+            handleReplay();
           } else if (buttonName.equals(BUTTON_REWIND)) {
             handleRewind();
           } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
@@ -102,6 +105,11 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     playheadTime = playheadTime - 10000;
     System.out.println("in rewind time after -30 is " + playheadTime);
     _player.seek(playheadTime);
+  }
+
+  public void handleReplay() {
+    _layoutController.player.seek(0);
+    _layoutController.player.play();
   }
 
   public void onScrub(ReadableMap percentage) {
