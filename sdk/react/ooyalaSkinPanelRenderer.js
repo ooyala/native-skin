@@ -84,6 +84,12 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
+  let playbackSpeedEnabled = false;
+
+  if (Array.isArray(this.skin.props.playbackSpeed.options)) {
+    playbackSpeedEnabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
+  } 
+
   return (
     <VideoView
       rate={this.skin.state.rate}
@@ -99,7 +105,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       cuePoints={this.skin.state.cuePoints}
       stereoSupported={this.skin.state.stereoSupported}
       multiAudioEnabled={this.skin.state.multiAudioEnabled}
-      playbackSpeedEnabled={this.skin.state.playbackSpeedEnabled}
+      playbackSpeedEnabled={playbackSpeedEnabled}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
