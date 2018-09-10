@@ -385,6 +385,15 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)orientationChanged:(NSNotification *)notification {
   UIDeviceOrientation orientation = UIDevice.currentDevice.orientation;
+  
+  // Ignore FaceUp and FaceDown orienations
+  
+  if (orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown) {
+    return;
+  }
+  
+  // Change fullscreen
+  
   BOOL isLandscapeOrientation = UIDeviceOrientationIsLandscape(orientation);
   
   if (self.isAutoFullscreenWithRotatedEnabled && !self.isVRStereoMode) {

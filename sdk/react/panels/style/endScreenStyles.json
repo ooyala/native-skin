@@ -2,47 +2,35 @@
   "container": {
     "flex": 1,
     "flexDirection": "column",
-    "alignItems": "flex-start",
+    "alignItems": "flex-start"
   },
 
   "fullscreenContainer": {
     "flex": 1,
     "flexDirection": "column",
-    "backgroundColor": "black",
+    "backgroundColor": "black"
   },
 
   "promoImageSmall": {
     "width": 180,
     "height": 90,
-    "margin": 20,
+    "margin": 20
   },
 
   "controlBarPosition": {
     "flex": 0,
     "flexDirection": "column",
-    "backgroundColor": "rgba(0,0,0,0.3)",
+    "backgroundColor": "rgba(0,0,0,0.3)"
   },
-  "replaybuttonCenter": {
+  "replayButtonCenter": {
     "flex": 1,
     "flexDirection": "row",
     "alignSelf": "center",
     "alignItems": "center",
-    "backgroundColor": "transparent",
+    "backgroundColor": "transparent"
   },
 
-  "replaybuttonSE": {
-    "position": "absolute",
-    "bottom": 0,
-    "right": 0
-  },
-
-  "replaybuttonSW": {
-    "position": "absolute",
-    "bottom": 0,
-    "left": 0
-  },
-
-  "replaybutton": {
+  "replayButton": {
     "fontSize": 40,
     "textAlign": "center",
     "color": "white",
@@ -57,5 +45,5 @@
     "position": "absolute",
     "top": 0,
     "right": 0
-  },
+  }
 }
