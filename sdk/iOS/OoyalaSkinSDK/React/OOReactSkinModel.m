@@ -217,6 +217,14 @@ static NSString *volumeKey = @"volume";
   LOG(@"handleAudioTrackSelection - Can't find audio track");
 }
 
+- (void)handlePlaybackSpeedRateSelection:(nullable NSNumber *)selectedPlaybackSpeedRate {
+  if (selectedPlaybackSpeedRate) {
+    [self.player changePlaybackSpeedRate:selectedPlaybackSpeedRate.floatValue];
+  } else {
+    LOG(@"handlePlaybackSpeedRateSelection - selectedPlaybackSpeedRate invalid type");
+  }
+}
+
 - (void)handleDiscoveryClick:(NSString *)bucketInfo embedCode:(NSString *)embedCode {
   [OODiscoveryManager sendClick:self.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:self.player.pcode parameters:nil];
   [self.player setEmbedCode:embedCode];
@@ -265,6 +273,11 @@ static NSString *volumeKey = @"volume";
   }
 }
 
+- (void)handleReplay {
+  [self.player seek:0];
+  [self.player play];
+}
+
 - (void)handleRewind {
   dispatch_async(dispatch_get_main_queue(), ^{
     if (self.player) {
@@ -284,6 +297,10 @@ static NSString *volumeKey = @"volume";
     Float64 start = CMTimeGetSeconds(seekableRange.start);
     Float64 duration = CMTimeGetSeconds(seekableRange.duration);
     Float64 playhead = position * duration + start;
+    if (playhead < 0.0f) {
+      playhead = 0.0f;
+    }
+    
     [self.player seek:playhead];
   }
 }

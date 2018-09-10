@@ -53,18 +53,20 @@ static NSString *adIconButtonName       = @"Icon";
 static NSString *adOverlayButtonName    = @"Overlay";
 static NSString *stereoscopicButtonName = @"stereoscopic";
 static NSString *pipButtonName          = @"PIP";
+static NSString *replayButtonName       = @"replay";
 
 #pragma mark Keys
-static NSString *nameKey        = @"name";
-static NSString *embedCodeKey   = @"embedCode";
-static NSString *percentageKey  = @"percentage";
-static NSString *languageKey    = @"language";
-static NSString *bucketInfoKey  = @"bucketInfo";
-static NSString *actionKey      = @"action";
-static NSString *audioTrackKey  = @"audioTrack";
-static NSString *indexKey       = @"index";
-static NSString *clickUrlKey    = @"clickUrl";
-static NSString *eventNameKey   = @"eventName";
+static NSString *nameKey              = @"name";
+static NSString *embedCodeKey         = @"embedCode";
+static NSString *percentageKey        = @"percentage";
+static NSString *languageKey          = @"language";
+static NSString *bucketInfoKey        = @"bucketInfo";
+static NSString *actionKey            = @"action";
+static NSString *audioTrackKey        = @"audioTrack";
+static NSString *indexKey             = @"index";
+static NSString *clickUrlKey          = @"clickUrl";
+static NSString *eventNameKey         = @"eventName";
+static NSString *playbackSpeedRateKey = @"playbackSpeedRate";
 
 #pragma mark Values
 static NSString *startValue   = @"start";
@@ -87,6 +89,10 @@ RCT_EXPORT_METHOD(onAudioTrackSelected:(NSDictionary *)parameters) {
   [self.skinModelDelegate handleAudioTrackSelection:[parameters objectForKey:audioTrackKey]];
 }
 
+RCT_EXPORT_METHOD(onPlaybackSpeedRateSelected:(NSDictionary *)parameters) {
+  [self.skinModelDelegate handlePlaybackSpeedRateSelection:[parameters objectForKey:playbackSpeedRateKey]];
+}
+
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = [parameters objectForKey:nameKey];
 
@@ -94,6 +100,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     [self.skinModelDelegate handlePlayPause];
   } else if([buttonName isEqualToString:playButtonName]) {
     [self.skinModelDelegate handlePlay];
+  } else if([buttonName isEqualToString:replayButtonName]) {
+    [self.skinModelDelegate handleReplay];
   } else if([buttonName isEqualToString:rewindButtonName]) {
     [self.skinModelDelegate handleRewind];
   } else if([buttonName isEqualToString:socialShareButtonName]) {

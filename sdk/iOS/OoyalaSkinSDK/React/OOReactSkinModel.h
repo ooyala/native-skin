@@ -47,6 +47,7 @@
 - (void)handleIconClick:(NSInteger)index;
 - (void)handlePlayPause;
 - (void)handlePlay;
+- (void)handleReplay;
 - (void)handleRewind;
 - (void)handleSocialShare;
 - (void)handleLearnMore;
@@ -56,6 +57,7 @@
 - (void)handleUpNextClick;
 - (void)handleLanguageSelection:(NSString *)language;
 - (void)handleAudioTrackSelection:(NSString *)audioTrackName;
+- (void)handlePlaybackSpeedRateSelection:(nullable NSNumber *)selectedPlaybackSpeedRate;
 - (void)handleOverlay:(NSString *)url;
 - (void)handleTouch:(NSDictionary *)result;
 - (void)handleScrub:(Float64)position;
