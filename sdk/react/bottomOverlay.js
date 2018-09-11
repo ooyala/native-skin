@@ -205,7 +205,13 @@ const BottomOverlay = createReactClass({
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
-    const scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
+    let scrubberBarAccessibilityLabel;
+
+    if (this.props.platform == Constants.PLATFORMS.IOS) {
+      scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_IOS;
+    } else {
+      scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
+    }
 
     if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
       const minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
