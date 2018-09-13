@@ -148,7 +148,8 @@ class AdPlaybackScreen extends React.Component {
         general: this.props.config.general
       }}
       showMoreOptionsButton={false}
-      showAudioAndCCButton={false} />);
+      showAudioAndCCButton={false}
+      showPlaybackSpeedButton={false} />);
   };
 
   _renderAdBar = () => {

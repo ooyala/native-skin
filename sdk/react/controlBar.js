@@ -33,8 +33,11 @@ var ControlBarWidget = require('./widgets/controlBarWidgets');
 var CollapsingBarUtils = require('./collapsingBarUtils');
 var VolumeView = require('./widgets/VolumeView');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
-
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
+
+const constants = {
+  playbackSpeedRatePostfix: "x"
+};
 
 class ControlBar extends React.Component {
   static propTypes = {
@@ -53,7 +56,8 @@ class ControlBar extends React.Component {
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
-    showAudioAndCCButton: PropTypes.bool
+    showAudioAndCCButton: PropTypes.bool,
+    showPlaybackSpeedButton: PropTypes.bool
   };
 
   static defaultProps = {playhead: 0, duration: 0};
@@ -76,6 +80,13 @@ class ControlBar extends React.Component {
     } else {
       return Utils.secondsToString(this.props.duration);
     }
+  };
+
+  getSelectedPlaybackSpeedRate = () => {
+    const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(this.props.config.selectedPlaybackSpeedRate)).toFixed(2))
+    const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
+
+    return selectedPlaybackSpeedRateString.concat(constants.playbackSpeedRatePostfix);
   };
 
   getVolumeControlColor = () => {
@@ -128,6 +139,10 @@ class ControlBar extends React.Component {
 
   onAudioAndCCPress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.AUDIO_AND_CC);
+  };
+
+  onPlaybackSpeedPress = () => {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.PLAYBACK_SPEED);
   };
 
   render() {
@@ -223,6 +238,13 @@ class ControlBar extends React.Component {
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.audioAndCC,
         enabled: this.props.showAudioAndCCButton
+      },
+      playbackSpeed: {
+        onPress: this.onPlaybackSpeedPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {"fontSize": labelFontSize}, this.props.config.controlBar.iconStyle.active],
+        selectedPlaybackSpeedRate: this.getSelectedPlaybackSpeedRate(),
+        enabled: this.props.showPlaybackSpeedButton
       },
     };
 
