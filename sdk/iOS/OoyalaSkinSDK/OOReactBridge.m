@@ -231,6 +231,10 @@ RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
       Float64 duration = CMTimeGetSeconds(seekableRange.duration);
       Float64 position = [[parameters objectForKey:percentageKey] doubleValue];
       Float64 playhead = position * duration + start;
+      if (playhead < 0.0f) {
+        playhead = 0.0f;
+      }
+      
       [player seek:playhead];
     }
   });
