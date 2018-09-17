@@ -62,6 +62,7 @@ static NSString *adIconButtonName = @"Icon";
 static NSString *adOverlayButtonName = @"Overlay";
 static NSString *stereoscopicButtonName = @"stereoscopic";
 static NSString *audioTrackKey = @"audioTrack";
+static NSString *playbackSpeedRateKey = @"playbackSpeedRate";
 
 RCT_EXPORT_METHOD(onMounted) {
   LOG(@"onMounted - Not going to use at the moment");
@@ -76,6 +77,12 @@ RCT_EXPORT_METHOD(onLanguageSelected:(NSDictionary *)parameters) {
 RCT_EXPORT_METHOD(onAudioTrackSelected:(NSDictionary *)parameters) {
   dispatch_async(dispatch_get_main_queue(), ^{
     [self handleAudioTrackSelection:[parameters objectForKey:audioTrackKey]];
+  });
+}
+
+RCT_EXPORT_METHOD(onPlaybackSpeedRateSelected:(NSDictionary *)parameters) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self handlePlaybackSpeedRateSelection:[parameters objectForKey:playbackSpeedRateKey]];
   });
 }
 
@@ -220,6 +227,14 @@ RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
   }
   
   LOG(@"handleAudioTrackSelection - Can't find audio track");
+}
+
+- (void)handlePlaybackSpeedRateSelection:(nullable NSNumber *)selectedPlaybackSpeedRate {
+  if (selectedPlaybackSpeedRate) {
+    [self.controller.player changePlaybackSpeedRate:selectedPlaybackSpeedRate.floatValue];
+  } else {
+    LOG(@"handlePlaybackSpeedRateSelection - selectedPlaybackSpeedRate invalid type");
+  }
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
