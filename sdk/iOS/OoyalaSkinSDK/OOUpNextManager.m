@@ -23,10 +23,10 @@
 @implementation OOUpNextManager
 
 #pragma mark - Constants
-static NSString *showUpNextKey     = @"showUpNext";
-static NSString *upNexDismissedKey = @"upNextDismissed";
-static NSString *setNextVideoKey   = @"setNextVideo";
-static NSString *embedCodeKey      = @"embedCode";
+static NSString *showUpNextKey      = @"showUpNext";
+static NSString *upNextDismissedKey = @"upNextDismissed";
+static NSString *setNextVideoKey    = @"setNextVideo";
+static NSString *embedCodeKey       = @"embedCode";
 
 #pragma mark - Methods
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
@@ -64,7 +64,7 @@ static NSString *embedCodeKey      = @"embedCode";
 
     // After the a new video has been set, let react know that isDismissed
     // is now false.
-    [self.ooReactSkinModel sendEventWithName:upNexDismissedKey body: @{upNexDismissedKey: @(self.isDismissed)}];
+    [self.ooReactSkinModel sendEventWithName:upNextDismissedKey body: @{upNextDismissedKey: @(self.isDismissed)}];
 
     // Sets the next video to play in the upnext as specified by react.
     [self.ooReactSkinModel sendEventWithName:setNextVideoKey body: @{setNextVideoKey: _nextVideo}];
@@ -97,7 +97,7 @@ static NSString *embedCodeKey      = @"embedCode";
   self.isDismissed = YES;
 
   // Lets react know that dismiss has been pressed.
-  [self.ooReactSkinModel sendEventWithName:upNexDismissedKey body: @{upNexDismissedKey: @(self.isDismissed)}];
+  [self.ooReactSkinModel sendEventWithName:upNextDismissedKey body: @{upNextDismissedKey: @(self.isDismissed)}];
 }
 
 - (void)dealloc {
