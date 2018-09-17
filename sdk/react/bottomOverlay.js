@@ -68,7 +68,8 @@ const BottomOverlay = createReactClass({
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
-    showAudioAndCCButton: PropTypes.bool
+    showAudioAndCCButton: PropTypes.bool,
+    showPlaybackSpeedButton: PropTypes.bool
   },
 
   getDefaultProps: function() {
@@ -316,6 +317,7 @@ const BottomOverlay = createReactClass({
         multiAudioEnabled={this.props.multiAudioEnabled}
         showMoreOptionsButton={this.props.showMoreOptionsButton}
         showAudioAndCCButton={this.props.showAudioAndCCButton}
+        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}
       />
     );
   },
