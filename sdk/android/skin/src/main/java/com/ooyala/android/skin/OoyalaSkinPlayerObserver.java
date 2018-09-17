@@ -80,6 +80,10 @@ class OoyalaSkinPlayerObserver implements Observer {
       bridgeMultiAudioEnabledNotification();
     } else if (OoyalaPlayer.AUDIO_TRACK_SELECTED_NOTIFICATION_NAME.equals(notificationName)) {
       bridgeAudioTrackSelectedNotification();
+    } else if (OoyalaPlayer.PLAYBACK_SPEED_ENABLED.equals(notificationName)) {
+      bridgePlaybackSpeedEnabledNotification(((OoyalaNotification) argN).getData());
+    } else if (OoyalaPlayer.PLAYBACK_SPEED_RATE_CHANGED.equals(notificationName)) {
+      bridgePlaybackRateChangedNotification(((OoyalaNotification) argN).getData());
     }
   }
 
@@ -265,5 +269,15 @@ class OoyalaSkinPlayerObserver implements Observer {
       params.putString("selectedAudioTrack", selectedAudioTrack.getTrackTitle());
       _layoutController.sendEvent(OoyalaPlayer.AUDIO_TRACK_SELECTED_NOTIFICATION_NAME, params);
     }
+  }
+
+  private void bridgePlaybackSpeedEnabledNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildPlaybackEnabledParams(data);
+    _layoutController.sendEvent(OoyalaPlayer.PLAYBACK_SPEED_ENABLED, params);
+  }
+
+  private void bridgePlaybackRateChangedNotification(Object data) {
+    WritableMap params = BridgeMessageBuilder.buildPlaybackRateChangedParams(data);
+    _layoutController.sendEvent(OoyalaPlayer.PLAYBACK_SPEED_RATE_CHANGED, params);
   }
 }
