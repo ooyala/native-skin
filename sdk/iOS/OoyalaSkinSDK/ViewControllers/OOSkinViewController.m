@@ -413,12 +413,20 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)toggleStereoMode {
   dispatch_async(dispatch_get_main_queue(), ^{
     _isVRStereoMode = !_isVRStereoMode;
-    self.isVRStereoMode ? [self enterStereoMode] : [self exitStereoMode];
+    if (self.isVRStereoMode) {
+      [self enterStereoMode];
+    } else {
+      [self exitStereoMode];
+    }
   });
 }
 
 - (void)toggleFullscreen {
-  self.isVRStereoMode ? [self toggleStereoMode] : [self setFullscreen:!self.fullscreen isOrientationChanges:NO completion:NULL];
+  if (self.isVRStereoMode) {
+    [self toggleStereoMode]
+  } else {
+    [self setFullscreen:!self.fullscreen isOrientationChanges:NO completion:NULL];
+  }
 }
 
 - (BOOL)reactViewInteractionEnabled {
