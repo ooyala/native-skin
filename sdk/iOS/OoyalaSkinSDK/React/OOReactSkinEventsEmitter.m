@@ -3,7 +3,7 @@
  * @class      OOReactSkinEventsEmitter OOReactSkinEventsEmitter.m "OOReactSkinEventsEmitter.m"
  * @brief      OOReactSkinEventsEmitter
  * @details    OOReactSkinEventsEmitter.m in OoyalaSDK
- * @date       13/8/18
+ * @date       8/13/18
  * @copyright Copyright (c) 2018 Ooyala, Inc. All rights reserved.
  */
 
