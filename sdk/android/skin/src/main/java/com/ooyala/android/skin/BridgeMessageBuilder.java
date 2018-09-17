@@ -355,11 +355,20 @@ class BridgeMessageBuilder {
     return params;
   }
 
-  public static WritableMap buildPlaybackSpeedParams(Object data) {
+  public static WritableMap buildPlaybackEnabledParams(Object data) {
     WritableMap params = Arguments.createMap();
     if (data != null) {
       PlaybackNotificationInfo info = (PlaybackNotificationInfo) data;
       params.putBoolean("playbackSpeedEnabled", info.isPlaybackSpeedEnabled());
+      params.putDouble("selectedPlaybackSpeedRate", info.getSpeed());
+    }
+    return params;
+  }
+
+  public static WritableMap buildPlaybackRateChangedParams(Object data) {
+    WritableMap params = Arguments.createMap();
+    if (data != null) {
+      PlaybackNotificationInfo info = (PlaybackNotificationInfo) data;
       params.putDouble("selectedPlaybackSpeedRate", info.getSpeed());
     }
     return params;
