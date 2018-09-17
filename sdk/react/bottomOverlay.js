@@ -207,7 +207,7 @@ const BottomOverlay = createReactClass({
 
     let scrubberBarAccessibilityLabel;
 
-    if (this.props.platform == Constants.PLATFORMS.IOS) {
+    if (this.props.platform === Constants.PLATFORMS.IOS) {
       scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_IOS;
     } else {
       scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
