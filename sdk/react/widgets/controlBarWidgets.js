@@ -17,6 +17,7 @@ import {
 const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 const Log = require('../log');
 const VolumeView = require('./VolumeView');
+const AccessibilityUtils = require('../accessibilityUtils');
 
 const Constants = require('../constants');
 const {
@@ -258,11 +259,18 @@ class controlBarWidget extends React.Component {
 
   playbackSpeedWidget = (options) => {
     let widget = null;
+    
+    // Create accessibility label for selected playback speed rate button
+    
+    const playbackSpeedRateWithoutFostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
+    const selectedPlaybackSpeedAccessiblityLabel = AccessibilityUtils.createAccessibilityLabelForSelectedObject(playbackSpeedRateWithoutFostfix)
+    const accessibilityLabel = BUTTON_NAMES.PLAYBACK_SPEED + selectedPlaybackSpeedAccessiblityLabel
+
     if (options.enabled) {
       widget = <TouchableHighlight
         testID={BUTTON_NAMES.PLAYBACK_SPEED}
         accessible={true}
-        accessibilityLabel={BUTTON_NAMES.PLAYBACK_SPEED}
+        accessibilityLabel={accessibilityLabel}
         accessibilityComponentType="button"
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>

@@ -134,6 +134,7 @@ const VIEW_ACCESSIBILITY_NAMES = {
   VOLUME_VIEW: 'Volume view',
   MULTI_AUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
+  PLAYBACK_SPEED_CELL: "Playback speed cell. Tap twice to choose this playback speed rate",
   PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
   FORWARD_BUTTON: 'Forward button. Tap twice to seek forward',
@@ -152,6 +153,10 @@ const ACCESSIBILITY_ANNOUNCERS = {
 const ANNOUNCER_TYPES = {
   MOVING: 'moving',
   MOVED: 'moved'
+};
+
+const ACCESSIBILITY_COMMON = {
+  SELECTED: 'selected'
 };
 
 MAX_DATE_VALUE = 8640000000000000;
@@ -177,4 +182,5 @@ module.exports = {
   VIEW_ACCESSIBILITY_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
   ANNOUNCER_TYPES,
+  ACCESSIBILITY_COMMON
 };
