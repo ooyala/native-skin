@@ -22,6 +22,7 @@ const MoreOptionScreen = require('./panels/MoreOptionScreen');
 const VideoView = require('./panels/videoView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
+const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
 
 const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore) {
   Log.log("OoyalaSkinPanelRenderer Created");
@@ -83,6 +84,12 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
+  let playbackSpeedEnabled = false;
+
+  if (Array.isArray(this.skin.props.playbackSpeed.options)) {
+    playbackSpeedEnabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
+  } 
+
   return (
     <VideoView
       rate={this.skin.state.rate}
@@ -98,6 +105,8 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       cuePoints={this.skin.state.cuePoints}
       stereoSupported={this.skin.state.stereoSupported}
       multiAudioEnabled={this.skin.state.multiAudioEnabled}
+      playbackSpeedEnabled={playbackSpeedEnabled}
+      selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
         onAdOverlay: (value)=>this.core.handleAdOverlayPress(value),
@@ -210,6 +219,24 @@ OoyalaSkinPanelRenderer.prototype.renderAudioAndCCSelectionPanel = function() {
     </AudioAndCCSelectionPanel>);
 };
 
+OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
+  return (
+    <PlaybackSpeedPanel
+      playbackSpeedRates={this.skin.props.playbackSpeed.options}
+      selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      onSelectPlaybackSpeedRate={(value)=>this.core.handlePlaybackSpeedRateSelection(value)}
+      onDismiss={()=>this.core.dismissOverlay()}
+      config={{
+        localizableStrings:this.skin.props.localization,
+        locale:this.skin.props.locale,
+        icons:this.skin.props.icons,
+        general:this.skin.props.general
+      }}>
+    </PlaybackSpeedPanel>);
+};
+
 OoyalaSkinPanelRenderer.prototype.renderSocialOptions = function() {
   if(this.skin.state.platform == Constants.PLATFORMS.ANDROID) {
     this.core.bridge.shareTitle({shareTitle:this.skin.state.title});
@@ -286,6 +313,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
         break;
       case OVERLAY_TYPES.AUDIO_AND_CC_SCREEN:
         return this.renderAudioAndCCSelectionPanel();
+        break;
+      case OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN:
+        return this.renderPlaybackSpeedPanel();
         break;
     }
     return;

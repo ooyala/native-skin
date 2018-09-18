@@ -73,6 +73,12 @@ OoyalaSkinCore.prototype.handleAudioTrackSelection = function(e) {
   this.bridge.onAudioTrackSelected({audioTrack:e});
 };
 
+OoyalaSkinCore.prototype.handlePlaybackSpeedRateSelection = function(e) {
+  Log.log("onPlaybackSpeedRateSelected:" + e);
+  this.skin.setState({selectedPlaybackSpeedRate:e});
+  this.bridge.onPlaybackSpeedRateSelected({playbackSpeedRate:e});
+};
+
 // event handlers.
 OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
   switch (buttonName) {
@@ -105,6 +111,9 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       break;
     case BUTTON_NAMES.AUDIO_AND_CC:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
+      break;
+    case BUTTON_NAMES.PLAYBACK_SPEED:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN);
       break;
     case BUTTON_NAMES.SHARE:
       this.ooyalaSkinPanelRenderer.renderSocialOptions();

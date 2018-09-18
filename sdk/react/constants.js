@@ -27,6 +27,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   DISCOVERY: 'discovery',
   QUALITY: 'quality',
   AUDIO_AND_CC: 'Audio and closed captions',
+  PLAYBACK_SPEED: 'Playback speed',
   SHARE: 'share',
   SETTING: 'settings',
   STEREOSCOPIC: 'stereoscopic',
@@ -78,6 +79,7 @@ const OVERLAY_TYPES = {
   DISCOVERY_SCREEN: 'discovery_screen',
   MOREOPTION_SCREEN: 'moreOption',
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
+  PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen'
 }
 
 const OOSTATES = {
@@ -123,7 +125,8 @@ const ERROR_MESSAGE = {
 
 const CELL_TYPES = {
   MULTI_AUDIO: 'multi_audio',
-  SUBTITLES: "subtitles"
+  SUBTITLES: "subtitles",
+  PLAYBACK_SPEED_RATE: "playback_speed_rate"
 };
 
 const VIEW_ACCESSIBILITY_NAMES = {
