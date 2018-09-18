@@ -259,11 +259,11 @@ class controlBarWidget extends React.Component {
 
   playbackSpeedWidget = (options) => {
     let widget = null;
-    
+
     // Create accessibility label for selected playback speed rate button
-    
-    const playbackSpeedRateWithoutFostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
-    const selectedPlaybackSpeedAccessiblityLabel = AccessibilityUtils.createAccessibilityLabelForSelectedObject(playbackSpeedRateWithoutFostfix)
+
+    const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
+    const selectedPlaybackSpeedAccessiblityLabel = AccessibilityUtils.createAccessibilityLabelForSelectedObject(playbackSpeedRateWithoutPostfix)
     const accessibilityLabel = BUTTON_NAMES.PLAYBACK_SPEED + selectedPlaybackSpeedAccessiblityLabel
 
     if (options.enabled) {
