@@ -15,6 +15,7 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.Video;
+import com.ooyala.android.playback.PlaybackNotificationInfo;
 import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
 import com.ooyala.android.util.DebugMode;
 
@@ -350,6 +351,25 @@ class BridgeMessageBuilder {
     if (userInfo != null) {
       int code = userInfo.optInt("code");
       params.putInt("code", code);
+    }
+    return params;
+  }
+
+  public static WritableMap buildPlaybackEnabledParams(Object data) {
+    WritableMap params = Arguments.createMap();
+    if (data != null) {
+      PlaybackNotificationInfo info = (PlaybackNotificationInfo) data;
+      params.putBoolean("playbackSpeedEnabled", info.isPlaybackSpeedEnabled());
+      params.putDouble("selectedPlaybackSpeedRate", info.getSpeed());
+    }
+    return params;
+  }
+
+  public static WritableMap buildPlaybackRateChangedParams(Object data) {
+    WritableMap params = Arguments.createMap();
+    if (data != null) {
+      PlaybackNotificationInfo info = (PlaybackNotificationInfo) data;
+      params.putDouble("selectedPlaybackSpeedRate", info.getSpeed());
     }
     return params;
   }
