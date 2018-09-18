@@ -423,7 +423,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)toggleFullscreen {
   if (self.isVRStereoMode) {
-    [self toggleStereoMode]
+    [self toggleStereoMode];
   } else {
     [self setFullscreen:!self.fullscreen isOrientationChanges:NO completion:NULL];
   }
