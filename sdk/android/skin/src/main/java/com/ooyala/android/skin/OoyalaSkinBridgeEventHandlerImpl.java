@@ -5,11 +5,11 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.view.MotionEvent;
 
+import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
-import com.ooyala.android.item.Video;
 import com.ooyala.android.util.DebugMode;
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
@@ -33,6 +33,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_ADICON = "Icon";
   private static final String BUTTON_ADOVERLAY = "Overlay";
   private static final String BUTTON_STEREOSCOPIC = "stereoscopic";
+  private static final String PLAYBACK_SPEED_RATE = "playbackSpeedRate";
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -158,6 +159,13 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   @Override
   public void onAudioTrackSelected(ReadableMap parameters) {
     _player.setUserDefinedAudioTrack(parameters.getString("audioTrack"));
+  }
+
+  @Override
+  public void onPlaybackSpeedRateSelected(ReadableMap parameters) {
+    Dynamic dynamic = parameters.getDynamic(PLAYBACK_SPEED_RATE);
+    String speed = dynamic.asString();
+    _player.setSelectedPlaybackSpeed(Float.parseFloat(speed));
   }
 
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {

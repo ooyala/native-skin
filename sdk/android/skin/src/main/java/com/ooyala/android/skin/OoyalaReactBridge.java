@@ -99,4 +99,9 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   public void onAudioTrackSelected(ReadableMap parameters) {
     handler.onAudioTrackSelected(parameters);
   }
+
+  @ReactMethod
+  public void onPlaybackSpeedRateSelected(ReadableMap parameters) {
+    handler.onPlaybackSpeedRateSelected(parameters);
+  }
 }

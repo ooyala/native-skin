@@ -256,6 +256,24 @@ class controlBarWidget extends React.Component {
     return widget;
   };
 
+  playbackSpeedWidget = (options) => {
+    let widget = null;
+    if (options.enabled) {
+      widget = <TouchableHighlight
+        testID={BUTTON_NAMES.PLAYBACK_SPEED}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.PLAYBACK_SPEED}
+        accessibilityComponentType="button"
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style]}>
+          {options.selectedPlaybackSpeedRate}
+        </Text>
+      </TouchableHighlight>
+    }
+    return widget;
+  };
+
   render() {
     const widgetsMap = {
       "playPause": this.playPauseWidget,
@@ -271,7 +289,8 @@ class controlBarWidget extends React.Component {
       "bitrateSelector": this.bitrateSelectorWidget,
       "live": this.liveWidget,
       "stereoscopic": this.stereoscopicWidget,
-      "audioAndCC": this.audioAndCCWidget
+      "audioAndCC": this.audioAndCCWidget,
+      "playbackSpeed": this.playbackSpeedWidget
     };
     if (this.props.widgetType.name in widgetsMap) {
       const widgetOptions = this.props.options[this.props.widgetType.name];
