@@ -23,7 +23,7 @@ android {
     }
 
     lintOptions {
-       warning 'InvalidPackage'
+        warning 'InvalidPackage'
     }
 }
 
@@ -128,6 +128,7 @@ tasks.copyLibs.execute()
 
 dependencies {
     implementation files('libs/OoyalaSDK.aar')
+//    implementation project(':core')
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
@@ -148,5 +149,6 @@ dependencies {
     implementation 'org.webkit:android-jsc:r174650'
     implementation (group:'com.facebook', name:'react-native', version:'0.55.4', ext:'aar')
     implementation 'javax.inject:javax.inject:1'
-    implementation 'com.google.android.exoplayer:exoplayer:2.6.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.8.3'
+
 }
