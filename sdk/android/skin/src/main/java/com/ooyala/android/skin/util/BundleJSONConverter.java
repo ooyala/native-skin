@@ -106,7 +106,7 @@ public class BundleJSONConverter {
 
         SETTERS.put(JSONArray.class, new Setter() {
             public void setOnBundle(Bundle bundle, String key, Object value) throws JSONException {
-                JSONArray jsonArray = (JSONArray)value;
+                JSONArray jsonArray = (JSONArray) value;
                 int jsonArrayLength = jsonArray.length();
 
                 // Empty list, can't even figure out the type, assume an ArrayList<String>
@@ -120,16 +120,22 @@ public class BundleJSONConverter {
                 if (firstObject instanceof String) {
                     String[] stringArray = new String[jsonArrayLength];
                     for (int i = 0; i < jsonArrayLength; ++i) {
-                        stringArray[i] = (String)jsonArray.get(i);
+                        stringArray[i] = (String) jsonArray.get(i);
                     }
                     bundle.putStringArray(key, stringArray);
                 } else if (firstObject instanceof JSONObject) {
                     Bundle[] bundleArray = new Bundle[jsonArrayLength];
                     for (int i = 0; i < jsonArrayLength; ++i) {
-                        JSONObject json = (JSONObject)jsonArray.get(i);
+                        JSONObject json = (JSONObject) jsonArray.get(i);
                         bundleArray[i] = convertToBundle(json);
                     }
                     bundle.putParcelableArray(key, bundleArray);
+                } else if (firstObject instanceof Number) {
+                    String[] stringArray = new String[jsonArrayLength];
+                    for (int i = 0; i < jsonArrayLength; i++) {
+                        stringArray[i] = String.valueOf(jsonArray.get(i));
+                    }
+                    bundle.putStringArray(key, stringArray);
                 } else {
                     Log.d("BundleToJSON", "Unexpected type in an array: " + firstObject.getClass() + " for key: " + key);
                 }
