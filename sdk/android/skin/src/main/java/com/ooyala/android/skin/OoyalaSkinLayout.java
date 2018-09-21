@@ -1,5 +1,6 @@
 package com.ooyala.android.skin;
 
+
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
@@ -18,12 +19,12 @@ public class OoyalaSkinLayout extends FrameLayout {
   private FrameLayout playerFrame;
 
   private int viewWidth,viewHeight,prevWidth,prevHeight;
-  private int sourceWidth, sourceHeight;
 
   private FrameChangeCallback frameChangeCallback;
 
   private WindowManager windowManager;
   private boolean fullscreen = false;
+  private int statusBarHeight = 0;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
@@ -77,6 +78,11 @@ public class OoyalaSkinLayout extends FrameLayout {
 
       this.windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     }
+
+    int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+    if (resourceId > 0) {
+      statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+    }
   }
 
   /**
@@ -93,16 +99,16 @@ public class OoyalaSkinLayout extends FrameLayout {
 
   @Override
   protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
-      super.onSizeChanged(xNew, yNew, xOld, yOld);
-      viewWidth = xNew;
-      viewHeight = yNew;
-      prevWidth = xOld;
-      prevHeight = yOld;
-      try {
-        this.frameChangeCallback.onFrameChangeCallback(viewWidth, viewHeight, prevWidth, prevHeight);
-      } catch (Exception e) {
-          e.printStackTrace();
-      }
+    super.onSizeChanged(xNew, yNew, xOld, yOld);
+    viewWidth = xNew;
+    viewHeight = yNew;
+    prevWidth = xOld;
+    prevHeight = yOld;
+    try {
+      this.frameChangeCallback.onFrameChangeCallback(viewWidth, viewHeight, prevWidth, prevHeight);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   public FrameLayout getPlayerLayout() {
@@ -159,36 +165,29 @@ public class OoyalaSkinLayout extends FrameLayout {
     if (null == windowManager) {
         return;
     }
-    boolean changed = this.fullscreen != fullscreen;
+
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    if (SDK_INT >= JELLY_BEAN_MR1) {
+      windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
+    } else {
+      //TODO: Android 16 and below will show a poor fullscreen experience right now
+      // It will not fill the screen where the navigation bar is supposed to be
+      windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+    }
+
     ViewGroup.LayoutParams layoutParams = getLayoutParams();
 
-
-    if (changed) {
-      if (fullscreen) {
-        //Store the source size of the layout
-        sourceWidth = layoutParams.width;
-        sourceHeight = layoutParams.height;
-      } else {
-        // Restore width and height of the skin layout
-        layoutParams.width = sourceWidth;
-        layoutParams.height = sourceHeight;
-      }
-    }
-
     this.fullscreen = fullscreen;
+
+    layoutParams.width = displayMetrics.widthPixels;
     if(fullscreen) {
-      DisplayMetrics displayMetrics = new DisplayMetrics();
-      if (SDK_INT >= JELLY_BEAN_MR1) {
-        windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
-      } else {
-        //TODO: Android 16 and below will show a poor fullscreen experience right now
-        // It will not fill the screen where the navigation bar is supposed to be
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-      }
-      layoutParams.width = displayMetrics.widthPixels;
       layoutParams.height = displayMetrics.heightPixels;
-      bringToFront();
+    } else {
+      layoutParams.height = displayMetrics.heightPixels-statusBarHeight;
     }
+    bringToFront();
+    setLayoutParams(layoutParams);
+
     toggleSystemUI(fullscreen);
   }
 
