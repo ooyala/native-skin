@@ -86,7 +86,7 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
 OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
   let playbackSpeedEnabled = false;
 
-  if (Array.isArray(this.skin.props.playbackSpeed.options)) {
+  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
     playbackSpeedEnabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
   } 
 
@@ -220,9 +220,16 @@ OoyalaSkinPanelRenderer.prototype.renderAudioAndCCSelectionPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
-  return (
+  let playbackSpeedRates;
+
+  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
+    playbackSpeedRates = this.skin.props.playbackSpeed.options;
+  } else {
+    playbackSpeedRates = [];
+  }
+  return (  
     <PlaybackSpeedPanel
-      playbackSpeedRates={this.skin.props.playbackSpeed.options}
+      playbackSpeedRates={playbackSpeedRates}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       width={this.skin.state.width}
       height={this.skin.state.height}
