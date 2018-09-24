@@ -183,7 +183,7 @@ public class OoyalaSkinLayout extends FrameLayout {
     if(fullscreen) {
       layoutParams.height = displayMetrics.heightPixels;
     } else {
-      layoutParams.height = displayMetrics.heightPixels-statusBarHeight;
+      layoutParams.height = displayMetrics.heightPixels - statusBarHeight;
     }
     bringToFront();
     setLayoutParams(layoutParams);
