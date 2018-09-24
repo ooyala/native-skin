@@ -22,8 +22,8 @@ static NSString *emptyLanguage   = @"";
 
 + (NSString *)preferredLanguageId {
   NSString *preferredLanguageId = englishLanguage;
-  if ([NSLocale preferredLanguages].count > 0) {
-    NSString *locale = [[NSLocale preferredLanguages] objectAtIndex:0];
+  if (NSLocale.preferredLanguages.count > 0) {
+    NSString *locale = NSLocale.preferredLanguages[0];
     preferredLanguageId = [locale substringToIndex:2];
   }
 

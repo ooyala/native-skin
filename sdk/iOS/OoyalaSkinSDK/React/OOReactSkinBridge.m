@@ -28,19 +28,15 @@
 
 - (void)invalidate {
   [super invalidate];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 - (void)setUp {
   [super setUp];
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(didInitializeModuleNotification:)
-                                               name:RCTDidInitializeModuleNotification
-                                             object:self.batchedBridge];
-}
-
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(didInitializeModuleNotification:)
+                                             name:RCTDidInitializeModuleNotification
+                                           object:self.batchedBridge];
 }
 
 - (void)didInitializeModuleNotification:(NSNotification *)notification {

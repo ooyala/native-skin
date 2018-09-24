@@ -14,10 +14,11 @@
 @class RCTRootView;
 @protocol OOSkinViewControllerDelegate;
 
+
 @interface OOReactSkinModel : NSObject<RCTBridgeDelegate>
 
-@property (nonatomic, nonnull) NSDictionary *skinConfig;
-@property (nonatomic, readwrite, nullable) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
+@property (nonnull, nonatomic) NSDictionary *skinConfig;
+@property (nullable, nonatomic, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
 @property (nonatomic, readonly) CGRect videoViewFrame;
 
 - (nonnull instancetype)initWithWithPlayer:(nonnull OOOoyalaPlayer *)player

@@ -21,21 +21,17 @@
 - (instancetype)initWithClosedCaptionsView:(OOClosedCaptionsView*)ccView {
   if (self = [super init]) {
     _ccView = ccView;
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onApplicationDidBecomeActive:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:@selector(onApplicationDidBecomeActive:)
+                                               name:UIApplicationDidBecomeActiveNotification
+                                             object:nil];
   }
   return self;
 }
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)onApplicationDidBecomeActive:(NSNotification *)notification {
   [self updateStyle];
-  [self.ccView setStyle:self]; // without this, the ccView never changes its rendering.
+  self.ccView.style = self; // without this, the ccView never changes its rendering.
 }
 
 @end

@@ -25,7 +25,6 @@
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
 
-
 @interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate>
 
 @property (nonatomic, weak) id<OOSkinViewControllerDelegate> skinControllerDelegate;
@@ -94,7 +93,6 @@ static NSString *resultsKey             = @"results";
 }
 
 - (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [OOVolumeManager removeVolumeObserver:self];
 }
 
@@ -195,7 +193,7 @@ static NSString *resultsKey             = @"results";
                                     descriptionKey: description};
     [discoveryArray addObject:discoveryItem];
   }
-  if ([discoveryArray count] > 0 && discoveryArray[0]) {
+  if (discoveryArray.count > 0 && discoveryArray[0]) {
     [self.upNextManager setNextVideo:discoveryArray[0]];
   }
   NSDictionary *eventBody = @{resultsKey: discoveryArray};
@@ -221,11 +219,11 @@ static NSString *resultsKey             = @"results";
 
 - (void)handleAudioTrackSelection:(NSString *)audioTrackName {
   // TODO: Can we move this logic to core?
-  for (id<OOAudioTrackProtocol> audioTrack in [self.player availableAudioTracks]) {
+  for (id<OOAudioTrackProtocol> audioTrack in self.player.availableAudioTracks) {
     // This check is a temporary solution
     // Need to wait conclusion about tracks names (how need create them) from Ooyala
     if ([audioTrack.title isEqualToString:audioTrackName]) {
-      [self.player setDefaultAudioTrack:audioTrack];
+      self.player.defaultAudioTrack = audioTrack;
       [self.player setAudioTrack:audioTrack];
       return;
     }
@@ -291,7 +289,7 @@ static NSString *resultsKey             = @"results";
 }
 
 - (void)playPauseFromAdTappedNotification {
-  if (![self.skinControllerDelegate isReactViewInteractionEnabled]) {
+  if (!self.skinControllerDelegate.isReactViewInteractionEnabled) {
     [self handlePlayPause];
   }
 }
@@ -305,7 +303,7 @@ static NSString *resultsKey             = @"results";
   dispatch_async(dispatch_get_main_queue(), ^{
     if (self.player) {
       Float64 playheadTime = self.player.playheadTime;
-      Float64 seekBackTo = playheadTime - 10;
+      Float64 seekBackTo   = playheadTime - 10;
       if (self.player.seekableTimeRange.start.value > seekBackTo ) {
         seekBackTo = 0;
       }
@@ -337,7 +335,7 @@ static NSString *resultsKey             = @"results";
 }
 
 - (void)handleTouch:(NSDictionary *)result {
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+  [NSNotificationCenter.defaultCenter postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 - (void)handleUpNextClick {

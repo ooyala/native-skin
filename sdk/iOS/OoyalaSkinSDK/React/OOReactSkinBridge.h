@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithBundleURL:(NSURL *)bundleURL
                    moduleProvider:(RCTBridgeModuleListProvider)block
-
                     launchOptions:(NSDictionary *)launchOptions NS_UNAVAILABLE;
 @end
 

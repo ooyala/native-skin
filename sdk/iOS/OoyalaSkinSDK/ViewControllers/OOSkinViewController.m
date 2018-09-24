@@ -21,6 +21,7 @@
 #import "OOSkinFullScreenViewController.h"
 #import "FullscreenStateController.h"
 
+
 @interface OOSkinViewController () <OOSkinViewControllerDelegate>
 
 #pragma mark - Properties
@@ -107,50 +108,47 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     
     // Add notifications
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onReactReady:)
-                                                 name:RCTContentDidAppearNotification
-                                               object:_reactView];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                            selector:@selector(onReactReady:)
+                                                name:RCTContentDidAppearNotification
+                                              object:_reactView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(onApplicationDidBecomeActive:)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                            selector:@selector(onApplicationDidBecomeActive:)
+                                                name:UIApplicationDidBecomeActiveNotification
+                                              object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(vrPlayerDidConfiguredAction)
-                                                 name:OOOoyalaVRPlayerDidConfigured
-                                               object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                            selector:@selector(vrPlayerDidConfiguredAction)
+                                                name:OOOoyalaVRPlayerDidConfigured
+                                              object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(orientationChanged:)
-                                                 name:UIDeviceOrientationDidChangeNotification
-                                               object:[UIDevice currentDevice]];
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                            selector:@selector(orientationChanged:)
+                                                name:UIDeviceOrientationDidChangeNotification
+                                              object:UIDevice.currentDevice];
     
     // Auto rotation support
-    
     [UIDevice.currentDevice beginGeneratingDeviceOrientationNotifications];
     
-    self.autoFullscreenWithRotatedEnabled = NO;
+    _autoFullscreenWithRotatedEnabled = NO;
     
     // VR properties
-    
     _isVRStereoMode = NO;
     
     // Interface orientation support
-    
-    _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+    _previousInterfaceOrientation = UIApplication.sharedApplication.statusBarOrientation;
     _isManualOrientaionChange = NO;
     _isFullScreenPreviousState = self.isFullscreen;
     
     // Configure fullscreen VC
-    self.fullscreenViewController = [OOSkinFullScreenViewController new];
+    _fullscreenViewController = [OOSkinFullScreenViewController new];
     
     // Configure fullscreen state controller
-    self.fullscreenStateController = [[FullscreenStateController alloc] initWithParentView:self.parentView
-                                                                             containerView:self.view
-                                                                                 videoView:self.videoView
-                                                               andFullscreenViewController:self.fullscreenViewController];
+    _fullscreenStateController = [[FullscreenStateController alloc] initWithParentView:self.parentView
+                                                                         containerView:self.view
+                                                                             videoView:self.videoView
+                                                           andFullscreenViewController:self.fullscreenViewController];
   }
   return self;
 }
@@ -158,7 +156,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)dealloc {
   LOG(@"OOSkinViewController.dealloc")
   [self.videoView removeObserver:self forKeyPath:kViewChangeKey];
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
   [self.player destroy];
 }
 
@@ -170,7 +167,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   if (_fullscreen) {
-    return [_fullscreenViewController supportedInterfaceOrientations];
+    return _fullscreenViewController.supportedInterfaceOrientations;
   } else {
     return UIInterfaceOrientationMaskAll;
   }
@@ -184,7 +181,8 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   return UIStatusBarAnimationFade;
 }
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 
   [self.fullscreenStateController viewWillTransition:self.autoFullscreenWithRotatedEnabled];
@@ -218,8 +216,9 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   [self.reactView setHidden:YES];
 
   // Perfrom animation
-  
-  [self.fullscreenStateController setFullscreen:fullscreen withOrientaionChanges:isOrientationChanges completion:^{
+  [self.fullscreenStateController setFullscreen:fullscreen
+                          withOrientaionChanges:isOrientationChanges
+                                     completion:^{
     dispatch_async(dispatch_get_main_queue(), ^{
       
       // Notify observers what screen state changed
@@ -242,9 +241,9 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 }
 
 - (void)notifyFullScreenChange:(BOOL)isFullscreen {
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOSkinViewControllerFullscreenChangedNotification
-                                                      object:self
-                                                    userInfo:@{fullscreenKey: @(isFullscreen)}];
+  [NSNotificationCenter.defaultCenter postNotificationName:OOSkinViewControllerFullscreenChangedNotification
+                                                    object:self
+                                                  userInfo:@{fullscreenKey: @(isFullscreen)}];
 }
 
 - (void)onReactReady:(NSNotification *)notification {
@@ -285,7 +284,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
                         change:(NSDictionary *)change context:(void *)context {
   if (context == &kFrameChangeContext) {
-    NSNumber *width = @(CGRectGetWidth(self.videoView.frame));
+    NSNumber *width  = @(CGRectGetWidth(self.videoView.frame));
     NSNumber *height = @(CGRectGetHeight(self.videoView.frame));
     NSDictionary *eventBody = @{widthKey:      width,
                                 heightKey:     height,
@@ -303,7 +302,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   _isFullScreenPreviousState = _fullscreen;
   
   // Save previous interface orientation
-  _previousInterfaceOrientation = [UIApplication sharedApplication].statusBarOrientation;
+  _previousInterfaceOrientation = UIApplication.sharedApplication.statusBarOrientation;
   
   // Create weak self object
   __weak OOSkinViewController *weakSelf = self;
@@ -322,19 +321,19 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _isManualOrientaionChange = YES;
 
     // Change device orienation to lanscape right
-    if ([[UIDevice currentDevice] orientation] == UIInterfaceOrientationLandscapeRight) {
+    if (UIDevice.currentDevice.orientation == UIInterfaceOrientationLandscapeRight) {
       weakSelf.delayForDeviceOrientationAnimation = 0;
     } else {
       weakSelf.delayForDeviceOrientationAnimation = UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
     }
     
-    [[UIDevice currentDevice] setValue:@(UIInterfaceOrientationLandscapeRight) forKey:@"orientation"];
+    [UIDevice.currentDevice setValue:@(UIInterfaceOrientationLandscapeRight) forKey:@"orientation"];
     [UIViewController attemptRotationToDeviceOrientation];
 
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(weakSelf.delayForDeviceOrientationAnimation * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
       
       // Notify observers what stereo mode did changed
-      [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+      [NSNotificationCenter.defaultCenter postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
       
       _isManualOrientaionChange = NO;
     });
@@ -343,7 +342,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)exitStereoMode {
   // Notify observers what stereo mode did changed
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+  [NSNotificationCenter.defaultCenter postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
   
   ((OOSkinFullScreenViewController *)_fullscreenViewController).enableVRStereoMode = NO;
   
@@ -364,7 +363,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     // Manualy change device orientation for previous value
     _isManualOrientaionChange = YES;
     
-    [[UIDevice currentDevice] setValue:@(weakSelf.previousInterfaceOrientation) forKey:@"orientation"];
+    [UIDevice.currentDevice setValue:@(weakSelf.previousInterfaceOrientation) forKey:@"orientation"];
     [UIViewController attemptRotationToDeviceOrientation];
 
     weakSelf.delayForDeviceOrientationAnimation = weakSelf.isFullScreenPreviousState ? 0 : UIApplication.sharedApplication.statusBarOrientationAnimationDuration;
@@ -381,7 +380,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (_isVRStereoMode) {
     
     // Notify observers what stereo mode did changed
-    [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
+    [NSNotificationCenter.defaultCenter postNotificationName:OOOoyalaPlayerSwitchSceneNotification object:nil];
   }
 }
 
@@ -389,13 +388,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   UIDeviceOrientation orientation = UIDevice.currentDevice.orientation;
   
   // Ignore FaceUp and FaceDown orienations
-  
   if (orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown) {
     return;
   }
   
   // Change fullscreen
-  
   BOOL isLandscapeOrientation = UIDeviceOrientationIsLandscape(orientation);
   
   if (self.isAutoFullscreenWithRotatedEnabled && !self.isVRStereoMode) {

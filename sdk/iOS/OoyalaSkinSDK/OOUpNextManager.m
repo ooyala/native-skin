@@ -42,16 +42,16 @@ static NSString *embedCodeKey       = @"embedCode";
   _ooReactSkinModel = ooReactSkinModel;
 
   // listen to currentItemChanged, on, reset state (player.currentItem.embedCode)
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(currentItemChangedNotification:)
-                                               name:OOOoyalaPlayerCurrentItemChangedNotification
-                                             object:_player];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                          selector:@selector(currentItemChangedNotification:)
+                                              name:OOOoyalaPlayerCurrentItemChangedNotification
+                                            object:_player];
 
   // listen to ContentComplete, on, set Ec and play
-  [[NSNotificationCenter defaultCenter] addObserver:self
-                                           selector:@selector(playCompletedNotification:)
-                                               name:OOOoyalaPlayerPlayCompletedNotification
-                                             object:_player];
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                          selector:@selector(playCompletedNotification:)
+                                              name:OOOoyalaPlayerPlayCompletedNotification
+                                            object:_player];
   }
 
   return self;
@@ -103,7 +103,6 @@ static NSString *embedCodeKey       = @"embedCode";
 
 - (void)dealloc {
   LOG(@"upnext dealloc");
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
