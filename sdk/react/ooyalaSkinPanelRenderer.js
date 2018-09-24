@@ -88,7 +88,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
 
   if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
     playbackSpeedEnabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
-  } 
+  }
 
   return (
     <VideoView
@@ -220,14 +220,12 @@ OoyalaSkinPanelRenderer.prototype.renderAudioAndCCSelectionPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
-  let playbackSpeedRates;
-
+  let playbackSpeedRates = [];
   if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
     playbackSpeedRates = this.skin.props.playbackSpeed.options;
-  } else {
-    playbackSpeedRates = [];
   }
-  return (  
+
+  return (
     <PlaybackSpeedPanel
       playbackSpeedRates={playbackSpeedRates}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
