@@ -111,13 +111,16 @@ class AudioAndCCSelectionPanel extends React.Component {
       rightTitle = "";
     }
 
+    const isLeftTitleAccessible = !(leftTitle === "");
+    const isRightTitleAccessible = !(rightTitle === "");
+
     return (
       <View style={styles.panelHeaderView}>
         <View style={styles.panelHeaderViewLeftView}>
-          <Text style={[styles.panelHeaderViewLeftText]}>{leftTitle}</Text>
+          <Text style={[styles.panelHeaderViewLeftText]} accessible={isLeftTitleAccessible}>{leftTitle}</Text>
         </View>
         <View style={styles.panelHeaderViewRightView}>
-          <Text style={[styles.panelHeaderViewRightText]}>{rightTitle}</Text>
+          <Text style={[styles.panelHeaderViewRightText]} accessible={isRightTitleAccessible}>{rightTitle}</Text>
           <TouchableHighlight style={styles.dismissButton}
             accessible={true}
             accessibilityLabel={BUTTON_NAMES.DISMISS}
