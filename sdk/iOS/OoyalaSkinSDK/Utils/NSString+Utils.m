@@ -22,7 +22,7 @@ const int MAX_FONT_SIZE = 100;
   
   if (!font) return CGSizeZero;
   
-  return [self sizeWithAttributes:@{NSFontAttributeName:font}];
+  return [self sizeWithAttributes:@{NSFontAttributeName: font}];
 }
 
 @end
