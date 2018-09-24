@@ -38,15 +38,37 @@
 
 @end
 
-
-// TODO: Do we really need these to be global ?
-static NSString *const DISCOVERY_RESULT_NOTIFICATION = @"discoveryResultsReceived";
-static NSString *const CC_STYLING_CHANGED_NOTIFICATION = @"ccStylingChanged";
-
 @implementation OOReactSkinModel
 
-static NSString *volumeKey = @"volume";
+#pragma mark - Constants
+#pragma mark Events
+static NSString *discoveryResultsReceived = @"discoveryResultsReceived";
+static NSString *ccStylingChanged         = @"ccStylingChanged";
 
+#pragma mark Keys
+static NSString *upNextKey              = @"upNext";
+static NSString *volumeKey              = @"volume";
+static NSString *textSizeKey            = @"textSize";
+static NSString *textColorKey           = @"textColor";
+static NSString *backgroundColorKey     = @"backgroundColor";
+static NSString *textBackgroundColorKey = @"textBackgroundColor";
+static NSString *backgroundOpacityKey   = @"backgroundOpacity";
+static NSString *textOpacityKey         = @"textOpacity";
+static NSString *fontNameKey            = @"fontName";
+static NSString *audioKey               = @"audio";
+static NSString *audioLanguageKey       = @"audioLanguage";
+static NSString *embed_CodeKey          = @"embed_code";
+static NSString *embedCodeKey           = @"embedCode";
+static NSString *nameKey                = @"name";
+static NSString *previewImgUrlKey       = @"preview_image_url";
+static NSString *durationKey            = @"duration";
+static NSString *bucket_InfoKey         = @"bucket_info";
+static NSString *bucketInfoKey          = @"bucketInfo";
+static NSString *descriptionKey         = @"description";
+static NSString *imageUrlKey            = @"imageUrl";
+static NSString *resultsKey             = @"results";
+
+#pragma mark - Init
 - (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player
                        skinOptions:(OOSkinOptions *)skinOptions
             skinControllerDelegate:(id<OOSkinViewControllerDelegate>)skinControllerDelegate {
@@ -96,26 +118,26 @@ static NSString *volumeKey = @"volume";
 
 - (void)ccStyleChanged:(NSNotification *)notification {
   self.closedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
-  NSMutableDictionary *params = [NSMutableDictionary new];
-  NSNumber *textSize = @(self.closedCaptionsDeviceStyle.textSize);
-  UIColor *textColor = self.closedCaptionsDeviceStyle.textColor;
-  UIColor *backgroundColor = self.closedCaptionsDeviceStyle.windowColor;
-  UIColor *textBackgroundColor = self.closedCaptionsDeviceStyle.backgroundColor;
-  NSString *fontName = self.closedCaptionsDeviceStyle.textFontName;
-  NSNumber *textOpacity = @(self.closedCaptionsDeviceStyle.textOpacity);
-  NSNumber *backgroundOpacity = @(self.closedCaptionsDeviceStyle.backgroundOpacity);
-  //  MACaptionAppearanceTextEdgeStyle edgeStyle = self.closedCaptionsDeviceStyle.edgeStyle;
-  NSString *backgroundColorHexValue = [self hexStringFromColor:backgroundColor];
-  NSString *textBackgroundColorHexValue = [self hexStringFromColor:textBackgroundColor];
-  NSString *textColorHexValue = [self hexStringFromColor:textColor];
-  [params setObject:textSize forKey:@"textSize"];
-  [params setObject:textColorHexValue forKey:@"textColor"];
-  [params setObject:backgroundColorHexValue forKey:@"backgroundColor"];
-  [params setObject:textBackgroundColorHexValue forKey:@"textBackgroundColor"];
-  [params setObject:backgroundOpacity forKey:@"backgroundOpacity"];
-  [params setObject:textOpacity forKey:@"textOpacity"];
-  [params setObject:fontName forKey:@"fontName"];
-  [self sendEventWithName:CC_STYLING_CHANGED_NOTIFICATION body:params];
+  NSNumber *textSize                    = @(self.closedCaptionsDeviceStyle.textSize);
+  UIColor *textColor                    = self.closedCaptionsDeviceStyle.textColor;
+  UIColor *backgroundColor              = self.closedCaptionsDeviceStyle.windowColor;
+  UIColor *textBackgroundColor          = self.closedCaptionsDeviceStyle.backgroundColor;
+  NSString *fontName                    = self.closedCaptionsDeviceStyle.textFontName;
+  NSNumber *textOpacity                 = @(self.closedCaptionsDeviceStyle.textOpacity);
+  NSNumber *backgroundOpacity           = @(self.closedCaptionsDeviceStyle.backgroundOpacity);
+  NSString *backgroundColorHexValue     = [UIColor hexStringFromColor:backgroundColor];
+  NSString *textBackgroundColorHexValue = [UIColor hexStringFromColor:textBackgroundColor];
+  NSString *textColorHexValue           = [UIColor hexStringFromColor:textColor];
+//  MACaptionAppearanceTextEdgeStyle edgeStyle = self.closedCaptionsDeviceStyle.edgeStyle;
+
+  NSDictionary *params = @{textSizeKey:            textSize,
+                           textColorKey:           textColorHexValue,
+                           backgroundColorKey:     backgroundColorHexValue,
+                           textBackgroundColorKey: textBackgroundColorHexValue,
+                           backgroundOpacityKey:   backgroundOpacity,
+                           textOpacityKey:         textOpacity,
+                           fontNameKey:            fontName};
+  [self sendEventWithName:ccStylingChanged body:params];
 }
 
 - (CGRect)videoViewFrame {
@@ -129,8 +151,8 @@ static NSString *volumeKey = @"volume";
 #pragma mark - Private
 
 - (void)setupAudioSettingsFromConfig:(NSDictionary *)config {
-  NSDictionary *audioSettingsJSON = [config objectForKey:@"audio"];
-  NSString *defaultAudioLanguageCode = [audioSettingsJSON objectForKey:@"audioLanguage"];
+  NSDictionary *audioSettingsJSON    = config[audioKey];
+  NSString *defaultAudioLanguageCode = audioSettingsJSON[audioLanguageKey];
 
   if (defaultAudioLanguageCode) {
     [self.player setDefaultConfigAudioTrackLanguageCode:defaultAudioLanguageCode];
@@ -158,29 +180,26 @@ static NSString *volumeKey = @"volume";
 - (void)handleDiscoveryResults:(NSArray *)results embedCode:(NSString *)currentEmbedCode {
   NSMutableArray *discoveryArray = [NSMutableArray new];
   for (NSDictionary *dict in results) {
-    NSString *embedCode = [dict objectForKey:@"embed_code"];
-    if ([embedCode isEqualToString:currentEmbedCode]) {
-      continue;
-    }
-    NSString *name = [dict objectForKey:@"name"];
-    NSString *imageUrl = [dict objectForKey:@"preview_image_url"];
-    NSNumber *duration = @([[dict objectForKey:@"duration"] doubleValue] / 1000);
-    NSString *bucketInfo = [dict objectForKey:@"bucket_info"];
-    // we assume we always get a string description, even if it is empty ("")
-    NSString *description = [dict objectForKey:@"description"];
-    NSDictionary *discoveryItem = @{@"name": name,
-                                    @"embedCode": embedCode,
-                                    @"imageUrl": imageUrl,
-                                    @"duration": duration,
-                                    @"bucketInfo": bucketInfo,
-                                    @"description": description};
+    NSString *embedCode = dict[embed_CodeKey];
+    if ([embedCode isEqualToString:currentEmbedCode]) { continue; }
+    NSString *name              = dict[nameKey];
+    NSString *imageUrl          = dict[previewImgUrlKey];
+    NSNumber *duration          = @([dict[durationKey] doubleValue] / 1000);
+    NSString *bucketInfo        = dict[bucket_InfoKey];
+    NSString *description       = dict[descriptionKey];// we assume we always get a string description, even if it is empty ("")
+    NSDictionary *discoveryItem = @{nameKey:        name,
+                                    embedCodeKey:   embedCode,
+                                    imageUrlKey:    imageUrl,
+                                    durationKey:    duration,
+                                    bucketInfoKey:  bucketInfo,
+                                    descriptionKey: description};
     [discoveryArray addObject:discoveryItem];
   }
   if ([discoveryArray count] > 0 && discoveryArray[0]) {
     [self.upNextManager setNextVideo:discoveryArray[0]];
   }
-  NSDictionary *eventBody = @{@"results": discoveryArray};
-  [self sendEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];
+  NSDictionary *eventBody = @{resultsKey: discoveryArray};
+  [self sendEventWithName:discoveryResultsReceived body:eventBody];
 }
 
 
