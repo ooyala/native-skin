@@ -42,6 +42,8 @@
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
 		391346C921257B9F0044D42D /* OOQueuedEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 391346B221257B9E0044D42D /* OOQueuedEvent.h */; };
 		391346CA21257B9F0044D42D /* OOQueuedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 391346C821257B9E0044D42D /* OOQueuedEvent.m */; };
+		39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B612EF2158D04B00E2277C /* UIColor+Utils.h */; };
+		39B612F22158D04B00E2277C /* UIColor+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B612F02158D04B00E2277C /* UIColor+Utils.m */; };
 		39EEE0E32122C36A00377DB3 /* OOReactSkinEventsEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		39EEE0E42122C36A00377DB3 /* OOReactSkinEventsEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */; };
 		39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -342,6 +344,8 @@
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		391346B221257B9E0044D42D /* OOQueuedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOQueuedEvent.h; sourceTree = "<group>"; };
 		391346C821257B9E0044D42D /* OOQueuedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOQueuedEvent.m; sourceTree = "<group>"; };
+		39B612EF2158D04B00E2277C /* UIColor+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utils.h"; sourceTree = "<group>"; };
+		39B612F02158D04B00E2277C /* UIColor+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utils.m"; sourceTree = "<group>"; };
 		39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinEventsEmitter.h; sourceTree = "<group>"; };
 		39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinEventsEmitter.m; sourceTree = "<group>"; };
 		39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinModel.h; sourceTree = "<group>"; };
@@ -660,6 +664,8 @@
 				CA742B591BE279040056784E /* NSString+Utils.m */,
 				CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */,
 				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
+				39B612EF2158D04B00E2277C /* UIColor+Utils.h */,
+				39B612F02158D04B00E2277C /* UIColor+Utils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -701,6 +707,7 @@
 				9769227D1B8E37F300A61ACF /* OOSkinViewControllerDelegate.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
 				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
+				39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */,
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
 				39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */,
 				972ED88B1AE6F008005043DC /* OOSkinViewController.h in Headers */,
@@ -1101,6 +1108,7 @@
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				0BCABD9C1C7F77A900989005 /* OOClosedCaptionsViewManager.m in Sources */,
+				39B612F22158D04B00E2277C /* UIColor+Utils.m in Sources */,
 				0BCABD9A1C7F77A900989005 /* CountdownViewManager.m in Sources */,
 				CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
