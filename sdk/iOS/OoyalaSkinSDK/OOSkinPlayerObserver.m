@@ -94,7 +94,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
 #pragma mark - Methods
 
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel {
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+              ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel {
   if (self = [super init]) {
     _ooReactSkinModel = ooReactSkinModel;
     _player = player;
@@ -147,9 +148,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
 // PBA-4831 Return adjusted playhead calculated from the seekable range
 - (NSNumber *)getAdjustedPlayhead:(OOOoyalaPlayer *)player {
   CMTimeRange seekableRange = player.seekableTimeRange;
-  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
-  Float64 adjustedPlayhead = player.playheadTime;
-  
+  Float64 seekableStart     = CMTimeGetSeconds(seekableRange.start);
+  Float64 adjustedPlayhead  = player.playheadTime;
+
   if (!CMTIMERANGE_IS_INVALID(seekableRange)) {
     adjustedPlayhead = player.playheadTime - seekableStart;
   }
@@ -158,13 +159,13 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
 - (void)bridgeSeekStartedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
-  OOSeekInfo *seekInfo = seekInfoDictionaryObject[seekInfoKey];
-  
+  OOSeekInfo *seekInfo                   = seekInfoDictionaryObject[seekInfoKey];
+
   CMTimeRange seekableRange = self.player.seekableTimeRange;
-  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
-  Float64 seekableDuration = CMTimeGetSeconds(seekableRange.duration);
-  Float64 seekStart = seekInfo.seekStart - seekableStart;
-  Float64 seekEnd = seekInfo.seekEnd - seekableStart;
+  Float64 seekableStart     = CMTimeGetSeconds(seekableRange.start);
+  Float64 seekableDuration  = CMTimeGetSeconds(seekableRange.duration);
+  Float64 seekStart         = seekInfo.seekStart - seekableStart;
+  Float64 seekEnd           = seekInfo.seekEnd - seekableStart;
 
   NSDictionary *eventBody = @{seekStartKey: @(seekStart),
                               seekEndKey:   @(seekEnd),
@@ -174,21 +175,21 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
 - (void)bridgeSeekCompletedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
-  OOSeekInfo *seekInfo = seekInfoDictionaryObject[seekInfoKey];
-  
+  OOSeekInfo *seekInfo                   = seekInfoDictionaryObject[seekInfoKey];
+
   CMTimeRange seekableRange = self.player.seekableTimeRange;
-  Float64 seekStart = seekInfo.seekStart;
-  Float64 seekEnd = seekInfo.seekEnd;
+  Float64 seekStart        = seekInfo.seekStart;
+  Float64 seekEnd          = seekInfo.seekEnd;
   Float64 seekableDuration = self.player.duration;
-  
+
   // Check seekable range
   if (CMTIMERANGE_IS_VALID(seekableRange)) {
     Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
-    seekableDuration = CMTimeGetSeconds(seekableRange.duration);
-    
+    seekableDuration      = CMTimeGetSeconds(seekableRange.duration);
+
     seekStart = seekInfo.seekStart - seekableStart;
-    seekEnd = seekInfo.seekEnd - seekableStart;
-    
+    seekEnd   = seekInfo.seekEnd - seekableStart;
+
     if (seekableStart > seekInfo.seekStart) {
       seekStart = 0;
     }
@@ -204,13 +205,13 @@ static NSString *requireAdBarKey = @"requireAdBar";
 - (void)bridgeAdOverlayNotification:(NSNotification *)notification {
   NSDictionary *overlayInfo = notification.userInfo;
 
-  NSInteger width = [overlayInfo[widthKey] integerValue];
-  NSInteger height = [overlayInfo[heigthKey] integerValue];
-  NSInteger expandedWidth = [overlayInfo[expandedWidthKey] integerValue];
+  NSInteger width          = [overlayInfo[widthKey] integerValue];
+  NSInteger height         = [overlayInfo[heigthKey] integerValue];
+  NSInteger expandedWidth  = [overlayInfo[expandedWidthKey] integerValue];
   NSInteger expandedHeight = [overlayInfo[expandedHeightKey] integerValue];
-  NSString *resourceUrl = overlayInfo[resourceUrlKey];
-  NSString *clickUrl = overlayInfo[clickUrlKey] == nil ? @"": overlayInfo[clickUrlKey];
-  
+  NSString *resourceUrl    = overlayInfo[resourceUrlKey];
+  NSString *clickUrl       = overlayInfo[clickUrlKey] == nil ? @"": overlayInfo[clickUrlKey];
+
   NSDictionary *eventBody = @{widthKey:          @(width),
                               heigthKey:         @(height),
                               expandedWidthKey:  @(expandedWidth),
@@ -221,9 +222,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber = [self getAdjustedPlayhead: self.player];
-  NSNumber *durationNumber = [self getTotalDuration: self.player];
-  NSNumber *rateNumber = @(self.player.playbackRate);
+  NSNumber *playheadNumber  = [self getAdjustedPlayhead: self.player];
+  NSNumber *durationNumber  = [self getTotalDuration: self.player];
+  NSNumber *rateNumber      = @(self.player.playbackRate);
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[self.player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
 
   NSDictionary *eventBody = @{durationKey:         durationNumber,
@@ -256,17 +257,17 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeCurrentItemChangedNotification:(NSNotification *)notification {
-  NSString *title = self.player.currentItem.title ? self.player.currentItem.title : @"";
-  NSString *itemDescription = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
-  NSString *promoUrl = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
-  NSString *hostedAtUrl = self.player.currentItem.hostedAtURL ? self.player.currentItem.hostedAtURL : @"";
-  NSNumber *durationNumber = @(self.player.currentItem.duration);
-  NSNumber *frameWidth = @(CGRectGetWidth(self.ooReactSkinModel.videoViewFrame));
-  NSNumber *frameHeight = @(CGRectGetHeight(self.ooReactSkinModel.videoViewFrame));
-  NSNumber *live = @(self.player.currentItem.live);
+  NSString *title                  = self.player.currentItem.title ? self.player.currentItem.title : @"";
+  NSString *itemDescription        = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
+  NSString *promoUrl               = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
+  NSString *hostedAtUrl            = self.player.currentItem.hostedAtURL ? self.player.currentItem.hostedAtURL : @"";
+  NSNumber *durationNumber         = @(self.player.currentItem.duration);
+  NSNumber *frameWidth             = @(CGRectGetWidth(self.ooReactSkinModel.videoViewFrame));
+  NSNumber *frameHeight            = @(CGRectGetHeight(self.ooReactSkinModel.videoViewFrame));
+  NSNumber *live                   = @(self.player.currentItem.live);
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
-  NSNumber *volume = @([OOVolumeManager getCurrentVolume]);
-  
+  NSNumber *volume                 = @([OOVolumeManager getCurrentVolume]);
+
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
                               promoUrlKey:    promoUrl,
@@ -293,7 +294,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeDesiredStateChangedNotification:(NSNotification *)notification {
-  NSString *stateString = [OOOoyalaPlayer playerDesiredStateToString:_player.desiredState];
+  NSString *stateString   = [OOOoyalaPlayer playerDesiredStateToString:self.player.desiredState];
   NSDictionary *eventBody = @{desiredStateKey: stateString};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
@@ -301,8 +302,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 - (void)bridgeErrorNotification:(NSNotification *)notification {
   OOOoyalaError *error = self.player.error;
   int errorCode = error ? error.code : -1;
-  NSNumber *code = @(errorCode);
-  NSString *detail = self.player.error.description ? self.player.error.description : @"";
+  NSNumber *code         = @(errorCode);
+  NSString *detail       = self.player.error.description ? self.player.error.description : @"";
   NSDictionary *userInfo = self.player.error.userInfo ? self.player.error.userInfo : @{};
 
   NSDictionary *eventBody = @{codeKey:        code,
@@ -312,10 +313,10 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgePlayCompletedNotification:(NSNotification *)notification {
-  NSString *title = self.player.currentItem.title ? self.player.currentItem.title : @"";
+  NSString *title           = self.player.currentItem.title ? self.player.currentItem.title : @"";
   NSString *itemDescription = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
-  NSString *promoUrl = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
-  NSNumber *durationNumber = @(self.player.currentItem.duration);
+  NSString *promoUrl        = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
+  NSNumber *durationNumber  = @(self.player.currentItem.duration);
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
@@ -327,32 +328,36 @@ static NSString *requireAdBarKey = @"requireAdBar";
 - (void)bridgeAdStartNotification:(NSNotification *)notification {
   //TODO: read cutomized font and font size
   static NSString *adFontFamily = @"AvenirNext-DemiBold";
-  static NSUInteger adFontSize = 16;
+  static NSUInteger adFontSize  = 16;
 
   NSDictionary *adInfo = notification.userInfo;
 
-  NSInteger count = [adInfo[countKey] integerValue];
-  NSInteger unplayed = [adInfo[unplayedKey] integerValue];
+  NSInteger count       = [adInfo[countKey] integerValue];
+  NSInteger unplayed    = [adInfo[unplayedKey] integerValue];
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
-  NSNumber *skipoffset = @([adInfo[skipOffsetKey] floatValue]);
-  NSArray *icons = adInfo[iconsKey];
-  NSString *title = adInfo[titleKey];
-  NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
-  NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig forKey:adPlayingKey];
+  NSNumber *skipoffset  = @([adInfo[skipOffsetKey] floatValue]);
+  NSArray *icons        = adInfo[iconsKey];
+  NSString *title       = adInfo[titleKey];
+  NSString *adTitle     = [NSString stringWithFormat:@"%@ ", title];
+  NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                 forKey:adPlayingKey];
   if (title.length > 0) {
     titlePrefix = [titlePrefix stringByAppendingString:@":"];
   }
-  NSString *durationString = @"00:00";
-  NSString *learnMoreString = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig forKey:adLearnMoreKey];
-  NSString *skipAdString = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig forKey:adSkipKey];
-  NSString *skipAdInTimeString = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig forKey:adSkipInKey];
+  NSString *durationString     = @"00:00";
+  NSString *learnMoreString    = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                        forKey:adLearnMoreKey];
+  NSString *skipAdString       = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                        forKey:adSkipKey];
+  NSString *skipAdInTimeString = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                        forKey:adSkipInKey];
 
-  CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize countSize = [countString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize durationSize = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize learnMoreSize = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize skipAdSize = [skipAdString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titleSize        = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titlePrefixSize  = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize countSize        = [countString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize durationSize     = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize learnMoreSize    = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize skipAdSize       = [skipAdString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize skipAdInTimeSize = [skipAdInTimeString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   NSDictionary *measures = @{learnMoreKey:    @(learnMoreSize.width),
                              skipAdKey:       @(skipAdSize.width),
@@ -364,11 +369,11 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *requireControls = @([adInfo[requireControlsKey]  boolValue]);
 
   NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
-  eventBody[measuresKey] = measures;
-  eventBody[titleKey] = adTitle;
-  eventBody[skipOffsetKey] = skipoffset;
+  eventBody[measuresKey]        = measures;
+  eventBody[titleKey]           = adTitle;
+  eventBody[skipOffsetKey]      = skipoffset;
   eventBody[requireControlsKey] = requireControls;
-  eventBody[iconsKey] = icons;
+  eventBody[iconsKey]           = icons;
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 
   if (![adInfo[requireAdBarKey] boolValue]) {
@@ -407,13 +412,13 @@ static NSString *requireAdBarKey = @"requireAdBar";
 //  eventBody[@"playbackSpeedEnabled"] = @(self.player.isPlaybackSpeedEnabled);
 //  eventBody[@"selectedPlaybackSpeedRate"] = @(self.player.selectedPlaybackSpeedRate);
 //
-//  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+//  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 //}
 //
 //- (void)bridgePlaybackSpeedRateChangedNotification:(NSNotification *)notification {
 //  NSDictionary *eventBody = @{@"selectedPlaybackSpeedRate": @(self.player.selectedPlaybackSpeedRate)};
 //
-//  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+//  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 //}
 
 - (void)bridgeEmbedCodeNotification:(NSNotification *)notification {
@@ -433,8 +438,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
   NSMutableDictionary *eventBody = [NSMutableDictionary new];
   eventBody[selectedAudioTrackKey] = self.player.selectedAudioTrack.title;
-  eventBody[audioTracksTitlesKey] = audioTracksTitles;
-  eventBody[multiAudioEnabledKey] = @(self.player.hasMultipleAudioTracks);
+  eventBody[audioTracksTitlesKey]  = audioTracksTitles;
+  eventBody[multiAudioEnabledKey]  = @(self.player.hasMultipleAudioTracks);
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
@@ -445,7 +450,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
 - (void)bridgeCCManifestChangedNotification:(NSNotification *)notification {
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
-  NSDictionary *eventBody = @{languagesKey: closedCaptionsLanguages};
+  NSDictionary *eventBody          = @{languagesKey: closedCaptionsLanguages};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
 }
