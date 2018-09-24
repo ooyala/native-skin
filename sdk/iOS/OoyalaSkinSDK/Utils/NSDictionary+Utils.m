@@ -15,42 +15,49 @@
 
 @implementation NSDictionary (Utils)
 
+#pragma - Constants
+static NSString *availableLanguageFileKey = @"availableLanguageFile";
+static NSString *iosResourceKey           = @"iosResource";
+static NSString *jsonKey                  = @"json";
+
+#pragma mark -
+
 + (NSDictionary *)dictionaryFromSkinConfigFile:(NSString *)filename mergedWith:(NSDictionary *)otherDict {
   NSDictionary *d = [NSDictionary dictionaryFromJson:filename];
   ASSERT(d != nil, @"missing skin configuration json" );
 
-  NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:d];
+  NSMutableDictionary *dict               = [NSMutableDictionary dictionaryWithDictionary:d];
   NSMutableDictionary *localizableStrings = [NSMutableDictionary dictionaryWithDictionary:d[kLocalizableStrings]];
-  NSArray *languages = localizableStrings[@"availableLanguageFile"];
+  NSArray *languages                      = localizableStrings[availableLanguageFileKey];
 
   for (NSDictionary *localizationConfig in languages) {
-    if ([localizationConfig[@"iosResource"] isKindOfClass:[NSString class]]) {
-      d = [NSDictionary dictionaryFromJson:localizationConfig[@"iosResource"]];
+    if ([localizationConfig[iosResourceKey] isKindOfClass:[NSString class]]) {
+      d = [NSDictionary dictionaryFromJson:localizationConfig[iosResourceKey]];
       if (d) {
-        [localizableStrings setObject:d forKey:localizationConfig[@"iosResource"]];
+        localizableStrings[localizationConfig[iosResourceKey]] = d;
       }
     }
   }
 
-  [dict setObject:localizableStrings forKey:kLocalizableStrings];
+  dict[kLocalizableStrings] = localizableStrings;
   NSString *localeId = [OOLocaleHelper preferredLanguageId];
-  [dict setObject:localeId forKey:kLocale];
+  dict[kLocale]      = localeId;
 
   [dict mergeWith:otherDict];
   return dict;
 }
 
 + (NSDictionary *)dictionaryFromJson:(NSString *)filename {
-  NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:@"json"];
-  NSData *data = [NSData dataWithContentsOfFile:filePath];
+  NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:jsonKey];
+  NSData *data       = [NSData dataWithContentsOfFile:filePath];
   if (data) {
     NSError* error = nil;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    if( error == nil ) {
+    if (!error) {
       return dict;
     }
   }
-  
+
   return nil;
 }
 
