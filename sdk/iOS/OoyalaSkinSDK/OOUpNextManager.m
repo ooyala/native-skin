@@ -11,9 +11,9 @@
 
 @interface OOUpNextManager ()
 
-@property(nonatomic) BOOL upNextEnabled;
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
+@property (nonatomic) BOOL upNextEnabled;
 @property (nonatomic) BOOL isDismissed;
 @property (nonatomic) NSDictionary *nextVideo;
 
@@ -32,10 +32,9 @@ static NSString *embedCodeKey       = @"embedCode";
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
               ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel
                         config:(NSDictionary *)config {
-
   if (self = [super init]) {
   // Read the following value in from skin config
-  _upNextEnabled = [[config objectForKey:showUpNextKey] boolValue];
+  _upNextEnabled = [config[showUpNextKey] boolValue];
 
   // Save the player passed in with the init
   _player = player;
@@ -59,45 +58,47 @@ static NSString *embedCodeKey       = @"embedCode";
 }
 
 - (void)setNextVideo:(NSDictionary *)nextVideo {
-  if(nextVideo != nil) {
+  if (nextVideo) {
     _nextVideo = nextVideo;
 
     // After the a new video has been set, let react know that isDismissed
     // is now false.
-    [self.ooReactSkinModel sendEventWithName:upNextDismissedKey body: @{upNextDismissedKey: @(self.isDismissed)}];
+    [self.ooReactSkinModel sendEventWithName:upNextDismissedKey
+                                        body:@{upNextDismissedKey: @(self.isDismissed)}];
 
     // Sets the next video to play in the upnext as specified by react.
-    [self.ooReactSkinModel sendEventWithName:setNextVideoKey body: @{setNextVideoKey: _nextVideo}];
+    [self.ooReactSkinModel sendEventWithName:setNextVideoKey
+                                        body:@{setNextVideoKey: self.nextVideo}];
   }
 }
 
 - (void)playCompletedNotification:(NSNotification *)notification {
-  if ([self upNextEnabled]) {
+  if (self.upNextEnabled) {
     [self goToNextVideo];
   }
 }
 
 - (void)goToNextVideo {
-  // if upnext has not been dismissed and there is a next video, play the
-  // next video.
+  // if upnext has not been dismissed and there is a next video, play the next video.
   LOG(@"Going to next video based on Up Next");
-  if (!self.isDismissed && self.nextVideo != NULL) {
-    [[self player] setEmbedCode:[[self nextVideo] objectForKey:embedCodeKey]];
-    [[self player] play];
+  if (!self.isDismissed && self.nextVideo) {
+    [self.player setEmbedCode:self.nextVideo[embedCodeKey]];
+    [self.player play];
   }
 }
 
 - (void)currentItemChangedNotification:(NSNotification *)notification {
-  // Set upNext back to non dismissed and the next video to null.
+  // Set upNext back to non dismissed and the next video to nil.
   self.isDismissed = NO;
-  self.nextVideo = NULL;
+  self.nextVideo = nil;
 }
 
 - (void)onDismissPressed {
   self.isDismissed = YES;
 
   // Lets react know that dismiss has been pressed.
-  [self.ooReactSkinModel sendEventWithName:upNextDismissedKey body: @{upNextDismissedKey: @(self.isDismissed)}];
+  [self.ooReactSkinModel sendEventWithName:upNextDismissedKey
+                                      body:@{upNextDismissedKey: @(self.isDismissed)}];
 }
 
 - (void)dealloc {

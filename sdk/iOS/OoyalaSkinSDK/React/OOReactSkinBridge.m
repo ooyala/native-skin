@@ -21,7 +21,8 @@
 
 @dynamic delegate;
 
-- (instancetype)initWithDelegate:(id<OOReactSkinBridgeDelegate>)delegate launchOptions:(NSDictionary *)launchOptions {
+- (instancetype)initWithDelegate:(id<OOReactSkinBridgeDelegate>)delegate
+                   launchOptions:(NSDictionary *)launchOptions {
   return [super initWithDelegate:delegate launchOptions:launchOptions];
 }
 
@@ -43,7 +44,7 @@
 }
 
 - (void)didInitializeModuleNotification:(NSNotification *)notification {
-  id module = [notification.userInfo objectForKey:@"module"];
+  id module = notification.userInfo[@"module"];
 
   if ([self.delegate respondsToSelector:@selector(bridge:didLoadModule:)]) {
     if (module && [module conformsToProtocol:@protocol(OOReactSkinBridgeModule)]) {

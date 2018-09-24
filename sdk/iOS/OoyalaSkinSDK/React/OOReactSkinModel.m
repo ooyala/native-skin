@@ -18,6 +18,7 @@
 #import "OOUpNextManager.h"
 #import "NSDictionary+Utils.h"
 #import "OOVolumeManager.h"
+#import "UIColor+Utils.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODebugMode.h>
@@ -49,8 +50,7 @@ static NSString *volumeKey = @"volume";
 - (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player
                        skinOptions:(OOSkinOptions *)skinOptions
             skinControllerDelegate:(id<OOSkinViewControllerDelegate>)skinControllerDelegate {
-  self = [super init];
-  if (self) {
+  if (self = [super init]) {
     _player = player;
     _skinOptions = skinOptions;
     _skinControllerDelegate = skinControllerDelegate;
@@ -61,7 +61,9 @@ static NSString *volumeKey = @"volume";
     [OOVolumeManager addVolumeObserver:self];
 
     _playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player ooReactSkinModel:self];
-    _upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player ooReactSkinModel:self config:[self.skinConfig objectForKey:@"upNext"]];
+    _upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player
+                                            ooReactSkinModel:self
+                                                      config:self.skinConfig[upNextKey]];
 
     // Audio settings
     [self setupAudioSettingsFromConfig:_skinConfig];
@@ -69,8 +71,17 @@ static NSString *volumeKey = @"volume";
   return self;
 }
 
+- (void)dealloc {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  [OOVolumeManager removeVolumeObserver:self];
+}
+
+#pragma mark - Public
+
 - (RCTRootView *)viewForModuleWithName:(NSString *)moduleName{
-  RCTRootView* rootView = [[RCTRootView alloc] initWithBridge:_bridge moduleName:moduleName initialProperties:self.skinConfig];
+  RCTRootView *rootView = [[RCTRootView alloc] initWithBridge:self.bridge
+                                                   moduleName:moduleName
+                                            initialProperties:self.skinConfig];
   return rootView;
 }
 
@@ -108,11 +119,11 @@ static NSString *volumeKey = @"volume";
 }
 
 - (CGRect)videoViewFrame {
-  return [self.skinControllerDelegate videoViewFrame];
+  return self.skinControllerDelegate.videoViewFrame;
 }
 
 - (void)setReactViewInteractionEnabled:(BOOL)reactViewInteractionEnabled {
-  [self.skinControllerDelegate setReactViewInteractionEnabled:reactViewInteractionEnabled];
+  self.skinControllerDelegate.reactViewInteractionEnabled = reactViewInteractionEnabled;
 }
 
 #pragma mark - Private
@@ -126,24 +137,15 @@ static NSString *volumeKey = @"volume";
   }
 }
 
-- (NSString *)hexStringFromColor:(UIColor *)color {
-  const CGFloat *components = CGColorGetComponents(color.CGColor);
-
-  CGFloat r = components[0];
-  CGFloat g = components[1];
-  CGFloat b = components[2];
-
-  return [NSString stringWithFormat:@"#%02lX%02lX%02lX",
-          lroundf(r * 255),
-          lroundf(g * 255),
-          lroundf(b * 255)];
-}
-
 #pragma mark - Discovery UI
 
 - (void)maybeLoadDiscovery:(NSString *)embedCode {
   if (self.player.currentItem.embedCode && self.skinOptions.discoveryOptions) {
-    [OODiscoveryManager getResults:self.skinOptions.discoveryOptions embedCode:embedCode pcode:self.player.pcode parameters:nil callback:^(NSArray *results, OOOoyalaError *error) {
+    [OODiscoveryManager getResults:self.skinOptions.discoveryOptions
+                         embedCode:embedCode
+                             pcode:self.player.pcode
+                        parameters:nil
+                          callback:^(NSArray *results, OOOoyalaError *error) {
       if (error) {
         LOG(@"discovery request failed, error is %@", error.description);
       } else {
@@ -174,17 +176,13 @@ static NSString *volumeKey = @"volume";
                                     @"description": description};
     [discoveryArray addObject:discoveryItem];
   }
-  if ([discoveryArray count] > 0 && (discoveryArray[0] != nil)) {
+  if ([discoveryArray count] > 0 && discoveryArray[0]) {
     [self.upNextManager setNextVideo:discoveryArray[0]];
   }
   NSDictionary *eventBody = @{@"results": discoveryArray};
   [self sendEventWithName:DISCOVERY_RESULT_NOTIFICATION body:eventBody];
 }
 
-- (void)dealloc {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [OOVolumeManager removeVolumeObserver:self];
-}
 
 #pragma mark - RCTBridgeDelegate
 
@@ -226,13 +224,19 @@ static NSString *volumeKey = @"volume";
 }
 
 - (void)handleDiscoveryClick:(NSString *)bucketInfo embedCode:(NSString *)embedCode {
-  [OODiscoveryManager sendClick:self.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:self.player.pcode parameters:nil];
+  [OODiscoveryManager sendClick:self.skinOptions.discoveryOptions
+                     bucketInfo:bucketInfo
+                          pcode:self.player.pcode
+                     parameters:nil];
   [self.player setEmbedCode:embedCode];
   [self.player play];
 }
 
 - (void)handleDiscoveryImpress:(NSString *)bucketInfo {
-  [OODiscoveryManager sendImpression:self.skinOptions.discoveryOptions bucketInfo:bucketInfo pcode:self.player.pcode parameters:nil];
+  [OODiscoveryManager sendImpression:self.skinOptions.discoveryOptions
+                          bucketInfo:bucketInfo
+                               pcode:self.player.pcode
+                          parameters:nil];
 }
 
 - (void)handleIconClick:(NSInteger)index {
@@ -294,9 +298,9 @@ static NSString *volumeKey = @"volume";
 - (void)handleScrub:(Float64)position {
   if (self.player) {
     CMTimeRange seekableRange = self.player.seekableTimeRange;
-    Float64 start = CMTimeGetSeconds(seekableRange.start);
-    Float64 duration = CMTimeGetSeconds(seekableRange.duration);
-    Float64 playhead = position * duration + start;
+    Float64 start             = CMTimeGetSeconds(seekableRange.start);
+    Float64 duration          = CMTimeGetSeconds(seekableRange.duration);
+    Float64 playhead          = position * duration + start;
     if (playhead < 0.0f) {
       playhead = 0.0f;
     }

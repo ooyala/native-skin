@@ -15,19 +15,19 @@ NSString *const VolumeChangeKey = @"volumeChanged";
 @implementation OOVolumeManager
 
 + (void)addVolumeObserver:(NSObject *)observer {
-  [[AVAudioSession sharedInstance] addObserver:observer
-                                    forKeyPath:VolumePropertyKey
-                                       options:NSKeyValueObservingOptionNew
-                                       context:nil];
+  [AVAudioSession.sharedInstance addObserver:observer
+                                  forKeyPath:VolumePropertyKey
+                                     options:NSKeyValueObservingOptionNew
+                                     context:nil];
 }
 
 + (void)removeVolumeObserver:(NSObject *)observer {
-  [[AVAudioSession sharedInstance] removeObserver:observer
-                                       forKeyPath:VolumePropertyKey];
+  [AVAudioSession.sharedInstance removeObserver:observer
+                                     forKeyPath:VolumePropertyKey];
 }
 
 + (float)getCurrentVolume {
-  return [[AVAudioSession sharedInstance] outputVolume];
+  return AVAudioSession.sharedInstance.outputVolume;
 }
 
 @end

@@ -82,19 +82,19 @@ RCT_EXPORT_METHOD(onMounted) {
 }
 
 RCT_EXPORT_METHOD(onLanguageSelected:(NSDictionary *)parameters) {
-  [self.skinModelDelegate handleLanguageSelection:[parameters objectForKey:languageKey]];
+  [self.skinModelDelegate handleLanguageSelection:parameters[languageKey]];
 }
 
 RCT_EXPORT_METHOD(onAudioTrackSelected:(NSDictionary *)parameters) {
-  [self.skinModelDelegate handleAudioTrackSelection:[parameters objectForKey:audioTrackKey]];
+  [self.skinModelDelegate handleAudioTrackSelection:parameters[audioTrackKey]];
 }
 
 RCT_EXPORT_METHOD(onPlaybackSpeedRateSelected:(NSDictionary *)parameters) {
-  [self.skinModelDelegate handlePlaybackSpeedRateSelection:[parameters objectForKey:playbackSpeedRateKey]];
+  [self.skinModelDelegate handlePlaybackSpeedRateSelection:parameters[playbackSpeedRateKey]];
 }
 
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
-  NSString *buttonName = [parameters objectForKey:nameKey];
+  NSString *buttonName = parameters[nameKey];
 
   if ([buttonName isEqualToString:playPauseButtonName]) {
     [self.skinModelDelegate handlePlayPause];
@@ -113,7 +113,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   } else if([buttonName isEqualToString:skipButtonName]) {
     [self.skinModelDelegate handleSkip];
   } else if ([buttonName isEqualToString:adIconButtonName]) {
-    [self.skinModelDelegate handleIconClick:[[parameters objectForKey:indexKey] integerValue]];
+    [self.skinModelDelegate handleIconClick:[parameters[indexKey] integerValue]];
   } else if([buttonName isEqualToString:moreOptionButtonName]) {
     [self.skinModelDelegate handleMoreOption];
   } else if([buttonName isEqualToString:upNextDismiss]) {
@@ -121,7 +121,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   } else if([buttonName isEqualToString:upNextClick]) {
     [self.skinModelDelegate handleUpNextClick];
   } else if ([buttonName isEqualToString:adOverlayButtonName]) {
-    [self.skinModelDelegate handleOverlay:[parameters objectForKey:clickUrlKey]];
+    [self.skinModelDelegate handleOverlay:parameters[clickUrlKey]];
   } else if ([buttonName isEqualToString:pipButtonName]) {
     [self.skinModelDelegate handlePip];
   } else if ([buttonName isEqualToString:stereoscopicButtonName]) {
@@ -129,7 +129,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   }
 }
 
-RCT_EXPORT_METHOD(handleTouchStart: (NSDictionary *)params){
+RCT_EXPORT_METHOD(handleTouchStart:(NSDictionary *)params){
   NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
   [result mergeWith:@{eventNameKey: startValue}];
   [self.skinModelDelegate handleTouch:result];
@@ -148,21 +148,21 @@ RCT_EXPORT_METHOD(handleTouchEnd:(NSDictionary *)params) {
 }
 
 RCT_EXPORT_METHOD(onScrub:(NSDictionary *)parameters) {
-  Float64 position = [[parameters objectForKey:percentageKey] doubleValue];
+  Float64 position = [parameters[percentageKey] doubleValue];
   [self.skinModelDelegate handleScrub:position];
 }
 
 RCT_EXPORT_METHOD(setEmbedCode:(NSDictionary *)parameters) {
-  NSString *embedCode = [parameters objectForKey:embedCodeKey];
+  NSString *embedCode = parameters[embedCodeKey];
   [self.skinModelDelegate setEmbedCode:embedCode];
 }
 
 RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
-  NSString *action = [parameters objectForKey:actionKey];
-  NSString *bucketInfo = [parameters objectForKey:bucketInfoKey];
+  NSString *action     = parameters[actionKey];
+  NSString *bucketInfo = parameters[bucketInfoKey];
 
   if ([action isEqualToString:clickValue]) {
-    NSString *embedCode = [parameters objectForKey:embedCodeKey];
+    NSString *embedCode = parameters[embedCodeKey];
     [self.skinModelDelegate handleDiscoveryClick:bucketInfo embedCode:embedCode];
   } else if ([action isEqualToString:impressValue]) {
     [self.skinModelDelegate handleDiscoveryImpress:bucketInfo];
