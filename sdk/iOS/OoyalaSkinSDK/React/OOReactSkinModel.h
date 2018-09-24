@@ -16,24 +16,24 @@
 
 @interface OOReactSkinModel : NSObject<RCTBridgeDelegate>
 
-@property (nonatomic) NSDictionary *skinConfig;
-@property (nonatomic, readwrite) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
+@property (nonatomic, nonnull) NSDictionary *skinConfig;
+@property (nonatomic, readwrite, nullable) OOClosedCaptionsStyle *closedCaptionsDeviceStyle;
 @property (nonatomic, readonly) CGRect videoViewFrame;
 
-- (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player
-                       skinOptions:(OOSkinOptions *)skinOptions
-            skinControllerDelegate:(id<OOSkinViewControllerDelegate>)skinControllerDelegate;
-- (RCTRootView*)viewForModuleWithName:(NSString *)moduleName;
-- (void)sendEventWithName:(NSString *)eventName body:(id)body;
+- (nonnull instancetype)initWithWithPlayer:(nonnull OOOoyalaPlayer *)player
+                               skinOptions:(nonnull OOSkinOptions *)skinOptions
+                    skinControllerDelegate:(nonnull id<OOSkinViewControllerDelegate>)skinControllerDelegate;
+- (nonnull RCTRootView*)viewForModuleWithName:(nonnull NSString *)moduleName;
+- (void)sendEventWithName:(nonnull NSString *)eventName body:(nullable id)body;
 - (void)setIsReactReady:(BOOL)isReactReady;
-- (void)ccStyleChanged:(NSNotification *)notification;
+- (void)ccStyleChanged:(nullable NSNotification *)notification;
 
 // Note: This is for IMA ad playback only.
 // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
 // toggle play/pause as if the alice ui is clicked.
 // see: OOSkinPlayerObserver bridgeAdTappedNotification
 - (void)playPauseFromAdTappedNotification;
-- (void)maybeLoadDiscovery:(NSString *)embedCode;
+- (void)maybeLoadDiscovery:(nullable NSString *)embedCode;
 - (void)setReactViewInteractionEnabled:(BOOL)reactViewInteractionEnabled;
 
 @end
@@ -55,14 +55,14 @@
 - (void)handleMoreOption;
 - (void)handleUpNextDismiss;
 - (void)handleUpNextClick;
-- (void)handleLanguageSelection:(NSString *)language;
-- (void)handleAudioTrackSelection:(NSString *)audioTrackName;
+- (void)handleLanguageSelection:(nullable NSString *)language;
+- (void)handleAudioTrackSelection:(nonnull NSString *)audioTrackName;
 - (void)handlePlaybackSpeedRateSelection:(nullable NSNumber *)selectedPlaybackSpeedRate;
-- (void)handleOverlay:(NSString *)url;
-- (void)handleTouch:(NSDictionary *)result;
+- (void)handleOverlay:(nullable NSString *)url;
+- (void)handleTouch:(nonnull NSDictionary *)result;
 - (void)handleScrub:(Float64)position;
-- (void)setEmbedCode:(NSString *)embedCode;
-- (void)handleDiscoveryClick:(NSString *)bucketInfo embedCode:(NSString *)embedCode;
-- (void)handleDiscoveryImpress:(NSString *)bucketInfo;
+- (void)setEmbedCode:(nonnull NSString *)embedCode;
+- (void)handleDiscoveryClick:(nullable NSString *)bucketInfo embedCode:(nonnull NSString *)embedCode;
+- (void)handleDiscoveryImpress:(nullable NSString *)bucketInfo;
 
 @end
