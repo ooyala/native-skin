@@ -27,8 +27,7 @@
 RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
 
 - (instancetype)init {
-  self = [super init];
-  if (self) {
+  if (self = [super init]) {
     _isReactReady = NO;
     _queuedEvents = [NSMutableArray new];
   }

@@ -19,8 +19,7 @@
 @implementation OOSkinAutoUpdatingClosedCaptionsStyle
 
 - (instancetype)initWithClosedCaptionsView:(OOClosedCaptionsView*)ccView {
-  self = [super init];
-  if (self) {
+  if (self = [super init]) {
     _ccView = ccView;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onApplicationDidBecomeActive:)

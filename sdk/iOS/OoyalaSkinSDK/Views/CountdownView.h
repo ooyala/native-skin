@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <React/RCTComponent.h>
 
-
 @interface CountdownView : UIView
 
 @property (nonatomic, copy) RCTBubblingEventBlock onTimerUpdate;

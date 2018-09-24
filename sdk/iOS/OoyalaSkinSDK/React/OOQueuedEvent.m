@@ -8,8 +8,7 @@
 @implementation OOQueuedEvent
 
 - (instancetype)initWithWithName:(NSString *)eventName body:(id)body {
-  self = [super init];
-  if (self) {
+  if (self = [super init]) {
     _eventName = eventName;
     _body = body;
   }

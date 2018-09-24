@@ -21,8 +21,7 @@
 @implementation CountdownView
 
 - (instancetype)init {
-  self = [super init];
-  if (self) {
+  if (self = [super init]) {
     self.canceled = NO;
   }
   return self;
@@ -30,7 +29,7 @@
 
 - (CAShapeLayer *)circleLayer {
   if (!_circleLayer) {
-    _circleLayer = [[CAShapeLayer alloc] init];
+    _circleLayer = [CAShapeLayer new];
   }
   return _circleLayer;
 }
@@ -50,7 +49,11 @@
   _automatic = automatic;
   
   if (_automatic && !self.timer) {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self selector:@selector(updateTimer:) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.1
+                                                  target:self
+                                                selector:@selector(updateTimer:)
+                                                userInfo:nil
+                                                 repeats:YES];
   }
 }
 
@@ -122,7 +125,7 @@
 }
 
 - (void)configureTimerLabel {
-  self.timerLabel.textColor = [UIColor whiteColor];
+  self.timerLabel.textColor = UIColor.whiteColor;
   self.timerLabel.textAlignment = NSTextAlignmentCenter;
   self.timerLabel.font = [UIFont fontWithName:@"Roboto-Regular" size:self.fontSize];
   self.timerLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -161,7 +164,7 @@
 
 - (void)layoutSubviews {
   [self configure];
-  self.circleLayer.path = [[self circlePath] CGPath];
+  self.circleLayer.path = [self circlePath].CGPath;
   [super layoutSubviews];
 }
 

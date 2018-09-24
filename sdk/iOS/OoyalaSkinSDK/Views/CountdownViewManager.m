@@ -18,7 +18,7 @@
 RCT_EXPORT_MODULE()
 
 - (UIView *)view {
-  return [[CountdownView alloc] init];
+  return [CountdownView new];
 }
 
 RCT_EXPORT_VIEW_PROPERTY(time, float)
