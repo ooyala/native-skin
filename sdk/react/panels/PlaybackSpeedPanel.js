@@ -25,6 +25,8 @@ const constants = {
   headerViewSectionTitle: "Playback Speed",
   normalPlaybackSpeedRateTitle: "Normal",
   normalPlaybackSpeedRateValue: 1.0,
+  maxPlaybackSpeedRateValue: 2.0,
+  minPlaybackSpeedRateValue: 0.5,
   playbackSpeedRatePostfix: "x"
 };
 
@@ -104,7 +106,6 @@ class PlaybackSpeedPanel extends React.Component {
       this.props.config.locale, constants.normalPlaybackSpeedRateTitle, this.props.config.localizableStrings);
 
     // Localize selected item
-
     let selectedLocalizedItem = this.props.selectedPlaybackSpeedRate;
 
     if (this.props.selectedPlaybackSpeedRate == constants.normalPlaybackSpeedRateValue) {
@@ -117,28 +118,24 @@ class PlaybackSpeedPanel extends React.Component {
     }
 
     // Validate playback speed rates
-    
     const validatedPlaybackSpeedRates = this.props.playbackSpeedRates.reduce((result, item) => {
       const number = parseFloat(String(item));
             
-      if (!isNaN(number) && number > 0) {
+      if (!isNaN(number) && number >= constants.minPlaybackSpeedRateValue && number <= constants.maxPlaybackSpeedRateValue) {
         result.push(parseFloat(number.toFixed(2)));
       }
       return result;
     }, []);
 
     // Add a normal playback speed rate if needed
-    
     if (!validatedPlaybackSpeedRates.includes(constants.normalPlaybackSpeedRateValue)) {
       validatedPlaybackSpeedRates.push(constants.normalPlaybackSpeedRateValue)
     }
 
     // Sort playback speed rates
-
     validatedPlaybackSpeedRates.sort((a, b) => a - b);
 
     // Add postfix for playback speed rates and remove duplicates if needed
-
     const convertedPlaybackSpeedRates = [...new Set(validatedPlaybackSpeedRates)].map(item => {
       if (item === constants.normalPlaybackSpeedRateValue) {
         return localizedTitleForNormalPlaybackSpeedRate;
