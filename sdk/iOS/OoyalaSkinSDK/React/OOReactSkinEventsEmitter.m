@@ -61,7 +61,9 @@ RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
            @"controllerKeyPressEvent",
            @"vrContentEvent",
            @"multiAudioEnabled",
-           @"audioTrackChanged"];
+           @"audioTrackChanged",
+           @"playbackSpeedEnabled",
+           @"playbackSpeedRateChanged"];
 }
 
 - (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
