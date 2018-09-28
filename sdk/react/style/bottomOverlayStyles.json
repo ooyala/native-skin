@@ -1,13 +1,16 @@
 {
   "container": {
-    "flex": 0,
+    "flex": 1,
     "flexDirection": "column",
-    "backgroundColor": "rgba(0,0,0,0.3)"
+    "backgroundColor": "rgba(0,0,0,0.3)",
+    "position": "absolute",
+    "bottom": 0
   },
   "bottomOverlayFlexibleSpace" : {
     "flex":1
   },
   "progressBarStyle":  {
+    "height": 20,
     "flex":0
   },
 
