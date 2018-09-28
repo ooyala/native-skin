@@ -1,20 +1,18 @@
 package com.ooyala.android.skin;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 import static android.os.Build.VERSION_CODES.KITKAT;
 
-public class OoyalaSkinLayout extends FrameLayout {
+public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisibilityChangeListener{
   private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
   private FrameLayout playerFrame;
 
@@ -24,7 +22,6 @@ public class OoyalaSkinLayout extends FrameLayout {
 
   private WindowManager windowManager;
   private boolean fullscreen = false;
-  private int statusBarHeight = 0;
 
   public interface FrameChangeCallback {
       void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
@@ -79,10 +76,8 @@ public class OoyalaSkinLayout extends FrameLayout {
       this.windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     }
 
-    int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-    if (resourceId > 0) {
-      statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-    }
+    final View decorView = ((Activity)getContext()).getWindow().getDecorView();
+    decorView.setOnSystemUiVisibilityChangeListener(this);
   }
 
   /**
@@ -166,27 +161,7 @@ public class OoyalaSkinLayout extends FrameLayout {
         return;
     }
 
-    DisplayMetrics displayMetrics = new DisplayMetrics();
-    if (SDK_INT >= JELLY_BEAN_MR1) {
-      windowManager.getDefaultDisplay().getRealMetrics(displayMetrics);
-    } else {
-      //TODO: Android 16 and below will show a poor fullscreen experience right now
-      // It will not fill the screen where the navigation bar is supposed to be
-      windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-    }
-
-    ViewGroup.LayoutParams layoutParams = getLayoutParams();
-
     this.fullscreen = fullscreen;
-
-    layoutParams.width = displayMetrics.widthPixels;
-    if(fullscreen) {
-      layoutParams.height = displayMetrics.heightPixels;
-    } else {
-      layoutParams.height = displayMetrics.heightPixels-statusBarHeight;
-    }
-    bringToFront();
-    setLayoutParams(layoutParams);
 
     toggleSystemUI(fullscreen);
   }
@@ -194,9 +169,11 @@ public class OoyalaSkinLayout extends FrameLayout {
   @Override
   protected void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
+    forceLayout();
+  }
 
-    // Need to force call this every time there's an orientation change to get the correct
-    // width and height values
-    setFullscreen(this.fullscreen);
+  @Override
+  public void onSystemUiVisibilityChange(int i) {
+    forceLayout();
   }
 }
