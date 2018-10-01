@@ -32,14 +32,16 @@ const Utils = require('./utils');
 const ProgressBar = require('./progressBar');
 const ControlBar = require('./controlBar');
 const ResponsiveDesignManager = require('./responsiveDesignManager');
-
 const styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
+
 const topMargin = 6;
 const leftMargin = 20;
 const progressBarHeight = 3;
+const accessibilityPadding = 3;
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 const cuePointSize = 8;
+
 let previousAnnouncing = 0;
 const accessibilityDelay = 2000; // Workaround for accessibility announcing for Android.
 const BottomOverlay = createReactClass({
@@ -132,26 +134,27 @@ const BottomOverlay = createReactClass({
   */
   componentWillReceiveProps: function(nextProps) {
     if (this.props.playhead !== nextProps.playhead) {
-       this.setState({cachedPlayhead:-1.0});
+      this.setState({cachedPlayhead: -1.0});
     }
   },
 
-  _renderProgressBarWidth: function() {
+  _calculateProgressBarWidth: function() {
     return this.props.width - 2 * leftMargin;
   },
 
-  _renderTopOffset: function(componentSize) {
-    return topMargin + progressBarHeight / 2 - componentSize / 2;
+  _calculateTopOffset: function(componentSize) {
+    const padding = this.state.accessibilityEnabled ? accessibilityPadding : 0;
+    return topMargin + padding + progressBarHeight / 2 - componentSize / 2;
   },
 
-  _renderLeftOffset: function(componentSize, percent, progressBarWidth) {
+  _calculateLeftOffset: function(componentSize, percent, progressBarWidth) {
     return leftMargin + percent * progressBarWidth - componentSize / 2
   },
 
   _renderProgressScrubber: function(percent) {
-    const progressBarWidth = this._renderProgressBarWidth();
-    const topOffset = this._renderTopOffset(scrubberSize);
-    const leftOffset = this._renderLeftOffset(scrubberSize, percent, progressBarWidth);
+    const progressBarWidth = this._calculateProgressBarWidth();
+    const topOffset = this._calculateTopOffset(scrubberSize);
+    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
     const positionStyle = {top:topOffset, left:leftOffset};
     const scrubberStyle = this._customizeScrubber();
 
@@ -194,7 +197,14 @@ const BottomOverlay = createReactClass({
   },
 
   _renderProgressBar: function(percent) {
-    return (<ProgressBar accessible={false} ref='progressBar' percent={percent} config={this.props.config} ad={this.props.ad}/>);
+    return (
+    <ProgressBar
+      accessible={false}
+      ref='progressBar'
+      percent={percent}
+      config={this.props.config}
+      ad={this.props.ad}/>
+    );
   },
 
   _renderCompleteProgressBar: function() {
@@ -206,13 +216,10 @@ const BottomOverlay = createReactClass({
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
-    let scrubberBarAccessibilityLabel;
-
-    if (this.props.platform === Constants.PLATFORMS.IOS) {
-      scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_IOS;
-    } else {
-      scrubberBarAccessibilityLabel = Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
-    }
+    const scrubberBarAccessibilityLabel = this.props.platform === Constants.PLATFORMS.IOS ?
+            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_IOS : Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
+    const barStyle = this.props.screenReaderEnabled ?
+            styles.progressBarAccessibilityStyle : styles.progressBarStyle;
 
     if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
       const minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
@@ -240,7 +247,7 @@ const BottomOverlay = createReactClass({
           onTouchStart={(event) => this.handleTouchStart(event)}
           onTouchMove={(event) => this.handleTouchMove(event)}
           onTouchEnd={(event) => this.handleTouchEnd(event)}
-          style={styles.progressBarStyle}>
+          style={barStyle}>
           {this._renderProgressBar(playedPercent)}
           {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
           {this._renderCuePoints(this.props.cuePoints)}
@@ -262,7 +269,7 @@ const BottomOverlay = createReactClass({
     this.props.onScrub(seekPercent);
   },
 
-  _getCuePointLeftOffset: function(cuePoint, progressBarWidth) {
+  _calculateCuePointsLeftOffset: function(cuePoint, progressBarWidth) {
     let cuePointPercent = cuePoint / this.props.duration;
     if (cuePointPercent > 1) {
       cuePointPercent = 1;
@@ -270,7 +277,7 @@ const BottomOverlay = createReactClass({
     if (cuePointPercent < 0) {
       cuePointPercent = 0;
     }
-    const leftOffset = this._renderLeftOffset(cuePointSize, cuePointPercent, progressBarWidth);
+    const leftOffset = this._calculateLeftOffset(cuePointSize, cuePointPercent, progressBarWidth);
     return leftOffset;
   },
 
@@ -279,15 +286,15 @@ const BottomOverlay = createReactClass({
       return;
     }
     const cuePointsView = [];
-    const progressBarWidth = this._renderProgressBarWidth();
-    const topOffset = this._renderTopOffset(cuePointSize);
+    const progressBarWidth = this._calculateProgressBarWidth();
+    const topOffset = this._calculateTopOffset(cuePointSize);
     let leftOffset = 0;
     let positionStyle;
     let cuePointView;
 
     for (var i = 0; i < cuePoints.length; i++) {
       var cuePoint = cuePoints[i];
-      leftOffset = this._getCuePointLeftOffset(cuePoint, progressBarWidth);
+      leftOffset = this._calculateCuePointsLeftOffset(cuePoint, progressBarWidth);
       positionStyle = {top:topOffset, left:leftOffset};
       cuePointView = (
         <View
@@ -406,7 +413,7 @@ const BottomOverlay = createReactClass({
         {this._renderCompleteProgressBar()}
         {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
         {this._renderControlBar()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}/> }
+        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
       </Animated.View>
     );
   },
