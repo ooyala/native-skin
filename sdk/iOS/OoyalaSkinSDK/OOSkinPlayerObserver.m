@@ -210,7 +210,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSInteger expandedWidth  = [overlayInfo[expandedWidthKey] integerValue];
   NSInteger expandedHeight = [overlayInfo[expandedHeightKey] integerValue];
   NSString *resourceUrl    = overlayInfo[resourceUrlKey];
-  NSString *clickUrl       = overlayInfo[clickUrlKey] == nil ? @"": overlayInfo[clickUrlKey];
+  NSString *clickUrl       = overlayInfo[clickUrlKey] ? overlayInfo[clickUrlKey] : @"";
 
   NSDictionary *eventBody = @{widthKey:          @(width),
                               heigthKey:         @(height),
@@ -225,7 +225,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *playheadNumber  = [self getAdjustedPlayhead: self.player];
   NSNumber *durationNumber  = [self getTotalDuration: self.player];
   NSNumber *rateNumber      = @(self.player.playbackRate);
-  NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[self.player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
+  NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
   NSDictionary *eventBody = @{durationKey:         durationNumber,
                               playheadKey:         playheadNumber,
@@ -245,13 +245,10 @@ static NSString *requireAdBarKey = @"requireAdBar";
     return;
   }
 
-  NSString *captionText = @"";
   OOCaption *caption = [self.player.currentItem.closedCaptions captionForLanguage:self.player.closedCaptionsLanguage
                                                                              time:self.player.playheadTime];
-  if (caption) {
-    captionText = [caption text];
-  }
-
+  NSString *captionText = caption.text ? caption.text : @"";
+  
   NSDictionary *eventBody = @{textKey: captionText};
   [self.ooReactSkinModel sendEventWithName:OO_CLOSED_CAPTIONS_UPDATE_EVENT body:eventBody];
 }
@@ -352,12 +349,12 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSString *skipAdInTimeString = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
                                                                         forKey:adSkipInKey];
 
-  CGSize titleSize        = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize titlePrefixSize  = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize countSize        = [countString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize durationSize     = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize learnMoreSize    = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize skipAdSize       = [skipAdString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titleSize        = [adTitle            textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titlePrefixSize  = [titlePrefix        textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize countSize        = [countString        textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize durationSize     = [durationString     textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize learnMoreSize    = [learnMoreString    textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize skipAdSize       = [skipAdString       textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize skipAdInTimeSize = [skipAdInTimeString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   NSDictionary *measures = @{learnMoreKey:    @(learnMoreSize.width),
                              skipAdKey:       @(skipAdSize.width),
