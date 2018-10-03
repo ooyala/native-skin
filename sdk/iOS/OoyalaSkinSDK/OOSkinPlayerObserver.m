@@ -113,28 +113,40 @@ static NSString *requireAdBarKey = @"requireAdBar";
     if ([player respondsToSelector:selector]) {
       [player performSelector:selector];
     }
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeStateChangedNotification:) name:OOOoyalaPlayerStateChangedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeDesiredStateChangedNotification:) name:OOOoyalaPlayerDesiredStateChangedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeCurrentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeAdPodStartedNotification:) name:OOOoyalaPlayerAdPodStartedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeAdOverlayNotification:) name:OOOoyalaPlayerAdOverlayNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeSeekStartedNotification:) name:OOOoyalaPlayerSeekStartedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeSeekCompletedNotification:) name:OOOoyalaPlayerSeekCompletedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeHasVRContentNotification:) name:OOOoyalaPlayerVideoHasVRContent object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeHasMultiAudioNotification:) name:OOOoyalaPlayerMultiAudioEnabledNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeAudioTrackChangedNotification:) name:OOOoyalaPlayerAudioTrackChangedNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeCCManifestChangedNotification:) name:OOOoyalaPlayerCCManifestChangedNotification object:self.player.currentItem];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlaybackSpeedEnabledNotification:) name:OOOoyalaPlayerPlaybackSpeedEnabledNotification object:self.player];
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlaybackSpeedRateChangedNotification:) name:OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification object:self.player];
+    NSDictionary *notificationsSelectors = @{
+                                             OOOoyalaPlayerStateChangedNotification: @"bridgeStateChangedNotification:",
+                                             OOOoyalaPlayerDesiredStateChangedNotification: @"bridgeDesiredStateChangedNotification:",
+                                             OOOoyalaPlayerCurrentItemChangedNotification: @"bridgeCurrentItemChangedNotification:",
+                                             OOOoyalaPlayerTimeChangedNotification: @"bridgeTimeChangedNotification:",
+                                             OOOoyalaPlayerPlayCompletedNotification: @"bridgePlayCompletedNotification:",
+                                             OOOoyalaPlayerAdStartedNotification: @"bridgeAdStartNotification:",
+                                             OOOoyalaPlayerAdPodStartedNotification: @"bridgeAdPodStartedNotification:",
+                                             OOOoyalaPlayerAdPodCompletedNotification: @"bridgeAdPodCompleteNotification:",
+                                             OOOoyalaPlayerPlayStartedNotification: @"bridgePlayStartedNotification:",
+                                             OOOoyalaPlayerErrorNotification: @"bridgeErrorNotification:",
+                                             OOOoyalaPlayerAdTappedNotification: @"bridgeAdTappedNotification:",
+                                             OOOoyalaPlayerEmbedCodeSetNotification: @"bridgeEmbedCodeNotification:",
+                                             OOOoyalaPlayerAdOverlayNotification: @"bridgeAdOverlayNotification:",
+                                             OOOoyalaPlayerSeekStartedNotification: @"bridgeSeekStartedNotification:",
+                                             OOOoyalaPlayerSeekCompletedNotification: @"bridgeSeekCompletedNotification:",
+                                             OOOoyalaPlayerVideoHasVRContent: @"bridgeHasVRContentNotification:",
+                                             OOOoyalaPlayerMultiAudioEnabledNotification: @"bridgeHasMultiAudioNotification:",
+                                             OOOoyalaPlayerAudioTrackChangedNotification: @"bridgeAudioTrackChangedNotification:",
+                                             OOOoyalaPlayerCCManifestChangedNotification: @"bridgeCCManifestChangedNotification:",
+                                             OOOoyalaPlayerPlaybackSpeedEnabledNotification: @"bridgePlaybackSpeedEnabledNotification:",
+                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:"
+                                             };
+    [self addNotificationsObservers:notificationsSelectors];
   }
+}
+
+- (void)addNotificationsObservers:(NSDictionary *)notificationsSelectors {
+  [notificationsSelectors enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL * _Nonnull stop) {
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:NSSelectorFromString(obj)
+                                               name:(NSString *)key
+                                             object:self.player];
+  }];
 }
 
 // PBA-4831 Return total duration calculated from the seekable range
