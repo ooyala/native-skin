@@ -234,7 +234,7 @@ static NSString *resultsKey             = @"results";
 
 - (void)handlePlaybackSpeedRateSelection:(nullable NSNumber *)selectedPlaybackSpeedRate {
   if (selectedPlaybackSpeedRate) {
-//    [self.player changePlaybackSpeedRate:selectedPlaybackSpeedRate.floatValue];
+    [self.player changePlaybackSpeedRate:selectedPlaybackSpeedRate.floatValue];
   } else {
     LOG(@"handlePlaybackSpeedRateSelection - selectedPlaybackSpeedRate invalid type");
   }

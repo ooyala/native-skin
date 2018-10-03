@@ -45,15 +45,17 @@ static NSString *desiredStateKey = @"desiredState";
 static NSString *liveKey         = @"live";
 static NSString *volumeKey       = @"volume";
 
-static NSString *seekStartKey  = @"seekstart";
-static NSString *seekEndKey    = @"seekend";
-static NSString *seekInfoKey   = @"seekInfo";
-static NSString *screenTypeKey = @"screenType";
-static NSString *durationKey   = @"duration";
-static NSString *playheadKey   = @"playhead";
-static NSString *rateKey       = @"rate";
-static NSString *titleKey      = @"title";
-static NSString *videoKey      = @"video";
+static NSString *seekStartKey                 = @"seekstart";
+static NSString *seekEndKey                   = @"seekend";
+static NSString *seekInfoKey                  = @"seekInfo";
+static NSString *screenTypeKey                = @"screenType";
+static NSString *durationKey                  = @"duration";
+static NSString *playheadKey                  = @"playhead";
+static NSString *rateKey                      = @"rate";
+static NSString *titleKey                     = @"title";
+static NSString *videoKey                     = @"video";
+static NSString *playbackSpeedEnabledKey      = @"playbackSpeedEnabled";
+static NSString *selectedPlaybackSpeedRateKey = @"selectedPlaybackSpeedRate";
 
 static NSString *languagesKey        = @"languages";
 static NSString *availableCCLangsKey = @"availableClosedCaptionsLanguages";
@@ -130,8 +132,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeHasMultiAudioNotification:) name:OOOoyalaPlayerMultiAudioEnabledNotification object:self.player];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeAudioTrackChangedNotification:) name:OOOoyalaPlayerAudioTrackChangedNotification object:self.player];
     [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgeCCManifestChangedNotification:) name:OOOoyalaPlayerCCManifestChangedNotification object:self.player.currentItem];
-//    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlaybackSpeedEnabledNotification:) name:OOOoyalaPlayerPlaybackSpeedEnabledNotification object:self.player];
-//    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlaybackSpeedRateChangedNotification:) name:OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification object:self.player];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlaybackSpeedEnabledNotification:) name:OOOoyalaPlayerPlaybackSpeedEnabledNotification object:self.player];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(bridgePlaybackSpeedRateChangedNotification:) name:OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification object:self.player];
   }
 }
 
@@ -403,20 +405,18 @@ static NSString *requireAdBarKey = @"requireAdBar";
   [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
 }
 
-//- (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {
-//  NSMutableDictionary *eventBody = [NSMutableDictionary new];
-//
-//  eventBody[@"playbackSpeedEnabled"] = @(self.player.isPlaybackSpeedEnabled);
-//  eventBody[@"selectedPlaybackSpeedRate"] = @(self.player.selectedPlaybackSpeedRate);
-//
-//  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
-//}
-//
-//- (void)bridgePlaybackSpeedRateChangedNotification:(NSNotification *)notification {
-//  NSDictionary *eventBody = @{@"selectedPlaybackSpeedRate": @(self.player.selectedPlaybackSpeedRate)};
-//
-//  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
-//}
+- (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = @{playbackSpeedEnabledKey: @(self.player.isPlaybackSpeedEnabled),
+                              selectedPlaybackSpeedRateKey: @(self.player.selectedPlaybackSpeedRate)};
+
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgePlaybackSpeedRateChangedNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = @{selectedPlaybackSpeedRateKey: @(self.player.selectedPlaybackSpeedRate)};
+
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+}
 
 - (void)bridgeEmbedCodeNotification:(NSNotification *)notification {
   [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
