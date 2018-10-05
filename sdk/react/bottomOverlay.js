@@ -218,7 +218,7 @@ const BottomOverlay = createReactClass({
 
     const scrubberBarAccessibilityLabel = this.props.platform === Constants.PLATFORMS.IOS ?
             Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_IOS : Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
-    const barStyle = this.props.screenReaderEnabled ?
+    const barStyle = this.state.accessibilityEnabled ?
             styles.progressBarAccessibilityStyle : styles.progressBarStyle;
 
     if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
