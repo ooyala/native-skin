@@ -241,6 +241,8 @@ class VideoView extends React.Component {
     if (this.props.caption) {
       return (
         <View
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
           style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
           <View
