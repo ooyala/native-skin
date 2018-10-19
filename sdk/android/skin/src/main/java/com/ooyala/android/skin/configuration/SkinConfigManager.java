@@ -79,7 +79,7 @@ public class SkinConfigManager {
     try {
       return getShowUpNext();
     } catch (JSONException e) {
-      DebugMode.logE(TAG, "Up Next Parse Failed, default not showing Up Next");
+      DebugMode.logE(TAG, "Up Next parse failed. The player will not show the up next widget.");
       return CONFIG_UP_NEXT_SHOW_DEFAULT;
     }
   }
