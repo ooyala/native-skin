@@ -12,7 +12,7 @@ UI_SIZES = {
 const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY: 'Play',
   PLAY_PAUSE: 'PlayPause',
-  FULLSCREEN: 'Fullscreen',
+  FULLSCREEN: 'fullscreen',
   MORE: 'moreOptions',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
@@ -26,7 +26,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   // more option buttons
   DISCOVERY: 'discovery',
   QUALITY: 'quality',
-  AUDIO_AND_CC: 'Audio and closed captions',
+  AUDIO_AND_CC: 'audioAndCC',
   PLAYBACK_SPEED: 'Playback speed',
   SHARE: 'share',
   SETTING: 'settings',
@@ -39,6 +39,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   AD_OVERLAY: 'Overlay',
   PIP: 'PIP',
   UP_NEXT: 'Select up next',
+  CLOSED_CAPTIONS: 'closedCaption'
 };
 
 const VIEW_NAMES = {

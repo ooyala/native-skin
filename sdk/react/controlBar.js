@@ -248,9 +248,31 @@ class ControlBar extends React.Component {
       },
     };
 
-    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
-    // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
+    function _isVisible( item ) {
+      var visible = true;
+      switch (item.name) {
+        case BUTTON_NAMES.MORE:
+          visible = this.props.showMoreOptionsButton;
+          break;
+        case BUTTON_NAMES.AUDIO_AND_CC:
+          visible = this.props.showAudioAndCCButton;
+          break;
+        case BUTTON_NAMES.PLAYBACK_SPEED:
+          visible = this.props.showPlaybackSpeedButton;
+          break;
+        case BUTTON_NAMES.STEREOSCOPIC:
+          visible = this.props.stereoSupported;
+          break;          
+        default:
+          visible = Object.keys(widgetOptions).includes(item.name);  
+      }
+      item.isVisible = visible;
+    } 
 
+    this.props.config.buttons.forEach(_isVisible, this);
+    //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));   
+
+    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     function pushControl(item) {
       controlBarWidgets.push(item)
     }
@@ -268,7 +290,7 @@ class ControlBar extends React.Component {
           pushControl(item);
         }
       } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC)  {
-        if (this.props.multiAudioEnabled || this.props.сlosedCaptionsEnabled) {
+        if (this.props.multiAudioEnabled || this.props.сlosedCaptionsEnabled || this.props.showAudioAndCCButton) {
           pushControl(item);
         }
       } else {
