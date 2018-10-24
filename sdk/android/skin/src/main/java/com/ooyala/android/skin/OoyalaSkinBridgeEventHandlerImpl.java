@@ -24,7 +24,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static final String BUTTON_SHARE = "Share";
   private static final String BUTTON_REWIND = "rewind";
   private static final String BUTTON_SOCIALSHARE = "SocialShare";
-  private static final String BUTTON_FULLSCREEN = "fullscreen";
+  private static final String BUTTON_FULLSCREEN = "Fullscreen";
   private static final String BUTTON_LEARNMORE = "LearnMore";
   private static final String BUTTON_MORE_OPTION = "More";
   private static final String BUTTON_UPNEXT_DISMISS = "upNextDismiss";
