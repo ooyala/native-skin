@@ -192,7 +192,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)setFullscreen:(BOOL)fullscreen
  isOrientationChanges:(BOOL)isOrientationChanges
-           completion:(nullable void (^)())completion {
+           completion:(nullable void (^)(void))completion {
   if (fullscreen == _fullscreen) {
     // Notify what fullscreen did changed
     if (completion) {
