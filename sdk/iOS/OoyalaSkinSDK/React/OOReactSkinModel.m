@@ -187,7 +187,7 @@ static NSString *resultsKey             = @"results";
     NSString *description       = dict[descriptionKey];// we assume we always get a string description, even if it is empty ("")
     NSDictionary *discoveryItem = @{nameKey:        name,
                                     embedCodeKey:   embedCode,
-                                    imageUrlKey:    imageUrl,
+                                    imageUrlKey:    (NSNull *)imageUrl != NSNull.null ? imageUrl : @"",
                                     durationKey:    duration,
                                     bucketInfoKey:  bucketInfo,
                                     descriptionKey: description};
