@@ -3,7 +3,7 @@
 //  ReactNativeCountdownTimer
 //
 //  Created by Eric Vargas on 11/30/15.
-//  Copyright © 2015 Facebook. All rights reserved.
+//  Copyright © 2015 Ooyala. All rights reserved.
 //
 
 #import "CountdownViewManager.h"
@@ -17,9 +17,8 @@
 
 RCT_EXPORT_MODULE()
 
-- (UIView *)view
-{
-  return [[CountdownView alloc] init];
+- (UIView *)view {
+  return [CountdownView new];
 }
 
 RCT_EXPORT_VIEW_PROPERTY(time, float)

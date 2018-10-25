@@ -66,9 +66,7 @@ const BottomOverlay = createReactClass({
     shouldShowLandscape: PropTypes.bool,
     screenReaderEnabled: PropTypes.bool,
     config: PropTypes.object,
-    closedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
     showPlaybackSpeedButton: PropTypes.bool
@@ -325,9 +323,7 @@ const BottomOverlay = createReactClass({
         handleControlsTouch={this.props.handleControlsTouch}
         showWatermark={this.props.showWatermark}
         config={this.props.config}
-        closedCaptionsEnabled={this.props.closedCaptionsEnabled}
         stereoSupported={this.props.stereoSupported}
-        multiAudioEnabled={this.props.multiAudioEnabled}
         showMoreOptionsButton={this.props.showMoreOptionsButton}
         showAudioAndCCButton={this.props.showAudioAndCCButton}
         showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}

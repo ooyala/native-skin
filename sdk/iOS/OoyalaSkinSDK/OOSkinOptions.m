@@ -17,9 +17,9 @@
                          overrideConfigs:(NSDictionary *)overrideConfigs {
   if (self = [super init]) {
     _discoveryOptions = discoveryOptions;
-    _jsCodeLocation = jsCodeLocation;
-    _configFileName = configFileName;
-    _overrideConfigs = overrideConfigs;
+    _jsCodeLocation   = jsCodeLocation;
+    _configFileName   = configFileName;
+    _overrideConfigs  = overrideConfigs;
   }
   return self;
 }
