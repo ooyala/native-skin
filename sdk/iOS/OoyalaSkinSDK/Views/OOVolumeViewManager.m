@@ -14,7 +14,7 @@
 RCT_EXPORT_MODULE();
 
 // React automatically resolves this class as "OOVolumeView"
--(UIView *)view {
+- (UIView *)view {
   MPVolumeView *v = [MPVolumeView new];
   v.showsRouteButton = NO;
   v.showsVolumeSlider = YES;
@@ -27,4 +27,5 @@ RCT_EXPORT_MODULE();
 }
 
 RCT_REMAP_VIEW_PROPERTY(color, tintColor, UIColor)
+
 @end

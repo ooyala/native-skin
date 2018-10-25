@@ -34,8 +34,8 @@ var startedClickX, startedClickY;
 var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
   this.skin = ooyalaSkin;
   this.bridge = eventBridge;
-  this.ooyalaSkinBridgeListener = new OoyalaSkinBridgeListener(ooyalaSkin, this, eventBridge);
-  this.ooyalaSkinPanelRenderer = new OoyalaSkinPanelRenderer(ooyalaSkin, this, eventBridge);
+  this.ooyalaSkinBridgeListener = new OoyalaSkinBridgeListener(ooyalaSkin, this);
+  this.ooyalaSkinPanelRenderer = new OoyalaSkinPanelRenderer(ooyalaSkin, this);
 };
 
 OoyalaSkinCore.prototype.mount = function(eventEmitter) {

@@ -36,6 +36,7 @@ class EndScreen extends React.Component {
     handleControlsTouch: PropTypes.func,
     loading: PropTypes.bool,
     onScrub: PropTypes.func,
+    showAudioAndCCButton: PropTypes.bool
   };
 
   state = {
@@ -72,7 +73,7 @@ class EndScreen extends React.Component {
     if (endScreenConfig.showReplayButton) {
       const fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replayButton = (
-        <TouchableHighlight 
+        <TouchableHighlight
           accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType="button"
           onPress={(name) => this.handleClick(BUTTON_NAMES.PLAY_PAUSE)}
           underlayColor="transparent"
@@ -92,10 +93,10 @@ class EndScreen extends React.Component {
           source={{uri: this.props.promoUrl}}
           style={
             [styles.fullscreenContainer, {
-              position:"absolute",
-              top:0,
-              left:0,
-              width:this.props.width,
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: this.props.width,
               height: this.props.height}]}
           resizeMode={Image.resizeMode.contain}>
         </Image>
@@ -132,6 +133,7 @@ class EndScreen extends React.Component {
       fullscreen={this.props.fullscreen}
       isShow={show}
       loading={this.props.loading}
+      showAudioAndCCButton={this.props.showAudioAndCCButton}
       config={{
         controlBar: this.props.config.controlBar,
         buttons: this.props.config.buttons,

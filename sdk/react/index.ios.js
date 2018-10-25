@@ -7,10 +7,16 @@ import React, { Component } from 'react';
 import {
   ActivityIndicator,
   AppRegistry,
-  DeviceEventEmitter,
+  NativeEventEmitter,
+  NativeModules,
   StyleSheet,
   AccessibilityInfo
 } from 'react-native';
+
+const {
+   OOReactSkinEventsEmitter,
+   OOReactSkinBridgeModuleMain
+ } = NativeModules;
 
 var Constants = require('./constants');
 var {
@@ -19,7 +25,7 @@ var {
   DESIRED_STATES
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
-var eventBridge = require('NativeModules').OOReactBridge;
+const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
 
 var OoyalaSkinCoreInstance;
 
@@ -63,8 +69,8 @@ class OoyalaSkin extends React.Component {
   };
 
   componentWillMount() {
-    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
-    OoyalaSkinCoreInstance.mount(DeviceEventEmitter);
+    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, OOReactSkinBridgeModuleMain);
+    OoyalaSkinCoreInstance.mount(eventBridgeEmitter);
   }
 
   componentDidMount() {

@@ -52,9 +52,7 @@ class ControlBar extends React.Component {
     handleControlsTouch: PropTypes.func.isRequired,
     live: PropTypes.object,
     config: PropTypes.object.isRequired,
-    сlosedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
     showPlaybackSpeedButton: PropTypes.bool
@@ -96,7 +94,7 @@ class ControlBar extends React.Component {
         return '#4389FF';
       } else {
         return this.props.config.controlBar.volumeControl.color;
-      } 
+      }
     } else {
       return this.props.config.general.accentColor;
     }
@@ -146,7 +144,6 @@ class ControlBar extends React.Component {
   };
 
   render() {
-
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
     var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
     var waterMarkName;
@@ -268,7 +265,7 @@ class ControlBar extends React.Component {
           pushControl(item);
         }
       } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC)  {
-        if (this.props.multiAudioEnabled || this.props.сlosedCaptionsEnabled) {
+        if (this.props.showAudioAndCCButton) {
           pushControl(item);
         }
       } else {
