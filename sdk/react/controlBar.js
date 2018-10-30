@@ -185,7 +185,7 @@ class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         durationString: this.getDurationString()
       },
-      fullscreen: {
+      Fullscreen: {
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
@@ -245,9 +245,31 @@ class ControlBar extends React.Component {
       },
     };
 
-    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
-    // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
+    function _isVisible( item ) {
+      var visible = true;
+      switch (item.name) {
+        case BUTTON_NAMES.MORE:
+          visible = this.props.showMoreOptionsButton;
+          break;
+        case BUTTON_NAMES.AUDIO_AND_CC:
+          visible = this.props.showAudioAndCCButton;
+          break;
+        case BUTTON_NAMES.PLAYBACK_SPEED:
+          visible = this.props.showPlaybackSpeedButton;
+          break;
+        case BUTTON_NAMES.STEREOSCOPIC:
+          visible = this.props.stereoSupported;
+          break;
+        default:
+          visible = Object.keys(widgetOptions).includes(item.name);
+      }
+      item.isVisible = visible;
+    }
 
+    this.props.config.buttons.forEach(_isVisible, this);
+    //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));
+
+    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     function pushControl(item) {
       controlBarWidgets.push(item)
     }

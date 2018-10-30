@@ -24,6 +24,7 @@ const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
 
+const leftMargin = 20;
 const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore) {
   Log.log("OoyalaSkinPanelRenderer created");
   this.skin = ooyalaSkin;
@@ -295,17 +296,21 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
+    const CCEnabled =
+      this.skin.state.availableClosedCaptionsLanguages &&
+      this.skin.state.availableClosedCaptionsLanguages.length > 0;
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
       onDismiss={() => this.core.dismissOverlay()}
       onOptionButtonPress={(buttonName) => this.core.handleMoreOptionsButtonPress(buttonName)}
+      showAudioAndCCButton={this.skin.state.multiAudioEnabled || CCEnabled}
       config={{
         moreOptionsScreen: this.skin.props.moreOptionsScreen,
         buttons: this.skin.props.buttons.mobileContent,
         icons: this.skin.props.icons,
         // TODO: assumes this is how control bar width is calculated everywhere.
-        controlBarWidth: this.skin.state.width
+        controlBarWidth: this.skin.state.width - 2 * leftMargin
       }} >
     </MoreOptionScreen>
   );

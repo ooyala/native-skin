@@ -92,7 +92,18 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
       break;
     case BUTTON_NAMES.SETTING:
       break;
+    case BUTTON_NAMES.AUDIO_AND_CC:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
+      break;
+    case BUTTON_NAMES.PLAYBACK_SPEED:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN);
+      break;
+    case BUTTON_NAMES.FULLSCREEN:
+      this.bridge.onPress({name:buttonName});
+      this.dismissOverlay();
+      break;  
     default:
+	    this.bridge.onPress({name:buttonName});
       break;
   }
 };
@@ -122,6 +133,7 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
     case BUTTON_NAMES.SETTING:
       break;
     default:
+      console.log("handlePress button name:",n);
       this.bridge.onPress({name:n});
       break;
   }
