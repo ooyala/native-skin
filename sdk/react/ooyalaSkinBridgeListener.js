@@ -109,6 +109,7 @@ OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
   Log.assertTrue( this.skin.inAdPod == true, "AdStarted, but we didn't know we were in Ad Pod");
   Log.log(e);
   this.skin.setState({ad:e, screenType:SCREEN_TYPES.VIDEO_SCREEN, adOverlay: null});
+  this.core.clearOverlayStack();
 };
 
 OoyalaSkinBridgeListener.prototype.onCcStylingChange = function(e) {
