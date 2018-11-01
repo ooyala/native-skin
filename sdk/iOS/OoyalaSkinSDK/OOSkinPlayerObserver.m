@@ -7,188 +7,246 @@
 //
 
 #import "OOSkinPlayerObserver.h"
-#import <OoyalaSDK/OOOoyalaPlayer.h>
-#import "OOReactBridge.h"
-#import <OoyalaSDK/OOVideo.h>
-#import <OoyalaSDK/OOOoyalaError.h>
-#import <OoyalaSDK/OODebugMode.h>
-#import "OOLocaleHelper.h"
-#import "OOSkinViewController.h"
-#import "OOSkinViewController+Internal.h"
-#import "OOVolumeManager.h"
-#import <OoyalaSDK/OOClosedCaptions.h>
-#import <OoyalaSDK/OOCaption.h>
-#import <OoyalaSDK/OOSeekInfo.h>
-#import <OoyalaSDK/OOMultiAudioProtocol.h>
-#import <OoyalaSDK/OOAudioTrackProtocol.h>
+#import "OOReactSkinModel.h"
+
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
 #import "OOConstant.h"
+#import "OOLocaleHelper.h"
+#import "OOVolumeManager.h"
+
+#import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OOVideo.h>
+#import <OoyalaSDK/OOOoyalaError.h>
+#import <OoyalaSDK/OODebugMode.h>
+#import <OoyalaSDK/OOClosedCaptions.h>
+#import <OoyalaSDK/OOCaption.h>
+#import <OoyalaSDK/OOSeekInfo.h>
+#import <OoyalaSDK/OOAudioTrackProtocol.h>
 
 
 @interface OOSkinPlayerObserver ()
 
-  @property (weak) OOOoyalaPlayer *player;
-  @property (weak) OOSkinViewController *viewController;
+@property (weak) OOOoyalaPlayer *player;
+@property (weak) OOReactSkinModel *ooReactSkinModel;
 
 @end
 
 
 @implementation OOSkinPlayerObserver
-  
-- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player skinViewController:(OOSkinViewController *)viewController{
-  self.player = player;
-  self.viewController = viewController;
 
-    if (self = [super init]) {
-      [self addSelfAsObserverToPlayer: player];
-    }
-    return self;
+#pragma mark - Constants
+#pragma mark Keys
+static NSString *disableAdLearnMoreButton = @"disableAdLearnMoreButton";
+
+static NSString *codeKey         = @"code";
+static NSString *stateKey        = @"state";
+static NSString *desiredStateKey = @"desiredState";
+static NSString *liveKey         = @"live";
+static NSString *volumeKey       = @"volume";
+
+static NSString *seekStartKey                 = @"seekstart";
+static NSString *seekEndKey                   = @"seekend";
+static NSString *seekInfoKey                  = @"seekInfo";
+static NSString *screenTypeKey                = @"screenType";
+static NSString *durationKey                  = @"duration";
+static NSString *playheadKey                  = @"playhead";
+static NSString *rateKey                      = @"rate";
+static NSString *titleKey                     = @"title";
+static NSString *videoKey                     = @"video";
+static NSString *playbackSpeedEnabledKey      = @"playbackSpeedEnabled";
+static NSString *selectedPlaybackSpeedRateKey = @"selectedPlaybackSpeedRate";
+
+static NSString *languagesKey        = @"languages";
+static NSString *availableCCLangsKey = @"availableClosedCaptionsLanguages";
+static NSString *cuePointsKey        = @"cuePoints";
+static NSString *textKey             = @"text";
+static NSString *descriptionKey      = @"description";
+static NSString *promoUrlKey         = @"promoUrl";
+static NSString *hostedAtUrlKey      = @"hostedAtUrl";
+static NSString *resourceUrlKey      = @"resourceUrl";
+static NSString *clickUrlKey         = @"clickUrl";
+
+static NSString *widthKey          = @"width";
+static NSString *heigthKey         = @"height";
+static NSString *expandedWidthKey  = @"expandedWidth";
+static NSString *expandedHeightKey = @"expandedHeight";
+static NSString *userInfoKey       = @"userInfo";
+
+static NSString *learnMoreKey       = @"learnmore";
+static NSString *skipAdKey          = @"skipad";
+static NSString *skipAdInTimeKey    = @"skipadintime";
+static NSString *countKey           = @"count";
+static NSString *unplayedKey        = @"unplayed";
+static NSString *prefixKey          = @"prefix";
+static NSString *measuresKey        = @"measures";
+static NSString *skipOffsetKey      = @"skipoffset";
+static NSString *requireControlsKey = @"requireControls";
+static NSString *iconsKey           = @"icons";
+
+static NSString *selectedAudioTrackKey = @"selectedAudioTrack";
+static NSString *audioTracksTitlesKey  = @"audioTracksTitles";
+static NSString *multiAudioEnabledKey  = @"multiAudioEnabled";
+
+static NSString *adPlayingKey    = @"Ad Playing";
+static NSString *adLearnMoreKey  = @"Learn More";
+static NSString *adSkipKey       = @"Skip Ad";
+static NSString *adSkipInKey     = @"Skip Ad in 00:00";
+static NSString *requireAdBarKey = @"requireAdBar";
+
+#pragma mark - Methods
+
+- (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
+              ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel {
+  if (self = [super init]) {
+    _ooReactSkinModel = ooReactSkinModel;
+    _player = player;
+    [self addSelfAsObserverToPlayer: player];
   }
+  return self;
+}
 
-- (void) addSelfAsObserverToPlayer:(OOOoyalaPlayer *)player {
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  _player = player;
-  if (_player != nil) {
-    SEL selector = NSSelectorFromString(@"disableAdLearnMoreButton");
+- (void)addSelfAsObserverToPlayer:(OOOoyalaPlayer *)player {
+  [NSNotificationCenter.defaultCenter removeObserver:self];
+  if (self.player) {
+    SEL selector = NSSelectorFromString(disableAdLearnMoreButton);
     if ([player respondsToSelector:selector]) {
       [player performSelector:selector];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeStateChangedNotification:) name:OOOoyalaPlayerStateChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeDesiredStateChangedNotification:) name:OOOoyalaPlayerDesiredStateChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeCurrentItemChangedNotification:) name:OOOoyalaPlayerCurrentItemChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeTimeChangedNotification:) name:OOOoyalaPlayerTimeChangedNotification object:_player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayCompletedNotification:) name:OOOoyalaPlayerPlayCompletedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdStartNotification:) name:OOOoyalaPlayerAdStartedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodStartedNotification:) name:OOOoyalaPlayerAdPodStartedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdPodCompleteNotification:) name:OOOoyalaPlayerAdPodCompletedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlayStartedNotification:) name:OOOoyalaPlayerPlayStartedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeErrorNotification:) name:OOOoyalaPlayerErrorNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdTappedNotification:) name:OOOoyalaPlayerAdTappedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeEmbedCodeNotification:) name:OOOoyalaPlayerEmbedCodeSetNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAdOverlayNotification:) name:OOOoyalaPlayerAdOverlayNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekStartedNotification:) name:OOOoyalaPlayerSeekStartedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeSeekCompletedNotification:) name:OOOoyalaPlayerSeekCompletedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasVRContentNotification:) name:OOOoyalaPlayerVideoHasVRContent object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeHasMultiAudioNotification:) name:OOOoyalaPlayerMultiAudioEnabledNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeAudioTrackChangedNotification:) name:OOOoyalaPlayerAudioTrackChangedNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgeCCManifestChangedNotification:) name:OOOoyalaPlayerCCManifestChangedNotification object:self.player.currentItem];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlaybackSpeedEnabledNotification:) name:OOOoyalaPlayerPlaybackSpeedEnabledNotification object:self.player];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bridgePlaybackSpeedRateChangedNotification:) name:OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification object:self.player];
+    NSDictionary *notificationsSelectors = @{
+                                             OOOoyalaPlayerStateChangedNotification: @"bridgeStateChangedNotification:",
+                                             OOOoyalaPlayerDesiredStateChangedNotification: @"bridgeDesiredStateChangedNotification:",
+                                             OOOoyalaPlayerCurrentItemChangedNotification: @"bridgeCurrentItemChangedNotification:",
+                                             OOOoyalaPlayerTimeChangedNotification: @"bridgeTimeChangedNotification:",
+                                             OOOoyalaPlayerPlayCompletedNotification: @"bridgePlayCompletedNotification:",
+                                             OOOoyalaPlayerAdStartedNotification: @"bridgeAdStartNotification:",
+                                             OOOoyalaPlayerAdPodStartedNotification: @"bridgeAdPodStartedNotification:",
+                                             OOOoyalaPlayerAdPodCompletedNotification: @"bridgeAdPodCompleteNotification:",
+                                             OOOoyalaPlayerPlayStartedNotification: @"bridgePlayStartedNotification:",
+                                             OOOoyalaPlayerErrorNotification: @"bridgeErrorNotification:",
+                                             OOOoyalaPlayerAdTappedNotification: @"bridgeAdTappedNotification:",
+                                             OOOoyalaPlayerEmbedCodeSetNotification: @"bridgeEmbedCodeNotification:",
+                                             OOOoyalaPlayerAdOverlayNotification: @"bridgeAdOverlayNotification:",
+                                             OOOoyalaPlayerSeekStartedNotification: @"bridgeSeekStartedNotification:",
+                                             OOOoyalaPlayerSeekCompletedNotification: @"bridgeSeekCompletedNotification:",
+                                             OOOoyalaPlayerVideoHasVRContent: @"bridgeHasVRContentNotification:",
+                                             OOOoyalaPlayerMultiAudioEnabledNotification: @"bridgeHasMultiAudioNotification:",
+                                             OOOoyalaPlayerAudioTrackChangedNotification: @"bridgeAudioTrackChangedNotification:",
+                                             OOOoyalaPlayerCCManifestChangedNotification: @"bridgeCCManifestChangedNotification:",
+                                             OOOoyalaPlayerPlaybackSpeedEnabledNotification: @"bridgePlaybackSpeedEnabledNotification:",
+                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:"
+                                             };
+    [self addNotificationsObservers:notificationsSelectors];
   }
 }
 
+- (void)addNotificationsObservers:(NSDictionary *)notificationsSelectors {
+  [notificationsSelectors enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL * _Nonnull stop) {
+    [NSNotificationCenter.defaultCenter addObserver:self
+                                           selector:NSSelectorFromString(obj)
+                                               name:(NSString *)key
+                                             object:self.player];
+  }];
+}
 
 // PBA-4831 Return total duration calculated from the seekable range
 - (NSNumber *)getTotalDuration:(OOOoyalaPlayer *)player {
   CMTimeRange seekableRange = player.seekableTimeRange;
   Float64 duration;
-  
-  if (CMTIMERANGE_IS_INVALID(seekableRange)) {
-    duration = player.duration;
-  } else {
-    duration = CMTimeGetSeconds(seekableRange.duration);
-  }
-  return [NSNumber numberWithFloat:duration];
+
+  duration = CMTIMERANGE_IS_INVALID(seekableRange) ? player.duration : CMTimeGetSeconds(seekableRange.duration);
+
+  return @(duration);
 }
 
 // PBA-4831 Return adjusted playhead calculated from the seekable range
-- (NSNumber *)getAdjustedPlayhead: (OOOoyalaPlayer *)player {
+- (NSNumber *)getAdjustedPlayhead:(OOOoyalaPlayer *)player {
   CMTimeRange seekableRange = player.seekableTimeRange;
-  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
-  Float64 adjustedPlayhead;
-  
-  if (CMTIMERANGE_IS_INVALID(seekableRange)) {
-    adjustedPlayhead = player.playheadTime;
-  } else {
+  Float64 seekableStart     = CMTimeGetSeconds(seekableRange.start);
+  Float64 adjustedPlayhead  = player.playheadTime;
+
+  if (!CMTIMERANGE_IS_INVALID(seekableRange)) {
     adjustedPlayhead = player.playheadTime - seekableStart;
   }
-  return [NSNumber numberWithFloat:adjustedPlayhead];
+  return @(adjustedPlayhead);
 }
 
 - (void)bridgeSeekStartedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
-  OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
-  
-  CMTimeRange seekableRange = self.player.seekableTimeRange;
-  Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
-  Float64 seekableDuration = CMTimeGetSeconds(seekableRange.duration);
-  Float64 seekStart = seekInfo.seekStart - seekableStart;
-  Float64 seekEnd = seekInfo.seekEnd - seekableStart;
+  OOSeekInfo *seekInfo                   = seekInfoDictionaryObject[seekInfoKey];
 
-  NSDictionary *eventBody = @{@"seekstart":[NSNumber numberWithFloat:seekStart],
-                              @"seekend":[NSNumber numberWithFloat:seekEnd],
-                              @"duration":[NSNumber numberWithFloat:seekableDuration]};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
+  Float64 seekableStart     = CMTimeGetSeconds(seekableRange.start);
+  Float64 seekableDuration  = CMTimeGetSeconds(seekableRange.duration);
+  Float64 seekStart         = seekInfo.seekStart - seekableStart;
+  Float64 seekEnd           = seekInfo.seekEnd - seekableStart;
+
+  NSDictionary *eventBody = @{seekStartKey: @(seekStart),
+                              seekEndKey:   @(seekEnd),
+                              durationKey:  @(seekableDuration)};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeSeekCompletedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
-  OOSeekInfo *seekInfo = seekInfoDictionaryObject[@"seekInfo"];
-  
-  CMTimeRange seekableRange = self.player.seekableTimeRange;
-  Float64 seekStart = seekInfo.seekStart;
-  Float64 seekEnd = seekInfo.seekEnd;
-  Float64 seekableDuration = self.player.duration;
-  
-  // Check seekable range
+  OOSeekInfo *seekInfo                   = seekInfoDictionaryObject[seekInfoKey];
 
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
+  Float64 seekStart        = seekInfo.seekStart;
+  Float64 seekEnd          = seekInfo.seekEnd;
+  Float64 seekableDuration = self.player.duration;
+
+  // Check seekable range
   if (CMTIMERANGE_IS_VALID(seekableRange)) {
     Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
-    seekableDuration = CMTimeGetSeconds(seekableRange.duration);
-    
+    seekableDuration      = CMTimeGetSeconds(seekableRange.duration);
+
     seekStart = seekInfo.seekStart - seekableStart;
-    seekEnd = seekInfo.seekEnd - seekableStart;
-    
+    seekEnd   = seekInfo.seekEnd - seekableStart;
+
     if (seekableStart > seekInfo.seekStart) {
       seekStart = 0;
     }
   }
   
-  NSDictionary *eventBody = @{@"seekstart":[NSNumber numberWithFloat:seekStart],
-                              @"seekend":[NSNumber numberWithFloat:seekEnd],
-                              @"duration":[NSNumber numberWithFloat:seekableDuration],
-                              @"screenType":@"video"};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  NSDictionary *eventBody = @{seekStartKey:  @(seekStart),
+                              seekEndKey:    @(seekEnd),
+                              durationKey:   @(seekableDuration),
+                              screenTypeKey: videoKey};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
-- (void)bridgeAdOverlayNotification: (NSNotification *)notification {
+- (void)bridgeAdOverlayNotification:(NSNotification *)notification {
   NSDictionary *overlayInfo = notification.userInfo;
-  NSMutableDictionary *eventBody = [[NSMutableDictionary alloc] init];
-  
-  NSInteger width = [overlayInfo[@"width"] integerValue];
-  NSInteger height = [overlayInfo[@"height"] integerValue];
-  NSInteger expandedWidth = [overlayInfo[@"expandedWidth"] integerValue];
-  NSInteger expandedHeight = [overlayInfo[@"expandedHeight"] integerValue];
-  NSString *resourceUrl = overlayInfo[@"resourceUrl"];
-  NSString *clickUrl = overlayInfo[@"clickUrl"] == nil ? @"": overlayInfo[@"clickUrl"];
-  
-  [eventBody setObject:[NSNumber numberWithInt:width] forKey:@"width"];
-  [eventBody setObject:[NSNumber numberWithInt:height] forKey:@"height"];
-  [eventBody setObject:[NSNumber numberWithInt:expandedWidth] forKey:@"expandedWidth"];
-  [eventBody setObject:[NSNumber numberWithInt:expandedHeight] forKey:@"expandedHeight"];
-  [eventBody setObject:resourceUrl forKey:@"resourceUrl"];
-  [eventBody setObject:clickUrl forKey:@"clickUrl"];
 
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  NSInteger width          = [overlayInfo[widthKey] integerValue];
+  NSInteger height         = [overlayInfo[heigthKey] integerValue];
+  NSInteger expandedWidth  = [overlayInfo[expandedWidthKey] integerValue];
+  NSInteger expandedHeight = [overlayInfo[expandedHeightKey] integerValue];
+  NSString *resourceUrl    = overlayInfo[resourceUrlKey];
+  NSString *clickUrl       = overlayInfo[clickUrlKey] ? overlayInfo[clickUrlKey] : @"";
+
+  NSDictionary *eventBody = @{widthKey:          @(width),
+                              heigthKey:         @(height),
+                              expandedWidthKey:  @(expandedWidth),
+                              expandedHeightKey: @(expandedHeight),
+                              resourceUrlKey:    resourceUrl,
+                              clickUrlKey:       clickUrl};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber = [self getAdjustedPlayhead: self.player];
-  NSNumber *durationNumber = [self getTotalDuration: self.player];
-  NSNumber *rateNumber = [NSNumber numberWithFloat:_player.playbackRate];
-  NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[[_player getCuePointsAtSecondsForCurrentPlayer] allObjects]];
+  NSNumber *playheadNumber  = [self getAdjustedPlayhead: self.player];
+  NSNumber *durationNumber  = [self getTotalDuration: self.player];
+  NSNumber *rateNumber      = @(self.player.playbackRate);
+  NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
-  NSDictionary *eventBody = @{
-    @"duration":durationNumber,
-    @"playhead":playheadNumber,
-    @"rate":rateNumber,
-    @"availableClosedCaptionsLanguages":self.player.availableClosedCaptionsLanguages,
-    @"cuePoints":cuePoints};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  NSDictionary *eventBody = @{durationKey:         durationNumber,
+                              playheadKey:         playheadNumber,
+                              rateKey:             rateNumber,
+                              availableCCLangsKey: self.player.availableClosedCaptionsLanguages,
+                              cuePointsKey:        cuePoints};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self notifyClosedCaptionsUpdate];
 }
 
@@ -201,231 +259,213 @@
     return;
   }
 
-  NSString *captionText = @"";
-  OOCaption *caption = [_player.currentItem.closedCaptions captionForLanguage:_player.closedCaptionsLanguage time:_player.playheadTime];
-  if (caption) {
-    captionText = [caption text];
-  }
-
-  NSDictionary *eventBody = @{@"text":captionText};
-  [self.viewController sendBridgeEventWithName:OO_CLOSED_CAPTIONS_UPDATE_EVENT body:eventBody];
+  OOCaption *caption = [self.player.currentItem.closedCaptions captionForLanguage:self.player.closedCaptionsLanguage
+                                                                             time:self.player.playheadTime];
+  NSString *captionText = caption.text ? caption.text : @"";
+  
+  NSDictionary *eventBody = @{textKey: captionText};
+  [self.ooReactSkinModel sendEventWithName:OO_CLOSED_CAPTIONS_UPDATE_EVENT body:eventBody];
 }
 
-- (void) bridgeCurrentItemChangedNotification:(NSNotification *)notification {
-  NSString *title = self.player.currentItem.title ? self.player.currentItem.title : @"";
-  NSString *itemDescription = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
-  NSString *promoUrl = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
-  NSString *hostedAtUrl = self.player.currentItem.hostedAtURL ? self.player.currentItem.hostedAtURL : @"";
-  NSNumber *durationNumber = [NSNumber numberWithFloat:self.player.currentItem.duration];
-  NSNumber *frameWidth = [NSNumber numberWithFloat:[self.viewController videoViewFrame].size.width];
-  NSNumber *frameHeight = [NSNumber numberWithFloat:[self.viewController videoViewFrame].size.height];
-  NSNumber *live = [NSNumber numberWithBool:self.player.currentItem.live];
+- (void)bridgeCurrentItemChangedNotification:(NSNotification *)notification {
+  NSString *title                  = self.player.currentItem.title ? self.player.currentItem.title : @"";
+  NSString *itemDescription        = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
+  NSString *promoUrl               = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
+  NSString *hostedAtUrl            = self.player.currentItem.hostedAtURL ? self.player.currentItem.hostedAtURL : @"";
+  NSNumber *durationNumber         = @(self.player.currentItem.duration);
+  NSNumber *frameWidth             = @(CGRectGetWidth(self.ooReactSkinModel.videoViewFrame));
+  NSNumber *frameHeight            = @(CGRectGetHeight(self.ooReactSkinModel.videoViewFrame));
+  NSNumber *live                   = @(self.player.currentItem.live);
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
-  NSNumber *volume = [NSNumber numberWithFloat:[OOVolumeManager getCurrentVolume]];
-  
-  NSDictionary *eventBody = @{@"title":title,
-                              @"description":itemDescription,
-                              @"promoUrl":promoUrl,
-                              @"hostedAtUrl": hostedAtUrl,
-                              @"duration":durationNumber,
-                              @"live":live,
-                              @"languages":closedCaptionsLanguages,
-                              @"width":frameWidth,
-                              @"height":frameHeight,
-                              @"volume": volume};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
-  [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];
+  NSNumber *volume                 = @([OOVolumeManager getCurrentVolume]);
+
+  NSDictionary *eventBody = @{titleKey:       title,
+                              descriptionKey: itemDescription,
+                              promoUrlKey:    promoUrl,
+                              hostedAtUrlKey: hostedAtUrl,
+                              durationKey:    durationNumber,
+                              liveKey:        live,
+                              languagesKey:   closedCaptionsLanguages,
+                              widthKey:       frameWidth,
+                              heigthKey:      frameHeight,
+                              volumeKey:      volume};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+  [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
 }
 
-- (void) bridgeStateChangedNotification:(NSNotification *)notification {
-  NSString *stateString = [OOOoyalaPlayer playerStateToString:_player.state];
+- (void)bridgeStateChangedNotification:(NSNotification *)notification {
+  NSString *stateString = [OOOoyalaPlayer playerStateToString:self.player.state];
   OOClosedCaptionsStyle *newClosedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
-  if ([self.viewController.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
-  [self.viewController ccStyleChanged:nil];
+  if ([self.ooReactSkinModel.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
+    [self.ooReactSkinModel ccStyleChanged:nil];
   }
-  NSDictionary *eventBody = @{@"state":stateString};
 
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  NSDictionary *eventBody = @{stateKey: stateString};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
-- (void) bridgeDesiredStateChangedNotification:(NSNotification *)notification {
-  NSString *stateString = [OOOoyalaPlayer playerDesiredStateToString:_player.desiredState];
-  NSDictionary *eventBody = @{@"desiredState":stateString};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+- (void)bridgeDesiredStateChangedNotification:(NSNotification *)notification {
+  NSString *stateString   = [OOOoyalaPlayer playerDesiredStateToString:self.player.desiredState];
+  NSDictionary *eventBody = @{desiredStateKey: stateString};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
-- (void) bridgeErrorNotification:(NSNotification *)notification {
+- (void)bridgeErrorNotification:(NSNotification *)notification {
   OOOoyalaError *error = self.player.error;
   int errorCode = error ? error.code : -1;
-  NSNumber *code = [NSNumber numberWithInt:errorCode];
-  NSString *detail = _player.error.description ? self.player.error.description : @"";
+  NSNumber *code         = @(errorCode);
+  NSString *detail       = self.player.error.description ? self.player.error.description : @"";
   NSDictionary *userInfo = self.player.error.userInfo ? self.player.error.userInfo : @{};
-  NSDictionary *eventBody = @{
-                              @"code": code,
-                              @"description": detail,
-                              @"userInfo": userInfo
-                              };
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+
+  NSDictionary *eventBody = @{codeKey:        code,
+                              descriptionKey: detail,
+                              userInfoKey:    userInfo};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
-- (void) bridgePlayCompletedNotification:(NSNotification *)notification {
-  NSString *title = _player.currentItem.title ? _player.currentItem.title : @"";
-  NSString *itemDescription = _player.currentItem.itemDescription ? _player.currentItem.itemDescription : @"";
-  NSString *promoUrl = _player.currentItem.promoImageURL ? _player.currentItem.promoImageURL : @"";
-  NSNumber *durationNumber = [NSNumber numberWithFloat:_player.currentItem.duration];
+- (void)bridgePlayCompletedNotification:(NSNotification *)notification {
+  NSString *title           = self.player.currentItem.title ? self.player.currentItem.title : @"";
+  NSString *itemDescription = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
+  NSString *promoUrl        = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
+  NSNumber *durationNumber  = @(self.player.currentItem.duration);
 
-  NSDictionary *eventBody =
-  @{@"title":title,
-    @"description":itemDescription,
-    @"promoUrl":promoUrl,
-    @"duration":durationNumber};
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  NSDictionary *eventBody = @{titleKey:       title,
+                              descriptionKey: itemDescription,
+                              promoUrlKey:    promoUrl,
+                              durationKey:    durationNumber};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
-- (void) bridgeAdStartNotification:(NSNotification *)notification {
+- (void)bridgeAdStartNotification:(NSNotification *)notification {
   //TODO: read cutomized font and font size
   static NSString *adFontFamily = @"AvenirNext-DemiBold";
-  static NSUInteger adFontSize = 16;
+  static NSUInteger adFontSize  = 16;
 
   NSDictionary *adInfo = notification.userInfo;
 
-  NSInteger count = [adInfo[@"count"] integerValue];
-  NSInteger unplayed = [adInfo[@"unplayed"] integerValue];
+  NSInteger count       = [adInfo[countKey] integerValue];
+  NSInteger unplayed    = [adInfo[unplayedKey] integerValue];
   NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
-  NSNumber *skipoffset = [NSNumber numberWithFloat:[adInfo[@"skipoffset"] floatValue]];
-  NSMutableArray *icons = adInfo[@"icons"];
-  NSString *title = adInfo[@"title"];
-  NSString *adTitle = [NSString stringWithFormat:@"%@ ", title];
-  NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Ad Playing"];
+  NSNumber *skipoffset  = @([adInfo[skipOffsetKey] floatValue]);
+  NSArray *icons        = adInfo[iconsKey];
+  NSString *title       = adInfo[titleKey];
+  NSString *adTitle     = [NSString stringWithFormat:@"%@ ", title];
+  NSString *titlePrefix = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                 forKey:adPlayingKey];
   if (title.length > 0) {
     titlePrefix = [titlePrefix stringByAppendingString:@":"];
   }
-  NSString *durationString = @"00:00";
-  NSString *learnMoreString = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Learn More"];
-  NSString *skipAdString = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Skip Ad"];
-  NSString *skipAdInTimeString = [OOLocaleHelper localizedStringFromDictionary:self.viewController.skinConfig forKey:@"Skip Ad in 00:00"];
+  NSString *durationString     = @"00:00";
+  NSString *learnMoreString    = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                        forKey:adLearnMoreKey];
+  NSString *skipAdString       = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                        forKey:adSkipKey];
+  NSString *skipAdInTimeString = [OOLocaleHelper localizedStringFromDictionary:self.ooReactSkinModel.skinConfig
+                                                                        forKey:adSkipInKey];
 
-  CGSize titleSize = [adTitle textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize titlePrefixSize = [titlePrefix textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize countSize = [countString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize durationSize = [durationString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize learnMoreSize = [learnMoreString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  CGSize skipAdSize = [skipAdString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titleSize        = [adTitle            textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize titlePrefixSize  = [titlePrefix        textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize countSize        = [countString        textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize durationSize     = [durationString     textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize learnMoreSize    = [learnMoreString    textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
+  CGSize skipAdSize       = [skipAdString       textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
   CGSize skipAdInTimeSize = [skipAdInTimeString textSizeWithFontFamily:adFontFamily fontSize:adFontSize];
-  NSDictionary *measures = @{@"learnmore":[NSNumber numberWithFloat:learnMoreSize.width],
-                             @"skipad":[NSNumber numberWithFloat:skipAdSize.width],
-                             @"skipadintime":[NSNumber numberWithFloat:skipAdInTimeSize.width],
-                             @"duration":[NSNumber numberWithFloat:durationSize.width],
-                             @"count":[NSNumber numberWithFloat:countSize.width],
-                             @"title":[NSNumber numberWithFloat:titleSize.width],
-                             @"prefix":[NSNumber numberWithFloat:titlePrefixSize.width]};
-  NSNumber *requireControls = [NSNumber numberWithBool:[adInfo[@"requireControls"]  boolValue]];
+  NSDictionary *measures = @{learnMoreKey:    @(learnMoreSize.width),
+                             skipAdKey:       @(skipAdSize.width),
+                             skipAdInTimeKey: @(skipAdInTimeSize.width),
+                             durationKey:     @(durationSize.width),
+                             countKey:        @(countSize.width),
+                             titleKey:        @(titleSize.width),
+                             prefixKey:       @(titlePrefixSize.width)};
+  NSNumber *requireControls = @([adInfo[requireControlsKey]  boolValue]);
 
   NSMutableDictionary *eventBody = [NSMutableDictionary dictionaryWithDictionary:adInfo];
-  [eventBody setObject:measures forKey:@"measures"];
-  [eventBody setObject:adTitle forKey:@"title"];
-  [eventBody setObject:skipoffset forKey:@"skipoffset"];
-  [eventBody setObject:requireControls forKey:@"requireControls"];
-  if (icons) {
-    [eventBody setObject:icons forKey:@"icons"];
-  }
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  eventBody[measuresKey]        = measures;
+  eventBody[titleKey]           = adTitle;
+  eventBody[skipOffsetKey]      = skipoffset;
+  eventBody[requireControlsKey] = requireControls;
+  eventBody[iconsKey]           = icons;
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 
-
-  if (![adInfo[@"requireAdBar"] boolValue]) {
-    [self.viewController disableReactViewInteraction];
+  if (![adInfo[requireAdBarKey] boolValue]) {
+    [self.ooReactSkinModel setReactViewInteractionEnabled:NO];
   }
 }
 
-- (void) bridgeAdTappedNotification:(NSNotification *)notification {
+- (void)bridgeAdTappedNotification:(NSNotification *)notification {
   // Note: This is for IMA ad playback only.
   // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
   // toggle play/pause as if the alice ui is clicked.
-  [self.viewController playPauseFromAdTappedNotification  ];
+  [self.ooReactSkinModel playPauseFromAdTappedNotification];
 }
 
-- (void) bridgeAdPodStartedNotification:(NSNotification *)notification {
-  [self.viewController sendBridgeEventWithName:notification.name body:nil];
+- (void)bridgeAdPodStartedNotification:(NSNotification *)notification {
+  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
 }
 
-- (void) bridgeAdPodCompleteNotification:(NSNotification *)notification {
-
-  Float64 duration = _player.duration;
-  Float64 playhead = _player.playheadTime;
-
-  NSNumber *durationNumber = [NSNumber numberWithFloat:duration];
-  NSNumber *playheadNumber = [NSNumber numberWithFloat:playhead];
+- (void)bridgeAdPodCompleteNotification:(NSNotification *)notification {
+  Float64 duration = self.player.duration;
+  Float64 playhead = self.player.playheadTime;
   
-  NSDictionary *eventBody = @{@"duration":durationNumber,
-                              @"playhead":playheadNumber};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
-
-  [self.viewController enableReactViewInteraction];
+  NSDictionary *eventBody = @{durationKey: @(duration),
+                              playheadKey: @(playhead)};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+  [self.ooReactSkinModel setReactViewInteractionEnabled:YES];
 }
 
-- (void) bridgePlayStartedNotification:(NSNotification *)notification {
-  [self.viewController sendBridgeEventWithName:notification.name body:nil];
+- (void)bridgePlayStartedNotification:(NSNotification *)notification {
+  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
 }
 
-- (void) bridgeEmbedCodeNotification:(NSNotification *)notification {
-  [self.viewController sendBridgeEventWithName:notification.name body:nil];
+- (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = @{playbackSpeedEnabledKey: @(self.player.isPlaybackSpeedEnabled),
+                              selectedPlaybackSpeedRateKey: @(self.player.selectedPlaybackSpeedRate)};
+
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgePlaybackSpeedRateChangedNotification:(NSNotification *)notification {
+  NSDictionary *eventBody = @{selectedPlaybackSpeedRateKey: @(self.player.selectedPlaybackSpeedRate)};
+
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgeEmbedCodeNotification:(NSNotification *)notification {
+  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
 }
 
 - (void)bridgeHasVRContentNotification:(NSNotification *)notification {
   NSDictionary *userInfo = notification.userInfo;
-  [self.viewController sendBridgeEventWithName:notification.name body:userInfo];
+  [self.ooReactSkinModel sendEventWithName:notification.name body:userInfo];
 }
 
 - (void)bridgeHasMultiAudioNotification:(NSNotification *)notification {
-  NSMutableDictionary *eventBody = [NSMutableDictionary new];
   NSMutableArray *audioTracksTitles = [NSMutableArray new];
-  
-  for (id<OOAudioTrackProtocol> audioTrack in [self.player availableAudioTracks]) {
+  for (id<OOAudioTrackProtocol> audioTrack in self.player.availableAudioTracks) {
     [audioTracksTitles addObject:audioTrack.title];
   }
 
-  eventBody[@"selectedAudioTrack"] = self.player.selectedAudioTrack.title;
-  eventBody[@"audioTracksTitles"] = audioTracksTitles;
-  eventBody[@"multiAudioEnabled"] = [NSNumber numberWithBool:self.player.hasMultipleAudioTracks];
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  NSMutableDictionary *eventBody = [NSMutableDictionary new];
+  eventBody[selectedAudioTrackKey] = self.player.selectedAudioTrack.title;
+  eventBody[audioTracksTitlesKey]  = audioTracksTitles;
+  eventBody[multiAudioEnabledKey]  = @(self.player.hasMultipleAudioTracks);
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgeAudioTrackChangedNotification:(NSNotification *)notification {
-  NSDictionary *eventBody = @{@"selectedAudioTrack": self.player.selectedAudioTrack.title};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
+  NSDictionary *eventBody = @{selectedAudioTrackKey: self.player.selectedAudioTrack.title};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
-- (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {
-  NSMutableDictionary *eventBody = [NSMutableDictionary new];
-
-  eventBody[@"playbackSpeedEnabled"] = @(self.player.isPlaybackSpeedEnabled);
-  eventBody[@"selectedPlaybackSpeedRate"] = @(self.player.selectedPlaybackSpeedRate);
-
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
-}
-
-- (void)bridgePlaybackSpeedRateChangedNotification:(NSNotification *)notification {
-  NSDictionary *eventBody = @{@"selectedPlaybackSpeedRate": @(self.player.selectedPlaybackSpeedRate)};
-
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
-}
-
-- (void) bridgeCCManifestChangedNotification:(NSNotification *)notification{
+- (void)bridgeCCManifestChangedNotification:(NSNotification *)notification {
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
-  NSDictionary *eventBody = @{@"languages":closedCaptionsLanguages};
-  
-  [self.viewController sendBridgeEventWithName:notification.name body:eventBody];
-  [self.viewController maybeLoadDiscovery:_player.currentItem.embedCode];
+  NSDictionary *eventBody          = @{languagesKey: closedCaptionsLanguages};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+  [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
 }
 
 - (void)dealloc {
-  LOG(@"OOSkinPlayerObserver.dealloc");
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  LOG(@"OOSkinPlayerObserver dealloc");
 }
 
 @end

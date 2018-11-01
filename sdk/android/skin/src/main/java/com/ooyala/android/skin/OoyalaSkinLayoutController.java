@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.KeyEvent;
@@ -32,9 +31,9 @@ import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.player.VrMode;
 import com.ooyala.android.skin.configuration.SkinOptions;
-import com.ooyala.android.skin.util.BundleJSONConverter;
+import com.ooyala.android.skin.util.AssetUtil;
 import com.ooyala.android.skin.util.ReactUtil;
-import com.ooyala.android.skin.util.SkinConfigUtil;
+import com.ooyala.android.skin.configuration.SkinConfigManager;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
 
@@ -43,9 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Observable;
 
 import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
@@ -64,20 +61,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   private static final double MAX_CARBOARD_DIAGONAL_INCH_VALUE = 6.5;
 
-  private static final String KEY_NAME = "name";
-  private static final String KEY_EMBEDCODE = "embedCode";
-  private static final String KEY_PERCENTAG = "percentage";
-  private static final String KEY_LANGUAGE = "language";
-  private static final String KEY_AVAILABLE_LANGUAGE_FILE = "availableLanguageFile";
-  private static final String KEY_ANDROID_RESOURCE = "androidResource";
-  private static final String KEY_LOCALIZATION = "localization";
-  private static final String KEY_LOCALE = "locale";
-  private static final String KEY_DEFAULT_LANGUAGE = "defaultLanguage";
-  private static final String KEY_BUCKETINFO = "bucketInfo";
-  private static final String KEY_ACTION = "action";
-  private static final String KEY_PLAYBACK_SPEED = "playbackSpeed";
-  private static final String KEY_PLAYBACK_OPTIONS = "options";
-
   public static final String CONTROLLER_KEY_PRESS_EVENT = "controllerKeyPressEvent";
 
   /**
@@ -93,6 +76,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private final int STOP_DIRECTION = 0;
   public static final String VR_MODE_CHANGED_NOTIFICATION_NAME = "vrModeChanged";
 
+  private SkinConfigManager configManager;
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
@@ -169,33 +153,34 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     width = Math.round(_layout.getViewWidth() * cal);
     height = Math.round(_layout.getViewHeight() * cal);
 
-
     isReactMounted = false;
 
     initializeSkin(app, layout, player, skinOptions);
   }
 
-  private void initializeSkin(Application app, OoyalaSkinLayout l, OoyalaPlayer p, SkinOptions skinOptions) {
-
+    private void initializeSkin(Application app, OoyalaSkinLayout skinLayout, OoyalaPlayer p, SkinOptions skinOptions) {
+    final Context context = skinLayout.getContext();
     if (skinOptions.getEnableReactJSServer()) {
-      ReactUtil.setJSServer(skinOptions.getReactJSServerHost(), l.getContext());
+      ReactUtil.setJSServer(skinOptions.getReactJSServerHost(), context);
     }
-    JSONObject configJson = SkinConfigUtil.loadInitialProperties(l.getContext(), skinOptions.getSkinConfigAssetName());
-    SkinConfigUtil.applySkinOverridesInPlace(configJson, skinOptions.getSkinOverrides());
-    injectLocalizedResources(configJson, l.getContext());
-    saveUpNextSetting(configJson);
-    Bundle launchOptions = null; //Initial properties.
-    if (configJson != null) {
-      try {
-        launchOptions = BundleJSONConverter.convertToBundle(configJson);
-        closedCaptionsSkinStyle = configJson.getJSONObject("closedCaptionOptions");
-        setDefaultAudioLanguage(configJson);
-      } catch (JSONException e) {
-        e.printStackTrace();
-        launchOptions = null;
-      }
-    }
+    initConfig(context, skinOptions);
+    initSkinViews(app, skinLayout, skinOptions);
+  }
 
+  private void initConfig(Context context, SkinOptions skinOptions) {
+    JSONObject configJson = AssetUtil.loadJsonAsset(context, skinOptions.getSkinConfigAssetName());
+    configManager = new SkinConfigManager(configJson);
+    configManager.removeNullsFromPlaybackArray();
+    configManager.applySkinOverrides(skinOptions);
+    configManager.injectLocalizedResources(context);
+
+    _isUpNextEnabled = configManager.getShowUpNextOrDefault();
+
+    initDefaultAudioLanguageSetting();
+    initClosedCaptionsSkinStyleSetting();
+  }
+
+  private void initSkinViews(Application app, OoyalaSkinLayout l, SkinOptions skinOptions) {
     _package = new OoyalaReactPackage(this);
     rootView = new ReactRootView(l.getContext());
     _reactInstanceManager = ReactInstanceManager.builder()
@@ -208,7 +193,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         .build();
     ccStyleChanged();
 
-    rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", launchOptions);
+    rootView.startReactApplication(_reactInstanceManager, "OoyalaSkin", configManager.toBundle());
 
     FrameLayout.LayoutParams frameLP =
         new FrameLayout.LayoutParams(
@@ -248,67 +233,24 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   }
 
   /**
-   * Get locale of device and inject localized file content into provided json object.
-   *
-   * @param configJson
-   * @param context
-   */
-  private void injectLocalizedResources(JSONObject configJson, Context context) {
-    String locale = Locale.getDefault().getLanguage();
-
-    try {
-      configJson.put(KEY_LOCALE, locale);
-      HashMap<String, String> languageFileNames = getLocaleLanguageFileNames(configJson);
-      JSONObject localizedResources = new JSONObject();
-      for (String languageKey : languageFileNames.keySet()) {
-        String path = languageFileNames.get(languageKey);
-        JSONObject localized = SkinConfigUtil.loadLocalizedResources(context, path);
-        if (localized != null) {
-          localizedResources.put(languageKey, localized);
-        }
-      }
-      if (localizedResources.length() > 0) {
-        JSONObject localizationJson = new JSONObject();
-        localizationJson.put(KEY_LOCALIZATION, localizedResources);
-        SkinConfigUtil.applySkinOverridesInPlace(configJson, localizationJson);
-      } else {
-        DebugMode.logE(TAG, "No localization files found.");
-      }
-    } catch (JSONException e) {
-      e.printStackTrace();
-    }
-  }
-
-  private HashMap<String, String> getLocaleLanguageFileNames(JSONObject configJson) {
-    HashMap<String, String> languageFiles = new HashMap<>();
-    try {
-      JSONArray localeFiles = configJson.getJSONObject(KEY_LOCALIZATION).getJSONArray(KEY_AVAILABLE_LANGUAGE_FILE);
-
-      for (int i = 0; i < localeFiles.length(); i++) {
-        JSONObject jsonObject = (JSONObject) localeFiles.get(i);
-        String localeCode = jsonObject.getString(KEY_LANGUAGE);
-        String languageFile = jsonObject.getString(KEY_ANDROID_RESOURCE);
-        languageFiles.put(localeCode, languageFile);
-      }
-    } catch (JSONException e) {
-      // Localization file for current locale is not set in config. Ignore.
-    }
-    return languageFiles;
-  }
-
-  /**
    * Set the default audio language from skin.json provided the language exists.
-   *
-   * @param audioParams The part of the config that define the default audio language.
    */
-  private void setDefaultAudioLanguage(JSONObject audioParams) {
+  private void initDefaultAudioLanguageSetting() {
     try {
-      String language = audioParams.getJSONObject("audio").getString("audioLanguage");
+      String language = configManager.getAudioLanguage();
       if (language != null && !language.isEmpty()) {
         _player.setConfigDefaultAudioLanguage(language);
       }
     } catch (JSONException e) {
       // Localization file for default audio language is not set in config. Ignore.
+    }
+  }
+
+  public void initClosedCaptionsSkinStyleSetting() {
+    try {
+      closedCaptionsSkinStyle = configManager.getClosedCaptionOptions();
+    } catch (JSONException e) {
+      // Ignore
     }
   }
 
@@ -325,15 +267,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       }
       WritableMap params = BridgeMessageBuilder.buildDiscoveryResultsReceivedParams(jsonResults);
       sendEvent("discoveryResultsReceived", params);
-    }
-  }
-
-
-  private void saveUpNextSetting(JSONObject config) {
-    try {
-      _isUpNextEnabled = config.getJSONObject("upNext").getBoolean("showUpNext");
-    } catch (JSONException e) {
-      DebugMode.logE(TAG, "Up Next Parse Failed, default not showing Up Next");
     }
   }
 

@@ -10,16 +10,15 @@
 
 @implementation NSMutableDictionary (Utils)
 
-- (void)mergeWith:(NSDictionary *)dict
-{
-  for (id key in [dict allKeys]) {
-    NSObject *value = [self objectForKey:key];
+- (void)mergeWith:(NSDictionary *)dict {
+  for (id key in dict.allKeys) {
+    NSObject *value = self[key];
     if ([value isKindOfClass:[NSDictionary class]]) {
       NSMutableDictionary *subDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)value];
-      [subDict mergeWith:[dict objectForKey:key]];
-      [self setObject:subDict forKey:key];
+      [subDict mergeWith:dict[key]];
+      self[key] = subDict;
     } else {
-      [self setObject:[dict objectForKey:key] forKey:key];
+      self[key] = dict[key];
     }
   }
 }
