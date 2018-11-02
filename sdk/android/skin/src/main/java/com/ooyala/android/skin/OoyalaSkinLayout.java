@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -13,21 +14,22 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.KITKAT;
 
 public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisibilityChangeListener{
-  private static final String TAG = OoyalaSkinLayout.class.getSimpleName();
   private FrameLayout playerFrame;
 
-  private int viewWidth,viewHeight,prevWidth,prevHeight;
+  private int viewWidth, viewHeight;
 
   private FrameChangeCallback frameChangeCallback;
 
   private WindowManager windowManager;
   private boolean fullscreen = false;
 
+  private int sourceWidth, sourceHeight;
+
   public interface FrameChangeCallback {
-      void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
+    void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
-      this.frameChangeCallback = fcCallback;
+    this.frameChangeCallback = fcCallback;
   }
 
   /**
@@ -67,9 +69,7 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   public void createSubViews() {
     if (playerFrame == null) {
       FrameLayout.LayoutParams frameLP =
-        new FrameLayout.LayoutParams(
-          FrameLayout.LayoutParams.MATCH_PARENT,
-          FrameLayout.LayoutParams.MATCH_PARENT);
+         new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
       playerFrame = new FrameLayout(this.getContext());
       this.addView(playerFrame, frameLP);
 
@@ -78,6 +78,7 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
 
     final View decorView = ((Activity)getContext()).getWindow().getDecorView();
     decorView.setOnSystemUiVisibilityChangeListener(this);
+
   }
 
   /**
@@ -93,14 +94,21 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   }
 
   @Override
+  protected void onAttachedToWindow () {
+    super.onAttachedToWindow();
+    ViewGroup.LayoutParams layoutParams = getLayoutParams();
+    sourceWidth = layoutParams.width;
+    sourceHeight = layoutParams.height;
+  }
+
+  @Override
   protected void onSizeChanged(int xNew, int yNew, int xOld, int yOld) {
     super.onSizeChanged(xNew, yNew, xOld, yOld);
     viewWidth = xNew;
     viewHeight = yNew;
-    prevWidth = xOld;
-    prevHeight = yOld;
+
     try {
-      this.frameChangeCallback.onFrameChangeCallback(viewWidth, viewHeight, prevWidth, prevHeight);
+      this.frameChangeCallback.onFrameChangeCallback(viewWidth, viewHeight, xOld, yOld);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -111,11 +119,11 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   }
 
   public int getViewWidth() {
-      return viewWidth;
+    return viewWidth;
   }
 
   public int getViewHeight() {
-      return viewHeight;
+    return viewHeight;
   }
 
   public boolean isFullscreen() {
@@ -145,8 +153,7 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);        // hide status bar
       }
     } else {
-      setSystemUiVisibility(
-              View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+      setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
     }
   }
 
@@ -158,22 +165,34 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
     // do nothing if window manager isn't set. This is considering an unexpected case, that is
     // why I'm omitting the whole method, since it really depends on windowManager
     if (null == windowManager) {
-        return;
+      return;
     }
-
     this.fullscreen = fullscreen;
-
     toggleSystemUI(fullscreen);
+  }
+
+  private void updateLayoutSize() {
+    ViewGroup.LayoutParams layoutParams = getLayoutParams();
+    if (fullscreen) {
+      //set layout to MATCH_PARENT
+      layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+      layoutParams.height = FrameLayout.LayoutParams.MATCH_PARENT;
+    } else {
+      // Restore width and height to original values
+      layoutParams.width = sourceWidth;
+      layoutParams.height = sourceHeight;
+    }
+    requestLayout();
   }
 
   @Override
   protected void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    forceLayout();
+    updateLayoutSize();
   }
 
   @Override
   public void onSystemUiVisibilityChange(int i) {
-    forceLayout();
+    updateLayoutSize();
   }
 }

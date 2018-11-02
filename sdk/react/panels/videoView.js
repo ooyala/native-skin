@@ -420,7 +420,7 @@ class VideoView extends React.Component {
     return (
       <View
         accessible={false}
-        style={styles.container}>
+        style={[styles.container, {"height": this.props.height}, {"width": this.props.width}]}>
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}
