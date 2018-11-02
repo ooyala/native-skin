@@ -11,7 +11,7 @@ var CollapsingBarUtils = {
     if( ! orderedItems ) { return []; }
     var self = this;
     var validItems = orderedItems.filter( function(item) { return self._isValid(item); } );
-    var r = this._collapse( barWidth, validItems );
+    var r = this._collapse( barWidth, validItems );  
     return r;
   },
 
@@ -30,7 +30,7 @@ var CollapsingBarUtils = {
   _collapse: function( barWidth, orderedItems ) {
     var r = { fit : orderedItems.slice(), overflow : [] };
     var usedWidth = orderedItems.reduce( function(p,c,i,a) {
-      if (c.minWidth) return p+c.minWidth;
+      if (c.minWidth && c.isVisible) return p+c.minWidth;
       return p;
     }, 0 );
     for( var i = orderedItems.length-1; i >= 0; --i ) {
@@ -38,6 +38,11 @@ var CollapsingBarUtils = {
       if( this._isOnlyInMoreOptions(item) ) {
         usedWidth = this._collapseLastItemMatching(r, item, usedWidth);
       }
+
+    }
+
+    for( var i = orderedItems.length-1; i >= 0; --i ) {
+      var item = orderedItems[ i ];
       if( usedWidth > barWidth && this._isCollapsable(item) ) {
         usedWidth = this._collapseLastItemMatching(r, item, usedWidth);
       }

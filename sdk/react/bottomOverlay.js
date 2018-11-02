@@ -66,9 +66,7 @@ const BottomOverlay = createReactClass({
     shouldShowLandscape: PropTypes.bool,
     screenReaderEnabled: PropTypes.bool,
     config: PropTypes.object,
-    closedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
     showPlaybackSpeedButton: PropTypes.bool
@@ -216,8 +214,10 @@ const BottomOverlay = createReactClass({
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
+    const currentPercent = parseInt(playedPercent * 100, 10);
     const scrubberBarAccessibilityLabel = this.props.platform === Constants.PLATFORMS.IOS ?
-            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_IOS : Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
+            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR : 
+            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent + Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC;
     const barStyle = this.state.accessibilityEnabled ?
             styles.progressBarAccessibilityStyle : styles.progressBarStyle;
 
@@ -325,9 +325,7 @@ const BottomOverlay = createReactClass({
         handleControlsTouch={this.props.handleControlsTouch}
         showWatermark={this.props.showWatermark}
         config={this.props.config}
-        closedCaptionsEnabled={this.props.closedCaptionsEnabled}
         stereoSupported={this.props.stereoSupported}
-        multiAudioEnabled={this.props.multiAudioEnabled}
         showMoreOptionsButton={this.props.showMoreOptionsButton}
         showAudioAndCCButton={this.props.showAudioAndCCButton}
         showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}

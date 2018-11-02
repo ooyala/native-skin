@@ -24,8 +24,9 @@ const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
 
-const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore, eventBridge) {
-  Log.log("OoyalaSkinPanelRenderer Created");
+const leftMargin = 20;
+const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore) {
+  Log.log("OoyalaSkinPanelRenderer created");
   this.skin = ooyalaSkin;
   this.core = ooyalaCore;
 };
@@ -50,6 +51,9 @@ OoyalaSkinPanelRenderer.prototype.renderStartScreen = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
+  const ccEnabled =
+    this.skin.state.availableClosedCaptionsLanguages &&
+    this.skin.state.availableClosedCaptionsLanguages.length > 0;
   return (
     <EndScreen
       config={{
@@ -71,6 +75,7 @@ OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
       promoUrl={this.skin.state.promoUrl}
       duration={this.skin.state.duration}
       loading={this.skin.state.loading}
+      showAudioAndCCButton={this.skin.state.multiAudioEnabled || ccEnabled}
       onPress={(name) => this.core.handlePress(name)}/>
   );
 };
@@ -211,10 +216,10 @@ OoyalaSkinPanelRenderer.prototype.renderAudioAndCCSelectionPanel = function() {
       onSelectClosedCaptions={(value)=>this.core.handleLanguageSelection(value)}
       onDismiss={()=>this.core.dismissOverlay()}
       config={{
-        localizableStrings:this.skin.props.localization,
-        locale:this.skin.props.locale,
-        icons:this.skin.props.icons,
-        general:this.skin.props.general
+        localizableStrings: this.skin.props.localization,
+        locale: this.skin.props.locale,
+        icons: this.skin.props.icons,
+        general: this.skin.props.general
       }}>
     </AudioAndCCSelectionPanel>);
 };
@@ -234,10 +239,10 @@ OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
       onSelectPlaybackSpeedRate={(value)=>this.core.handlePlaybackSpeedRateSelection(value)}
       onDismiss={()=>this.core.dismissOverlay()}
       config={{
-        localizableStrings:this.skin.props.localization,
-        locale:this.skin.props.locale,
-        icons:this.skin.props.icons,
-        general:this.skin.props.general
+        localizableStrings: this.skin.props.localization,
+        locale: this.skin.props.locale,
+        icons: this.skin.props.icons,
+        general: this.skin.props.general
       }}>
     </PlaybackSpeedPanel>);
 };
@@ -291,17 +296,21 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
+    const CCEnabled =
+      this.skin.state.availableClosedCaptionsLanguages &&
+      this.skin.state.availableClosedCaptionsLanguages.length > 0;
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
       onDismiss={() => this.core.dismissOverlay()}
       onOptionButtonPress={(buttonName) => this.core.handleMoreOptionsButtonPress(buttonName)}
+      showAudioAndCCButton={this.skin.state.multiAudioEnabled || CCEnabled}
       config={{
         moreOptionsScreen: this.skin.props.moreOptionsScreen,
         buttons: this.skin.props.buttons.mobileContent,
         icons: this.skin.props.icons,
         // TODO: assumes this is how control bar width is calculated everywhere.
-        controlBarWidth: this.skin.state.width
+        controlBarWidth: this.skin.state.width - 2 * leftMargin
       }} >
     </MoreOptionScreen>
   );

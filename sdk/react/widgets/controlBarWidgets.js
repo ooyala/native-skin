@@ -290,7 +290,7 @@ class controlBarWidget extends React.Component {
       "flexibleSpace": this.flexibleSpaceWidget,
       "rewind": this.rewindWidget,
       "discovery": this.discoveryWidget,
-      "fullscreen": this.fullscreenWidget,
+      "Fullscreen": this.fullscreenWidget,
       "moreOptions": this.moreOptionsWidget,
       "watermark": this.watermarkWidget,
       "share": this.shareWidget,

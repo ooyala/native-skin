@@ -23,7 +23,17 @@
     "alignItems": "center",
     "alignSelf": "center",
     "justifyContent":"center",
-    "backgroundColor": "transparent"
+    "backgroundColor": "transparent",
+    "flexWrap": "wrap",
+  },
+
+  "rowsContainer": {
+    "flex": 1,
+    "flexDirection": "row",
+    "alignSelf": "center",
+    "justifyContent":"center",
+    "backgroundColor": "transparent",
+    "flexWrap": "wrap",
   },
 
   "rowBottom": {

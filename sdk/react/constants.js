@@ -26,7 +26,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   // more option buttons
   DISCOVERY: 'discovery',
   QUALITY: 'quality',
-  AUDIO_AND_CC: 'Audio and closed captions',
+  AUDIO_AND_CC: 'audioAndCC',
   PLAYBACK_SPEED: 'Playback speed',
   SHARE: 'share',
   SETTING: 'settings',
@@ -39,6 +39,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   AD_OVERLAY: 'Overlay',
   PIP: 'PIP',
   UP_NEXT: 'Select up next',
+  CLOSED_CAPTIONS: 'closedCaption'
 };
 
 const VIEW_NAMES = {
@@ -135,8 +136,8 @@ const VIEW_ACCESSIBILITY_NAMES = {
   MULTI_AUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
   PLAYBACK_SPEED_CELL: "Playback speed cell. Tap twice to choose this playback speed rate",
-  PROGRESS_BAR: 'Progress bar. Use two fingers to adjust the progress value',
-  PROGRESS_BAR_IOS: 'Progress bar.',
+  PROGRESS_BAR: 'Progress bar. ',
+  PROGRESS_BAR_ANDROID_SPECIFIC: ' % Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
   FORWARD_BUTTON: 'Forward button. Tap twice to seek forward',
   BACKWARD_BUTTON: 'Backward button. Tap twice to seek backward',

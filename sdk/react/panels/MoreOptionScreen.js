@@ -32,7 +32,8 @@ class MoreOptionScreen extends React.Component {
   onDismiss: PropTypes.func,
   onOptionButtonPress: PropTypes.func,
   config: PropTypes.object,
-  controlBarWidth: PropTypes.number
+  controlBarWidth: PropTypes.number,
+  showPlaybackSpeedButton: PropTypes.bool
   };
 
   state = {
@@ -101,12 +102,13 @@ class MoreOptionScreen extends React.Component {
   _renderMoreOptionButtons = (moreOptionButtons) => {
     var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.config.controlBarWidth, this.props.config.buttons );
     var buttons = itemCollapsingResults.overflow;
+
+    var buttonStyle = [styles.icon, this.props.config.moreOptionsScreen.iconStyle.active];
     for(var i = 0; i < buttons.length; i++){
       var button = buttons[i];
 
       var moreOptionButton;
       var buttonIcon = this._renderIcon(button.name);
-      var buttonStyle = [styles.icon, this.props.config.moreOptionsScreen.iconStyle.active];
 
       // If a color style exists, we remove it as it is applied to a view, which doesn't support
       // text color modification. Color key only applies to Text views.
@@ -115,10 +117,26 @@ class MoreOptionScreen extends React.Component {
         delete buttonStyle[1].color;
       }
 
+
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if (buttonIcon === undefined || buttonStyle === undefined ) {
-        Log.warn( "Warning: skipping unsupported More Options button ", button );
+        Log.warn( "Warning: skipping unsupported More Options button "+button.name );
         continue;
+      }
+
+      if (button.name === BUTTON_NAMES.STEREOSCOPIC) {
+        if (!this.props.stereoSupported){
+          continue;
+        }
+      } else if (button.name === BUTTON_NAMES.AUDIO_AND_CC)  {
+        Log.warn( "showAudioAndCCButton:"+ this.props.showAudioAndCCButton);
+        if (!this.props.сlosedCaptionsEnabled && !this.props.multiAudioEnabled && !this.props.showAudioAndCCButton) {
+          continue;
+        }
+      } else if (button.name === BUTTON_NAMES.CLOSED_CAPTIONS) {
+        if (!this.props.сlosedCaptionsEnabled) {
+          continue;
+        }
       }
 
       var onOptionPress = function(buttonName, f){
@@ -145,12 +163,21 @@ class MoreOptionScreen extends React.Component {
       case BUTTON_NAMES.CLOSED_CAPTIONS:
         buttonIcon = this.props.config.icons.cc;
         break;
+      case BUTTON_NAMES.AUDIO_AND_CC:
+        buttonIcon = this.props.config.icons.audioAndCC;
+        break;   
       case BUTTON_NAMES.SHARE:
         buttonIcon = this.props.config.icons.share;
         break;
       case BUTTON_NAMES.SETTING: // TODO: this doesn't exist in the skin.json?
         buttonIcon = this.props.config.icons.setting;
         break;
+      case BUTTON_NAMES.STEREOSCOPIC:
+        buttonIcon = this.props.config.icons.stereoscopic;
+        break;
+      case BUTTON_NAMES.FULLSCREEN:
+        buttonIcon = this.props.config.icons.expand;
+        break;          
       default:
         break;
     }
@@ -180,7 +207,9 @@ class MoreOptionScreen extends React.Component {
   var animationStyle = {opacity:this.state.opacity};
   var moreOptionScreen = (
     <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
-      {moreOptionRow}
+      <Animated.View style={[styles.rowsContainer, animationStyle]}>
+        {moreOptionRow}
+      </Animated.View>
       {dismissButtonRow}
     </Animated.View>
   );

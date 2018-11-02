@@ -169,11 +169,11 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   @Override
   protected void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    forceLayout();
+    requestLayout();
   }
 
   @Override
   public void onSystemUiVisibilityChange(int i) {
-    forceLayout();
+    requestLayout();
   }
 }

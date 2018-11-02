@@ -52,9 +52,7 @@ class ControlBar extends React.Component {
     handleControlsTouch: PropTypes.func.isRequired,
     live: PropTypes.object,
     config: PropTypes.object.isRequired,
-    сlosedCaptionsEnabled: PropTypes.bool,
     stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
     showPlaybackSpeedButton: PropTypes.bool
@@ -96,7 +94,7 @@ class ControlBar extends React.Component {
         return '#4389FF';
       } else {
         return this.props.config.controlBar.volumeControl.color;
-      } 
+      }
     } else {
       return this.props.config.general.accentColor;
     }
@@ -146,7 +144,6 @@ class ControlBar extends React.Component {
   };
 
   render() {
-
     var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
     var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
     var waterMarkName;
@@ -188,7 +185,7 @@ class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         durationString: this.getDurationString()
       },
-      fullscreen: {
+      Fullscreen: {
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
@@ -248,9 +245,31 @@ class ControlBar extends React.Component {
       },
     };
 
-    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
-    // Log.verbose(itemCollapsingResults);  even more than verbose.  see what is being placed in the control bar
+    function _isVisible( item ) {
+      var visible = true;
+      switch (item.name) {
+        case BUTTON_NAMES.MORE:
+          visible = this.props.showMoreOptionsButton;
+          break;
+        case BUTTON_NAMES.AUDIO_AND_CC:
+          visible = this.props.showAudioAndCCButton;
+          break;
+        case BUTTON_NAMES.PLAYBACK_SPEED:
+          visible = this.props.showPlaybackSpeedButton;
+          break;
+        case BUTTON_NAMES.STEREOSCOPIC:
+          visible = this.props.stereoSupported;
+          break;
+        default:
+          visible = Object.keys(widgetOptions).includes(item.name);
+      }
+      item.isVisible = visible;
+    }
 
+    this.props.config.buttons.forEach(_isVisible, this);
+    //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));
+
+    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
     function pushControl(item) {
       controlBarWidgets.push(item)
     }
@@ -268,7 +287,7 @@ class ControlBar extends React.Component {
           pushControl(item);
         }
       } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC)  {
-        if (this.props.multiAudioEnabled || this.props.сlosedCaptionsEnabled) {
+        if (this.props.showAudioAndCCButton) {
           pushControl(item);
         }
       } else {
