@@ -26,7 +26,7 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   private int sourceWidth, sourceHeight;
 
   public interface FrameChangeCallback {
-    void onFrameChangeCallback(int width, int height,int prevWidth,int prevHeight);
+    void onFrameChangeCallback(int width, int height, int prevWidth, int prevHeight);
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
     this.frameChangeCallback = fcCallback;
@@ -78,7 +78,6 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
 
     final View decorView = ((Activity)getContext()).getWindow().getDecorView();
     decorView.setOnSystemUiVisibilityChangeListener(this);
-
   }
 
   /**
@@ -94,7 +93,7 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   }
 
   @Override
-  protected void onAttachedToWindow () {
+  protected void onAttachedToWindow() {
     super.onAttachedToWindow();
     ViewGroup.LayoutParams layoutParams = getLayoutParams();
     sourceWidth = layoutParams.width;
