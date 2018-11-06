@@ -214,8 +214,10 @@ const BottomOverlay = createReactClass({
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
+    const currentPercent = parseInt(playedPercent * 100, 10);
     const scrubberBarAccessibilityLabel = this.props.platform === Constants.PLATFORMS.IOS ?
-            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_IOS : Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR;
+            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR : 
+            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent + Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC;
     const barStyle = this.state.accessibilityEnabled ?
             styles.progressBarAccessibilityStyle : styles.progressBarStyle;
 
