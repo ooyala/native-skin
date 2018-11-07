@@ -5,7 +5,7 @@
     "alignItems": "center"
   },
   "container": {
-    "flex": 1,
+    "flex": 0,
     "flexDirection": "column",
     "backgroundColor": "transparent",
     "overflow": "hidden"
