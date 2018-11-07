@@ -115,7 +115,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
 OoyalaSkinCore.prototype.handlePress = function(n) {
   switch(n) {
     case BUTTON_NAMES.MORE:
-      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MOREOPTION_SCREEN);
+      this.pushToOverlayStack(OVERLAY_TYPES.MOREOPTION_SCREEN);
       break;
     case BUTTON_NAMES.DISCOVERY:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
