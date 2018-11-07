@@ -93,7 +93,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
     case BUTTON_NAMES.SETTING:
       break;
     case BUTTON_NAMES.AUDIO_AND_CC:
-      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
+      this.pushToOverlayStack(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
       break;
     case BUTTON_NAMES.PLAYBACK_SPEED:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN);
@@ -115,7 +115,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
 OoyalaSkinCore.prototype.handlePress = function(n) {
   switch(n) {
     case BUTTON_NAMES.MORE:
-      this.pushToOverlayStack(OVERLAY_TYPES.MOREOPTION_SCREEN);
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MOREOPTION_SCREEN);
       break;
     case BUTTON_NAMES.DISCOVERY:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
