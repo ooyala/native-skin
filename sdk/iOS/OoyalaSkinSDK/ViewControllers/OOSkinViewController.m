@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Ooyala. All rights reserved.
 //
 
+@import OoyalaSDK;
+
 #import "OOSkinViewController.h"
 #import "OOSkinOptions.h"
 
@@ -17,7 +19,6 @@
 #import "OOSkinFullScreenViewController.h"
 #import "FullscreenStateController.h"
 
-@import OoyalaSDK;
 
 @interface OOSkinViewController () <OOSkinViewControllerDelegate>
 
@@ -421,7 +422,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   } else {
     bool fullscreen = !self.fullscreen;
     if (fullscreen) {
-      [[OOAudioSession sharedInstance] prioritize];
+      [OOAudioSession.sharedInstance prioritize];
     }
     [self setFullscreen:fullscreen isOrientationChanges:NO completion:NULL];
   }
