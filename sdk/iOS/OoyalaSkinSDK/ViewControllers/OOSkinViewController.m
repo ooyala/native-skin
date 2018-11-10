@@ -12,15 +12,12 @@
 #import "OOReactSkinModel.h"
 #import <React/RCTRootView.h>
 
-#import <OoyalaSDK/OOOoyalaPlayer.h>
-#import <OoyalaSDK/OODebugMode.h>
-#import <OoyalaSDK/OOOptions.h>
-
 #import "OOConstant.h"
 #import "OOSkinViewControllerDelegate.h"
 #import "OOSkinFullScreenViewController.h"
 #import "FullscreenStateController.h"
 
+@import OoyalaSDK;
 
 @interface OOSkinViewController () <OOSkinViewControllerDelegate>
 
@@ -422,7 +419,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (self.isVRStereoMode) {
     [self toggleStereoMode];
   } else {
-    [self setFullscreen:!self.fullscreen isOrientationChanges:NO completion:NULL];
+    bool fullscreen = !self.fullscreen;
+    if (fullscreen) {
+      [[OOAudioSession sharedInstance] prioritize];
+    }
+    [self setFullscreen:fullscreen isOrientationChanges:NO completion:NULL];
   }
 }
 
