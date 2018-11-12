@@ -303,9 +303,9 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     [OOOoyalaTVPlayerViewController loadDefaultLocale];
   }
 
-  if (language == nil) {
+  if (!language) {
     [OOOoyalaTVPlayerViewController loadDeviceLanguage];
-  } else if ([OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language]) {
+  } else if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
     [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:language]];
   } else {
     [OOOoyalaTVPlayerViewController chooseBackupLanguage:language];
@@ -318,10 +318,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   //LOG(@"Default Localizations Loaded");
   NSArray *keys = @[@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions"];
   NSDictionary *en = [NSDictionary dictionaryWithObjects:@[@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions"] forKeys:keys];
-  NSDictionary *ja = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"ライブ", @"完了", @"言語", @"さらに詳しく", @"このアプリからビデオをキャストできます", @"切断", @"デバイスに接続",@"Subtitles",@"Off",@"Use Closed Captions", nil] forKeys:keys];
+  NSDictionary *ja = [NSDictionary dictionaryWithObjects:@[@"ライブ", @"完了", @"言語", @"さらに詳しく", @"このアプリからビデオをキャストできます", @"切断", @"デバイスに接続",@"Subtitles",@"Off",@"Use Closed Captions"] forKeys:keys];
   NSDictionary *es = [NSDictionary dictionaryWithObjects:@[@"En vivo", @"Hecho", @"Idioma", @"Más información", @"Listo para trasmitir videos desde esta aplicación", @"Desconectar", @"Conectar al dispositivo",@"Subtítulos",@"Off",@"Usar Subtítulos"] forKeys:keys];
   
-  OOOoyalaPlayerViewControllerAvailableLocalizations = [NSDictionary dictionaryWithObjects:@[en, ja, es] forKeys:@[@"en", @"ja", @"es"]];
+  OOOoyalaPlayerViewControllerAvailableLocalizations = @{@"en": en, @"ja": ja, @"es": es};
 }
 
 + (void)loadDeviceLanguage {
@@ -330,7 +330,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   }
   NSString *language = [NSLocale preferredLanguages].firstObject;
   if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
-    [self useLanguageStrings:[OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language]];
+    [self useLanguageStrings:OOOoyalaPlayerViewControllerAvailableLocalizations[language]];
   } else {
     [self chooseBackupLanguage:language];
   }
