@@ -13,14 +13,14 @@ import {
   View,
   Slider,
   NativeModules,
-  AccessibilityInfo
+  AccessibilityInfo,
+  Platform
 } from 'react-native';
 
 const Constants = require('./constants');
 const {
   VIEW_NAMES,
   UI_SIZES,
-  PLATFORMS,
   VALUES,
   ANNOUNCER_TYPES
 } = Constants;
@@ -215,13 +215,15 @@ const BottomOverlay = createReactClass({
     }
 
     const currentPercent = parseInt(playedPercent * 100, 10);
-    const scrubberBarAccessibilityLabel = this.props.platform === Constants.PLATFORMS.IOS ?
-            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR : 
-            Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent + Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC;
+    const scrubberBarAccessibilityLabel = Platform.select({
+      ios: Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR,
+      android: Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent +
+               Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC
+    });
     const barStyle = this.state.accessibilityEnabled ?
             styles.progressBarAccessibilityStyle : styles.progressBarStyle;
 
-    if (this.props.platform === PLATFORMS.IOS && this.props.screenReaderEnabled) {
+    if (Platform.OS === 'ios' && this.props.screenReaderEnabled) {
       const minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
       const maximumTrackTintColor = this.props.config.controlBar.scrubberBar.bufferedColor;
 
@@ -313,7 +315,6 @@ const BottomOverlay = createReactClass({
       <ControlBar
         ref='controlBar'
         primaryButton={this.props.primaryButton}
-        platform={this.props.platform}
         playhead={this.props.playhead}
         duration={this.props.duration}
         volume={this.props.volume}
@@ -372,7 +373,7 @@ const BottomOverlay = createReactClass({
     if (this.isMounted()) {
       this.setState({x:event.nativeEvent.pageX});
     }
-    if (this.props.platform === PLATFORMS.ANDROID) {
+    if (Platform.OS === 'android') {
       const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
       const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
@@ -394,7 +395,7 @@ const BottomOverlay = createReactClass({
      }
      this.setState({touch:false, x:null});
 
-     if (this.props.platform === PLATFORMS.ANDROID) {
+     if (Platform.OS === 'android') {
        const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
        const currentPercent = parseInt(playedPercent * 100, 10);
        const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
