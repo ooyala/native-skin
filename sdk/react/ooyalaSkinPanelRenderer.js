@@ -4,6 +4,7 @@
 'use strict';
 
 import React from 'react';
+import {Platform} from 'react-native';
 
 const Constants = require('./constants');
 const {
@@ -43,7 +44,6 @@ OoyalaSkinPanelRenderer.prototype.renderStartScreen = function() {
       promoUrl={this.skin.state.promoUrl}
       width={this.skin.state.width}
       height={this.skin.state.height}
-      platform={this.skin.state.platform}
       playhead={this.skin.state.playhead}
       screenReaderEnabled={this.skin.state.screenReaderEnabled}
       onPress={(name) => this.core.handlePress(name)}/>
@@ -102,7 +102,6 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       duration={this.skin.state.duration}
       adOverlay = {this.skin.state.adOverlay}
       live ={this.skin.state.live}
-      platform={this.skin.state.platform}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
@@ -168,7 +167,6 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
       duration={this.skin.state.duration}
       ad ={this.skin.state.ad}
       live ={this.skin.state.live}
-      platform={this.skin.state.platform}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
@@ -248,18 +246,18 @@ OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderSocialOptions = function() {
-  if(this.skin.state.platform == Constants.PLATFORMS.ANDROID) {
-    this.core.bridge.shareTitle({shareTitle:this.skin.state.title});
-    this.core.bridge.shareUrl({shareUrl:this.skin.state.hostedAtUrl});
-    this.core.bridge.onPress({name:"Share"});
-  }
-  else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
-    ActivityView.show({
-      'text':this.skin.state.title,
-      'link':this.skin.state.hostedAtUrl,
-    });
-  }
-},
+  Platform.select({
+    ios: () => ActivityView.show({
+        'text':this.skin.state.title,
+        'link':this.skin.state.hostedAtUrl,
+      }),
+    android: () => {
+      this.core.bridge.shareTitle({shareTitle:this.skin.state.title});
+      this.core.bridge.shareUrl({shareUrl:this.skin.state.hostedAtUrl});
+      this.core.bridge.onPress({name:"Share"});
+    }
+  })();
+};
 
 OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
   if (!this.skin.state.discoveryResults) {
@@ -283,7 +281,6 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
         icons: this.skin.props.icons,
       }}
       onDismiss={() => this.core.dismissOverlay()}
-      platform={this.skin.state.platform}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       dataSource={this.skin.state.discoveryResults}
