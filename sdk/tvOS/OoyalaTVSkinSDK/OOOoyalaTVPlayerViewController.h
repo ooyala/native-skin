@@ -40,4 +40,6 @@
 
 - (void)removeClosedCaptionsMenu;
 
+- (void)updatePlayheadWithSeekTime:(double)seekTime;
+
 @end

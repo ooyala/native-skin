@@ -180,12 +180,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)addObservers {
   [NSNotificationCenter.defaultCenter addObserver:self
-                                         selector:@selector(syncUI)
+                                         selector:@selector(stateChangedNotification)
                                              name:OOOoyalaPlayerStateChangedNotification
                                            object:self.player];
   
   [NSNotificationCenter.defaultCenter addObserver:self
-                                         selector:@selector(syncUI)
+                                         selector:@selector(timeChangedNotification)
                                              name:OOOoyalaPlayerTimeChangedNotification
                                            object:self.player];
 }
@@ -194,40 +194,35 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
-- (void)syncUI {
+#pragma mark - Notifications
+
+- (void)stateChangedNotification {
   switch (self.player.state) {
     case OOOoyalaPlayerStateLoading:
       [self.activityView startAnimating];
       break;
     case OOOoyalaPlayerStateReady:
-      break;
     case OOOoyalaPlayerStatePlaying:
-      break;
     case OOOoyalaPlayerStatePaused:
-      break;
     case OOOoyalaPlayerStateError:
-      break;
     default:
-      break;
-  }
-  
-  if (self.player.state != OOOoyalaPlayerStateLoading) {
-    [self.activityView stopAnimating];
+      [self.activityView stopAnimating];
   }
     
   [self showClosedCaptionsButton];
-  
+}
+
+- (void)timeChangedNotification {
   [self updateTimeWithDuration:self.player.duration
                       playhead:self.player.playheadTime];
-  CGFloat bufferedTime = (CGFloat)self.player.bufferedTime;
-  if (isnan(bufferedTime)) {
-    bufferedTime = 0;
-  }
   
-  [self.bottomBars updateBarBuffer:bufferedTime playhead:self.player.playheadTime duration: self.player.duration totalLength:(self.view.bounds.size.width - 388)];
-    // We refresh CC view everytime player change state
-    [self refreshClosedCaptionsView];
+  [self updateBottomBarsWithPlayheadTime:self.player.playheadTime];
+  
+  // We refresh CC view everytime player change state
+  [self refreshClosedCaptionsView];
 }
+
+#pragma mark - Private functions
 
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
   NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
@@ -400,6 +395,27 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (self.optionsViewController.view.window) {
     [self.optionsViewController.view removeFromSuperview];
   }
+}
+
+- (void)updateBottomBarsWithPlayheadTime:(double)playhead {
+  Float64 bufferedTime = self.player.bufferedTime;
+  if (isnan(bufferedTime)) {
+    bufferedTime = 0;
+  }
+  
+  [self.bottomBars updateBarBuffer:bufferedTime
+                          playhead:playhead
+                          duration:self.player.duration
+                       totalLength:(self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace)];
+  
+  self.gestureManager.playheadTime = playhead;
+  self.gestureManager.durationTime = self.player.duration;
+}
+
+#pragma mark - Public functions
+
+- (void)updatePlayheadWithSeekTime:(double)seekTime {
+  [self updateBottomBarsWithPlayheadTime:seekTime];
 }
 
 - (BOOL)closedCaptionMenuDisplayed {

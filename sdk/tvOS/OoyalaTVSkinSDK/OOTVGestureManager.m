@@ -118,12 +118,21 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
   
   if (seekTo < 0) {
     seekTo = 0;
-  } else if (seekTo > self.controller.player.duration) {
-    seekTo = self.controller.player.duration;
+  } else if (seekTo > self.durationTime) {
+    seekTo = self.durationTime;
   }
+  
+  CGFloat viewWidth = self.controller.view.frame.size.width;
+  
+  if (viewWidth == 0) {
+    viewWidth = 1920;
+  }
+
+  self.lastPlayhead = seekTo;
   
   [self.controller.player seek:seekTo];
   [self.controller showProgressBar];
+  [self.controller updatePlayheadWithSeekTime:(double)seekTo];
 }
 
 - (void)togglePlay:(id)sender {
@@ -138,7 +147,7 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
   [self.controller showProgressBar];
 }
 
-- (void)closedCaptionsSelector: (UITapGestureRecognizer *)sender {
+- (void)closedCaptionsSelector:(UITapGestureRecognizer *)sender {
   [self.controller setupClosedCaptionsMenu];
 }
 
@@ -159,23 +168,33 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
       }
       
       CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
+      
       [self.controller showProgressBar];
       
       switch (self.panGesture.state) {
         case UIGestureRecognizerStateBegan:
           self.lastPanPoint = currentPoint;
-          self.lastPlayhead = self.controller.player.playheadTime;
+          self.lastPlayhead = self.playheadTime;
           break;
         case UIGestureRecognizerStateChanged: {
           CGFloat distance = currentPoint.x - self.lastPanPoint.x;
-          if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
-            self.lastPanPoint = currentPoint;
-            self.lastPlayhead += distance * seekScale;
-            [self.controller.player seek:self.lastPlayhead];
+          
+          self.lastPanPoint = currentPoint;
+          self.lastPlayhead += distance * seekScale;
+          
+          if (self.lastPlayhead < 0) {
+            self.lastPlayhead = 0;
+          } else if (self.lastPlayhead > self.durationTime) {
+            self.lastPlayhead = self.durationTime;
           }
+          
+          [self.controller updatePlayheadWithSeekTime:(double)self.lastPlayhead];
+          
           break;
         }
         case UIGestureRecognizerStateEnded:
+          [self.controller updatePlayheadWithSeekTime:(double)self.lastPlayhead];
+          [self.controller.player seek:self.lastPlayhead];
           break;
         default:
           break;
@@ -191,7 +210,7 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
   
   switch (panRecognizer.state) {
     case UIGestureRecognizerStateBegan: {
-      [result mergeWith:@{kTouchEventNameKey : kTouchStartEventName}];
+      [result mergeWith:@{kTouchEventNameKey: kTouchStartEventName}];
       break;
     }
       
@@ -204,12 +223,12 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
       
       result = [NSMutableDictionary dictionaryWithDictionary:dictionary];
       
-      [result mergeWith:@{kTouchEventNameKey : kTouchMoveEventName}];
+      [result mergeWith:@{kTouchEventNameKey: kTouchMoveEventName}];
       
       break;
     }
     default: {
-      [result mergeWith:@{kTouchEventNameKey : kTouchEndEventName}];
+      [result mergeWith:@{kTouchEventNameKey: kTouchEndEventName}];
       break;
     }
   }
