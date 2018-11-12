@@ -68,6 +68,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear: animated];
+  if (!self.progressTintColor) {
+    self.progressTintColor = [UIColor colorWithRed:68.0/255.0
+                                             green:138.0/255.0
+                                             blue:225.0/255.0
+                                             alpha:1.0];
+  }
 
   [self setupViewController];
   if (!self.gestureManager) {
@@ -114,7 +120,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)setupBars {
-  self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground];
+  self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground withTintColor:self.progressTintColor];
   //Adding button to indicate that CCs are available
   self.closedCaptionsMenuBar = [[OOOoyalaTVTopBar alloc] initMiniView:self.view];
   self.closedCaptionsMenuBar.alpha = 0.0;
