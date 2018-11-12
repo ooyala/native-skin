@@ -21,7 +21,6 @@ var {
   SCREEN_TYPES,
   OVERLAY_TYPES,
   OOSTATES,
-  PLATFORMS,
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE,
 } = Constants;
@@ -101,7 +100,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
     case BUTTON_NAMES.FULLSCREEN:
       this.bridge.onPress({name:buttonName});
       this.dismissOverlay();
-      break;  
+      break;
     default:
 	    this.bridge.onPress({name:buttonName});
       break;
@@ -295,6 +294,7 @@ OoyalaSkinCore.prototype.renderScreen = function() {
 
 //return boolean -> touch end was in clickRadius from touch start
 let isClick = function(endX, endY) {
-  return Math.sqrt((endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
+  return Math.sqrt((endX - startedClickX) * (endX - startedClickX) +
+                   (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
 };
 module.exports = OoyalaSkinCore;
