@@ -21,7 +21,6 @@ const {
 var Constants = require('./constants');
 var {
   SCREEN_TYPES,
-  PLATFORMS,
   DESIRED_STATES
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
@@ -64,7 +63,6 @@ class OoyalaSkin extends React.Component {
     alertMessage: '',
     error: null,
     volume: 0,          // between 0 and 1
-    platform:PLATFORMS.IOS,
     screenReaderEnabled: false,
   };
 

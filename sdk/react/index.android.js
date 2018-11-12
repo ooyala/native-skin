@@ -23,7 +23,6 @@ var eventBridge = require('NativeModules').OoyalaReactBridge;
 var Constants = require('./constants');
 var {
   SCREEN_TYPES,
-  PLATFORMS,
   DESIRED_STATES
 } = Constants;
 var OoyalaSkinCore = require('./ooyalaSkinCore');
@@ -63,7 +62,6 @@ class OoyalaSkin extends React.Component {
     alertTitle: '',
     alertMessage: '',
     error: null,
-    platform:PLATFORMS.ANDROID,
     screenReaderEnabled: false,
   };
 
