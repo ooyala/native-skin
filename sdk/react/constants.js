@@ -43,18 +43,12 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
 };
 
 const VIEW_NAMES = {
-
   // Time seek bar views
   TIME_SEEK_BAR: 'seekBar',
   TIME_SEEK_BAR_THUMB: 'seekBar_thumb',
   TIME_SEEK_BAR_PLAYED: 'seekBar_played',
   TIME_SEEK_BAR_BACKGROUND: 'seekBar_background',
   TIME_SEEK_BAR_BUFFERED: 'seekBar_buffered'
-};
-
-const PLATFORMS = {
-  ANDROID:'android',
-  IOS: 'ios',
 };
 
 const IMG_URLS = {
@@ -82,10 +76,6 @@ const OVERLAY_TYPES = {
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen'
 }
-
-const OOSTATES = {
-  PAUSED: 'paused',
-};
 
 const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',
@@ -170,9 +160,7 @@ module.exports = {
   IMG_URLS,
   SCREEN_TYPES,
   OVERLAY_TYPES,
-  OOSTATES,
   LOG_LEVEL,
-  PLATFORMS,
   MAX_DATE_VALUE,
   AUTOHIDE_DELAY,
   DESIRED_STATES,
