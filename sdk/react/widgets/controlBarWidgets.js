@@ -10,6 +10,7 @@ import {
   Text,
   View,
   Image,
+  Platform,
   SliderIOS,
   TouchableHighlight
 } from 'react-native';
@@ -56,7 +57,7 @@ class controlBarWidget extends React.Component {
   volumeWidget = (options) => {
     let volumeScrubber = null;
     const scrubberStyle = [options.scrubberStyle];
-    if (options.platform === Constants.PLATFORMS.IOS) {
+    if (Platform.OS === 'ios') {
       scrubberStyle.push({top: 5});
     }
     if (options.showVolume) {
