@@ -49,7 +49,6 @@ class DiscoveryPanel extends React.Component {
     config: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
-    platform: PropTypes.string,
     screenType: PropTypes.string,
   };
 
@@ -183,42 +182,36 @@ class DiscoveryPanel extends React.Component {
     }
   };
 
-  renderCountdownTimer = (item) => {
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      return (
-          <CountdownViewAndroid
-            style={{width:44,height:44}}
-            countdown={{
-              main_color:"#AAffffff",
-              secondary_color:"#AA808080",
-              fill_color:"#AA000000",
-              text_color:"#AAffffff",
-              stroke_width:10,
-              text_size:75,
-              max_time:this.state.counterTime,
-              progress:0,
-              automatic:true}}
-              data={{embedCode:item.embedCode,bucketInfo:item.bucketInfo}}/>);
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      return (
-           <CountdownView
-             style={{
-               width: 44,
-               height: 44,
-             }}
-             automatic={true}
-             time={this.state.counterTime}
-             timeLeft={this.state.counterTime}
-             radius={22}
-             fillColor={'#000000'}
-             strokeColor={'#ffffff'}
-             fillAlpha={0.7}
-             tapCancel={true}
-             onPress={this.onStatusPressed}
-             onTimerCompleted={() => this.onRowSelected(item)} />);
-    }
-  };
+  renderCountdownTimer = (item) => Platform.select({
+    ios:
+      <CountdownView
+        style={{width: 44, height: 44}}
+        automatic={true}
+        time={this.state.counterTime}
+        timeLeft={this.state.counterTime}
+        radius={22}
+        fillColor={'#000000'}
+        strokeColor={'#ffffff'}
+        fillAlpha={0.7}
+        tapCancel={true}
+        onPress={this.onStatusPressed}
+        onTimerCompleted={() => this.onRowSelected(item)} />,
+    android:
+      <CountdownViewAndroid
+        style={{width: 44, height: 44}}
+        countdown={{
+          main_color:"#AAffffff",
+          secondary_color:"#AA808080",
+          fill_color:"#AA000000",
+          text_color:"#AAffffff",
+          stroke_width:10,
+          text_size:75,
+          max_time:this.state.counterTime,
+          progress:0,
+          automatic:true}}
+        data={{embedCode:item.embedCode,
+               bucketInfo:item.bucketInfo}}/>
+  });
 
   renderItem = (
     item: object,
@@ -286,7 +279,7 @@ class DiscoveryPanel extends React.Component {
         </View>
       </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
-      <TouchableHighlight 
+      <TouchableHighlight
         accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
         style = {[panelStyles.dismissButton]}
         onPress={this.onDismissPress}>
