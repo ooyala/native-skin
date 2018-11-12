@@ -11,19 +11,18 @@
 #import <OOOoyalaTVConstants.h>
 #import "NSMutableDictionary+Utils.h"
 
-
-@interface OOTVGestureManager()<UIGestureRecognizerDelegate> {
-  CGPoint lastPanPoint;
-  Float64 lastPlayhead;
-}
+@interface OOTVGestureManager () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) OOOoyalaTVPlayerViewController *controller;
 
-@property (nonatomic, strong) UITapGestureRecognizer *tapForwardGesture;
-@property (nonatomic, strong) UITapGestureRecognizer *tapBackwardGesture;
-@property (nonatomic, strong) UITapGestureRecognizer *tapPlayPauseGesture;
-@property (nonatomic, strong) UIPanGestureRecognizer *panGesture;
-@property (nonatomic, strong) UITapGestureRecognizer *tapUpGesture;
+@property (nonatomic) CGPoint lastPanPoint;
+@property (nonatomic) Float64 lastPlayhead;
+
+@property (nonatomic) UITapGestureRecognizer *tapForwardGesture;
+@property (nonatomic) UITapGestureRecognizer *tapBackwardGesture;
+@property (nonatomic) UITapGestureRecognizer *tapPlayPauseGesture;
+@property (nonatomic) UIPanGestureRecognizer *panGesture;
+@property (nonatomic) UITapGestureRecognizer *tapUpGesture;
 
 @end
 
@@ -32,12 +31,12 @@
 
 #pragma mark - Constants
 
-static NSString *kTouchEventNameKey = @"eventName";
-static NSString *kTouchStartEventName = @"start";
-static NSString *kTouchMoveEventName = @"move";
-static NSString *kTouchEndEventName = @"end";
-static NSString *kTouchXLocationFiledName = @"x_location";
-static NSString *kTouchYLocationFiledName = @"y_location";
+static NSString *const kTouchEventNameKey = @"eventName";
+static NSString *const kTouchStartEventName = @"start";
+static NSString *const kTouchMoveEventName = @"move";
+static NSString *const kTouchEndEventName = @"end";
+static NSString *const kTouchXLocationFiledName = @"x_location";
+static NSString *const kTouchYLocationFiledName = @"y_location";
 
 #pragma mark - Initialization
 
@@ -107,7 +106,7 @@ static NSString *kTouchYLocationFiledName = @"y_location";
 #pragma mark - Actions
 
 - (void)seek:(UITapGestureRecognizer *)sender {
-  if (self.controller.closedCaptionMenuDisplayed){
+  if (self.controller.closedCaptionMenuDisplayed) {
     [self.controller removeClosedCaptionsMenu];
   }
   NSTimeInterval seekTo = self.controller.player.playheadTime;
@@ -119,16 +118,25 @@ static NSString *kTouchYLocationFiledName = @"y_location";
   
   if (seekTo < 0) {
     seekTo = 0;
-  } else if (seekTo > self.controller.player.duration) {
-    seekTo = self.controller.player.duration;
+  } else if (seekTo > self.durationTime) {
+    seekTo = self.durationTime;
   }
+  
+  CGFloat viewWidth = self.controller.view.frame.size.width;
+  
+  if (viewWidth == 0) {
+    viewWidth = 1920;
+  }
+
+  self.lastPlayhead = seekTo;
   
   [self.controller.player seek:seekTo];
   [self.controller showProgressBar];
+  [self.controller updatePlayheadWithSeekTime:(double)seekTo];
 }
 
 - (void)togglePlay:(id)sender {
-  if (self.controller.closedCaptionMenuDisplayed){
+  if (self.controller.closedCaptionMenuDisplayed) {
     [self.controller removeClosedCaptionsMenu];
   }
   if ([self.controller.player isPlaying]) {
@@ -139,7 +147,7 @@ static NSString *kTouchYLocationFiledName = @"y_location";
   [self.controller showProgressBar];
 }
 
-- (void)closedCaptionsSelector: (UITapGestureRecognizer *)sender {
+- (void)closedCaptionsSelector:(UITapGestureRecognizer *)sender {
   [self.controller setupClosedCaptionsMenu];
 }
 
@@ -160,23 +168,33 @@ static NSString *kTouchYLocationFiledName = @"y_location";
       }
       
       CGFloat seekScale = self.controller.player.duration / viewWidth * SWIPE_TO_SEEK_MULTIPLIER;
+      
       [self.controller showProgressBar];
       
       switch (self.panGesture.state) {
         case UIGestureRecognizerStateBegan:
-          lastPanPoint = currentPoint;
-          lastPlayhead = self.controller.player.playheadTime;
+          self.lastPanPoint = currentPoint;
+          self.lastPlayhead = self.playheadTime;
           break;
         case UIGestureRecognizerStateChanged: {
-          CGFloat distance = currentPoint.x - lastPanPoint.x;
-          if (fabs(distance) > SWIPE_TO_SEEK_MIN_THRESHOLD) {
-            lastPanPoint = currentPoint;
-            lastPlayhead += distance * seekScale;
-            [self.controller.player seek:lastPlayhead];
+          CGFloat distance = currentPoint.x - self.lastPanPoint.x;
+          
+          self.lastPanPoint = currentPoint;
+          self.lastPlayhead += distance * seekScale;
+          
+          if (self.lastPlayhead < 0) {
+            self.lastPlayhead = 0;
+          } else if (self.lastPlayhead > self.durationTime) {
+            self.lastPlayhead = self.durationTime;
           }
+          
+          [self.controller updatePlayheadWithSeekTime:(double)self.lastPlayhead];
+          
           break;
         }
         case UIGestureRecognizerStateEnded:
+          [self.controller updatePlayheadWithSeekTime:(double)self.lastPlayhead];
+          [self.controller.player seek:self.lastPlayhead];
           break;
         default:
           break;
@@ -188,36 +206,34 @@ static NSString *kTouchYLocationFiledName = @"y_location";
 #pragma mark - Private functions
 
 - (void)notifyObserversWhatPanGestureStateChangedWithPanGestureRecognizer:(UIPanGestureRecognizer *)panRecognizer {
-  NSMutableDictionary *result = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *result = [NSMutableDictionary dictionary];
   
   switch (panRecognizer.state) {
     case UIGestureRecognizerStateBegan: {
-      [result mergeWith:@{kTouchEventNameKey : kTouchStartEventName}];
+      [result mergeWith:@{kTouchEventNameKey: kTouchStartEventName}];
       break;
     }
       
     case UIGestureRecognizerStateChanged: {
-      
-      NSMutableDictionary *dictionary = [[NSMutableDictionary alloc] init];
-      
+      NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
       CGPoint current = [panRecognizer translationInView:self.controller.view];
       
       dictionary[kTouchXLocationFiledName] = @(current.x);
       dictionary[kTouchYLocationFiledName] = @(current.y);
       
-      result = [[NSMutableDictionary alloc] initWithDictionary:dictionary];
+      result = [NSMutableDictionary dictionaryWithDictionary:dictionary];
       
-      [result mergeWith:@{kTouchEventNameKey : kTouchMoveEventName}];
+      [result mergeWith:@{kTouchEventNameKey: kTouchMoveEventName}];
       
       break;
     }
     default: {
-      [result mergeWith:@{kTouchEventNameKey : kTouchEndEventName}];
+      [result mergeWith:@{kTouchEventNameKey: kTouchEndEventName}];
       break;
     }
   }
   
-  [[NSNotificationCenter defaultCenter] postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
+  [NSNotificationCenter.defaultCenter postNotificationName:OOOoyalaPlayerHandleTouchNotification object:result];
 }
 
 @end
