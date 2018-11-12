@@ -32,7 +32,6 @@ var autohideDelay = 5000;
 
 var {
   BUTTON_NAMES,
-  PLATFORMS,
   IMG_URLS,
   UI_SIZES,
   AUTOHIDE_DELAY,
@@ -42,7 +41,6 @@ var {
 class AdPlaybackScreen extends React.Component {
   static propTypes = {
     rate: PropTypes.number,
-    platform: PropTypes.string,
     playhead: PropTypes.number,
     buffered: PropTypes.number,
     duration: PropTypes.number,
@@ -129,7 +127,6 @@ class AdPlaybackScreen extends React.Component {
       fullscreen = {this.props.fullscreen}
       cuePoints = {this.props.cuePoints}
       playhead={this.props.playhead}
-      platform={this.props.platform}
       duration={this.props.duration}
       ad={this.props.ad}
       volume={this.props.volume}
@@ -201,7 +198,6 @@ class AdPlaybackScreen extends React.Component {
           frameHeight={this.props.height}
           buttonWidth={iconFontSize}
           buttonHeight={iconFontSize}
-          platform={this.props.platform}
           fontSize={iconFontSize}
           showButton={show}
           rate={this.props.rate}
