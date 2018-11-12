@@ -277,7 +277,7 @@ class AdPlaybackScreen extends React.Component {
       }
       return (
         <View
-          style={styles.container}>
+          style={styles.adContainer}>
           {adBar}
           {this._renderPlaceholder(adIcons)}
           {playButtonIfPaused}
@@ -286,7 +286,7 @@ class AdPlaybackScreen extends React.Component {
     } else {
       return (
         <View
-          style={styles.container}>
+          style={styles.adContainer}>
           {adBar}
           {this._renderPlaceholder(adIcons)}
           {this._renderPlayPause(this.props.screenReaderEnabled ? false : shouldShowControls) }
