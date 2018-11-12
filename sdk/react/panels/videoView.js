@@ -13,6 +13,7 @@ import {
   Text,
   View,
   StyleSheet,
+  Platform,
   TouchableHighlight
 } from 'react-native';
 
@@ -29,7 +30,6 @@ const panelStyles = require('./style/panelStyles.json');
 
 const {
   BUTTON_NAMES,
-  PLATFORMS,
   IMG_URLS,
   UI_SIZES,
   AUTOHIDE_DELAY,
@@ -39,7 +39,6 @@ const {
 class VideoView extends React.Component {
   static propTypes = {
     rate: PropTypes.number,
-    platform: PropTypes.string,
     playhead: PropTypes.number,
     buffered: PropTypes.number,
     duration: PropTypes.number,
@@ -167,7 +166,6 @@ class VideoView extends React.Component {
       fullscreen={this.props.fullscreen}
       cuePoints={this.props.cuePoints}
       playhead={this.props.playhead}
-      platform={this.props.platform}
       duration={this.props.duration}
       volume={this.props.volume}
       live={this.generateLiveObject()}
@@ -207,14 +205,12 @@ class VideoView extends React.Component {
 
   _renderBottom = () => {
     const VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
-    let waterMarkName, watermark;
-    if (this.props.platform === Constants.PLATFORMS.ANDROID) {
-      waterMarkName = this.props.config.general.watermark.imageResource.androidResource;
-    }
-    if (this.props.platform === Constants.PLATFORMS.IOS) {
-      waterMarkName = this.props.config.general.watermark.imageResource.iosResource;
-    }
+    let waterMarkName = Platform.select({
+      ios: this.props.config.general.watermark.imageResource.iosResource,
+      android: this.props.config.general.watermark.imageResource.androidResource
+    });
 
+    let watermark;
     if (waterMarkName) {
       watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
     }
@@ -273,7 +269,6 @@ class VideoView extends React.Component {
       nextVideo={this.props.nextVideo}
       upNextDismissed={this.props.upNextDismissed}
       onPress={(value) => this.handlePress(value)}
-      platform={this.props.platform}
       width={this.props.width}/>;
   };
 
@@ -312,7 +307,6 @@ class VideoView extends React.Component {
         frameHeight={this.props.height}
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
-        platform={this.props.platform}
         fontSize={iconFontSize}
         showButton={show}
         isLive={this.props.live}
@@ -385,7 +379,7 @@ class VideoView extends React.Component {
 
   _renderLoading = () => {
     const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
-    const scaleMultiplier = this.props.platform === Constants.PLATFORMS.ANDROID ? 2 : 1;
+    const scaleMultiplier = Platform.OS === "android" ? 2 : 1;
     const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
     const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
     const loadingStyle = {
