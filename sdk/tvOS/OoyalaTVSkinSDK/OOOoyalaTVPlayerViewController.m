@@ -316,12 +316,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 + (void)loadDefaultLocale {
   //LOG(@"Default Localizations Loaded");
-  NSArray *keys = [NSArray arrayWithObjects:@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions", nil];
-  NSDictionary *en = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions", nil] forKeys:keys];
+  NSArray *keys = @[@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions"];
+  NSDictionary *en = [NSDictionary dictionaryWithObjects:@[@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions"] forKeys:keys];
   NSDictionary *ja = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"ライブ", @"完了", @"言語", @"さらに詳しく", @"このアプリからビデオをキャストできます", @"切断", @"デバイスに接続",@"Subtitles",@"Off",@"Use Closed Captions", nil] forKeys:keys];
-  NSDictionary *es = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"En vivo", @"Hecho", @"Idioma", @"Más información", @"Listo para trasmitir videos desde esta aplicación", @"Desconectar", @"Conectar al dispositivo",@"Subtítulos",@"Off",@"Usar Subtítulos", nil] forKeys:keys];
-
-  OOOoyalaPlayerViewControllerAvailableLocalizations = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:en, ja, es, nil] forKeys:[NSArray arrayWithObjects:@"en", @"ja", @"es", nil]];
+  NSDictionary *es = [NSDictionary dictionaryWithObjects:@[@"En vivo", @"Hecho", @"Idioma", @"Más información", @"Listo para trasmitir videos desde esta aplicación", @"Desconectar", @"Conectar al dispositivo",@"Subtítulos",@"Off",@"Usar Subtítulos"] forKeys:keys];
+  
+  OOOoyalaPlayerViewControllerAvailableLocalizations = [NSDictionary dictionaryWithObjects:@[en, ja, es] forKeys:@[@"en", @"ja", @"es"]];
 }
 
 + (void)loadDeviceLanguage {
@@ -329,7 +329,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     [self loadDefaultLocale];
   }
   NSString *language = [NSLocale preferredLanguages].firstObject;
-  if ([OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language]) {
+  if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
     [self useLanguageStrings:[OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language]];
   } else {
     [self chooseBackupLanguage:language];
@@ -340,7 +340,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
     [self loadDefaultLocale];
   }
-  return [OOOoyalaPlayerViewControllerAvailableLocalizations objectForKey:language];
+  return OOOoyalaPlayerViewControllerAvailableLocalizations[language];
 }
 
 + (void)useLanguageStrings:(NSDictionary *)strings {
@@ -462,10 +462,11 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
     // If this was the closed captions language, put 'None' and 'CC' langauges in the array
     if ([language compare: @"cc"] == NSOrderedSame) {
-      closedCaptionsArray = [NSArray arrayWithObjects:[[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Off"], [[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Use Closed Captions"], nil];
+      closedCaptionsArray = @[OOOoyalaTVPlayerViewController.currentLanguageSettings[@"Off"],
+                              OOOoyalaTVPlayerViewController.currentLanguageSettings[@"Use Closed Captions"]];
     } else {
       if (subtitleArray.count == 0) {
-        [subtitleArray addObject:[[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Off"]];
+        [subtitleArray addObject:OOOoyalaTVPlayerViewController.currentLanguageSettings[@"Off"]];
       }
       [subtitleArray addObject:language];
     }
@@ -480,7 +481,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   }
   if (subtitleArray.count > 0) {
     Pair *subtitlePair = [Pair alloc];
-    subtitlePair.name = [[OOOoyalaTVPlayerViewController currentLanguageSettings] objectForKey:@"Languages"];
+    subtitlePair.name = OOOoyalaTVPlayerViewController.currentLanguageSettings[@"Languages"];
     subtitlePair.value = subtitleArray;
 
     [self.tableList addObject:subtitlePair];
@@ -509,7 +510,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       videoRect.size.height = videoRect.origin.y + videoRect.size.height - bottomControlsRect.size.height;
     }
   }
-  [self.closedCaptionsView setFrame:videoRect];
+  self.closedCaptionsView.frame = videoRect;
 }
 
 @end
