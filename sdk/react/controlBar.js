@@ -13,6 +13,7 @@ import {
   Image,
   TouchableHighlight,
   View,
+  Platform,
   LayoutAnimation,
   NativeModules
 } from 'react-native';
@@ -117,8 +118,8 @@ class ControlBar extends React.Component {
   };
 
   onFullscreenPress = () => {
-    if(this.props.platform === Constants.PLATFORMS.ANDROID) {
-        AndroidAccessibility.announce(ACCESSIBILITY_ANNOUNCERS.SCREEN_MODE_CHANGED);
+    if (Platform.OS === 'android') {
+      AndroidAccessibility.announce(ACCESSIBILITY_ANNOUNCERS.SCREEN_MODE_CHANGED);
     }
     this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
   };
@@ -144,15 +145,13 @@ class ControlBar extends React.Component {
   };
 
   render() {
-    var iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
-    var labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
-    var waterMarkName;
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      waterMarkName = this.props.config.controlBar.logo.imageResource.androidResource;
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      waterMarkName = this.props.config.controlBar.logo.imageResource.iosResource;
-    }
+    let iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
+    let labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
+    let waterMarkName = Platform.select({
+      ios: this.props.config.controlBar.logo.imageResource.iosResource,
+      android: this.props.config.controlBar.logo.imageResource.androidResource
+    });
+
     var controlBarWidgets = [];
 
     var widgetOptions = {
@@ -174,7 +173,6 @@ class ControlBar extends React.Component {
         volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
         volumeControlColor: this.getVolumeControlColor(),
-        platform: this.props.platform
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
