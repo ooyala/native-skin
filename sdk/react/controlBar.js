@@ -267,7 +267,7 @@ class ControlBar extends React.Component {
     this.props.config.buttons.forEach(_isVisible, this);
     //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));
 
-    var itemCollapsingResults = CollapsingBarUtils.collapse( this.props.width, this.props.config.buttons );
+    var itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
     function pushControl(item) {
       controlBarWidgets.push(item)
     }
