@@ -21,7 +21,7 @@ var {
   SCREEN_TYPES,
   OVERLAY_TYPES,
   AUTOHIDE_DELAY,
-  MAX_DATE_VALUE,
+  MAX_DATE_VALUE
 } = Constants;
 var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
 var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
@@ -55,8 +55,8 @@ OoyalaSkinCore.prototype.dismissOverlay = function() {
 }
 
 OoyalaSkinCore.prototype.onBackPressed = function() {
-    var retVal = this.popFromOverlayStackAndMaybeResume();
-    return retVal;
+  var retVal = this.popFromOverlayStackAndMaybeResume();
+  return retVal;
 };
 
 OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
