@@ -21,7 +21,7 @@
 
 @implementation OOOoyalaTVBottomBars
 
-- (id)initWithBackground:(UIView *)background withTintColor:(UIColor *)tintColor {
+- (instancetype)initWithBackground:(UIView *)background withTintColor:(UIColor *)tintColor {
   self = [super init];
   
   if (self) {

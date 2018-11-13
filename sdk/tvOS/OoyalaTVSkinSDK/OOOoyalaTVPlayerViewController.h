@@ -22,7 +22,7 @@
  @property progressTintColor
  @abstract The color that will be used to tint the player's progress bar.
  */
-@property (strong, nonatomic) UIColor *progressTintColor;
+@property (nonatomic) UIColor *progressTintColor;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
 
