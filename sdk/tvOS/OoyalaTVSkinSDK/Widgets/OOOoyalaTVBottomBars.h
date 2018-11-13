@@ -11,7 +11,8 @@
 @interface OOOoyalaTVBottomBars : UIView
 
 - (instancetype)initWithBackground:(UIView *)background
-           withTintColor:(UIColor *)tintColor;
+                     withTintColor:(UIColor *)tintColor;
+
 - (void)updateBarBuffer:(CGFloat)bufferTime
                playhead:(CGFloat)playheadTime
                duration:(CGFloat)duration
