@@ -21,6 +21,7 @@ const ErrorScreen = require('./panels/ErrorScreen');
 const DiscoveryPanel = require('./panels/discoveryPanel');
 const MoreOptionScreen = require('./panels/MoreOptionScreen');
 const VideoView = require('./panels/videoView');
+const AudioView = require('./panels/audioView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
@@ -46,7 +47,8 @@ OoyalaSkinPanelRenderer.prototype.renderStartScreen = function() {
       height={this.skin.state.height}
       playhead={this.skin.state.playhead}
       screenReaderEnabled={this.skin.state.screenReaderEnabled}
-      onPress={(name) => this.core.handlePress(name)}/>
+      onPress={(name) => this.core.handlePress(name)}>
+    </StartScreen>
   );
 };
 
@@ -76,7 +78,8 @@ OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
       duration={this.skin.state.duration}
       loading={this.skin.state.loading}
       showAudioAndCCButton={this.skin.state.multiAudioEnabled || ccEnabled}
-      onPress={(name) => this.core.handlePress(name)}/>
+      onPress={(name) => this.core.handlePress(name)}>
+    </EndScreen>
   );
 };
 
@@ -85,23 +88,68 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
     <ErrorScreen
       error={this.skin.state.error}
       localizableStrings={this.skin.props.localization}
-      locale={this.skin.props.locale} />);
+      locale={this.skin.props.locale}>
+    </ErrorScreen>
+  );
+};
+
+isPlaybackSpeedEnabled = () => {
+  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
+    return this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
+  }
+  return false;
+};
+
+OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
+  return (
+    <AudioView
+      rate={this.skin.state.rate}
+      playhead={this.skin.state.playhead}
+      duration={this.skin.state.duration}
+      live={this.skin.state.live}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      volume={this.skin.state.volume}
+      cuePoints={this.skin.state.cuePoints}
+      stereoSupported={this.skin.state.stereoSupported}
+      multiAudioEnabled={this.skin.state.multiAudioEnabled}
+      playbackSpeedEnabled={this.isPlaybackSpeedEnabled()}
+      selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
+      handlers={{
+        onPress: (value) => this.core.handlePress(value),
+        onScrub: (value) => this.core.handleScrub(value),
+        handleVideoTouchStart: (event) => this.core.handleVideoTouchStart(event),
+        handleVideoTouchMove: (event) => this.core.handleVideoTouchMove(event),
+        handleVideoTouchEnd: (event) => this.core.handleVideoTouchEnd(event),
+      }}
+      config={{
+        controlBar: this.skin.props.controlBar,
+        general: this.skin.props.general,
+        buttons: this.skin.props.buttons.audioOnly,
+        upNext: this.skin.props.upNext,
+        icons: this.skin.props.icons,
+        live: this.skin.props.live,
+        skipControls: this.skin.props.skipControls
+      }}
+      nextVideo={this.skin.state.nextVideo}
+      upNextDismissed={this.skin.state.upNextDismissed}
+      localizableStrings={this.skin.props.localization}
+      locale={this.skin.props.locale}
+      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
+      loading={this.skin.state.loading}
+      initialPlay={this.skin.state.initialPlay}>
+    </AudioView>
+  );
 };
 
 OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
-  let playbackSpeedEnabled = false;
-
-  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
-    playbackSpeedEnabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
-  }
-
   return (
     <VideoView
       rate={this.skin.state.rate}
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
-      adOverlay = {this.skin.state.adOverlay}
-      live ={this.skin.state.live}
+      adOverlay={this.skin.state.adOverlay}
+      live={this.skin.state.live}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
@@ -109,7 +157,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       cuePoints={this.skin.state.cuePoints}
       stereoSupported={this.skin.state.stereoSupported}
       multiAudioEnabled={this.skin.state.multiAudioEnabled}
-      playbackSpeedEnabled={playbackSpeedEnabled}
+      playbackSpeedEnabled={this.isPlaybackSpeedEnabled()}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
@@ -165,8 +213,8 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
       rate={this.skin.state.rate}
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
-      ad ={this.skin.state.ad}
-      live ={this.skin.state.live}
+      ad={this.skin.state.ad}
+      live={this.skin.state.live}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
@@ -293,9 +341,9 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
-    const CCEnabled =
-      this.skin.state.availableClosedCaptionsLanguages &&
-      this.skin.state.availableClosedCaptionsLanguages.length > 0;
+  const CCEnabled =
+    this.skin.state.availableClosedCaptionsLanguages &&
+    this.skin.state.availableClosedCaptionsLanguages.length > 0;
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
@@ -352,6 +400,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
       break;
     case SCREEN_TYPES.ERROR_SCREEN:
       return this.renderErrorScreen();
+      break;
+    case SCREEN_TYPES.AUDIO_SCREEN:
+      return this.renderAudioView();
       break;
     default:
       return this.renderVideoView();
