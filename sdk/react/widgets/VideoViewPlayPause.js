@@ -101,7 +101,7 @@ class VideoViewPlayPause extends React.Component {
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS
     ));
-  }
+  };
 
   _renderPlayPauseButton = () => {
     if (this.state.playing) {
