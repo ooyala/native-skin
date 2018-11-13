@@ -1,5 +1,12 @@
+const CONTENT_TYPES = {
+  CHANNEL_SET: 'MultiChannel',
+  CHANNEL: 'Channel',
+  VIDEO: 'Video',
+  LIVE_STREAM: 'LiveStream',
+  AUDIO: 'Audio'
+};
 
-UI_SIZES = {
+const UI_SIZES = {
   VIDEOVIEW_PLAYPAUSE: 60,
   CONTROLBAR_HEIGHT: 75,
   VIDEOWATERMARK: 30,
@@ -62,6 +69,7 @@ const IMG_URLS = {
 const SCREEN_TYPES = {
   LOADING_SCREEN: 'loading',
   VIDEO_SCREEN: 'video',
+  AUDIO_SCREEN: 'audio',
   START_SCREEN: 'start',
   DISCOVERY_END_SCREEN: 'discovery_end',
   END_SCREEN: 'end',
@@ -154,6 +162,7 @@ const ACCESSIBILITY_COMMON = {
 MAX_DATE_VALUE = 8640000000000000;
 AUTOHIDE_DELAY = 5000;
 module.exports = {
+  CONTENT_TYPES,
   UI_SIZES,
   BUTTON_NAMES,
   VIEW_NAMES,
