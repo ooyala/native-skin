@@ -72,7 +72,9 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     _player = player;
     _skinOptions = skinOptions;
 
-    _skinModel = [[OOReactSkinModel alloc] initWithWithPlayer:player skinOptions:_skinOptions skinControllerDelegate:self];
+    _skinModel = [[OOReactSkinModel alloc] initWithWithPlayer:player
+                                                  skinOptions:_skinOptions
+                                       skinControllerDelegate:self];
     _reactView = [_skinModel viewForModuleWithName:@"OoyalaSkin"];
 
     // Video view configuration
@@ -96,7 +98,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     [self.parentView addSubview:self.view];
     
     // Add KVO for UI updates
-    [self.videoView addObserver:self forKeyPath:kViewChangeKey options:NSKeyValueObservingOptionNew context:&kFrameChangeContext];
+    [self.videoView addObserver:self
+                     forKeyPath:kViewChangeKey
+                        options:NSKeyValueObservingOptionNew
+                        context:&kFrameChangeContext];
     
     // Initialize ReactView
     self.reactView.opaque = NO;

@@ -101,7 +101,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   if (self = [super init]) {
     _ooReactSkinModel = ooReactSkinModel;
     _player = player;
-    [self addSelfAsObserverToPlayer: player];
+    [self addSelfAsObserverToPlayer:player];
   }
   return self;
 }
