@@ -22,6 +22,7 @@ var eventBridge = require('NativeModules').OoyalaReactBridge;
 
 var Constants = require('./constants');
 var {
+  CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES
 } = Constants;
@@ -63,6 +64,7 @@ class OoyalaSkin extends React.Component {
     alertMessage: '',
     error: null,
     screenReaderEnabled: false,
+    contentType: CONTENT_TYPES.VIDEO
   };
 
   componentWillMount() {
@@ -123,7 +125,7 @@ class OoyalaSkin extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

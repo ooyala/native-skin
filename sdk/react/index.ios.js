@@ -20,6 +20,7 @@ const {
 
 var Constants = require('./constants');
 var {
+  CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES
 } = Constants;
@@ -64,6 +65,7 @@ class OoyalaSkin extends React.Component {
     error: null,
     volume: 0,          // between 0 and 1
     screenReaderEnabled: false,
+    contentType: CONTENT_TYPES.VIDEO
   };
 
   componentWillMount() {
@@ -115,7 +117,7 @@ class OoyalaSkin extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   loading: {
     flex: 1,
     alignItems: 'center',
