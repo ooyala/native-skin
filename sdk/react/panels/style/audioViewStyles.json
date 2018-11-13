@@ -1,0 +1,22 @@
+{
+  "background": {
+    "flex": 1,
+    "flexDirection": "row",
+    "backgroundColor": "transparent",
+    "overflow": "hidden"
+  },
+
+  "container": {
+    "flex": 0,
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0,0,0,0.3)"
+  },
+
+  "progressBarStyle":  {
+    "flex": 0
+  },
+
+  "bottomOverlayFlexibleSpace" : {
+    "flex":1
+  },
+}
