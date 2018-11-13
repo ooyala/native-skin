@@ -1,13 +1,14 @@
 /**
  * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge
  */
- 'use strict';
+'use strict';
 
 var Log = require('./log');
 var Constants = require('./constants');
 var {
+  CONTENT_TYPES,
   SCREEN_TYPES,
-  OVERLAY_TYPES,
+  OVERLAY_TYPES
 } = Constants;
 
 var OoyalaSkinBridgeListener = function(ooyalaSkin, ooyalaCore) {
@@ -51,19 +52,17 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'playbackSpeedRateChanged', (event) => this.handlePlaybackSpeedRateChanged(event) ],
   ];
 
-  for (var i = 0; i < listenerDefinitions.length; i++) {
-    var d = listenerDefinitions[i];
-    this.listeners.push(eventEmitter.addListener( d[0], d[1] ) );
+  for (let listener of listenerDefinitions) {
+    this.listeners.push(eventEmitter.addListener(listener[0], listener[1]));
   }
 };
 
 OoyalaSkinBridgeListener.prototype.unmount = function() {
-  for (var i = 0; i < this.listeners.length; i++) {
-    this.listeners[i].remove;
+  for (let listener of this.listeners) {
+    listener.remove();
   }
   this.listeners = [];
 };
-
 
 OoyalaSkinBridgeListener.prototype.onClosedCaptionUpdate = function(e) {
   this.skin.setState({
@@ -100,6 +99,7 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
   });
 
   if (this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
+      this.skin.state.screenTyep == SCREEN_TYPES.AUDIO_SCREEN ||
       this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {
     this.core.previousScreenType = this.skin.state.screenType;
   }
@@ -110,8 +110,9 @@ OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
   Log.assertTrue(this.skin.inAdPod == true, "AdStarted, but we didn't know we were in Ad Pod");
   Log.log(e);
   this.skin.setState({
-    ad:e,
-    screenType:SCREEN_TYPES.VIDEO_SCREEN,
+    ad: e,
+    screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
+                SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
     adOverlay: null
   });
 };
@@ -133,7 +134,7 @@ OoyalaSkinBridgeListener.prototype.onCcStylingChange = function(e) {
 OoyalaSkinBridgeListener.prototype.onAdSwitched = function(e) {
   Log.log("onAdSwitched");
   this.skin.setState({
-    ad:e
+    ad: e
   });
 };
 
@@ -174,17 +175,17 @@ OoyalaSkinBridgeListener.prototype.onAdError = function(e) {
 OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
   Log.log("currentItemChangeReceived, promoUrl is " + e.promoUrl);
   this.skin.setState({
-    title:e.title,
-    description:e.description,
-    duration:e.duration,
-    live:e.live,
-    promoUrl:e.promoUrl,
+    title: e.title,
+    description: e.description,
+    duration: e.duration,
+    live: e.live,
+    promoUrl: e.promoUrl,
     hostedAtUrl: e.hostedAtUrl,
-    playhead:e.playhead,
-    width:e.width,
-    height:e.height,
-    volume:e.volume,
-    caption:null
+    playhead: e.playhead,
+    width: e.width,
+    height: e.height,
+    volume: e.volume,
+    caption: null
   });
 
   if (!this.skin.state.autoPlay) {
@@ -199,16 +200,17 @@ OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
 OoyalaSkinBridgeListener.prototype.onFrameChange = function(e) {
   Log.log("Received frameChange, frame width is " + e.width + " height is " + e.height);
   this.skin.setState({
-    width:e.width,
-    height:e.height,
-    fullscreen:e.fullscreen
+    width: e.width,
+    height: e.height,
+    fullscreen: e.fullscreen
   });
 };
 
 OoyalaSkinBridgeListener.prototype.onPlayStarted = function(e) {
   Log.log("Play Started received");
   this.skin.setState({
-    screenType: SCREEN_TYPES.VIDEO_SCREEN,
+    screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
+                SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
     autoPlay: false
   });
 };
@@ -228,7 +230,7 @@ OoyalaSkinBridgeListener.prototype.onPlayComplete = function(e) {
 OoyalaSkinBridgeListener.prototype.onDiscoveryResult = function(e) {
   Log.log("onDiscoveryResult results are: ", e.results);
   this.skin.setState({
-    discoveryResults:e.results
+    discoveryResults: e.results
   });
   if (e.results) {
     this.onSetNextVideo({nextVideo:e.results[0]})
@@ -253,8 +255,9 @@ OoyalaSkinBridgeListener.prototype.onStateChange = function(e) {
       this.skin.setState({
         playing: true,
         loading: false,
-        initialPlay: (this.skin.state.screenType == SCREEN_TYPES.START_SCREEN) ? true : false,
-        screenType: SCREEN_TYPES.VIDEO_SCREEN
+        initialPlay: this.skin.state.screenType == SCREEN_TYPES.START_SCREEN,
+        screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
+                    SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN
       });
       break;
     case "loading":
@@ -270,21 +273,21 @@ OoyalaSkinBridgeListener.prototype.onStateChange = function(e) {
 OoyalaSkinBridgeListener.prototype.onDesiredStateChange = function(e) {
   Log.log("Desired state change received: " + e.desiredState);
   this.skin.setState({
-    desiredState:e.desiredState
+    desiredState: e.desiredState
   });
 };
 OoyalaSkinBridgeListener.prototype.onError = function(e) {
   Log.log("Error received");
   this.skin.setState({
-    screenType:SCREEN_TYPES.ERROR_SCREEN,
-    error:e
+    screenType: SCREEN_TYPES.ERROR_SCREEN,
+    error: e
   });
 };
 
 OoyalaSkinBridgeListener.prototype.onEmbedCodeSet = function(e) {
   Log.log("EmbedCodeSet received");
   this.skin.setState({
-    screenType:SCREEN_TYPES.LOADING_SCREEN,
+    screenType: SCREEN_TYPES.LOADING_SCREEN,
     ad: null
   });
 };
@@ -292,14 +295,14 @@ OoyalaSkinBridgeListener.prototype.onEmbedCodeSet = function(e) {
 OoyalaSkinBridgeListener.prototype.onUpNextDismissed = function(e) {
   Log.log("SetNextVideo received");
   this.skin.setState({
-    upNextDismissed:e.upNextDismissed
+    upNextDismissed: e.upNextDismissed
   });
 };
 
 OoyalaSkinBridgeListener.prototype.onSetNextVideo = function(e) {
   Log.log("SetNextVideo received");
   this.skin.setState({
-    nextVideo:e.nextVideo
+    nextVideo: e.nextVideo
   });
 };
 
