@@ -19,7 +19,7 @@ const styles = require('../utils').getStyles(require('./style/controlBarWidgetSt
 const Log = require('../log');
 const VolumeView = require('./VolumeView');
 const AccessibilityUtils = require('../accessibilityUtils');
-
+const SkipButton = require('./SkipButton';)
 const Constants = require('../constants');
 const {
   BUTTON_NAMES,
@@ -51,6 +51,42 @@ class controlBarWidget extends React.Component {
           {iconMap[options.primaryActionButton].fontString}
         </Text>
       </TouchableHighlight>
+    );
+  };
+
+  seekBackwardsWidget = (options) => {
+    return this._renderSeekButton(options, false);
+  };
+
+  seekForwardWidget = (options) => {
+    return this._renderSeekButton(options, true);
+  };
+
+  _renderSeekButton = (options, isForward) => {
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+
+    const fontStyle = {fontSize: options.size, fontFamily: fontFamilyStyle};
+    const sizeStyle = {width: options.size, height: options.size};
+    const opacity = {opacity: 1};
+    const animate = {transform: [{scale: 1}]};
+    const buttonColor = {color: "white"};
+
+    let seekValue = options.seekValue;
+    seekValue = Utils.restrictSeekValueIfNeeded(seekValue);
+
+    return (
+      <SkipButton
+        isForward={isForward}
+        timeValue={seekValue}
+        sizeStyle={sizeStyle}
+        disabled={false}
+        onSeek={options.onPress}
+        icon={options.icon}
+        fontStyle={fontStyle}
+        opacity={opacity}
+        animate={animate}
+        buttonColor={buttonColor}
+      />
     );
   };
 
@@ -299,7 +335,9 @@ class controlBarWidget extends React.Component {
       "live": this.liveWidget,
       "stereoscopic": this.stereoscopicWidget,
       "audioAndCC": this.audioAndCCWidget,
-      "playbackSpeed": this.playbackSpeedWidget
+      "playbackSpeed": this.playbackSpeedWidget,
+      "seekBackwards": this.seekBackwardsWidget,
+      "seekForward": this.seekForwardWidget
     };
     if (this.props.widgetType.name in widgetsMap) {
       const widgetOptions = this.props.options[this.props.widgetType.name];
