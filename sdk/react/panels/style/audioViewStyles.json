@@ -19,4 +19,18 @@
   "bottomOverlayFlexibleSpace" : {
     "flex":1
   },
+
+  "titleLabel": {
+    "flex":0,
+    "flexDirection": "row",
+    "color": "#FFFFFF",
+    "fontFamily": "AvenirNext-Bold",
+  },
+
+  "subtitleLabel": {
+    "flex":0,
+    "flexDirection": "row",
+    "color": "#B3B3B3",
+    "fontFamily": "AvenirNext-DemiBold",
+  },
 }
