@@ -225,8 +225,7 @@ class controlBarWidget extends React.Component {
             source={{uri: options.icon}}
             resizeMode={options.resizeMode}/>
         </View>);
-    }
-    else {
+    } else {
       return null;
     }
   };
@@ -321,30 +320,30 @@ class controlBarWidget extends React.Component {
 
   render() {
     const widgetsMap = {
-      "playPause": this.playPauseWidget,
-      "volume": this.volumeWidget,
-      "timeDuration": this.timeDurationWidget,
-      "flexibleSpace": this.flexibleSpaceWidget,
-      "rewind": this.rewindWidget,
-      "discovery": this.discoveryWidget,
-      "Fullscreen": this.fullscreenWidget,
-      "moreOptions": this.moreOptionsWidget,
-      "watermark": this.watermarkWidget,
-      "share": this.shareWidget,
-      "bitrateSelector": this.bitrateSelectorWidget,
-      "live": this.liveWidget,
-      "stereoscopic": this.stereoscopicWidget,
-      "audioAndCC": this.audioAndCCWidget,
-      "playbackSpeed": this.playbackSpeedWidget,
-      "seekBackwards": this.seekBackwardsWidget,
-      "seekForward": this.seekForwardWidget
+      'playPause': this.playPauseWidget,
+      'playPause': this.volumeWidget,
+      'timeDuration': this.timeDurationWidget,
+      'flexibleSpace': this.flexibleSpaceWidget,
+      'rewind': this.rewindWidget,
+      'discovery': this.discoveryWidget,
+      'Fullscreen': this.fullscreenWidget,
+      'moreOptions': this.moreOptionsWidget,
+      'watermark': this.watermarkWidget,
+      'share': this.shareWidget,
+      'bitrateSelector': this.bitrateSelectorWidget,
+      'live': this.liveWidget,
+      'stereoscopic': this.stereoscopicWidget,
+      'audioAndCC': this.audioAndCCWidget,
+      'playbackSpeed': this.playbackSpeedWidget,
+      'seekBackwards': this.seekBackwardsWidget,
+      'seekForward': this.seekForwardWidget
     };
     if (this.props.widgetType.name in widgetsMap) {
       const widgetOptions = this.props.options[this.props.widgetType.name];
       return widgetsMap[this.props.widgetType.name](widgetOptions);
     }
     else {
-      Log.warn("WARNING: unsupported widget name: " + this.props.widgetType.name);
+      Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
       return <View/>;
     }
   }

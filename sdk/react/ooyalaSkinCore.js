@@ -14,19 +14,19 @@ import {
   TouchableHighlight,
 } from "react-native";
 
-var Log = require("./log");
-var Constants = require("./constants");
-var {
+const Log = require('./log');
+const Constants = require('./constants');
+const {
   BUTTON_NAMES,
   SCREEN_TYPES,
   OVERLAY_TYPES,
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE
 } = Constants;
-var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
+var OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
 var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
 
-var clickRadius = 5;
+const clickRadius = 5;
 var startedClickX, startedClickY;
 
 var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
@@ -55,7 +55,7 @@ OoyalaSkinCore.prototype.dismissOverlay = function() {
 }
 
 OoyalaSkinCore.prototype.onBackPressed = function() {
-  var retVal = this.popFromOverlayStackAndMaybeResume();
+  let retVal = this.popFromOverlayStackAndMaybeResume();
   return retVal;
 };
 

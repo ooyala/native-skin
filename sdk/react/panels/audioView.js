@@ -26,15 +26,12 @@ const topMargin = 6;
 const leftMargin = 20;
 const progressBarHeight = 3;
 const scrubberSize = 14;
-const scrubTouchableDistance = 45;
 
 const Constants = require('../constants');
 const {
   BUTTON_NAMES,
-  IMG_URLS,
   UI_SIZES,
-  VALUES,
-  VIEW_NAMES
+  VALUES
 } = Constants;
 const timerForSkipButtons = require('react-native-timer');
 
@@ -165,7 +162,7 @@ class AudioView extends React.Component {
   };
 
   handlePress = (name) => {
-    Log.verbose("AudioView Handle Press: " + name);
+    Log.verbose('AudioView Handle Press: ' + name);
     this.props.handlers.onPress(name);
   };
 
@@ -173,7 +170,7 @@ class AudioView extends React.Component {
   getVolumeControlColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.volumeControl.color) {
-        Log.error("controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
+        Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
         return '#4389FF';
       } else {
         return this.props.config.controlBar.volumeControl.color;
@@ -207,7 +204,7 @@ class AudioView extends React.Component {
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ?
-               [controlBarStyles.icon, {"fontSize": iconFontSize}, controlBarStyles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+               [controlBarStyles.icon, {'fontSize': iconFontSize}, controlBarStyles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         iconTouchableStyle: controlBarStyles.iconTouchable,
@@ -218,14 +215,14 @@ class AudioView extends React.Component {
       },
       seekBackwards: {
         onPress: this.onSkipPressBackwards,
-        style: [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         seekValue: this.props.config.skipControls.skipBackwardTime,
         icon: this.props.config.icons.replay,
         size: iconFontSize
       },
       playPause: {
         onPress: this.onPlayPausePress,
-        style: [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
