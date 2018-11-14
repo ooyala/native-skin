@@ -57,7 +57,7 @@ class ProgressBar extends React.Component {
     const playHead = <Text style={styles.playHeadTimeStyle}>{this.props.playHeadString}</Text>;
     return (
       <View
-        style={styles.completeTimeStyle}
+        style={styles.completeTimeStyle}>
         {playHead}
       </View>
     );
@@ -67,7 +67,7 @@ class ProgressBar extends React.Component {
     const duration = <Text style={styles.durationStyle}>{this.props.durationString}</Text>;
     return (
       <View
-        style={styles.completeTimeStyle}
+        style={styles.completeTimeStyle}>
         {duration}
       </View>
     );
