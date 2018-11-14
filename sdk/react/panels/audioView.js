@@ -183,6 +183,19 @@ class AudioView extends React.Component {
     }
   };
 
+  // MARK: - Title
+  _renderTitle = () => {
+    const titleLabel = <Text style={styles.titleLabel}>{this.skin.state.title}</Text>;
+    const subtitleLabel = <Text style={styles.subtitleLabel}>{this.skin.state.description}</Text>;
+    return (
+      <View
+        style={styles.background}>
+        {titleLabel}
+        {subtitleLabel}
+      </View>
+    )
+  };
+
   // MARK: - ControlBar
   _renderControlBar = () => {
     let iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
@@ -393,11 +406,13 @@ class AudioView extends React.Component {
     )
   };
 
-// MARK: - AudioView rendering
+  // MARK: - AudioView rendering
   _renderPlayer = () => {
     return (
       <View
         style={styles.container}
+        {this._renderTitle()}
+        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
         {this._renderControlBar()}
         {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
         {this._renderCompleteProgressBar()}
