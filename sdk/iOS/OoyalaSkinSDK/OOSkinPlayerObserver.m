@@ -281,7 +281,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *live                   = @(self.player.currentItem.live);
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
   NSNumber *volume                 = @([OOVolumeManager getCurrentVolume]);
-  NSString *contentType            = self.player.currentItem.contentType ? self.player.currentItem.contentType : @"Video";
+  NSString *contentType            = self.player.currentItem.contentType ?
+                                     self.player.currentItem.contentType : @"Video";
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,

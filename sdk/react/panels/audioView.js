@@ -68,6 +68,8 @@ class AudioView extends React.Component {
     playing: PropTypes.bool,
     loading: PropTypes.bool,
     initialPlay: PropTypes.bool,
+    title: PropTypes.string,
+    description: PropTypes.string
   };
 
   static defaultProps = {playhead: 0, duration: 0};
@@ -182,8 +184,8 @@ class AudioView extends React.Component {
 
   // MARK: - Title
   _renderTitle = () => {
-    const titleLabel = <Text style={styles.titleLabel}>{this.skin.state.title}</Text>;
-    const subtitleLabel = <Text style={styles.subtitleLabel}>{this.skin.state.description}</Text>;
+    const titleLabel = <Text style={styles.titleLabel}>{this.props.title}</Text>;
+    const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>;
     return (
       <View
         style={styles.background}>
@@ -278,7 +280,7 @@ class AudioView extends React.Component {
       item.isVisible = visible;
     };
 
-    this.props.config.forEach(_isVisible, this);
+    this.props.config.buttons.forEach(_isVisible, this);
 
     let itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
     for (var i = 0; i < itemCollapsingResults.fit.length; i++) {
@@ -409,11 +411,11 @@ class AudioView extends React.Component {
       <View
         style={styles.container}>
         {this._renderTitle()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
+        <View style ={[styles.bottomOverlayFlexibleSpace]}/>
         {this._renderControlBar()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
+        <View style ={[styles.bottomOverlayFlexibleSpace]}/>
         {this._renderCompleteProgressBar()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
+        <View style ={[styles.bottomOverlayFlexibleSpace]}/>
       </View>
     )
   }
@@ -422,6 +424,7 @@ class AudioView extends React.Component {
     return (
       <View
         style={styles.background}>
+        {this._renderPlayer()}
       </View>
     )
   };

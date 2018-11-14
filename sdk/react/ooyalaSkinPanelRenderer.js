@@ -93,14 +93,12 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
   );
 };
 
-isPlaybackSpeedEnabled = () => {
-  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
-    return this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
-  }
-  return false;
-};
 
 OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
+  let enabled = false;
+  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
+    enabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
+  }
   return (
     <AudioView
       rate={this.skin.state.rate}
@@ -113,7 +111,7 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
       cuePoints={this.skin.state.cuePoints}
       stereoSupported={this.skin.state.stereoSupported}
       multiAudioEnabled={this.skin.state.multiAudioEnabled}
-      playbackSpeedEnabled={this.isPlaybackSpeedEnabled()}
+      playbackSpeedEnabled={enabled}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
@@ -137,12 +135,18 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
       locale={this.skin.props.locale}
       playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
       loading={this.skin.state.loading}
-      initialPlay={this.skin.state.initialPlay}>
+      initialPlay={this.skin.state.initialPlay}
+      title={this.skin.state.title}
+      description={this.skin.state.description}>
     </AudioView>
   );
 };
 
 OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
+  let enabled = false;
+  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
+    enabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
+  }
   return (
     <VideoView
       rate={this.skin.state.rate}
@@ -157,7 +161,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       cuePoints={this.skin.state.cuePoints}
       stereoSupported={this.skin.state.stereoSupported}
       multiAudioEnabled={this.skin.state.multiAudioEnabled}
-      playbackSpeedEnabled={this.isPlaybackSpeedEnabled()}
+      playbackSpeedEnabled={enabled}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       handlers={{
         onPress: (value) => this.core.handlePress(value),
