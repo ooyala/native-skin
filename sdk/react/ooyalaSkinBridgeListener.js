@@ -185,7 +185,8 @@ OoyalaSkinBridgeListener.prototype.onCurrentItemChange = function(e) {
     width: e.width,
     height: e.height,
     volume: e.volume,
-    caption: null
+    caption: null,
+    contentType: e.contentType
   });
 
   if (!this.skin.state.autoPlay) {
