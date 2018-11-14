@@ -18,7 +18,8 @@ const Log = require("../log");
 const Constants = require("../constants");
 
 const {
-  BUTTON_NAMES
+  BUTTON_NAMES,
+  UI_SIZES
 } = Constants;
 
 class EndScreen extends React.Component {

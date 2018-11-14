@@ -6,7 +6,8 @@ import React, { Component } from 'react';
 import {
   View,
   StyleSheet,
-  LayoutAnimation
+  LayoutAnimation,
+  Text
 } from 'react-native';
 
 const Utils = require('./utils');
