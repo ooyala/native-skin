@@ -203,8 +203,8 @@ const BottomOverlay = createReactClass({
         config={this.props.config}
         ad={this.props.ad}
         renderDuration={false}
-        playHeadString={}
-        durationString={}>
+        playHeadString={null}
+        durationString={null}>
       </ProgressBar>
     );
   },

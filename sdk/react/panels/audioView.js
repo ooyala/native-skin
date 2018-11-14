@@ -11,16 +11,16 @@ import {
   NativeModules
 } from 'react-native';
 
-const ProgressBar = require('./progressBar');
-const VolumeView = require('./widgets/VolumeView');
-const ControlBarWidget = require('./widgets/controlBarWidgets');
-const CollapsingBarUtils = require('./collapsingBarUtils');
+const ProgressBar = require('../progressBar');
+const VolumeView = require('../widgets/VolumeView');
+const ControlBarWidget = require('../widgets/controlBarWidgets');
+const CollapsingBarUtils = require('../collapsingBarUtils');
 
 const Log = require('../log');
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
-const controlBarStyles = Utils.getStyles(require('./style/controlBarStyles.json'));
-const ResponsiveDesignManager = require('./responsiveDesignManager');
+const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
+const ResponsiveDesignManager = require('../responsiveDesignManager');
 
 const topMargin = 6;
 const leftMargin = 20;
@@ -377,7 +377,7 @@ class AudioView extends React.Component {
         ref='progressBar'
         percent={percent}
         config={this.props.config}
-        ad={}
+        ad={null}
         renderDuration={true}
         playHeadString={this.getPlayHeadTimeString()}
         durationString={this.getDurationString()}>
@@ -410,7 +410,7 @@ class AudioView extends React.Component {
   _renderPlayer = () => {
     return (
       <View
-        style={styles.container}
+        style={styles.container}>
         {this._renderTitle()}
         {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
         {this._renderControlBar()}

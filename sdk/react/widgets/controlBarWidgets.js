@@ -19,7 +19,7 @@ const styles = require('../utils').getStyles(require('./style/controlBarWidgetSt
 const Log = require('../log');
 const VolumeView = require('./VolumeView');
 const AccessibilityUtils = require('../accessibilityUtils');
-const SkipButton = require('./SkipButton';)
+const SkipButton = require('./SkipButton');
 const Constants = require('../constants');
 const {
   BUTTON_NAMES,

@@ -386,7 +386,7 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
 
   switch (screenType) {
     case SCREEN_TYPES.START_SCREEN:
-      if(this.skin.state.desiredState != DESIRED_STATES.DESIRED_PLAY) {
+      if (this.skin.state.desiredState != DESIRED_STATES.DESIRED_PLAY) {
         return this.renderStartScreen();
       } else {
         return this.skin.renderLoadingScreen();

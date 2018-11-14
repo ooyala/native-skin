@@ -281,7 +281,7 @@ OoyalaSkinCore.prototype.popFromOverlayStackAndMaybeResume = function(overlay) {
 OoyalaSkinCore.prototype.renderScreen = function() {
   Log.verbose("Rendering - Current Overlay stack: " + this.skin.state.overlayStack);
   let overlayType = null;
-  if(this.skin.state.overlayStack.length > 0) {
+  if (this.skin.state.overlayStack.length > 0) {
     overlayType = this.skin.state.overlayStack[this.skin.state.overlayStack.length - 1];
     Log.verbose("Rendering Overlaytype: " + overlayType);
   } else {
