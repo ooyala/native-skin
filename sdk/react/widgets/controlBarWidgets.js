@@ -41,10 +41,13 @@ class controlBarWidget extends React.Component {
       'pause': options.pauseIcon,
       'replay': options.replayIcon
     };
+
     const fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
+    let onPressF = options.primaryActionButton == 'replay' ?
+                   options.onReplay : options.onPress;
     return (
       <TouchableHighlight
-        onPress={options.onPress}
+        onPress={onPressF}
         testID={BUTTON_NAMES.PLAY_PAUSE}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.PLAY_PAUSE}>
@@ -96,11 +99,13 @@ class controlBarWidget extends React.Component {
       scrubberStyle.push({top: 5});
     }
     if (options.showVolume) {
-      volumeScrubber = <VolumeView
+      volumeScrubber =
+      <VolumeView
         accessibilityLabel={VIEW_ACCESSIBILITY_NAMES.VOLUME_BAR}
         style={scrubberStyle}
         color={options.volumeControlColor}
-        volume={options.volume}/>;
+        volume={options.volume}>
+      </VolumeView>;
     }
 
     const iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;

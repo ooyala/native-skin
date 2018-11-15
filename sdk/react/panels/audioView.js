@@ -67,7 +67,8 @@ class AudioView extends React.Component {
     loading: PropTypes.bool,
     initialPlay: PropTypes.bool,
     title: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
+    onPlayComplete: PropTypes.bool
   };
 
   static defaultProps = {
@@ -106,7 +107,9 @@ class AudioView extends React.Component {
   };
 
   onVolumePress = () => {
-    this.setState({showVolume:!this.state.showVolume});
+    this.setState({
+      showVolume: !this.state.showVolume
+    });
   };
 
   onSeekPressed = (skipCountValue) => {
@@ -132,8 +135,8 @@ class AudioView extends React.Component {
     this.props.handlers.onPress(BUTTON_NAMES.MORE);
   };
 
-  onRewindPress = () => {
-    this.props.handlers.onPress(BUTTON_NAMES.REWIND);
+  onReplayPress = () => {
+    this.props.handlers.onPress(BUTTON_NAMES.REPLAY);
   };
 
   onPlaybackSpeedPress = () => {
@@ -209,7 +212,8 @@ class AudioView extends React.Component {
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ?
-               [controlBarStyles.icon, {'fontSize': iconFontSize}, controlBarStyles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+               [controlBarStyles.icon, {'fontSize': iconFontSize}, controlBarStyles.iconHighlighted, this.props.config.controlBar.iconStyle.active] :
+               [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         iconTouchableStyle: controlBarStyles.iconTouchable,
@@ -231,14 +235,10 @@ class AudioView extends React.Component {
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
-        primaryActionButton: !this.props.playing ? 'play' : 'pause'
+        primaryActionButton: this.props.onPlayComplete ? 'replay' :
+                             (this.props.playing ? 'pause' : 'play'),
+        onReplay: this.onReplayPress
       },
-      // rewind: {
-      //   onPress: this.onRewindPress,
-      //   iconTouchableStyle: controlBarStyles.iconTouchable,
-      //   style: [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-      //   icon: this.props.config.icons.rewind
-      // },
       seekForward: {
         onPress: this.onSkipPressForward,
         style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
@@ -401,21 +401,31 @@ class AudioView extends React.Component {
     if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
       return;
     }
-    this.setState({touch: true, x: event.nativeEvent.pageX});
+    this.setState({
+      touch: true,
+      x: event.nativeEvent.pageX
+    });
   };
 
   handleTouchMove = (event) => {
     this.props.handlers.handleControlsTouch();
-    this.setState({x: event.nativeEvent.pageX});
+    this.setState({
+      x: event.nativeEvent.pageX
+    });
   };
 
   handleTouchEnd = (event) => {
     this.props.handlers.handleControlsTouch();
     if (this.state.touch && this.props.onScrub) {
       this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
-      this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
+      this.setState({
+        cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration
+      });
     }
-    this.setState({touch:false, x:null});
+    this.setState({
+      touch: false,
+      x: null
+    });
   };
 
   _renderProgressBar = (percent) => {
