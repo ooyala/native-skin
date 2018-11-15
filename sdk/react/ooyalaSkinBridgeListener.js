@@ -113,7 +113,8 @@ OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
     ad: e,
     screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
                 SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
-    adOverlay: null
+    adOverlay: null,
+    onPlayComplete: false
   });
 };
 
@@ -212,7 +213,8 @@ OoyalaSkinBridgeListener.prototype.onPlayStarted = function(e) {
   this.skin.setState({
     screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
                 SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
-    autoPlay: false
+    autoPlay: false,
+    onPlayComplete: false
   });
 };
 
@@ -220,7 +222,9 @@ OoyalaSkinBridgeListener.prototype.onPlayComplete = function(e) {
   Log.log("Play Complete received: upNext dismissed: " + this.skin.state.upNextDismissed);
   this.skin.setState({
     playing: false,
-    screenType: SCREEN_TYPES.END_SCREEN
+    screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
+                SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.END_SCREEN,
+    onPlayComplete: true
   });
 
   if (this.core.shouldShowDiscoveryEndscreen()) {
@@ -258,7 +262,8 @@ OoyalaSkinBridgeListener.prototype.onStateChange = function(e) {
         loading: false,
         initialPlay: this.skin.state.screenType == SCREEN_TYPES.START_SCREEN,
         screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
-                    SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN
+                    SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
+        onPlayComplete: false
       });
       break;
     case "loading":
