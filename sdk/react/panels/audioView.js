@@ -187,7 +187,7 @@ class AudioView extends React.Component {
 
   // MARK: - Title
   _renderTitle = () => {
-    const titleLabel = <Text style={styles.titleLabel}>{this.props.title}</Text>;
+    const titleLabel = <Text style={styles.titleLabel}>{this.props.title + ": "}</Text>;
     const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>;
     return (
       <View
@@ -302,7 +302,7 @@ class AudioView extends React.Component {
     return (
       <View
         style={[controlBarStyles.controlBarContainer, widthStyle]}
-        onTouchEnd={this.props.handleControlsTouch}>
+        onTouchEnd={this.props.handlers.handleControlsTouch}>
         {controlBarWidgets}
       </View>
     );
@@ -372,6 +372,52 @@ class AudioView extends React.Component {
     return Utils.secondsToString(this.props.duration);
   };
 
+  playedPercent = (playhead, duration) => {
+    if (this.props.duration === 0) {
+      return 0;
+    }
+    let percent = playhead / duration;
+    if (percent > 1) {
+      percent = 1;
+    } else if (percent < 0) {
+      percent = 0;
+    }
+    return percent;
+  };
+
+  touchPercent = (x) => {
+    let percent = (x - leftMargin) / (this.props.width - 2 * leftMargin);
+    if (percent > 1) {
+      percent = 1;
+    } else if (percent < 0) {
+      percent = 0;
+    }
+    return percent;
+  };
+
+  handleTouchStart = (event) => {
+    this.props.handlers.handleControlsTouch();
+    let touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
+    if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
+      return;
+    }
+    this.setState({touch: true, x: event.nativeEvent.pageX});
+  };
+
+  handleTouchMove = (event) => {
+    this.props.handlers.handleControlsTouch();
+    this.setState({x: event.nativeEvent.pageX});
+  };
+
+  handleTouchEnd = (event) => {
+    this.props.handlers.handleControlsTouch();
+    if (this.state.touch && this.props.onScrub) {
+      this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+      this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
+    }
+    this.setState({touch:false, x:null});
+  };
+
   _renderProgressBar = (percent) => {
     return (
       <ProgressBar
@@ -433,4 +479,4 @@ class AudioView extends React.Component {
   };
 }
 
-module.exports = AudioView;
+export default AudioView;
