@@ -63,7 +63,8 @@ class OoyalaSkin extends React.Component {
     alertMessage: '',
     error: null,
     screenReaderEnabled: false,
-    contentType: CONTENT_TYPES.VIDEO
+    contentType: CONTENT_TYPES.VIDEO,
+    onPlayComplete: false
   };
 
   componentWillMount() {
