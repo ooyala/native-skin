@@ -20,12 +20,11 @@ var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 //calling class layout controller
 var eventBridge = require('NativeModules').OoyalaReactBridge;
 
-var Constants = require('./constants');
-var {
+import {
   CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES
-} = Constants;
+} from './constants';
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance;
 

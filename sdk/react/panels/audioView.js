@@ -7,9 +7,16 @@ import {
   Text,
   View,
   TouchableHighlight,
-  Slider,
-  NativeModules
+  Animated
 } from 'react-native';
+
+import {
+  BUTTON_NAMES,
+  UI_SIZES,
+  VALUES
+} from '../constants';
+
+const timerForSkipButtons = require('react-native-timer');
 
 const ProgressBar = require('../progressBar');
 const VolumeView = require('../widgets/VolumeView');
@@ -26,14 +33,7 @@ const topMargin = 6;
 const leftMargin = 20;
 const progressBarHeight = 3;
 const scrubberSize = 14;
-
-const Constants = require('../constants');
-const {
-  BUTTON_NAMES,
-  UI_SIZES,
-  VALUES
-} = Constants;
-const timerForSkipButtons = require('react-native-timer');
+const scrubTouchableDistance = 45;
 
 const constants = {
   playbackSpeedRatePostfix: "x"
@@ -56,9 +56,7 @@ class AudioView extends React.Component {
     handlers: PropTypes.shape({
       onPress: PropTypes.func.isRequired,
       onScrub: PropTypes.func.isRequired,
-      handleVideoTouchStart: PropTypes.func.isRequired,
-      handleVideoTouchMove: PropTypes.func.isRequired,
-      handleVideoTouchEnd: PropTypes.func.isRequired
+      handleControlsTouch: PropTypes.func.isRequired
     }),
     config: PropTypes.object,
     nextVideo: PropTypes.object,
@@ -72,12 +70,17 @@ class AudioView extends React.Component {
     description: PropTypes.string
   };
 
-  static defaultProps = {playhead: 0, duration: 0};
+  static defaultProps = {
+    playhead: 0,
+    duration: 0
+  };
 
   state = {
     playing: false,
     showVolume: false,
-    skipCount: 0
+    skipCount: 0,
+    height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
+    cachedPlayhead: -1
   };
 
   componentWillReceiveProps(nextProps) {

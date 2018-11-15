@@ -6,13 +6,13 @@ import {
   View
 } from 'react-native';
 
-var Log = require('../log');
-var Utils = require('../utils');
-var Constants = require('../constants');
-var {
+import {
   SAS_ERROR_CODES,
   ERROR_MESSAGE,
-} = Constants;
+} from '../constants';
+
+var Log = require('../log');
+var Utils = require('../utils');
 var styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
 
 class ErrorScreen extends React.Component {

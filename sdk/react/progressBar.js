@@ -1,7 +1,5 @@
 'use strict';
 
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
   View,
@@ -9,14 +7,14 @@ import {
   LayoutAnimation,
   Text
 } from 'react-native';
+import PropTypes from 'prop-types';
+
+import Log from './log';
+import { VIEW_NAMES } from './constants';
 
 const Utils = require('./utils');
 const ResponsiveDesignManager = require('./responsiveDesignManager');
 const styles = Utils.getStyles(require('./style/progressBarStyles.json'));
-const Constants = require('./constants');
-const {
-  VIEW_NAMES
-} = Constants;
 
 class ProgressBar extends React.Component {
   static propTypes = {
@@ -98,9 +96,9 @@ class ProgressBar extends React.Component {
       <View
         style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
-        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
-        >
+        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}>
         {this._renderPlayHeadWidget()}
+
         <View
           style={progressStyles.played}
           testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
@@ -115,7 +113,7 @@ class ProgressBar extends React.Component {
           style={progressStyles.buffered}
           testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
           accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}/>
-        {this._renderDurationWidget()}
+          {this._renderDurationWidget()}
       </View>
     );
   }

@@ -9,18 +9,17 @@ import {
   Platform
 } from "react-native";
 
+import {
+  BUTTON_NAMES,
+  UI_SIZES
+} from '../constants';
+
 const Utils = require("../utils");
 const styles = Utils.getStyles(require("./style/endScreenStyles.json"));
 const ResponsiveDesignManager = require('../responsiveDesignManager');
 const InfoPanel = require("../infoPanel");
 const BottomOverlay = require("../bottomOverlay");
 const Log = require("../log");
-const Constants = require("../constants");
-
-const {
-  BUTTON_NAMES,
-  UI_SIZES
-} = Constants;
 
 class EndScreen extends React.Component {
   static propTypes = {

@@ -17,13 +17,13 @@ import {
   Platform
 } from 'react-native';
 
-const Constants = require('./constants');
-const {
+import {
   VIEW_NAMES,
   UI_SIZES,
   VALUES,
-  ANNOUNCER_TYPES
-} = Constants;
+  ANNOUNCER_TYPES,
+  VIEW_ACCESSIBILITY_NAMES
+} from './constants';
 
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 const AccessibilityUtils = require('./accessibilityUtils');
@@ -220,9 +220,9 @@ const BottomOverlay = createReactClass({
 
     const currentPercent = parseInt(playedPercent * 100, 10);
     const scrubberBarAccessibilityLabel = Platform.select({
-      ios: Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR,
-      android: Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent +
-               Constants.VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC
+      ios: VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR,
+      android: VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent +
+               VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC
     });
     const barStyle = this.state.accessibilityEnabled ?
             styles.progressBarAccessibilityStyle : styles.progressBarStyle;

@@ -10,11 +10,10 @@ import {
   View,
 } from 'react-native';
 
-const Constants = require('../constants');
-const {
+import {
   BUTTON_NAMES,
   CELL_TYPES
-} = Constants;
+} from '../constants';
 
 const Utils = require('../utils');
 const styles = require('../utils').getStyles(require('./style/PlaybackSpeedPanelStyles'));
@@ -58,7 +57,7 @@ class PlaybackSpeedPanel extends React.Component {
         }),
     ]).start();
   }
-  
+
   onPlaybackSpeedRateSelected = (playbackSpeedRate) => {
     const localizedTitleForNormalPlaybackSpeedRate = Utils.localizedString(
       this.props.config.locale, constants.normalPlaybackSpeedRateTitle, this.props.config.localizableStrings);
@@ -70,7 +69,7 @@ class PlaybackSpeedPanel extends React.Component {
     } else {
       originalPlaybackSpeedRate = playbackSpeedRate.toString().substring(0, playbackSpeedRate.toString().length - 1)
     }
-    
+
     if (this.props.selectedPlaybackSpeedRate !== originalPlaybackSpeedRate) {
       this.props.onSelectPlaybackSpeedRate(originalPlaybackSpeedRate);
     }
@@ -120,7 +119,7 @@ class PlaybackSpeedPanel extends React.Component {
     // Validate playback speed rates
     const validatedPlaybackSpeedRates = this.props.playbackSpeedRates.reduce((result, item) => {
       const number = parseFloat(String(item));
-            
+
       if (!isNaN(number) && number >= constants.minPlaybackSpeedRateValue && number <= constants.maxPlaybackSpeedRateValue) {
         result.push(parseFloat(number.toFixed(2)));
       }

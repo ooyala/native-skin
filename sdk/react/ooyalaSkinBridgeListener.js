@@ -3,13 +3,13 @@
  */
 'use strict';
 
-var Log = require('./log');
-var Constants = require('./constants');
-var {
+import {
   CONTENT_TYPES,
   SCREEN_TYPES,
   OVERLAY_TYPES
-} = Constants;
+} from './constants';
+
+var Log = require('./log');
 
 var OoyalaSkinBridgeListener = function(ooyalaSkin, ooyalaCore) {
   Log.log("SkinBridgeListener Created");

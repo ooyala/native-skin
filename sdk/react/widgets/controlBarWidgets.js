@@ -15,17 +15,17 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import {
+  BUTTON_NAMES,
+  STRING_CONSTANTS,
+  VIEW_ACCESSIBILITY_NAMES
+} from '../constants';
+
 const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
 const Log = require('../log');
 const VolumeView = require('./VolumeView');
 const AccessibilityUtils = require('../accessibilityUtils');
 const SkipButton = require('./SkipButton');
-const Constants = require('../constants');
-const {
-  BUTTON_NAMES,
-  STRING_CONSTANTS,
-  VIEW_ACCESSIBILITY_NAMES
-} = Constants;
 
 class controlBarWidget extends React.Component {
   static propTypes = {
@@ -321,7 +321,7 @@ class controlBarWidget extends React.Component {
   render() {
     const widgetsMap = {
       'playPause': this.playPauseWidget,
-      'playPause': this.volumeWidget,
+      'volume': this.volumeWidget,
       'timeDuration': this.timeDurationWidget,
       'flexibleSpace': this.flexibleSpaceWidget,
       'rewind': this.rewindWidget,

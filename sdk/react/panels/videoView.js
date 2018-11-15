@@ -17,24 +17,23 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import {
+  BUTTON_NAMES,
+  IMG_URLS,
+  UI_SIZES,
+  AUTOHIDE_DELAY,
+  VALUES
+} from '../constants';
+
 const BottomOverlay = require('../bottomOverlay');
 const UpNext = require('../upNext');
 const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-const Constants = require('../constants');
 const Log = require('../log');
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 const ResponsiveDesignManager = require('../responsiveDesignManager');
 const VideoWaterMark = require('../widgets/videoWaterMark');
 const panelStyles = require('./style/panelStyles.json');
-
-const {
-  BUTTON_NAMES,
-  IMG_URLS,
-  UI_SIZES,
-  AUTOHIDE_DELAY,
-  VALUES
-} = Constants;
 
 class VideoView extends React.Component {
   static propTypes = {

@@ -15,6 +15,14 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import {
+  BUTTON_NAMES,
+  IMG_URLS,
+  UI_SIZES,
+  AUTOHIDE_DELAY,
+  VALUES
+} from '../constants';
+
 var Dimensions = require('Dimensions');
 var windowSize = Dimensions.get('window');
 var BottomOverlay = require('../bottomOverlay');
@@ -22,21 +30,12 @@ var AdBar = require('../adBar');
 var UpNext = require('../upNext');
 var RectButton = require('../widgets/RectButton');
 var VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-var Constants = require('../constants');
 var Log = require('../log');
 var Utils = require('../utils');
 var styles = Utils.getStyles(require('./style/videoViewStyles.json'));
 var ResponsiveDesignManager = require('../responsiveDesignManager');
 var VideoWaterMark = require('../widgets/videoWaterMark');
 var autohideDelay = 5000;
-
-var {
-  BUTTON_NAMES,
-  IMG_URLS,
-  UI_SIZES,
-  AUTOHIDE_DELAY,
-  VALUES
-} = Constants;
 
 class AdPlaybackScreen extends React.Component {
   static propTypes = {

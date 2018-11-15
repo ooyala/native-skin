@@ -20,13 +20,12 @@ import {
 
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
-var Constants = require('./constants');
-var {
+import {
   BUTTON_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
   IMG_URLS,
   UI_SIZES
-} = Constants;
+} from './constants';
 
 var Log = require('./log');
 var Utils = require('./utils');

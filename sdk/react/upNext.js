@@ -8,10 +8,9 @@ import {
   TouchableHighlight,
 } from "react-native";
 
-var Constants = require('./constants');
-var {
+import {
   BUTTON_NAMES
-} = Constants;
+} from './constants';
 
 var Utils = require("./utils");
 

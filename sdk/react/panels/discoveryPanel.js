@@ -17,6 +17,11 @@ import {
   DeviceEventEmitter
 } from 'react-native';
 
+import {
+  BUTTON_NAMES,
+  SCREEN_TYPES
+} from '../constants';
+
 var Utils = require('../utils');
 var ResponsiveList = require('../widgets/ResponsiveList');
 var CountdownView = require('../widgets/countdownTimer');
@@ -24,12 +29,7 @@ var CountdownViewAndroid = require('../widgets/countdownTimerAndroid');
 var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
 var panelStyles = require('./style/panelStyles.json');
 
-var Constants = require('../constants');
 var Log = require('../log');
-var {
-  BUTTON_NAMES,
-  SCREEN_TYPES,
-} = Constants;
 // TODO: read this from config.
 var animationDuration = 1000;
 

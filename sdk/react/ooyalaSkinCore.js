@@ -14,17 +14,17 @@ import {
   TouchableHighlight,
 } from "react-native";
 
-const Log = require('./log');
-const Constants = require('./constants');
-const {
+import {
   BUTTON_NAMES,
   SCREEN_TYPES,
   OVERLAY_TYPES,
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE
-} = Constants;
-var OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
-var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
+} from './constants';
+
+const Log = require('./log');
+const OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
+const OoyalaSkinPanelRenderer = require('./ooyalaSkinPanelRenderer');
 
 const clickRadius = 5;
 var startedClickX, startedClickY;

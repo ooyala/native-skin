@@ -18,15 +18,14 @@ const {
    OOReactSkinBridgeModuleMain
  } = NativeModules;
 
-var Constants = require('./constants');
-var {
+import {
   CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES
-} = Constants;
+} from './constants';
+
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
-
 var OoyalaSkinCoreInstance;
 
 class OoyalaSkin extends React.Component {

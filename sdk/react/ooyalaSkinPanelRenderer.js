@@ -6,12 +6,13 @@
 import React from 'react';
 import {Platform} from 'react-native';
 
-const Constants = require('./constants');
-const {
+import {
   SCREEN_TYPES,
   OVERLAY_TYPES,
   DESIRED_STATES
-} = Constants;
+} from './constants';
+
+import AudioView from './panels/audioView';
 
 const Log = require('./log');
 const ActivityView = require('NativeModules').OOActivityView;
@@ -21,7 +22,6 @@ const ErrorScreen = require('./panels/ErrorScreen');
 const DiscoveryPanel = require('./panels/discoveryPanel');
 const MoreOptionScreen = require('./panels/MoreOptionScreen');
 const VideoView = require('./panels/videoView');
-const AudioView = require('./panels/audioView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
@@ -116,9 +116,7 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
       handlers={{
         onPress: (value) => this.core.handlePress(value),
         onScrub: (value) => this.core.handleScrub(value),
-        handleVideoTouchStart: (event) => this.core.handleVideoTouchStart(event),
-        handleVideoTouchMove: (event) => this.core.handleVideoTouchMove(event),
-        handleVideoTouchEnd: (event) => this.core.handleVideoTouchEnd(event),
+        handleControlsTouch: () => this.core.handleControlsTouch()
       }}
       config={{
         controlBar: this.skin.props.controlBar,
