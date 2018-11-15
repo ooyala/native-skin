@@ -231,7 +231,7 @@ class AudioView extends React.Component {
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
-        primaryActionButton: !this.props.playing ? "play" : "pause"
+        primaryActionButton: !this.props.playing ? 'play' : 'pause'
       },
       // rewind: {
       //   onPress: this.onRewindPress,
@@ -241,7 +241,7 @@ class AudioView extends React.Component {
       // },
       seekForward: {
         onPress: this.onSkipPressForward,
-        style: [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         seekValue: this.props.config.skipControls.skipForwardTime,
         icon: this.props.config.icons.forward,
         size: iconFontSize
@@ -249,7 +249,7 @@ class AudioView extends React.Component {
       moreOptions: {
         onPress: this.onMorePress,
         iconTouchableStyle: controlBarStyles.iconTouchable,
-        style: [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
         enabled: this.props.showMoreOptionsButton
       },
@@ -298,7 +298,7 @@ class AudioView extends React.Component {
 
       controlBarWidgets.push(item);
     }
-    var widthStyle = {width: this.props.width};
+    let widthStyle = {width: this.props.width};
     return (
       <View
         style={[controlBarStyles.controlBarContainer, widthStyle]}

@@ -21,7 +21,9 @@ import {
   VIEW_ACCESSIBILITY_NAMES
 } from '../constants';
 
-const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
+import Utils from '../utils';
+
+const styles = Utils.getStyles(require('./style/controlBarWidgetStyles.json'));
 const Log = require('../log');
 const VolumeView = require('./VolumeView');
 const AccessibilityUtils = require('../accessibilityUtils');
@@ -35,9 +37,9 @@ class controlBarWidget extends React.Component {
 
   playPauseWidget = (options) => {
     const iconMap = {
-      "play": options.playIcon,
-      "pause": options.pauseIcon,
-      "replay": options.replayIcon
+      'play': options.playIcon,
+      'pause': options.pauseIcon,
+      'replay': options.replayIcon
     };
     const fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
     return (
@@ -63,26 +65,23 @@ class controlBarWidget extends React.Component {
   };
 
   _renderSeekButton = (options, isForward) => {
-    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-
-    const fontStyle = {fontSize: options.size, fontFamily: fontFamilyStyle};
+    const fontStyle = {fontSize: options.size, fontFamily: options.icon.fontFamilyName};
     const sizeStyle = {width: options.size, height: options.size};
     const opacity = {opacity: 1};
     const animate = {transform: [{scale: 1}]};
-    const buttonColor = {color: "white"};
+    const buttonColor = {color: 'white'};
 
-    let seekValue = options.seekValue;
-    seekValue = Utils.restrictSeekValueIfNeeded(seekValue);
+    let seekValue = Utils.restrictSeekValueIfNeeded(options.seekValue);
 
     return (
       <SkipButton
+        disabled={false}
         isForward={isForward}
         timeValue={seekValue}
-        sizeStyle={sizeStyle}
-        disabled={false}
         onSeek={options.onPress}
-        icon={options.icon}
+        icon={options.icon.fontString}
         fontStyle={fontStyle}
+        sizeStyle={sizeStyle}
         opacity={opacity}
         animate={animate}
         buttonColor={buttonColor}
@@ -297,7 +296,6 @@ class controlBarWidget extends React.Component {
     let widget = null;
 
     // Create accessibility label for selected playback speed rate button
-
     const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
     const selectedPlaybackSpeedAccessiblityLabel = AccessibilityUtils.createAccessibilityLabelForSelectedObject(playbackSpeedRateWithoutPostfix)
     const accessibilityLabel = BUTTON_NAMES.PLAYBACK_SPEED + selectedPlaybackSpeedAccessiblityLabel
