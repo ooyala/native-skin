@@ -135,7 +135,8 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
       loading={this.skin.state.loading}
       initialPlay={this.skin.state.initialPlay}
       title={this.skin.state.title}
-      description={this.skin.state.description}>
+      description={this.skin.state.description}
+      onPlayComplete={this.skin.state.onPlayComplete}>
     </AudioView>
   );
 };
