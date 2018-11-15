@@ -130,9 +130,13 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
     case BUTTON_NAMES.QUALITY:
     case BUTTON_NAMES.SETTING:
       break;
+    case BUTTON_NAMES.REPLAY:
+      this.skin.setState({
+        onPlayComplete: false
+      });
     default:
-      console.log("handlePress button name:",n);
-      this.bridge.onPress({name:n});
+      Log.log("handlePress button name:",n);
+      this.bridge.onPress({name: n});
       break;
   }
 };
