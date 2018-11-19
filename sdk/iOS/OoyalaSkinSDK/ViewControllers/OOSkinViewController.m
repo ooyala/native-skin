@@ -6,8 +6,7 @@
 //  Copyright (c) 2015 Ooyala. All rights reserved.
 //
 
-@import OoyalaSDK;
-
+#import <OoyalaSDK/OoyalaSDK.h>
 #import "OOSkinViewController.h"
 #import "OOSkinOptions.h"
 
