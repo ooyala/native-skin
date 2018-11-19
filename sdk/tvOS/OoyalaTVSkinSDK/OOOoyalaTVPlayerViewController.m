@@ -232,6 +232,14 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   
   [self.playPauseButton changePlayingState:[self.player isPlaying]];
   
+  // for live assets the control bar cannot hide on the next if belows that triggers the hideProgressBar method.
+  // That's because the initial value of lastTriggerTime is zero and for live assets that's incorrect.
+  // We update lastTriggerTime when we see that the asset is live and it is exactly at 0.0.
+  // 0.0 will not be reached again if skipped to the beginning because the DVR window is always sliding to the right.
+  if (self.player.currentItem.live && self.lastTriggerTime == 0.0) {
+    self.lastTriggerTime = playhead;
+  }
+  
   if (playhead - self.lastTriggerTime > hideBarInterval && playhead - self.lastTriggerTime < hideBarInterval + 2) {
     [self hideProgressBar];
   }
