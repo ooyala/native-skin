@@ -516,8 +516,8 @@
 			children = (
 				8FE31CDE29E32B874699EEA9 /* PresentedViewControllerSupport */,
 				754CBCD7203DE7BE0086CE53 /* FullscreenStateController */,
-				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				976922791B8E37F300A61ACF /* OOSkinViewControllerDelegate.h */,
+				972ED8871AE6F008005043DC /* OOSkinViewController.h */,
 				972ED8881AE6F008005043DC /* OOSkinViewController.m */,
 				52A0A01C1F6C3BCA00884D90 /* OOSkinFullScreenViewController.h */,
 				52A0A01D1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m */,

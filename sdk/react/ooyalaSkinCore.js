@@ -93,7 +93,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
     case BUTTON_NAMES.SETTING:
       break;
     case BUTTON_NAMES.AUDIO_AND_CC:
-      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
+      this.pushToOverlayStack(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
       break;
     case BUTTON_NAMES.PLAYBACK_SPEED:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN);
@@ -121,7 +121,7 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.DISCOVERY_SCREEN);
       break;
     case BUTTON_NAMES.AUDIO_AND_CC:
-      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
+      this.pushToOverlayStack(OVERLAY_TYPES.AUDIO_AND_CC_SCREEN);
       break;
     case BUTTON_NAMES.PLAYBACK_SPEED:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN);
@@ -255,10 +255,14 @@ OoyalaSkinCore.prototype.handleControlsTouch = function() {
 
 OoyalaSkinCore.prototype.pushToOverlayStackAndMaybePause = function(overlay) {
   if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {
-    Log.log("New stack of overlays, pausing")
+    Log.log("New stack of overlays, pausing");
     this.skin.setState({pausedByOverlay:true});
     this.bridge.onPress({name:BUTTON_NAMES.PLAY_PAUSE});
   }
+  this.pushToOverlayStack(overlay)
+};
+
+OoyalaSkinCore.prototype.pushToOverlayStack = function(overlay) {
   var retVal = this.skin.state.overlayStack.push(overlay);
   this.skin.forceUpdate();
   return retVal;
