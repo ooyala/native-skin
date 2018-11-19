@@ -6,12 +6,15 @@
 //  Copyright (c) 2015 Ooyala. All rights reserved.
 //
 
-#import <OoyalaSDK/OoyalaSDK.h>
 #import "OOSkinViewController.h"
 #import "OOSkinOptions.h"
 
 #import "OOReactSkinModel.h"
 #import <React/RCTRootView.h>
+
+#import <OoyalaSDK/OOOoyalaPlayer.h>
+#import <OoyalaSDK/OODebugMode.h>
+#import <OoyalaSDK/OOOptions.h>
 
 #import "OOConstant.h"
 #import "OOSkinViewControllerDelegate.h"
