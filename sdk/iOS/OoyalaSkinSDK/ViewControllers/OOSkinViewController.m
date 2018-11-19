@@ -423,7 +423,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (self.isVRStereoMode) {
     [self toggleStereoMode];
   } else {
-    bool fullscreen = !self.fullscreen;
+    BOOL fullscreen = !self.fullscreen;
     if (fullscreen) {
       [OOAudioSession.sharedInstance prioritize];
     }
