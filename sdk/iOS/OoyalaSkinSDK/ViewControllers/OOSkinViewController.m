@@ -50,9 +50,10 @@
 @implementation OOSkinViewController
 
 #pragma mark - Constants
+
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey =      @"frame";
-static NSString *fullscreenKey =       @"fullScreen";
+static NSString *fullscreenKey =       @"fullscreen";
 static NSString *widthKey =            @"width";
 static NSString *heightKey =           @"height";
 
