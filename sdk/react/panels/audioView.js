@@ -6,7 +6,8 @@ import React, {Component} from 'react';
 import {
   Text,
   View,
-  Animated
+  Animated,
+  PanResponder
 } from 'react-native';
 
 import {
@@ -66,11 +67,6 @@ class AudioView extends React.Component {
     title: PropTypes.string,
     description: PropTypes.string,
     onPlayComplete: PropTypes.bool
-  };
-
-  static defaultProps = {
-    playhead: 0,
-    duration: 0
   };
 
   state = {
@@ -344,7 +340,7 @@ class AudioView extends React.Component {
     const scrubberStyle = this._customizeScrubber();
 
     return (
-      <View style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}/>
+      <View pointerEvents="none" style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}/>
     );
   };
 
@@ -398,11 +394,7 @@ class AudioView extends React.Component {
   };
 
   touchPercent = (x) => {
-
     let percent = x / (this.state.scrubberWidth);
-
-   // Log.log("---> x=" + x + " width=" + this.state.scrubberWidth + "percent=" + percent) ;
-   // Log.log("***************") ;
 
     if (percent > 1) {
       percent = 1;
@@ -412,39 +404,22 @@ class AudioView extends React.Component {
     return percent;
   };
 
-  panResponder = PanResponder.create({
-    // Ask to be the responder:
-    onStartShouldSetPanResponder: (evt, gestureState) => true,
-    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-    onMoveShouldSetPanResponder: (evt, gestureState) => true,
-    onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+  _panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: (event, gestureState) => true,
+    onStartShouldSetPanResponderCapture: (event, gestureState) => true,
+    onMoveShouldSetPanResponder: (event, gestureState) => true,
+    onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
-    onPanResponderGrant: (evt, gestureState) => {
-      // The gesture has started. Show visual feedback so the user knows
-      // what is happening!
-
-      // gestureState.d{x,y} will be set to zero now
+    onPanResponderGrant: (event, gestureState) => {
+      this.handleTouchStart(event);
     },
-    onPanResponderMove: (evt, gestureState) => {
-      // The most recent move distance is gestureState.move{X,Y}
-
-      // The accumulated gesture distance since becoming responder is
-      // gestureState.d{x,y}
+    onPanResponderMove: (event, gestureState) => {
+      this.handleTouchMove(event);
     },
-    onPanResponderTerminationRequest: (evt, gestureState) => true,
-    onPanResponderRelease: (evt, gestureState) => {
-      // The user has released all touches while this view is the
-      // responder. This typically means a gesture has succeeded
-    },
-    onPanResponderTerminate: (evt, gestureState) => {
-      // Another component has become the responder, so this gesture
-      // should be cancelled
-    },
-    onShouldBlockNativeResponder: (evt, gestureState) => {
-      // Returns whether this component should block native components from becoming the JS
-      // responder. Returns true by default. Is currently only supported on android.
-      return true;
-    },
+    onPanResponderTerminationRequest: (event, gestureState) => true,
+    onPanResponderRelease: (event, gestureState) => {
+      this.handleTouchEnd(event);
+    }
   });
 
   handleTouchStart = (event) => {
@@ -461,8 +436,6 @@ class AudioView extends React.Component {
 
   handleTouchMove = (event) => {
     this.props.handlers.handleControlsTouch();
-       Log.log("---> x=" + event.nativeEvent.locationX);
-       target
     this.setState({
       x: event.nativeEvent.locationX
     });
@@ -486,7 +459,8 @@ class AudioView extends React.Component {
     return (
       <View 
         style={styles.progressBarContainer}
-        accessible={false}>
+        accessible={false}
+        pointerEvents="none">
           <ProgressBar
             accessible={false}
             ref='progressBar'
@@ -520,9 +494,7 @@ class AudioView extends React.Component {
             });
           }}
           style={styles.progressBarScrubberContainer}
-          onTouchStart={(event) => this.handleTouchStart(event)}
-          onTouchMove={(event) => this.handleTouchMove(event)}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}>
+          {...this._panResponder.panHandlers}>
             {this._renderProgressBar(playedPercent)}
             {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
         </Animated.View>
