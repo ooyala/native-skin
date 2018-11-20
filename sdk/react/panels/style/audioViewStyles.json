@@ -46,7 +46,7 @@
   "progressBarScrubberContainer": {
     "flex": 1,
     "flexDirection": "row",
-    "height": 15,
+    "height": 20,
     "alignItems": "center"
   },
 

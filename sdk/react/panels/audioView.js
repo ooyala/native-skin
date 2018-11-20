@@ -28,10 +28,9 @@ const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
 const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
 const ResponsiveDesignManager = require('../responsiveDesignManager');
 
-const progressBarHeight = 3;
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
-const topMargin = scrubberSize / 2 - 1; // 1 - align fot correct to margin
+const topMargin = scrubberSize / 2 - 1; // 1 - align for correct margin
 
 const constants = {
   playbackSpeedRatePostfix: "x"
@@ -317,15 +316,23 @@ class AudioView extends React.Component {
   // MARK: - Progress bar + scrubber
 
   _calculateProgressBarWidth = () => {
-    if (this.state.scrubberWidth) {
-      return this.state.scrubberWidth;
+    if (this.state.progressBarWidth) {
+      return this.state.progressBarWidth;
     } else {
       return 0;
     }    
   };
 
-  _calculateTopOffset = (componentSize) => {
-    return topMargin + progressBarHeight / 2 - componentSize / 2;
+  _calculateProgressBarHeight = () => {
+    if (this.state.progressBarHeight) {
+      return this.state.progressBarHeight;
+    } else {
+      return 0;
+    }    
+  };
+
+  _calculateTopOffset = (componentSize, progressBarHeight) => {
+    return progressBarHeight / 2 - componentSize / 2;
   };
 
   _calculateLeftOffset = (componentSize, percent, progressBarWidth) => {
@@ -334,7 +341,8 @@ class AudioView extends React.Component {
 
   _renderProgressScrubber = (percent) => {
     const progressBarWidth = this._calculateProgressBarWidth();
-    const topOffset = this._calculateTopOffset(scrubberSize);
+    const progressBarHeight = this._calculateProgressBarHeight();
+    const topOffset = this._calculateTopOffset(scrubberSize, progressBarHeight);
     const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
     const positionStyle = {top:topOffset, left:leftOffset};
     const scrubberStyle = this._customizeScrubber();
@@ -394,7 +402,7 @@ class AudioView extends React.Component {
   };
 
   touchPercent = (x) => {
-    let percent = x / (this.state.scrubberWidth);
+    let percent = x / (this.state.progressBarWidth);
 
     if (percent > 1) {
       percent = 1;
@@ -424,7 +432,7 @@ class AudioView extends React.Component {
 
   handleTouchStart = (event) => {
     this.props.handlers.handleControlsTouch();
-    const touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.state.scrubberWidth, scrubTouchableDistance);
+    const touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.state.progressBarWidth, scrubTouchableDistance);
     if ((this.props.height - event.nativeEvent.locationY) < touchableDistance) {
       return;
     }
@@ -490,7 +498,8 @@ class AudioView extends React.Component {
         <Animated.View
           onLayout={(event) => {
             this.setState({
-              scrubberWidth: event.nativeEvent.layout.width
+              progressBarWidth: event.nativeEvent.layout.width,
+              progressBarHeight: event.nativeEvent.layout.height
             });
           }}
           style={styles.progressBarScrubberContainer}
