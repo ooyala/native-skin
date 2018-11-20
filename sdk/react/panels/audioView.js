@@ -30,7 +30,6 @@ const ResponsiveDesignManager = require('../responsiveDesignManager');
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
-const topMargin = scrubberSize / 2 - 1; // 1 - align for correct margin
 
 const constants = {
   playbackSpeedRatePostfix: "x"

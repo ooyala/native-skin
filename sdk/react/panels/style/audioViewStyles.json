@@ -10,7 +10,6 @@
 
   "container": {
     "flex": 1,
-    "height": 120,
     "backgroundColor": "rgba(0,0,0,0.3)"
   },
 
@@ -19,28 +18,27 @@
     "flexDirection": "row",
     "alignItems": "center",
     "backgroundColor": "transparent",
-    "overflow": "hidden",
-    "backgroundColor": "red" // TEST
+    "overflow": "hidden"
   },
 
   "controlBar": {
     "flex": 1,
     "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "gray" // TEST
+    "alignItems": "center"
   },
 
   "progressBarContainer": {
     "flex": 1,
     "flexDirection": "row",
-    "height": 3
+    "height": 3,
+    "borderRadius": 1.5,
+    "overflow": "hidden"
   },
 
   "progressBar":  {
     "flex": 1,
     "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "green" // TEST
+    "alignItems": "center"
   },
 
   "progressBarScrubberContainer": {
