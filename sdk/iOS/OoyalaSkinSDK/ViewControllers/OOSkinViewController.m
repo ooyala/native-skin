@@ -15,6 +15,7 @@
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OOOptions.h>
+#import <OoyalaSDK/OOAudioSession.h>
 
 #import "OOConstant.h"
 #import "OOSkinViewControllerDelegate.h"
