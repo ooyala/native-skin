@@ -1,27 +1,8 @@
 {
+
   "container": {
-  	"flexDirection": "row",
-    "height": 3,
-    "marginVertical": 6,
-    "marginHorizontal": 20
-  },
-  "playheadLabel": {
-    "flex": 0,
-    "flexDirection": "row",
-    "color": "#FFFFFF",
-    "fontFamily": "AvenirNext-DemiBold",
-  },
-  "durationLabel": {
-    "flex": 0,
-    "flexDirection": "row",
-    "color": "#B3B3B3",
-    "fontFamily": "AvenirNext-DemiBold",
-  },
-  "completeTimeStyle": {
-    "flex": 0,
-    "flexDirection": "row",
-  },
-  "iconTouchable": {
-    "padding": 8,
+    "flex": 1,
+    "flexDirection": "row"
   }
+  
 }

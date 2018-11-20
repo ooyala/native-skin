@@ -3,9 +3,7 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
-  LayoutAnimation,
-  Text
+  StyleSheet
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -13,7 +11,6 @@ import Log from './log';
 import { VIEW_NAMES } from './constants';
 
 const Utils = require('./utils');
-const ResponsiveDesignManager = require('./responsiveDesignManager');
 const styles = Utils.getStyles(require('./style/progressBarStyles.json'));
 
 class ProgressBar extends React.Component {
@@ -52,30 +49,10 @@ class ProgressBar extends React.Component {
     }
   };
 
-  _renderPlayHeadWidget = () => {
-    const playHead = <Text style={styles.playHeadTimeStyle}>{this.props.playHeadString}</Text>;
-    return (
-      <View
-        style={styles.completeTimeStyle}>
-        {playHead}
-      </View>
-    );
-  };
-
-  _renderDurationWidget = () => {
-    const duration = <Text style={styles.durationStyle}>{this.props.durationString}</Text>;
-    return (
-      <View
-        style={styles.completeTimeStyle}>
-        {duration}
-      </View>
-    );
-  };
-
   render() {
-    var playedPercent = this.props.percent;
-    var bufferedPercent = 0;
-    var unbufferedPercent = 1 - playedPercent - bufferedPercent;
+    const playedPercent = this.props.percent;
+    const bufferedPercent = 0;
+    const unbufferedPercent = 1 - playedPercent - bufferedPercent;
 
     if (this.props.ad) {
       var playedColor = this.getAdScrubberBarPlayedColor();
@@ -87,33 +64,28 @@ class ProgressBar extends React.Component {
       var bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
     }
 
-    let playedStyle = {backgroundColor: playedColor, flex: playedPercent};
-    let backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent};
-    let bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent};
+    const playedStyle = {backgroundColor: playedColor, flex: playedPercent};
+    const backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent};
+    const bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent};
+    const progressStyles = StyleSheet.create({played:playedStyle, background:backgroundStyle, buffered:bufferedStyle});
 
-    let progressStyles = StyleSheet.create({played:playedStyle, background:backgroundStyle, buffered:bufferedStyle});
     return (
       <View
         style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}>
-        {this._renderPlayHeadWidget()}
-
-        <View
-          style={progressStyles.played}
-          testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
-          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}/>
-
-        <View
-          style={progressStyles.background}
-          testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
-          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}/>
-
-        <View
-          style={progressStyles.buffered}
-          testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
-          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}/>
-          {this._renderDurationWidget()}
+          <View
+            style={progressStyles.played}
+            testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
+            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}/>
+          <View
+            style={progressStyles.background}
+            testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
+            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}/>
+          <View
+            style={progressStyles.buffered}
+            testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
+            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}/>
       </View>
     );
   }

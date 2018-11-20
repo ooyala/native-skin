@@ -37,7 +37,7 @@ const styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
 const topMargin = 6;
 const leftMargin = 20;
 const progressBarHeight = 3;
-const accessibilityPadding = 3;
+const padding = 3;
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 const cuePointSize = 8;
@@ -141,7 +141,6 @@ const BottomOverlay = createReactClass({
   },
 
   _calculateTopOffset: function(componentSize) {
-    const padding = this.state.accessibilityEnabled ? accessibilityPadding : 0;
     return topMargin + padding + progressBarHeight / 2 - componentSize / 2;
   },
 
@@ -196,16 +195,18 @@ const BottomOverlay = createReactClass({
 
   _renderProgressBar: function(percent) {
     return (
-      <ProgressBar
-        accessible={false}
-        ref='progressBar'
-        percent={percent}
-        config={this.props.config}
-        ad={this.props.ad}
-        renderDuration={false}
-        playHeadString={null}
-        durationString={null}>
-      </ProgressBar>
+      <View 
+        style={styles.progressBarContainer}
+        accessible={false}>
+          <ProgressBar
+            accessible={false}
+            ref='progressBar'
+            percent={percent}
+            config={this.props.config}
+            ad={this.props.ad}
+            renderDuration={false}>
+          </ProgressBar>
+      </View>
     );
   },
 
@@ -224,8 +225,6 @@ const BottomOverlay = createReactClass({
       android: VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent +
                VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC
     });
-    const barStyle = this.state.accessibilityEnabled ?
-            styles.progressBarAccessibilityStyle : styles.progressBarStyle;
 
     if (Platform.OS === 'ios' && this.props.screenReaderEnabled) {
       const minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
@@ -253,10 +252,10 @@ const BottomOverlay = createReactClass({
           onTouchStart={(event) => this.handleTouchStart(event)}
           onTouchMove={(event) => this.handleTouchMove(event)}
           onTouchEnd={(event) => this.handleTouchEnd(event)}
-          style={barStyle}>
-          {this._renderProgressBar(playedPercent)}
-          {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-          {this._renderCuePoints(this.props.cuePoints)}
+          style={styles.progressBarStyle}>
+            {this._renderProgressBar(playedPercent)}
+            {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+            {this._renderCuePoints(this.props.cuePoints)}
         </Animated.View>
       )
     }

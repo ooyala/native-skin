@@ -6,7 +6,6 @@ import React, {Component} from 'react';
 import {
   Text,
   View,
-  TouchableHighlight,
   Animated
 } from 'react-native';
 
@@ -19,7 +18,6 @@ import {
 const timerForSkipButtons = require('react-native-timer');
 
 const ProgressBar = require('../progressBar');
-const VolumeView = require('../widgets/VolumeView');
 const ControlBarWidget = require('../widgets/controlBarWidgets');
 const CollapsingBarUtils = require('../collapsingBarUtils');
 
@@ -29,11 +27,10 @@ const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
 const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
 const ResponsiveDesignManager = require('../responsiveDesignManager');
 
-const topMargin = 6;
-const leftMargin = 20;
 const progressBarHeight = 3;
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
+const topMargin = scrubberSize / 2 - 1; // 1 - align fot correct to margin
 
 const constants = {
   playbackSpeedRatePostfix: "x"
@@ -102,6 +99,7 @@ class AudioView extends React.Component {
   };
 
   // MARK: - Actions
+
   onPlayPausePress = () => {
     this.props.handlers.onPress(BUTTON_NAMES.PLAY_PAUSE);
   };
@@ -175,6 +173,7 @@ class AudioView extends React.Component {
   };
 
   // MARK: - Volume
+
   getVolumeControlColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.volumeControl.color) {
@@ -188,27 +187,32 @@ class AudioView extends React.Component {
     }
   };
 
-  // MARK: - Title
-  _renderTitle = () => {
-    const titleLabel = <Text style={styles.titleLabel}>{this.props.title + ": "}</Text>;
-    const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>;
+  // MARK: - Header view
+
+  _renderHeaderView = () => {
+    const titleLabel = <Text style={styles.titleLabel}>{this.props.title + ": "}</Text>
+    const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>
     return (
-      <View
-        style={styles.background}>
-        {titleLabel}
-        {subtitleLabel}
+      <View style={styles.headerView}>
+        <Text 
+          style={styles.headerBaseLabel}
+          numberOfLines={1}>
+            {titleLabel}
+            {subtitleLabel}
+        </Text>
       </View>
     )
   };
 
   // MARK: - ControlBar
+
   _renderControlBar = () => {
-    let iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
-    let labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
+    const labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
 
-    var controlBarWidgets = [];
+    let controlBarWidgets = [];
 
-    let widgetOptions = {
+    const widgetOptions = {
       volume: {
         onPress: this.onVolumePress,
         style: this.state.showVolume ?
@@ -231,7 +235,7 @@ class AudioView extends React.Component {
       },
       playPause: {
         onPress: this.onPlayPausePress,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize, marginLeft: 15, marginRight: 15}, this.props.config.controlBar.iconStyle.active],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
@@ -269,7 +273,7 @@ class AudioView extends React.Component {
     };
 
     function _isVisible(item) {
-      var visible = true;
+      let visible = true;
       switch (item.name) {
         case BUTTON_NAMES.PLAYBACK_SPEED:
           visible = false;
@@ -285,11 +289,11 @@ class AudioView extends React.Component {
 
     this.props.config.buttons.forEach(_isVisible, this);
 
-    let itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
-    for (var i = 0; i < itemCollapsingResults.fit.length; i++) {
-      let widget = itemCollapsingResults.fit[i];
+    const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 
-      let item =
+    for (const i = 0; i < itemCollapsingResults.fit.length; i++) {
+      const widget = itemCollapsingResults.fit[i];
+      const item =
         <ControlBarWidget
           key={i}
           widgetType={widget}
@@ -298,28 +302,38 @@ class AudioView extends React.Component {
 
       controlBarWidgets.push(item);
     }
-    let widthStyle = {width: this.props.width};
+
+    // Add flexible spaces for first and last widget
+    const flexibleSpace = <View style={styles.flexibleSpace}/>
+
+    controlBarWidgets.splice(1, 0, flexibleSpace);
+    controlBarWidgets.splice(controlBarWidgets.length - 1, 0, flexibleSpace);
+
     return (
       <View
-        style={[controlBarStyles.controlBarContainer, widthStyle]}
+        style={styles.controlBar}
         onTouchEnd={this.props.handlers.handleControlsTouch}>
-        {controlBarWidgets}
+          {controlBarWidgets}
       </View>
     );
   };
 
   // MARK: - Progress bar + scrubber
+
   _calculateProgressBarWidth = () => {
-    return this.props.width - 2 * leftMargin;
+    if (this.state.scrubberWidth) {
+      return this.state.scrubberWidth;
+    } else {
+      return 0;
+    }    
   };
 
   _calculateTopOffset = (componentSize) => {
-    const padding = 0;
-    return topMargin + padding + progressBarHeight / 2 - componentSize / 2;
+    return topMargin + progressBarHeight / 2 - componentSize / 2;
   };
 
   _calculateLeftOffset = (componentSize, percent, progressBarWidth) => {
-    return leftMargin + percent * progressBarWidth - componentSize / 2
+    return percent * progressBarWidth - componentSize / 2
   };
 
   _renderProgressScrubber = (percent) => {
@@ -330,9 +344,7 @@ class AudioView extends React.Component {
     const scrubberStyle = this._customizeScrubber();
 
     return (
-      <View
-        style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
-      </View>
+      <View style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}/>
     );
   };
 
@@ -386,7 +398,12 @@ class AudioView extends React.Component {
   };
 
   touchPercent = (x) => {
-    let percent = (x - leftMargin) / (this.props.width - 2 * leftMargin);
+
+    let percent = x / (this.state.scrubberWidth);
+
+   // Log.log("---> x=" + x + " width=" + this.state.scrubberWidth + "percent=" + percent) ;
+   // Log.log("***************") ;
+
     if (percent > 1) {
       percent = 1;
     } else if (percent < 0) {
@@ -395,31 +412,68 @@ class AudioView extends React.Component {
     return percent;
   };
 
+  panResponder = PanResponder.create({
+    // Ask to be the responder:
+    onStartShouldSetPanResponder: (evt, gestureState) => true,
+    onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+    onMoveShouldSetPanResponder: (evt, gestureState) => true,
+    onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+
+    onPanResponderGrant: (evt, gestureState) => {
+      // The gesture has started. Show visual feedback so the user knows
+      // what is happening!
+
+      // gestureState.d{x,y} will be set to zero now
+    },
+    onPanResponderMove: (evt, gestureState) => {
+      // The most recent move distance is gestureState.move{X,Y}
+
+      // The accumulated gesture distance since becoming responder is
+      // gestureState.d{x,y}
+    },
+    onPanResponderTerminationRequest: (evt, gestureState) => true,
+    onPanResponderRelease: (evt, gestureState) => {
+      // The user has released all touches while this view is the
+      // responder. This typically means a gesture has succeeded
+    },
+    onPanResponderTerminate: (evt, gestureState) => {
+      // Another component has become the responder, so this gesture
+      // should be cancelled
+    },
+    onShouldBlockNativeResponder: (evt, gestureState) => {
+      // Returns whether this component should block native components from becoming the JS
+      // responder. Returns true by default. Is currently only supported on android.
+      return true;
+    },
+  });
+
   handleTouchStart = (event) => {
     this.props.handlers.handleControlsTouch();
-    let touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
-    if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
+    const touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.state.scrubberWidth, scrubTouchableDistance);
+    if ((this.props.height - event.nativeEvent.locationY) < touchableDistance) {
       return;
     }
     this.setState({
       touch: true,
-      x: event.nativeEvent.pageX
+      x: event.nativeEvent.locationX
     });
   };
 
   handleTouchMove = (event) => {
     this.props.handlers.handleControlsTouch();
+       Log.log("---> x=" + event.nativeEvent.locationX);
+       target
     this.setState({
-      x: event.nativeEvent.pageX
+      x: event.nativeEvent.locationX
     });
   };
 
   handleTouchEnd = (event) => {
     this.props.handlers.handleControlsTouch();
-    if (this.state.touch && this.props.onScrub) {
-      this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+    if (this.state.touch && this.props.handlers.onScrub) {
+      this.props.handlers.onScrub(this.touchPercent(event.nativeEvent.locationX));
       this.setState({
-        cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration
+        cachedPlayhead: this.touchPercent(event.nativeEvent.locationX) * this.props.duration
       });
     }
     this.setState({
@@ -430,16 +484,18 @@ class AudioView extends React.Component {
 
   _renderProgressBar = (percent) => {
     return (
-      <ProgressBar
-        accessible={false}
-        ref='progressBar'
-        percent={percent}
-        config={this.props.config}
-        ad={null}
-        renderDuration={true}
-        playHeadString={this.getPlayHeadTimeString()}
-        durationString={this.getDurationString()}>
-      </ProgressBar>
+      <View 
+        style={styles.progressBarContainer}
+        accessible={false}>
+          <ProgressBar
+            accessible={false}
+            ref='progressBar'
+            percent={percent}
+            config={this.props.config}
+            ad={null}
+            renderDuration={true}>  
+          </ProgressBar>
+      </View>
     );
   };
 
@@ -449,40 +505,49 @@ class AudioView extends React.Component {
       playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
     }
 
-    const currentPercent = parseInt(playedPercent * 100, 10);
-    const barStyle = styles.progressBarStyle;
+    const playHeadTime = this.getPlayHeadTimeString();
+    const durationTime = this.getDurationString();
 
     return (
-      <Animated.View
-        onTouchStart={(event) => this.handleTouchStart(event)}
-        onTouchMove={(event) => this.handleTouchMove(event)}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}
-        style={barStyle}>
-        {this._renderProgressBar(playedPercent)}
-        {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-      </Animated.View>
+      <View style={styles.progressBar}>
+        <View>
+          <Text style={styles.progressBarTimeLabel}>{playHeadTime}</Text>
+        </View>
+        <Animated.View
+          onLayout={(event) => {
+            this.setState({
+              scrubberWidth: event.nativeEvent.layout.width
+            });
+          }}
+          style={styles.progressBarScrubberContainer}
+          onTouchStart={(event) => this.handleTouchStart(event)}
+          onTouchMove={(event) => this.handleTouchMove(event)}
+          onTouchEnd={(event) => this.handleTouchEnd(event)}>
+            {this._renderProgressBar(playedPercent)}
+            {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+        </Animated.View>
+        <View>
+          <Text style={styles.progressBarTimeLabel}>{durationTime}</Text>
+        </View>
+      </View>
     )
   };
 
   // MARK: - AudioView rendering
+
   _renderPlayer = () => {
     return (
-      <View
-        style={styles.container}>
-        {this._renderTitle()}
-        <View style ={[styles.bottomOverlayFlexibleSpace]}/>
+      <View style={styles.container}>
+        {this._renderHeaderView()}
         {this._renderControlBar()}
-        <View style ={[styles.bottomOverlayFlexibleSpace]}/>
         {this._renderCompleteProgressBar()}
-        <View style ={[styles.bottomOverlayFlexibleSpace]}/>
       </View>
     )
   }
 
   render() {
     return (
-      <View
-        style={styles.background}>
+      <View style={styles.backgroundView}>
         {this._renderPlayer()}
       </View>
     )
