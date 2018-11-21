@@ -139,6 +139,7 @@ project.configurations.all {
 dependencies {
     implementation files('libs/OoyalaSDK.aar')
     // implementation project(':core')
+    // implementation files(rootProject.files('app/libs/OoyalaSDK.aar'))
 
     // App dependencies
     implementation "androidx.appcompat:appcompat:$rootProject.supportLibraryVersion"
