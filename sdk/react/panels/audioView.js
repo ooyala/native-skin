@@ -32,7 +32,7 @@ const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
 const constants = {
-  playbackSpeedRatePostfix: "x"
+  playbackSpeedRatePostfix: 'x'
 };
 
 class AudioView extends React.Component {
@@ -184,7 +184,7 @@ class AudioView extends React.Component {
   // MARK: - Header view
 
   _renderHeaderView = () => {
-    const titleLabel = <Text style={styles.titleLabel}>{this.props.title + ": "}</Text>
+    const titleLabel = <Text style={styles.titleLabel}>{this.props.title + ': '}</Text>
     const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>
     return (
       <View style={styles.headerView}>
@@ -254,14 +254,14 @@ class AudioView extends React.Component {
       playbackSpeed: {
         onPress: this.onPlaybackSpeedPress,
         iconTouchableStyle: controlBarStyles.iconTouchable,
-        style: [controlBarStyles.icon, {"fontSize": labelFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': labelFontSize}, this.props.config.controlBar.iconStyle.active],
         selectedPlaybackSpeedRate: this.getSelectedPlaybackSpeedRate(),
         enabled: this.props.playbackSpeedEnabled
       },
       share: {
         onPress: this.onSocialSharePress,
         iconTouchableStyle: controlBarStyles.iconTouchable,
-        style: [controlBarStyles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       }
     };
@@ -347,7 +347,7 @@ class AudioView extends React.Component {
     const scrubberStyle = this._customizeScrubber();
 
     return (
-      <View pointerEvents="none" style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}/>
+      <View pointerEvents='none' style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}/>
     );
   };
 
@@ -355,8 +355,8 @@ class AudioView extends React.Component {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
     } else if (!this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
-      Log.error("controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
-      return "#4389FF";
+      Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
+      return '#4389FF';
     } else {
       return this.props.config.controlBar.scrubberBar.scrubberHandleColor ;
     }
@@ -365,12 +365,12 @@ class AudioView extends React.Component {
   _customizeScrubber = () => {
     let scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
     if (!scrubberHandleBorderColor) {
-      Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
-      scrubberHandleBorderColor = "white";
+      Log.error('controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
+      scrubberHandleBorderColor = 'white';
     }
     const scrubberStyle = {
       flex: 0,
-      position: "absolute",
+      position: 'absolute',
       backgroundColor: this.getScrubberHandleColor(),
       borderRadius: 100,
       borderWidth: 1.5,
@@ -467,7 +467,7 @@ class AudioView extends React.Component {
       <View 
         style={styles.progressBarContainer}
         accessible={false}
-        pointerEvents="none">
+        pointerEvents='none'>
           <ProgressBar
             accessible={false}
             ref='progressBar'
