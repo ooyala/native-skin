@@ -18,9 +18,7 @@ class ProgressBar extends React.Component {
     percent: PropTypes.number,
     config: PropTypes.object,
     ad: PropTypes.object,
-    renderDuration: PropTypes.bool,
-    playHeadString: PropTypes.string,
-    durationString: PropTypes.string
+    renderDuration: PropTypes.bool
   };
 
   getAdScrubberBarPlayedColor = () => {
