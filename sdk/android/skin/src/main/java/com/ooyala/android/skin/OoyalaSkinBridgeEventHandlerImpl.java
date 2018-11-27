@@ -4,13 +4,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.MotionEvent;
-
 import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
+import com.ooyala.android.skin.button.SkinButton;
 import com.ooyala.android.util.DebugMode;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
@@ -19,21 +22,18 @@ import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
  */
 class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static String TAG = OoyalaSkinBridgeEventHandlerImpl.class.getSimpleName();
-  private static final String BUTTON_PLAYPAUSE = "PlayPause";
-  private static final String BUTTON_PLAY = "Play";
-  private static final String BUTTON_SHARE = "Share";
-  private static final String BUTTON_REWIND = "rewind";
-  private static final String BUTTON_SOCIALSHARE = "SocialShare";
-  private static final String BUTTON_FULLSCREEN = "Fullscreen";
-  private static final String BUTTON_LEARNMORE = "LearnMore";
-  private static final String BUTTON_MORE_OPTION = "More";
-  private static final String BUTTON_UPNEXT_DISMISS = "upNextDismiss";
-  private static final String BUTTON_UPNEXT_CLICK = "upNextClick";
-  private static final String BUTTON_SKIP = "Skip";
-  private static final String BUTTON_ADICON = "Icon";
-  private static final String BUTTON_ADOVERLAY = "Overlay";
-  private static final String BUTTON_STEREOSCOPIC = "stereoscopic";
-  private static final String PLAYBACK_SPEED_RATE = "playbackSpeedRate";
+
+    public static final Set<SkinButton> SUPPORTED_BUTTONS;
+    static {
+        SUPPORTED_BUTTONS = new HashSet<>();
+        SUPPORTED_BUTTONS.add(SkinButton.PLAY);
+        SUPPORTED_BUTTONS.add(SkinButton.PLAY_PAUSE);
+        SUPPORTED_BUTTONS.add(SkinButton.REWIND);
+        SUPPORTED_BUTTONS.add(SkinButton.SHARE);
+        SUPPORTED_BUTTONS.add(SkinButton.LEARN_MORE);
+        SUPPORTED_BUTTONS.add(SkinButton.BUTTON_SKIP);
+        SUPPORTED_BUTTONS.add(SkinButton.BUTTON_REPLAY);
+    }
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -56,37 +56,60 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
       new Handler(Looper.getMainLooper()).post(new Runnable() {
         @Override
         public void run() {
-          if (buttonName.equals(BUTTON_PLAY)) {
-            _layoutController.handlePlay();
-          } else if (buttonName.equals(BUTTON_PLAYPAUSE)) {
-            _layoutController.handlePlayPause();
-          } else if (buttonName.equals(BUTTON_REWIND)) {
-            handleRewind();
-          } else if (buttonName.equals(BUTTON_FULLSCREEN)) {
-            _layoutController.setFullscreen(!_layoutController.isFullscreen());
-          } else if (buttonName.equals(BUTTON_SHARE)) {
-            _layoutController.handleShare();
-          } else if (buttonName.equals(BUTTON_LEARNMORE)) {
-            _layoutController.handleLearnMore();
-          } else if (buttonName.equals(BUTTON_UPNEXT_DISMISS)) {
-            _layoutController.handleUpNextDismissed();
-          } else if (buttonName.equals(BUTTON_UPNEXT_CLICK)) {
-            _layoutController.maybeStartUpNext();
-          } else if (buttonName.equals(BUTTON_SKIP)) {
-            _layoutController.handleSkip();
-          } else if (buttonName.equals(BUTTON_ADICON)) {
-            String index = parameters.getString("index");
-            DebugMode.logD(TAG, "onIconClicked with index " + index);
-            _layoutController.handleAdIconClick(Integer.parseInt(index));
-          } else if (buttonName.equals(BUTTON_ADOVERLAY)) {
-            String clickUrl = parameters.getString("clickUrl");
-            _player.onAdOverlayClicked(clickUrl);
-          } else if (buttonName.equals(BUTTON_STEREOSCOPIC)) {
-            _player.switchVRMode();
+          SkinButton skinButton = SkinButton.fromValue(buttonName);
+          if (isButtonSupported(skinButton)) {
+            switch (skinButton) {
+              case PLAY:
+                _layoutController.handlePlay();
+                break;
+              case PLAY_PAUSE:
+                _layoutController.handlePlayPause();
+                break;
+              case REWIND:
+                handleRewind();
+                break;
+              case FULLSCREEN:
+                _layoutController.setFullscreen(!_layoutController.isFullscreen());
+                break;
+              case SHARE:
+                _layoutController.handleShare();
+                break;
+              case LEARN_MORE:
+                _layoutController.handleLearnMore();
+                break;
+              case UP_NEXT_DISMISS:
+                _layoutController.handleUpNextDismissed();
+                break;
+              case UN_NEXT_CLICK:
+                _layoutController.maybeStartUpNext();
+                break;
+              case BUTTON_SKIP:
+                _layoutController.handleSkip();
+                break;
+              case BUTTON_AD_ICON:
+                String index = parameters.getString("index");
+                DebugMode.logD(TAG, "onIconClicked with index " + index);
+                _layoutController.handleAdIconClick(Integer.parseInt(index));
+                break;
+              case BUTTON_ADD_OVERLAY:
+                String clickUrl = parameters.getString("clickUrl");
+                _player.onAdOverlayClicked(clickUrl);
+                break;
+              case BUTTON_STEREOSCOPIC:
+                _player.switchVRMode();
+                break;
+              case BUTTON_REPLAY:
+                _player.handlePlayPause();
+                break;
+            }
           }
         }
       });
     }
+  }
+
+  private boolean isButtonSupported(SkinButton skinButton) {
+    return !_player.isAudioOnly() || SUPPORTED_BUTTONS.contains(skinButton);
   }
 
   public void shareTitle(ReadableMap parameters) {
@@ -163,7 +186,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   @Override
   public void onPlaybackSpeedRateSelected(ReadableMap parameters) {
-    Dynamic dynamic = parameters.getDynamic(PLAYBACK_SPEED_RATE);
+    Dynamic dynamic = parameters.getDynamic(SkinButton.BUTTON_PLAYBACK_SPEED_RATE.getValue());
     String speed = dynamic.asString();
     _player.setSelectedPlaybackSpeed(Float.parseFloat(speed));
   }

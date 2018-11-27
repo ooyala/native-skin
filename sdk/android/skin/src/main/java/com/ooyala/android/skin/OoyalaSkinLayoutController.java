@@ -13,30 +13,27 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
-import com.ooyala.android.ClientId;
-import com.ooyala.android.OoyalaException;
-import com.ooyala.android.OoyalaNotification;
-import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.OoyalaPlayerLayout;
+import com.ooyala.android.*;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
 import com.ooyala.android.player.FCCTVRatingUI;
 import com.ooyala.android.player.VrMode;
+import com.ooyala.android.skin.configuration.SkinConfigManager;
 import com.ooyala.android.skin.configuration.SkinOptions;
+import com.ooyala.android.skin.notification.provider.AudioNotificationHandlersProvider;
+import com.ooyala.android.skin.notification.provider.NotificationHandlersProvider;
+import com.ooyala.android.skin.notification.provider.VideoNotificationHandlersProvider;
 import com.ooyala.android.skin.util.AssetUtil;
 import com.ooyala.android.skin.util.ReactUtil;
-import com.ooyala.android.skin.configuration.SkinConfigManager;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -138,7 +135,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _player = player;
     _player.setLayoutController(this);
 
-    playerObserver = new OoyalaSkinPlayerObserver(this, player);
+    NotificationHandlersProvider provider = player.isAudioOnly() ?
+        new AudioNotificationHandlersProvider(this, player) : new VideoNotificationHandlersProvider(this, player);
+    playerObserver = new OoyalaSkinPlayerObserver(player, provider);
     volumeObserver = new OoyalaSkinVolumeObserver(layout.getContext(), this);
     eventHandler = new OoyalaSkinBridgeEventHandlerImpl(this, player);
 
@@ -158,7 +157,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     initializeSkin(app, layout, player, skinOptions);
   }
 
-    private void initializeSkin(Application app, OoyalaSkinLayout skinLayout, OoyalaPlayer p, SkinOptions skinOptions) {
+  private void initializeSkin(Application app, OoyalaSkinLayout skinLayout, OoyalaPlayer p, SkinOptions skinOptions) {
     final Context context = skinLayout.getContext();
     if (skinOptions.getEnableReactJSServer()) {
       ReactUtil.setJSServer(skinOptions.getReactJSServerHost(), context);
@@ -211,6 +210,22 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     rootView.setFocusableInTouchMode(true);
     rootView.requestFocus();
     rootView.setOnKeyListener(this);
+  }
+
+  public ClosedCaptionsStyle getClosedCaptionsDeviceStyle() {
+    return closedCaptionsDeviceStyle;
+  }
+
+  public void setClosedCaptionsDeviceStyle(ClosedCaptionsStyle closedCaptionsDeviceStyle) {
+    this.closedCaptionsDeviceStyle = closedCaptionsDeviceStyle;
+  }
+
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
   }
 
   public void ccStyleChanged() {
@@ -528,7 +543,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     sendEvent("upNextDismissed", body);
   }
 
-  void maybeStartUpNext() {
+  public void maybeStartUpNext() {
     if (nextVideoEmbedCode != null && _isUpNextEnabled && !_isUpNextDismissed) {
       _player.setEmbedCode(nextVideoEmbedCode);
       _player.play();
@@ -539,7 +554,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _player.onAdIconClicked(index);
   }
 
-  void requestDiscovery() {
+  public void requestDiscovery() {
     discoveryOptions = new DiscoveryOptions.Builder().build();
     DiscoveryManager.getResults(discoveryOptions,
         _player.getEmbedCode(),
@@ -571,7 +586,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     sendEvent("frameChanged", params);
   }
 
-  void sendEvent(String event, WritableMap map) {
+  public void sendEvent(String event, WritableMap map) {
     if (_package.getBridge() != null && isReactMounted) {
       _package.getBridge().sendEvent(event, map);
     } else {
