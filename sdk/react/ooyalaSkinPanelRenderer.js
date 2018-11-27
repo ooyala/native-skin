@@ -4,13 +4,15 @@
 'use strict';
 
 import React from 'react';
+import {Platform} from 'react-native';
 
-const Constants = require('./constants');
-const {
+import {
   SCREEN_TYPES,
   OVERLAY_TYPES,
   DESIRED_STATES
-} = Constants;
+} from './constants';
+
+import AudioView from './panels/audioView';
 
 const Log = require('./log');
 const ActivityView = require('NativeModules').OOActivityView;
@@ -43,10 +45,10 @@ OoyalaSkinPanelRenderer.prototype.renderStartScreen = function() {
       promoUrl={this.skin.state.promoUrl}
       width={this.skin.state.width}
       height={this.skin.state.height}
-      platform={this.skin.state.platform}
       playhead={this.skin.state.playhead}
       screenReaderEnabled={this.skin.state.screenReaderEnabled}
-      onPress={(name) => this.core.handlePress(name)}/>
+      onPress={(name) => this.core.handlePress(name)}>
+    </StartScreen>
   );
 };
 
@@ -76,7 +78,8 @@ OoyalaSkinPanelRenderer.prototype.renderEndScreen = function() {
       duration={this.skin.state.duration}
       loading={this.skin.state.loading}
       showAudioAndCCButton={this.skin.state.multiAudioEnabled || ccEnabled}
-      onPress={(name) => this.core.handlePress(name)}/>
+      onPress={(name) => this.core.handlePress(name)}>
+    </EndScreen>
   );
 };
 
@@ -85,24 +88,71 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
     <ErrorScreen
       error={this.skin.state.error}
       localizableStrings={this.skin.props.localization}
-      locale={this.skin.props.locale} />);
+      locale={this.skin.props.locale}>
+    </ErrorScreen>
+  );
+};
+
+
+OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
+  let playbackSpeedEnabled = false;
+  if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
+    playbackSpeedEnabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
+  }
+  return (
+    <AudioView
+      rate={this.skin.state.rate}
+      playhead={this.skin.state.playhead}
+      duration={this.skin.state.duration}
+      live={this.skin.state.live}
+      width={this.skin.state.width}
+      height={this.skin.state.height}
+      volume={this.skin.state.volume}
+      cuePoints={this.skin.state.cuePoints}
+      stereoSupported={this.skin.state.stereoSupported}
+      multiAudioEnabled={this.skin.state.multiAudioEnabled}
+      playbackSpeedEnabled={playbackSpeedEnabled}
+      selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
+      handlers={{
+        onPress: (value) => this.core.handlePress(value),
+        onScrub: (value) => this.core.handleScrub(value),
+        handleControlsTouch: () => this.core.handleControlsTouch()
+      }}
+      config={{
+        controlBar: this.skin.props.controlBar,
+        general: this.skin.props.general,
+        buttons: this.skin.props.buttons.audioOnly,
+        upNext: this.skin.props.upNext,
+        icons: this.skin.props.icons,
+        live: this.skin.props.live,
+        skipControls: this.skin.props.skipControls
+      }}
+      nextVideo={this.skin.state.nextVideo}
+      upNextDismissed={this.skin.state.upNextDismissed}
+      localizableStrings={this.skin.props.localization}
+      locale={this.skin.props.locale}
+      playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
+      loading={this.skin.state.loading}
+      initialPlay={this.skin.state.initialPlay}
+      title={this.skin.state.title}
+      description={this.skin.state.description}
+      onPlayComplete={this.skin.state.onPlayComplete}>
+    </AudioView>
+  );
 };
 
 OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
   let playbackSpeedEnabled = false;
-
   if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
     playbackSpeedEnabled = this.skin.state.playbackSpeedEnabled && this.skin.props.playbackSpeed.options.length > 2;
   }
-
   return (
     <VideoView
       rate={this.skin.state.rate}
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
-      adOverlay = {this.skin.state.adOverlay}
-      live ={this.skin.state.live}
-      platform={this.skin.state.platform}
+      adOverlay={this.skin.state.adOverlay}
+      live={this.skin.state.live}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
@@ -166,9 +216,8 @@ OoyalaSkinPanelRenderer.prototype.renderAdPlaybackScreen = function() {
       rate={this.skin.state.rate}
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
-      ad ={this.skin.state.ad}
-      live ={this.skin.state.live}
-      platform={this.skin.state.platform}
+      ad={this.skin.state.ad}
+      live={this.skin.state.live}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
@@ -248,18 +297,18 @@ OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderSocialOptions = function() {
-  if(this.skin.state.platform == Constants.PLATFORMS.ANDROID) {
-    this.core.bridge.shareTitle({shareTitle:this.skin.state.title});
-    this.core.bridge.shareUrl({shareUrl:this.skin.state.hostedAtUrl});
-    this.core.bridge.onPress({name:"Share"});
-  }
-  else if(this.skin.state.platform == Constants.PLATFORMS.IOS) {
-    ActivityView.show({
-      'text':this.skin.state.title,
-      'link':this.skin.state.hostedAtUrl,
-    });
-  }
-},
+  Platform.select({
+    ios: () => ActivityView.show({
+        'text':this.skin.state.title,
+        'link':this.skin.state.hostedAtUrl,
+      }),
+    android: () => {
+      this.core.bridge.shareTitle({shareTitle:this.skin.state.title});
+      this.core.bridge.shareUrl({shareUrl:this.skin.state.hostedAtUrl});
+      this.core.bridge.onPress({name:"Share"});
+    }
+  })();
+};
 
 OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
   if (!this.skin.state.discoveryResults) {
@@ -283,7 +332,6 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
         icons: this.skin.props.icons,
       }}
       onDismiss={() => this.core.dismissOverlay()}
-      platform={this.skin.state.platform}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       dataSource={this.skin.state.discoveryResults}
@@ -296,9 +344,9 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
-    const CCEnabled =
-      this.skin.state.availableClosedCaptionsLanguages &&
-      this.skin.state.availableClosedCaptionsLanguages.length > 0;
+  const CCEnabled =
+    this.skin.state.availableClosedCaptionsLanguages &&
+    this.skin.state.availableClosedCaptionsLanguages.length > 0;
   return (
     <MoreOptionScreen
       height={this.skin.state.height}
@@ -341,7 +389,7 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
 
   switch (screenType) {
     case SCREEN_TYPES.START_SCREEN:
-      if(this.skin.state.desiredState != DESIRED_STATES.DESIRED_PLAY) {
+      if (this.skin.state.desiredState != DESIRED_STATES.DESIRED_PLAY) {
         return this.renderStartScreen();
       } else {
         return this.skin.renderLoadingScreen();
@@ -355,6 +403,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
       break;
     case SCREEN_TYPES.ERROR_SCREEN:
       return this.renderErrorScreen();
+      break;
+    case SCREEN_TYPES.AUDIO_SCREEN:
+      return this.renderAudioView();
       break;
     default:
       return this.renderVideoView();

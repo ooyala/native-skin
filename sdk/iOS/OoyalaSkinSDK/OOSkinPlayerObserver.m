@@ -44,6 +44,7 @@ static NSString *stateKey        = @"state";
 static NSString *desiredStateKey = @"desiredState";
 static NSString *liveKey         = @"live";
 static NSString *volumeKey       = @"volume";
+static NSString *contentTypeKey  = @"contentType";
 
 static NSString *seekStartKey                 = @"seekstart";
 static NSString *seekEndKey                   = @"seekend";
@@ -54,6 +55,7 @@ static NSString *playheadKey                  = @"playhead";
 static NSString *rateKey                      = @"rate";
 static NSString *titleKey                     = @"title";
 static NSString *videoKey                     = @"video";
+static NSString *audioKey                     = @"audio";
 static NSString *playbackSpeedEnabledKey      = @"playbackSpeedEnabled";
 static NSString *selectedPlaybackSpeedRateKey = @"selectedPlaybackSpeedRate";
 
@@ -101,7 +103,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   if (self = [super init]) {
     _ooReactSkinModel = ooReactSkinModel;
     _player = player;
-    [self addSelfAsObserverToPlayer: player];
+    [self addSelfAsObserverToPlayer:player];
   }
   return self;
 }
@@ -212,7 +214,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSDictionary *eventBody = @{seekStartKey:  @(seekStart),
                               seekEndKey:    @(seekEnd),
                               durationKey:   @(seekableDuration),
-                              screenTypeKey: videoKey};
+                              screenTypeKey: [self.player.currentItem.contentType isEqualToString: @"Audio"] ?
+                                              audioKey : videoKey};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
@@ -278,6 +281,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *live                   = @(self.player.currentItem.live);
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
   NSNumber *volume                 = @([OOVolumeManager getCurrentVolume]);
+  NSString *contentType            = self.player.currentItem.contentType ?
+                                     self.player.currentItem.contentType : @"Video";
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
@@ -288,7 +293,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
                               languagesKey:   closedCaptionsLanguages,
                               widthKey:       frameWidth,
                               heigthKey:      frameHeight,
-                              volumeKey:      volume};
+                              volumeKey:      volume,
+                              contentTypeKey: contentType};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
 }

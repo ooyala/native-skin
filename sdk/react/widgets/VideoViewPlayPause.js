@@ -5,15 +5,15 @@ import {
   TouchableHighlight,
   Animated
 } from 'react-native';
-import SkipButton from './SkipButton'
 
-const Constants = require('../constants');
-const Utils = require('../utils');
-const AccessibilityUtils = require('../accessibilityUtils');
-const {
+import SkipButton from './SkipButton'
+import {
   BUTTON_NAMES,
   VALUES
-} = Constants;
+} from '../constants';
+
+const Utils = require('../utils');
+const AccessibilityUtils = require('../accessibilityUtils');
 const timerForSkipButtons = require('react-native-timer');
 
 // Uses the rectbutton styles
@@ -101,7 +101,7 @@ class VideoViewPlayPause extends React.Component {
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS
     ));
-  }
+  };
 
   _renderPlayPauseButton = () => {
     if (this.state.playing) {

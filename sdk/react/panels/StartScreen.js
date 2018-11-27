@@ -9,16 +9,15 @@ import {
   TouchableHighlight,
 } from 'react-native';
 
-const Utils = require('../utils');
-const Log = require('../log');
-const styles = Utils.getStyles(require('./style/startScreenStyles.json'));
-const Constants = require('../constants');
-const {
-  PLATFORMS,
+import {
   IMG_URLS,
   UI_SIZES,
   BUTTON_NAMES,
-} = Constants;
+} from '../constants';
+
+const Utils = require('../utils');
+const Log = require('../log');
+const styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 
 const RectButton = require('../widgets/RectButton');
 const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
@@ -34,7 +33,6 @@ class StartScreen extends React.Component {
     playhead: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
-    platform: PropTypes.string,
     screenReaderEnabled: PropTypes.bool,
   };
 
@@ -75,7 +73,6 @@ class StartScreen extends React.Component {
           playhead={this.props.playhead}
           buttonWidth={iconFontSize}
           buttonHeight={iconFontSize}
-          platform={this.props.platform}
           fontSize={iconFontSize}
           playing={false}
           showButton={!this.props.screenReaderEnabled}

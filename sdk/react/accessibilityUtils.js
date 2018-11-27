@@ -5,15 +5,13 @@
 'use strict';
 
 import React, { Component } from 'react'
-import Constants from './constants.js'
-
-const {
+import {
   VIEW_ACCESSIBILITY_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
   ANNOUNCER_TYPES,
   CELL_TYPES,
   ACCESSIBILITY_COMMON
-} = Constants;
+} from './constants'
 
 let AccessibilityUtils = {
 

@@ -14,16 +14,13 @@ import {
   View
 } from 'react-native';
 
+import {
+  BUTTON_NAMES
+} from './constants';
+
 var Log = require('./log');
 var Utils = require('./utils');
-
 var styles = Utils.getStyles(require('./style/adBarStyles.json'));
-var Constants = require('./constants');
-var {
-  BUTTON_NAMES
-} = Constants;
-
-var Utils = require('./utils');
 
 class AdBar extends React.Component {
   static propTypes = {
@@ -36,7 +33,7 @@ class AdBar extends React.Component {
     locale: PropTypes.string
   };
 
-  onLearnMore = () => { 
+  onLearnMore = () => {
     this.props.onPress(BUTTON_NAMES.LEARNMORE);
   };
 
@@ -50,7 +47,7 @@ class AdBar extends React.Component {
     var count = this.props.ad.count ? this.props.ad.count : 1;
     var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
 
-    var remainingString = 
+    var remainingString =
       Utils.secondsToString(this.props.duration - this.props.playhead);
 
     var prefixString = Utils.localizedString(this.props.locale, "Ad Playing", this.props.localizableStrings);
@@ -59,7 +56,7 @@ class AdBar extends React.Component {
     }
 
     var countString = "(" + (count - unplayed) + "/" + count + ")";
-    
+
     var allowedTextLength = this.props.width - 32;
     if (showLearnMore) {
       allowedTextLength -= this.props.ad.measures.learnmore + 32;
@@ -70,13 +67,13 @@ class AdBar extends React.Component {
       ". count: "+this.props.ad.measures.count+". title: "+this.props.ad.measures.title+". prefix: "+this.props.ad.measures.prefix);
     if (this.props.ad.skipoffset >= 0) {
       if(showSkip) {
-        allowedTextLength -= this.props.ad.measures.skipad + 32;  
-      } 
+        allowedTextLength -= this.props.ad.measures.skipad + 32;
+      }
       else {
-        allowedTextLength -= this.props.ad.measures.skipadintime + 32;  
+        allowedTextLength -= this.props.ad.measures.skipadintime + 32;
       }
     }
-      
+
     if (this.props.ad.measures.duration <= allowedTextLength) {
       textString = remainingString;
       allowedTextLength -= this.props.ad.measures.duration;
@@ -94,7 +91,7 @@ class AdBar extends React.Component {
           }
         }
       }
-    } 
+    }
 
     return textString;
   };
@@ -113,18 +110,18 @@ class AdBar extends React.Component {
 
     if (showLearnMore) {
       learnMoreButton = (
-        <TouchableHighlight 
+        <TouchableHighlight
           onPress={this.onLearnMore}>
           <View style={styles.button}>
             <Text style={styles.buttonText}>{learnMoreText}</Text>
           </View>
         </TouchableHighlight>);
     }
-    
+
     if (this.props.ad.skipoffset >= 0) {
       if (showSkip) {
         skipButton = (
-          <TouchableHighlight 
+          <TouchableHighlight
             onPress={this.onSkip}>
             <View style={styles.button}>
               <Text style={styles.buttonText}>{skipText}</Text>

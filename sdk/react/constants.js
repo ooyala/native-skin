@@ -1,5 +1,12 @@
+const CONTENT_TYPES = {
+  CHANNEL_SET: 'MultiChannel',
+  CHANNEL: 'Channel',
+  VIDEO: 'Video',
+  LIVE_STREAM: 'LiveStream',
+  AUDIO: 'Audio'
+};
 
-UI_SIZES = {
+const UI_SIZES = {
   VIDEOVIEW_PLAYPAUSE: 60,
   CONTROLBAR_HEIGHT: 75,
   VIDEOWATERMARK: 30,
@@ -43,18 +50,12 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
 };
 
 const VIEW_NAMES = {
-
   // Time seek bar views
   TIME_SEEK_BAR: 'seekBar',
   TIME_SEEK_BAR_THUMB: 'seekBar_thumb',
   TIME_SEEK_BAR_PLAYED: 'seekBar_played',
   TIME_SEEK_BAR_BACKGROUND: 'seekBar_background',
   TIME_SEEK_BAR_BUFFERED: 'seekBar_buffered'
-};
-
-const PLATFORMS = {
-  ANDROID:'android',
-  IOS: 'ios',
 };
 
 const IMG_URLS = {
@@ -68,6 +69,7 @@ const IMG_URLS = {
 const SCREEN_TYPES = {
   LOADING_SCREEN: 'loading',
   VIDEO_SCREEN: 'video',
+  AUDIO_SCREEN: 'audio',
   START_SCREEN: 'start',
   DISCOVERY_END_SCREEN: 'discovery_end',
   END_SCREEN: 'end',
@@ -82,10 +84,6 @@ const OVERLAY_TYPES = {
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen'
 }
-
-const OOSTATES = {
-  PAUSED: 'paused',
-};
 
 const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',
@@ -161,18 +159,18 @@ const ACCESSIBILITY_COMMON = {
   SELECTED: 'selected'
 };
 
-MAX_DATE_VALUE = 8640000000000000;
-AUTOHIDE_DELAY = 5000;
-module.exports = {
+const MAX_DATE_VALUE = 8640000000000000;
+const AUTOHIDE_DELAY = 5000;
+
+export {
+  CONTENT_TYPES,
   UI_SIZES,
   BUTTON_NAMES,
   VIEW_NAMES,
   IMG_URLS,
   SCREEN_TYPES,
   OVERLAY_TYPES,
-  OOSTATES,
   LOG_LEVEL,
-  PLATFORMS,
   MAX_DATE_VALUE,
   AUTOHIDE_DELAY,
   DESIRED_STATES,

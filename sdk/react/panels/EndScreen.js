@@ -5,8 +5,14 @@ import {
   Text,
   View,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
+  Platform
 } from "react-native";
+
+import {
+  BUTTON_NAMES,
+  UI_SIZES
+} from '../constants';
 
 const Utils = require("../utils");
 const styles = Utils.getStyles(require("./style/endScreenStyles.json"));
@@ -14,11 +20,6 @@ const ResponsiveDesignManager = require('../responsiveDesignManager');
 const InfoPanel = require("../infoPanel");
 const BottomOverlay = require("../bottomOverlay");
 const Log = require("../log");
-const Constants = require("../constants");
-
-const {
-  BUTTON_NAMES
-} = Constants;
 
 class EndScreen extends React.Component {
   static propTypes = {
@@ -123,7 +124,6 @@ class EndScreen extends React.Component {
       primaryButton={"replay"}
       playhead={this.props.duration}
       duration={this.props.duration}
-      platform={this.props.platform}
       volume={this.props.volume}
       onPress={(name) => this.handlePress(name)}
       shouldShowProgressBar={true}
@@ -145,7 +145,7 @@ class EndScreen extends React.Component {
 
   _renderLoading ()  {
     const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
-    const scaleMultiplier = this.props.platform == Constants.PLATFORMS.ANDROID ? 2 : 1;
+    const scaleMultiplier = Platform.OS === 'android' ? 2 : 1;
     const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
     const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
     const loadingStyle = {

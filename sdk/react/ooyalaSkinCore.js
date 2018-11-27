@@ -14,21 +14,19 @@ import {
   TouchableHighlight,
 } from "react-native";
 
-var Log = require("./log");
-var Constants = require("./constants");
-var {
+import {
   BUTTON_NAMES,
   SCREEN_TYPES,
   OVERLAY_TYPES,
-  OOSTATES,
-  PLATFORMS,
   AUTOHIDE_DELAY,
-  MAX_DATE_VALUE,
-} = Constants;
-var OoyalaSkinBridgeListener = require("./ooyalaSkinBridgeListener");
-var OoyalaSkinPanelRenderer = require("./ooyalaSkinPanelRenderer");
+  MAX_DATE_VALUE
+} from './constants';
 
-var clickRadius = 5;
+const Log = require('./log');
+const OoyalaSkinBridgeListener = require('./ooyalaSkinBridgeListener');
+const OoyalaSkinPanelRenderer = require('./ooyalaSkinPanelRenderer');
+
+const clickRadius = 5;
 var startedClickX, startedClickY;
 
 var OoyalaSkinCore = function(ooyalaSkin, eventBridge) {
@@ -57,8 +55,8 @@ OoyalaSkinCore.prototype.dismissOverlay = function() {
 }
 
 OoyalaSkinCore.prototype.onBackPressed = function() {
-    var retVal = this.popFromOverlayStackAndMaybeResume();
-    return retVal;
+  let retVal = this.popFromOverlayStackAndMaybeResume();
+  return retVal;
 };
 
 OoyalaSkinCore.prototype.handleLanguageSelection = function(e) {
@@ -101,7 +99,7 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
     case BUTTON_NAMES.FULLSCREEN:
       this.bridge.onPress({name:buttonName});
       this.dismissOverlay();
-      break;  
+      break;
     default:
 	    this.bridge.onPress({name:buttonName});
       break;
@@ -132,9 +130,13 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
     case BUTTON_NAMES.QUALITY:
     case BUTTON_NAMES.SETTING:
       break;
+    case BUTTON_NAMES.REPLAY:
+      this.skin.setState({
+        onPlayComplete: false
+      });
     default:
-      console.log("handlePress button name:",n);
-      this.bridge.onPress({name:n});
+      Log.log("handlePress button name:",n);
+      this.bridge.onPress({name: n});
       break;
   }
 };
@@ -283,7 +285,7 @@ OoyalaSkinCore.prototype.popFromOverlayStackAndMaybeResume = function(overlay) {
 OoyalaSkinCore.prototype.renderScreen = function() {
   Log.verbose("Rendering - Current Overlay stack: " + this.skin.state.overlayStack);
   let overlayType = null;
-  if(this.skin.state.overlayStack.length > 0) {
+  if (this.skin.state.overlayStack.length > 0) {
     overlayType = this.skin.state.overlayStack[this.skin.state.overlayStack.length - 1];
     Log.verbose("Rendering Overlaytype: " + overlayType);
   } else {
@@ -295,6 +297,7 @@ OoyalaSkinCore.prototype.renderScreen = function() {
 
 //return boolean -> touch end was in clickRadius from touch start
 let isClick = function(endX, endY) {
-  return Math.sqrt((endX - startedClickX) * (endX - startedClickX) + (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
+  return Math.sqrt((endX - startedClickX) * (endX - startedClickX) +
+                   (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
 };
 module.exports = OoyalaSkinCore;

@@ -9,13 +9,12 @@ import {
   View
 } from 'react-native';
 
+import {
+  UI_SIZES
+} from './constants';
+
 var Utils = require('./utils');
 var styles = Utils.getStyles(require('./panels/style/languageSelectionPanelStyles.json'));
-
-var Constants = require('./constants');
-var {
-  UI_SIZES
-} = Constants;
 
 class LanguageSelectionPreview extends React.Component {
   static propTypes = {

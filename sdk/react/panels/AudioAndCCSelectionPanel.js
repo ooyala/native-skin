@@ -14,12 +14,10 @@ import {
   View,
 } from 'react-native';
 
-const animationDuration = 1000;
-const Constants = require('../constants');
-const {
+import {
   BUTTON_NAMES,
   CELL_TYPES
-} = Constants;
+} from '../constants';
 
 const Utils = require('../utils');
 const styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
@@ -31,7 +29,9 @@ const stringConstants = {
   offButtonTitle: "Off",
   audioHeaderViewSectionTitle: "Audio",
   subtitlesHeaderViewSectionTitle: "Subtitles"
-}
+};
+
+const animationDuration = 1000;
 
 class AudioAndCCSelectionPanel extends React.Component {
   static propTypes = {

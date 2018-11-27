@@ -8,16 +8,14 @@ import {
   View,
 } from 'react-native';
 
-var ResponsiveDesignManager = require('../responsiveDesignManager');
-var Constants = require('../constants');
-var styles = require('../utils').getStyles(require('./style/videoWaterMarkStyles.json'));
-var {
+import {
   BUTTON_NAMES,
   IMG_URLS,
   UI_SIZES
-} = Constants;
+} from '../constants';
 
-
+var ResponsiveDesignManager = require('../responsiveDesignManager');
+var styles = require('../utils').getStyles(require('./style/videoWaterMarkStyles.json'));
 
 class logo extends React.Component {
   static propTypes = {

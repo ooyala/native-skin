@@ -295,7 +295,6 @@ static NSString *resultsKey             = @"results";
 }
 
 - (void)handleReplay {
-  [self.player seek:0];
   [self.player play];
 }
 

@@ -4,13 +4,13 @@ import {
   Text,
   View,
   ImageBackground,
+  Platform,
   TouchableHighlight,
 } from "react-native";
 
-var Constants = require('./constants');
-var {
+import {
   BUTTON_NAMES
-} = Constants;
+} from './constants';
 
 var Utils = require("./utils");
 
@@ -34,7 +34,6 @@ class UpNext extends React.Component {
     onPress: PropTypes.func,
     upNextDismissed: PropTypes.bool,
     width: PropTypes.number,
-    platform:PropTypes.string
   };
 
   dismissUpNext = () => {
@@ -94,9 +93,18 @@ class UpNext extends React.Component {
     </TouchableHighlight>);
   };
 
-  renderCountdownTimer = () => {
-    if(this.props.platform == Constants.PLATFORMS.ANDROID) {
-      return <CountdownViewAndroid style={styles.countdownView}
+  renderCountdownTimer = () => Platform.select({
+    ios:
+      <CountdownView
+        style={styles.countdownView}
+        automatic={false}
+        time={this.upNextDuration()}
+        timeLeft={this.props.duration - this.props.playhead}
+        radius={9}
+        fillAlpha={0.7} />,
+    android:
+      <CountdownViewAndroid
+        style={styles.countdownView}
         countdown={{
           main_color:"#AAffffff",
           secondary_color:"#AA808080",
@@ -105,18 +113,9 @@ class UpNext extends React.Component {
           stroke_width:5,
           text_size:25,
           max_time:this.upNextDuration(),
-          progress:parseInt((this.upNextDuration() - (this.props.duration-this.props.playhead))),
-          automatic:false}}/>
-    }
-    if(this.props.platform == Constants.PLATFORMS.IOS) {
-      return <CountdownView style={styles.countdownView}
-        automatic={false}
-        time={this.upNextDuration()}
-        timeLeft={this.props.duration - this.props.playhead}
-        radius={9}
-        fillAlpha={0.7} />
-    }
-  };
+          progress:parseInt((this.upNextDuration() - (this.props.duration - this.props.playhead))),
+          automatic:false}} />
+  });
 
   render() {
     const upNextConfig = this.props.config.upNext || {};

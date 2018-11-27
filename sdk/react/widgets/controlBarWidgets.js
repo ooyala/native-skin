@@ -10,21 +10,24 @@ import {
   Text,
   View,
   Image,
+  Platform,
   SliderIOS,
   TouchableHighlight
 } from 'react-native';
 
-const styles = require('../utils').getStyles(require('./style/controlBarWidgetStyles.json'));
-const Log = require('../log');
-const VolumeView = require('./VolumeView');
-const AccessibilityUtils = require('../accessibilityUtils');
-
-const Constants = require('../constants');
-const {
+import {
   BUTTON_NAMES,
   STRING_CONSTANTS,
   VIEW_ACCESSIBILITY_NAMES
-} = Constants;
+} from '../constants';
+
+import Utils from '../utils';
+
+const styles = Utils.getStyles(require('./style/controlBarWidgetStyles.json'));
+const Log = require('../log');
+const VolumeView = require('./VolumeView');
+const AccessibilityUtils = require('../accessibilityUtils');
+const SkipButton = require('./SkipButton');
 
 class controlBarWidget extends React.Component {
   static propTypes = {
@@ -34,14 +37,17 @@ class controlBarWidget extends React.Component {
 
   playPauseWidget = (options) => {
     const iconMap = {
-      "play": options.playIcon,
-      "pause": options.pauseIcon,
-      "replay": options.replayIcon
+      'play': options.playIcon,
+      'pause': options.pauseIcon,
+      'replay': options.replayIcon
     };
+
     const fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
+    let onPressF = options.primaryActionButton == 'replay' ?
+                   options.onReplay : options.onPress;
     return (
       <TouchableHighlight
-        onPress={options.onPress}
+        onPress={onPressF}
         testID={BUTTON_NAMES.PLAY_PAUSE}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.PLAY_PAUSE}>
@@ -53,18 +59,53 @@ class controlBarWidget extends React.Component {
     );
   };
 
+  seekBackwardsWidget = (options) => {
+    return this._renderSeekButton(options, false);
+  };
+
+  seekForwardWidget = (options) => {
+    return this._renderSeekButton(options, true);
+  };
+
+  _renderSeekButton = (options, isForward) => {
+    const fontStyle = {fontSize: options.size, fontFamily: options.icon.fontFamilyName};
+    const sizeStyle = {width: options.size, height: options.size};
+    const opacity = {opacity: 1};
+    const animate = {transform: [{scale: 1}]};
+    const buttonColor = {color: 'white'};
+
+    let seekValue = Utils.restrictSeekValueIfNeeded(options.seekValue);
+
+    return (
+      <SkipButton
+        disabled={false}
+        isForward={isForward}
+        timeValue={seekValue}
+        onSeek={options.onPress}
+        icon={options.icon.fontString}
+        fontStyle={fontStyle}
+        sizeStyle={sizeStyle}
+        opacity={opacity}
+        animate={animate}
+        buttonColor={buttonColor}
+      />
+    );
+  };
+
   volumeWidget = (options) => {
     let volumeScrubber = null;
     const scrubberStyle = [options.scrubberStyle];
-    if (options.platform === Constants.PLATFORMS.IOS) {
+    if (Platform.OS === 'ios') {
       scrubberStyle.push({top: 5});
     }
     if (options.showVolume) {
-      volumeScrubber = <VolumeView
+      volumeScrubber =
+      <VolumeView
         accessibilityLabel={VIEW_ACCESSIBILITY_NAMES.VOLUME_BAR}
         style={scrubberStyle}
         color={options.volumeControlColor}
-        volume={options.volume}/>;
+        volume={options.volume}>
+      </VolumeView>;
     }
 
     const iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
@@ -188,8 +229,7 @@ class controlBarWidget extends React.Component {
             source={{uri: options.icon}}
             resizeMode={options.resizeMode}/>
         </View>);
-    }
-    else {
+    } else {
       return null;
     }
   };
@@ -261,7 +301,6 @@ class controlBarWidget extends React.Component {
     let widget = null;
 
     // Create accessibility label for selected playback speed rate button
-
     const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
     const selectedPlaybackSpeedAccessiblityLabel = AccessibilityUtils.createAccessibilityLabelForSelectedObject(playbackSpeedRateWithoutPostfix)
     const accessibilityLabel = BUTTON_NAMES.PLAYBACK_SPEED + selectedPlaybackSpeedAccessiblityLabel
@@ -284,28 +323,30 @@ class controlBarWidget extends React.Component {
 
   render() {
     const widgetsMap = {
-      "playPause": this.playPauseWidget,
-      "volume": this.volumeWidget,
-      "timeDuration": this.timeDurationWidget,
-      "flexibleSpace": this.flexibleSpaceWidget,
-      "rewind": this.rewindWidget,
-      "discovery": this.discoveryWidget,
-      "Fullscreen": this.fullscreenWidget,
-      "moreOptions": this.moreOptionsWidget,
-      "watermark": this.watermarkWidget,
-      "share": this.shareWidget,
-      "bitrateSelector": this.bitrateSelectorWidget,
-      "live": this.liveWidget,
-      "stereoscopic": this.stereoscopicWidget,
-      "audioAndCC": this.audioAndCCWidget,
-      "playbackSpeed": this.playbackSpeedWidget
+      'playPause': this.playPauseWidget,
+      'volume': this.volumeWidget,
+      'timeDuration': this.timeDurationWidget,
+      'flexibleSpace': this.flexibleSpaceWidget,
+      'rewind': this.rewindWidget,
+      'discovery': this.discoveryWidget,
+      'Fullscreen': this.fullscreenWidget,
+      'moreOptions': this.moreOptionsWidget,
+      'watermark': this.watermarkWidget,
+      'share': this.shareWidget,
+      'bitrateSelector': this.bitrateSelectorWidget,
+      'live': this.liveWidget,
+      'stereoscopic': this.stereoscopicWidget,
+      'audioAndCC': this.audioAndCCWidget,
+      'playbackSpeed': this.playbackSpeedWidget,
+      'seekBackwards': this.seekBackwardsWidget,
+      'seekForward': this.seekForwardWidget
     };
     if (this.props.widgetType.name in widgetsMap) {
       const widgetOptions = this.props.options[this.props.widgetType.name];
       return widgetsMap[this.props.widgetType.name](widgetOptions);
     }
     else {
-      Log.warn("WARNING: unsupported widget name: " + this.props.widgetType.name);
+      Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
       return <View/>;
     }
   }

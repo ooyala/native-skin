@@ -20,12 +20,11 @@ var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
 //calling class layout controller
 var eventBridge = require('NativeModules').OoyalaReactBridge;
 
-var Constants = require('./constants');
-var {
+import {
+  CONTENT_TYPES,
   SCREEN_TYPES,
-  PLATFORMS,
   DESIRED_STATES
-} = Constants;
+} from './constants';
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 var OoyalaSkinCoreInstance;
 
@@ -63,8 +62,9 @@ class OoyalaSkin extends React.Component {
     alertTitle: '',
     alertMessage: '',
     error: null,
-    platform:PLATFORMS.ANDROID,
     screenReaderEnabled: false,
+    contentType: CONTENT_TYPES.VIDEO,
+    onPlayComplete: false
   };
 
   componentWillMount() {
@@ -125,7 +125,7 @@ class OoyalaSkin extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

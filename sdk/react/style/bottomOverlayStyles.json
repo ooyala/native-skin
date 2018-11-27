@@ -1,24 +1,28 @@
 {
+
   "container": {
-    "flex": 0,
     "flexDirection": "column",
     "backgroundColor": "rgba(0,0,0,0.3)"
   },
+  
   "bottomOverlayFlexibleSpace" : {
-    "flex":1
+    "flex": 1
   },
+
+  "progressBarContainer": {
+    "height": 3,
+    "marginHorizontal": 20
+  },
+
   "progressBarStyle":  {
-    "flex": 0
-  },
-  "progressBarAccessibilityStyle":  {
-    "flex":0,
     "height": 20,
-    "paddingTop": 3
+    "justifyContent": "center"
   },
+
   "cuePoint": {
-    "flex": 0,
     "position": "absolute",
     "backgroundColor": "white",
-    "borderRadius":900
+    "borderRadius": 900
   }
+
 }

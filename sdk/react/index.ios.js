@@ -18,15 +18,14 @@ const {
    OOReactSkinBridgeModuleMain
  } = NativeModules;
 
-var Constants = require('./constants');
-var {
+import {
+  CONTENT_TYPES,
   SCREEN_TYPES,
-  PLATFORMS,
   DESIRED_STATES
-} = Constants;
+} from './constants';
+
 var OoyalaSkinCore = require('./ooyalaSkinCore');
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
-
 var OoyalaSkinCoreInstance;
 
 class OoyalaSkin extends React.Component {
@@ -64,8 +63,9 @@ class OoyalaSkin extends React.Component {
     alertMessage: '',
     error: null,
     volume: 0,          // between 0 and 1
-    platform:PLATFORMS.IOS,
     screenReaderEnabled: false,
+    contentType: CONTENT_TYPES.VIDEO,
+    onPlayComplete: false
   };
 
   componentWillMount() {
@@ -117,7 +117,7 @@ class OoyalaSkin extends React.Component {
   }
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
   loading: {
     flex: 1,
     alignItems: 'center',

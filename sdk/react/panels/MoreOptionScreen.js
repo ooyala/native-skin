@@ -13,16 +13,15 @@ import {
   View,
 } from 'react-native';
 
-var Log = require('../log');
-var Utils = require('../utils');
-var Constants = require('../constants');
-var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
-var CollapsingBarUtils = require('../collapsingBarUtils');
-
-var {
+import {
   BUTTON_NAMES,
   IMG_URLS,
-} = Constants;
+} from '../constants';
+
+var Log = require('../log');
+var Utils = require('../utils');
+var styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
+var CollapsingBarUtils = require('../collapsingBarUtils');
 
 var dismissButtonSize = 20;
 
@@ -165,7 +164,7 @@ class MoreOptionScreen extends React.Component {
         break;
       case BUTTON_NAMES.AUDIO_AND_CC:
         buttonIcon = this.props.config.icons.audioAndCC;
-        break;   
+        break;
       case BUTTON_NAMES.SHARE:
         buttonIcon = this.props.config.icons.share;
         break;
@@ -177,7 +176,7 @@ class MoreOptionScreen extends React.Component {
         break;
       case BUTTON_NAMES.FULLSCREEN:
         buttonIcon = this.props.config.icons.expand;
-        break;          
+        break;
       default:
         break;
     }

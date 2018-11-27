@@ -1,8 +1,8 @@
 {
+
   "container": {
-  	"flexDirection": "row",
-    "height": 3,
-    "marginVertical": 6,
-    "marginHorizontal": 20
+    "flex": 1,
+    "flexDirection": "row"
   }
+  
 }
