@@ -23,7 +23,6 @@ const AndroidAccessibility = NativeModules.AndroidAccessibility;
 import {
   BUTTON_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
-  IMG_URLS,
   UI_SIZES
 } from './constants';
 
@@ -31,13 +30,8 @@ var Log = require('./log');
 var Utils = require('./utils');
 var ControlBarWidget = require('./widgets/controlBarWidgets');
 var CollapsingBarUtils = require('./collapsingBarUtils');
-var VolumeView = require('./widgets/VolumeView');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
-
-const constants = {
-  playbackSpeedRatePostfix: "x"
-};
 
 class ControlBar extends React.Component {
   static propTypes = {
@@ -81,10 +75,7 @@ class ControlBar extends React.Component {
   };
 
   getSelectedPlaybackSpeedRate = () => {
-    const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(this.props.config.selectedPlaybackSpeedRate)).toFixed(2))
-    const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
-
-    return selectedPlaybackSpeedRateString.concat(constants.playbackSpeedRatePostfix);
+    return Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
   };
 
   getVolumeControlColor = () => {
@@ -243,7 +234,7 @@ class ControlBar extends React.Component {
     };
 
     function _isVisible( item ) {
-      var visible = true;
+      let visible = true;
       switch (item.name) {
         case BUTTON_NAMES.MORE:
           visible = this.props.showMoreOptionsButton;
@@ -266,24 +257,24 @@ class ControlBar extends React.Component {
     this.props.config.buttons.forEach(_isVisible, this);
     //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));
 
-    var itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
+    const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
+
     function pushControl(item) {
       controlBarWidgets.push(item)
     }
 
     for (var i = 0; i < itemCollapsingResults.fit.length; i++) {
-      let widget = itemCollapsingResults.fit[i];
-
-      let item = <ControlBarWidget
+      const widget = itemCollapsingResults.fit[i];
+      const item = <ControlBarWidget
         key={i}
         widgetType={widget}
         options={widgetOptions}/>;
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
-        if (this.props.stereoSupported){
+        if (this.props.stereoSupported) {
           pushControl(item);
         }
-      } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC)  {
+      } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC) {
         if (this.props.showAudioAndCCButton) {
           pushControl(item);
         }
@@ -291,7 +282,7 @@ class ControlBar extends React.Component {
         pushControl(item);
       }
     }
-    var widthStyle = {width:this.props.width};
+    const widthStyle = {width:this.props.width};
     return (
       <View style={[styles.controlBarContainer, widthStyle]} onTouchEnd={this.props.handleControlsTouch}>
         {controlBarWidgets}

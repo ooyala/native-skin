@@ -26,7 +26,9 @@ class MoreOptionScreen extends React.Component {
     onOptionButtonPress: PropTypes.func,
     config: PropTypes.object,
     controlBarWidth: PropTypes.number,
-    showPlaybackSpeedButton: PropTypes.bool
+    showAudioAndCCButton: PropTypes.bool,
+    isAudioOnly: PropTypes.bool,
+    selectedPlaybackSpeedRate: PropTypes.string
   };
 
   state = {
@@ -93,13 +95,20 @@ class MoreOptionScreen extends React.Component {
   };
 
   _renderMoreOptionButtons = (moreOptionButtons) => {
-    const itemCollapsingResults = CollapsingBarUtils.collapse( this.props.config.controlBarWidth, this.props.config.buttons );
+    let itemCollapsingResults;
+
+    if (this.props.isAudioOnly) {
+      itemCollapsingResults = CollapsingBarUtils.collapseForAudioOnly(this.props.config.buttons)
+    } else {
+      itemCollapsingResults = CollapsingBarUtils.collapse(this.props.config.controlBarWidth, this.props.config.buttons);
+    }
+
     const buttons = itemCollapsingResults.overflow;
     const buttonStyle = [styles.icon, this.props.config.moreOptionsScreen.iconStyle.active];
 
     for (var i = 0; i < buttons.length; i++) {
       const button = buttons[i];
-      const buttonIcon = this._renderIcon(button.name);
+      let buttonIcon = this._renderIcon(button.name);
       let moreOptionButton;
 
       // If a color style exists, we remove it as it is applied to a view, which doesn't support
@@ -169,6 +178,12 @@ class MoreOptionScreen extends React.Component {
       case BUTTON_NAMES.FULLSCREEN:
         buttonIcon = this.props.config.icons.expand;
         break;
+      case BUTTON_NAMES.PLAYBACK_SPEED:
+        buttonIcon = {
+          fontString: this.props.selectedPlaybackSpeedRate,
+          fontFamilyName: ''
+        };
+        break;
       default:
         break;
     }
@@ -182,11 +197,12 @@ class MoreOptionScreen extends React.Component {
     const rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
 
     const moreOptionRow = (
-    <Animated.View
-      ref='moreOptionRow'
-      style={[styles.rowCenter, rowAnimationStyle]}>
-      {moreOptionButtons}
-    </Animated.View>);
+      <Animated.View
+        ref='moreOptionRow'
+        style={[styles.rowCenter, rowAnimationStyle]}>
+          {moreOptionButtons}
+      </Animated.View>
+    );
 
     const dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>

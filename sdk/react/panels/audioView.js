@@ -31,10 +31,6 @@ const ResponsiveDesignManager = require('../responsiveDesignManager');
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
-const constants = {
-  playbackSpeedRatePostfix: 'x'
-};
-
 class AudioView extends React.Component {
   static propTypes = {
     rate: PropTypes.number,
@@ -86,10 +82,7 @@ class AudioView extends React.Component {
   }
 
   getSelectedPlaybackSpeedRate = () => {
-    const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(this.props.config.selectedPlaybackSpeedRate)).toFixed(2))
-    const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
-
-    return selectedPlaybackSpeedRateString.concat(constants.playbackSpeedRatePostfix);
+    return Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
   };
 
   // MARK: - Actions

@@ -34,7 +34,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   DISCOVERY: 'discovery',
   QUALITY: 'quality',
   AUDIO_AND_CC: 'audioAndCC',
-  PLAYBACK_SPEED: 'Playback speed',
+  PLAYBACK_SPEED: 'playbackSpeed',
   SHARE: 'share',
   SETTING: 'settings',
   STEREOSCOPIC: 'stereoscopic',
@@ -142,6 +142,7 @@ const VIEW_ACCESSIBILITY_NAMES = {
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
   PLAY_PAUSE_BUTTON: "button. Tap twice to",
+  PLAYBACK_SPEED_BUTTON: "Playback speed",
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {

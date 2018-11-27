@@ -15,6 +15,17 @@ var CollapsingBarUtils = {
     return r;
   },
 
+  collapseForAudioOnly: function(orderedItems) {
+    if (!orderedItems) { 
+      return []; 
+    }
+
+    const filteredItems = orderedItems.filter(item => this._isValid(item));
+    const result = {fit: [], overflow: filteredItems};
+    
+    return result;
+  },
+
   _isValid: function( item ) {
     var valid = (
       item &&

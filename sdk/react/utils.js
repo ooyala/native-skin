@@ -40,6 +40,13 @@ const Utils = {
     return width > height;
   },
 
+  formattedPlaybackSpeedRate: function(selectedPlaybackSpeedRate) {
+    const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(selectedPlaybackSpeedRate)).toFixed(2))
+    const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
+
+    return selectedPlaybackSpeedRateString.concat('x');
+  },
+
   // Returns a React stylesheet based on the json object passed in. This method takes the json object,
   // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
   getStyles: function(specificStyles) {

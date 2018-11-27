@@ -99,7 +99,7 @@ OoyalaSkinBridgeListener.prototype.onTimeChange = function(e) { // todo: naming 
   });
 
   if (this.skin.state.screenType == SCREEN_TYPES.VIDEO_SCREEN ||
-      this.skin.state.screenTyep == SCREEN_TYPES.AUDIO_SCREEN ||
+      this.skin.state.screenType == SCREEN_TYPES.AUDIO_SCREEN ||
       this.skin.state.screenType == SCREEN_TYPES.END_SCREEN) {
     this.core.previousScreenType = this.skin.state.screenType;
   }
