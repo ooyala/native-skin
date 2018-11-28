@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated,
-  Slider
+  Slider,
   Text,
   TouchableHighlight,
   View,
@@ -17,13 +17,13 @@ import {
 } from '../constants';
 
 const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/VolumeViewPanelStyles'));
+const styles = Utils.getStyles(require('./style/VolumePanelStyles'));
 
 const constants = {
-    animationDuration = 1000
+  animationDuration: 1000
  }
 
-class VolumeViewPanel extends React.Component {
+class VolumePanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     config: PropTypes.object
@@ -40,7 +40,7 @@ class VolumeViewPanel extends React.Component {
         this.state.opacity,
         {
           toValue: 1,
-          duration: constants.a,
+          duration: constants.animationDuration,
           delay: 0
         }),
     ]).start();
@@ -55,13 +55,15 @@ class VolumeViewPanel extends React.Component {
   };
 
   render() {
-    return (
-    <View style={styles.container}>
+    const animationStyle = {opacity:this.state.opacity};
 
-    </View>
+    return (
+      <Animated.View style={[styles.container, animationStyle]}>
+
+      </Animated.View>
     );
   }
 
 }
 
-export default VolumeViewPanel;
+export default VolumePanel;

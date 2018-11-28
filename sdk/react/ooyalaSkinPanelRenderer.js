@@ -13,6 +13,7 @@ import {
 } from './constants';
 
 import AudioView from './panels/audioView';
+import VolumePanel from './panels/VolumePanel';
 
 const Log = require('./log');
 const ActivityView = require('NativeModules').OOActivityView;
@@ -297,6 +298,16 @@ OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
     </PlaybackSpeedPanel>);
 };
 
+OoyalaSkinPanelRenderer.prototype.renderVolumePanel = function() {
+  return (
+    <VolumePanel
+      onDismiss={()=>this.core.dismissOverlay()}
+      config={{
+      }}>
+    </VolumePanel>
+  );
+};
+
 OoyalaSkinPanelRenderer.prototype.renderSocialOptions = function() {
   Platform.select({
     ios: () => ActivityView.show({
@@ -383,6 +394,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
         break;
       case OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN:
         return this.renderPlaybackSpeedPanel();
+        break;
+      case OVERLAY_TYPES.VOLUME_SCREEN:
+        return this.renderVolumePanel();
         break;
     }
     return;

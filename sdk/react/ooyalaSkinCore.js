@@ -133,6 +133,9 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       this.skin.setState({
         onPlayComplete: false
       });
+    case BUTTON_NAMES.VOLUME:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.VOLUME_SCREEN);
+      break;
     default:
       Log.log("handlePress button name:",n);
       this.bridge.onPress({name: n});

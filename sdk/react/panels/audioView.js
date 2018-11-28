@@ -65,7 +65,6 @@ class AudioView extends React.Component {
 
   state = {
     playing: false,
-    showVolume: false,
     skipCount: 0,
     height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
     cachedPlayhead: -1
@@ -92,9 +91,7 @@ class AudioView extends React.Component {
   };
 
   onVolumePress = () => {
-    this.setState({
-      showVolume: !this.state.showVolume
-    });
+    this.props.handlers.onPress(BUTTON_NAMES.VOLUME);
   };
 
   onSeekPressed = (skipCountValue) => {
@@ -202,13 +199,11 @@ class AudioView extends React.Component {
     const widgetOptions = {
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ?
-               [controlBarStyles.icon, {'fontSize': iconFontSize}, controlBarStyles.iconHighlighted, this.props.config.controlBar.iconStyle.active] :
-               [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         iconTouchableStyle: controlBarStyles.iconTouchable,
-        showVolume: this.state.showVolume,
+        showVolume: false,
         volume: this.props.volume,
         scrubberStyle: controlBarStyles.volumeSlider,
         volumeControlColor: this.getVolumeControlColor()
