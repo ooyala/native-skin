@@ -226,8 +226,7 @@ class AudioView extends React.Component {
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
-        primaryActionButton: this.props.onPlayComplete ? 'replay' :
-                             (this.props.playing ? 'pause' : 'play'),
+        primaryActionButton: this.props.onPlayComplete ? 'replay' : (this.props.playing ? 'pause' : 'play'),
         onReplay: this.onReplayPress
       },
       seekForward: {
@@ -258,23 +257,6 @@ class AudioView extends React.Component {
         icon: this.props.config.icons.share
       }
     };
-
-    function _isVisible(item) {
-      let visible = true;
-      switch (item.name) {
-        case BUTTON_NAMES.PLAYBACK_SPEED:
-          visible = false;
-          break;
-        case BUTTON_NAMES.SHARE:
-          visible = false;
-          break;
-        default:
-          break;
-      }
-      item.isVisible = visible;
-    };
-
-    this.props.config.buttons.forEach(_isVisible, this);
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 
