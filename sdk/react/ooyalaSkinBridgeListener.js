@@ -84,6 +84,7 @@ OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
     this.skin.setState({
       playhead: e.seekend,
       duration: e.duration,
+      onPlayComplete: false,
       screenType: e.screenType
     });
   }
