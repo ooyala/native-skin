@@ -1,7 +1,30 @@
 {
   "container": {
     "flex": 1,
+    "flexDirection": "row",
+    "alignItems": "center",
+    "justifyContent": "flex-start",
     "backgroundColor": "rgba(255, 255, 255, 0.2)"
+  },
+
+  "volumeIconContainer": {
+    "marginLeft": 16
+  },
+
+  "volumeIcon": {
+    "fontSize": 20,
+    "color": "#8E8E8E"
+  },
+
+  "sliderContainer": {
+    "flex": 1,
+    "marginLeft": 8,
+    "marginRight": 16,
+    "backgroundColor": "green"
+  },
+
+  "slider": {
+
   }
 
 }

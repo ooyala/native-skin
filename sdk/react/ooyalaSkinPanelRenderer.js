@@ -302,7 +302,11 @@ OoyalaSkinPanelRenderer.prototype.renderVolumePanel = function() {
   return (
     <VolumePanel
       onDismiss={()=>this.core.dismissOverlay()}
+      volume={this.skin.state.volume}
+      width={this.skin.state.width}
       config={{
+        controlBar: this.skin.props.controlBar,
+        icons: this.skin.props.icons
       }}>
     </VolumePanel>
   );

@@ -18,7 +18,7 @@ import {
 
 const timerForSkipButtons = require('react-native-timer');
 
-const ProgressBar = require('../progressBar');
+const ProgressBar = require('../common/progressBar');
 const ControlBarWidget = require('../widgets/controlBarWidgets');
 const CollapsingBarUtils = require('../collapsingBarUtils');
 
