@@ -1,6 +1,6 @@
 package com.ooyala.android.skin.notification;
 
-public abstract class BaseNotificationHandler<T> implements NotificationHandler<T> {
+public abstract class BaseNotificationHandler<T> {
 
   public final boolean tryHandleNotification(T notification) {
     if (canHandle(notification)) {

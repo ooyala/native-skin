@@ -1,5 +1,8 @@
 package com.ooyala.android.skin.button;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public enum SkinButton {
 
   PLAY_PAUSE("PlayPause"),
@@ -20,6 +23,19 @@ public enum SkinButton {
   BUTTON_REPLAY("replay"),
   UNKNOWN("unknown");
 
+  public static final Set<SkinButton> SUPPORTED_AUDIO_BUTTONS;
+
+  static {
+    SUPPORTED_AUDIO_BUTTONS = new HashSet<>();
+    SUPPORTED_AUDIO_BUTTONS.add(SkinButton.PLAY);
+    SUPPORTED_AUDIO_BUTTONS.add(SkinButton.PLAY_PAUSE);
+    SUPPORTED_AUDIO_BUTTONS.add(SkinButton.REWIND);
+    SUPPORTED_AUDIO_BUTTONS.add(SkinButton.SHARE);
+    SUPPORTED_AUDIO_BUTTONS.add(SkinButton.LEARN_MORE);
+    SUPPORTED_AUDIO_BUTTONS.add(SkinButton.BUTTON_SKIP);
+    SUPPORTED_AUDIO_BUTTONS.add(SkinButton.BUTTON_REPLAY);
+  }
+
   private final String value;
 
   SkinButton(String value) {
@@ -37,5 +53,9 @@ public enum SkinButton {
       }
     }
     return UNKNOWN;
+  }
+
+  public static boolean isSupportedAudioSkinButton(SkinButton skinButton) {
+    return SUPPORTED_AUDIO_BUTTONS.contains(skinButton);
   }
 }

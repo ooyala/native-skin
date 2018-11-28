@@ -12,9 +12,6 @@ import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.skin.button.SkinButton;
 import com.ooyala.android.util.DebugMode;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
 
 /**
@@ -22,18 +19,6 @@ import static com.facebook.react.bridge.UiThreadUtil.runOnUiThread;
  */
 class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   private static String TAG = OoyalaSkinBridgeEventHandlerImpl.class.getSimpleName();
-
-    public static final Set<SkinButton> SUPPORTED_BUTTONS;
-    static {
-        SUPPORTED_BUTTONS = new HashSet<>();
-        SUPPORTED_BUTTONS.add(SkinButton.PLAY);
-        SUPPORTED_BUTTONS.add(SkinButton.PLAY_PAUSE);
-        SUPPORTED_BUTTONS.add(SkinButton.REWIND);
-        SUPPORTED_BUTTONS.add(SkinButton.SHARE);
-        SUPPORTED_BUTTONS.add(SkinButton.LEARN_MORE);
-        SUPPORTED_BUTTONS.add(SkinButton.BUTTON_SKIP);
-        SUPPORTED_BUTTONS.add(SkinButton.BUTTON_REPLAY);
-    }
 
   private OoyalaSkinLayoutController _layoutController;
   private OoyalaPlayer _player;
@@ -109,7 +94,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   }
 
   private boolean isButtonSupported(SkinButton skinButton) {
-    return !_player.isAudioOnly() || SUPPORTED_BUTTONS.contains(skinButton);
+    return !_player.isAudioOnly() || SkinButton.isSupportedAudioSkinButton(skinButton);
   }
 
   public void shareTitle(ReadableMap parameters) {
@@ -131,7 +116,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onScrub(ReadableMap percentage) {
     double percentValue = percentage.getDouble("percentage");
     percentValue = percentValue * 100.0f; // percentage * 100 so it can deal fine with milliseconds
-    float percent =  (float) percentValue;
+    float percent = (float) percentValue;
     _player.seekToPercent(percent);
   }
 
