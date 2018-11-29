@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated,
-  Slider,
+  StyleSheet,
+  PanResponder,
   Text,
   TouchableHighlight,
   View
@@ -19,9 +20,12 @@ import {
 
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/VolumePanelStyles'));
+const VolumeView = require('../widgets/VolumeView');
 
 const constants = {
-  animationDuration: 1000
+  animationDuration: 1000,
+  scrubberSize: 14,
+  scrubTouchableDistance: 45
 }
 
 class VolumePanel extends React.Component {
@@ -33,7 +37,12 @@ class VolumePanel extends React.Component {
   };
 
   state = {
-    opacity: new Animated.Value(0)
+    volume: this.props.volume,
+    opacity: new Animated.Value(0),
+    touch: false,
+    x: 0,
+    sliderWidth: 0,
+    sliderHeight: 0
   };
 
   componentDidMount() {
@@ -48,7 +57,13 @@ class VolumePanel extends React.Component {
     ]).start();
   };
 
-  _renderVolumeIcon= () => {
+  _onVolumeChange = (volume) => {
+    this.setState({
+      volume: volume
+    });
+  };
+
+  _renderVolumeIcon = () => {
     const iconConfig = (this.props.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
     const fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
 
@@ -61,27 +76,137 @@ class VolumePanel extends React.Component {
     );
   };
 
-  _renderVolumeSlider= () => {
+  // Actions
+
+  _panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: (event, gestureState) => true,
+    onStartShouldSetPanResponderCapture: (event, gestureState) => true,
+    onMoveShouldSetPanResponder: (event, gestureState) => true,
+    onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
+
+    onPanResponderGrant: (event, gestureState) => {
+      this.handleTouchStart(event);
+    },
+    onPanResponderMove: (event, gestureState) => {
+      this.handleTouchMove(event);
+    },
+    onPanResponderTerminationRequest: (event, gestureState) => true,
+    onPanResponderRelease: (event, gestureState) => {
+      this.handleTouchEnd(event);
+    }
+  });
+
+  handleTouchStart = (event) => {
+    const volume = this._touchPercent(event.nativeEvent.locationX);
+    this._onVolumeChange(volume);
+    this.setState({
+      touch: true,
+      x: event.nativeEvent.locationX
+    });
+  };
+
+  handleTouchMove = (event) => {
+    const volume = this._touchPercent(event.nativeEvent.locationX);
+    this._onVolumeChange(volume);
+    this.setState({
+      x: event.nativeEvent.locationX
+    });
+  };
+
+  handleTouchEnd = (event) => {
+    this.setState({
+      touch: false,
+      x: null
+    });
+  };
+
+  // Volume slider
+
+  _touchPercent = (x) => {
+    let percent = x / (this.state.sliderWidth);
+
+    if (percent > 1) {
+      percent = 1;
+    } else if (percent < 0) {
+      percent = 0;
+    }
+    return percent;
+  };
+
+  _calculateTopOffset = (componentSize, sliderHeight) => {
+    return sliderHeight / 2 - componentSize / 2;
+  };
+
+  _calculateLeftOffset = (componentSize, percent, sliderWidth) => {
+    return percent * sliderWidth - componentSize * percent - componentSize / 2 * (0.5 - percent);
+  };
+
+  _thumbStyle = () => {
+    return {
+      flex: 0,
+      position: 'absolute',
+      backgroundColor: 'white',
+      borderRadius: 100,
+      width: constants.scrubberSize,
+      height: constants.scrubberSize,
+    };
+  };
+
+  _renderVolumeThumb = (volume) => {
+    const sliderWidth = this.state.sliderWidth;
+    const sliderHeight = this.state.sliderHeight;
+    const topOffset = this._calculateTopOffset(constants.scrubberSize, sliderHeight);
+    const leftOffset = this._calculateLeftOffset(constants.scrubberSize, volume, sliderWidth);
+    const positionStyle = {top: topOffset, left: leftOffset};
+    const thumbStyle = this._thumbStyle();
+
     return (
-      <View style={styles.sliderContainer}>
-        <Slider
-          step={1}
-          maximumValue={100}
-          // onValueChange={this.change.bind(this)}
-          value={40}
-        /> 
+      <View pointerEvents='none' style={[thumbStyle, positionStyle]}/>
+    );
+  }
+
+  _renderVolumeSlider = (volume) => {
+    const volumeValue = volume;
+    const backgroundValue = 1 - volumeValue;
+
+    const filledColor = 'white';
+    const backgroundColor = 'rgb(62, 62, 62)';
+
+    const filledStyle = {backgroundColor: filledColor, flex: volumeValue};
+    const backgroundStyle = {backgroundColor: backgroundColor, flex: backgroundValue};
+    const style = StyleSheet.create({filled: filledStyle, background: backgroundStyle});
+
+    return (
+      <View 
+        style={styles.sliderContainer}
+        {...this._panResponder.panHandlers}
+        onLayout={(event) => {
+          this.setState({
+            sliderWidth: event.nativeEvent.layout.width,
+            sliderHeight: event.nativeEvent.layout.height
+          });
+        }}>
+          <View pointerEvents='none' style={styles.slider}>
+            <View style={style.filled}/>
+            <View style={style.background}/>
+          </View>
+          {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.props.volume)}
       </View>
     );
   };
-
 
   render() {
     const animationStyle = {opacity: this.state.opacity};
 
     return (
       <Animated.View style={[styles.container, animationStyle]}>
+        <VolumeView
+          style={{width: 0, height: 0, flex: 0}}
+          showsVolumeSlider={false}
+          volume={this.state.volume}> 
+        </VolumeView>
         {this._renderVolumeIcon()}
-        {this._renderVolumeSlider()}
+        {this._renderVolumeSlider(this.props.volume)}
       </Animated.View>
     );
   }
