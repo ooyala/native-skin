@@ -60,6 +60,7 @@ RCT_EXPORT_MODULE();
   });
 }
 
+RCT_EXPORT_VIEW_PROPERTY(showsVolumeSlider, BOOL)
 RCT_REMAP_VIEW_PROPERTY(color, tintColor, UIColor)
 RCT_CUSTOM_VIEW_PROPERTY(volume, float, OOVolumeViewManager) {
   self.volume = [RCTConvert float:json];
