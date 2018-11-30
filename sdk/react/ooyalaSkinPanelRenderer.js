@@ -123,7 +123,7 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
       config={{
         controlBar: this.skin.props.controlBar,
         general: this.skin.props.general,
-        buttons: this.skin.props.buttons.audioOnly,
+        buttons: this.skin.props.buttons.audioOnly.mobile,
         upNext: this.skin.props.upNext,
         icons: this.skin.props.icons,
         live: this.skin.props.live,
@@ -361,7 +361,7 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
 
 OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
   const isAudioOnlyScreenType = this.skin.state.screenType === SCREEN_TYPES.AUDIO_SCREEN;
-  const buttons = isAudioOnlyScreenType ? this.skin.props.buttons.audioOnly : this.skin.props.buttons.mobileContent;
+  const buttons = isAudioOnlyScreenType ? this.skin.props.buttons.audioOnly.mobile : this.skin.props.buttons.mobileContent;
   const CCEnabled =
     this.skin.state.availableClosedCaptionsLanguages &&
     this.skin.state.availableClosedCaptionsLanguages.length > 0;
