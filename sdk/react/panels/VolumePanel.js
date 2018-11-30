@@ -120,6 +120,10 @@ class VolumePanel extends React.Component {
     });
   };
 
+  onDismissPress = () => {
+    this.props.onDismiss();
+  };
+
   // Volume slider
 
   _touchPercent = (x) => {
@@ -194,6 +198,18 @@ class VolumePanel extends React.Component {
       </View>
     );
   };
+  
+  _renderDismissButton = () => {
+    return (
+      <TouchableHighlight style={styles.dismissButton}
+        underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+        onPress={this.onDismissPress}>
+          <Text style={styles.dismissIcon}>
+            {this.props.config.icons.dismiss.fontString}
+          </Text>
+      </TouchableHighlight>
+    );
+  }
 
   render() {
     const animationStyle = {opacity: this.state.opacity};
@@ -205,6 +221,7 @@ class VolumePanel extends React.Component {
           showsVolumeSlider={false}
           volume={this.state.volume}> 
         </VolumeView>
+        {this._renderDismissButton()}
         {this._renderVolumeIcon()}
         {this._renderVolumeSlider(this.props.volume)}
       </Animated.View>

@@ -7,6 +7,29 @@
     "backgroundColor": "rgba(0, 0, 0, 0.3)"
   },
 
+  "dismissButton": {
+    "position": "absolute",
+    "right": 0,
+    "top": 0,
+    "height": 42,
+    "width": 44,
+    "justifyContent": "center",
+    "alignItems": "center",
+    "flexDirection": "column"
+  },
+
+  "dismissIcon": {
+    "flex": -1,
+    "maxHeight": 42,
+    "minHeight": 0,
+    "maxWidth": 44,
+    "minWidth": 16,
+    "textAlign": "center",
+    "fontFamily": "ooyala-slick-type",
+    "fontSize": 12,
+    "color": "#55595c"
+  },
+
   "volumeIconContainer": {
     "marginLeft": 16
   },
