@@ -12,10 +12,11 @@ import {
   BUTTON_NAMES,
 } from '../constants';
 
-const Log = require('../log');
+import Log from '../log';
+import CollapsingBarUtils from '../collapsingBarUtils';
+
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
-const CollapsingBarUtils = require('../collapsingBarUtils');
 
 const dismissButtonSize = 20;
 
@@ -119,8 +120,8 @@ class MoreOptionScreen extends React.Component {
       }
 
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
-      if (buttonIcon === undefined || buttonStyle === undefined ) {
-        Log.warn("Warning: skipping unsupported More Options button " + button.name);
+      if (buttonIcon === undefined || buttonStyle === undefined) {
+        Log.warn('Warning: skipping unsupported More Options button ' + button.name);
         continue;
       }
 
@@ -129,7 +130,7 @@ class MoreOptionScreen extends React.Component {
           continue;
         }
       } else if (button.name === BUTTON_NAMES.AUDIO_AND_CC) {
-        Log.warn("showAudioAndCCButton:" + this.props.showAudioAndCCButton);
+        Log.warn('showAudioAndCCButton:' + this.props.showAudioAndCCButton);
         if (!this.props.сlosedCaptionsEnabled && !this.props.multiAudioEnabled && !this.props.showAudioAndCCButton) {
           continue;
         }

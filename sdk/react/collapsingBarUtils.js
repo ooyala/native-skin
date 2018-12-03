@@ -99,4 +99,4 @@ const CollapsingBarUtils = {
   }
 };
 
-module.exports = CollapsingBarUtils;
+export default CollapsingBarUtils;

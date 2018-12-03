@@ -16,11 +16,12 @@ import {
   VALUES
 } from '../constants';
 
-const timerForSkipButtons = require('react-native-timer');
 
+import CollapsingBarUtils from '../collapsingBarUtils';
+
+const timerForSkipButtons = require('react-native-timer');
 const ProgressBar = require('../common/progressBar');
 const ControlBarWidget = require('../widgets/controlBarWidgets');
-const CollapsingBarUtils = require('../collapsingBarUtils');
 
 const Log = require('../log');
 const Utils = require('../utils');

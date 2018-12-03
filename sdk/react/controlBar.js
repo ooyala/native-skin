@@ -26,10 +26,11 @@ import {
   UI_SIZES
 } from './constants';
 
+import CollapsingBarUtils from './collapsingBarUtils';
+
 var Log = require('./log');
 var Utils = require('./utils');
 var ControlBarWidget = require('./widgets/controlBarWidgets');
-var CollapsingBarUtils = require('./collapsingBarUtils');
 var ResponsiveDesignManager = require('./responsiveDesignManager');
 var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
 
