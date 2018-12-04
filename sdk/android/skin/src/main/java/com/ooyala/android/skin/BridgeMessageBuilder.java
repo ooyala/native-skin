@@ -26,7 +26,7 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Set;
 
-class BridgeMessageBuilder {
+public class BridgeMessageBuilder {
   private static final String TAG = BridgeMessageBuilder.class.getSimpleName();
 
   public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
