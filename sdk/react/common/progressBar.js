@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-import Log from './log';
-import { VIEW_NAMES } from './constants';
+import Log from '../log';
+import { VIEW_NAMES } from '../constants';
 
-const Utils = require('./utils');
+const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/progressBarStyles.json'));
 
 class ProgressBar extends React.Component {

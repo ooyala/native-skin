@@ -303,7 +303,7 @@ class controlBarWidget extends React.Component {
     // Create accessibility label for selected playback speed rate button
     const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
     const selectedPlaybackSpeedAccessiblityLabel = AccessibilityUtils.createAccessibilityLabelForSelectedObject(playbackSpeedRateWithoutPostfix)
-    const accessibilityLabel = BUTTON_NAMES.PLAYBACK_SPEED + selectedPlaybackSpeedAccessiblityLabel
+    const accessibilityLabel = VIEW_ACCESSIBILITY_NAMES.PLAYBACK_SPEED_BUTTON + selectedPlaybackSpeedAccessiblityLabel
 
     if (options.enabled) {
       widget = <TouchableHighlight

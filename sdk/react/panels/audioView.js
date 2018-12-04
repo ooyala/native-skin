@@ -16,13 +16,14 @@ import {
   VALUES
 } from '../constants';
 
+
+import CollapsingBarUtils from '../collapsingBarUtils';
+import Log from '../log';
+
 const timerForSkipButtons = require('react-native-timer');
-
-const ProgressBar = require('../progressBar');
+const ProgressBar = require('../common/progressBar');
 const ControlBarWidget = require('../widgets/controlBarWidgets');
-const CollapsingBarUtils = require('../collapsingBarUtils');
 
-const Log = require('../log');
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
 const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
@@ -30,10 +31,6 @@ const ResponsiveDesignManager = require('../responsiveDesignManager');
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
-
-const constants = {
-  playbackSpeedRatePostfix: 'x'
-};
 
 class AudioView extends React.Component {
   static propTypes = {
@@ -69,7 +66,6 @@ class AudioView extends React.Component {
 
   state = {
     playing: false,
-    showVolume: false,
     skipCount: 0,
     height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
     cachedPlayhead: -1
@@ -86,10 +82,7 @@ class AudioView extends React.Component {
   }
 
   getSelectedPlaybackSpeedRate = () => {
-    const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(this.props.config.selectedPlaybackSpeedRate)).toFixed(2))
-    const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
-
-    return selectedPlaybackSpeedRateString.concat(constants.playbackSpeedRatePostfix);
+    return Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
   };
 
   // MARK: - Actions
@@ -99,9 +92,7 @@ class AudioView extends React.Component {
   };
 
   onVolumePress = () => {
-    this.setState({
-      showVolume: !this.state.showVolume
-    });
+    this.props.handlers.onPress(BUTTON_NAMES.VOLUME);
   };
 
   onSeekPressed = (skipCountValue) => {
@@ -209,13 +200,11 @@ class AudioView extends React.Component {
     const widgetOptions = {
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ?
-               [controlBarStyles.icon, {'fontSize': iconFontSize}, controlBarStyles.iconHighlighted, this.props.config.controlBar.iconStyle.active] :
-               [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         iconTouchableStyle: controlBarStyles.iconTouchable,
-        showVolume: this.state.showVolume,
+        showVolume: false,
         volume: this.props.volume,
         scrubberStyle: controlBarStyles.volumeSlider,
         volumeControlColor: this.getVolumeControlColor()
@@ -233,8 +222,7 @@ class AudioView extends React.Component {
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
-        primaryActionButton: this.props.onPlayComplete ? 'replay' :
-                             (this.props.playing ? 'pause' : 'play'),
+        primaryActionButton: this.props.onPlayComplete ? 'replay' : (this.props.playing ? 'pause' : 'play'),
         onReplay: this.onReplayPress
       },
       seekForward: {
@@ -265,23 +253,6 @@ class AudioView extends React.Component {
         icon: this.props.config.icons.share
       }
     };
-
-    function _isVisible(item) {
-      let visible = true;
-      switch (item.name) {
-        case BUTTON_NAMES.PLAYBACK_SPEED:
-          visible = false;
-          break;
-        case BUTTON_NAMES.SHARE:
-          visible = false;
-          break;
-        default:
-          break;
-      }
-      item.isVisible = visible;
-    };
-
-    this.props.config.buttons.forEach(_isVisible, this);
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 

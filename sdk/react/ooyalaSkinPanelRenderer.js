@@ -13,8 +13,9 @@ import {
 } from './constants';
 
 import AudioView from './panels/audioView';
+import VolumePanel from './panels/VolumePanel';
+import Log from './log';
 
-const Log = require('./log');
 const ActivityView = require('NativeModules').OOActivityView;
 const StartScreen = require('./panels/StartScreen');
 const EndScreen = require('./panels/EndScreen');
@@ -25,6 +26,7 @@ const VideoView = require('./panels/videoView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
+const Utils = require('./utils');
 
 const leftMargin = 20;
 const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore) {
@@ -121,7 +123,7 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
       config={{
         controlBar: this.skin.props.controlBar,
         general: this.skin.props.general,
-        buttons: this.skin.props.buttons.audioOnly,
+        buttons: this.skin.props.buttons.audioOnly.mobile,
         upNext: this.skin.props.upNext,
         icons: this.skin.props.icons,
         live: this.skin.props.live,
@@ -296,6 +298,20 @@ OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
     </PlaybackSpeedPanel>);
 };
 
+OoyalaSkinPanelRenderer.prototype.renderVolumePanel = function() {
+  return (
+    <VolumePanel
+      onDismiss={()=>this.core.dismissOverlay()}
+      volume={this.skin.state.volume}
+      width={this.skin.state.width}
+      config={{
+        controlBar: this.skin.props.controlBar,
+        icons: this.skin.props.icons
+      }}>
+    </VolumePanel>
+  );
+};
+
 OoyalaSkinPanelRenderer.prototype.renderSocialOptions = function() {
   Platform.select({
     ios: () => ActivityView.show({
@@ -344,6 +360,8 @@ OoyalaSkinPanelRenderer.prototype.renderDiscoveryPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
+  const isAudioOnlyScreenType = this.skin.state.screenType === SCREEN_TYPES.AUDIO_SCREEN;
+  const buttons = isAudioOnlyScreenType ? this.skin.props.buttons.audioOnly.mobile : this.skin.props.buttons.mobileContent;
   const CCEnabled =
     this.skin.state.availableClosedCaptionsLanguages &&
     this.skin.state.availableClosedCaptionsLanguages.length > 0;
@@ -353,9 +371,11 @@ OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
       onDismiss={() => this.core.dismissOverlay()}
       onOptionButtonPress={(buttonName) => this.core.handleMoreOptionsButtonPress(buttonName)}
       showAudioAndCCButton={this.skin.state.multiAudioEnabled || CCEnabled}
+      isAudioOnly={isAudioOnlyScreenType}
+      selectedPlaybackSpeedRate={Utils.formattedPlaybackSpeedRate(this.skin.state.selectedPlaybackSpeedRate)}
       config={{
         moreOptionsScreen: this.skin.props.moreOptionsScreen,
-        buttons: this.skin.props.buttons.mobileContent,
+        buttons: buttons,
         icons: this.skin.props.icons,
         // TODO: assumes this is how control bar width is calculated everywhere.
         controlBarWidth: this.skin.state.width - 2 * leftMargin
@@ -378,6 +398,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
         break;
       case OVERLAY_TYPES.PLAYBACK_SPEED_SCREEN:
         return this.renderPlaybackSpeedPanel();
+        break;
+      case OVERLAY_TYPES.VOLUME_SCREEN:
+        return this.renderVolumePanel();
         break;
     }
     return;
