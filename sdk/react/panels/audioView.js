@@ -18,12 +18,12 @@ import {
 
 
 import CollapsingBarUtils from '../collapsingBarUtils';
+import Log from '../log';
 
 const timerForSkipButtons = require('react-native-timer');
 const ProgressBar = require('../common/progressBar');
 const ControlBarWidget = require('../widgets/controlBarWidgets');
 
-const Log = require('../log');
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
 const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));

@@ -14,8 +14,8 @@ import {
 
 import AudioView from './panels/audioView';
 import VolumePanel from './panels/VolumePanel';
+import Log from './log';
 
-const Log = require('./log');
 const ActivityView = require('NativeModules').OOActivityView;
 const StartScreen = require('./panels/StartScreen');
 const EndScreen = require('./panels/EndScreen');
@@ -26,7 +26,7 @@ const VideoView = require('./panels/videoView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
-var Utils = require('./utils');
+const Utils = require('./utils');
 
 const leftMargin = 20;
 const OoyalaSkinPanelRenderer = function(ooyalaSkin, ooyalaCore) {
