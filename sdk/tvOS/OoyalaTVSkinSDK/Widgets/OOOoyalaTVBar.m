@@ -11,14 +11,11 @@
 
 @implementation OOOoyalaTVBar
 
-- (id)initWithFrame:(CGRect)frame color:(UIColor *)color{
-  self = [super initWithFrame:frame];
-  
-  if (self) {
+- (instancetype)initWithFrame:(CGRect)frame color:(UIColor *)color{
+  if (self = [super initWithFrame:frame]) {
     self.backgroundColor = color;
     self.layer.cornerRadius = barCornerRadius;
   }
-  
   return self;
 }
 

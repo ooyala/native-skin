@@ -9,7 +9,7 @@
   @property player
   @abstract The player that will playback the video supplied through this controller.
  */
-@property (strong, nonatomic) OOOoyalaPlayer *player;
+@property (nonatomic) OOOoyalaPlayer *player;
 
 /*!
 	@property	showsPlaybackControls
@@ -26,7 +26,7 @@
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
 
-/**
+/** 
  * Show progress bar;
  */
 - (void)showProgressBar;
@@ -45,5 +45,7 @@
 - (void)addClosedCaptionsView;
 
 - (void)removeClosedCaptionsMenu;
+
+- (void)updatePlayheadWithSeekTime:(double)seekTime;
 
 @end

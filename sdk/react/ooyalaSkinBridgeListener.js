@@ -116,6 +116,7 @@ OoyalaSkinBridgeListener.prototype.onAdStarted = function(e) {
     adOverlay: null,
     onPlayComplete: false
   });
+  this.core.clearOverlayStack();
 };
 
 OoyalaSkinBridgeListener.prototype.onCcStylingChange = function(e) {

@@ -24,6 +24,7 @@
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
+#import <OoyalaSDK/OOAudioSession.h>
 
 @interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate>
 
@@ -79,7 +80,7 @@ static NSString *resultsKey             = @"results";
                                                   mergedWith:_skinOptions.overrideConfigs];
     _bridge = [[OOReactSkinBridge alloc] initWithDelegate:self launchOptions:nil];
 
-    [OOVolumeManager addVolumeObserver:self];
+    [OOAudioSession.sharedInstance addVolumeObserver:self];
 
     _playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player ooReactSkinModel:self];
     _upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player
@@ -111,7 +112,7 @@ static NSString *resultsKey             = @"results";
 
 - (void)setIsReactReady:(BOOL)isReactReady {
   self.bridge.skinEventsEmitter.isReactReady = isReactReady;
-  [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @([OOVolumeManager getCurrentVolume])}];
+  [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
 - (void)ccStyleChanged:(NSNotification *)notification {
@@ -363,7 +364,7 @@ static NSString *resultsKey             = @"results";
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
                         change:(NSDictionary *)change context:(void *)context {
   if ([keyPath isEqualToString:VolumePropertyKey]) {
-    [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @([change[NSKeyValueChangeNewKey] floatValue])}];
+    [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
   } else {
     [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
   }

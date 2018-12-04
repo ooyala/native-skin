@@ -5,6 +5,12 @@
     "alignItems": "center"
   },
   "container": {
+    "flex": 0,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "overflow": "hidden"
+  },
+  "adContainer": {
     "flex": 1,
     "flexDirection": "column",
     "backgroundColor": "transparent",

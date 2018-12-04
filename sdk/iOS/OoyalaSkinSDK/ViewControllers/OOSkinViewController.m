@@ -15,6 +15,7 @@
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODebugMode.h>
 #import <OoyalaSDK/OOOptions.h>
+#import <OoyalaSDK/OOAudioSession.h>
 
 #import "OOConstant.h"
 #import "OOSkinViewControllerDelegate.h"
@@ -50,9 +51,10 @@
 @implementation OOSkinViewController
 
 #pragma mark - Constants
+
 static NSString *kFrameChangeContext = @"frameChanged";
 static NSString *kViewChangeKey =      @"frame";
-static NSString *fullscreenKey =       @"fullScreen";
+static NSString *fullscreenKey =       @"fullscreen";
 static NSString *widthKey =            @"width";
 static NSString *heightKey =           @"height";
 
@@ -427,7 +429,11 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   if (self.isVRStereoMode) {
     [self toggleStereoMode];
   } else {
-    [self setFullscreen:!self.fullscreen isOrientationChanges:NO completion:NULL];
+    BOOL fullscreen = !self.fullscreen;
+    if (fullscreen) {
+      [OOAudioSession.sharedInstance prioritize];
+    }
+    [self setFullscreen:fullscreen isOrientationChanges:NO completion:NULL];
   }
 }
 
