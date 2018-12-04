@@ -174,7 +174,7 @@ class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         durationString: this.getDurationString()
       },
-      Fullscreen: {
+      fullscreen: {
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
