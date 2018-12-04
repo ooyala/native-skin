@@ -23,6 +23,7 @@
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOSeekInfo.h>
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
+#import <OoyalaSDK/OOAudioSession.h>
 
 
 @interface OOSkinPlayerObserver ()
@@ -136,7 +137,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
                                              OOOoyalaPlayerAudioTrackChangedNotification: @"bridgeAudioTrackChangedNotification:",
                                              OOOoyalaPlayerCCManifestChangedNotification: @"bridgeCCManifestChangedNotification:",
                                              OOOoyalaPlayerPlaybackSpeedEnabledNotification: @"bridgePlaybackSpeedEnabledNotification:",
-                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:"
+                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:",
+                                             OOOoyalaPlayerApplicationVolumeChangedNotification: @"bridgeApplicationVolumeChangedNotification:"
                                              };
     [self addNotificationsObservers:notificationsSelectors];
   }
@@ -280,7 +282,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *frameHeight            = @(CGRectGetHeight(self.ooReactSkinModel.videoViewFrame));
   NSNumber *live                   = @(self.player.currentItem.live);
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
-  NSNumber *volume                 = @([OOVolumeManager getCurrentVolume]);
+  NSNumber *volume                 = @(OOAudioSession.sharedInstance.applicationVolume);
   NSString *contentType            = self.player.currentItem.contentType ?
                                      self.player.currentItem.contentType : @"Video";
 
@@ -468,6 +470,10 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSDictionary *eventBody          = @{languagesKey: closedCaptionsLanguages};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
+}
+
+- (void)bridgeApplicationVolumeChangedNotification:(NSNotification *)notification {
+   [self.ooReactSkinModel sendEventWithName:VolumeChangeKey body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
 - (void)dealloc {

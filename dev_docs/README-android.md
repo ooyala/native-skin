@@ -94,6 +94,7 @@ You should also connect the OoyalaSkinSDK Java Source Code to the application.
 
 * Open OoyalaSkinSampleApp Android Studio Project
 * In `OoyalaSkinSampleApp/settings.gradle`, add the `:skin` module to your project
+* Optional: If you have access to core, also add it to `OoyalaSkinSampleApp/settings.gradle`.
 
 ```
 include ':skin'
@@ -108,9 +109,9 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.novoda:bintray-release:0.3.4'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+      classpath "com.android.tools.build:gradle:$gradleVersion"
+      classpath "com.novoda:bintray-release:$bintrayVersion"
+      classpath "com.github.dcendents:android-maven-gradle-plugin:$mavenGradleVersion"
     }
 }
 
@@ -138,13 +139,27 @@ project.ext.bintrayApiKey = 'X'
 project.ext.androidSDKPath = file("${projectDir}/../").absolutePath
 ```
 
-* In `OoyalaSkinSampleApp/app/build.gradle`, comment out the compiled `OoyalaSDK.jar` and `OoyalaSkinSDK.jar`, and add the `:skin` module
+* In `OoyalaSkinSampleApp/app/build.gradle`, comment out the compiled `OoyalaSkinSDK.aar`, and add the `:skin` module
+* Optional: If you have access to core, comment out the compiled `OoyalaSDK.aar`, and add the `:core` module
 
 ```
 dependencies {
-// compile files('libs/OoyalaSDK.jar')
-// compile files('libs/OoyalaSkinSDK.jar')
-compile project(':skin')
+  implementation files('libs/OoyalaSDK.aar')
+  // implementation files('libs/OoyalaSkinSDK.aar')
+  implementation project(':skin')
+
+... // more dependencies
+}
+```
+
+* In `native-skin/sdk/android/skin/build.gradle`, comment out the compiled `OoyalaSkinSDK.aar`, and add the one from the root project
+* Optional: If you have access to core, leave just `implementation project(':core')` and leave the rest commented
+
+```
+dependencies {
+  // implementation files('libs/OoyalaSDK.aar')
+  // implementation project(':core')
+  implementation files(rootProject.files('app/libs/OoyalaSDK.aar'))
 
 ... // more dependencies
 }

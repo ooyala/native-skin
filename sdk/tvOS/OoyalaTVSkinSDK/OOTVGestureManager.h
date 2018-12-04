@@ -6,6 +6,9 @@
 
 @interface OOTVGestureManager : NSObject
 
+@property (nonatomic) double playheadTime;
+@property (nonatomic) double durationTime;
+
 - (instancetype)initWithController:(OOOoyalaTVPlayerViewController *)controller;
 
 - (void)addGestures;
