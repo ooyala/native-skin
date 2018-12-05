@@ -10,7 +10,7 @@ public enum SkinButton {
   SHARE("Share"),
   REWIND("rewind"),
   SOCIAL_SHARE("SocialShare"),
-  FULLSCREEN("Fullscreen"),
+  FULLSCREEN("fullscreen"),
   LEARN_MORE("LearnMore"),
   MORE("More"),
   UP_NEXT_DISMISS("upNextDismiss"),

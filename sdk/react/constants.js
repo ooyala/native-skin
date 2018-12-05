@@ -19,7 +19,7 @@ const UI_SIZES = {
 const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY: 'Play',
   PLAY_PAUSE: 'PlayPause',
-  FULLSCREEN: 'Fullscreen',
+  FULLSCREEN: 'fullscreen',
   MORE: 'moreOptions',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
