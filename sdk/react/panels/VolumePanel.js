@@ -142,7 +142,7 @@ class VolumePanel extends React.Component {
   };
 
   _calculateLeftOffset = (componentSize, percent, sliderWidth) => {
-    return percent * sliderWidth - componentSize * percent - componentSize / 2 * (0.5 - percent);
+    return percent * sliderWidth - componentSize * percent;
   };
 
   _thumbStyle = () => {

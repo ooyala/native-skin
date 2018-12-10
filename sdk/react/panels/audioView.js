@@ -298,7 +298,7 @@ class AudioView extends React.Component {
   };
 
   _calculateLeftOffset = (componentSize, percent, progressBarWidth) => {
-    return percent * progressBarWidth - componentSize * percent - componentSize / 2 * (0.5 - percent);
+    return percent * progressBarWidth - componentSize * percent;
   };
 
   _renderProgressScrubber = (percent) => {
