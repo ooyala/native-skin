@@ -103,16 +103,11 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
   }
   return (
     <AudioView
-      rate={this.skin.state.rate}
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
-      live={this.skin.state.live}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
-      cuePoints={this.skin.state.cuePoints}
-      stereoSupported={this.skin.state.stereoSupported}
-      multiAudioEnabled={this.skin.state.multiAudioEnabled}
       playbackSpeedEnabled={playbackSpeedEnabled}
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       handlers={{
@@ -129,13 +124,10 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
         live: this.skin.props.live,
         skipControls: this.skin.props.skipControls
       }}
-      nextVideo={this.skin.state.nextVideo}
       upNextDismissed={this.skin.state.upNextDismissed}
       localizableStrings={this.skin.props.localization}
       locale={this.skin.props.locale}
       playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
-      loading={this.skin.state.loading}
-      initialPlay={this.skin.state.initialPlay}
       title={this.skin.state.title}
       description={this.skin.state.description}
       onPlayComplete={this.skin.state.onPlayComplete}>
