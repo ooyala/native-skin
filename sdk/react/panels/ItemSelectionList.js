@@ -15,8 +15,6 @@ const styles=require('../utils').getStyles(require('./style/ItemSelectionScrollV
 
 class ItemSelectionList extends React.Component {
   static propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
     horizontal: PropTypes.bool,
     data: PropTypes.array,
     itemRender: PropTypes.func

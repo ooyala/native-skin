@@ -20,11 +20,11 @@ const styles = require('../utils').getStyles(require('./style/ItemSelectionScrol
 
 class ItemSelectionScrollView extends React.Component {
   static propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
     items: PropTypes.array,
     selectedItem: PropTypes.string,
     onSelect: PropTypes.func,
+    width: PropTypes.number,
+    height: PropTypes.number,
     config: PropTypes.object,
     cellType: PropTypes.string
   };
