@@ -12,15 +12,9 @@ import {
   View
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  UI_SIZES,
-  CELL_TYPES
-} from '../constants';
 
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/VolumePanelStyles'));
-const VolumeView = require('../widgets/VolumeView');
 
 const constants = {
   animationDuration: 1000,
@@ -31,6 +25,7 @@ const constants = {
 class VolumePanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
+    onVolumeChanged: PropTypes.func.isRequired,
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     config: PropTypes.object,
@@ -58,6 +53,7 @@ class VolumePanel extends React.Component {
   };
 
   _onVolumeChange = (volume) => {
+    this.props.onVolumeChanged(volume);
     this.setState({
       volume: volume
     });
@@ -216,11 +212,6 @@ class VolumePanel extends React.Component {
 
     return (
       <Animated.View style={[styles.container, animationStyle]}>
-        <VolumeView
-          style={{width: 0, height: 0, flex: 0}}
-          showsVolumeSlider={false}
-          volume={this.state.volume}> 
-        </VolumeView>
         {this._renderDismissButton()}
         {this._renderVolumeIcon()}
         {this._renderVolumeSlider(this.props.volume)}

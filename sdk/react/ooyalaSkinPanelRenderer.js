@@ -293,6 +293,7 @@ OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
 OoyalaSkinPanelRenderer.prototype.renderVolumePanel = function() {
   return (
     <VolumePanel
+      onVolumeChanged={(value)=>this.core.onVolumeChanged(value)}
       onDismiss={()=>this.core.dismissOverlay()}
       volume={this.skin.state.volume}
       width={this.skin.state.width}

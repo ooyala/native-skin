@@ -76,6 +76,11 @@ OoyalaSkinCore.prototype.handlePlaybackSpeedRateSelection = function(e) {
   this.bridge.onPlaybackSpeedRateSelected({playbackSpeedRate:e});
 };
 
+OoyalaSkinCore.prototype.onVolumeChanged = function(volume) {
+  Log.log("onVolumeChanged:" + volume);
+  this.bridge.onVolumeChanged({volume:volume});
+};
+
 // event handlers.
 OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
   switch (buttonName) {
