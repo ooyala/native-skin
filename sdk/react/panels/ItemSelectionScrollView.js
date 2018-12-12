@@ -72,8 +72,6 @@ class ItemSelectionScrollView extends React.Component {
     const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     return (
       <ItemSelectionList
-        width={this.props.width}
-        height={this.props.height}
         horizontal={renderHorizontal}
         data={this.props.items}
         itemRender={this.renderItem}>
