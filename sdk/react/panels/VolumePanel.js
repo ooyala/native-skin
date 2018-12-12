@@ -190,7 +190,7 @@ class VolumePanel extends React.Component {
             <View style={style.filled}/>
             <View style={style.background}/>
           </View>
-          {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.props.volume)}
+          {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
       </View>
     );
   };
