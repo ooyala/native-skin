@@ -60,7 +60,9 @@ class AudioView extends React.Component {
     playing: false,
     skipCount: 0,
     height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
-    cachedPlayhead: -1
+    cachedPlayhead: -1,
+    progressBarWidth: 0,
+    progressBarHeight: 0
   };
 
   componentWillReceiveProps(nextProps) {
@@ -277,22 +279,6 @@ class AudioView extends React.Component {
 
   // MARK: - Progress bar + scrubber
 
-  _calculateProgressBarWidth = () => {
-    if (this.state.progressBarWidth) {
-      return this.state.progressBarWidth;
-    } else {
-      return 0;
-    }    
-  };
-
-  _calculateProgressBarHeight = () => {
-    if (this.state.progressBarHeight) {
-      return this.state.progressBarHeight;
-    } else {
-      return 0;
-    }    
-  };
-
   _calculateTopOffset = (componentSize, progressBarHeight) => {
     return progressBarHeight / 2 - componentSize / 2;
   };
@@ -302,10 +288,8 @@ class AudioView extends React.Component {
   };
 
   _renderProgressScrubber = (percent) => {
-    const progressBarWidth = this._calculateProgressBarWidth();
-    const progressBarHeight = this._calculateProgressBarHeight();
-    const topOffset = this._calculateTopOffset(scrubberSize, progressBarHeight);
-    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
+    const topOffset = this._calculateTopOffset(scrubberSize, this.state.progressBarHeight);
+    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, this.state.progressBarWidth);
     const positionStyle = {top:topOffset, left:leftOffset};
     const scrubberStyle = this._customizeScrubber();
 
