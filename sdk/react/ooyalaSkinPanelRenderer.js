@@ -276,7 +276,6 @@ OoyalaSkinPanelRenderer.prototype.renderAudioAndCCSelectionPanel = function() {
 };
 
 OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
-  const isAudioOnlyScreenType = this.skin.state.screenType === SCREEN_TYPES.AUDIO_SCREEN;
   let playbackSpeedRates = [];
   if (this.skin.props.playbackSpeed && Array.isArray(this.skin.props.playbackSpeed.options)) {
     playbackSpeedRates = this.skin.props.playbackSpeed.options;
@@ -288,7 +287,6 @@ OoyalaSkinPanelRenderer.prototype.renderPlaybackSpeedPanel = function() {
       selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
       width={this.skin.state.width}
       height={this.skin.state.height}
-      isAudioOnly={isAudioOnlyScreenType}
       onSelectPlaybackSpeedRate={(value)=>this.core.handlePlaybackSpeedRateSelection(value)}
       onDismiss={()=>this.core.dismissOverlay()}
       config={{

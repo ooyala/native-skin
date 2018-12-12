@@ -22,7 +22,6 @@ class ItemSelectionScrollView extends React.Component {
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
-    isAudioOnly: PropTypes.bool,
     items: PropTypes.array,
     selectedItem: PropTypes.string,
     onSelect: PropTypes.func,
@@ -75,7 +74,6 @@ class ItemSelectionScrollView extends React.Component {
       <ItemSelectionList
         width={this.props.width}
         height={this.props.height}
-        isAudioOnly={this.props.isAudioOnly}
         horizontal={renderHorizontal}
         data={this.props.items}
         itemRender={this.renderItem}>

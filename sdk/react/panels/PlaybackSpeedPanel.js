@@ -38,7 +38,6 @@ class PlaybackSpeedPanel extends React.Component {
     onDismiss: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    isAudioOnly: PropTypes.bool,
     config: PropTypes.object
   };
 
@@ -148,7 +147,6 @@ class PlaybackSpeedPanel extends React.Component {
       <ItemSelectionScrollView
         width={this.props.width}
         height={this.props.height}
-        isAudioOnly={this.props.isAudioOnly}
         style={styles.panelItemSelectionView}
         items={convertedPlaybackSpeedRates}
         selectedItem={selectedLocalizedItem}
