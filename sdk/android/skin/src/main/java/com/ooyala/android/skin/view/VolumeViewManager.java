@@ -33,8 +33,15 @@ public class VolumeViewManager extends SimpleViewManager<VolumeView> {
   }
 
   @ReactProp(name = "volume")
-  public void setVolume(VolumeView view, int volume) {
-    view.setProgress(volume);
+  public void setVolume(VolumeView view, float volume) {
+    if (volume < 0) {
+      volume = 0;
+    }
+    if (volume > 1) {
+      volume = 1;
+    }
+
+    view.setProgress((int)(volume*view.getMax()));
     view.invalidate();
   }
 }

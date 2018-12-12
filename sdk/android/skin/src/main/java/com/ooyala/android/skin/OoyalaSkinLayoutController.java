@@ -318,9 +318,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     return _layout.getPlayerLayout();
   }
 
-  public int getCurrentVolume() {
+  public float getCurrentVolume() {
     AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
-    return audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+    return (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)/(float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
   }
 
   @Override
