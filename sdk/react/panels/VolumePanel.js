@@ -60,7 +60,7 @@ class VolumePanel extends React.Component {
   };
 
   _renderVolumeIcon = () => {
-    const iconConfig = (this.props.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
+    const iconConfig = (this.state.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
     const fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
 
     return (
@@ -214,7 +214,7 @@ class VolumePanel extends React.Component {
       <Animated.View style={[styles.container, animationStyle]}>
         {this._renderDismissButton()}
         {this._renderVolumeIcon()}
-        {this._renderVolumeSlider(this.props.volume)}
+        {this._renderVolumeSlider(this.state.volume)}
       </Animated.View>
     );
   }
