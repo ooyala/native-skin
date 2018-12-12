@@ -145,6 +145,8 @@ class PlaybackSpeedPanel extends React.Component {
 
     return (
       <ItemSelectionScrollView
+        width={this.props.width}
+        height={this.props.height}
         style={styles.panelItemSelectionView}
         items={convertedPlaybackSpeedRates}
         selectedItem={selectedLocalizedItem}
