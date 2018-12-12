@@ -25,6 +25,8 @@
 #import <OoyalaSDK/OODiscoveryManager.h>
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
 #import <OoyalaSDK/OOAudioSession.h>
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
+#import <OoyalaSDK/OOVideo.h>
 
 @interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate>
 

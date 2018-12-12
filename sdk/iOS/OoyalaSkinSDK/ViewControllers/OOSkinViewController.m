@@ -9,6 +9,7 @@
 #import "OOSkinViewController.h"
 #import "OOSkinOptions.h"
 
+#import "MediaAccessibility/MediaAccessibility.h"
 #import "OOReactSkinModel.h"
 #import <React/RCTRootView.h>
 

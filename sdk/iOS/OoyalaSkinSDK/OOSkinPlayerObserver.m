@@ -24,6 +24,7 @@
 #import <OoyalaSDK/OOSeekInfo.h>
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
 #import <OoyalaSDK/OOAudioSession.h>
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
 
 
 @interface OOSkinPlayerObserver ()
@@ -302,7 +303,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
-  NSString *stateString = [OOOoyalaPlayer playerStateToString:self.player.state];
+  NSString *stateString = [OOOoyalaPlayerStateConverter playerStateToString:self.player.state];
   OOClosedCaptionsStyle *newClosedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
   if ([self.ooReactSkinModel.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
     [self.ooReactSkinModel ccStyleChanged:nil];
@@ -313,7 +314,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeDesiredStateChangedNotification:(NSNotification *)notification {
-  NSString *stateString   = [OOOoyalaPlayer playerDesiredStateToString:self.player.desiredState];
+  NSString *stateString   = [OOOoyalaPlayerStateConverter playerDesiredStateToString:self.player.desiredState];
   NSDictionary *eventBody = @{desiredStateKey: stateString};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
