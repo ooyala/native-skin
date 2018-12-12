@@ -323,6 +323,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     return (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)/(float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
   }
 
+  public void setVolume(float volume) {
+    AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
+    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int)(volume*audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)), 0);
+  }
+
   @Override
   public void setFullscreen(boolean isFullscreen) {
     if (_player != null && _player.hasVRContent()) {

@@ -104,4 +104,10 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   public void onPlaybackSpeedRateSelected(ReadableMap parameters) {
     handler.onPlaybackSpeedRateSelected(parameters);
   }
+
+  @ReactMethod
+  public void onVolumeChanged(ReadableMap parameters) {
+    handler.onVolumeChanged(parameters);
+  }
+
 }
