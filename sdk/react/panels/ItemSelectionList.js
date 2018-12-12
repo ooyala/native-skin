@@ -15,6 +15,9 @@ const styles=require('../utils').getStyles(require('./style/ItemSelectionScrollV
 
 class ItemSelectionList extends React.Component {
   static propTypes = {
+    width: PropTypes.number,
+    height: PropTypes.number,
+    isAudioOnly: PropTypes.bool,
     horizontal: PropTypes.bool,
     data: PropTypes.array,
     itemRender: PropTypes.func
@@ -33,11 +36,12 @@ class ItemSelectionList extends React.Component {
 
   render() {
     const scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
+    const horizontal = this.props.isAudioOnly ? this.props.horizontal : false;
     return (
       <ScrollView
         style={scrollViewStyle}
         indicatorStyle={"white"} // Can't move this property to json styles file because it doesn't work
-        horizontal={this.props.horizontal}
+        horizontal={horizontal}
         directionalLockEnabled={true}>
           {this.renderItems(this.props.data)}
       </ScrollView>
