@@ -81,6 +81,7 @@ class VolumePanel extends React.Component {
     onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
     onPanResponderGrant: (event, gestureState) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
       this.handleTouchStart(event);
     },
     onPanResponderMove: (event, gestureState) => {
@@ -89,7 +90,7 @@ class VolumePanel extends React.Component {
     onPanResponderTerminationRequest: (event, gestureState) => true,
     onPanResponderRelease: (event, gestureState) => {
       this.handleTouchEnd(event);
-    }
+    },
   });
 
   handleTouchStart = (event) => {
@@ -102,10 +103,11 @@ class VolumePanel extends React.Component {
   };
 
   handleTouchMove = (event) => {
-    const volume = this._touchPercent(event.nativeEvent.locationX);
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
+    const volume = this._touchPercent(locationX);
     this._onVolumeChange(volume);
     this.setState({
-      x: event.nativeEvent.locationX
+      x: locationX
     });
   };
 
@@ -123,6 +125,7 @@ class VolumePanel extends React.Component {
   // Volume slider
 
   _touchPercent = (x) => {
+
     let percent = x / (this.state.sliderWidth);
 
     if (percent > 1) {

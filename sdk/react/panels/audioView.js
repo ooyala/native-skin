@@ -365,6 +365,7 @@ class AudioView extends React.Component {
     onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
     onPanResponderGrant: (event, gestureState) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
       this.handleTouchStart(event);
     },
     onPanResponderMove: (event, gestureState) => {
@@ -389,18 +390,20 @@ class AudioView extends React.Component {
   };
 
   handleTouchMove = (event) => {
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
     this.props.handlers.handleControlsTouch();
     this.setState({
-      x: event.nativeEvent.locationX
+      x: locationX
     });
   };
 
   handleTouchEnd = (event) => {
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
     this.props.handlers.handleControlsTouch();
     if (this.state.touch && this.props.handlers.onScrub) {
-      this.props.handlers.onScrub(this.touchPercent(event.nativeEvent.locationX));
+      this.props.handlers.onScrub(this.touchPercent(locationX));
       this.setState({
-        cachedPlayhead: this.touchPercent(event.nativeEvent.locationX) * this.props.duration
+        cachedPlayhead: this.touchPercent(locationX) * this.props.duration
       });
     }
     this.setState({
