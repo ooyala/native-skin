@@ -76,6 +76,11 @@ OoyalaSkinCore.prototype.handlePlaybackSpeedRateSelection = function(e) {
   this.bridge.onPlaybackSpeedRateSelected({playbackSpeedRate:e});
 };
 
+OoyalaSkinCore.prototype.onVolumeChanged = function(volume) {
+  Log.log("onVolumeChanged:" + volume);
+  this.bridge.onVolumeChanged({volume:volume});
+};
+
 // event handlers.
 OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
   switch (buttonName) {
@@ -109,8 +114,8 @@ OoyalaSkinCore.prototype.handleMoreOptionsButtonPress = function(buttonName) {
  *  When a button is pressed on the control bar
  *  If it's a "fast-access" options button, open options menu and perform the options action
  */
-OoyalaSkinCore.prototype.handlePress = function(n) {
-  switch(n) {
+OoyalaSkinCore.prototype.handlePress = function(buttonName) {
+  switch(buttonName) {
     case BUTTON_NAMES.MORE:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MOREOPTION_SCREEN);
       break;
@@ -133,12 +138,14 @@ OoyalaSkinCore.prototype.handlePress = function(n) {
       this.skin.setState({
         onPlayComplete: false
       });
+      this.bridge.onPress({name: buttonName});
+      break;
     case BUTTON_NAMES.VOLUME:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.VOLUME_SCREEN);
       break;
     default:
-      Log.log("handlePress button name:",n);
-      this.bridge.onPress({name: n});
+      Log.log("handlePress button name:",buttonName);
+      this.bridge.onPress({name: buttonName});
       break;
   }
 };

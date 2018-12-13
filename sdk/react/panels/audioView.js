@@ -34,16 +34,11 @@ const scrubTouchableDistance = 45;
 
 class AudioView extends React.Component {
   static propTypes = {
-    rate: PropTypes.number,
     playhead: PropTypes.number,
     duration: PropTypes.number,
-    live: PropTypes.bool,
     width: PropTypes.number,
     height: PropTypes.number,
     volume: PropTypes.number,
-    cuePoints: PropTypes.array,
-    stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
     playbackSpeedEnabled: PropTypes.bool,
     selectedPlaybackSpeedRate: PropTypes.string,
     handlers: PropTypes.shape({
@@ -52,13 +47,10 @@ class AudioView extends React.Component {
       handleControlsTouch: PropTypes.func.isRequired
     }),
     config: PropTypes.object,
-    nextVideo: PropTypes.object,
     upNextDismissed: PropTypes.bool,
     localizableStrings: PropTypes.object,
     locale: PropTypes.string,
     playing: PropTypes.bool,
-    loading: PropTypes.bool,
-    initialPlay: PropTypes.bool,
     title: PropTypes.string,
     description: PropTypes.string,
     onPlayComplete: PropTypes.bool
@@ -68,7 +60,9 @@ class AudioView extends React.Component {
     playing: false,
     skipCount: 0,
     height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
-    cachedPlayhead: -1
+    cachedPlayhead: -1,
+    progressBarWidth: 0,
+    progressBarHeight: 0
   };
 
   componentWillReceiveProps(nextProps) {
@@ -285,35 +279,17 @@ class AudioView extends React.Component {
 
   // MARK: - Progress bar + scrubber
 
-  _calculateProgressBarWidth = () => {
-    if (this.state.progressBarWidth) {
-      return this.state.progressBarWidth;
-    } else {
-      return 0;
-    }    
-  };
-
-  _calculateProgressBarHeight = () => {
-    if (this.state.progressBarHeight) {
-      return this.state.progressBarHeight;
-    } else {
-      return 0;
-    }    
-  };
-
   _calculateTopOffset = (componentSize, progressBarHeight) => {
     return progressBarHeight / 2 - componentSize / 2;
   };
 
   _calculateLeftOffset = (componentSize, percent, progressBarWidth) => {
-    return percent * progressBarWidth - componentSize * percent - componentSize / 2 * (0.5 - percent);
+    return percent * progressBarWidth - componentSize * percent;
   };
 
   _renderProgressScrubber = (percent) => {
-    const progressBarWidth = this._calculateProgressBarWidth();
-    const progressBarHeight = this._calculateProgressBarHeight();
-    const topOffset = this._calculateTopOffset(scrubberSize, progressBarHeight);
-    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
+    const topOffset = this._calculateTopOffset(scrubberSize, this.state.progressBarHeight);
+    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, this.state.progressBarWidth);
     const positionStyle = {top:topOffset, left:leftOffset};
     const scrubberStyle = this._customizeScrubber();
 
@@ -389,6 +365,7 @@ class AudioView extends React.Component {
     onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
     onPanResponderGrant: (event, gestureState) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
       this.handleTouchStart(event);
     },
     onPanResponderMove: (event, gestureState) => {
@@ -413,18 +390,20 @@ class AudioView extends React.Component {
   };
 
   handleTouchMove = (event) => {
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
     this.props.handlers.handleControlsTouch();
     this.setState({
-      x: event.nativeEvent.locationX
+      x: locationX
     });
   };
 
   handleTouchEnd = (event) => {
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
     this.props.handlers.handleControlsTouch();
     if (this.state.touch && this.props.handlers.onScrub) {
-      this.props.handlers.onScrub(this.touchPercent(event.nativeEvent.locationX));
+      this.props.handlers.onScrub(this.touchPercent(locationX));
       this.setState({
-        cachedPlayhead: this.touchPercent(event.nativeEvent.locationX) * this.props.duration
+        cachedPlayhead: this.touchPercent(locationX) * this.props.duration
       });
     }
     this.setState({

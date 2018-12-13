@@ -42,7 +42,7 @@
   "sliderContainer": {
     "flex": 1,
     "flexDirection": "row",
-    "height": 20,
+    "height": 60,
     "alignItems": "center",
     "marginLeft": 8,
     "marginRight": 16
