@@ -90,7 +90,7 @@ class VolumePanel extends React.Component {
     onPanResponderTerminationRequest: (event, gestureState) => true,
     onPanResponderRelease: (event, gestureState) => {
       this.handleTouchEnd(event);
-    },
+    }
   });
 
   handleTouchStart = (event) => {
@@ -125,7 +125,6 @@ class VolumePanel extends React.Component {
   // Volume slider
 
   _touchPercent = (x) => {
-
     let percent = x / (this.state.sliderWidth);
 
     if (percent > 1) {
