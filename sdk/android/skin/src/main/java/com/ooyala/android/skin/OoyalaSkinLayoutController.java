@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.KeyEvent;
@@ -335,7 +336,12 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
         _player.setVRMode(VrMode.MONO);
       }
     }
-
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      final Activity activity = getActivity();
+      if (activity != null) {
+        _layout.setMultiWindowMode(activity.isInMultiWindowMode());
+      }
+    }
     _layout.setFullscreen(isFullscreen);
     sendNotification(FULLSCREEN_CHANGED_NOTIFICATION_NAME, isFullscreen);
   }
@@ -589,6 +595,14 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     params.putBoolean("fullscreen", isFullscreen());
 
     sendEvent("frameChanged", params);
+  }
+
+  @Override
+  public void onFullscreenToggleCallback() {
+    WritableMap params = Arguments.createMap();
+    params.putBoolean("fullscreen", isFullscreen());
+
+    sendEvent("fullscreenToggled", params);
   }
 
   public void sendEvent(String event, WritableMap map) {

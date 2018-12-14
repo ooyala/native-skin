@@ -22,11 +22,14 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
 
   private WindowManager windowManager;
   private boolean fullscreen = false;
+  private boolean multiWindowMode = false;
 
   private int sourceWidth, sourceHeight;
 
   public interface FrameChangeCallback {
     void onFrameChangeCallback(int width, int height, int prevWidth, int prevHeight);
+
+    void onFullscreenToggleCallback();
   }
   public void setFrameChangeCallback(FrameChangeCallback fcCallback){
     this.frameChangeCallback = fcCallback;
@@ -168,6 +171,22 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
     }
     this.fullscreen = fullscreen;
     toggleSystemUI(fullscreen);
+
+    if (multiWindowMode) {
+      // In multiWindowMode toggleSystemUI not always calls onSizeChanged,
+      // this method was created only to toggle fullscreen button on React.
+      // It helps to show current button state and keeps the states synchronized
+      // on orientation changes.
+      try {
+        this.frameChangeCallback.onFullscreenToggleCallback();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  void setMultiWindowMode(boolean multiWindowMode){
+    this.multiWindowMode = multiWindowMode;
   }
 
   private void updateLayoutSize() {
