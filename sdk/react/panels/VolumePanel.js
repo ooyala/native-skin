@@ -28,6 +28,7 @@ class VolumePanel extends React.Component {
     onVolumeChanged: PropTypes.func.isRequired,
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
     config: PropTypes.object,
   };
 
@@ -213,7 +214,7 @@ class VolumePanel extends React.Component {
     const animationStyle = {opacity: this.state.opacity};
 
     return (
-      <Animated.View style={[styles.container, animationStyle]}>
+      <Animated.View style={[styles.container, animationStyle, {height: this.props.height, width: this.props.width}]}>
         {this._renderDismissButton()}
         {this._renderVolumeIcon()}
         {this._renderVolumeSlider(this.state.volume)}
