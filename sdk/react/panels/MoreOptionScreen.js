@@ -225,7 +225,7 @@ class MoreOptionScreen extends React.Component {
     );
     const animationStyle = {opacity:this.state.opacity};
     const moreOptionScreen = (
-      <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
+      <Animated.View style={[styles.fullscreenContainer, animationStyle, {height: this.props.height, width: this.props.width}]}>
         <Animated.View style={[styles.rowsContainer, animationStyle]}>
           {moreOptionRow}
         </Animated.View>

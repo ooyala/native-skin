@@ -477,7 +477,7 @@ class AudioView extends React.Component {
 
   render() {
     return (
-      <View style={styles.backgroundView}>
+      <View style={[styles.backgroundView, {height: this.props.height, width: this.props.width}]}>
         {this._renderPlayer()}
       </View>
     )

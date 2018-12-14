@@ -1,6 +1,5 @@
 {
   "fullscreenContainer": {
-    "flex": 1,
     "flexDirection": "column",
     "backgroundColor": "rgba(0, 0, 0, 0.8)"
   },
