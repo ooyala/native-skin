@@ -90,7 +90,7 @@ class AudioView extends React.Component {
   };
 
   onSeekPressed = (skipCountValue) => {
-    if (skipCountValue == 0 || this.props.onPlayComplete) { return null; }
+    if (this.props.onPlayComplete && skipCountValue > 0 || skipCountValue == 0) { return null; }
 
     let configSeekValue = skipCountValue > 0 ?
                           this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
@@ -106,6 +106,8 @@ class AudioView extends React.Component {
     }
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
     this.handleScrub(resultedPlayheadPercent);
+
+    if (this.props.onPlayComplete && skipCountValue < 0) { this.onPlayPausePress() }
   };
 
   onMorePress = () => {
@@ -221,7 +223,9 @@ class AudioView extends React.Component {
       },
       seekForward: {
         onPress: this.onSkipPressForward,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.onPlayComplete ?
+          this.props.config.controlBar.iconStyle.inactive :
+          this.props.config.controlBar.iconStyle.active],
         seekValue: this.props.config.skipControls.skipForwardTime,
         icon: this.props.config.icons.forward,
         size: iconFontSize
@@ -401,6 +405,7 @@ class AudioView extends React.Component {
     const locationX = event.nativeEvent.pageX - this.locationPageOffset;
     this.props.handlers.handleControlsTouch();
     if (this.state.touch && this.props.handlers.onScrub) {
+      if (this.props.onPlayComplete) { this.onPlayPausePress(); }
       this.props.handlers.onScrub(this.touchPercent(locationX));
       this.setState({
         cachedPlayhead: this.touchPercent(locationX) * this.props.duration
