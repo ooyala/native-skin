@@ -75,7 +75,8 @@ OoyalaSkinBridgeListener.prototype.onSeekStarted = function(e) {
   Log.log("onSeekStarted");
   this.skin.setState({
     playhead: e.seekend,
-    duration: e.duration
+    duration: e.duration,
+    onPlayComplete: false
   });
 };
 
@@ -85,7 +86,6 @@ OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
     this.skin.setState({
       playhead: e.seekend,
       duration: e.duration,
-      onPlayComplete: this.skin.state.onPlayComplete == true,
       screenType: e.screenType
     });
   }
