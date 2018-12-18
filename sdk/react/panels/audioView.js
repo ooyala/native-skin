@@ -90,7 +90,7 @@ class AudioView extends React.Component {
   };
 
   onSeekPressed = (skipCountValue) => {
-    if (skipCountValue == 0) { return null; }
+    if (skipCountValue == 0 || this.props.onPlayComplete) { return null; }
 
     let configSeekValue = skipCountValue > 0 ?
                           this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
