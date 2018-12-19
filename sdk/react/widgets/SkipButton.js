@@ -57,7 +57,7 @@ class SkipButton extends React.Component {
           </Animated.Text>
           <Animated.Text
             accessible={false}
-            style={[position, {fontSize: this.props.fontStyle.fontSize * 0.5}, this.props.buttonColor]}>
+            style={[position, {fontSize: this.props.fontStyle.fontSize * 0.5}, this.props.buttonColor, this.props.opacity]}>
             {this.props.timeValue}
           </Animated.Text>
         </Animated.View>

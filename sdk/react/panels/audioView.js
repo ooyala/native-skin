@@ -226,6 +226,7 @@ class AudioView extends React.Component {
         style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.onPlayComplete ?
           this.props.config.controlBar.iconStyle.inactive :
           this.props.config.controlBar.iconStyle.active],
+        opacity: {opacity: this.props.onPlayComplete ? 0.5 : 1.0},
         seekValue: this.props.config.skipControls.skipForwardTime,
         icon: this.props.config.icons.forward,
         size: iconFontSize
