@@ -4,8 +4,9 @@
 
 @interface OOTVOptionsCollectionView : UICollectionView
 
-@property (nonatomic, strong) OOOoyalaTVBar *optionsBar;
-@property (nonatomic, strong) UILabel *optionsTitle;
+@property (nonatomic) OOOoyalaTVBar *optionsBar;
+@property (nonatomic) UILabel *optionsTitle;
 
 - (instancetype)initWithFrame:(CGRect)frame;
+
 @end
