@@ -5,12 +5,12 @@
 
 @interface OOTVOptionsCollectionViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) OOTVOptionsCollectionView * optionsCollectionView;
+@property (nonatomic) OOTVOptionsCollectionView *optionsCollectionView;
 @property (nonatomic, weak) OOOoyalaTVPlayerViewController *viewController;
-@property (nonatomic, strong) OOOoyalaTVTopBar *barView;
-@property (strong, nonatomic) NSArray *optionList;
+@property (nonatomic) OOOoyalaTVTopBar *barView;
+@property (nonatomic) NSArray *optionList;
 @property (nonatomic, retain) NSString *selectedLanguage;
 
-- (id)initWithViewController:(OOOoyalaTVPlayerViewController *)c ;
+- (instancetype)initWithViewController:(OOOoyalaTVPlayerViewController *)controller;
 
 @end
