@@ -57,6 +57,10 @@ class AdPlaybackScreen extends React.Component {
     initialPlay: PropTypes.bool,
   };
 
+  state = {
+    showControls:true,
+  };
+
   static defaultProps = {playhead: 0, buffered: 0, duration: 1};
 
   generateLiveObject = () => {
@@ -67,7 +71,7 @@ class AdPlaybackScreen extends React.Component {
           isLive ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) :
           Utils.localizedString(this.props.locale, 'GO LIVE', this.props.localizableStrings),
         onGoLive: isLive? null : this.onGoLive});
-    } 
+    }
     return null;
   };
 
@@ -266,7 +270,7 @@ class AdPlaybackScreen extends React.Component {
         <View style={styles.adContainer}>
           {adBar}
           {this._renderPlaceholder(adIcons)}
-          {this._renderPlayPause(tshouldShowControls)}
+          {this._renderPlayPause(shouldShowControls)}
           {this._renderBottomOverlay(shouldShowControls)}
         </View>
       );
