@@ -2,5 +2,6 @@
 
 @interface OOOoyalaTVClosedCaptionsLabel : UILabel
 
-- (OOOoyalaTVClosedCaptionsLabel *)initWithFrame:(CGRect)frame;
+- (instancetype)initWithFrame:(CGRect)frame;
+
 @end

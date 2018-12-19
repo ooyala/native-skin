@@ -2,7 +2,7 @@
 //  OoyalaTVSkinSDKTests.m
 //  OoyalaTVSkinSDKTests
 //
-//  Created by Yi Gu on 6/16/16.
+//  Created on 6/16/16.
 //  Copyright © 2016 ooyala. All rights reserved.
 //
 

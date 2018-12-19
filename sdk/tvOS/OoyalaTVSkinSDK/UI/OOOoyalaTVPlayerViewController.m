@@ -50,7 +50,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player {
   if (self = [super init]) {
-    [self setPlayer:player];
+    self.player = player;
   }
   return self;
 }
@@ -65,12 +65,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [super viewDidLoad];
   self.playbackControlsEnabled = YES;
     
-    // Set Closed Caption style
-    _closedCaptionsStyle = [OOClosedCaptionsStyle new];
-    _closedCaptionsStyle.textSize = 20;
-    _closedCaptionsStyle.textFontName = @"Helvetica";
-    _closedCaptionsStyle.backgroundOpacity = 0.4;
-    self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
+  // Set Closed Caption style
+  _closedCaptionsStyle = [OOClosedCaptionsStyle new];
+  _closedCaptionsStyle.textSize = 20;
+  _closedCaptionsStyle.textFontName = @"Helvetica";
+  _closedCaptionsStyle.backgroundOpacity = 0.4;
+  self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -105,25 +105,33 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)setupProgessBackground {
-  self.progressBarBackground = [[OOOoyalaTVGradientView alloc] initWithFrame:CGRectMake(0, self.view.bounds.size.height - bottomDistance * 2, self.view.bounds.size.width, bottomDistance * 2)];
-  
+  self.progressBarBackground = [[OOOoyalaTVGradientView alloc] initWithFrame:CGRectMake(0,
+                                                                                        self.view.bounds.size.height - bottomDistance * 2,
+                                                                                        self.view.bounds.size.width,
+                                                                                        bottomDistance * 2)];
   [self.view addSubview:self.progressBarBackground];
 }
 
 - (void)setupPlayPauseButton {
   // frame
-  self.playPauseButton = [[OOOoyalaTVButton alloc] initWithFrame:CGRectMake(headDistance, self.progressBarBackground.bounds.size.height - playPauseButtonHeight - 38, headDistance, playPauseButtonHeight)];
-  [self.playPauseButton addTarget:self action:@selector(togglePlay:) forControlEvents:UIControlEventTouchUpInside];
+  self.playPauseButton = [[OOOoyalaTVButton alloc] initWithFrame:CGRectMake(headDistance,
+                                                                            self.progressBarBackground.bounds.size.height - playPauseButtonHeight - 38,
+                                                                            headDistance,
+                                                                            playPauseButtonHeight)];
+  [self.playPauseButton addTarget:self
+                           action:@selector(togglePlay:)
+                 forControlEvents:UIControlEventTouchUpInside];
   
   // icon
-  [self.playPauseButton changePlayingState:[self.player isPlaying]];
+  [self.playPauseButton changePlayingState:self.player.isPlaying];
   
   // add to view
   [self.progressBarBackground addSubview:self.playPauseButton];
 }
 
 - (void)setupBars {
-  self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground withTintColor:self.progressTintColor];
+  self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground
+                                                       withTintColor:self.progressTintColor];
   //Adding button to indicate that CCs are available
   self.closedCaptionsMenuBar = [[OOOoyalaTVTopBar alloc] initMiniView:self.view];
   self.closedCaptionsMenuBar.alpha = 0.0;
@@ -140,9 +148,15 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)setupLabels {
-  self.playheadLabel = [[OOOoyalaTVLabel alloc] initWithFrame:CGRectMake(playheadLabelX, self.progressBarBackground.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
+  self.playheadLabel = [[OOOoyalaTVLabel alloc] initWithFrame:CGRectMake(playheadLabelX,
+                                                                         self.progressBarBackground.bounds.size.height - bottomDistance - labelHeight,
+                                                                         labelWidth,
+                                                                         labelHeight)
                                                          time:self.player.playheadTime];
-  self.durationLabel = [[OOOoyalaTVLabel alloc] initWithFrame:CGRectMake(self.progressBarBackground.bounds.size.width - headDistance - labelWidth, self.progressBarBackground.bounds.size.height - bottomDistance - labelHeight, labelWidth, labelHeight)
+  self.durationLabel = [[OOOoyalaTVLabel alloc] initWithFrame:CGRectMake(self.progressBarBackground.bounds.size.width - headDistance - labelWidth,
+                                                                         self.progressBarBackground.bounds.size.height - bottomDistance - labelHeight,
+                                                                         labelWidth,
+                                                                         labelHeight)
                                                          time:self.player.duration];
 
   [self.progressBarBackground addSubview:self.playheadLabel];
@@ -231,12 +245,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 #pragma mark - Private functions
 
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
-  NSDateFormatter *dateformat = [[NSDateFormatter alloc] init];
-  [dateformat setDateFormat:duration < 3600 ? @"mm:ss" : @"H:mm:ss"];
+  NSDateFormatter *dateformat = [NSDateFormatter new];
+  dateformat.dateFormat = duration < 3600 ? @"mm:ss" : @"H:mm:ss";
   self.playheadLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
   self.durationLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
   
-  [self.playPauseButton changePlayingState:[self.player isPlaying]];
+  [self.playPauseButton changePlayingState:self.player.isPlaying];
   
   // for live assets the control bar cannot hide on the next if belows that triggers the hideProgressBar method.
   // That's because the initial value of lastTriggerTime is zero and for live assets that's incorrect.
@@ -246,7 +260,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     self.lastTriggerTime = playhead;
   }
   
-  if (playhead - self.lastTriggerTime > hideBarInterval && playhead - self.lastTriggerTime < hideBarInterval + 2) {
+  if (playhead - self.lastTriggerTime > hideBarInterval &&
+      playhead - self.lastTriggerTime < hideBarInterval + 2) {
     [self hideProgressBar];
   }
 }
@@ -254,7 +269,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)showProgressBar {
   self.lastTriggerTime = self.player.playheadTime;
   if (self.progressBarBackground.frame.origin.y == self.view.bounds.size.height) {
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:^{
+    [UIView animateWithDuration:0.5
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
       self.progressBarBackground.alpha = 1.0;
       
       CGRect frame = self.progressBarBackground.frame;
@@ -267,7 +285,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)hideProgressBar {
   if (self.progressBarBackground.frame.origin.y < self.view.bounds.size.height) {
-    [UIView animateWithDuration:0.5 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.5
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseOut
+                     animations:^{
       self.progressBarBackground.alpha = 0.0;
       
       CGRect frame = self.progressBarBackground.frame;
@@ -280,7 +301,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)showClosedCaptionsButton {
-  if (self.player.currentItem.hasClosedCaptions && !self.closedCaptionMenuDisplayed) {
+  if (self.player.currentItem.hasClosedCaptions &&
+      !self.closedCaptionMenuDisplayed) {
     self.closedCaptionsMenuBar.alpha = self.progressBarBackground.alpha;
   }
   [self.player disablePlaylistClosedCaptions];
@@ -331,9 +353,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 + (void)loadDefaultLocale {
   //LOG(@"Default Localizations Loaded");
   NSArray *keys = @[@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions"];
-  NSDictionary *en = [NSDictionary dictionaryWithObjects:@[@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions"] forKeys:keys];
-  NSDictionary *ja = [NSDictionary dictionaryWithObjects:@[@"ライブ", @"完了", @"言語", @"さらに詳しく", @"このアプリからビデオをキャストできます", @"切断", @"デバイスに接続",@"Subtitles",@"Off",@"Use Closed Captions"] forKeys:keys];
-  NSDictionary *es = [NSDictionary dictionaryWithObjects:@[@"En vivo", @"Hecho", @"Idioma", @"Más información", @"Listo para trasmitir videos desde esta aplicación", @"Desconectar", @"Conectar al dispositivo",@"Subtítulos",@"Off",@"Usar Subtítulos"] forKeys:keys];
+  NSDictionary *en = [NSDictionary dictionaryWithObjects:@[@"LIVE", @"Done", @"Languages", @"Learn More", @"Ready to cast videos from this app", @"Disconnect", @"Connect To Device",@"Subtitles",@"Off",@"Use Closed Captions"]
+                                                 forKeys:keys];
+  NSDictionary *ja = [NSDictionary dictionaryWithObjects:@[@"ライブ", @"完了", @"言語", @"さらに詳しく", @"このアプリからビデオをキャストできます", @"切断", @"デバイスに接続",@"Subtitles",@"Off",@"Use Closed Captions"]
+                                                 forKeys:keys];
+  NSDictionary *es = [NSDictionary dictionaryWithObjects:@[@"En vivo", @"Hecho", @"Idioma", @"Más información", @"Listo para trasmitir videos desde esta aplicación", @"Desconectar", @"Conectar al dispositivo",@"Subtítulos",@"Off",@"Usar Subtítulos"]
+                                                 forKeys:keys];
   
   OOOoyalaPlayerViewControllerAvailableLocalizations = @{@"en": en, @"ja": ja, @"es": es};
 }
@@ -342,7 +367,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
     [self loadDefaultLocale];
   }
-  NSString *language = [NSLocale preferredLanguages].firstObject;
+  NSString *language = NSLocale.preferredLanguages.firstObject;
   if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
     [self useLanguageStrings:OOOoyalaPlayerViewControllerAvailableLocalizations[language]];
   } else {
@@ -420,7 +445,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [self.bottomBars updateBarBuffer:bufferedTime
                           playhead:playhead
                           duration:self.player.duration
-                       totalLength:(self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace)];
+                       totalLength:self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace];
   
   self.gestureManager.playheadTime = playhead;
   self.gestureManager.durationTime = self.player.duration;
@@ -434,7 +459,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (BOOL)closedCaptionMenuDisplayed {
   if (self.optionsViewController.isViewLoaded &&
-      self.optionsViewController.view.window && !self.optionsViewController.view.isHidden) {
+      self.optionsViewController.view.window &&
+      !self.optionsViewController.view.isHidden) {
     return YES;
   }
   return NO;
@@ -449,10 +475,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)addClosedCaptionsView {
   [self removeClosedCaptionsView];
-  if (self.player.currentItem.hasClosedCaptions && self.player.closedCaptionsLanguage) {
+  if (self.player.currentItem.hasClosedCaptions &&
+      self.player.closedCaptionsLanguage) {
     self.closedCaptionsView = [[OOOoyalaTVClosedCaptionsView alloc] initWithFrame:self.player.videoRect];
     [self.closedCaptionsView setCaptionStyle:_closedCaptionsStyle];
-    [self updateClosedCaptionsViewPosition:self.progressBarBackground.bounds withControlsHide:self.progressBarBackground.hidden];
+    [self updateClosedCaptionsViewPosition:self.progressBarBackground.bounds
+                          withControlsHide:self.progressBarBackground.hidden];
     [self displayCurrentClosedCaption];
     [self.player.view addSubview:self.closedCaptionsView];
   }
@@ -460,9 +488,9 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (BOOL)shouldShowClosedCaptions {
   return self.player.closedCaptionsLanguage &&
-    self.player.currentItem.hasClosedCaptions &&
-    ![self.player.closedCaptionsLanguage isEqualToString: OOLiveClosedCaptionsLanguage] &&
-    ![self.player isInCastMode];
+         self.player.currentItem.hasClosedCaptions &&
+         ![self.player.closedCaptionsLanguage isEqualToString: OOLiveClosedCaptionsLanguage] &&
+         !self.player.isInCastMode;
 }
  
 - (NSArray *)availableOptions {
@@ -473,9 +501,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
   // For each language in the list, add it to the necessary array
   for (NSString *language in providedList) {
-
     // If this was the closed captions language, put 'None' and 'CC' langauges in the array
-    if ([language compare: @"cc"] == NSOrderedSame) {
+    if ([language compare:@"cc"] == NSOrderedSame) {
       closedCaptionsArray = @[OOOoyalaTVPlayerViewController.currentLanguageSettings[@"Off"],
                               OOOoyalaTVPlayerViewController.currentLanguageSettings[@"Use Closed Captions"]];
     } else {
@@ -518,7 +545,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)updateClosedCaptionsViewPosition:(CGRect)bottomControlsRect withControlsHide:(BOOL)hidden {
-  CGRect videoRect = [self.player videoRect];
+  CGRect videoRect = self.player.videoRect;
   if (!hidden) {
     if (bottomControlsRect.origin.y < videoRect.origin.y + videoRect.size.height) {
       videoRect.size.height = videoRect.origin.y + videoRect.size.height - bottomControlsRect.size.height;
