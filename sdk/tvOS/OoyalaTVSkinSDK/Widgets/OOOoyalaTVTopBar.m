@@ -11,7 +11,7 @@
 
 @implementation OOOoyalaTVTopBar
 
-- (OOOoyalaTVTopBar *)initWithBackground:(UIView *)background {
+- (instancetype)initWithBackground:(UIView *)background {
   if (self = [super init]) {
     CGRect barFrame = CGRectMake(background.bounds.size.width - ccWidth - componentSpace * 4,
                                  componentSpace * 4,
@@ -28,7 +28,7 @@
   return self;
 }
 
-- (OOOoyalaTVTopBar *)initMiniView:(UIView *)background {
+- (instancetype)initMiniView:(UIView *)background {
   if (self = [super init]) {
     CGRect barFrame = CGRectMake(background.bounds.size.width - ccWidth/4 - componentSpace * 4,
                                  componentSpace * 4,
