@@ -84,7 +84,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
                 _player.switchVRMode();
                 break;
               case BUTTON_REPLAY:
-                _player.handlePlayPause();
+                _player.handlePlayPause(true);
                 break;
             }
           }
