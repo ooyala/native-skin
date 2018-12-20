@@ -56,7 +56,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
   [self.textView removeFromSuperview];
   self.textView = nil;
 
-  if (self.backgroundView != nil) {
+  if (self.backgroundView) {
     self.backgroundView.hidden = YES;
     [self.backgroundView removeFromSuperview];
     self.backgroundView = nil;
