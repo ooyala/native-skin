@@ -19,15 +19,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
-    if (self.OOFontSize != 0.0) {
-      [self.titleLabel setFont:[UIFont fontWithName:@"ooyala-slick-type"
-                                               size:self.OOFontSize]];
-    } else {
-      [self.titleLabel setFont:[UIFont fontWithName:@"ooyala-slick-type"
-                                               size:40.0]];
-    }
+    self.titleLabel.font = [UIFont fontWithName:@"ooyala-slick-type"
+                                           size:self.OOFontSize != 0.0 ? self.OOFontSize : 40.0];
   }
-  
   return self;
 }
 
