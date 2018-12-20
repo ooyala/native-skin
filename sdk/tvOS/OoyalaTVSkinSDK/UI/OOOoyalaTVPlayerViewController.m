@@ -533,11 +533,11 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)displayCurrentClosedCaption {
   if ([self shouldShowClosedCaptions]) {
     if (!self.closedCaptionsView.caption ||
-        self.player.playheadTime < self.closedCaptionsView.caption.begin ||
-        self.player.playheadTime > self.closedCaptionsView.caption.end) {
-        OOCaption *caption = [self.player.currentItem.closedCaptions captionForLanguage:self.player.closedCaptionsLanguage
-                                                                                   time:self.player.playheadTime];
-        [self.closedCaptionsView setClosedCaption:caption];
+      self.player.playheadTime < self.closedCaptionsView.caption.begin ||
+      self.player.playheadTime > self.closedCaptionsView.caption.end) {
+      OOCaption *caption = [self.player.currentItem.closedCaptions captionForLanguage:self.player.closedCaptionsLanguage
+                                                                                 time:self.player.playheadTime];
+      [self.closedCaptionsView setClosedCaption:caption];
     }
   } else {
     self.closedCaptionsView.caption = nil;
