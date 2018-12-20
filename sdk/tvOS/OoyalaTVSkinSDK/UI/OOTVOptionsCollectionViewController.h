@@ -1,4 +1,3 @@
-#import <UIKit/UIKit.h>
 #import <OOOoyalaTVPlayerViewController.h>
 #import <OOOoyalaTVTopBar.h>
 #import <OOTVOptionsCollectionView.h>
@@ -8,8 +7,7 @@
 @property (nonatomic) OOTVOptionsCollectionView *optionsCollectionView;
 @property (nonatomic, weak) OOOoyalaTVPlayerViewController *viewController;
 @property (nonatomic) OOOoyalaTVTopBar *barView;
-@property (nonatomic) NSArray *optionList;
-@property (nonatomic, retain) NSString *selectedLanguage;
+@property (nonatomic) NSIndexPath *selectedIndex;
 
 - (instancetype)initWithViewController:(OOOoyalaTVPlayerViewController *)controller;
 
