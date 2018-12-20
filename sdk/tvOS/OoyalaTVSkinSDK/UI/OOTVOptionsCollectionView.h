@@ -1,4 +1,3 @@
-#import <UIKit/UIKit.h>
 #import <OOOoyalaTVBar.h>
 #import <OOOoyalaTVConstants.h>
 
