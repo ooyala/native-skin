@@ -132,7 +132,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)setupBars {
   self.bottomBars = [[OOOoyalaTVBottomBars alloc] initWithBackground:self.progressBarBackground
                                                        withTintColor:self.progressTintColor];
-  //Adding button to indicate that CCs are available
+  // Adding button to indicate that CCs are available
   self.closedCaptionsMenuBar = [[OOOoyalaTVTopBar alloc] initMiniView:self.view];
   self.closedCaptionsMenuBar.alpha = 0.0;
     
@@ -221,6 +221,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     case OOOoyalaPlayerStateLoading:
       [self.activityView startAnimating];
       break;
+    case OOOoyalaPlayerStateCompleted:
+      [self.playPauseButton changePlayingState:self.player.isPlaying];
     case OOOoyalaPlayerStateReady:
     case OOOoyalaPlayerStatePlaying:
     case OOOoyalaPlayerStatePaused:
