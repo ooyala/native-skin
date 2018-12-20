@@ -28,8 +28,8 @@
   [self.optionsCollectionView registerClass:OOOoyalaTVOptionCell.class
                  forCellWithReuseIdentifier:@"cellIdentifier"];
 
-  //Setting default selected language to Off
-  self.selectedLanguage = @"Off";
+  // Setting default selected language to Off
+  self.selectedIndex = [NSIndexPath indexPathForRow:0 inSection:0];
 
   [self.view addSubview:self.barView];
   [self.view addSubview:self.optionsCollectionView];
@@ -40,9 +40,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
-//  self.optionList = [[NSArray alloc] initWithArray:self.viewController.availableOptions];
-  Pair *sectionPair = self.optionList[(NSUInteger)section];
-
+  Pair *sectionPair = self.viewController.availableOptions[(NSUInteger)section];
   return (NSInteger)sectionPair.value.count;
 }
 
@@ -51,62 +49,61 @@
   return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-  OOOoyalaTVOptionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier" forIndexPath:indexPath];
-
-  //We retrieve array with CC lenguages available to display corresponding cells
-  self.optionList = [[NSMutableArray alloc] initWithArray:[self.viewController availableOptions]];
-
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+  OOOoyalaTVOptionCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellIdentifier"
+                                                                         forIndexPath:indexPath];
   // Set the data for this cell:
-  Pair *sectionPair = [[Pair alloc] init];
-  sectionPair = [self.optionList objectAtIndex:(NSUInteger)indexPath.section];
-  cell.optionLabel.text = [sectionPair.value objectAtIndex:(NSUInteger)indexPath.row];
+  Pair *sectionPair = self.viewController.availableOptions[(NSUInteger)indexPath.section];
+  cell.optionLabel.text = sectionPair.value[(NSUInteger)indexPath.row];
 
   //We display check if cell was already selected
-  if (self.selectedLanguage != nil && [self.selectedLanguage isEqualToString:[cell.optionLabel.text stringByAppendingFormat:@"%ld",(long)indexPath.row]]){
-      [cell.checkedLabel setHidden:NO];
+  if (self.selectedIndex == indexPath) {
+    cell.checkedLabel.hidden = NO;
   } else {
-      [cell.checkedLabel setHidden:YES];
+    cell.checkedLabel.hidden = YES;
   }
 
   return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(labelHeight * 26, labelHeight * 4);
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+  return CGSizeMake(labelHeight * 26, labelHeight * 4);
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canFocusItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+  return YES;
 }
 
 #pragma mark - UICollectionViewDelegate
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    OOOoyalaTVOptionCell *cell = (OOOoyalaTVOptionCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    //Adding row to selected lenguage to avoid duplicate with "español"
-    self.selectedLanguage = [cell.optionLabel.text stringByAppendingFormat:@"%ld",(long)indexPath.row];
-    
-    //We set selected CC lenguage in player
-    [self.viewController.player setClosedCaptionsLanguage: cell.optionLabel.text];
-    [self.viewController addClosedCaptionsView];
-    
-    [self.optionsCollectionView reloadData];
-    //Once lenguage selected, we close CC menu
-    [self.view removeFromSuperview];
-    
+  Pair *sectionPair = self.viewController.availableOptions[(NSUInteger)indexPath.section];
+  // We set selected CC language in player
+  [self.viewController.player setClosedCaptionsLanguage:sectionPair.value[(NSUInteger)indexPath.row]];
+  [self.viewController addClosedCaptionsView];
+
+  NSIndexPath *prev = self.selectedIndex;
+  self.selectedIndex = indexPath;
+  [self.optionsCollectionView reloadItemsAtIndexPaths:@[prev]];
+  [self.optionsCollectionView reloadItemsAtIndexPaths:@[indexPath]];
+  // Once language selected, we close CC menu
+  [self.view removeFromSuperview];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    OOOoyalaTVOptionCell *cell = (OOOoyalaTVOptionCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.backgroundColor = [UIColor clearColor];
+  OOOoyalaTVOptionCell *cell = (OOOoyalaTVOptionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+  cell.backgroundColor = UIColor.clearColor;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+  return YES;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+  return YES;
 }
 
 @end
