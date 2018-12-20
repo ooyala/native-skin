@@ -24,11 +24,7 @@
       self.textAlignment = NSTextAlignmentCenter;
     }
 
-    if (self.OOFontSize != 0.0) {
-      self.font = [self.font fontWithSize:self.OOFontSize];
-    } else {
-      self.font = [self.font fontWithSize:20.0];
-    }
+    self.font = [self.font fontWithSize:self.OOFontSize != 0.0 ? self.OOFontSize : 20.0];
 
     if (!self.OODateformatter) {
       _OODateformatter = [NSDateFormatter new];
