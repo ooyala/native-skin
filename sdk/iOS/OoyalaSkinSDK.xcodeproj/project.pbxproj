@@ -12,7 +12,7 @@
 			buildConfigurationList = 0BD9FC6B1B4D9E83001E0CAB /* Build configuration list for PBXAggregateTarget "OoyalaSkinSDKUniversal" */;
 			buildPhases = (
 				0BD9FC6C1B4D9E95001E0CAB /* Create builds for simulator and iPhone */,
-				0BD9FC6D1B4D9E97001E0CAB /* Create fat library */,
+				0BD9FC6D1B4D9E97001E0CAB /* Create universal (fat) library */,
 				0BD9FC881B4DA577001E0CAB /* Copy headers and create required symlinks */,
 			);
 			dependencies = (
@@ -1046,21 +1046,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "xcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphonesimulator -target ${PROJECT_NAME} -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} clean build\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphoneos -target ${PROJECT_NAME} -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} clean build";
+			shellScript = "xcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphonesimulator -target ${PROJECT_NAME} -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} OBJROOT=\"${OBJROOT}/DependentBuilds/OoyalaSkinSDKUniversal/\"\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk iphoneos -target ${PROJECT_NAME} -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} OBJROOT=\"${OBJROOT}/DependentBuilds/OoyalaSkinSDKUniversal/\"\n";
 		};
-		0BD9FC6D1B4D9E97001E0CAB /* Create fat library */ = {
+		0BD9FC6D1B4D9E97001E0CAB /* Create universal (fat) library */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Create fat library";
+			name = "Create universal (fat) library";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" &&\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\" &&\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_DIR}/${PROJECT_NAME}-universal.a\" &&\nlipo \"${SIMULATOR_LIBRARY_PATH}\" \"${DEVICE_LIBRARY_PATH}\" -create -output \"${UNIVERSAL_LIBRARY_PATH}\"";
+			shellScript = "SIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" &&\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\" &&\nUNIVERSAL_LIBRARY_PATH=\"${BUILD_DIR}/${PROJECT_NAME}-universal.a\" &&\nlipo \"${SIMULATOR_LIBRARY_PATH}\" \"${DEVICE_LIBRARY_PATH}\" -create -output \"${UNIVERSAL_LIBRARY_PATH}\"\n";
 		};
 		0BD9FC881B4DA577001E0CAB /* Copy headers and create required symlinks */ = {
 			isa = PBXShellScriptBuildPhase;
