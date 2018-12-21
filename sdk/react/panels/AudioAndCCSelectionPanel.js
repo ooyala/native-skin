@@ -180,7 +180,7 @@ class AudioAndCCSelectionPanel extends React.Component {
       }
     }
 
-    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === "") {
+    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === "" || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
       selectedClosedCaptionsLanguage = offButtonTitle;
     }
 
