@@ -7,7 +7,6 @@
 
 #import "Pair.h"
 
-
 @implementation Pair
 
 @synthesize name, value;
