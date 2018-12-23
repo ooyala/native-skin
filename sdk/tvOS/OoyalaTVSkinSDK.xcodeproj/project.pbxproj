@@ -11,8 +11,8 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 97C8DD2E1CE1533F007F3F54 /* Build configuration list for PBXAggregateTarget "OoyalaTVSkinSDKUniversal" */;
 			buildPhases = (
-				97C8DD2F1CE1538B007F3F54 /* ShellScript */,
-				97C8DD301CE153B7007F3F54 /* ShellScript */,
+				97C8DD2F1CE1538B007F3F54 /* Create builds for simulator and iPhone */,
+				97C8DD301CE153B7007F3F54 /* Create universal (fat) library */,
 			);
 			dependencies = (
 			);
@@ -379,26 +379,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		97C8DD2F1CE1538B007F3F54 /* ShellScript */ = {
+		97C8DD2F1CE1538B007F3F54 /* Create builds for simulator and iPhone */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Create builds for simulator and iPhone";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "xcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk appletvsimulator -target OoyalaTVSkinSDK -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} clean build\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk appletvos -target OoyalaTVSkinSDK -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} clean build";
+			shellScript = "xcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk appletvsimulator -target OoyalaTVSkinSDK -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} OBJROOT=\"${OBJROOT}/DependentBuilds/OoyalaTVSkinSDKUniversal/\"\nxcodebuild -project ${PROJECT_NAME}.xcodeproj -sdk appletvos -target OoyalaTVSkinSDK -configuration ${CONFIGURATION} BUILD_DIR=${BUILD_DIR} OBJROOT=\"${OBJROOT}/DependentBuilds/OoyalaTVSkinSDKUniversal/\"\n";
 		};
-		97C8DD301CE153B7007F3F54 /* ShellScript */ = {
+		97C8DD301CE153B7007F3F54 /* Create universal (fat) library */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Create universal (fat) library";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
