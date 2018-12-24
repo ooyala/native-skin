@@ -2,7 +2,7 @@
 //  OOOoyalaTVButton.h
 //  OoyalaTVSkinSDK
 //
-//  Created by Yi Gu on 7/19/16.
+//  Created on 7/19/16.
 //  Copyright © 2016 ooyala. All rights reserved.
 //
 
@@ -12,6 +12,6 @@
 
 @property (nonatomic) CGFloat OOFontSize;
 
-- (void)changePlayingState: (BOOL)isPlay;
+- (void)changePlayingState:(BOOL)isPlay;
 
 @end
