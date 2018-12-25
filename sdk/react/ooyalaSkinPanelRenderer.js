@@ -105,6 +105,7 @@ OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
     <AudioView
       playhead={this.skin.state.playhead}
       duration={this.skin.state.duration}
+      live={this.skin.state.live}
       width={this.skin.state.width}
       height={this.skin.state.height}
       volume={this.skin.state.volume}
