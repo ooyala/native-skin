@@ -36,6 +36,7 @@ class AudioView extends React.Component {
   static propTypes = {
     playhead: PropTypes.number,
     duration: PropTypes.number,
+    live: PropTypes.bool,
     width: PropTypes.number,
     height: PropTypes.number,
     volume: PropTypes.number,
@@ -339,6 +340,12 @@ class AudioView extends React.Component {
     return Utils.secondsToString(this.props.duration);
   };
 
+  getLiveDurationString = () => {
+    let diff = this.props.playhead - this.props.duration;
+    if (diff > -1 && diff < 0) diff = 0;
+    return Utils.secondsToString(diff);
+  };
+
   playedPercent = (playhead, duration) => {
     if (this.props.duration === 0) {
       return 0;
@@ -436,6 +443,14 @@ class AudioView extends React.Component {
     );
   };
 
+  _renderLiveCircle = (isLive) => {
+    if (this.props.live) {
+      return (<View style={isLive ? styles.liveCircleActive : styles.liveCircleNonActive}/>)
+    } else {
+      return null;
+    }
+  };
+
   _renderCompleteProgressBar = () => {
     let playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     if (this.state.cachedPlayhead >= 0.0) {
@@ -445,10 +460,18 @@ class AudioView extends React.Component {
     const playHeadTime = this.getPlayHeadTimeString();
     const durationTime = this.getDurationString();
 
+
+    let isLive = false;
+    if (this.props.live) {
+      isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_AUDIO_THRESHOLD;
+    }
+
     return (
       <View style={styles.progressBar}>
+        {this._renderLiveCircle(isLive)}
         <View>
-          <Text style={styles.progressBarTimeLabel}>{playHeadTime}</Text>
+          <Text style={this.props.live ? styles.liveLabel : styles.progressBarTimeLabel}>
+            {this.props.live ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) : playHeadTime}</Text>
         </View>
         <Animated.View
           onLayout={(event) => {
@@ -459,11 +482,12 @@ class AudioView extends React.Component {
           }}
           style={styles.progressBarScrubberContainer}
           {...this._panResponder.panHandlers}>
-            {this._renderProgressBar(playedPercent)}
-            {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+          {this._renderProgressBar(playedPercent)}
+          {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
         </Animated.View>
         <View>
-          <Text style={styles.progressBarTimeLabel}>{durationTime}</Text>
+          <Text style={isLive ? styles.progressBarNoTimeLabel : styles.progressBarTimeLabel}>
+            {!this.props.live ? durationTime : isLive ? "- - : - -" : this.getLiveDurationString()}</Text>
         </View>
       </View>
     )
