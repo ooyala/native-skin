@@ -186,7 +186,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     _reactInstanceManager = ReactInstanceManager.builder()
         .setApplication(app)
         .setBundleAssetName(skinOptions.getBundleAssetName())
-        .setJSBundleFile("assets://index.android.jsbundle")
         .addPackage(_package)
         .setUseDeveloperSupport(BuildConfig.DEBUG)
         .setInitialLifecycleState(LifecycleState.RESUMED)
