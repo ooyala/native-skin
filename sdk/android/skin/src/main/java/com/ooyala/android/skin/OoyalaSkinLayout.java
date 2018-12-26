@@ -4,6 +4,7 @@ package com.ooyala.android.skin;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   private boolean multiWindowMode = false;
 
   private int sourceWidth, sourceHeight;
+  private boolean resizableLayout;
 
   public interface FrameChangeCallback {
     void onFrameChangeCallback(int width, int height, int prevWidth, int prevHeight);
@@ -51,6 +53,14 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
    */
   public OoyalaSkinLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
+    TypedArray typedArray = context.getTheme().obtainStyledAttributes(
+            attrs,
+            R.styleable.OoyalaSkinLayout, 0, 0);
+    try {
+      resizableLayout = typedArray.getBoolean(R.styleable.OoyalaSkinLayout_resizableLayout, false);
+    } finally {
+      typedArray.recycle();
+    }
     createSubViews();
   }
 
@@ -132,6 +142,13 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
     return this.fullscreen;
   }
 
+  public int getSourceWidth() {
+    return sourceWidth;
+  }
+
+  public int getSourceHeight() {
+    return sourceHeight;
+  }
 
   /**
    * Show/Hide system ui (notification and navigation bar) depending if layout is in fullscreen
@@ -206,11 +223,15 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
   @Override
   protected void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    updateLayoutSize();
+    if (!resizableLayout) {
+      updateLayoutSize();
+    }
   }
 
   @Override
   public void onSystemUiVisibilityChange(int i) {
-    updateLayoutSize();
+    if (!resizableLayout) {
+      updateLayoutSize();
+    }
   }
 }
