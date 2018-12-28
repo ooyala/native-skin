@@ -775,7 +775,7 @@
 		972ED8421AE6EEEB005043DC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1000;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = ooyala;
 				TargetAttributes = {
 					0BD9FC641B4D9E83001E0CAB = {
