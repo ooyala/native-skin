@@ -24,7 +24,7 @@
 #import <OoyalaSDK/OOSeekInfo.h>
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
 #import <OoyalaSDK/OOAudioSession.h>
-
+#import <OoyalaSDK/OOStreamPlayer.h>
 
 @interface OOSkinPlayerObserver ()
 
@@ -216,8 +216,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSDictionary *eventBody = @{seekStartKey:  @(seekStart),
                               seekEndKey:    @(seekEnd),
                               durationKey:   @(seekableDuration),
-                              screenTypeKey: [self.player.currentItem.contentType isEqualToString: @"Audio"] ?
-                                              audioKey : videoKey};
+                              screenTypeKey: OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
+                                             audioKey : videoKey};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
@@ -283,8 +283,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *live                   = @(self.player.currentItem.live);
   NSArray *closedCaptionsLanguages = self.player.availableClosedCaptionsLanguages;
   NSNumber *volume                 = @(OOAudioSession.sharedInstance.applicationVolume);
-  NSString *contentType            = self.player.currentItem.contentType ?
-                                     self.player.currentItem.contentType : @"Video";
+  NSString *contentType            = OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
+                                     @"Audio" : @"Video";
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
