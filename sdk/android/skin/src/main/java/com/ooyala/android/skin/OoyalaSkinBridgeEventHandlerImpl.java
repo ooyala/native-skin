@@ -176,6 +176,12 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     _player.setSelectedPlaybackSpeed(Float.parseFloat(speed));
   }
 
+  @Override
+  public void onVolumeChanged(ReadableMap parameters) {
+    float volume = (float)parameters.getDouble("volume");
+    _layoutController.setVolume(volume);
+  }
+
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {
     final boolean isClicked = params.getBoolean("isClicked");
     final float xLocation = (float) params.getDouble("x_location");

@@ -76,7 +76,7 @@ public class BridgeMessageBuilder {
     return params;
   }
 
-  public static WritableMap buildCurrentItemChangedParams(OoyalaPlayer player, int width, int height, int currentVolume) {
+  public static WritableMap buildCurrentItemChangedParams(OoyalaPlayer player, int width, int height, float currentVolume) {
     WritableMap params = Arguments.createMap();
 
     Video currentItem = player.getCurrentItem();
@@ -97,7 +97,7 @@ public class BridgeMessageBuilder {
       params.putBoolean("live", currentItem.isLive());
       params.putInt("width", width);
       params.putInt("height", height);
-      params.putInt("volume", currentVolume);
+      params.putDouble("volume", currentVolume);
       if (currentItem.hasClosedCaptions()) {
         WritableArray languages = Arguments.createArray();
         for (String s : currentItem.getClosedCaptions().getLanguagesNames()) {

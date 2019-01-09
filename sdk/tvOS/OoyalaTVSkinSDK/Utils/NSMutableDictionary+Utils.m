@@ -13,16 +13,16 @@
 #pragma mark - Public functions
 
 - (void)mergeWith:(NSDictionary *)dict {
-    for (id key in [dict allKeys]) {
-        NSObject *value = [self objectForKey:key];
-        if ([value isKindOfClass:[NSDictionary class]]) {
-            NSMutableDictionary *subDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)value];
-            [subDict mergeWith:[dict objectForKey:key]];
-            [self setObject:subDict forKey:key];
-        } else {
-            [self setObject:[dict objectForKey:key] forKey:key];
-        }
+  for (id key in dict.allKeys) {
+    NSObject *value = self[key];
+    if ([value isKindOfClass:NSDictionary.class]) {
+      NSMutableDictionary *subDict = [NSMutableDictionary dictionaryWithDictionary:(NSDictionary *)value];
+      [subDict mergeWith:dict[key]];
+      self[key] = subDict;
+    } else {
+      self[key] = dict[key];
     }
+  }
 }
 
 @end

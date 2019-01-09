@@ -67,6 +67,7 @@ static NSString *indexKey             = @"index";
 static NSString *clickUrlKey          = @"clickUrl";
 static NSString *eventNameKey         = @"eventName";
 static NSString *playbackSpeedRateKey = @"playbackSpeedRate";
+static NSString *volumeKey            = @"volume";
 
 #pragma mark Values
 static NSString *startValue   = @"start";
@@ -76,6 +77,11 @@ static NSString *clickValue   = @"click";
 static NSString *impressValue = @"impress";
 
 #pragma mark - Exported Methods
+
+RCT_EXPORT_METHOD(onVolumeChanged:(NSDictionary *)parameters) {
+  float volume = [parameters[volumeKey] floatValue];
+  [self.skinModelDelegate handleVolumeChanged:volume];
+}
 
 RCT_EXPORT_METHOD(onMounted) {
   LOG(@"onMounted - Not going to use at the moment");
