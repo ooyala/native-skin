@@ -2,12 +2,9 @@
 
 @interface OOOoyalaTVTopBar : UIView
 
-- (OOOoyalaTVTopBar *)initWithBackground:(UIView *)background;
-
-- (OOOoyalaTVTopBar *)initMiniView:(UIView *)background;
-
+- (instancetype)initWithBackground:(UIView *)background;
+- (instancetype)initMiniView:(UIView *)background;
 - (void)addLanguages:(UIView *)view;
-
 - (BOOL)canBecomeFocused;
 
 @end

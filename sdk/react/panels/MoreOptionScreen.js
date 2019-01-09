@@ -146,7 +146,14 @@ class MoreOptionScreen extends React.Component {
         };
       } (button.name, this.onOptionPress);
 
-      moreOptionButton = Utils.renderRectButton(button.name, buttonStyle, buttonIcon.fontString, onOptionPress, this.props.config.moreOptionsScreen.iconSize, this.props.config.moreOptionsScreen.color, buttonIcon.fontFamilyName, i);
+      moreOptionButton = Utils.renderRectButton(button.name,
+                                                buttonStyle,
+                                                buttonIcon.fontString,
+                                                onOptionPress,
+                                                this.props.config.moreOptionsScreen.iconSize,
+                                                this.props.config.moreOptionsScreen.color,
+                                                buttonIcon.fontFamilyName,
+                                                i);
 
       moreOptionButtons.push(moreOptionButton);
     }
@@ -180,9 +187,10 @@ class MoreOptionScreen extends React.Component {
         buttonIcon = this.props.config.icons.expand;
         break;
       case BUTTON_NAMES.PLAYBACK_SPEED:
+        const fontStr = this.props.selectedPlaybackSpeedRate;
         buttonIcon = {
-          fontString: this.props.selectedPlaybackSpeedRate,
-          fontFamilyName: ''
+          fontString: fontStr,
+          fontFamilyName: null
         };
         break;
       default:
@@ -194,7 +202,12 @@ class MoreOptionScreen extends React.Component {
   render() {
     let moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
-    const dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS, styles.iconDismiss, this.props.config.icons.dismiss.fontString, this.onDismissPress, dismissButtonSize, this.props.config.moreOptionsScreen.color, this.props.config.icons.dismiss.fontFamilyName);
+    const dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS,
+                                                 styles.iconDismiss,
+                                                 this.props.config.icons.dismiss.fontString,
+                                                 this.onDismissPress, dismissButtonSize,
+                                                 this.props.config.moreOptionsScreen.color,
+                                                 this.props.config.icons.dismiss.fontFamilyName);
     const rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
 
     const moreOptionRow = (
@@ -212,7 +225,7 @@ class MoreOptionScreen extends React.Component {
     );
     const animationStyle = {opacity:this.state.opacity};
     const moreOptionScreen = (
-      <Animated.View style={[styles.fullscreenContainer, animationStyle]}>
+      <Animated.View style={[styles.fullscreenContainer, animationStyle, {height: this.props.height, width: this.props.width}]}>
         <Animated.View style={[styles.rowsContainer, animationStyle]}>
           {moreOptionRow}
         </Animated.View>
@@ -220,7 +233,7 @@ class MoreOptionScreen extends React.Component {
       </Animated.View>
     );
     return moreOptionScreen;
-  } 
+  }
 
 }
 

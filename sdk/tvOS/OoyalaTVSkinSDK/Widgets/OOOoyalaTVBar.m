@@ -2,7 +2,7 @@
 //  OOOoyalaTVBar.m
 //  OoyalaTVSkinSDK
 //
-//  Created by Yi Gu on 7/20/16.
+//  Created on 7/20/16.
 //  Copyright © 2016 ooyala. All rights reserved.
 //
 

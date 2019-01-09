@@ -27,6 +27,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'ccStylingChanged',         (event) => this.onCcStylingChange(event) ],
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
+    [ 'fullscreenToggled',        (event) => this.onFullscreenToggle(event) ],
     [ 'volumeChanged',            (event) => this.onVolumeChanged(event) ],
     [ 'playCompleted',            (event) => this.onPlayComplete(event) ],
     [ 'stateChanged',             (event) => this.onStateChange(event) ],
@@ -84,7 +85,7 @@ OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
     this.skin.setState({
       playhead: e.seekend,
       duration: e.duration,
-      onPlayComplete: false,
+      onPlayComplete: Platform.OS === 'ios' ? false : this.skin.state.onPlayComplete,
       screenType: e.screenType
     });
   }
@@ -206,6 +207,13 @@ OoyalaSkinBridgeListener.prototype.onFrameChange = function(e) {
   this.skin.setState({
     width: e.width,
     height: e.height,
+    fullscreen: e.fullscreen
+  });
+};
+
+OoyalaSkinBridgeListener.prototype.onFullscreenToggle = function(e) {
+  Log.log("Received fullscreenToggle: " + e.fullscreen);
+  this.skin.setState({
     fullscreen: e.fullscreen
   });
 };

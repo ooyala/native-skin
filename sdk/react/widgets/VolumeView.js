@@ -11,7 +11,6 @@ import {
 var iface = {
   name: 'VolumeView',
   propTypes: {
-    showsVolumeSlider: PropTypes.bool,
     volume: PropTypes.object
   }
 };

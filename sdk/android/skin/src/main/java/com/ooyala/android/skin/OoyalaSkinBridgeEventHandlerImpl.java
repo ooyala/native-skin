@@ -84,7 +84,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
                 _player.switchVRMode();
                 break;
               case BUTTON_REPLAY:
-                _player.handlePlayPause();
+                _player.handlePlayPause(true);
                 break;
             }
           }
@@ -174,6 +174,12 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     Dynamic dynamic = parameters.getDynamic(SkinButton.BUTTON_PLAYBACK_SPEED_RATE.getValue());
     String speed = dynamic.asString();
     _player.setSelectedPlaybackSpeed(Float.parseFloat(speed));
+  }
+
+  @Override
+  public void onVolumeChanged(ReadableMap parameters) {
+    float volume = (float)parameters.getDouble("volume");
+    _layoutController.setVolume(volume);
   }
 
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {
