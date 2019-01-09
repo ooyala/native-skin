@@ -85,7 +85,7 @@ class controlBarWidget extends React.Component {
         icon={options.icon.fontString}
         fontStyle={fontStyle}
         sizeStyle={sizeStyle}
-        opacity={opacity}
+        opacity={isForward ? options.opacity : opacity}
         animate={animate}
         buttonColor={buttonColor}
       />

@@ -85,7 +85,7 @@ OoyalaSkinBridgeListener.prototype.onSeekComplete = function(e) {
     this.skin.setState({
       playhead: e.seekend,
       duration: e.duration,
-      onPlayComplete: false,
+      onPlayComplete: Platform.OS === 'ios' ? false : this.skin.state.onPlayComplete,
       screenType: e.screenType
     });
   }
