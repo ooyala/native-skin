@@ -1,12 +1,10 @@
 {
 
   "panel": {
-    "flex": 1,
     "backgroundColor": "rgba(255, 255, 255, 0.2)"
   },
 
   "panelContainer": {
-    "flex": 1,
     "flexDirection": "column",
     "alignItems": "stretch"
   },

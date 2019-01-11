@@ -8,6 +8,8 @@
 
 #import <React/RCTRootView.h>
 
+#import <MediaPlayer/MPVolumeView.h>
+
 #import "OOReactSkinModel.h"
 #import "OOReactSkinBridge.h"
 #import "OOReactSkinBridgeModuleMain.h"
@@ -346,6 +348,22 @@ static NSString *resultsKey             = @"results";
 
 - (void)handleUpNextDismiss {
   [self.upNextManager onDismissPressed];
+}
+
+- (void)handleVolumeChanged:(float)volume {
+  MPVolumeView *volumeView = [MPVolumeView new];
+  UISlider *volumeViewSlider;
+  
+  for (UIView *view in volumeView.subviews) {
+    if ([view isKindOfClass:[UISlider class]]) {
+      volumeViewSlider = (UISlider *)view;
+      break;
+    }
+  }
+  
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    volumeViewSlider.value = volume;
+  });
 }
 
 - (void)setEmbedCode:(NSString *)embedCode {

@@ -31,4 +31,6 @@ public interface BridgeEventHandler {
   void onAudioTrackSelected(ReadableMap parameters);
 
   void onPlaybackSpeedRateSelected(ReadableMap parameters);
+
+  void onVolumeChanged(ReadableMap parameters);
 }

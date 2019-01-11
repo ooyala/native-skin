@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.ContentObserver;
 import android.media.AudioManager;
 import android.os.Handler;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
@@ -56,10 +57,9 @@ class OoyalaSkinVolumeObserver {
         @Override
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
-            AudioManager audioManager = (AudioManager) this.context.getSystemService(Context.AUDIO_SERVICE);
-            int volume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            float volume = controller.getCurrentVolume();
             WritableMap data = Arguments.createMap();
-            data.putInt("volume",volume);
+            data.putDouble("volume", volume);
             controller.sendEvent("volumeChanged", data);
         }
     }
