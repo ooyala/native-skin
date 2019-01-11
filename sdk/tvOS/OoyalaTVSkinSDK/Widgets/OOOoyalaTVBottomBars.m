@@ -22,9 +22,9 @@
 
 #pragma mark - Initialization
 
-- (instancetype)initWithBackground:(UIView *)background  withTintColor:(UIColor *)tintColor {
+- (instancetype)initWithBackground:(UIView *)background
+                     withTintColor:(UIColor *)tintColor {
   if (self = [super init]) {
-    
     // Duration bar
     CGFloat durationBarX = barX;
     CGFloat durationBarY = background.bounds.size.height - bottomDistance - barHeight;
@@ -36,9 +36,9 @@
                                                            blue:153.0 / 255.0
                                                           alpha:0.3];
     
-    self.durationBar = [[OOOoyalaTVBar alloc] initWithFrame:durationBarFrame
-                                                      color:durationBarBackgroundColor];
-    
+    _durationBar = [[OOOoyalaTVBar alloc] initWithFrame:durationBarFrame
+                                                  color:durationBarBackgroundColor];
+
     // Progress bar
     CGFloat progressBarX = barX;
     CGFloat progressBarY = background.bounds.size.height - bottomDistance - barHeight;
@@ -50,8 +50,8 @@
                                                            blue:225.0 / 255.0
                                                           alpha:1.0];
     
-    self.progressBar = [[OOOoyalaTVBar alloc] initWithFrame:progressBarFrame
-                                                      color:tintColor ? tintColor : progressBarBackgroundColor];
+    _progressBar = [[OOOoyalaTVBar alloc] initWithFrame:progressBarFrame
+                                                  color:tintColor ? tintColor : progressBarBackgroundColor];
     
     // Buffer bar
     CGFloat bufferBarX = barX;
@@ -64,8 +64,8 @@
                                                          blue:179.0 / 255.0
                                                         alpha:0.8];
     
-    self.bufferBar = [[OOOoyalaTVBar alloc] initWithFrame:bufferBarFrame
-                                                    color:bufferBarBackgroundColor];
+    _bufferBar = [[OOOoyalaTVBar alloc] initWithFrame:bufferBarFrame
+                                                color:bufferBarBackgroundColor];
     
     [self addSubview:self.durationBar];
     [self addSubview:self.bufferBar];

@@ -92,7 +92,7 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
   return !((gestureRecognizer == self.tapPlayPauseGesture)
-           && [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]]);
+           && [otherGestureRecognizer isKindOfClass:UIPanGestureRecognizer.class]);
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
@@ -100,7 +100,8 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
 }
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-  return ((gestureRecognizer == self.tapPlayPauseGesture) && (otherGestureRecognizer == self.panGesture));
+  return gestureRecognizer == self.tapPlayPauseGesture &&
+         otherGestureRecognizer == self.panGesture;
 }
 
 #pragma mark - Actions
@@ -152,13 +153,13 @@ static NSString *const kTouchYLocationFiledName = @"y_location";
 }
 
 - (void)onSwipe:(id)sender {
-  
   // Notify observers what pan gesture state changed
   if (sender == _panGesture && _controller.player.isPlaying) {
     [self notifyObserversWhatPanGestureStateChangedWithPanGestureRecognizer:sender];
   }
   
-  if (!self.controller.closedCaptionMenuDisplayed && !self.controller.player.isPlaying) {
+  if (!self.controller.closedCaptionMenuDisplayed &&
+      !self.controller.player.isPlaying) {
     if (sender == self.panGesture) {
       CGPoint currentPoint = [self.panGesture translationInView:self.controller.view];
       CGFloat viewWidth = self.controller.view.frame.size.width;

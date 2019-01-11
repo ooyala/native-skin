@@ -12,15 +12,9 @@ import {
   View
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  UI_SIZES,
-  CELL_TYPES
-} from '../constants';
 
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/VolumePanelStyles'));
-const VolumeView = require('../widgets/VolumeView');
 
 const constants = {
   animationDuration: 1000,
@@ -31,8 +25,10 @@ const constants = {
 class VolumePanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
+    onVolumeChanged: PropTypes.func.isRequired,
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
     config: PropTypes.object,
   };
 
@@ -58,13 +54,14 @@ class VolumePanel extends React.Component {
   };
 
   _onVolumeChange = (volume) => {
+    this.props.onVolumeChanged(volume);
     this.setState({
       volume: volume
     });
   };
 
   _renderVolumeIcon = () => {
-    const iconConfig = (this.props.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
+    const iconConfig = (this.state.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
     const fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
 
     return (
@@ -85,6 +82,7 @@ class VolumePanel extends React.Component {
     onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
     onPanResponderGrant: (event, gestureState) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
       this.handleTouchStart(event);
     },
     onPanResponderMove: (event, gestureState) => {
@@ -106,10 +104,11 @@ class VolumePanel extends React.Component {
   };
 
   handleTouchMove = (event) => {
-    const volume = this._touchPercent(event.nativeEvent.locationX);
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
+    const volume = this._touchPercent(locationX);
     this._onVolumeChange(volume);
     this.setState({
-      x: event.nativeEvent.locationX
+      x: locationX
     });
   };
 
@@ -142,7 +141,7 @@ class VolumePanel extends React.Component {
   };
 
   _calculateLeftOffset = (componentSize, percent, sliderWidth) => {
-    return percent * sliderWidth - componentSize * percent - componentSize / 2 * (0.5 - percent);
+    return percent * sliderWidth - componentSize * percent;
   };
 
   _thumbStyle = () => {
@@ -194,7 +193,7 @@ class VolumePanel extends React.Component {
             <View style={style.filled}/>
             <View style={style.background}/>
           </View>
-          {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.props.volume)}
+          {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
       </View>
     );
   };
@@ -215,15 +214,10 @@ class VolumePanel extends React.Component {
     const animationStyle = {opacity: this.state.opacity};
 
     return (
-      <Animated.View style={[styles.container, animationStyle]}>
-        <VolumeView
-          style={{width: 0, height: 0, flex: 0}}
-          showsVolumeSlider={false}
-          volume={this.state.volume}> 
-        </VolumeView>
+      <Animated.View style={[styles.container, animationStyle, {height: this.props.height, width: this.props.width}]}>
         {this._renderDismissButton()}
         {this._renderVolumeIcon()}
-        {this._renderVolumeSlider(this.props.volume)}
+        {this._renderVolumeSlider(this.state.volume)}
       </Animated.View>
     );
   }

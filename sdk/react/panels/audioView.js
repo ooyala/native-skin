@@ -34,16 +34,12 @@ const scrubTouchableDistance = 45;
 
 class AudioView extends React.Component {
   static propTypes = {
-    rate: PropTypes.number,
     playhead: PropTypes.number,
     duration: PropTypes.number,
     live: PropTypes.bool,
     width: PropTypes.number,
     height: PropTypes.number,
     volume: PropTypes.number,
-    cuePoints: PropTypes.array,
-    stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
     playbackSpeedEnabled: PropTypes.bool,
     selectedPlaybackSpeedRate: PropTypes.string,
     handlers: PropTypes.shape({
@@ -52,13 +48,10 @@ class AudioView extends React.Component {
       handleControlsTouch: PropTypes.func.isRequired
     }),
     config: PropTypes.object,
-    nextVideo: PropTypes.object,
     upNextDismissed: PropTypes.bool,
     localizableStrings: PropTypes.object,
     locale: PropTypes.string,
     playing: PropTypes.bool,
-    loading: PropTypes.bool,
-    initialPlay: PropTypes.bool,
     title: PropTypes.string,
     description: PropTypes.string,
     onPlayComplete: PropTypes.bool
@@ -68,7 +61,9 @@ class AudioView extends React.Component {
     playing: false,
     skipCount: 0,
     height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
-    cachedPlayhead: -1
+    cachedPlayhead: -1,
+    progressBarWidth: 0,
+    progressBarHeight: 0
   };
 
   componentWillReceiveProps(nextProps) {
@@ -96,7 +91,7 @@ class AudioView extends React.Component {
   };
 
   onSeekPressed = (skipCountValue) => {
-    if (skipCountValue == 0) { return null; }
+    if (this.props.onPlayComplete && skipCountValue > 0 || skipCountValue == 0) { return null; }
 
     let configSeekValue = skipCountValue > 0 ?
                           this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
@@ -112,6 +107,8 @@ class AudioView extends React.Component {
     }
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
     this.handleScrub(resultedPlayheadPercent);
+
+    if (this.props.onPlayComplete && skipCountValue < 0) { this.onPlayPausePress() }
   };
 
   onMorePress = () => {
@@ -227,7 +224,10 @@ class AudioView extends React.Component {
       },
       seekForward: {
         onPress: this.onSkipPressForward,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.onPlayComplete ?
+          this.props.config.controlBar.iconStyle.inactive :
+          this.props.config.controlBar.iconStyle.active],
+        opacity: {opacity: this.props.onPlayComplete ? 0.5 : 1.0},
         seekValue: this.props.config.skipControls.skipForwardTime,
         icon: this.props.config.icons.forward,
         size: iconFontSize
@@ -285,35 +285,17 @@ class AudioView extends React.Component {
 
   // MARK: - Progress bar + scrubber
 
-  _calculateProgressBarWidth = () => {
-    if (this.state.progressBarWidth) {
-      return this.state.progressBarWidth;
-    } else {
-      return 0;
-    }    
-  };
-
-  _calculateProgressBarHeight = () => {
-    if (this.state.progressBarHeight) {
-      return this.state.progressBarHeight;
-    } else {
-      return 0;
-    }    
-  };
-
   _calculateTopOffset = (componentSize, progressBarHeight) => {
     return progressBarHeight / 2 - componentSize / 2;
   };
 
   _calculateLeftOffset = (componentSize, percent, progressBarWidth) => {
-    return percent * progressBarWidth - componentSize * percent - componentSize / 2 * (0.5 - percent);
+    return percent * progressBarWidth - componentSize * percent;
   };
 
   _renderProgressScrubber = (percent) => {
-    const progressBarWidth = this._calculateProgressBarWidth();
-    const progressBarHeight = this._calculateProgressBarHeight();
-    const topOffset = this._calculateTopOffset(scrubberSize, progressBarHeight);
-    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
+    const topOffset = this._calculateTopOffset(scrubberSize, this.state.progressBarHeight);
+    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, this.state.progressBarWidth);
     const positionStyle = {top:topOffset, left:leftOffset};
     const scrubberStyle = this._customizeScrubber();
 
@@ -358,6 +340,12 @@ class AudioView extends React.Component {
     return Utils.secondsToString(this.props.duration);
   };
 
+  getLiveDurationString = () => {
+    let diff = this.props.playhead - this.props.duration;
+    if (diff > -1 && diff < 0) diff = 0;
+    return Utils.secondsToString(diff);
+  };
+
   playedPercent = (playhead, duration) => {
     if (this.props.duration === 0) {
       return 0;
@@ -389,6 +377,7 @@ class AudioView extends React.Component {
     onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
 
     onPanResponderGrant: (event, gestureState) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
       this.handleTouchStart(event);
     },
     onPanResponderMove: (event, gestureState) => {
@@ -413,18 +402,21 @@ class AudioView extends React.Component {
   };
 
   handleTouchMove = (event) => {
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
     this.props.handlers.handleControlsTouch();
     this.setState({
-      x: event.nativeEvent.locationX
+      x: locationX
     });
   };
 
   handleTouchEnd = (event) => {
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
     this.props.handlers.handleControlsTouch();
     if (this.state.touch && this.props.handlers.onScrub) {
-      this.props.handlers.onScrub(this.touchPercent(event.nativeEvent.locationX));
+      if (this.props.onPlayComplete) { this.onPlayPausePress(); }
+      this.props.handlers.onScrub(this.touchPercent(locationX));
       this.setState({
-        cachedPlayhead: this.touchPercent(event.nativeEvent.locationX) * this.props.duration
+        cachedPlayhead: this.touchPercent(locationX) * this.props.duration
       });
     }
     this.setState({
@@ -451,6 +443,14 @@ class AudioView extends React.Component {
     );
   };
 
+  _renderLiveCircle = (isLive) => {
+    if (this.props.live) {
+      return (<View style={isLive ? styles.liveCircleActive : styles.liveCircleNonActive}/>)
+    } else {
+      return null;
+    }
+  };
+
   _renderCompleteProgressBar = () => {
     let playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
     if (this.state.cachedPlayhead >= 0.0) {
@@ -460,10 +460,18 @@ class AudioView extends React.Component {
     const playHeadTime = this.getPlayHeadTimeString();
     const durationTime = this.getDurationString();
 
+
+    let isLive = false;
+    if (this.props.live) {
+      isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_AUDIO_THRESHOLD;
+    }
+
     return (
       <View style={styles.progressBar}>
+        {this._renderLiveCircle(isLive)}
         <View>
-          <Text style={styles.progressBarTimeLabel}>{playHeadTime}</Text>
+          <Text style={this.props.live ? styles.liveLabel : styles.progressBarTimeLabel}>
+            {this.props.live ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) : playHeadTime}</Text>
         </View>
         <Animated.View
           onLayout={(event) => {
@@ -474,11 +482,12 @@ class AudioView extends React.Component {
           }}
           style={styles.progressBarScrubberContainer}
           {...this._panResponder.panHandlers}>
-            {this._renderProgressBar(playedPercent)}
-            {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+          {this._renderProgressBar(playedPercent)}
+          {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
         </Animated.View>
         <View>
-          <Text style={styles.progressBarTimeLabel}>{durationTime}</Text>
+          <Text style={isLive ? styles.progressBarNoTimeLabel : styles.progressBarTimeLabel}>
+            {!this.props.live ? durationTime : isLive ? "- - : - -" : this.getLiveDurationString()}</Text>
         </View>
       </View>
     )
@@ -498,7 +507,7 @@ class AudioView extends React.Component {
 
   render() {
     return (
-      <View style={styles.backgroundView}>
+      <View style={[styles.backgroundView, {height: this.props.height, width: this.props.width}]}>
         {this._renderPlayer()}
       </View>
     )

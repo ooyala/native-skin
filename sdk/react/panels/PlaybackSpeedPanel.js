@@ -145,6 +145,8 @@ class PlaybackSpeedPanel extends React.Component {
 
     return (
       <ItemSelectionScrollView
+        width={this.props.width}
+        height={this.props.height}
         style={styles.panelItemSelectionView}
         items={convertedPlaybackSpeedRates}
         selectedItem={selectedLocalizedItem}
@@ -167,7 +169,7 @@ class PlaybackSpeedPanel extends React.Component {
     const animationStyle = {opacity:this.state.opacity};
 
     return (
-      <Animated.View style={[styles.panelContainer, styles.panel, animationStyle]}>
+      <Animated.View style={[styles.panelContainer, styles.panel, animationStyle, {height: this.props.height, width: this.props.width}]}>
         {this.renderHeaderView()}
         {this.renderPanelsContainerView()}
       </Animated.View>
