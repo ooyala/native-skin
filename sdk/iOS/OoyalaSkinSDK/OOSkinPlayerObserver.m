@@ -25,8 +25,8 @@
 #import <OoyalaSDK/OOAudioTrackProtocol.h>
 #import <OoyalaSDK/OOAudioSession.h>
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
-
 #import <OoyalaSDK/OOStreamPlayer.h>
+#import <OoyalaSDK/OOPlayerInfo.h>
 
 @interface OOSkinPlayerObserver ()
 

@@ -249,6 +249,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
   NSDateFormatter *dateformat = [NSDateFormatter new];
   dateformat.dateFormat = duration < 3600 ? @"mm:ss" : @"H:mm:ss";
+  dateformat.locale = NSLocale.systemLocale;
+  dateformat.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
   self.playheadLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
   self.durationLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
   
