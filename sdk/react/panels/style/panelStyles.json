@@ -1,26 +1,24 @@
 {
   "panelTitleView": {
     "flexDirection": "row",
-    "alignItems": "center",
+    "alignItems": "center"
   },
   "panelIcon": {
     "textAlign": "left",
     "fontFamily": "ooyala-slick-type",
     "fontSize": 16,
     "color": "white",
-    "paddingTop":10,
-    "paddingBottom":10,
+    "paddingTop": 10,
+    "paddingBottom": 10
   },
-
   "headerFlexibleSpace": {
     "flex": 1
   },
-
   "dismissButton": {
-    "padding":20,
+    "padding": 20
   },
   "dismissOverlay": {
-    "position":"absolute",
+    "position": "absolute",
     "left": 10,
     "top": 10
   },
@@ -37,29 +35,29 @@
     "fontSize": 20,
     "fontFamily": "Helvetica",
     "fontWeight": "bold",
-    "color": "white",
+    "color": "white"
   },
   "closedCaptionsContainer": {
-    "backgroundColor":"transparent",
-    "alignItems":"center",
-    "justifyContent":"center",
+    "backgroundColor": "transparent",
+    "alignItems": "center",
+    "justifyContent": "center"
   },
   "closedCaptions": {
-    "alignSelf":"center",
-    "textAlign":"center",
+    "alignSelf": "center",
+    "textAlign": "center",
     "padding": 2,
-    "margin":2,
+    "margin": 2,
     "fontWeight": "bold",
     "fontSize": 16,
     "fontFamily": "Helvetica",
     "color": "white",
-    "backgroundColor": "rgba(0, 0, 0, 0.7)",
+    "backgroundColor": "rgba(0, 0, 0, 0.7)"
   },
-  "closedCaptionsFlexibleSpace" : {
-    "flex":1,
+  "closedCaptionsFlexibleSpace": {
+    "flex": 1
   },
   "panel": {
     "flex": 1,
-    "backgroundColor": "rgba(0, 0, 0, 0.7)",
+    "backgroundColor": "rgba(0, 0, 0, 0.7)"
   }
 }
