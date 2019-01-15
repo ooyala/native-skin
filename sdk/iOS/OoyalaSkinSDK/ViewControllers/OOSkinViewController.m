@@ -210,12 +210,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   }
   
   _fullscreen = fullscreen;
-  BOOL wasPlaying = self.player.isPlaying;
-  
-  // Pause player if needed for change fullScreen mode action duration
-  if (wasPlaying) {
-    [_player pause];
-  }
   
   // Perform changes for fullscreen/inline mode
   __weak __typeof__(self) weakSelf = self;
@@ -235,11 +229,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
       // Notify what fullscreen did changed
       if (completion) {
         completion();
-      }
-      
-      // Resume player if needed after fullscreen mode action
-      if (wasPlaying) {
-        [weakSelf.player play];
       }
 
       // Show react view for start animation
