@@ -18,6 +18,8 @@
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
+#import <OoyalaSDK/OOVideo.h>
 #import "Pair.h"
 
 
