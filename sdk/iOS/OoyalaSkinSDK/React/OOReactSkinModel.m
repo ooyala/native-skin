@@ -19,7 +19,6 @@
 #import "OOSkinPlayerObserver.h"
 #import "OOUpNextManager.h"
 #import "NSDictionary+Utils.h"
-#import "OOVolumeManager.h"
 #import "UIColor+Utils.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
@@ -30,7 +29,7 @@
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
 #import <OoyalaSDK/OOVideo.h>
 
-@interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate>
+@interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate, OOAudioSessionDelegate>
 
 @property (nonatomic, weak) id<OOSkinViewControllerDelegate> skinControllerDelegate;
 
@@ -71,6 +70,8 @@ static NSString *bucketInfoKey          = @"bucketInfo";
 static NSString *descriptionKey         = @"description";
 static NSString *imageUrlKey            = @"imageUrl";
 static NSString *resultsKey             = @"results";
+static NSString *volumePropertyKey      = @"outputVolume";
+static NSString *volumeChangeKey        = @"volumeChanged";
 
 #pragma mark - Init
 - (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player
@@ -84,7 +85,7 @@ static NSString *resultsKey             = @"results";
                                                   mergedWith:_skinOptions.overrideConfigs];
     _bridge = [[OOReactSkinBridge alloc] initWithDelegate:self launchOptions:nil];
 
-    [OOAudioSession.sharedInstance addVolumeObserver:self];
+    OOAudioSession.sharedInstance.delegate = self;
 
     _playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player ooReactSkinModel:self];
     _upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player
@@ -98,7 +99,6 @@ static NSString *resultsKey             = @"results";
 }
 
 - (void)dealloc {
-  [OOVolumeManager removeVolumeObserver:self];
 }
 
 #pragma mark - Public
@@ -116,7 +116,8 @@ static NSString *resultsKey             = @"results";
 
 - (void)setIsReactReady:(BOOL)isReactReady {
   self.bridge.skinEventsEmitter.isReactReady = isReactReady;
-  [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
+  [self sendEventWithName:volumeChangeKey
+                     body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
 - (void)ccStyleChanged:(NSNotification *)notification {
@@ -379,15 +380,11 @@ static NSString *resultsKey             = @"results";
   [self.skinControllerDelegate toggleStereoMode];
 }
 
-#pragma mark - KVO
+#pragma mark - OOAudioSessionDelegate
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
-                        change:(NSDictionary *)change context:(void *)context {
-  if ([keyPath isEqualToString:VolumePropertyKey]) {
-    [self sendEventWithName:VolumeChangeKey body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
-  } else {
-    [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-  }
+- (void)volumeChanged:(float)volume {
+  [self sendEventWithName:volumeChangeKey
+                     body:@{volumeKey: @(volume)}];
 }
 
 @end
