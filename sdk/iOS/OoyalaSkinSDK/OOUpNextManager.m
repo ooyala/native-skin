@@ -15,7 +15,7 @@
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
 @property (nonatomic) BOOL upNextEnabled;
 @property (nonatomic) BOOL isDismissed;
-@property (nonatomic) NSDictionary *nextVideo;
+@property (nonatomic, weak) NSDictionary *nextVideo;
 
 @end
 
