@@ -33,9 +33,9 @@
 
 @property (nonatomic, weak) id<OOSkinViewControllerDelegate> skinControllerDelegate;
 
-@property (nonatomic) OOOoyalaPlayer *player;
-@property OOSkinPlayerObserver *playerObserver;
-@property (nonatomic) OOSkinOptions *skinOptions;
+@property (nonatomic, weak) OOOoyalaPlayer *player;
+@property (nonatomic, weak) OOSkinOptions *skinOptions;
+@property (nonatomic) OOSkinPlayerObserver *playerObserver;
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic, readwrite) RCTBridge *bridge;
 
@@ -216,8 +216,8 @@ static NSString *volumeChangeKey        = @"volumeChanged";
 #pragma mark - OOReactSkinBridgeDelegate
 // Binding ooReactSkinModel as a delegate for handling RN events
 - (void)bridge:(OOReactSkinBridge *)bridge didLoadModule:(id<OOReactSkinBridgeModule>)module {
-  if ([module isKindOfClass:[OOReactSkinBridgeModuleMain class]]) {
-    [(OOReactSkinBridgeModuleMain*)module setSkinViewDelegate:self];
+  if ([module isKindOfClass:OOReactSkinBridgeModuleMain.class]) {
+    [(OOReactSkinBridgeModuleMain *)module setSkinViewDelegate:self];
   }
 }
 
@@ -356,7 +356,7 @@ static NSString *volumeChangeKey        = @"volumeChanged";
   UISlider *volumeViewSlider;
   
   for (UIView *view in volumeView.subviews) {
-    if ([view isKindOfClass:[UISlider class]]) {
+    if ([view isKindOfClass:UISlider.class]) {
       volumeViewSlider = (UISlider *)view;
       break;
     }
