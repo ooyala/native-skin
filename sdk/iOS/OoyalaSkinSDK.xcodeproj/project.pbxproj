@@ -79,8 +79,6 @@
 		979B01311B910A040032F5CF /* OOConstant.m in Sources */ = {isa = PBXBuildFile; fileRef = 979B012F1B910A040032F5CF /* OOConstant.m */; };
 		97CF8A001B5076CC008E0470 /* OOLocaleHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */; };
 		97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */; };
-		CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */; };
-		CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */; };
 		CA2C6FB41BEA8599006B86BC /* OoyalaSkinSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED84B1AE6EEEB005043DC /* OoyalaSkinSDK.framework */; };
 		CA2C6FBD1BEA8A69006B86BC /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 972ED8AA1AE7011D005043DC /* MediaPlayer.framework */; };
 		CA2C6FC01BEA8C01006B86BC /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2C6FBF1BEA8C01006B86BC /* MediaAccessibility.framework */; };
@@ -385,8 +383,6 @@
 		979B012F1B910A040032F5CF /* OOConstant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOConstant.m; sourceTree = "<group>"; };
 		97CF89FE1B5076CC008E0470 /* OOLocaleHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOLocaleHelper.h; sourceTree = "<group>"; };
 		97CF89FF1B5076CC008E0470 /* OOLocaleHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOLocaleHelper.m; sourceTree = "<group>"; };
-		CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOVolumeManager.h; sourceTree = "<group>"; };
-		CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOVolumeManager.m; sourceTree = "<group>"; };
 		CA2C6FAF1BEA8599006B86BC /* OoyalaSkinSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OoyalaSkinSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA2C6FB31BEA8599006B86BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CA2C6FBF1BEA8C01006B86BC /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
@@ -573,8 +569,6 @@
 				0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
-				CA1072FE1BDEFB2A00182031 /* OOVolumeManager.h */,
-				CA1072FF1BDEFB2A00182031 /* OOVolumeManager.m */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
 				CA742B4E1BE2761D0056784E /* Utils */,
@@ -706,7 +700,6 @@
 				0BCABD9B1C7F77A900989005 /* OOClosedCaptionsViewManager.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewControllerDelegate.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
-				CA1073001BDEFB2A00182031 /* OOVolumeManager.h in Headers */,
 				39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */,
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
 				39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */,
@@ -1110,7 +1103,6 @@
 				0BCABD9C1C7F77A900989005 /* OOClosedCaptionsViewManager.m in Sources */,
 				39B612F22158D04B00E2277C /* UIColor+Utils.m in Sources */,
 				0BCABD9A1C7F77A900989005 /* CountdownViewManager.m in Sources */,
-				CA1073011BDEFB2A00182031 /* OOVolumeManager.m in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
 				0BCABD981C7F77A900989005 /* CountdownView.m in Sources */,
