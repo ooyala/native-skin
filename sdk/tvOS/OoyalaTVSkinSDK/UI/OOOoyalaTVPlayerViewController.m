@@ -22,7 +22,6 @@
 #import <OoyalaSDK/OOVideo.h>
 #import "Pair.h"
 
-
 @interface OOOoyalaTVPlayerViewController ()
 
 @property (nonatomic) UIActivityIndicatorView *activityView;
@@ -55,10 +54,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     self.player = player;
   }
   return self;
-}
-
-- (void)dealloc {
-  [self removeObservers];
 }
 
 #pragma mark - Lifecyle
@@ -183,8 +178,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (UIActivityIndicatorView *)activityView {
   if (!_activityView) {
-    _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityView = [[UIActivityIndicatorView alloc]
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     _activityView.hidesWhenStopped = YES;
+    _activityView.color = UIColor.whiteColor;
   }
   return _activityView;
 }
@@ -210,6 +207,27 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
                                          selector:@selector(timeChangedNotification)
                                              name:OOOoyalaPlayerTimeChangedNotification
                                            object:self.player];
+  
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(bufferingStartedNotification)
+                                             name:OOOoyalaPlayerBufferingStartedNotification
+                                           object:self.player];
+
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(bufferingCompletedNotification)
+                                             name:OOOoyalaPlayerBufferingCompletedNotification
+                                           object:self.player];
+  
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(seekStartedNotification)
+                                             name:OOOoyalaPlayerSeekStartedNotification
+                                           object:self.player];
+  
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(seekCompletedNotification)
+                                             name:OOOoyalaPlayerSeekCompletedNotification
+                                           object:self.player];
+
 }
 
 - (void)removeObservers {
@@ -218,22 +236,40 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 #pragma mark - Notifications
 
+- (void)bufferingStartedNotification {
+  [self startActivityIndicator];
+}
+
+- (void)bufferingCompletedNotification {
+  [self stopActivityIndicator];
+}
+
+- (void)seekStartedNotification {
+  [self startActivityIndicator];
+}
+
+- (void)seekCompletedNotification {
+  [self stopActivityIndicator];
+}
+
 - (void)stateChangedNotification {
-  switch (self.player.state) {
-    case OOOoyalaPlayerStateLoading:
-      [self.activityView startAnimating];
-      break;
-    case OOOoyalaPlayerStateCompleted:
-      [self.playPauseButton changePlayingState:self.player.isPlaying];
-    case OOOoyalaPlayerStateReady:
-    case OOOoyalaPlayerStatePlaying:
-    case OOOoyalaPlayerStatePaused:
-    case OOOoyalaPlayerStateError:
-    default:
-      [self.activityView stopAnimating];
-  }
-    
-  [self showClosedCaptionsButton];
+  dispatch_async(dispatch_get_main_queue(), ^{
+    switch (self.player.state) {
+      case OOOoyalaPlayerStateLoading:
+        [self startActivityIndicator];
+        break;
+      case OOOoyalaPlayerStatePaused:
+        break;
+      case OOOoyalaPlayerStateCompleted:
+        [self.playPauseButton changePlayingState:self.player.isPlaying];
+      case OOOoyalaPlayerStateReady:
+      case OOOoyalaPlayerStatePlaying:
+      case OOOoyalaPlayerStateError:
+      default:
+        [self stopActivityIndicator];
+    }
+    [self showClosedCaptionsButton];
+  });
 }
 
 - (void)timeChangedNotification {
@@ -304,6 +340,18 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       self.closedCaptionsMenuBar.alpha = 0.0;
     } completion: nil];
   }
+}
+
+- (void)startActivityIndicator {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.activityView startAnimating];
+  });
+}
+
+- (void)stopActivityIndicator {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.activityView stopAnimating];
+  });
 }
 
 - (void)showClosedCaptionsButton {
