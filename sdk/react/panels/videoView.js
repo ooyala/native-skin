@@ -231,21 +231,18 @@ class VideoView extends React.Component {
 
     const ccStyle = {
       color: this.props.captionStyles.textColor, fontFamily: this.props.captionStyles.fontName,
-      backgroundColor: this.props.captionStyles.textBackgroundColor
+      backgroundColor: 'rgba(0,0,0,'+this.props.config.ccBackgroundOpacity+')'
     };
     if (this.props.caption) {
       return (
         <View
           accessible={false}
           importantForAccessibility="no-hide-descendants"
-          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
+          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent'}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
-          <View
-            style={[{backgroundColor: this.props.captionStyles.backgroundColor}]}>
-            <Text style={[panelStyles.closedCaptions, ccStyle]}>
-              {this.props.caption}
-            </Text>
-          </View>
+          <Text style={[panelStyles.closedCaptions, ccStyle]}>
+            {this.props.caption}
+          </Text>
         </View>
       );
     }
