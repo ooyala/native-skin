@@ -21,10 +21,21 @@
     "padding": 25
   },
 
-  "text": {
-    "fontSize": 50,
-    "marginVertical" : 30,
-    "marginHorizontal": 20,
+  "title": {
+    "fontSize": 20,
+    "marginTop" : 20,
+    "marginBottom": 15,
+    "marginHorizontal": 50,
+    "textAlign": "center",
+    "color": "#FFFFFF",
+    "fontFamily": "AvenirNext-DemiBold"
+  },
+
+  "description": {
+    "fontSize": 18,
+    "marginBottom" : 20,
+    "marginHorizontal": 50,
+    "textAlign": "center",
     "color": "#FFFFFF",
     "fontFamily": "AvenirNext-DemiBold"
   }

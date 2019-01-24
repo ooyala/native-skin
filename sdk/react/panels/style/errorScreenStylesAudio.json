@@ -26,7 +26,8 @@
     "color": "#FFFFFF",
     "textAlign": "center",
     "marginHorizontal": 30,
-    "marginTop": 5
+    "marginTop" : 5,
+    "marginBottom" : 10
   },
 
   "button": {
@@ -35,7 +36,7 @@
     "width" : 120,
     "height": 34,
     "padding": 6,
-    "marginTop": 10,
+    "marginBottom": 10,
     "borderRadius": 4,
     "borderColor": "#B3B3B3",
     "borderWidth": 1

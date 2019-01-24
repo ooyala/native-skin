@@ -87,7 +87,8 @@ class MoreDetailsScreen extends React.Component {
           <ScrollView
             style={[styles.column, styles.scrollContainer]}
             indicatorStyle={"white"}>
-            {this._renderText()}
+            {this._renderErrorTitle()}
+            {this._renderErrorDescription()}
           </ScrollView>
         </Animated.View>
         {dismissButtonRow}
@@ -95,33 +96,35 @@ class MoreDetailsScreen extends React.Component {
     );
   }
 
-  _renderText = () => {
+  _renderErrorTitle = () => {
     var errorCode = -1;
-    if (this.props.error) {
-      if (this.props.error.code) {
-        errorCode = this.props.error.code;
-      }
-      var title = Utils.stringForErrorCode(errorCode);
-      var localizedTitle =
-        Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
-
-      if (this.props.error.description) {
-        var userInfo = this.props.error.userInfo || {};
-        var errorUserCode = SAS_ERROR_CODES[userInfo['code']] || '';
-        var description = ERROR_MESSAGE[errorUserCode] || this.props.error.description;
-
-        var localizedDescription =
-          Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-        Log.warn("ERROR: localized description:" + localizedDescription);
-
-        return (
-          <Text style={styles.text}>
-            {localizedTitle}
-            {errorUserCode}
-            {localizedDescription}
-          </Text>);
-      }
+    if (this.props.error && this.props.error.code) {
+      errorCode = this.props.error.code;
     }
+    var title = Utils.stringForErrorCode(errorCode);
+    var localizedTitle =
+      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    return (
+      <Text style={styles.title}>
+        {localizedTitle}
+      </Text>);
+  };
+
+  _renderErrorDescription = () => {
+    if (this.props.error && this.props.error.description) {
+      var userInfo = this.props.error.userInfo || {};
+      var errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
+      var description = ERROR_MESSAGE[errorCode] || this.props.error.description;
+
+      var localizedDescription =
+        Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+      Log.warn("ERROR: localized description:" + localizedDescription);
+      return (
+        <Text style={styles.description}>
+          {localizedDescription}
+        </Text>);
+    }
+    return null;
   }
 }
 
