@@ -33,6 +33,8 @@ public class ErrorNotificationHandler extends OoyalaNotificationHandler {
 
       WritableMap userInfoParams = BridgeMessageBuilder.buildUserInfoParams(ex);
       params.putMap("userInfo", userInfoParams);
+
+      params.putString("screenType", player.isAudioOnly() ? "audio" : "video");
     }
 
     layoutController.sendEvent(getNotificationName(), params);

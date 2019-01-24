@@ -1,0 +1,49 @@
+{
+  "container": {
+    "flex": 1,
+    "alignItems": "center",
+    "flexDirection": "column",
+    "backgroundColor": "#000000"
+  },
+
+  "wrapper": {
+    "flex":1,
+    "justifyContent": "center"
+  },
+
+  "title": {
+    "fontSize": 18,
+    "fontFamily": "AvenirNext-Bold",
+    "color":"#3eb5f7",
+    "textAlign": "center",
+    "marginHorizontal": 20,
+    "marginTop": 10
+  },
+
+  "description": {
+    "fontSize": 16,
+    "fontFamily": "AvenirNext-DemiBold",
+    "color": "#FFFFFF",
+    "textAlign": "center",
+    "marginHorizontal": 30,
+    "marginTop": 5
+  },
+
+  "button": {
+    "backgroundColor": "transparent",
+    "width" : 120,
+    "height": 36,
+    "padding": 6,
+    "margin": 10,
+    "borderRadius": 5,
+    "borderColor": "white",
+    "borderWidth": 1
+  },
+
+  "buttonText": {
+    "textAlign": "center",
+    "color": "white",
+    "fontSize": 14,
+    "fontFamily": "Roboto"
+  }
+}

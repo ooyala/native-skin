@@ -1,0 +1,31 @@
+{
+  "fullscreenContainer": {
+    "flexDirection": "column",
+    "backgroundColor": "rgba(0, 0, 0, 0.8)"
+  },
+
+  "scrollContainer": {
+    "flex": 1,
+    "flexDirection": "column",
+    "alignItems": "center",
+    "backgroundColor": "transparent"
+  },
+
+  "dismissButtonTopRight":{
+    "position": "absolute",
+    "top": 0,
+    "right": 0
+  },
+
+  "iconDismiss": {
+    "padding": 25
+  },
+
+  "text": {
+    "fontSize": 50,
+    "marginVertical" : 30,
+    "marginHorizontal": 20,
+    "color": "#FFFFFF",
+    "fontFamily": "AvenirNext-DemiBold"
+  }
+}
