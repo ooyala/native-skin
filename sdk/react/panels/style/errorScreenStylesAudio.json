@@ -30,13 +30,14 @@
   },
 
   "button": {
+    "alignSelf": "center",
     "backgroundColor": "transparent",
     "width" : 120,
-    "height": 36,
+    "height": 34,
     "padding": 6,
-    "margin": 10,
-    "borderRadius": 5,
-    "borderColor": "white",
+    "marginTop": 10,
+    "borderRadius": 4,
+    "borderColor": "#B3B3B3",
     "borderWidth": 1
   },
 

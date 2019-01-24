@@ -35,7 +35,17 @@ class ErrorScreen extends React.Component {
     var localizedTitle =
       Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
-      <Text style={!this.props.isAudioOnly ? styles.title : stylesAudio.title}>
+      <Text style={styles.title}>
+        {localizedTitle}
+      </Text>);
+  };
+
+  getTitleAudioOnly = () => {
+    var title = "unplayable content error";
+    var localizedTitle =
+      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    return (
+      <Text style={stylesAudio.title}>
         {localizedTitle}
       </Text>);
   };
@@ -50,21 +60,29 @@ class ErrorScreen extends React.Component {
         Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
       Log.warn("ERROR: localized description:" + localizedDescription);
       return (
-        <Text style={!this.props.isAudioOnly ? styles.description : stylesAudio.description}>
+        <Text style={styles.description}>
           {localizedDescription}
         </Text>);
     }
     return null;
   };
 
+  getDescriptionAudioOnly = () => {
+    var description = "Reload your screen or try selecting different audio.";
+    var localizedDescription =
+      Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+    return (
+      <Text style={stylesAudio.description}>
+        {localizedDescription}
+      </Text>);
+  };
+
   render() {
-    var title = this.getTitle();
-    var description = this.getDescription();
     return (
       <View style={!this.props.isAudioOnly ? styles.container : stylesAudio.container}>
         <View style={!this.props.isAudioOnly ? styles.wrapper: stylesAudio.wrapper}>
-          {title}
-          {description}
+          {!this.props.isAudioOnly ? this.getTitle() : this.getTitleAudioOnly()}
+          {!this.props.isAudioOnly ? this.getDescription() : this.getDescriptionAudioOnly()}
           {this._renderMoreDetailsButton()}
         </View>
       </View>
