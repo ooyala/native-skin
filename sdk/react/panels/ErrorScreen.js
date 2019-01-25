@@ -9,7 +9,8 @@ import {
 
 import {
   SAS_ERROR_CODES,
-  ERROR_MESSAGE, BUTTON_NAMES,
+  ERROR_MESSAGE,
+  BUTTON_NAMES,
 } from '../constants';
 
 var Log = require('../log');
@@ -99,7 +100,8 @@ class ErrorScreen extends React.Component {
     const moreDetailsText = Utils.localizedString(this.props.locale, "More Details", this.props.localizableStrings);
     return (
       <TouchableHighlight
-        onPress={this.onMoreDetails}>
+        onPress={this.onMoreDetails}
+        style={stylesAudio.buttonContainer}>
         <View style={stylesAudio.button}>
           <Text style={stylesAudio.buttonText}>{moreDetailsText}</Text>
         </View>
