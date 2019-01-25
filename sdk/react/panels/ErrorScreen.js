@@ -32,8 +32,8 @@ class ErrorScreen extends React.Component {
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
     }
-    var title = Utils.stringForErrorCode(errorCode);
-    var localizedTitle =
+    const title = Utils.stringForErrorCode(errorCode);
+    const localizedTitle =
       Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={styles.title}>
@@ -42,8 +42,8 @@ class ErrorScreen extends React.Component {
   };
 
   getTitleAudioOnly = () => {
-    var title = "unplayable content error";
-    var localizedTitle =
+    const title = "unplayable content error";
+    const localizedTitle =
       Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={stylesAudio.title}>
@@ -53,11 +53,11 @@ class ErrorScreen extends React.Component {
 
   getDescription = () => {
     if (this.props.error && this.props.error.description) {
-      var userInfo = this.props.error.userInfo || {};
-      var errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
-      var description = ERROR_MESSAGE[errorCode] || this.props.error.description;
+      const userInfo = this.props.error.userInfo || {};
+      const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
+      const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
-      var localizedDescription =
+      const localizedDescription =
         Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
       Log.warn("ERROR: localized description:" + localizedDescription);
       return (
@@ -69,8 +69,8 @@ class ErrorScreen extends React.Component {
   };
 
   getDescriptionAudioOnly = () => {
-    var description = "Reload your screen or try selecting different audio.";
-    var localizedDescription =
+    const description = "Reload your screen or try selecting different audio.";
+    const localizedDescription =
       Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
     return (
       <Text style={stylesAudio.description}>

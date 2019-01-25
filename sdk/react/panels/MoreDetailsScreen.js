@@ -10,7 +10,7 @@ import {BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES,} from '../constants';
 const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/moreDetailsScreenStyles.json'));
 
-var Log = require('../log');
+import Log from '../log';
 
 const dismissButtonSize = 20;
 
@@ -101,8 +101,8 @@ class MoreDetailsScreen extends React.Component {
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
     }
-    var title = Utils.stringForErrorCode(errorCode);
-    var localizedTitle =
+    const title = Utils.stringForErrorCode(errorCode);
+    const localizedTitle =
       Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={styles.title}>
@@ -112,11 +112,11 @@ class MoreDetailsScreen extends React.Component {
 
   _renderErrorDescription = () => {
     if (this.props.error && this.props.error.description) {
-      var userInfo = this.props.error.userInfo || {};
-      var errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
-      var description = ERROR_MESSAGE[errorCode] || this.props.error.description;
+      const userInfo = this.props.error.userInfo || {};
+      const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
+      const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
-      var localizedDescription =
+      const localizedDescription =
         Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
       Log.warn("ERROR: localized description:" + localizedDescription);
       return (
