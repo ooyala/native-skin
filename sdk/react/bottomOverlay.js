@@ -429,12 +429,15 @@ const BottomOverlay = createReactClass({
   },
 
   render: function() {
+    if (this.props.config.controlBar.enabled || this.props.config.controlBar.enabled == null) {
     var widthStyle = {width:this.props.width, opacity:this.state.opacity};
-    if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
-      return this.renderLiveWithoutDVR(widthStyle);
+        if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
+          return this.renderLiveWithoutDVR(widthStyle);
+        }
+        return this.renderDefault(widthStyle);
+    } else {
+        return null;
     }
-
-    return this.renderDefault(widthStyle);
   },
 });
 
