@@ -47,7 +47,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PIP: 'PIP',
   UP_NEXT: 'Select up next',
   CLOSED_CAPTIONS: 'closedCaption',
-  MORE_DETAILS: 'closedCaption'
+  MORE_DETAILS: 'moreDetails'
 };
 
 const VIEW_NAMES = {
