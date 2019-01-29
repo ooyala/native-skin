@@ -32,7 +32,7 @@ class logo extends React.Component {
             <Image
               style={sizeStyle}
               source={{uri: waterMarkName}}
-              resizeMode={Image.resizeMode.contain}/>
+              resizeMode="contain"/>
           </View>
         );
     };

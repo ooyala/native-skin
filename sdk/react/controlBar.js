@@ -210,7 +210,7 @@ class ControlBar extends React.Component {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
         icon:waterMarkName,
-        resizeMode: Image.resizeMode.contain
+        resizeMode: "contain"
       },
       stereoscopic: {
         onPress: this.onStereoscopicPress,

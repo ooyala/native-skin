@@ -359,7 +359,7 @@ class VideoView extends React.Component {
             <Image
               style={styles.container}
               source={{uri: this.props.adOverlay.resourceUrl}}
-              resizeMode={Image.resizeMode.contain}>
+              resizeMode="contain">
             </Image>
             <TouchableHighlight
               style={panelStyles.dismissOverlay}
