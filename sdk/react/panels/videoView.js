@@ -217,17 +217,14 @@ class VideoView extends React.Component {
     return (
       <View
         style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end"}}>
-        {this._renderClosedCaptions(waterMarkName, VideoWaterMarkSize)}
         {watermark}
+        {this._renderClosedCaptions()}
       </View>);
   };
 
-  _renderClosedCaptions = (waterMarkName, VideoWaterMarkSize) => {
+  _renderClosedCaptions = () => {
     const containerPadding = 5;
     let captionWidth = this.props.width - (containerPadding * 4);
-    if (waterMarkName) {
-      captionWidth = captionWidth - VideoWaterMarkSize;
-    }
 
     const ccStyle = {
       color: this.props.captionStyles.textColor, fontFamily: this.props.captionStyles.fontName,
@@ -238,7 +235,7 @@ class VideoView extends React.Component {
         <View
           accessible={false}
           importantForAccessibility="no-hide-descendants"
-          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent'}]}
+          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: "absolute"}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
           <Text style={[panelStyles.closedCaptions, ccStyle]}>
             {this.props.caption}
