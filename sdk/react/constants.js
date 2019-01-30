@@ -46,7 +46,8 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   AD_OVERLAY: 'Overlay',
   PIP: 'PIP',
   UP_NEXT: 'Select up next',
-  CLOSED_CAPTIONS: 'closedCaption'
+  CLOSED_CAPTIONS: 'closedCaption',
+  MORE_DETAILS: 'moreDetails'
 };
 
 const VIEW_NAMES = {
@@ -76,6 +77,7 @@ const SCREEN_TYPES = {
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
   ERROR_SCREEN: 'error',
+  ERROR_SCREEN_AUDIO: 'error_audio',
 };
 
 const OVERLAY_TYPES = {
@@ -83,7 +85,8 @@ const OVERLAY_TYPES = {
   MOREOPTION_SCREEN: 'moreOption',
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen',
-  VOLUME_SCREEN: 'volumeScreen'
+  VOLUME_SCREEN: 'volumeScreen',
+  MORE_DETAILS: 'moreDetails'
 }
 
 const DESIRED_STATES = {

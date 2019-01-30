@@ -22,6 +22,7 @@ const EndScreen = require('./panels/EndScreen');
 const ErrorScreen = require('./panels/ErrorScreen');
 const DiscoveryPanel = require('./panels/discoveryPanel');
 const MoreOptionScreen = require('./panels/MoreOptionScreen');
+const MoreDetailsScreen = require('./panels/MoreDetailsScreen');
 const VideoView = require('./panels/videoView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
@@ -90,7 +91,9 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
     <ErrorScreen
       error={this.skin.state.error}
       localizableStrings={this.skin.props.localization}
-      locale={this.skin.props.locale}>
+      locale={this.skin.props.locale}
+      isAudioOnly={this.skin.state.screenType === SCREEN_TYPES.ERROR_SCREEN_AUDIO}
+      onPress={(name) => this.core.handlePress(name)}>
     </ErrorScreen>
   );
 };
@@ -380,6 +383,21 @@ OoyalaSkinPanelRenderer.prototype.renderMoreOptionScreen = function() {
   );
 };
 
+OoyalaSkinPanelRenderer.prototype.renderMoreDetailsScreen = function () {
+  return (
+    <MoreDetailsScreen
+      height={this.skin.state.height}
+      width ={this.skin.state.width}
+      onDismiss={() => this.core.dismissOverlay()}
+      config={{
+        moreDetailsScreen: this.skin.props.moreOptionsScreen,
+        icons: this.skin.props.icons,
+      }}
+      error={this.skin.state.error}>
+    </MoreDetailsScreen>
+  );
+};
+
 OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, screenType) {
   if (overlayType) {
     switch (overlayType) {
@@ -397,6 +415,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
         break;
       case OVERLAY_TYPES.VOLUME_SCREEN:
         return this.renderVolumePanel();
+        break;
+      case OVERLAY_TYPES.MORE_DETAILS:
+        return this.renderMoreDetailsScreen();
         break;
     }
     return;
@@ -421,6 +442,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
       return this.skin.renderLoadingScreen();
       break;
     case SCREEN_TYPES.ERROR_SCREEN:
+      return this.renderErrorScreen();
+      break;
+    case SCREEN_TYPES.ERROR_SCREEN_AUDIO:
       return this.renderErrorScreen();
       break;
     case SCREEN_TYPES.AUDIO_SCREEN:

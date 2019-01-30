@@ -328,7 +328,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
   NSDictionary *eventBody = @{codeKey:        code,
                               descriptionKey: detail,
-                              userInfoKey:    userInfo};
+                              userInfoKey:    userInfo,
+                              screenTypeKey:  OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
+                                              @"audio" : @"video"};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
