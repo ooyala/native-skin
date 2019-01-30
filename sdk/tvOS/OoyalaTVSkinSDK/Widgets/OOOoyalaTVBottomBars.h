@@ -17,4 +17,8 @@
                duration:(CGFloat)duration
             totalLength:(CGFloat)length;
 
+- (void)updateProgressBarTime:(CGFloat)time
+                   duration:(CGFloat)duration
+                totalLength:(CGFloat)length;
+
 @end
