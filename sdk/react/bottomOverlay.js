@@ -247,7 +247,8 @@ const BottomOverlay = createReactClass({
     } else {
       const currentAnnouncing = new Date().getTime();
 
-      if ((previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityProgressDelay) && currentPercent !== VALUES.MAX_PROGRESS_PERCENT) {
+      if ((previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityProgressDelay)
+              && currentPercent !== VALUES.MAX_PROGRESS_PERCENT) {
         previousAnnouncing = currentAnnouncing;
         return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel)
       } else {
