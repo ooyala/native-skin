@@ -262,18 +262,20 @@ const BottomOverlay = createReactClass({
   },
 
   _renderDefaultProgressBar: function (playedPercent, scrubberBarAccessibilityLabel) {
-    return <Animated.View
-      testID={VIEW_NAMES.TIME_SEEK_BAR}
-      accessible={this.state.accessibilityEnabled}
-      accessibilityLabel={scrubberBarAccessibilityLabel}
-      onTouchStart={(event) => this.handleTouchStart(event)}
-      onTouchMove={(event) => this.handleTouchMove(event)}
-      onTouchEnd={(event) => this.handleTouchEnd(event)}
-      style={styles.progressBarStyle}>
-      {this._renderProgressBar(playedPercent)}
-      {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-      {this._renderCuePoints(this.props.cuePoints)}
-    </Animated.View>
+    return (
+            <Animated.View
+              testID={VIEW_NAMES.TIME_SEEK_BAR}
+              accessible={this.state.accessibilityEnabled}
+              accessibilityLabel={scrubberBarAccessibilityLabel}
+              onTouchStart={(event) => this.handleTouchStart(event)}
+              onTouchMove={(event) => this.handleTouchMove(event)}
+              onTouchEnd={(event) => this.handleTouchEnd(event)}
+              style={styles.progressBarStyle}>
+              {this._renderProgressBar(playedPercent)}
+              {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+              {this._renderCuePoints(this.props.cuePoints)}
+            </Animated.View>
+    );
   },
 
   _onValueChange: function(value) {
