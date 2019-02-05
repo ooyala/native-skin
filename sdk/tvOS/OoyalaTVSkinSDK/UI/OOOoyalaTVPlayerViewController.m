@@ -238,35 +238,52 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)bufferingStartedNotification {
   [self startActivityIndicator];
+  NSLog(@"✅  bufferingStartedNotification. activity LAUNCHED");
 }
 
 - (void)bufferingCompletedNotification {
   [self stopActivityIndicator];
+  NSLog(@"✅ bufferingCompletedNotification. activity STOPPED");
+  //NSLog(@"✅ bufferingCompletedNotification.");
 }
 
 - (void)seekStartedNotification {
   [self startActivityIndicator];
+  NSLog(@"✅ seekStartedNotification. activity LAUNCHED");
 }
 
 - (void)seekCompletedNotification {
-  [self stopActivityIndicator];
+  //[self stopActivityIndicator];
+  //NSLog(@"✅ seekCompletedNotification. activity STOPPED");
+  NSLog(@"✅ seekCompletedNotification.");
 }
 
 - (void)stateChangedNotification {
+  NSLog(@"✅ - stateChangedNotification. state: [%d]", self.player.state);
   dispatch_async(dispatch_get_main_queue(), ^{
     switch (self.player.state) {
-      case OOOoyalaPlayerStateLoading:
+      case OOOoyalaPlayerStateLoading: //1
+        NSLog(@"OOOoyalaPlayerStateLoading. activity LAUNCHED");
         [self startActivityIndicator];
         break;
-      case OOOoyalaPlayerStatePaused:
+      case OOOoyalaPlayerStatePaused: //4
         break;
-      case OOOoyalaPlayerStateCompleted:
+      case OOOoyalaPlayerStateCompleted: //5
+        NSLog(@"OOOoyalaPlayerStateCompleted");
         [self.playPauseButton changePlayingState:self.player.isPlaying];
-      case OOOoyalaPlayerStateReady:
-      case OOOoyalaPlayerStatePlaying:
-      case OOOoyalaPlayerStateError:
+        break;
+      case OOOoyalaPlayerStateReady: //2
+        break;
+      case OOOoyalaPlayerStatePlaying: //3
+        //[self stopActivityIndicator];
+        break;
+      case OOOoyalaPlayerStateError: //6
+        NSLog(@"❌  OOOoyalaPlayerStateError");
+        break;
       default:
-        [self stopActivityIndicator];
+        NSLog(@"[default]");
+        //[self stopActivityIndicator];
+        break;
     }
     [self showClosedCaptionsButton];
   });
