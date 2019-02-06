@@ -37,6 +37,7 @@
 @property (nonatomic) OOTVOptionsCollectionViewController *optionsViewController;
 @property (nonatomic) NSMutableArray *tableList;
 @property (nonatomic) OOOoyalaTVClosedCaptionsView *closedCaptionsView;
+@property (nonatomic, getter=isBufferingAsked) BOOL bufferingAsked;
 
 @end
 
@@ -61,6 +62,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.playbackControlsEnabled = YES;
+  self.bufferingAsked = NO;
     
   // Set Closed Caption style
   _closedCaptionsStyle = [OOClosedCaptionsStyle new];
@@ -234,25 +236,27 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
+
 #pragma mark - Notifications
 
 - (void)bufferingStartedNotification {
   [self startActivityIndicator];
+  self.bufferingAsked = YES;
 }
 
 - (void)bufferingCompletedNotification {
   [self stopActivityIndicator];
+  self.bufferingAsked = NO;
 }
 
 - (void)seekStartedNotification {
   [self startActivityIndicator];
 }
 
-- (void)seekCompletedNotification {
-  [self stopActivityIndicator];
-}
+- (void)seekCompletedNotification { }
 
 - (void)stateChangedNotification {
+  
   dispatch_async(dispatch_get_main_queue(), ^{
     switch (self.player.state) {
       case OOOoyalaPlayerStateLoading:
@@ -262,8 +266,14 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
         break;
       case OOOoyalaPlayerStateCompleted:
         [self.playPauseButton changePlayingState:self.player.isPlaying];
+        break;
       case OOOoyalaPlayerStateReady:
+        break;
       case OOOoyalaPlayerStatePlaying:
+        if (!self.isBufferingAsked) {
+          [self stopActivityIndicator];
+        }
+        break;
       case OOOoyalaPlayerStateError:
       default:
         [self stopActivityIndicator];
