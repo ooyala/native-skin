@@ -37,6 +37,7 @@
 @property (nonatomic) OOTVOptionsCollectionViewController *optionsViewController;
 @property (nonatomic) NSMutableArray *tableList;
 @property (nonatomic) OOOoyalaTVClosedCaptionsView *closedCaptionsView;
+@property (nonatomic, getter=isBufferingAsked) BOOL bufferingAsked;
 
 @end
 
@@ -61,6 +62,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.playbackControlsEnabled = YES;
+  self.bufferingAsked = NO;
     
   // Set Closed Caption style
   _closedCaptionsStyle = [OOClosedCaptionsStyle new];
@@ -234,32 +236,33 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
+
 #pragma mark - Notifications
 
 - (void)bufferingStartedNotification {
   [self startActivityIndicator];
-  NSLog(@"✅  bufferingStartedNotification. activity LAUNCHED");
+  self.bufferingAsked = YES;
+  NSLog(@"bufferingStartedNotification. activity LAUNCHED ✅ lifecycle, step 3");
 }
 
 - (void)bufferingCompletedNotification {
   [self stopActivityIndicator];
-  NSLog(@"✅ bufferingCompletedNotification. activity STOPPED");
-  //NSLog(@"✅ bufferingCompletedNotification.");
+  self.bufferingAsked = NO;
+  NSLog(@"bufferingCompletedNotification. activity STOPPED ✅ lifecycle, step 4");
 }
 
 - (void)seekStartedNotification {
   [self startActivityIndicator];
-  NSLog(@"✅ seekStartedNotification. activity LAUNCHED");
+  NSLog(@"seekStartedNotification. activity LAUNCHED ⚠️ lifecycle, step 1");
 }
 
 - (void)seekCompletedNotification {
-  //[self stopActivityIndicator];
-  //NSLog(@"✅ seekCompletedNotification. activity STOPPED");
-  NSLog(@"✅ seekCompletedNotification.");
+  //[self stopActivityIndicator]; //absolutly haven't be used, because picture is frozen umtil [Playing] occurs
+  NSLog(@"seekCompletedNotification.⚠️ lifecycle, step 2");
 }
 
 - (void)stateChangedNotification {
-  NSLog(@"✅ - stateChangedNotification. state: [%d]", self.player.state);
+  NSLog(@"⚠️ - stateChangedNotification. state: [%d]", self.player.state);
   dispatch_async(dispatch_get_main_queue(), ^{
     switch (self.player.state) {
       case OOOoyalaPlayerStateLoading: //1
@@ -275,14 +278,18 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       case OOOoyalaPlayerStateReady: //2
         break;
       case OOOoyalaPlayerStatePlaying: //3
-        //[self stopActivityIndicator];
+        NSLog(@"✅ OOOoyalaPlayerStatePlaying - activity not changed");
+        if (!self.isBufferingAsked) {
+          [self stopActivityIndicator];
+        }
         break;
       case OOOoyalaPlayerStateError: //6
         NSLog(@"❌  OOOoyalaPlayerStateError");
+        [self stopActivityIndicator];
         break;
       default:
-        NSLog(@"[default]");
-        //[self stopActivityIndicator];
+        NSLog(@"⚠️ [default]");
+        [self stopActivityIndicator];
         break;
     }
     [self showClosedCaptionsButton];
