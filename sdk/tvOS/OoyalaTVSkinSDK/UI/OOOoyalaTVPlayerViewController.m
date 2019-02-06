@@ -242,55 +242,41 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)bufferingStartedNotification {
   [self startActivityIndicator];
   self.bufferingAsked = YES;
-  NSLog(@"bufferingStartedNotification. activity LAUNCHED ✅ lifecycle, step 3");
 }
 
 - (void)bufferingCompletedNotification {
   [self stopActivityIndicator];
   self.bufferingAsked = NO;
-  NSLog(@"bufferingCompletedNotification. activity STOPPED ✅ lifecycle, step 4");
 }
 
 - (void)seekStartedNotification {
   [self startActivityIndicator];
-  NSLog(@"seekStartedNotification. activity LAUNCHED ⚠️ lifecycle, step 1");
 }
 
-- (void)seekCompletedNotification {
-  //[self stopActivityIndicator]; //absolutly haven't be used, because picture is frozen umtil [Playing] occurs
-  NSLog(@"seekCompletedNotification.⚠️ lifecycle, step 2");
-}
+- (void)seekCompletedNotification { }
 
 - (void)stateChangedNotification {
-  NSLog(@"⚠️ - stateChangedNotification. state: [%d]", self.player.state);
+  
   dispatch_async(dispatch_get_main_queue(), ^{
     switch (self.player.state) {
-      case OOOoyalaPlayerStateLoading: //1
-        NSLog(@"OOOoyalaPlayerStateLoading. activity LAUNCHED");
+      case OOOoyalaPlayerStateLoading:
         [self startActivityIndicator];
         break;
-      case OOOoyalaPlayerStatePaused: //4
+      case OOOoyalaPlayerStatePaused:
         break;
-      case OOOoyalaPlayerStateCompleted: //5
-        NSLog(@"OOOoyalaPlayerStateCompleted");
+      case OOOoyalaPlayerStateCompleted:
         [self.playPauseButton changePlayingState:self.player.isPlaying];
         break;
-      case OOOoyalaPlayerStateReady: //2
+      case OOOoyalaPlayerStateReady:
         break;
-      case OOOoyalaPlayerStatePlaying: //3
-        NSLog(@"✅ OOOoyalaPlayerStatePlaying - activity not changed");
+      case OOOoyalaPlayerStatePlaying:
         if (!self.isBufferingAsked) {
           [self stopActivityIndicator];
         }
         break;
-      case OOOoyalaPlayerStateError: //6
-        NSLog(@"❌  OOOoyalaPlayerStateError");
-        [self stopActivityIndicator];
-        break;
+      case OOOoyalaPlayerStateError:
       default:
-        NSLog(@"⚠️ [default]");
         [self stopActivityIndicator];
-        break;
     }
     [self showClosedCaptionsButton];
   });
