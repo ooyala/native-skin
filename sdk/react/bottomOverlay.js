@@ -160,6 +160,7 @@ const BottomOverlay = createReactClass({
       <View
         testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         accessible={false}
+        importantForAccessibility="no-hide-descendants"
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
       </View>
@@ -267,6 +268,7 @@ const BottomOverlay = createReactClass({
               testID={VIEW_NAMES.TIME_SEEK_BAR}
               accessible={this.state.accessibilityEnabled}
               accessibilityLabel={scrubberBarAccessibilityLabel}
+              importantForAccessibility="yes"
               onTouchStart={(event) => this.handleTouchStart(event)}
               onTouchMove={(event) => this.handleTouchMove(event)}
               onTouchEnd={(event) => this.handleTouchEnd(event)}
