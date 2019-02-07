@@ -1,4 +1,4 @@
-#import <OOOoyalaTVClosedCaptionsLabel.h>
+#import "OOOoyalaTVClosedCaptionsLabel.h"
 
 @interface OOOoyalaTVClosedCaptionsLabel ()
 
