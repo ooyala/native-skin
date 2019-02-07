@@ -5,16 +5,17 @@
 //  Copyright © 2016 Ooyala, Inc. All rights reserved.
 //
 
-#import <OOOoyalaTVPlayerViewController.h>
-#import <OOOoyalaTVConstants.h>
-#import <OOOoyalaTVGradientView.h>
-#import <OOOoyalaTVButton.h>
-#import <OOOoyalaTVLabel.h>
-#import <OOOoyalaTVBottomBars.h>
-#import <OOOoyalaTVTopBar.h>
-#import <OOTVGestureManager.h>
-#import <OOTVOptionsCollectionViewController.h>
-#import <OOOoyalaTVClosedCaptionsView.h>
+#import "OOOoyalaTVPlayerViewController.h"
+#import "OOOoyalaTVConstants.h"
+#import "OOOoyalaTVGradientView.h"
+#import "OOOoyalaTVButton.h"
+#import "OOOoyalaTVLabel.h"
+#import "OOOoyalaTVBottomBars.h"
+#import "OOOoyalaTVTopBar.h"
+#import "OOTVGestureManager.h"
+#import "OOTVOptionsCollectionViewController.h"
+#import "OOOoyalaTVClosedCaptionsView.h"
+
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
