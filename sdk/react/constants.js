@@ -21,6 +21,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'fullscreen',
   MORE: 'moreOptions',
+  CAST: 'cast',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
   REPLAY: 'replay',

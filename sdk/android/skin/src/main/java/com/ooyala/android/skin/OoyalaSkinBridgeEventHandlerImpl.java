@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.MotionEvent;
+
 import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
@@ -52,6 +53,9 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
                 break;
               case REWIND:
                 handleRewind();
+                break;
+              case CAST:
+                //TODO: add handling cast pressed
                 break;
               case FULLSCREEN:
                 _layoutController.setFullscreen(!_layoutController.isFullscreen());
