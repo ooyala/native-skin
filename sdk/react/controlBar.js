@@ -119,6 +119,10 @@ class ControlBar extends React.Component {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   };
 
+  onCastPress = () => {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
+  };
+
   onRewindPress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.REWIND);
   };
@@ -193,6 +197,13 @@ class ControlBar extends React.Component {
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
         enabled: this.props.showMoreOptionsButton
+      },
+      cast: {
+        onPress: this.onCastPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        icon: this.props.config.icons.cast,
+        enabled: this.props.cast
       },
       discovery: {
         onPress: this.onDiscoveryPress,
