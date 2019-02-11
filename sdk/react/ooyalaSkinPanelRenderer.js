@@ -103,7 +103,7 @@ OoyalaSkinPanelRenderer.prototype.renderCastScreen = function() {
       width ={this.skin.state.width}
       onDismiss={() => this.core.dismissOverlay()}
       config={{
-        moreDetailsScreen: this.skin.props.moreOptionsScreen,
+        castDevicesScreen: this.skin.props.castDevicesScreen,
         icons: this.skin.props.icons,
       }}
       data={[]}>

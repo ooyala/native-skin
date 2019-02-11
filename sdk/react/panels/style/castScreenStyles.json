@@ -44,14 +44,21 @@
   },
 
   "icon": {
-    "paddingLeft": 30,
-    "color": "#FFFFFF"
+    "paddingLeft": 30
   },
 
   "text": {
     "paddingLeft": 36,
     "paddingRight": 100,
     "color": "#FFFFFF",
+    "fontFamily": "AvenirNext-DemiBold",
+    "fontSize": 16
+  },
+
+  "textSelected": {
+    "paddingLeft": 36,
+    "paddingRight": 100,
+    "color": "#3eb5f7",
     "fontFamily": "AvenirNext-DemiBold",
     "fontSize": 16
   },

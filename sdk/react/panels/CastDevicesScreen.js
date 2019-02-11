@@ -76,15 +76,11 @@ class CastDevicesScreen extends React.Component {
       styles.iconDismiss,
       this.props.config.icons.dismiss.fontString,
       this.onDismissPress, dismissButtonSize,
-      this.props.config.moreDetailsScreen.color,
+      this.props.config.castDevicesScreen.iconStyle.inactive.color,
       this.props.config.icons.dismiss.fontFamilyName);
 
-    const castButton = Utils.renderRectButton(BUTTON_NAMES.CAST,
-      null,
-      this.props.config.icons.cast.fontString,
-      null, castButtonSize,
-      this.props.config.moreDetailsScreen.color,
-      this.props.config.icons.cast.fontFamilyName);
+    const castButton = this._renderCastButton(this.props.config.castDevicesScreen.iconStyle.inactive.color);
+    const castButtonActive = this._renderCastButton(this.props.config.castDevicesScreen.iconStyle.active.color);
 
     const dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
@@ -100,7 +96,7 @@ class CastDevicesScreen extends React.Component {
           <ListView
             style={[{flex: 0}, styles.listViewContainer]}
             dataSource={this.state.dataSource}
-            renderRow={(rowData, sectionID, rowID, _) => this._renderItem(rowData, rowID, castButton)}
+            renderRow={(rowData, sectionID, rowID, _) => this._renderItem(rowData, rowID, castButton, castButtonActive)}
           />
         </Animated.View>
         <Text style={styles.title}>{"Remote playback"}</Text>
@@ -109,8 +105,9 @@ class CastDevicesScreen extends React.Component {
     );
   }
 
-  _renderItem = (rowData, rowID, castButton) => {
-    const itemContainerStyle = this.state.selectedID === rowID ?
+  _renderItem = (rowData, rowID, castButton, castButtonActive) => {
+    const isSelected = this.state.selectedID === rowID;
+    const itemContainerStyle = isSelected ?
       styles.itemContainerSelected : styles.itemContainer;
 
     return (
@@ -121,14 +118,23 @@ class CastDevicesScreen extends React.Component {
         <View
           style={itemContainerStyle}>
           <View style={styles.icon}>
-            {castButton}
+            {isSelected ? castButtonActive : castButton}
           </View>
-          <Text style={styles.text}>
+          <Text style={isSelected ? styles.textSelected : styles.text}>
             {rowData}
           </Text>
         </View>
       </TouchableHighlight>
     );
+  };
+
+  _renderCastButton = (color) => {
+    return Utils.renderRectButton(BUTTON_NAMES.CAST,
+      null,
+      this.props.config.icons.cast.fontString,
+      null, castButtonSize,
+      color,
+      this.props.config.icons.cast.fontFamilyName)
   };
 
   _onPressButton = (rowID) => {
