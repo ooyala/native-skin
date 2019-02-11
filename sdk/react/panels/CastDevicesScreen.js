@@ -135,8 +135,8 @@ class CastDevicesScreen extends React.Component {
     this.setState({
       selectedID: rowID,
       dataSource: this.state.dataSource.cloneWithRows(this.props.data),
-      translateY: this.props.height,
-      opacity: 0
+      translateY: this.state.translateY,
+      opacity: this.state.opacity
     });
   }
 }
