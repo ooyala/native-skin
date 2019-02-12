@@ -327,7 +327,8 @@ class VideoView extends React.Component {
   };
 
   _renderAdOverlay = () => {
-    if (!this.props.adOverlay) {
+    if (this.props.adOverlay == null) {
+
       return null;
     }
 
@@ -344,17 +345,19 @@ class VideoView extends React.Component {
     }
     const left = (this.props.width - width) / 2;
 
+    const overlayStyle = {height: height, width: width, backgroundColor: 'transparent'};
+    const positionStyle = {left: left, bottom: 10, width: width, height: height, backgroundColor: 'transparent'};
     return (
       <View
         accesible={false}
-        style={{height: height, width: width}}>
+        style={overlayStyle}>
         <TouchableHighlight
-          style={{left: left, bottom: 10, width: width, height: height}}
+          style={positionStyle}
           onPress={this.handleOverlayClick}>
           <View
             style={styles.container}>
             <Image
-              style={styles.container}
+              style={overlayStyle}
               source={{uri: this.props.adOverlay.resourceUrl}}
               resizeMode={Image.resizeMode.contain}>
             </Image>
