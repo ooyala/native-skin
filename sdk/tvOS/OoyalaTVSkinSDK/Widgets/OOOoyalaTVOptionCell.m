@@ -1,5 +1,5 @@
-#import <OOOoyalaTVOptionCell.h>
-#import <OOOoyalaTVConstants.h>
+#import "OOOoyalaTVOptionCell.h"
+#import "OOOoyalaTVConstants.h"
 
 @implementation OOOoyalaTVOptionCell
 

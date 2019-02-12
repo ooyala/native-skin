@@ -295,7 +295,8 @@ OoyalaSkinBridgeListener.prototype.onDesiredStateChange = function(e) {
 OoyalaSkinBridgeListener.prototype.onError = function(e) {
   Log.log("Error received");
   this.skin.setState({
-    screenType: SCREEN_TYPES.ERROR_SCREEN,
+    screenType: e.screenType == SCREEN_TYPES.AUDIO_SCREEN ?
+      SCREEN_TYPES.ERROR_SCREEN_AUDIO : SCREEN_TYPES.ERROR_SCREEN,
     error: e
   });
 };

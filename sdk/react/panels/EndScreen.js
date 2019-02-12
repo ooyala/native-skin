@@ -68,6 +68,10 @@ class EndScreen extends React.Component {
 
   _renderDefaultScreen = (progressBar, controlBar) => {
     const endScreenConfig = this.props.config.endScreen || {};
+
+    const replayMarginBottom = !this.props.config.controlBar.enabled ?
+      ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1;
+
     const replayButtonLocation = styles.replayButtonCenter;
     let replayButton;
 
@@ -89,7 +93,7 @@ class EndScreen extends React.Component {
     const infoPanel = (<InfoPanel title={title} description={description} />);
 
     return (
-      <View style={styles.fullscreenContainer}>
+      <View style={[styles.fullscreenContainer, {width: this.props.width,height: this.props.height}]}>
         <Image
           source={{uri: this.props.promoUrl}}
           style={
@@ -102,7 +106,7 @@ class EndScreen extends React.Component {
           resizeMode="contain">
         </Image>
         {infoPanel}
-        <View style={replayButtonLocation}>
+        <View style={[replayButtonLocation, {marginBottom: replayMarginBottom}]}>
           {replayButton}
         </View>
         <View style={styles.controlBarPosition}>

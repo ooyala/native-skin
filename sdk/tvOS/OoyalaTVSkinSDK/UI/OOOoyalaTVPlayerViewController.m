@@ -5,16 +5,17 @@
 //  Copyright © 2016 Ooyala, Inc. All rights reserved.
 //
 
-#import <OOOoyalaTVPlayerViewController.h>
-#import <OOOoyalaTVConstants.h>
-#import <OOOoyalaTVGradientView.h>
-#import <OOOoyalaTVButton.h>
-#import <OOOoyalaTVLabel.h>
-#import <OOOoyalaTVBottomBars.h>
-#import <OOOoyalaTVTopBar.h>
-#import <OOTVGestureManager.h>
-#import <OOTVOptionsCollectionViewController.h>
-#import <OOOoyalaTVClosedCaptionsView.h>
+#import "OOOoyalaTVPlayerViewController.h"
+#import "OOOoyalaTVConstants.h"
+#import "OOOoyalaTVGradientView.h"
+#import "OOOoyalaTVButton.h"
+#import "OOOoyalaTVLabel.h"
+#import "OOOoyalaTVBottomBars.h"
+#import "OOOoyalaTVTopBar.h"
+#import "OOTVGestureManager.h"
+#import "OOTVOptionsCollectionViewController.h"
+#import "OOOoyalaTVClosedCaptionsView.h"
+
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
@@ -37,6 +38,7 @@
 @property (nonatomic) OOTVOptionsCollectionViewController *optionsViewController;
 @property (nonatomic) NSMutableArray *tableList;
 @property (nonatomic) OOOoyalaTVClosedCaptionsView *closedCaptionsView;
+@property (nonatomic, getter=isBufferingAsked) BOOL bufferingAsked;
 
 @end
 
@@ -61,6 +63,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.playbackControlsEnabled = YES;
+  self.bufferingAsked = NO;
     
   // Set Closed Caption style
   _closedCaptionsStyle = [OOClosedCaptionsStyle new];
@@ -234,25 +237,27 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
+
 #pragma mark - Notifications
 
 - (void)bufferingStartedNotification {
   [self startActivityIndicator];
+  self.bufferingAsked = YES;
 }
 
 - (void)bufferingCompletedNotification {
   [self stopActivityIndicator];
+  self.bufferingAsked = NO;
 }
 
 - (void)seekStartedNotification {
   [self startActivityIndicator];
 }
 
-- (void)seekCompletedNotification {
-  [self stopActivityIndicator];
-}
+- (void)seekCompletedNotification { }
 
 - (void)stateChangedNotification {
+  
   dispatch_async(dispatch_get_main_queue(), ^{
     switch (self.player.state) {
       case OOOoyalaPlayerStateLoading:
@@ -262,8 +267,14 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
         break;
       case OOOoyalaPlayerStateCompleted:
         [self.playPauseButton changePlayingState:self.player.isPlaying];
+        break;
       case OOOoyalaPlayerStateReady:
+        break;
       case OOOoyalaPlayerStatePlaying:
+        if (!self.isBufferingAsked) {
+          [self stopActivityIndicator];
+        }
+        break;
       case OOOoyalaPlayerStateError:
       default:
         [self stopActivityIndicator];
@@ -298,8 +309,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   // That's because the initial value of lastTriggerTime is zero and for live assets that's incorrect.
   // We update lastTriggerTime when we see that the asset is live and it is exactly at 0.0.
   // 0.0 will not be reached again if skipped to the beginning because the DVR window is always sliding to the right.
-  if (self.player.currentItem.live && self.lastTriggerTime == 0.0) {
-    self.lastTriggerTime = playhead;
+  if (self.player.currentItem.live) {
+    self.lastTriggerTime = self.lastTriggerTime == 0 ? playhead : self.lastTriggerTime;
+    self.playheadLabel.text = nil;
+    self.durationLabel.text = @"LIVE";
   }
   
   if (playhead - self.lastTriggerTime > hideBarInterval &&
@@ -496,10 +509,18 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     bufferedTime = 0;
   }
   
-  [self.bottomBars updateBarBuffer:bufferedTime
-                          playhead:playhead
-                          duration:self.player.duration
-                       totalLength:self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace];
+  if (self.player.currentItem.live) {
+    //Sometimes we receive bigger playhead and we want to set progress max to player duration.
+    playhead = playhead > self.player.duration ? self.player.duration : playhead;
+    [self.bottomBars updateProgressBarTime:playhead duration:self.player.duration totalLength:self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace];
+  } else {
+    [self.bottomBars updateBarBuffer:bufferedTime
+                            playhead:playhead
+                            duration:self.player.duration
+                         totalLength:self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace];
+  }
+  
+  
   
   self.gestureManager.playheadTime = playhead;
   self.gestureManager.durationTime = self.player.duration;
