@@ -26,6 +26,7 @@ const VideoView = require('./panels/videoView');
 const AdPlaybackScreen = require('./panels/adPlaybackScreen')
 const AudioAndCCSelectionPanel = require('./panels/AudioAndCCSelectionPanel')
 const PlaybackSpeedPanel = require('./panels/PlaybackSpeedPanel')
+const CastDevicesScreen = require('./panels/CastDevicesScreen')
 const Utils = require('./utils');
 
 const leftMargin = 20;
@@ -95,6 +96,20 @@ OoyalaSkinPanelRenderer.prototype.renderErrorScreen = function() {
   );
 };
 
+OoyalaSkinPanelRenderer.prototype.renderCastScreen = function() {
+  return (
+    <CastDevicesScreen
+      height={this.skin.state.height}
+      width ={this.skin.state.width}
+      onDismiss={() => this.core.dismissOverlay()}
+      config={{
+        castDevicesScreen: this.skin.props.castDevicesScreen,
+        icons: this.skin.props.icons,
+      }}
+      data={[]}>
+    </CastDevicesScreen>
+  );
+};
 
 OoyalaSkinPanelRenderer.prototype.renderAudioView = function() {
   let playbackSpeedEnabled = false;
@@ -396,6 +411,9 @@ OoyalaSkinPanelRenderer.prototype.renderScreen = function(overlayType, inAdPod, 
         break;
       case OVERLAY_TYPES.VOLUME_SCREEN:
         return this.renderVolumePanel();
+        break;
+      case OVERLAY_TYPES.CAST:
+        return this.renderCastScreen();
         break;
     }
     return;
