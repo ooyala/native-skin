@@ -100,13 +100,15 @@ OoyalaSkinPanelRenderer.prototype.renderCastScreen = function() {
   return (
     <CastDevicesScreen
       height={this.skin.state.height}
-      width ={this.skin.state.width}
+      width={this.skin.state.width}
       onDismiss={() => this.core.dismissOverlay()}
+      onDeviceSelected={(deviceName, deviceId) => this.core.handleCastDeviceSelected(deviceName, deviceId)}
       config={{
         castDevicesScreen: this.skin.props.castDevicesScreen,
         icons: this.skin.props.icons,
       }}
-      data={[]}>
+      deviceNames={this.skin.state.castListNames}
+      deviceIds={this.skin.state.castListIds}>
     </CastDevicesScreen>
   );
 };

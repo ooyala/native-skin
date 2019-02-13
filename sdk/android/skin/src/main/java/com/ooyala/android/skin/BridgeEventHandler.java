@@ -22,6 +22,8 @@ public interface BridgeEventHandler {
 
   void onLanguageSelected(ReadableMap parameters);
 
+  void onCastDeviceSelected(ReadableMap parameters);
+
   void handleTouchStart(ReadableMap parameters);
 
   void handleTouchMove(ReadableMap parameters);

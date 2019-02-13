@@ -231,6 +231,13 @@ OoyalaSkinCore.prototype.handleVideoTouchMove = function (event) {
   }
 };
 
+OoyalaSkinCore.prototype.handleCastDeviceSelected = function (name, id) {
+  this.bridge.onCastDeviceSelected({
+    "castDeviceId": id,
+    "castDeviceName": name
+  });
+};
+
 OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {
   if (this.skin.state.vrContent && event) {
     let isClicked = isClick(event.nativeEvent.pageX, event.nativeEvent.pageY);

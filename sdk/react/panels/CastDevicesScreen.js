@@ -12,6 +12,7 @@ const styles = Utils.getStyles(require('./style/castScreenStyles.json'));
 
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 === r2});
 
+
 const dismissButtonSize = 20;
 const castButtonSize = 35;
 
@@ -20,8 +21,10 @@ class CastDevicesScreen extends React.Component {
     height: PropTypes.number,
     width: PropTypes.number,
     onDismiss: PropTypes.func,
+    onDeviceSelected: PropTypes.func,
     config: PropTypes.object,
-    data: PropTypes.array,
+    deviceIds: PropTypes.array,
+    deviceNames: PropTypes.array,
     selectedItem: PropTypes.string
   };
 
@@ -29,7 +32,7 @@ class CastDevicesScreen extends React.Component {
     this.state = {
       translateY: new Animated.Value(this.props.height),
       opacity: new Animated.Value(0),
-      dataSource: ds.cloneWithRows(this.props.data),
+      dataSource: ds.cloneWithRows(this.props.deviceNames),
       selectedID: -1
     };
   }
@@ -140,10 +143,11 @@ class CastDevicesScreen extends React.Component {
   _onPressButton = (rowID) => {
     this.setState({
       selectedID: rowID,
-      dataSource: this.state.dataSource.cloneWithRows(this.props.data),
+      dataSource: this.state.dataSource.cloneWithRows(this.props.deviceNames),
       translateY: this.state.translateY,
       opacity: this.state.opacity
     });
+    this.props.onDeviceSelected(this.props.deviceNames[rowID], this.props.deviceIds[rowID]);
   }
 }
 
