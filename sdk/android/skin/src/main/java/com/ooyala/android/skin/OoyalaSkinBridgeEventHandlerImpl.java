@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
+import com.ooyala.android.item.CastMediaRoute;
 import com.ooyala.android.skin.button.SkinButton;
 import com.ooyala.android.util.DebugMode;
 
@@ -53,9 +54,6 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
                 break;
               case REWIND:
                 handleRewind();
-                break;
-              case CAST:
-                //TODO: add handling cast pressed
                 break;
               case FULLSCREEN:
                 _layoutController.setFullscreen(!_layoutController.isFullscreen());
@@ -150,6 +148,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     }
   }
 
+  @Override
   public void onLanguageSelected(ReadableMap parameters) {
     String languageName = parameters.getString("language");
     String languageCode = languageName;
@@ -157,6 +156,20 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
       languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
       _player.setClosedCaptionsLanguage(languageCode);
     }
+  }
+
+  @Override
+  public void onCastDeviceSelected(ReadableMap parameters) {
+    final String castDeviceName = parameters.getString("castDeviceName");
+    final String castDeviceId = parameters.getString("castDeviceId");
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        if (_player != null && _player.getCurrentItem() != null) {
+          _player.selectRoute(new CastMediaRoute(castDeviceId, castDeviceName));
+        }
+      }
+    });
   }
 
   @Override
@@ -188,7 +201,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   @Override
   public void onVolumeChanged(ReadableMap parameters) {
-    float volume = (float)parameters.getDouble("volume");
+    float volume = (float) parameters.getDouble("volume");
     _layoutController.setVolume(volume);
   }
 
