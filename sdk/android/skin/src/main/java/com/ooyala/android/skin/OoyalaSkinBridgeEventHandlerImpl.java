@@ -162,14 +162,14 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onCastDeviceSelected(ReadableMap parameters) {
     final String castDeviceName = parameters.getString("castDeviceName");
     final String castDeviceId = parameters.getString("castDeviceId");
-    if (_player != null && _player.getCurrentItem() != null) {
-      runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        if (_player != null && _player.getCurrentItem() != null) {
           _player.selectRoute(new CastMediaRoute(castDeviceId, castDeviceName));
         }
-      });
-    }
+      }
+    });
   }
 
   @Override
