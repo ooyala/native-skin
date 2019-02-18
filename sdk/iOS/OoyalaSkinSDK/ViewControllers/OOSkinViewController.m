@@ -432,7 +432,9 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 }
 
 - (void)setReactViewInteractionEnabled:(BOOL)reactViewInteractionEnabled {
-  _reactView.userInteractionEnabled = reactViewInteractionEnabled;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    self.reactView.userInteractionEnabled = reactViewInteractionEnabled;
+  });
 }
 
 @end
