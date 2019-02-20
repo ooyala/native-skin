@@ -6,6 +6,7 @@ buildscript {
         compileSdkVersion = 28
         minSdkVersion = 16
         targetSdkVersion = 28
+        javaVersion = JavaVersion.VERSION_1_8
 
         // App dependencies
         exoplayerVersion = '2.9.5'
