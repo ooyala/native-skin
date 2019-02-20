@@ -217,35 +217,29 @@ class VideoView extends React.Component {
     return (
       <View
         style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end"}}>
-        {this._renderClosedCaptions(waterMarkName, VideoWaterMarkSize)}
         {watermark}
+        {this._renderClosedCaptions()}
       </View>);
   };
 
-  _renderClosedCaptions = (waterMarkName, VideoWaterMarkSize) => {
+  _renderClosedCaptions = () => {
     const containerPadding = 5;
     let captionWidth = this.props.width - (containerPadding * 4);
-    if (waterMarkName) {
-      captionWidth = captionWidth - VideoWaterMarkSize;
-    }
 
     const ccStyle = {
       color: this.props.captionStyles.textColor, fontFamily: this.props.captionStyles.fontName,
-      backgroundColor: this.props.captionStyles.textBackgroundColor
+      backgroundColor: 'rgba(0,0,0,'+this.props.config.ccBackgroundOpacity+')'
     };
     if (this.props.caption) {
       return (
         <View
           accessible={false}
           importantForAccessibility="no-hide-descendants"
-          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth}]}
+          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: "absolute"}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
-          <View
-            style={[{backgroundColor: this.props.captionStyles.backgroundColor}]}>
-            <Text style={[panelStyles.closedCaptions, ccStyle]}>
-              {this.props.caption}
-            </Text>
-          </View>
+          <Text style={[panelStyles.closedCaptions, ccStyle]}>
+            {this.props.caption}
+          </Text>
         </View>
       );
     }
@@ -333,7 +327,8 @@ class VideoView extends React.Component {
   };
 
   _renderAdOverlay = () => {
-    if (!this.props.adOverlay) {
+    if (this.props.adOverlay == null) {
+
       return null;
     }
 
@@ -350,17 +345,19 @@ class VideoView extends React.Component {
     }
     const left = (this.props.width - width) / 2;
 
+    const overlayStyle = {height: height, width: width, backgroundColor: 'transparent'};
+    const positionStyle = {left: left, bottom: 10, width: width, height: height, backgroundColor: 'transparent'};
     return (
       <View
         accesible={false}
-        style={{height: height, width: width}}>
+        style={overlayStyle}>
         <TouchableHighlight
-          style={{left: left, bottom: 10, width: width, height: height}}
+          style={positionStyle}
           onPress={this.handleOverlayClick}>
           <View
             style={styles.container}>
             <Image
-              style={styles.container}
+              style={overlayStyle}
               source={{uri: this.props.adOverlay.resourceUrl}}
               resizeMode={Image.resizeMode.contain}>
             </Image>

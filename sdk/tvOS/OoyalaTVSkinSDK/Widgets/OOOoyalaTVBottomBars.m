@@ -86,6 +86,12 @@
   [self updateBar:self.progressBar barTime:playheadTime duration:duration totalLength:length];
 }
 
+- (void)updateProgressBarTime:(CGFloat)time
+         duration:(CGFloat)duration
+      totalLength:(CGFloat)length {
+  [self updateBar:self.progressBar barTime:time duration:duration totalLength:length];
+}
+
 #pragma mark - Private functions
 
 - (void)updateBar:(OOOoyalaTVBar *)bar

@@ -13,7 +13,6 @@
 #import "NSDictionary+Utils.h"
 #import "OOConstant.h"
 #import "OOLocaleHelper.h"
-#import "OOVolumeManager.h"
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOVideo.h>
@@ -30,8 +29,8 @@
 
 @interface OOSkinPlayerObserver ()
 
-@property (weak) OOOoyalaPlayer *player;
-@property (weak) OOReactSkinModel *ooReactSkinModel;
+@property (nonatomic, weak) OOOoyalaPlayer *player;
+@property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
 
 @end
 
@@ -243,8 +242,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber  = [self getAdjustedPlayhead: self.player];
-  NSNumber *durationNumber  = [self getTotalDuration: self.player];
+  NSNumber *playheadNumber  = [self getAdjustedPlayhead:self.player];
+  NSNumber *durationNumber  = [self getTotalDuration:self.player];
   NSNumber *rateNumber      = @(self.player.playbackRate);
   NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
@@ -329,7 +328,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
   NSDictionary *eventBody = @{codeKey:        code,
                               descriptionKey: detail,
-                              userInfoKey:    userInfo};
+                              userInfoKey:    userInfo,
+                              screenTypeKey:  OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
+                                              @"audio" : @"video"};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
@@ -355,7 +356,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
   NSInteger count       = [adInfo[countKey] integerValue];
   NSInteger unplayed    = [adInfo[unplayedKey] integerValue];
-  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (count - unplayed), (long)count];
+  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", count - unplayed, (long)count];
   NSNumber *skipoffset  = @([adInfo[skipOffsetKey] floatValue]);
   NSArray *icons        = adInfo[iconsKey];
   NSString *title       = adInfo[titleKey];
@@ -475,7 +476,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeApplicationVolumeChangedNotification:(NSNotification *)notification {
-   [self.ooReactSkinModel sendEventWithName:VolumeChangeKey body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
+   [self.ooReactSkinModel sendEventWithName:@"volumeChanged"
+                                       body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
 - (void)dealloc {

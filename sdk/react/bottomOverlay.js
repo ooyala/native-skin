@@ -44,6 +44,7 @@ const cuePointSize = 8;
 
 let previousAnnouncing = 0;
 const accessibilityDelay = 2000; // Workaround for accessibility announcing for Android.
+const accessibilityProgressDelay = 5000; // Workaround for accessibility announcing for Android.
 const BottomOverlay = createReactClass({
   displayName: 'BottomOverlay',
 
@@ -159,6 +160,7 @@ const BottomOverlay = createReactClass({
       <View
         testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         accessible={false}
+        importantForAccessibility="no-hide-descendants"
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
       </View>
@@ -244,21 +246,38 @@ const BottomOverlay = createReactClass({
         </Slider>
       );
     } else {
-      return (
-        <Animated.View
-          testID={VIEW_NAMES.TIME_SEEK_BAR}
-          accessible={this.state.accessibilityEnabled}
-          accessibilityLabel={scrubberBarAccessibilityLabel}
-          onTouchStart={(event) => this.handleTouchStart(event)}
-          onTouchMove={(event) => this.handleTouchMove(event)}
-          onTouchEnd={(event) => this.handleTouchEnd(event)}
-          style={styles.progressBarStyle}>
-            {this._renderProgressBar(playedPercent)}
-            {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-            {this._renderCuePoints(this.props.cuePoints)}
-        </Animated.View>
-      )
+      const currentAnnouncing = new Date().getTime();
+
+      if ((previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityProgressDelay)
+              && currentPercent !== VALUES.MAX_PROGRESS_PERCENT) {
+        previousAnnouncing = currentAnnouncing;
+        return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel)
+      } else {
+        if (Platform.OS === 'android' && currentPercent === VALUES.MAX_PROGRESS_PERCENT && previousAnnouncing !== 0) {
+          AndroidAccessibility.announce(scrubberBarAccessibilityLabel);
+          previousAnnouncing = 0
+        }
+        return this._renderDefaultProgressBar(playedPercent, "")
+      }
     }
+  },
+
+  _renderDefaultProgressBar: function (playedPercent, scrubberBarAccessibilityLabel) {
+    return (
+            <Animated.View
+              testID={VIEW_NAMES.TIME_SEEK_BAR}
+              accessible={this.state.accessibilityEnabled}
+              accessibilityLabel={scrubberBarAccessibilityLabel}
+              importantForAccessibility="yes"
+              onTouchStart={(event) => this.handleTouchStart(event)}
+              onTouchMove={(event) => this.handleTouchMove(event)}
+              onTouchEnd={(event) => this.handleTouchEnd(event)}
+              style={styles.progressBarStyle}>
+              {this._renderProgressBar(playedPercent)}
+              {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+              {this._renderCuePoints(this.props.cuePoints)}
+            </Animated.View>
+    );
   },
 
   _onValueChange: function(value) {
@@ -429,12 +448,15 @@ const BottomOverlay = createReactClass({
   },
 
   render: function() {
+    if (this.props.config.controlBar.enabled || this.props.config.controlBar.enabled == null) {
     var widthStyle = {width:this.props.width, opacity:this.state.opacity};
-    if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
-      return this.renderLiveWithoutDVR(widthStyle);
+        if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
+          return this.renderLiveWithoutDVR(widthStyle);
+        }
+        return this.renderDefault(widthStyle);
+    } else {
+        return null;
     }
-
-    return this.renderDefault(widthStyle);
   },
 });
 

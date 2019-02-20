@@ -1,8 +1,7 @@
-#import <Foundation/Foundation.h>
-#import <OOTVOptionsCollectionViewController.h>
-#import <OOOoyalaTVConstants.h>
-#import <OOOoyalaTVOptionCell.h>
-#import <OOOoyalaTVPlayerViewController.h>
+#import "OOTVOptionsCollectionViewController.h"
+#import "OOOoyalaTVConstants.h"
+#import "OOOoyalaTVOptionCell.h"
+#import "OOOoyalaTVPlayerViewController.h"
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import "Pair.h"
 

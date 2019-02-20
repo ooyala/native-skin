@@ -1,6 +1,6 @@
 #import <OOOoyalaTVPlayerViewController.h>
-#import <OOOoyalaTVTopBar.h>
-#import <OOTVOptionsCollectionView.h>
+#import "OOOoyalaTVTopBar.h"
+#import "OOTVOptionsCollectionView.h"
 
 @interface OOTVOptionsCollectionViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 

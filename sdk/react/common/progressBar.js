@@ -71,6 +71,7 @@ class ProgressBar extends React.Component {
       <View
         style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
+        importantForAccessibility="no-hide-descendants"
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}>
           <View
             style={progressStyles.played}

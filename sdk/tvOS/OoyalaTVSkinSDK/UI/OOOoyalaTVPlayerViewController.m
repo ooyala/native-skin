@@ -5,21 +5,23 @@
 //  Copyright © 2016 Ooyala, Inc. All rights reserved.
 //
 
-#import <OOOoyalaTVPlayerViewController.h>
-#import <OOOoyalaTVConstants.h>
-#import <OOOoyalaTVGradientView.h>
-#import <OOOoyalaTVButton.h>
-#import <OOOoyalaTVLabel.h>
-#import <OOOoyalaTVBottomBars.h>
-#import <OOOoyalaTVTopBar.h>
-#import <OOTVGestureManager.h>
-#import <OOTVOptionsCollectionViewController.h>
-#import <OOOoyalaTVClosedCaptionsView.h>
+#import "OOOoyalaTVPlayerViewController.h"
+#import "OOOoyalaTVConstants.h"
+#import "OOOoyalaTVGradientView.h"
+#import "OOOoyalaTVButton.h"
+#import "OOOoyalaTVLabel.h"
+#import "OOOoyalaTVBottomBars.h"
+#import "OOOoyalaTVTopBar.h"
+#import "OOTVGestureManager.h"
+#import "OOTVOptionsCollectionViewController.h"
+#import "OOOoyalaTVClosedCaptionsView.h"
+
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OOCaption.h>
 #import <OoyalaSDK/OOClosedCaptions.h>
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
+#import <OoyalaSDK/OOVideo.h>
 #import "Pair.h"
-
 
 @interface OOOoyalaTVPlayerViewController ()
 
@@ -36,6 +38,7 @@
 @property (nonatomic) OOTVOptionsCollectionViewController *optionsViewController;
 @property (nonatomic) NSMutableArray *tableList;
 @property (nonatomic) OOOoyalaTVClosedCaptionsView *closedCaptionsView;
+@property (nonatomic, getter=isBufferingAsked) BOOL bufferingAsked;
 
 @end
 
@@ -55,15 +58,12 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   return self;
 }
 
-- (void)dealloc {
-  [self removeObservers];
-}
-
 #pragma mark - Lifecyle
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   self.playbackControlsEnabled = YES;
+  self.bufferingAsked = NO;
     
   // Set Closed Caption style
   _closedCaptionsStyle = [OOClosedCaptionsStyle new];
@@ -181,8 +181,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (UIActivityIndicatorView *)activityView {
   if (!_activityView) {
-    _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    _activityView = [[UIActivityIndicatorView alloc]
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     _activityView.hidesWhenStopped = YES;
+    _activityView.color = UIColor.whiteColor;
   }
   return _activityView;
 }
@@ -208,30 +210,77 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
                                          selector:@selector(timeChangedNotification)
                                              name:OOOoyalaPlayerTimeChangedNotification
                                            object:self.player];
+  
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(bufferingStartedNotification)
+                                             name:OOOoyalaPlayerBufferingStartedNotification
+                                           object:self.player];
+
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(bufferingCompletedNotification)
+                                             name:OOOoyalaPlayerBufferingCompletedNotification
+                                           object:self.player];
+  
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(seekStartedNotification)
+                                             name:OOOoyalaPlayerSeekStartedNotification
+                                           object:self.player];
+  
+  [NSNotificationCenter.defaultCenter addObserver:self
+                                         selector:@selector(seekCompletedNotification)
+                                             name:OOOoyalaPlayerSeekCompletedNotification
+                                           object:self.player];
+
 }
 
 - (void)removeObservers {
   [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
+
 #pragma mark - Notifications
 
+- (void)bufferingStartedNotification {
+  [self startActivityIndicator];
+  self.bufferingAsked = YES;
+}
+
+- (void)bufferingCompletedNotification {
+  [self stopActivityIndicator];
+  self.bufferingAsked = NO;
+}
+
+- (void)seekStartedNotification {
+  [self startActivityIndicator];
+}
+
+- (void)seekCompletedNotification { }
+
 - (void)stateChangedNotification {
-  switch (self.player.state) {
-    case OOOoyalaPlayerStateLoading:
-      [self.activityView startAnimating];
-      break;
-    case OOOoyalaPlayerStateCompleted:
-      [self.playPauseButton changePlayingState:self.player.isPlaying];
-    case OOOoyalaPlayerStateReady:
-    case OOOoyalaPlayerStatePlaying:
-    case OOOoyalaPlayerStatePaused:
-    case OOOoyalaPlayerStateError:
-    default:
-      [self.activityView stopAnimating];
-  }
-    
-  [self showClosedCaptionsButton];
+  
+  dispatch_async(dispatch_get_main_queue(), ^{
+    switch (self.player.state) {
+      case OOOoyalaPlayerStateLoading:
+        [self startActivityIndicator];
+        break;
+      case OOOoyalaPlayerStatePaused:
+        break;
+      case OOOoyalaPlayerStateCompleted:
+        [self.playPauseButton changePlayingState:self.player.isPlaying];
+        break;
+      case OOOoyalaPlayerStateReady:
+        break;
+      case OOOoyalaPlayerStatePlaying:
+        if (!self.isBufferingAsked) {
+          [self stopActivityIndicator];
+        }
+        break;
+      case OOOoyalaPlayerStateError:
+      default:
+        [self stopActivityIndicator];
+    }
+    [self showClosedCaptionsButton];
+  });
 }
 
 - (void)timeChangedNotification {
@@ -260,8 +309,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   // That's because the initial value of lastTriggerTime is zero and for live assets that's incorrect.
   // We update lastTriggerTime when we see that the asset is live and it is exactly at 0.0.
   // 0.0 will not be reached again if skipped to the beginning because the DVR window is always sliding to the right.
-  if (self.player.currentItem.live && self.lastTriggerTime == 0.0) {
-    self.lastTriggerTime = playhead;
+  if (self.player.currentItem.live) {
+    self.lastTriggerTime = self.lastTriggerTime == 0 ? playhead : self.lastTriggerTime;
+    self.playheadLabel.text = nil;
+    self.durationLabel.text = @"LIVE";
   }
   
   if (playhead - self.lastTriggerTime > hideBarInterval &&
@@ -302,6 +353,18 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       self.closedCaptionsMenuBar.alpha = 0.0;
     } completion: nil];
   }
+}
+
+- (void)startActivityIndicator {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.activityView startAnimating];
+  });
+}
+
+- (void)stopActivityIndicator {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self.activityView stopAnimating];
+  });
 }
 
 - (void)showClosedCaptionsButton {
@@ -446,10 +509,18 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     bufferedTime = 0;
   }
   
-  [self.bottomBars updateBarBuffer:bufferedTime
-                          playhead:playhead
-                          duration:self.player.duration
-                       totalLength:self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace];
+  if (self.player.currentItem.live) {
+    //Sometimes we receive bigger playhead and we want to set progress max to player duration.
+    playhead = playhead > self.player.duration ? self.player.duration : playhead;
+    [self.bottomBars updateProgressBarTime:playhead duration:self.player.duration totalLength:self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace];
+  } else {
+    [self.bottomBars updateBarBuffer:bufferedTime
+                            playhead:playhead
+                            duration:self.player.duration
+                         totalLength:self.progressBarBackground.bounds.size.width - barX - headDistance - labelWidth - componentSpace];
+  }
+  
+  
   
   self.gestureManager.playheadTime = playhead;
   self.gestureManager.durationTime = self.player.duration;

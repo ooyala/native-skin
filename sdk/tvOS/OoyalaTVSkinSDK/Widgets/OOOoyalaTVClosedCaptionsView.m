@@ -1,10 +1,11 @@
-#import <OOOoyalaTVClosedCaptionsView.h>
-#import <OoyalaSDK/OOCaption.h>
-#import <OoyalaSDK/OOClosedCaptionsStyle.h>
-#import <OOOoyalaTVClosedCaptionsLabel.h>
-#import <CoreText/CoreText.h>
+#import "OOOoyalaTVClosedCaptionsView.h"
+#import "OOOoyalaTVClosedCaptionsLabel.h"
 #import "OOTVClosedCaptionsTextBackgroundView.h"
 #import "OOTVClosedCaptionsTextView.h"
+
+#import <OoyalaSDK/OOCaption.h>
+#import <OoyalaSDK/OOClosedCaptionsStyle.h>
+#import <CoreText/CoreText.h>
 
 static CGFloat arbitraryScalingFactor = 1.2;
 
