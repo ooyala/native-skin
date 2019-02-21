@@ -128,7 +128,7 @@ class StartScreen extends React.Component {
           style={fullscreen ?
             {position: 'absolute', top: 0, left: 0, width: this.props.width, height: this.props.height} :
             styles.promoImageSmall}
-          resizeMode={Image.resizeMode.contain}>
+          resizeMode="contain">
         </Image>
       );
     }
@@ -141,7 +141,7 @@ class StartScreen extends React.Component {
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
              source={{uri: IMG_URLS.OOYALA_LOGO}}
-             resizeMode={Image.resizeMode.contain}>
+             resizeMode="contain">
       </Image>
     );
   };
