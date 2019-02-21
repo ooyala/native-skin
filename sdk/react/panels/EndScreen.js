@@ -103,7 +103,7 @@ class EndScreen extends React.Component {
               left: 0,
               width: this.props.width,
               height: this.props.height}]}
-          resizeMode={Image.resizeMode.contain}>
+          resizeMode="contain">
         </Image>
         {infoPanel}
         <View style={[replayButtonLocation, {marginBottom: replayMarginBottom}]}>

@@ -146,7 +146,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)addNotificationsObservers:(NSDictionary *)notificationsSelectors {
-  [notificationsSelectors enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL * _Nonnull stop) {
+  [notificationsSelectors enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key,
+                                                              id _Nonnull obj,
+                                                              BOOL * _Nonnull stop) {
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:NSSelectorFromString(obj)
                                                name:(NSString *)key
@@ -245,7 +247,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *playheadNumber  = [self getAdjustedPlayhead:self.player];
   NSNumber *durationNumber  = [self getTotalDuration:self.player];
   NSNumber *rateNumber      = @(self.player.playbackRate);
-  NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
+  NSArray *cuePoints = [NSArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
   NSDictionary *eventBody = @{durationKey:         durationNumber,
                               playheadKey:         playheadNumber,

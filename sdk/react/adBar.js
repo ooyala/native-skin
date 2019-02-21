@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
@@ -43,7 +39,6 @@ class AdBar extends React.Component {
 
   generateResponsiveText = (showLearnMore, showSkip) => {
     var textString;
-    var adTitle = this.props.ad.title ? this.props.ad.title + " ": " ";
     var count = this.props.ad.count ? this.props.ad.count : 1;
     var unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
 
@@ -127,7 +122,7 @@ class AdBar extends React.Component {
               <Text style={styles.buttonText}>{skipText}</Text>
             </View>
           </TouchableHighlight>);
-      } else{
+      } else {
         skipLabel = (
           <Text allowFontScaling={true} style={styles.label}>
           {skipLabelText + Utils.getTimerLabel(this.props.ad.skipoffset - this.props.playhead)}

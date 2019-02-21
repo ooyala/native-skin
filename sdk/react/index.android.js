@@ -11,7 +11,7 @@ import {
   StyleSheet,
   Text,
   View,
-  BackAndroid,
+  BackHandler,
   AccessibilityInfo
 } from 'react-native';
 
@@ -74,7 +74,7 @@ class OoyalaSkin extends React.Component {
 
   componentDidMount() {
     // eventBridge.queryState();
-    BackAndroid.addEventListener('hardwareBackPress', function () {
+    BackHandler.addEventListener('hardwareBackPress', function () {
       return OoyalaSkinCoreInstance.onBackPressed();
     });
 
@@ -90,6 +90,7 @@ class OoyalaSkin extends React.Component {
   }
 
   componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress');	
     OoyalaSkinCoreInstance.unmount();
 
     AccessibilityInfo.removeEventListener(

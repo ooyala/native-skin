@@ -176,7 +176,7 @@ class AudioView extends React.Component {
     const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>
     return (
       <View style={styles.headerView}>
-        <Text 
+        <Text
           style={styles.headerBaseLabel}
           numberOfLines={1}>
             {titleLabel}
@@ -256,7 +256,7 @@ class AudioView extends React.Component {
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 
-    for (const i = 0; i < itemCollapsingResults.fit.length; i++) {
+    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
       const item =
         <ControlBarWidget
@@ -427,7 +427,7 @@ class AudioView extends React.Component {
 
   _renderProgressBar = (percent) => {
     return (
-      <View 
+      <View
         style={styles.progressBarContainer}
         accessible={false}
         pointerEvents='none'>
@@ -437,7 +437,7 @@ class AudioView extends React.Component {
             percent={percent}
             config={this.props.config}
             ad={null}
-            renderDuration={true}>  
+            renderDuration={true}>
           </ProgressBar>
       </View>
     );

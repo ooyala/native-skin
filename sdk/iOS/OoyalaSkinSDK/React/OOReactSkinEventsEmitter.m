@@ -21,10 +21,13 @@
 
 @end
 
-
 @implementation OOReactSkinEventsEmitter
 
 RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
+
++ (BOOL)requiresMainQueueSetup {
+  return YES;
+}
 
 - (instancetype)init {
   if (self = [super init]) {

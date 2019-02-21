@@ -16,7 +16,7 @@ class WaterMark extends React.Component {
   	var waterMarkImage = (
     		<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
 	        source={{uri: this.props.general.watermark.url}}
-	        resizeMode={Image.resizeMode.contain}>
+	        resizeMode="contain">
 	    </Image>
   	);
 
