@@ -5,11 +5,11 @@
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
+@import UIKit;
+
 #import "FullscreenStateController.h"
-#import <UIKit/UIKit.h>
 #import "FullscreenStateOperation.h"
 #import "PresentedViewControllerHelper.h"
-
 
 @interface FullscreenStateController()
 

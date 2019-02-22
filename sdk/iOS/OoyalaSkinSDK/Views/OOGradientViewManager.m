@@ -2,7 +2,7 @@
 //  OOGradientViewManager.m
 //  OoyalaSkinSDK
 //
-//  Created by Zhihui Chen on 7/24/15.
+//  Created on 7/24/15.
 //  Copyright (c) 2015 ooyala. All rights reserved.
 //
 
@@ -35,7 +35,10 @@ RCT_EXPORT_MODULE();
 
   layer.startPoint = CGPointMake(0, 0.5);
   layer.endPoint = CGPointMake(1, 0.5);
-  layer.colors = @[(id)innerColor.CGColor, (id)outerColor.CGColor, (id)outerColor.CGColor, (id)innerColor.CGColor];
+  layer.colors = @[(id)innerColor.CGColor,
+                   (id)outerColor.CGColor,
+                   (id)outerColor.CGColor,
+                   (id)innerColor.CGColor];
   layer.locations = @[l1, l2, l3, l4];
 }
 
