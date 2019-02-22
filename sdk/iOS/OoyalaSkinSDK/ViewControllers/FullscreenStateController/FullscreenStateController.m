@@ -55,7 +55,7 @@ static double const FULLSCREEN_ANIMATION_DURATION = 0.4;
 
 - (void)setFullscreen:(BOOL)fullscreen
 withOrientaionChanges:(BOOL)isOrientaionChanges
-           completion:(nullable void (^)())completion {
+           completion:(nullable void (^)(void))completion {
   for (NSOperation *operation in self.operationQueue.operations) {
     if (!operation.isExecuting) {
       [operation cancel];
@@ -103,7 +103,8 @@ withOrientaionChanges:(BOOL)isOrientaionChanges
   self.isOriginalStatusBarHidden = UIApplication.sharedApplication.isStatusBarHidden;
 }
 
-- (void)openFullscreenModeWithOrientaionChanges:(BOOL)isOrientationChanges completion:(nullable void (^)())completion {
+- (void)openFullscreenModeWithOrientaionChanges:(BOOL)isOrientationChanges
+                                     completion:(nullable void (^)(void))completion {
   UIWindow *window = UIApplication.sharedApplication.keyWindow;
 
   // Update original status bar state
@@ -143,9 +144,8 @@ withOrientaionChanges:(BOOL)isOrientaionChanges
   [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
     self.videoView.frame = window.bounds;
   } completion:^(BOOL finished) {
-    
     // Dismiss presented VCs
-    [_presentedViewControllerHelper dismissPresentedViewControllersWithCompletionBlock:^{
+    [self.presentedViewControllerHelper dismissPresentedViewControllersWithCompletionBlock:^{
 
       // Change root VC
       window.rootViewController = self.fullscreenViewController;
@@ -167,7 +167,7 @@ withOrientaionChanges:(BOOL)isOrientaionChanges
   }];
 }
 
-- (void)openInlineMode:(nullable void (^)())completion {
+- (void)openInlineMode:(nullable void (^)(void))completion {
   UIWindow *window = UIApplication.sharedApplication.keyWindow;
   
   // Show status bar if needed (it needs when UIViewControllerBasedStatusBarAppearance = YES)
@@ -182,7 +182,6 @@ withOrientaionChanges:(BOOL)isOrientaionChanges
 
   // Show presented view controllers
   [self.presentedViewControllerHelper presentStoredControllersWithCompletionBlock:^{
-
     // Choose viewController's view that shows parentView
     UIView *viewControllersViewToShow;
 
@@ -195,7 +194,6 @@ withOrientaionChanges:(BOOL)isOrientaionChanges
     // Convert rect for animation
     CGRect videoViewFrameInFullscreenView = [self.parentView convertRect:self.containerView.frame
                                                                   toView:viewControllersViewToShow];
-
     // Perform animation
     [UIView animateWithDuration:FULLSCREEN_ANIMATION_DURATION animations:^{
       self.videoView.frame = videoViewFrameInFullscreenView;
@@ -223,6 +221,5 @@ withOrientaionChanges:(BOOL)isOrientaionChanges
     }];
   }];
 }
-
 
 @end
