@@ -7,14 +7,11 @@
 
 #import "OOSkinFullScreenViewController.h"
 
-
 @interface OOSkinFullScreenViewController ()
-
 // Interface orientation properties
 @property (nonatomic) UIInterfaceOrientationMask supportedInterfaceOrientations;
 
 @end
-
 
 @implementation OOSkinFullScreenViewController
 
@@ -22,7 +19,6 @@
 
 - (void)setEnableVRStereoMode:(BOOL)newValue {
   _enableVRStereoMode = newValue;
-
   _supportedInterfaceOrientations = newValue ? UIInterfaceOrientationMaskLandscapeRight : UIInterfaceOrientationMaskAll;
 }
 

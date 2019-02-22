@@ -391,12 +391,12 @@
 		CA2C6FC51BEA8C53006B86BC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CA2C6FC71BEA8E84006B86BC /* NSString+UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UtilsTests.m"; sourceTree = "<group>"; };
 		CA2C6FC91BEA9715006B86BC /* NSMutableDictionary+UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+UtilsTests.m"; sourceTree = "<group>"; };
-		CA742B581BE279040056784E /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Utils.h"; path = "Utils/NSString+Utils.h"; sourceTree = "<group>"; };
-		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Utils.m"; path = "Utils/NSString+Utils.m"; sourceTree = "<group>"; };
-		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+Utils.h"; path = "Utils/NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
-		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+Utils.m"; path = "Utils/NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
-		CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Utils.h"; path = "Utils/NSDictionary+Utils.h"; sourceTree = "<group>"; };
-		CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Utils.m"; path = "Utils/NSDictionary+Utils.m"; sourceTree = "<group>"; };
+		CA742B581BE279040056784E /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
+		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
+		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
+		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
+		CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Utils.h"; sourceTree = "<group>"; };
+		CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Utils.m"; sourceTree = "<group>"; };
 		CAF600E61C3307D800CBB708 /* OOActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOActivityView.h; sourceTree = "<group>"; };
 		CAF600E71C3307D800CBB708 /* OOActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOActivityView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -456,6 +456,21 @@
 				CAF600E71C3307D800CBB708 /* OOActivityView.m */,
 			);
 			path = Social;
+			sourceTree = "<group>";
+		};
+		39D460BA221ECE9B008C9FC7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				39B612EF2158D04B00E2277C /* UIColor+Utils.h */,
+				39B612F02158D04B00E2277C /* UIColor+Utils.m */,
+				CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */,
+				CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */,
+				CA742B581BE279040056784E /* NSString+Utils.h */,
+				CA742B591BE279040056784E /* NSString+Utils.m */,
+				CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */,
+				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		39EEE0DA2122C36A00377DB3 /* React */ = {
@@ -569,10 +584,10 @@
 				0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
+				0BCABD8A1C7F77A900989005 /* Views */,
+				39D460BA221ECE9B008C9FC7 /* Utils */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
-				CA742B4E1BE2761D0056784E /* Utils */,
-				0BCABD8A1C7F77A900989005 /* Views */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
@@ -647,21 +662,6 @@
 				CA2C6FB31BEA8599006B86BC /* Info.plist */,
 			);
 			path = OoyalaSkinSDKTests;
-			sourceTree = "<group>";
-		};
-		CA742B4E1BE2761D0056784E /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */,
-				CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */,
-				CA742B581BE279040056784E /* NSString+Utils.h */,
-				CA742B591BE279040056784E /* NSString+Utils.m */,
-				CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */,
-				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
-				39B612EF2158D04B00E2277C /* UIColor+Utils.h */,
-				39B612F02158D04B00E2277C /* UIColor+Utils.m */,
-			);
-			name = Utils;
 			sourceTree = "<group>";
 		};
 		FF12905E1AEABA9B00664374 /* Frameworks */ = {

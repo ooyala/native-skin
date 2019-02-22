@@ -4,7 +4,7 @@
 //
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 @class OOOoyalaPlayer;
 @class OOSkinOptions;
