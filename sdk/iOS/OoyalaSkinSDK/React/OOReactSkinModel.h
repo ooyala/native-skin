@@ -66,5 +66,6 @@
 - (void)handleDiscoveryClick:(nullable NSString *)bucketInfo embedCode:(nonnull NSString *)embedCode;
 - (void)handleDiscoveryImpress:(nullable NSString *)bucketInfo;
 - (void)handleVolumeChanged:(float)volume;
+- (void)handleAirPlay;
 
 @end

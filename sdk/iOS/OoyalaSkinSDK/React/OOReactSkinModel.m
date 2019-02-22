@@ -382,6 +382,9 @@ static NSString *volumeChangeKey        = @"volumeChanged";
   [self.skinControllerDelegate toggleStereoMode];
 }
 
+- (void)handleAirPlay {
+}
+
 #pragma mark - OOAudioSessionDelegate
 
 - (void)volumeChanged:(float)volume {
