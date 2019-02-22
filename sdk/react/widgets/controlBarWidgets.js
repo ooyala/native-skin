@@ -22,12 +22,13 @@ import {
 } from '../constants';
 
 import Utils from '../utils';
+import  AccessibilityUtils from '../accessibilityUtils';
+import Log from '../log';
+import VolumeView from './VolumeView';
+import SkipButton from './SkipButton';
+import AirPlayView from './AirPlayView';
 
 const styles = Utils.getStyles(require('./style/controlBarWidgetStyles.json'));
-const Log = require('../log');
-const VolumeView = require('./VolumeView');
-const AccessibilityUtils = require('../accessibilityUtils');
-const SkipButton = require('./SkipButton');
 
 class controlBarWidget extends React.Component {
   static propTypes = {
