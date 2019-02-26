@@ -140,6 +140,9 @@ OoyalaSkinCore.prototype.handlePress = function(buttonName) {
     case BUTTON_NAMES.MORE_DETAILS:
       this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MORE_DETAILS);
       break;
+    case BUTTON_NAMES.CAST:
+      this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CAST);
+      break;
     default:
       Log.log("handlePress button name:",buttonName);
       this.bridge.onPress({name: buttonName});
@@ -229,6 +232,13 @@ OoyalaSkinCore.prototype.handleVideoTouchMove = function (event) {
       "isClicked" : false
     });
   }
+};
+
+OoyalaSkinCore.prototype.handleCastDeviceSelected = function (name, id) {
+  this.bridge.onCastDeviceSelected({
+    "castDeviceId": id,
+    "castDeviceName": name
+  });
 };
 
 OoyalaSkinCore.prototype.handleVideoTouchEnd = function(event) {

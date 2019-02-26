@@ -47,6 +47,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'embedCodeSet',             (event) => this.onEmbedCodeSet(event) ],
     [ 'controllerKeyPressEvent',  (event) => this.onControllerKeyPressed(event) ],
     [ 'vrContentEvent',           (event) => this.handleVideoHasVRContent(event) ],
+    [ 'castDevicesAvailable',     (event) => this.handleCastDevicesAvailable(event) ],
     [ 'multiAudioEnabled',        (event) => this.handleVideoHasMultiAudio(event) ],
     [ 'audioTrackChanged',        (event) => this.handleAudioTrackChanged(event) ],
     [ 'playbackSpeedEnabled',     (event) => this.handlePlaybackSpeedEnabled(event) ],
@@ -348,6 +349,13 @@ OoyalaSkinBridgeListener.prototype.handleVideoHasMultiAudio = function (e) {
     multiAudioEnabled: e.multiAudioEnabled,
     audioTracksTitles: e.audioTracksTitles,
     selectedAudioTrack: e.selectedAudioTrack
+  });
+};
+
+OoyalaSkinBridgeListener.prototype.handleCastDevicesAvailable = function (e) {
+  this.skin.setState({
+    castListIds: e.castDeviceIds,
+    castListNames: e.castDeviceNames
   });
 };
 
