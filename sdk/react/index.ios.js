@@ -1,7 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 import React, { Component } from 'react';
 import {
@@ -24,11 +20,11 @@ import {
   DESIRED_STATES
 } from './constants';
 
-var OoyalaSkinCore = require('./ooyalaSkinCore');
+import OoyalaSkinCore from './ooyalaSkinCore';
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
 var OoyalaSkinCoreInstance;
 
-class OoyalaSkin extends React.Component {
+class OoyalaSkin extends Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
   // by the native bridge, and others are used purely on the non-native side.
   // consider using a leading underscore, or something?

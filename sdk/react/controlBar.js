@@ -1,20 +1,11 @@
 'use strict';
 
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 import PropTypes from 'prop-types';
 
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
-  Image,
-  TouchableHighlight,
   View,
   Platform,
-  LayoutAnimation,
   NativeModules
 } from 'react-native';
 
@@ -27,14 +18,13 @@ import {
 } from './constants';
 
 import CollapsingBarUtils from './collapsingBarUtils';
+import Log from './log';
+import Utils from './utils';
+import ControlBarWidget from './widgets/controlBarWidgets';
+import ResponsiveDesignManager from './responsiveDesignManager';
+const styles = Utils.getStyles(require('./style/controlBarStyles.json'));
 
-var Log = require('./log');
-var Utils = require('./utils');
-var ControlBarWidget = require('./widgets/controlBarWidgets');
-var ResponsiveDesignManager = require('./responsiveDesignManager');
-var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
-
-class ControlBar extends React.Component {
+class ControlBar extends Component {
   static propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
@@ -147,9 +137,9 @@ class ControlBar extends React.Component {
       android: this.props.config.controlBar.logo.imageResource.androidResource
     });
 
-    var controlBarWidgets = [];
+    let controlBarWidgets = [];
 
-    var widgetOptions = {
+    const widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
@@ -275,7 +265,7 @@ class ControlBar extends React.Component {
       controlBarWidgets.push(item)
     }
 
-    for (var i = 0; i < itemCollapsingResults.fit.length; i++) {
+    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
       const item = <ControlBarWidget
         key={i}

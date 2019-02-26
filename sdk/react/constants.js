@@ -87,7 +87,7 @@ const OVERLAY_TYPES = {
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen',
   VOLUME_SCREEN: 'volumeScreen',
-  MORE_DETAILS: 'moreDetails'
+  MORE_DETAILS: 'moreDetails',
   VOLUME_SCREEN: 'volumeScreen',
   CAST: 'cast'
 }
