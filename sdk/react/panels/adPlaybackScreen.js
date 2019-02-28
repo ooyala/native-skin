@@ -15,7 +15,7 @@ import {
 import Log from '../log';
 import BottomOverlay from '../bottomOverlay';
 import AdBar from '../adBar';
-import VideoViewPlayPause from'../widgets/VideoViewPlayPause';
+import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
 import Utils from'../utils';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 
