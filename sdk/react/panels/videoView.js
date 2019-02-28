@@ -414,4 +414,4 @@ class VideoView extends Component {
   }
 }
 
-module.exports = VideoView;
+export default VideoView;

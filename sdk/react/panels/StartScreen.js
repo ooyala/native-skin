@@ -171,4 +171,4 @@ class StartScreen extends Component {
   }
 }
 
-module.exports = StartScreen;
+export default StartScreen;

@@ -8,7 +8,7 @@ import {
 import Utils from '../utils';
 const styles = Utils.getStyles(require('./style/videoWaterMarkStyles.json'));
 
-class logo extends React.Component {
+class VideoWaterMark extends Component {
   static propTypes = {
     buttonWidth: PropTypes.number.isRequired,
     buttonHeight: PropTypes.number.isRequired,
@@ -33,4 +33,4 @@ class logo extends React.Component {
   }
 }
 
-module.exports = logo;
+export default VideoWaterMark;

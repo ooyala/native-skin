@@ -80,4 +80,4 @@ class CircularStatus extends Component {
   }
 }
 
-module.exports = CircularStatus;
+export default CircularStatus;

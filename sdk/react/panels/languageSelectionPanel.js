@@ -207,4 +207,4 @@ class LanguageSelectionPanel extends Component {
   };
 }
 
-module.exports = LanguageSelectionPanel;
+export default LanguageSelectionPanel;

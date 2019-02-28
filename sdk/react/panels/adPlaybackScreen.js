@@ -1,7 +1,4 @@
-'use strict';
-
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
   Image,
@@ -16,15 +13,15 @@ import {
 } from '../constants';
 
 import Log from '../log';
+import BottomOverlay from '../bottomOverlay';
+import AdBar from '../adBar';
+import VideoViewPlayPause from'../widgets/VideoViewPlayPause';
+import Utils from'../utils';
+import ResponsiveDesignManager from '../responsiveDesignManager';
 
-const BottomOverlay = require('../bottomOverlay');
-const AdBar = require('../adBar');
-const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-const ResponsiveDesignManager = require('../responsiveDesignManager');
 
-class AdPlaybackScreen extends React.Component {
+class AdPlaybackScreen extends Component {
   static propTypes = {
     rate: PropTypes.number,
     playhead: PropTypes.number,
@@ -279,4 +276,4 @@ class AdPlaybackScreen extends React.Component {
 
 }
 
-module.exports = AdPlaybackScreen;
+export default AdPlaybackScreen;

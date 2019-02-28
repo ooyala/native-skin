@@ -222,4 +222,4 @@ class VideoViewPlayPause extends Component {
   }
 }
 
-module.exports = VideoViewPlayPause;
+export default VideoViewPlayPause;
