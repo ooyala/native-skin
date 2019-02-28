@@ -1,13 +1,5 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
-import createReactClass from 'create-react-class';
 import {
   Animated,
   View,
@@ -25,13 +17,14 @@ import {
   VIEW_ACCESSIBILITY_NAMES
 } from './constants';
 
+import AccessibilityUtils from './accessibilityUtils';
+import Log from './log';
+import Utils from './utils';
+import ProgressBar from './common/progressBar';
+import ControlBar from './controlBar';
+import ResponsiveDesignManager from './responsiveDesignManager';
+
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
-const AccessibilityUtils = require('./accessibilityUtils');
-const Log = require('./log');
-const Utils = require('./utils');
-const ProgressBar = require('./common/progressBar');
-const ControlBar = require('./controlBar');
-const ResponsiveDesignManager = require('./responsiveDesignManager');
 const styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
 
 const topMargin = 6;
@@ -45,10 +38,10 @@ const cuePointSize = 8;
 let previousAnnouncing = 0;
 const accessibilityDelay = 2000; // Workaround for accessibility announcing for Android.
 const accessibilityProgressDelay = 5000; // Workaround for accessibility announcing for Android.
-const BottomOverlay = createReactClass({
-  displayName: 'BottomOverlay',
 
-  propTypes: {
+class BottomOverlay extends Component {
+
+  static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
     primaryButton: PropTypes.string,
@@ -71,30 +64,23 @@ const BottomOverlay = createReactClass({
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
     showPlaybackSpeedButton: PropTypes.bool
-  },
+  };
 
-  getDefaultProps: function() {
-    return {"shouldShowProgressBar": true, "showMoreOptionsButton": true, "showAudioAndCCButton": true};
-  },
+  static defaultProps = {
+    shouldShowProgressBar: true,
+    showMoreOptionsButton: true,
+    showAudioAndCCButton: true
+  };
 
-  getInitialState: function() {
-    if (this.props.isShow) {
-      return {
-        touch: false,
-        opacity: new Animated.Value(1),
-        height: new Animated.Value(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
-        cachedPlayhead: -1,
-      };
-    }
-    return {
-      touch: false,
-      opacity: new Animated.Value(0),
-      height: new Animated.Value(0),
-      cachedPlayhead: -1,
-    };
-  },
+  state = {
+    touch: false,
+    opacity: new Animated.Value(this.props.isShow ? 1 : 0),
+    height: new Animated.Value(this.props.isShow ? 
+                               ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
+    cachedPlayhead: -1
+  };
 
-  componentDidUpdate: function(prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.width !== this.props.width && this.props.isShow) {
       this.state.height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
     }
@@ -118,38 +104,38 @@ const BottomOverlay = createReactClass({
           })
       ]).start();
     }
-  },
+  }
 
-  componentDidMount: function () {
+  componentDidMount() {
     AccessibilityInfo.fetch().done((isEnabled) => {
       this.setState({
         accessibilityEnabled: isEnabled
       });
     });
-  },
+  }
 
   /*
   If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
   */
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (this.props.playhead !== nextProps.playhead) {
       this.setState({cachedPlayhead: -1.0});
     }
-  },
+  }
 
-  _calculateProgressBarWidth: function() {
+  _calculateProgressBarWidth() {
     return this.props.width - 2 * leftMargin;
-  },
+  }
 
-  _calculateTopOffset: function(componentSize) {
+  _calculateTopOffset(componentSize) {
     return topMargin + padding + progressBarHeight / 2 - componentSize / 2;
-  },
+  }
 
-  _calculateLeftOffset: function(componentSize, percent, progressBarWidth) {
+  _calculateLeftOffset(componentSize, percent, progressBarWidth) {
     return leftMargin + percent * progressBarWidth - componentSize / 2
-  },
+  }
 
-  _renderProgressScrubber: function(percent) {
+  _renderProgressScrubber(percent) {
     const progressBarWidth = this._calculateProgressBarWidth();
     const topOffset = this._calculateTopOffset(scrubberSize);
     const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
@@ -165,9 +151,9 @@ const BottomOverlay = createReactClass({
         style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
       </View>
       );
-  },
+  }
 
-  getScrubberHandleColor: function() {
+  getScrubberHandleColor() {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
     } else if (!this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
@@ -176,9 +162,9 @@ const BottomOverlay = createReactClass({
     } else {
       return this.props.config.controlBar.scrubberBar.scrubberHandleColor ;
     }
-  },
+  }
 
-  _customizeScrubber: function() {
+  _customizeScrubber() {
     let scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
     if (!scrubberHandleBorderColor) {
       Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
@@ -193,9 +179,9 @@ const BottomOverlay = createReactClass({
       borderColor: scrubberHandleBorderColor
     };
     return scrubberStyle;
-  },
+  }
 
-  _renderProgressBar: function(percent) {
+  _renderProgressBar(percent) {
     return (
       <View 
         style={styles.progressBarContainer}
@@ -210,9 +196,9 @@ const BottomOverlay = createReactClass({
           </ProgressBar>
       </View>
     );
-  },
+  }
 
-  _renderCompleteProgressBar: function() {
+  _renderCompleteProgressBar() {
     if (!this.props.shouldShowProgressBar) {
       return;
     }
@@ -260,9 +246,9 @@ const BottomOverlay = createReactClass({
         return this._renderDefaultProgressBar(playedPercent, "")
       }
     }
-  },
+  }
 
-  _renderDefaultProgressBar: function (playedPercent, scrubberBarAccessibilityLabel) {
+  _renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel) {
     return (
             <Animated.View
               testID={VIEW_NAMES.TIME_SEEK_BAR}
@@ -278,9 +264,9 @@ const BottomOverlay = createReactClass({
               {this._renderCuePoints(this.props.cuePoints)}
             </Animated.View>
     );
-  },
+  }
 
-  _onValueChange: function(value) {
+  _onValueChange(value) {
     // increase or decrease playhead by X seconds
     let newPlayhead = this.props.playhead - value;
     if (newPlayhead >= 0) {
@@ -291,9 +277,9 @@ const BottomOverlay = createReactClass({
 
     const seekPercent = this.playedPercent(newPlayhead, this.props.duration);
     this.props.onScrub(seekPercent);
-  },
+  }
 
-  _calculateCuePointsLeftOffset: function(cuePoint, progressBarWidth) {
+  _calculateCuePointsLeftOffset(cuePoint, progressBarWidth) {
     let cuePointPercent = cuePoint / this.props.duration;
     if (cuePointPercent > 1) {
       cuePointPercent = 1;
@@ -303,9 +289,9 @@ const BottomOverlay = createReactClass({
     }
     const leftOffset = this._calculateLeftOffset(cuePointSize, cuePointPercent, progressBarWidth);
     return leftOffset;
-  },
+  }
 
-  _renderCuePoints: function(cuePoints) {
+  _renderCuePoints(cuePoints) {
     if (!cuePoints) {
       return;
     }
@@ -330,9 +316,9 @@ const BottomOverlay = createReactClass({
     }
 
     return cuePointsView;
-  },
+  }
 
-  _renderControlBar: function() {
+  _renderControlBar() {
     return (
       <ControlBar
         ref='controlBar'
@@ -354,9 +340,9 @@ const BottomOverlay = createReactClass({
         showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}
       />
     );
-  },
+  }
 
-  playedPercent: function(playhead, duration) {
+  playedPercent(playhead, duration) {
     if (this.props.duration === 0) {
       return 0;
     }
@@ -367,9 +353,9 @@ const BottomOverlay = createReactClass({
       percent = 0;
     }
     return percent;
-  },
+  }
 
-  touchPercent: function(x) {
+  touchPercent(x) {
     let percent = (x - leftMargin) / (this.props.width - 2 * leftMargin);
     if (percent > 1) {
       percent = 1;
@@ -377,24 +363,20 @@ const BottomOverlay = createReactClass({
       percent = 0;
     }
     return percent;
-  },
+  }
 
-  handleTouchStart: function(event) {
+  handleTouchStart(event) {
     this.props.handleControlsTouch();
-    if (this.isMounted()) {
-      let touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
-      if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
-        return;
-      }
-      this.setState({touch:true, x:event.nativeEvent.pageX});
+    let touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
+    if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
+      return;
     }
-  },
+    this.setState({touch:true, x:event.nativeEvent.pageX});
+  }
 
-  handleTouchMove: function(event) {
+  handleTouchMove(event) {
     this.props.handleControlsTouch();
-    if (this.isMounted()) {
-      this.setState({x:event.nativeEvent.pageX});
-    }
+    this.setState({x:event.nativeEvent.pageX});
     if (Platform.OS === 'android') {
       const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
@@ -405,28 +387,26 @@ const BottomOverlay = createReactClass({
         AndroidAccessibility.announce(announcingLabel);
       }
     }
-  },
+  }
 
-  handleTouchEnd: function(event) {
+  handleTouchEnd(event) {
     this.props.handleControlsTouch();
-     if (this.isMounted()) {
-       if (this.state.touch && this.props.onScrub) {
-        this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
-        this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
-       }
-     }
-     this.setState({touch:false, x:null});
-
-     if (Platform.OS === 'android') {
-       const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
-       const currentPercent = parseInt(playedPercent * 100, 10);
-       const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
-       AndroidAccessibility.announce(announcingLabel);
-       previousAnnouncing = 0;
+    if (this.state.touch && this.props.onScrub) {
+      this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
+      this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
     }
-  },
+    this.setState({touch:false, x:null});
 
-  renderDefault: function(widthStyle) {
+    if (Platform.OS === 'android') {
+      const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
+      const currentPercent = parseInt(playedPercent * 100, 10);
+      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
+      AndroidAccessibility.announce(announcingLabel);
+      previousAnnouncing = 0;
+    }
+  }
+
+  renderDefault(widthStyle) {
     return (
       <Animated.View
         accessible={false}
@@ -437,17 +417,17 @@ const BottomOverlay = createReactClass({
         {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
       </Animated.View>
     );
-  },
+  }
 
-  renderLiveWithoutDVR: function(widthStyle) {
+  renderLiveWithoutDVR(widthStyle) {
     return (
       <Animated.View style={[styles.container, widthStyle, {"height": this.state.height - 6}]}>
         {this._renderControlBar()}
       </Animated.View>
     );
-  },
+  }
 
-  render: function() {
+  render() {
     if (this.props.config.controlBar.enabled || this.props.config.controlBar.enabled == null) {
     var widthStyle = {width:this.props.width, opacity:this.state.opacity};
         if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
@@ -457,7 +437,7 @@ const BottomOverlay = createReactClass({
     } else {
         return null;
     }
-  },
-});
+  }
+}
 
 module.exports = BottomOverlay;
