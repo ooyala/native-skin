@@ -1,8 +1,5 @@
-'use strict';
-
 import PropTypes from 'prop-types';
-
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Animated,
   StyleSheet,
@@ -12,17 +9,16 @@ import {
   View
 } from 'react-native';
 
+import Utils from '../utils';
 
-const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/VolumePanelStyles'));
-
 const constants = {
   animationDuration: 1000,
   scrubberSize: 14,
   scrubTouchableDistance: 45
 }
 
-class VolumePanel extends React.Component {
+class VolumePanel extends Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     onVolumeChanged: PropTypes.func.isRequired,
