@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component } from 'react';
 import {
   View,
@@ -9,11 +7,11 @@ import PropTypes from 'prop-types';
 
 import Log from '../log';
 import { VIEW_NAMES } from '../constants';
+import Utils from '../utils';
 
-const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/progressBarStyles.json'));
 
-class ProgressBar extends React.Component {
+class ProgressBar extends Component {
   static propTypes = {
     percent: PropTypes.number,
     config: PropTypes.object,
