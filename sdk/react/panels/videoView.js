@@ -1,41 +1,32 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 import PropTypes from 'prop-types';
-
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   ActivityIndicator,
   Image,
   Text,
   View,
-  StyleSheet,
   Platform,
   TouchableHighlight
 } from 'react-native';
 
 import {
   BUTTON_NAMES,
-  IMG_URLS,
   UI_SIZES,
   AUTOHIDE_DELAY,
   VALUES
 } from '../constants';
+import BottomOverlay from '../bottomOverlay';
+import UpNext from '../upNext';
+import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
+import Log from '../log';
+import Utils from '../utils';
+import ResponsiveDesignManager from '../responsiveDesignManager';
+import VideoWaterMark from '../widgets/videoWaterMark';
+import panelStyles from './style/panelStyles.json';
 
-const BottomOverlay = require('../bottomOverlay');
-const UpNext = require('../upNext');
-const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-const Log = require('../log');
-const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-const ResponsiveDesignManager = require('../responsiveDesignManager');
-const VideoWaterMark = require('../widgets/videoWaterMark');
-const panelStyles = require('./style/panelStyles.json');
 
-class VideoView extends React.Component {
+class VideoView extends Component {
   static propTypes = {
     rate: PropTypes.number,
     playhead: PropTypes.number,
