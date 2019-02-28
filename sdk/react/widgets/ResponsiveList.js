@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   View,
-  TouchableHighlight,
   ScrollView
 } from 'react-native';
 
-var styles=require('../utils').getStyles(require('./style/ResponsiveListStyles.json'));
-var placeHolderItem = "ResponsiveListPlaceHolder";
+import Utils from '../utils';
 
-class ResponsiveList extends React.Component {
+const styles = Utils.getStyles(require('./style/ResponsiveListStyles.json'));
+const placeHolderItem = "ResponsiveListPlaceHolder";
+
+class ResponsiveList extends Component {
   static propTypes = {
     horizontal: PropTypes.bool,
     data: PropTypes.array,
@@ -68,7 +67,7 @@ class ResponsiveList extends React.Component {
       </View>);
   }
 
-  renderSlice = (slice: object, i: number) => {
+  renderSlice = (slice, i) => {
     var sliceStyle = this.props.horizontal ? styles.column : styles.row;
 
     var renderItem = this.renderItem;
@@ -83,7 +82,7 @@ class ResponsiveList extends React.Component {
     </View>);
   };
 
-  renderItem = (item: object, sectionId: number, i: number) => {
+  renderItem = (item, sectionId, i) => {
     var placeHolderStyle = {flex: 1, backgroundColor: "transparent", width:this.props.itemWidth, height: this.props.itemHeight};
     if (item === placeHolderItem) {
       return (<View key={sectionId} style={placeHolderStyle}></View>);
