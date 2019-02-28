@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
 import React, { Component } from 'react';
 import {
   StyleSheet
@@ -135,7 +129,7 @@ const Utils = {
    * Takes an integer error code andd locale
    * Returns the localized error message
   */
-  stringForErrorCode: function(errorCode: int) {
+  stringForErrorCode: function(errorCode) {
     switch (errorCode) {
       /* Authorization failed - TODO add to language files */
       case 0:
