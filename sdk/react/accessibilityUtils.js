@@ -1,10 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
-import React, { Component } from 'react'
 import {
   VIEW_ACCESSIBILITY_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
