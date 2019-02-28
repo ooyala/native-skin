@@ -1,22 +1,26 @@
-'use strict';
-
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import {
+  Animated,
+  ListView,
+  Text,
+  View,
+  TouchableHighlight
+} from 'react-native';
 
-import React from 'react';
-import {Animated, ListView, Text, View, TouchableHighlight} from 'react-native';
+import {
+  BUTTON_NAMES
+} from '../constants';
 
-import {BUTTON_NAMES} from '../constants';
-
-const Utils = require('../utils');
+import Utils from '../utils';
 const styles = Utils.getStyles(require('./style/castScreenStyles.json'));
 
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 === r2});
-
+let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 === r2});
 
 const dismissButtonSize = 20;
 const castButtonSize = 35;
 
-class CastDevicesScreen extends React.Component {
+class CastDevicesScreen extends Component {
   static propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
