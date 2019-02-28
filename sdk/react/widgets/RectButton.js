@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   TouchableHighlight
 } from 'react-native';
 
-var styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
-var Log = require('../log');
+import Utils from '../utils';
+const styles = Utils.getStyles(require('./style/RectButtonStyles.json'));
 
-class RectButton extends React.Component {
+class RectButton extends Component {
   static propTypes = {
     icon: PropTypes.string,
     name: PropTypes.string,
