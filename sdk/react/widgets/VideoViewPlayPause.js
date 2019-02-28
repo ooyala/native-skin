@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   View,
   TouchableHighlight,
@@ -12,18 +12,18 @@ import {
   VALUES
 } from '../constants';
 
-const Utils = require('../utils');
-const AccessibilityUtils = require('../accessibilityUtils');
+import Utils from '../utils';
+import AccessibilityUtils from '../accessibilityUtils';
 const timerForSkipButtons = require('react-native-timer');
 
 // Uses the rectbutton styles
-const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
+const styles = Utils.getStyles(require('./style/RectButtonStyles.json'));
 const PLAY = "play";
 const PAUSE = "pause";
 const FORWARD = "seekForward";
 const BACKWARD = "seekBackward";
 
-class VideoViewPlayPause extends React.Component {
+class VideoViewPlayPause extends Component {
   static propTypes = {
     seekEnabled: PropTypes.bool,
     ffActive: PropTypes.bool,
