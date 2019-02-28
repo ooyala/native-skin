@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   TouchableHighlight,
   View
@@ -13,12 +12,13 @@ import {
   BUTTON_NAMES,
 } from '../constants';
 
-var Log = require('../log');
-var Utils = require('../utils');
-var styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
-var stylesAudio = Utils.getStyles(require('./style/errorScreenStylesAudio.json'));
+import Log from '../log';
+import Utils from '../utils';
 
-class ErrorScreen extends React.Component {
+const styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
+const stylesAudio = Utils.getStyles(require('./style/errorScreenStylesAudio.json'));
+
+class ErrorScreen extends Component {
   static propTypes = {
     error: PropTypes.object,
     localizableStrings: PropTypes.object,
