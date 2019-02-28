@@ -1,11 +1,4 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
   Animated,
@@ -22,24 +15,25 @@ import {
   SCREEN_TYPES
 } from '../constants';
 
-var Utils = require('../utils');
-var ResponsiveList = require('../widgets/ResponsiveList');
-var CountdownView = require('../widgets/countdownTimer');
-var CountdownViewAndroid = require('../widgets/countdownTimerAndroid');
-var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
-var panelStyles = require('./style/panelStyles.json');
+import Utils from '../utils';
+import Log from '../log';
+import ResponsiveList from '../widgets/ResponsiveList';
+import CountdownView from '../widgets/countdownTimer';
+import CountdownViewAndroid from '../widgets/countdownTimerAndroid';
+import panelStyles from './style/panelStyles.json';
 
-var Log = require('../log');
+const styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
+
 // TODO: read this from config.
-var animationDuration = 1000;
+const animationDuration = 1000;
 
-var rectWidth = 176;
-var rectHeight = 160;
-var widthThreshold = 300;
+const rectWidth = 176;
+const rectHeight = 160;
+const widthThreshold = 300;
 
-var timerListenerAndroid;
+let timerListenerAndroid;
 
-class DiscoveryPanel extends React.Component {
+class DiscoveryPanel extends Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     localizableStrings: PropTypes.object,
@@ -63,11 +57,11 @@ class DiscoveryPanel extends React.Component {
     onTimerCompleted is emitted by native CountdownViewAndroid component.
     Regular CountdownView uses onTimerCompleted callback defined in jsx
   */
-  onTimerCompleted = (e: Event) => {
+  onTimerCompleted = (e) => {
     this.onRowSelected(e);
   };
 
-  componentWillMount(e: Event) {
+  componentWillMount(e) {
     timerListenerAndroid = DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted)
   }
 
@@ -213,25 +207,18 @@ class DiscoveryPanel extends React.Component {
                bucketInfo:item.bucketInfo}}/>
   });
 
-  renderItem = (
-    item: object,
-    sectionID: number,
-    itemID: number,
-    itemRect:Object,
-    thumbnailStyle:object,
-    columnContainerStyle:object,
-  ) => {
-    var title;
+  renderItem = (item, sectionID, itemID, itemRect, thumbnailStyle, columnContainerStyle) => {
+    let title;
     if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
       title = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
     }
 
-    var circularStatus;
+    let circularStatus;
     if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCountdownTimer) {
       circularStatus = this.renderCountdownTimer(item);
     }
 
-    var thumbnail = (
+    let thumbnail = (
       <ImageBackground
         source={{uri:item.imageUrl}}
         style={[thumbnailStyle, styles.thumbnailContainer]}>
