@@ -18,7 +18,7 @@ class OoyalaSkinBridgeListener {
   mount(eventEmitter) {
     Log.log("SkinBridgeListener Mounted");
     this.listeners = [];
-    let listenerDefinitions = [
+    const listenerDefinitions = [
       ['timeChanged', (event) => this.onTimeChange(event)],
       ['seekStarted', (event) => this.onSeekStarted(event)],
       ['seekCompleted', (event) => this.onSeekComplete(event)],

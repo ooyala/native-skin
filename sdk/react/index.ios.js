@@ -20,8 +20,9 @@ import {
 } from './constants';
 
 import OoyalaSkinCore from './ooyalaSkinCore';
+
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
-var OoyalaSkinCoreInstance;
+let OoyalaSkinCoreInstance;
 
 class OoyalaSkin extends Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -100,11 +101,11 @@ class OoyalaSkin extends Component {
 
   renderLoadingScreen = () => {
     return (
-       <ActivityIndicator
-          style={styles.loading}
-          animating={true}
-          size="large"
-      />);
+      <ActivityIndicator
+        style={styles.loading}
+        animating={true}
+        size="large"
+    />);
   };
 
   render() {

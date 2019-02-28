@@ -1,72 +1,66 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
 import {
   LOG_LEVEL
 } from './constants';
 
-var level = LOG_LEVEL.INFO;
+let level = LOG_LEVEL.INFO;
 
-var Log = {
-  setLogLevel: function(l){
+class Log {
+  static setLogLevel(l){
     switch (l) {
       case LOG_LEVEL.VERBOSE:
       case LOG_LEVEL.INFO:
       case LOG_LEVEL.WARN:
       case LOG_LEVEL.ERROR:
       case LOG_LEVEL.NONE:
-      level = l;
-      break;
+        level = l;
+        break;
       default:
-      console.error("Invalid Warning Level: " + l);
-      break;
+        console.error("Invalid Warning Level: " + l);
+        break;
     }
-  },
+  }
 
-  warn: function(msg) {
+  static warn(msg) {
     if (level >= LOG_LEVEL.WARN) {
       console.warn(msg);
       return true;
     }
     return false;
-  },
+  }
 
-  info: function(msg) {
+  static info(msg) {
     if (level >= LOG_LEVEL.INFO) {
       console.info(msg);
       return true;
     }
     return false;
-  },
+  }
 
-  error: function(msg) {
+  static error(msg) {
     if (level >= LOG_LEVEL.ERROR) {
       console.error(msg);
       return true;
     }
     return false;
-  },
+  }
 
-  log: function(msg) {
+  static log(msg) {
     if (level >= LOG_LEVEL.INFO) {
       console.log(msg);
       return true;
     }
     return false;
-  },
+  }
 
-  verbose: function(msg) {
+  static verbose(msg) {
     if (level >= LOG_LEVEL.VERBOSE) {
       console.log(msg);
       return true;
     }
     return false;
-  },
+  }
 
-  assertTrue: function(condition, msg) {
+  static assertTrue(condition, msg) {
     if (condition) {
       error("ASSERT FAILED: ", msg);
     }
