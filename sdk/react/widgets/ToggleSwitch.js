@@ -1,24 +1,17 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
   Switch,
-  StyleSheet,
   Text,
-  TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
-var styles = require('../utils').getStyles(require('./style/ToggleSwitchStyles.json'));
+import Utils from '../utils';
+
+const styles = Utils.getStyles(require('./style/ToggleSwitchStyles.json'));
 
 // Tint props only work for iOS.
-class ToggleSwitch extends React.Component {
+class ToggleSwitch extends Component {
   static propTypes = {
     switchOn: PropTypes.bool,
     areClosedCaptionsAvailable: PropTypes.bool,
