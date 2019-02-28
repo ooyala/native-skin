@@ -1,26 +1,22 @@
-'use strict';
-
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
   Animated,
-  View,
+  View
 } from 'react-native';
 
 import {
-  BUTTON_NAMES,
+  BUTTON_NAMES
 } from '../constants';
 
 import Log from '../log';
 import CollapsingBarUtils from '../collapsingBarUtils';
+import Utils from '../utils';
 
-const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
-
 const dismissButtonSize = 20;
 
-class MoreOptionScreen extends React.Component {
+class MoreOptionScreen extends Component {
   static propTypes = {
     height: PropTypes.number,
     onDismiss: PropTypes.func,
