@@ -1,10 +1,6 @@
-'use strict';
-
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   TouchableHighlight,
   View
@@ -14,11 +10,11 @@ import {
   BUTTON_NAMES
 } from './constants';
 
-var Log = require('./log');
-var Utils = require('./utils');
-var styles = Utils.getStyles(require('./style/adBarStyles.json'));
+import Log from './log';
+import Utils from './utils';
+const styles = Utils.getStyles(require('./style/adBarStyles.json'));
 
-class AdBar extends React.Component {
+class AdBar extends Component {
   static propTypes = {
     ad: PropTypes.object,
     playhead: PropTypes.number,
