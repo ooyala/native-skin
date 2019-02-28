@@ -1,20 +1,25 @@
-'use strict';
-
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import {
+  Animated,
+  ScrollView,
+  Text,
+  View
+} from 'react-native';
 
-import React from 'react';
-import {Animated, ScrollView, Text, View,} from 'react-native';
-
-import {BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES,} from '../constants';
-
-const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/moreDetailsScreenStyles.json'));
+import {
+  BUTTON_NAMES,
+  ERROR_MESSAGE,
+  SAS_ERROR_CODES
+} from '../constants';
 
 import Log from '../log';
+import Utils from '../utils';
 
+const styles = Utils.getStyles(require('./style/moreDetailsScreenStyles.json'));
 const dismissButtonSize = 20;
 
-class MoreDetailsScreen extends React.Component {
+class MoreDetailsScreen extends Component {
   static propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
