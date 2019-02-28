@@ -1,29 +1,24 @@
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
-
+import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  Image,
-  TouchableHighlight,
+  Image
 } from 'react-native';
 
 import {
   IMG_URLS,
   UI_SIZES,
-  BUTTON_NAMES,
+  BUTTON_NAMES
 } from '../constants';
 
-const Utils = require('../utils');
-const Log = require('../log');
+import Utils from '../utils';
+import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
+import ResponsiveDesignManager from '../responsiveDesignManager';
+
 const styles = Utils.getStyles(require('./style/startScreenStyles.json'));
 
-const RectButton = require('../widgets/RectButton');
-const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-const ResponsiveDesignManager = require('../responsiveDesignManager');
-
-class StartScreen extends React.Component {
+class StartScreen extends Component {
   static propTypes = {
     config: PropTypes.object,
     title: PropTypes.string,
