@@ -22,6 +22,7 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   FULLSCREEN: 'fullscreen',
   MORE: 'moreOptions',
   CAST: 'cast',
+  CAST_AIRPLAY: 'castAirplay',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
   REPLAY: 'replay',
@@ -89,7 +90,8 @@ const OVERLAY_TYPES = {
   VOLUME_SCREEN: 'volumeScreen',
   MORE_DETAILS: 'moreDetails',
   VOLUME_SCREEN: 'volumeScreen',
-  CAST: 'cast'
+  CAST: 'cast',
+  CAST_AIRPLAY: 'castAirplay'
 }
 
 const DESIRED_STATES = {
