@@ -1,8 +1,5 @@
-'use strict';
-
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
-
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -16,23 +13,21 @@ import {
   VALUES
 } from '../constants';
 
-
 import CollapsingBarUtils from '../collapsingBarUtils';
 import Log from '../log';
+import ProgressBar from '../common/progressBar';
+import ControlBarWidget from '../widgets/controlBarWidgets';
+import ResponsiveDesignManager from '../responsiveDesignManager';
+import Utils from '../utils';
 
-const timerForSkipButtons = require('react-native-timer');
-const ProgressBar = require('../common/progressBar');
-const ControlBarWidget = require('../widgets/controlBarWidgets');
-
-const Utils = require('../utils');
 const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
 const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
-const ResponsiveDesignManager = require('../responsiveDesignManager');
+const timerForSkipButtons = require('react-native-timer');
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
-class AudioView extends React.Component {
+class AudioView extends Component {
   static propTypes = {
     playhead: PropTypes.number,
     duration: PropTypes.number,
