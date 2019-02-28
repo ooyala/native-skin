@@ -1,38 +1,27 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
   Animated,
-  ListView,
   ScrollView,
-  StyleSheet,
-  SwitchIOS,
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
 import {
-  BUTTON_NAMES,
-  ICONS
+  BUTTON_NAMES
 } from '../constants';
 
-var ToggleSwitch = require('../widgets/ToggleSwitch');
-var Utils = require('../utils');
-var ResponsiveList = require('../widgets/ResponsiveList');
-var PreviewWidget = require('../languageSelectionPreview');
-var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
-var panelStyles = require('./style/panelStyles');
+import ToggleSwitch from '../widgets/ToggleSwitch';
+import Utils from '../utils';
+import ResponsiveList from '../widgets/ResponsiveList';
+import PreviewWidget from '../languageSelectionPreview';
+import panelStyles from './style/panelStyles';
 
-var animationDuration = 1000;
+const styles = Utils.getStyles(require('./style/languageSelectionPanelStyles'));
+const animationDuration = 1000;
 
-class LanguageSelectionPanel extends React.Component {
+class LanguageSelectionPanel extends Component {
   static propTypes = {
     languages: PropTypes.array,
     selectedLanguage: PropTypes.string,
@@ -201,7 +190,7 @@ class LanguageSelectionPanel extends React.Component {
     }
   };
 
-  renderItem = (item: object, itemId: number) => {
+  renderItem = (item, itemId) => {
     var itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
     return (
       <TouchableHighlight
