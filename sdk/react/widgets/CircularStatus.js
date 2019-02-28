@@ -1,20 +1,16 @@
-
-/**
- * Created by dkao on 9/4/15.
- */
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
-  TouchableHighlight,
+  TouchableHighlight
 } from 'react-native';
 
-var styles = require('../utils').getStyles(require('./style/CircularStatus.json'));
+import Utils from '../utils';
 
-class CircularStatus extends React.Component {
+const styles = Utils.getStyles(require('./style/CircularStatus.json'));
+
+class CircularStatus extends Component {
   static propTypes = {
     current: PropTypes.number,
     total: PropTypes.number,
