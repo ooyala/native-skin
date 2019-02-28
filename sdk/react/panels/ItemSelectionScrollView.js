@@ -1,11 +1,4 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-import PropTypes from 'prop-types';
-
+import PropTypes, { Component } from 'prop-types';
 import React from 'react';
 import {
   Text,
@@ -13,12 +6,13 @@ import {
   View,
 } from 'react-native';
 
-const AccessibilityUtils = require('../accessibilityUtils');
-const Utils = require('../utils');
-const ItemSelectionList = require('./ItemSelectionList');
-const styles = require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles'));
+import AccessibilityUtils from '../accessibilityUtils';
+import Utils from '../utils';
+import ItemSelectionList from './ItemSelectionList';
 
-class ItemSelectionScrollView extends React.Component {
+const styles = Utils.getStyles(require('./style/ItemSelectionScrollViewStyles'));
+
+class ItemSelectionScrollView extends Component {
   static propTypes = {
     items: PropTypes.array,
     selectedItem: PropTypes.string,
