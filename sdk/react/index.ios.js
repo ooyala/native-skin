@@ -1,4 +1,3 @@
-'use strict';
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
@@ -119,6 +118,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 200
-  },
+  }
 });
+
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

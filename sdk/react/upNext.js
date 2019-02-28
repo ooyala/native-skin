@@ -165,4 +165,4 @@ class UpNext extends Component {
   }
 }
 
-export default UpNext;
+module.exports = UpNext;

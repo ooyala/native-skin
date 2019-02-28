@@ -363,4 +363,4 @@ class controlBarWidget extends Component {
   }
 }
 
-export default controlBarWidget;
+module.exports = controlBarWidget;

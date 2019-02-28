@@ -175,4 +175,4 @@ class PlaybackSpeedPanel extends Component {
 
 }
 
-export default PlaybackSpeedPanel;
+module.exports = PlaybackSpeedPanel;

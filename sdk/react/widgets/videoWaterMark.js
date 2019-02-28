@@ -33,4 +33,4 @@ class VideoWaterMark extends Component {
   }
 }
 
-export default VideoWaterMark;
+module.exports = VideoWaterMark;

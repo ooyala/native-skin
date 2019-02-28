@@ -276,4 +276,4 @@ class AdPlaybackScreen extends Component {
 
 }
 
-export default AdPlaybackScreen;
+module.exports = AdPlaybackScreen;

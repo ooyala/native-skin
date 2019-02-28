@@ -59,4 +59,4 @@ class RectButton extends Component {
   }
 }
 
-export default RectButton;
+module.exports = RectButton;

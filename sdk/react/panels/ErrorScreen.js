@@ -110,4 +110,4 @@ class ErrorScreen extends Component {
   };
 }
 
-export default ErrorScreen;
+module.exports = ErrorScreen;

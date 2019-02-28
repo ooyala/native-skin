@@ -4,8 +4,8 @@ import {
 } from 'react-native';
 
 import { VALUES } from './constants';
+import Log from './log';
 
-const Log = require('./log');
 const Utils = {
 
   renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
@@ -238,7 +238,5 @@ const Utils = {
     return value;
   }
 };
-
-
 
 module.exports = Utils;

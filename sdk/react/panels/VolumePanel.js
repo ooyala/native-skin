@@ -220,4 +220,4 @@ class VolumePanel extends Component {
 
 }
 
-export default VolumePanel;
+module.exports = VolumePanel;

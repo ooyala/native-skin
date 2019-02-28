@@ -25,4 +25,4 @@ class WaterMark extends Component {
 	}
 }
 
-export default WaterMark;
+module.exports = WaterMark;

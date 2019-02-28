@@ -69,4 +69,4 @@ class SkipButton extends Component {
   };
 }
 
-export default SkipButton;
+module.exports = SkipButton;

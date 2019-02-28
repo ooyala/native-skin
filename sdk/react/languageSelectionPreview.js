@@ -46,4 +46,4 @@ class LanguageSelectionPreview extends Component {
   }
 }
 
-export default LanguageSelectionPreview;
+module.exports = LanguageSelectionPreview;

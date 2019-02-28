@@ -19,10 +19,10 @@ import ProgressBar from '../common/progressBar';
 import ControlBarWidget from '../widgets/controlBarWidgets';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 import Utils from '../utils';
+import timerForSkipButtons from 'react-native-timer';
 
 const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
 const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
-const timerForSkipButtons = require('react-native-timer');
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
@@ -509,4 +509,4 @@ class AudioView extends Component {
   };
 }
 
-export default AudioView;
+module.exports = AudioView;

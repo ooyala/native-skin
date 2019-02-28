@@ -74,18 +74,21 @@ class ProgressBar extends Component {
           <View
             style={progressStyles.played}
             testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}/>
+            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}>
+          </View>
           <View
             style={progressStyles.background}
             testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}/>
+            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}>
+          </View>
           <View
             style={progressStyles.buffered}
             testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}/>
+            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}>
+          </View>
       </View>
     );
   }
 }
 
-export default ProgressBar;
+module.exports = ProgressBar;

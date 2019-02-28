@@ -303,4 +303,4 @@ class DiscoveryPanel extends Component {
   };
 }
 
-export default DiscoveryPanel;
+module.exports = DiscoveryPanel;

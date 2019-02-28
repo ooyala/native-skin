@@ -57,4 +57,4 @@ class ToggleSwitch extends Component {
   }
 }
 
-export default ToggleSwitch;
+module.exports = ToggleSwitch;

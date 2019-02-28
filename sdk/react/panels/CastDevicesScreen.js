@@ -155,4 +155,4 @@ class CastDevicesScreen extends Component {
   }
 }
 
-export default CastDevicesScreen;
+module.exports = CastDevicesScreen;

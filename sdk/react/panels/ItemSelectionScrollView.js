@@ -74,4 +74,4 @@ class ItemSelectionScrollView extends Component {
   }
 }
 
-export default ItemSelectionScrollView;
+module.exports = ItemSelectionScrollView;

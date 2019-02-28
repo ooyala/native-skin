@@ -45,4 +45,4 @@ class CastAirPlayScreen extends Component {
   }
 }
 
-export default CastAirPlayScreen;
+module.exports = CastAirPlayScreen;

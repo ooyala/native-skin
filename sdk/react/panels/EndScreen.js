@@ -181,4 +181,4 @@ class EndScreen extends Component {
 
 }
 
-export default EndScreen;
+module.exports = EndScreen;

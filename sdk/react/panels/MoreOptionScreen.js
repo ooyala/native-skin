@@ -233,4 +233,4 @@ class MoreOptionScreen extends Component {
 
 }
 
-export default MoreOptionScreen;
+module.exports = MoreOptionScreen;

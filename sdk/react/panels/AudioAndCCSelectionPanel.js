@@ -230,4 +230,4 @@ class AudioAndCCSelectionPanel extends Component {
   }
 }
 
-export default AudioAndCCSelectionPanel;
+module.exports = AudioAndCCSelectionPanel;

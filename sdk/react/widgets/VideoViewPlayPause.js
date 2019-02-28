@@ -14,7 +14,7 @@ import {
 
 import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
-const timerForSkipButtons = require('react-native-timer');
+import timerForSkipButtons from 'react-native-timer';
 
 // Uses the rectbutton styles
 const styles = Utils.getStyles(require('./style/RectButtonStyles.json'));
@@ -222,4 +222,4 @@ class VideoViewPlayPause extends Component {
   }
 }
 
-export default VideoViewPlayPause;
+module.exports = VideoViewPlayPause;

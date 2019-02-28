@@ -40,4 +40,4 @@ class ItemSelectionList extends Component {
   }
 }
 
-export default ItemSelectionList;
+module.exports = ItemSelectionList;

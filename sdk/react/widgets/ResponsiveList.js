@@ -92,4 +92,4 @@ class ResponsiveList extends Component {
   };
 }
 
-export default ResponsiveList;
+module.exports = ResponsiveList;
