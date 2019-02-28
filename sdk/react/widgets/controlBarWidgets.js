@@ -1,17 +1,10 @@
-'use strict';
-
-/**
- * Created by dkao on 7/7/15.
- */
 import PropTypes from 'prop-types';
-
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
   Image,
   Platform,
-  SliderIOS,
   TouchableHighlight
 } from 'react-native';
 
@@ -22,15 +15,13 @@ import {
 } from '../constants';
 
 import Utils from '../utils';
-import  AccessibilityUtils from '../accessibilityUtils';
-import Log from '../log';
+import AccessibilityUtils from '../accessibilityUtils';
 import VolumeView from './VolumeView';
 import SkipButton from './SkipButton';
-import AirPlayView from './AirPlayView';
 
 const styles = Utils.getStyles(require('./style/controlBarWidgetStyles.json'));
 
-class controlBarWidget extends React.Component {
+class controlBarWidget extends Component {
   static propTypes = {
     widgetType: PropTypes.object,
     options: PropTypes.object
@@ -177,7 +168,8 @@ class controlBarWidget extends React.Component {
 
   fullscreenWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN : VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
+    const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN :
+                                           VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
     return (
       <TouchableHighlight
         testID={nameLabel}
