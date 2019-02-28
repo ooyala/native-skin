@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from "react";
+import React, { Component } from "react";
 import {
   ActivityIndicator,
   Text,
@@ -7,21 +7,22 @@ import {
   Image,
   TouchableHighlight,
   Platform
-} from "react-native";
+} from 'react-native';
 
 import {
   BUTTON_NAMES,
   UI_SIZES
 } from '../constants';
 
-const Utils = require("../utils");
-const styles = Utils.getStyles(require("./style/endScreenStyles.json"));
-const ResponsiveDesignManager = require('../responsiveDesignManager');
-const InfoPanel = require("../infoPanel");
-const BottomOverlay = require("../bottomOverlay");
-const Log = require("../log");
+import Utils from '../utils';
+import ResponsiveDesignManager from '../responsiveDesignManager';
+import InfoPanel from '../infoPanel';
+import BottomOverlay from '../bottomOverlay';
+import Log from '../log';
 
-class EndScreen extends React.Component {
+const styles = Utils.getStyles(require('./style/endScreenStyles.json'));
+
+class EndScreen extends Component {
   static propTypes = {
     config: PropTypes.object,
     title: PropTypes.string,
