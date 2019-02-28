@@ -1,9 +1,7 @@
 'use strict';
 
 import PropTypes from 'prop-types';
-
-import React, { Component } from 'react';
-var Log = require('./log');
+import Log from './log';
 
 var ReportMeasureMixin = {
   propTypes: {
