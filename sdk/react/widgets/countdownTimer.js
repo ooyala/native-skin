@@ -1,12 +1,9 @@
-
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import createReactClass from 'create-react-class';
 import {
 	requireNativeComponent,
 	NativeMethodsMixin,
-  StyleSheet,
 	View,
   TouchableHighlight,
   Platform
@@ -52,11 +49,11 @@ var CountdownView = createReactClass({
     };
   },
 
-  _onTimerUpdate: function(event: Event) {
+  _onTimerUpdate: function(event) {
       this.props.onTimerUpdate && this.props.onTimerUpdate(event.nativeEvent);
   },
 
-  _onTimerCompleted: function(event: Event) {
+  _onTimerCompleted: function(event) {
       this.props.onTimerCompleted && this.props.onTimerCompleted(event.nativeEvent);
   },
 
