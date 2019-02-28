@@ -1,10 +1,7 @@
-'use strict';
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import {
   View, 
   requireNativeComponent, 
-  Animated, 
   Platform 
 } from 'react-native';
 
