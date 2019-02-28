@@ -1,13 +1,10 @@
-'use strict';
-
 import PropTypes from 'prop-types';
-
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Animated,
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
 import {
@@ -15,10 +12,10 @@ import {
   CELL_TYPES
 } from '../constants';
 
-const Utils = require('../utils');
-const styles = require('../utils').getStyles(require('./style/PlaybackSpeedPanelStyles'));
-const ItemSelectionScrollView = require('./ItemSelectionScrollView');
+import ItemSelectionScrollView from './ItemSelectionScrollView';
+import Utils from '../utils';
 
+const styles = Utils.getStyles(require('./style/PlaybackSpeedPanelStyles'));
 const animationDuration = 1000;
 const constants = {
   headerViewSectionTitle: "Playback Speed",
@@ -29,7 +26,7 @@ const constants = {
   playbackSpeedRatePostfix: "x"
 };
 
-class PlaybackSpeedPanel extends React.Component {
+class PlaybackSpeedPanel extends Component {
 
   static propTypes = {
     playbackSpeedRates: PropTypes.array,
