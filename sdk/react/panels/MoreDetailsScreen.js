@@ -133,4 +133,4 @@ class MoreDetailsScreen extends Component {
   }
 }
 
-module.exports = MoreDetailsScreen;
+export default MoreDetailsScreen;
