@@ -1,7 +1,4 @@
-'use strict';
-
 import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
 import {
   Animated,
@@ -12,11 +9,11 @@ import {
 import {
   UI_SIZES
 } from './constants';
+import Utils from './utils';
 
-var Utils = require('./utils');
-var styles = Utils.getStyles(require('./panels/style/languageSelectionPanelStyles.json'));
+const styles = Utils.getStyles(require('./panels/style/languageSelectionPanelStyles.json'));
 
-class LanguageSelectionPreview extends React.Component {
+class LanguageSelectionPreview extends Component {
   static propTypes = {
     config: PropTypes.object,
     selectedLanguage: PropTypes.string,
