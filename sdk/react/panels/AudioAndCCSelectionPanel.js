@@ -1,12 +1,5 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 import PropTypes from 'prop-types';
-
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Animated,
   Text,
@@ -19,10 +12,10 @@ import {
   CELL_TYPES
 } from '../constants';
 
-const Utils = require('../utils');
-const styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
-const ItemSelectionScrollView = require('./ItemSelectionScrollView');
+import Utils from '../utils';
+import ItemSelectionScrollView from './ItemSelectionScrollView';
 
+const styles = Utils.getStyles(require('./style/AudioAndCCSelectionPanel'));
 const stringConstants = {
   undefinedLanguageTitle: "Undefined language",
   noLinguisticContentTitle: "No linguistic content",
@@ -33,7 +26,7 @@ const stringConstants = {
 
 const animationDuration = 1000;
 
-class AudioAndCCSelectionPanel extends React.Component {
+class AudioAndCCSelectionPanel extends Component {
   static propTypes = {
     audioTracksTitles: PropTypes.array,
     selectedAudioTrackTitle: PropTypes.string,
