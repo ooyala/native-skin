@@ -1,7 +1,3 @@
-/**
- * Created by dkao on 8/18/15.
- */
-
 'use strict';
 
 var ResponsiveDesignManager = {
