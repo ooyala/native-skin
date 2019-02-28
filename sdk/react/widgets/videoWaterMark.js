@@ -2,20 +2,11 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   Image,
-  Text,
-  StyleSheet,
-  Animated,
-  View,
+  View
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  IMG_URLS,
-  UI_SIZES
-} from '../constants';
-
-var ResponsiveDesignManager = require('../responsiveDesignManager');
-var styles = require('../utils').getStyles(require('./style/videoWaterMarkStyles.json'));
+import Utils from '../utils';
+const styles = Utils.getStyles(require('./style/videoWaterMarkStyles.json'));
 
 class logo extends React.Component {
   static propTypes = {
@@ -25,16 +16,16 @@ class logo extends React.Component {
   };
 
   renderLogo = () => {
-    var waterMarkName = this.props.waterMarkName;
-    var sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
+    const waterMarkName = this.props.waterMarkName;
+    const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
     return (
-          <View style={[styles.watermarkContainer]}>
-            <Image
-              style={sizeStyle}
-              source={{uri: waterMarkName}}
-              resizeMode="contain"/>
-          </View>
-        );
+        <View style={[styles.watermarkContainer]}>
+          <Image
+            style={sizeStyle}
+            source={{uri: waterMarkName}}
+            resizeMode="contain"/>
+        </View>
+      );
     };
 
   render() {
