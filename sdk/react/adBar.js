@@ -139,4 +139,4 @@ class AdBar extends Component {
   }
 }
 
-module.exports = AdBar;
+export default AdBar;

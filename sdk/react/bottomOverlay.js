@@ -440,4 +440,4 @@ class BottomOverlay extends Component {
   }
 }
 
-module.exports = BottomOverlay;
+export default BottomOverlay;
