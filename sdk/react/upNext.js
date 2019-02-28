@@ -12,19 +12,14 @@ import {
   BUTTON_NAMES
 } from './constants';
 
-var Utils = require("./utils");
+import Utils from "./utils";
+import CountdownView from "./widgets/countdownTimer";
+import CountdownViewAndroid from "./widgets/countdownTimerAndroid";
 
-var styles = Utils.getStyles(require("./style/upNext.json"));
-var CountdownView = require("./widgets/countdownTimer");
-var CountdownViewAndroid = require("./widgets/countdownTimerAndroid");
-var ResponsiveDesignManager = require("./responsiveDesignManager");
+const styles = Utils.getStyles(require("./style/upNext.json"));
+const defaultCountdownVal = 10;
 
-var descriptionMinWidth = 140;
-var thumbnailWidth = 175;
-var dismissButtonWidth = 10;
-var defaultCountdownVal = 10;
-
-class UpNext extends React.Component {
+class UpNext extends Component {
   static propTypes = {
     config: PropTypes.object,
     playhead: PropTypes.number,
