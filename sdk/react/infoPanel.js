@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View
 } from 'react-native';
 
-const Utils = require('./utils');
+import Utils from './utils';
 const styles = Utils.getStyles(require('./style/infoPanelStyles.json'));
 
-class InfoPanel extends React.Component {
+class InfoPanel extends Component {
   static propTypes = {
     title: PropTypes.string,
     description: PropTypes.string,
