@@ -35,4 +35,4 @@ class InfoPanel extends Component {
 
 }
 
-module.exports = InfoPanel;
+export default InfoPanel;

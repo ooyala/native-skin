@@ -10,6 +10,6 @@ class GradientView extends Component {
 }
 
 GradientView.propTypes = {};
-module.exports = GradientView;
 const OOGradientView = requireNativeComponent('OOGradientView', GradientView);
 
+export default GradientView;

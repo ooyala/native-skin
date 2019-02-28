@@ -88,4 +88,4 @@ class ProgressBar extends Component {
   }
 }
 
-module.exports = ProgressBar;
+export default ProgressBar;
