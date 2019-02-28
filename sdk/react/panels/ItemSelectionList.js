@@ -1,19 +1,14 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 import PropTypes from 'prop-types';
-
-import React from 'react';
+import React, { Component } from 'react';
 import {
   ScrollView
 } from 'react-native';
 
-const styles=require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
+import Utils from '../utils';
 
-class ItemSelectionList extends React.Component {
+const styles = Utils.getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
+
+class ItemSelectionList extends Component {
   static propTypes = {
     horizontal: PropTypes.bool,
     data: PropTypes.array,
