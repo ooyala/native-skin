@@ -18,6 +18,7 @@ import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
 import VolumeView from './VolumeView';
 import SkipButton from './SkipButton';
+import Log from '../log';
 
 const styles = Utils.getStyles(require('./style/controlBarWidgetStyles.json'));
 
