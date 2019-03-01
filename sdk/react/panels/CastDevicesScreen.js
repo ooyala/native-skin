@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   ListView,
@@ -11,9 +11,10 @@ import {
 import {
   BUTTON_NAMES
 } from '../constants';
-
 import Utils from '../utils';
-const styles = Utils.getStyles(require('./style/castScreenStyles.json'));
+
+import castScreenStyles from './style/castScreenStyles.json';
+const styles = Utils.getStyles(castScreenStyles);
 
 let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 === r2});
 

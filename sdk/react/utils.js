@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   StyleSheet
 } from 'react-native';
@@ -9,7 +9,7 @@ import Log from './log';
 const Utils = {
 
   renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
-    var RectButton = require('./widgets/RectButton');
+    const RectButton = require('./widgets/RectButton');
     return (
       <RectButton
         name={name}
@@ -44,30 +44,34 @@ const Utils = {
   // Returns a React stylesheet based on the json object passed in. This method takes the json object,
   // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
   getStyles: function(specificStyles) {
-    var globalStyles = require('./style/styles.json');
+    const globalStyles = require('./style/styles.json');
 
-    if(specificStyles == undefined) {
+    if (specificStyles == undefined) {
       specificStyles = {};
     }
 
-    var styles = {};
-    for (var attrname in globalStyles) { styles[attrname] = globalStyles[attrname]; }
-    for (var attrname in specificStyles) { styles[attrname] = specificStyles[attrname]; }
+    let styles = {};
+    for (let attrname in globalStyles) {
+      styles[attrname] = globalStyles[attrname];
+    }
+    for (let attrname in specificStyles) {
+      styles[attrname] = specificStyles[attrname]; 
+    }
 
     return StyleSheet.create(styles);
   },
 
   getTimerLabel: function(timer) {
-    var timerLabel = "";
+    let timerLabel = '';
 
     if (timer < 10) {
-      timerLabel = "00:0" + (timer | 0).toString();
+      timerLabel = '00:0' + (timer | 0).toString();
     } else if (timer < 60) {
-      timerLabel = "00:" + (timer | 0).toString();
+      timerLabel = '00:' + (timer | 0).toString();
     } else if (timer < 600){
-      timerLabel = "0" + (timer / 60).toString() + ":" + (timer % 60).toString();
+      timerLabel = '0' + (timer / 60).toString() + ':' + (timer % 60).toString();
     } else {
-      timerLabel = (timer / 60).toString() + ":" + (timer % 60).toString();
+      timerLabel = (timer / 60).toString() + ':' + (timer % 60).toString();
     }
 
     return timerLabel;
@@ -82,15 +86,15 @@ const Utils = {
   },
 
   secondsToString: function(seconds) {
-    var  minus = '';
+    let minus = '';
     if (seconds < 0) {
-      minus = "-";
+      minus = '-';
       seconds = -seconds;
     }
-    var date = new Date(seconds * 1000);
-    var hh = date.getUTCHours();
-    var mm = date.getUTCMinutes();
-    var ss = date.getSeconds();
+    const date = new Date(seconds * 1000);
+    const hh = date.getUTCHours();
+    let mm = date.getUTCMinutes();
+    let ss = date.getSeconds();
     if (ss < 10) {
       ss = "0" + ss;
     }
@@ -99,7 +103,7 @@ const Utils = {
     } else if (mm < 10) {
       mm = "0" + mm;
     }
-    var t = mm + ":" + ss;
+    let t = mm + ":" + ss;
     if (hh > 0) {
       t = hh + ":" + t;
     }
@@ -107,14 +111,22 @@ const Utils = {
   },
 
   localizedString: function(preferredLocale, stringId, localizableStrings) {
-    if (typeof stringId !== 'string') return null;
-    if (typeof preferredLocale !== 'string') preferredLocale = undefined;
-    if (typeof localizableStrings !== 'object' || localizableStrings === null) localizableStrings = {};
+    if (typeof stringId !== 'string') { 
+      return null;
+    }
+    if (typeof preferredLocale !== 'string') {
+      preferredLocale = undefined;
+    }
+    if (typeof localizableStrings !== 'object' || localizableStrings === null) {
+      localizableStrings = {};
+    }
 
-    Log.verbose("preferredLocale: " + preferredLocale + ", stringId: " + stringId + ", localizableStrings:");
-    var defaultLocale = localizableStrings['defaultLanguage'] ? localizableStrings['defaultLanguage'] : 'en';
+    Log.verbose('preferredLocale: ' + preferredLocale + ', stringId: ' + stringId + ', localizableStrings:');
+    const defaultLocale = localizableStrings['defaultLanguage'] || 'en';
 
-    if (preferredLocale && localizableStrings[preferredLocale] && localizableStrings[preferredLocale][stringId]) {
+    if (preferredLocale &&
+        localizableStrings[preferredLocale] &&
+        localizableStrings[preferredLocale][stringId]) {
       return localizableStrings[preferredLocale][stringId];
     }
 

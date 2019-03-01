@@ -4,7 +4,6 @@ import {
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE
 } from './constants';
-
 import Log from './log';
 import OoyalaSkinBridgeListener from './ooyalaSkinBridgeListener';
 import OoyalaSkinPanelRenderer from './ooyalaSkinPanelRenderer';

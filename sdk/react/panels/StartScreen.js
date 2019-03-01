@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -11,12 +11,12 @@ import {
   UI_SIZES,
   BUTTON_NAMES
 } from '../constants';
-
 import Utils from '../utils';
 import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 
-const styles = Utils.getStyles(require('./style/startScreenStyles.json'));
+import startScreenStyles from './style/startScreenStyles.json';
+const styles = Utils.getStyles(startScreenStyles);
 
 class StartScreen extends Component {
   static propTypes = {
@@ -71,7 +71,8 @@ class StartScreen extends Component {
           fontSize={iconFontSize}
           playing={false}
           showButton={!this.props.screenReaderEnabled}
-          initialPlay={true}/>
+          initialPlay={true}>
+        </VideoViewPlayPause>
       );
     }
   };
@@ -167,7 +168,6 @@ class StartScreen extends Component {
         {playButton}
       </View>
     );
-
   }
 }
 

@@ -6,21 +6,23 @@ import {
   Text,
   View,
   BackHandler,
-  AccessibilityInfo
+  AccessibilityInfo,
+  NativeModules
 } from 'react-native';
-
-var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 //calling class layout controller
-var eventBridge = require('NativeModules').OoyalaReactBridge;
+const { 
+  OoyalaReactBridge 
+} = NativeModules;
 
 import {
   CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES
 } from './constants';
-var OoyalaSkinCore = require('./ooyalaSkinCore');
-var OoyalaSkinCoreInstance;
+import OoyalaSkinCore from './ooyalaSkinCore';
+let OoyalaSkinCoreInstance;
 
 class OoyalaSkin extends Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -62,12 +64,12 @@ class OoyalaSkin extends Component {
   };
 
   componentWillMount() {
-    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
+    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, OoyalaReactBridge);
     OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
   }
 
   componentDidMount() {
-    // eventBridge.queryState();
+    // OoyalaReactBridge.queryState();
     BackHandler.addEventListener('hardwareBackPress', function () {
       return OoyalaSkinCoreInstance.onBackPressed();
     });
@@ -112,7 +114,8 @@ class OoyalaSkin extends Component {
     return (
       <View style={styles.container}>
           <Text>{this.state.playerState}</Text>
-      </View>);
+      </View>
+    );
   };
 
   render() {

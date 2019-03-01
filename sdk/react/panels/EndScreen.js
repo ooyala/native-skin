@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   Text,
@@ -13,14 +13,14 @@ import {
   BUTTON_NAMES,
   UI_SIZES
 } from '../constants';
-
 import Utils from '../utils';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 import InfoPanel from '../infoPanel';
 import BottomOverlay from '../bottomOverlay';
 import Log from '../log';
 
-const styles = Utils.getStyles(require('./style/endScreenStyles.json'));
+import endScreenStyles from './style/endScreenStyles.json';
+const styles = Utils.getStyles(endScreenStyles);
 
 class EndScreen extends Component {
   static propTypes = {
@@ -49,10 +49,6 @@ class EndScreen extends Component {
     this.props.onPress(name);
   };
 
-  handleTouchEnd = (event) => {
-    this.toggleControlBar();
-  };
-
   handlePress = (name) => {
     Log.verbose("VideoView Handle Press: " + name);
     this.setState({lastPressedTime: new Date().getTime()});
@@ -67,7 +63,7 @@ class EndScreen extends Component {
     }
   };
 
-  _renderDefaultScreen = (progressBar, controlBar) => {
+  _renderDefaultScreen = () => {
     const endScreenConfig = this.props.config.endScreen || {};
 
     const replayMarginBottom = !this.props.config.controlBar.enabled ?

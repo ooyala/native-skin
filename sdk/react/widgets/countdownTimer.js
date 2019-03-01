@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import createReactClass from 'create-react-class';
 import {
 	requireNativeComponent,
@@ -14,33 +14,33 @@ var CountdownView = createReactClass({
   mixins: [NativeMethodsMixin],
 
   propTypes: {
-      ...View.propTypes,
+    ...View.propTypes,
 
-      time: PropTypes.number,
-  timeLeft: PropTypes.number,
-      radius: PropTypes.number,
-      fillColor: PropTypes.string,
-      fillAlpha: PropTypes.number,
-      strokeColor: PropTypes.string,
-      tapCancel: PropTypes.bool,
-  automatic: PropTypes.bool,
+    time: PropTypes.number,
+    timeLeft: PropTypes.number,
+    radius: PropTypes.number,
+    fillColor: PropTypes.string,
+    fillAlpha: PropTypes.number,
+    strokeColor: PropTypes.string,
+    tapCancel: PropTypes.bool,
+    automatic: PropTypes.bool,
 
-      onTimerUpdate: PropTypes.func,
-      onTimerCompleted: PropTypes.func,
-  onPress: PropTypes.func,
+    onTimerUpdate: PropTypes.func,
+    onTimerCompleted: PropTypes.func,
+    onPress: PropTypes.func,
   },
 
   getDefaultProps: function() {
-      return {
-    time: 10,
-    radius: 20,
-    fillColor: '#000000',
-    fillAlpha: 1.0,
-    strokeColor: '#ffffff',
-    tapCancel: false,
-    automatic: true,
-    timeLeft: 10,
-      };
+    return {
+      time: 10,
+      radius: 20,
+      fillColor: '#000000',
+      fillAlpha: 1.0,
+      strokeColor: '#ffffff',
+      tapCancel: false,
+      automatic: true,
+      timeLeft: 10,
+    };
   },
 
   getInitialState: function() {
@@ -50,35 +50,39 @@ var CountdownView = createReactClass({
   },
 
   _onTimerUpdate: function(event) {
-      this.props.onTimerUpdate && this.props.onTimerUpdate(event.nativeEvent);
+    this.props.onTimerUpdate && this.props.onTimerUpdate(event.nativeEvent);
   },
 
   _onTimerCompleted: function(event) {
-      this.props.onTimerCompleted && this.props.onTimerCompleted(event.nativeEvent);
+    this.props.onTimerCompleted && this.props.onTimerCompleted(event.nativeEvent);
   },
 
   _onPress: function() {
   if (this.props.tapCancel) {
     this.setState({canceled: true});
   }
-
-      this.props.onPress && this.props.onPress();
+    this.props.onPress && this.props.onPress();
   },
 
   renderCountdownView: function() {
-      return <NativeCountdownView
-          {...this.props}
-    canceled={this.state.canceled}
-          onTimerUpdate={this._onTimerUpdate}
-          onTimerCompleted={this._onTimerCompleted} />
+    return (
+      <NativeCountdownView
+        {...this.props}
+        canceled={this.state.canceled}
+        onTimerUpdate={this._onTimerUpdate}
+        onTimerCompleted={this._onTimerCompleted}>
+      </NativeCountdownView>
+    );
   },
 
   renderClickableView: function() {
-    return (<TouchableHighlight
-      underlayColor='transparent'
-      onPress={() => this._onPress()}>
-      {this.renderCountdownView()}
-    </TouchableHighlight>);
+    return (
+      <TouchableHighlight
+        underlayColor='transparent'
+        onPress={() => this._onPress()}>
+        {this.renderCountdownView()}
+      </TouchableHighlight>
+    );
   },
 
   render: function() {

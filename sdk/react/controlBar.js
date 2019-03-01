@@ -1,28 +1,25 @@
-'use strict';
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Platform,
   NativeModules
 } from 'react-native';
 
-const AndroidAccessibility = NativeModules.AndroidAccessibility;
-
 import {
   BUTTON_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
   UI_SIZES
 } from './constants';
-
 import CollapsingBarUtils from './collapsingBarUtils';
 import Log from './log';
 import Utils from './utils';
 import ControlBarWidget from './widgets/controlBarWidgets';
 import ResponsiveDesignManager from './responsiveDesignManager';
-const styles = Utils.getStyles(require('./style/controlBarStyles.json'));
+
+import controlBarStyles from './style/controlBarStyles.json';
+const styles = Utils.getStyles(controlBarStyles);
+const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
 class ControlBar extends Component {
   static propTypes = {
@@ -235,7 +232,7 @@ class ControlBar extends Component {
       },
     };
 
-    function _isVisible( item ) {
+    function _isVisible(item) {
       let visible = true;
       switch (item.name) {
         case BUTTON_NAMES.MORE:

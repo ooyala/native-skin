@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   ImageBackground,
@@ -14,15 +14,15 @@ import {
   BUTTON_NAMES,
   SCREEN_TYPES
 } from '../constants';
-
 import Utils from '../utils';
 import Log from '../log';
 import ResponsiveList from '../widgets/ResponsiveList';
 import CountdownView from '../widgets/countdownTimer';
 import CountdownViewAndroid from '../widgets/countdownTimerAndroid';
-import panelStyles from './style/panelStyles.json';
 
-const styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
+import panelStyles from './style/panelStyles.json';
+import discoveryPanelStyles from './style/discoveryPanelStyles.json';
+const styles = Utils.getStyles(discoveryPanelStyles);
 
 // TODO: read this from config.
 const animationDuration = 1000;
@@ -91,9 +91,9 @@ class DiscoveryPanel extends Component {
 
   onRowSelected = (row) => {
   	if (this.props.onRowAction) {
-        this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
-        this.setState({showCountdownTimer: false});
-        timerListenerAndroid.remove();
+      this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.setState({showCountdownTimer: false});
+      timerListenerAndroid.remove();
   	}
   };
 
@@ -125,15 +125,15 @@ class DiscoveryPanel extends Component {
   };
 
   render() {
-    var numOfRectsInRow = Math.floor(this.props.width / rectWidth);
-    var itemRect = {width: this.props.width / numOfRectsInRow, height: rectHeight};
-    var thumbnailStyle = (this.props.width > this.props.height) ? styles.thumbnailLandscape : styles.thumbnailPortrait;
-    var columnContainerStyle = (this.props.width > this.props.height) ? styles.columnContainerLandscape : styles.columnContainerPortrait;
+    const numOfRectsInRow = Math.floor(this.props.width / rectWidth);
+    const itemRect = {width: this.props.width / numOfRectsInRow, height: rectHeight};
+    const thumbnailStyle = (this.props.width > this.props.height) ? styles.thumbnailLandscape : styles.thumbnailPortrait;
+    const columnContainerStyle = (this.props.width > this.props.height) ? styles.columnContainerLandscape : styles.columnContainerPortrait;
 
     if (!this.state.impressionsFired) {
       Log.log("Firing Impressions for all " + this.props.dataSource.length + " discovery entries")
     }
-    var animationStyle = {opacity:this.state.opacity};
+    const animationStyle = {opacity:this.state.opacity};
     return (
       <Animated.View style={[panelStyles.panel, animationStyle]}>
         {this.renderHeader()}
@@ -148,8 +148,8 @@ class DiscoveryPanel extends Component {
   };
 
   renderList = (itemRect, thumbnailStyle, containerStyle) => {
-    var panelHeight = this.props.height - 40;
-    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+    const panelHeight = this.props.height - 40;
+    const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     if (this._isDiscoveryError()) {
       return (
         <ResponsiveList
@@ -242,15 +242,14 @@ class DiscoveryPanel extends Component {
   };
 
   renderHeader = () => {
-    var title;
     if (this.props.config.discoveryScreen.panelTitle) {
       if (this.props.config.discoveryScreen.panelTitle.imageUri && this.props.config.discoveryScreen.panelTitle.showImage) {
         return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.discoveryScreen.panelTitle.imageUri}} />);
       }
     }
 
-    title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
-    var panelIcon = this.props.config.icons.discovery.fontString;
+    const title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
+    const panelIcon = this.props.config.icons.discovery.fontString;
 
     // TO-DO for line (277-280) we can not change accessibility label value for text tags.
     // This ability is added in latest react native 0.46 onwards
@@ -276,16 +275,16 @@ class DiscoveryPanel extends Component {
   };
 
   renderError = () => {
-    var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
-    var errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
-    var errorFlexDirectionStyle = {flexDirection: "row"};
+    const errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
+    const errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
+    const errorFlexDirectionStyle = {flexDirection: "row"};
 
     if (this.props.width < widthThreshold) {
       errorFlexDirectionStyle = {flexDirection: "column"};
     }
 
-    var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
-    var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
+    const errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
+    const errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
     if (this._isDiscoveryError()) {
       return (
         <View style={[styles.panelErrorPanel, errorFlexDirectionStyle]}>

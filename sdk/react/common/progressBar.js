@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   StyleSheet
 } from 'react-native';
-import PropTypes from 'prop-types';
 
+import { 
+  VIEW_NAMES
+} from '../constants';
 import Log from '../log';
-import { VIEW_NAMES } from '../constants';
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/progressBarStyles.json'));
+import progressBarStyles from './style/progressBarStyles.json';
+const styles = Utils.getStyles(progressBarStyles);
 
 class ProgressBar extends Component {
   static propTypes = {

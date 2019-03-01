@@ -1,10 +1,10 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
 import {
@@ -15,7 +15,8 @@ import {
 import Utils from '../utils';
 import ItemSelectionScrollView from './ItemSelectionScrollView';
 
-const styles = Utils.getStyles(require('./style/AudioAndCCSelectionPanel'));
+import audioAndCCSelectionPanelStyles from './style/AudioAndCCSelectionPanel';
+const styles = Utils.getStyles(audioAndCCSelectionPanelStyles);
 const stringConstants = {
   undefinedLanguageTitle: "Undefined language",
   noLinguisticContentTitle: "No linguistic content",
@@ -23,7 +24,6 @@ const stringConstants = {
   audioHeaderViewSectionTitle: "Audio",
   subtitlesHeaderViewSectionTitle: "Subtitles"
 };
-
 const animationDuration = 1000;
 
 class AudioAndCCSelectionPanel extends Component {
@@ -57,7 +57,6 @@ class AudioAndCCSelectionPanel extends Component {
     ]).start();
   }
 
-
   onAudioTrackSelected = (name) => {
     const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
     const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
@@ -70,7 +69,6 @@ class AudioAndCCSelectionPanel extends Component {
       this.props.onSelectAudioTrack(originalName);
     }
   };
-
 
   onClosedCaptionsLanguageSelected = (name) => {
     const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
@@ -134,7 +132,6 @@ class AudioAndCCSelectionPanel extends Component {
     const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
 
     // Localize selected item
-
     let selectedLocalizedItem = this.props.selectedAudioTrackTitle;
     if (selectedLocalizedItem !== undefined) {
       selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
@@ -142,7 +139,6 @@ class AudioAndCCSelectionPanel extends Component {
     }
 
     // Localize other items
-
     const itemsWithLocalizedUndefinedLanguage = this.props.audioTracksTitles.map(function(item) {
       let localizedItem = item;
 

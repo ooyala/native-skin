@@ -1,10 +1,10 @@
-'use strict';
+import Log from './log';
 
-var ResponsiveDesignManager = {
+const ResponsiveDesignManager = {
 
   // Default threshold and multiplier
-  threshold: [320, 860],
-  multiplier: [0.7, 1, 1.2],
+  default_threshold: [320, 860],
+  default_multiplier: [0.7, 1, 1.2],
 
   /**
    * getSize takes the width and the threshold and returns an integer
@@ -15,13 +15,13 @@ var ResponsiveDesignManager = {
    * @returns {number}
    */
   getSize: function(width, threshold) {
-    var threshold = (threshold) ? threshold : this.threshold;
-    for(var i = 0; i < threshold.length; i++) {
-      if(width <= threshold[i]) {
+    const used_threshold = threshold ? threshold : this.default_threshold;
+    for (var i = 0; i < used_threshold.length; i++) {
+      if (width <= used_threshold[i]) {
         return parseInt(i);
       }
     }
-    return threshold.length;
+    return used_threshold.length;
   },
 
   /**
@@ -35,21 +35,24 @@ var ResponsiveDesignManager = {
    * @returns {number}
    */
   makeResponsiveMultiplier: function(width, baseSize, multiplier, threshold) {
-    var size = this.getSize(width, threshold);
-    var multipliers = (multiplier) ? multiplier : this.multiplier;
+    const size = this.getSize(width, threshold);
+    const multipliers = multiplier ? multiplier : this.default_multiplier;
 
-    if(typeof baseSize === "number" && typeof multipliers === "object" && multipliers.length > 0) {
-      if(size >= multipliers.length) {
-        console.log("Warning: No multiplier value available for size " + size + " in multiplier array [" + multipliers + "], falling back to the largest multiplier value available. Length of multiplier array should be one more than the length of the threshold array.");
+    if (typeof baseSize === "number" &&
+        typeof multipliers === "object" &&
+        multipliers.length > 0) {
+      if (size >= multipliers.length) {
+        Log.warn("Warning: No multiplier value available for size " + size + " in multiplier array [" + multipliers +
+        "], falling back to the largest multiplier value available. Length of multiplier array should be one more than the length of the threshold array.");
         return baseSize * multipliers[multipliers.length - 1];
       }
       return baseSize * multipliers[size];
     }
-    if(typeof baseSize !== "number") {
-      console.log("Warning: baseSize must be a number.");
+    if (typeof baseSize !== "number") {
+      Log.warn("Warning: baseSize must be a number.");
     }
-    if(typeof multipliers !== "object" || multipliers.length <= 0) {
-      console.log("Warning: multiplier must be a non empty array.");
+    if (typeof multipliers !== "object" || multipliers.length <= 0) {
+      Log.warn("Warning: multiplier must be a non empty array.");
     }
     return 0;
   },
@@ -64,16 +67,17 @@ var ResponsiveDesignManager = {
    * @returns {number}
    */
   makeResponsiveValues: function(width, values, threshold) {
-    var size = this.getSize(width, threshold);
+    const size = this.getSize(width, threshold);
 
-    if(typeof values === "object" && values.length > 0) {
-      if(size >= values.length) {
-        console.log("Warning: No value available for size " + size + " in values array [" + values + "], falling back to the largest value available. Length of values array should be one more than the length of the threshold array.");
+    if (typeof values === "object" && values.length > 0) {
+      if (size >= values.length) {
+        Log.warn("Warning: No value available for size " + size + " in values array [" + values + 
+        "], falling back to the largest value available. Length of values array should be one more than the length of the threshold array.");
         return values[values.length - 1];
       }
       return values[size];
     }
-    console.log("Warning: values must be a non empty array.");
+    Log.warn("Warning: values must be a non empty array.");
     return 0;
   },
 
@@ -83,89 +87,87 @@ var ResponsiveDesignManager = {
   TestSuite: {
 
     Assert: function() {
-      var b = arguments[0];
-      if( ! b ) {
-        throw new Error( 'ASSERTION FAILED: ' + JSON.stringify(arguments) );
+      const b = arguments[0];
+      if (!b) {
+        throw new Error('ASSERTION FAILED: ' + JSON.stringify(arguments));
       }
     },
     AssertStrictEquals: function() {
-      var o1 = arguments[0];
-      var o2 = arguments[1];
-      if( o1 !== o2 ) {
-        var errorMessage = 'ASSERTION FAILED: ' + JSON.stringify(o1) + ' !== ' + JSON.stringify(o2);
-        if( arguments.length > 2 ) {
+      const o1 = arguments[0];
+      const o2 = arguments[1];
+      if (o1 !== o2) {
+        let errorMessage = 'ASSERTION FAILED: ' + JSON.stringify(o1) + ' !== ' + JSON.stringify(o2);
+        if (arguments.length > 2) {
           errorMessage += " (" + JSON.stringify(Array.prototype.slice.call(arguments, 2)) + ")";
         }
-        throw new Error( errorMessage );
+        throw new Error(errorMessage);
       }
     },
 
     TestResponsive_multiplier_medium: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 200, responsive);
     },
 
     TestResponsive_multiplier_medium_default: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100);
+      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_small: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(100, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(100, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_small_border: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(200, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(200, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_large_border: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(800, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(800, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 200, responsive);
     },
 
     TestResponsive_multiplier_large: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 300, responsive);
     },
 
     TestResponsive_multiplier_overflow: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1], [200, 800]);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_values_medium: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200, 300, 400], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200, 300, 400], [200, 800]);
       this.AssertStrictEquals( responsive, 300, responsive );
     },
 
     TestResponsive_values_overflow: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200], [200, 800]);
       this.AssertStrictEquals( responsive, 200, responsive );
     },
 
     TestResponsive_values_empty_array: function() {
-      var responsive = ResponsiveDesignManager.makeResponsiveValues(500, [], [200, 800]);
+      const responsive = ResponsiveDesignManager.makeResponsiveValues(500, [], [200, 800]);
       this.AssertStrictEquals( responsive, 0, responsive );
     },
 
     Run: function() {
-      var keys = Object.keys( this ).sort();
-      for( var i = 0; i < keys.length; ++i ) {
-        var k = keys[i];
-        var isFunction = typeof(this[k]) == "function";
-        var isTest = k.indexOf("Test") == 0;
-        if( isFunction && isTest ) {
-          console.log( "+++", k );
-          this[k]();
-          console.log( "---",  k, "PASS!" );
+      const keys = Object.keys(this).sort();
+      for (let key of keys) {
+        const isFunction = typeof(this[key]) == "function";
+        const isTest = key.indexOf("Test") == 0;
+        if (isFunction && isTest) {
+          Log.log("+++", key);
+          this[key]();
+          Log.log("---", key, "PASS!");
         }
       }
-      console.log( "ran", keys.length, "tests." );
+      Log.log( "ran", keys.length, "tests." );
     }
   }
-
 };
 
 module.exports = ResponsiveDesignManager;

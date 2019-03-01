@@ -1,12 +1,14 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   View
 } from 'react-native';
 
 import Utils from '../utils';
-const styles = Utils.getStyles(require('./style/videoWaterMarkStyles.json'));
+
+import videoWaterMarkStyles from './style/videoWaterMarkStyles.json';
+const styles = Utils.getStyles(videoWaterMarkStyles);
 
 class VideoWaterMark extends Component {
   static propTypes = {

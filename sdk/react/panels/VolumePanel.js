@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   StyleSheet,
@@ -11,7 +11,8 @@ import {
 
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/VolumePanelStyles'));
+import volumePanelStyles from './style/VolumePanelStyles';
+const styles = Utils.getStyles(volumePanelStyles);
 const constants = {
   animationDuration: 1000,
   scrubberSize: 14,
@@ -70,7 +71,6 @@ class VolumePanel extends Component {
   };
 
   // Actions
-
   _panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (event, gestureState) => true,
     onStartShouldSetPanResponderCapture: (event, gestureState) => true,
@@ -120,7 +120,6 @@ class VolumePanel extends Component {
   };
 
   // Volume slider
-
   _touchPercent = (x) => {
     let percent = x / (this.state.sliderWidth);
 
@@ -160,7 +159,9 @@ class VolumePanel extends Component {
     const thumbStyle = this._thumbStyle();
 
     return (
-      <View pointerEvents='none' style={[thumbStyle, positionStyle]}/>
+      <View pointerEvents='none' 
+        style={[thumbStyle, positionStyle]}>
+      </View>
     );
   }
 
@@ -185,11 +186,11 @@ class VolumePanel extends Component {
             sliderHeight: event.nativeEvent.layout.height
           });
         }}>
-          <View pointerEvents='none' style={styles.slider}>
-            <View style={style.filled}/>
-            <View style={style.background}/>
-          </View>
-          {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
+        <View pointerEvents='none' style={styles.slider}>
+          <View style={style.filled}/>
+          <View style={style.background}/>
+        </View>
+        {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
       </View>
     );
   };
@@ -217,7 +218,6 @@ class VolumePanel extends Component {
       </Animated.View>
     );
   }
-
 }
 
 module.exports = VolumePanel;

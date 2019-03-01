@@ -1,23 +1,23 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   TouchableHighlight,
   Animated
 } from 'react-native';
 
-import SkipButton from './SkipButton'
 import {
   BUTTON_NAMES,
   VALUES
 } from '../constants';
-
+import SkipButton from './SkipButton'
 import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
 import timerForSkipButtons from 'react-native-timer';
 
 // Uses the rectbutton styles
-const styles = Utils.getStyles(require('./style/RectButtonStyles.json'));
+import rectButtonStyles from './style/RectButtonStyles.json';
+const styles = Utils.getStyles(rectButtonStyles);
 const PLAY = "play";
 const PAUSE = "pause";
 const FORWARD = "seekForward";
@@ -165,8 +165,8 @@ class VideoViewPlayPause extends Component {
         fontStyle={fontStyle}
         opacity={opacity}
         animate={animate}
-        buttonColor={buttonColor}
-      />
+        buttonColor={buttonColor}>
+      </SkipButton>
     );
   };
 

@@ -1,12 +1,13 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   ScrollView
 } from 'react-native';
 
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
+import itemSelectionScrollViewStyles from './style/ItemSelectionScrollViewStyles.json';
+const styles = Utils.getStyles(itemSelectionScrollViewStyles);
 
 class ItemSelectionList extends Component {
   static propTypes = {
@@ -18,7 +19,7 @@ class ItemSelectionList extends Component {
   renderItems = (items) => {
     if (typeof(items) !== "undefined") {
       const renderedItems = items.map((item, index) => (
-          this.props.itemRender(item, index)
+        this.props.itemRender(item, index)
       ));
       return (renderedItems);
     } else {

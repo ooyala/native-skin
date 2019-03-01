@@ -91,7 +91,6 @@ class OoyalaSkinBridgeListener {
   };
 
   onTimeChange(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
-    console.log('loglog ontimechange', e.playhead, " ", e.duration);
     this.skin.setState({
       playhead: e.playhead,
       duration: e.duration,

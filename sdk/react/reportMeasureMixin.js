@@ -1,25 +1,23 @@
-'use strict';
-
 import PropTypes from 'prop-types';
 import Log from './log';
 
-var ReportMeasureMixin = {
+const ReportMeasureMixin = {
   propTypes: {
     onMeasure: PropTypes.func,
   },
 
   componentDidMount: function() {
-    setTimeout( this._requestMeasure ); // per github issues & stackoverflow.
+    setTimeout(this._requestMeasure); // per github issues & stackoverflow.
   },
 
   _requestMeasure: function() {
-    Log.verbose( "_requestMeasure" );
-    this.refs.myself.measure( this._onMeasure );
+    Log.verbose("_requestMeasure");
+    this.refs.myself.measure(this._onMeasure);
   },
 
-  _onMeasure: function( ox, oy, width, height, px, py ) {
-    Log.verbose( "_onMeasure " + this.props.onMeasure );
-    this.props.onMeasure && this.props.onMeasure( ox, oy, width, height, px, py );
+  _onMeasure: function(ox, oy, width, height, px, py) {
+    Log.verbose("_onMeasure " + this.props.onMeasure);
+    this.props.onMeasure && this.props.onMeasure(ox, oy, width, height, px, py);
   },
 };
 

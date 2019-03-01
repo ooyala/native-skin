@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   ScrollView,
@@ -11,14 +11,14 @@ import {
 import {
   BUTTON_NAMES
 } from '../constants';
-
 import ToggleSwitch from '../widgets/ToggleSwitch';
 import Utils from '../utils';
 import ResponsiveList from '../widgets/ResponsiveList';
 import PreviewWidget from '../languageSelectionPreview';
-import panelStyles from './style/panelStyles';
 
-const styles = Utils.getStyles(require('./style/languageSelectionPanelStyles'));
+import panelStyles from './style/panelStyles';
+import languageSelectionPanelStyles from './style/languageSelectionPanelStyles';
+const styles = Utils.getStyles(languageSelectionPanelStyles);
 const animationDuration = 1000;
 
 class LanguageSelectionPanel extends Component {
@@ -71,21 +71,17 @@ class LanguageSelectionPanel extends Component {
     }
   };
 
-  onTouchEnd = (event) => {
-    // ignore.
-  };
-
   renderHeader = (hasCC) => {
-    var title = Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings);
-    var switchOnText = Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings);
-    var switchOffText = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
-    var panelIcon =  this.props.config.icons.cc.fontString;
+    let title = Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings);
+    let switchOnText = Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings);
+    let switchOffText = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
+    let panelIcon =  this.props.config.icons.cc.fontString;
 
-    var minimumWidthPanelIcon = 320;
-    var mediumWidthSwitchText = 360;
-    var fullWidthPanelIcon = 380;
+    const minimumWidthPanelIcon = 320;
+    const mediumWidthSwitchText = 360;
+    const fullWidthPanelIcon = 380;
 
-    var width = this.props.width;
+    const width = this.props.width;
 
     // ToggleSwitch without text + panelIcon + dismiss button
     if (width < minimumWidthPanelIcon) {
@@ -142,16 +138,16 @@ class LanguageSelectionPanel extends Component {
   };
 
   render() {
-    var hasCC = false;
+    let hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
     }
 
-    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+    const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
 
     // screen height - title - toggle switch - preview - option bar
-    var itemPanelHeight = this.props.height  - 30 - 30 - 60;
-    var animationStyle = {opacity:this.state.opacity};
+    const itemPanelHeight = this.props.height  - 30 - 30 - 60;
+    const animationStyle = {opacity: this.state.opacity};
 
     if (this.props.selectedLanguage) {
       var previewText =
@@ -191,7 +187,7 @@ class LanguageSelectionPanel extends Component {
   };
 
   renderItem = (item, itemId) => {
-    var itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
+    const itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
     return (
       <TouchableHighlight
         key={itemId}

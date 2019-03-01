@@ -1,5 +1,3 @@
-'use strict';
-
 import {
   VIEW_ACCESSIBILITY_NAMES,
   ACCESSIBILITY_ANNOUNCERS,

@@ -9,8 +9,8 @@ import {
 } from 'react-native';
 
 const {
-   OOReactSkinEventsEmitter,
-   OOReactSkinBridgeModuleMain
+  OOReactSkinEventsEmitter,
+  OOReactSkinBridgeModuleMain
  } = NativeModules;
 
 import {
@@ -18,7 +18,6 @@ import {
   SCREEN_TYPES,
   DESIRED_STATES
 } from './constants';
-
 import OoyalaSkinCore from './ooyalaSkinCore';
 
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);

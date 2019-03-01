@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   Text,
@@ -11,11 +11,11 @@ import {
   BUTTON_NAMES,
   CELL_TYPES
 } from '../constants';
-
 import ItemSelectionScrollView from './ItemSelectionScrollView';
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/PlaybackSpeedPanelStyles'));
+import playbackSpeedPanelStyles from './style/PlaybackSpeedPanelStyles';
+const styles = Utils.getStyles(playbackSpeedPanelStyles);
 const animationDuration = 1000;
 const constants = {
   headerViewSectionTitle: "Playback Speed",
@@ -27,7 +27,6 @@ const constants = {
 };
 
 class PlaybackSpeedPanel extends Component {
-
   static propTypes = {
     playbackSpeedRates: PropTypes.array,
     selectedPlaybackSpeedRate: PropTypes.string,
@@ -171,8 +170,7 @@ class PlaybackSpeedPanel extends Component {
         {this.renderPanelsContainerView()}
       </Animated.View>
     );
-  }
-
+  };
 }
 
 module.exports = PlaybackSpeedPanel;

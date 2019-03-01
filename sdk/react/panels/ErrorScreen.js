@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   TouchableHighlight,
@@ -11,12 +11,13 @@ import {
   ERROR_MESSAGE,
   BUTTON_NAMES,
 } from '../constants';
-
 import Log from '../log';
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
-const stylesAudio = Utils.getStyles(require('./style/errorScreenStylesAudio.json'));
+import errorScreenStyles from './style/errorScreenStyles.json';
+import errorScreenStylesAudio from './style/errorScreenStylesAudio.json';
+const styles = Utils.getStyles(errorScreenStyles);
+const stylesAudio = Utils.getStyles(errorScreenStylesAudio);
 
 class ErrorScreen extends Component {
   static propTypes = {
@@ -28,27 +29,27 @@ class ErrorScreen extends Component {
   };
 
   getTitle = () => {
-    var errorCode = -1;
+    let errorCode = -1;
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
     }
     const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle =
-      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={styles.title}>
         {localizedTitle}
-      </Text>);
+      </Text>
+    );
   };
 
   getTitleAudioOnly = () => {
     const title = "unplayable content error";
-    const localizedTitle =
-      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={stylesAudio.title}>
         {localizedTitle}
-      </Text>);
+      </Text>
+    );
   };
 
   getDescription = () => {
@@ -57,25 +58,25 @@ class ErrorScreen extends Component {
       const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
-      const localizedDescription =
-        Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+      const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
       Log.warn("ERROR: localized description:" + localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription}
-        </Text>);
+        </Text>
+      );
     }
     return null;
   };
 
   getDescriptionAudioOnly = () => {
     const description = "Reload your screen or try selecting different audio.";
-    const localizedDescription =
-      Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+    const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
     return (
       <Text style={stylesAudio.description}>
         {localizedDescription}
-      </Text>);
+      </Text>
+    );
   };
 
   render() {
@@ -106,7 +107,7 @@ class ErrorScreen extends Component {
           <Text style={stylesAudio.buttonText}>{moreDetailsText}</Text>
         </View>
       </TouchableHighlight>
-    )
+    );
   };
 }
 

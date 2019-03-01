@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
   Image,
@@ -22,9 +22,10 @@ import Log from '../log';
 import Utils from '../utils';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 import VideoWaterMark from '../widgets/videoWaterMark';
-import panelStyles from './style/panelStyles.json';
 
-const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+import panelStyles from './style/panelStyles.json';
+import videoViewStyles from './style/videoViewStyles.json';
+const styles = Utils.getStyles(videoViewStyles);
 
 class VideoView extends Component {
   static propTypes = {
@@ -72,10 +73,6 @@ class VideoView extends Component {
   };
 
   state = {};
-
-  componentWillReceiveProps(nextProps) {
-
-  }
 
   generateLiveObject = () => {
     if (this.props.live) {
@@ -149,34 +146,36 @@ class VideoView extends Component {
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
-    return (<BottomOverlay
-      width={this.props.width}
-      height={this.props.height}
-      primaryButton={!this.props.playing ? "play" : "pause"}
-      fullscreen={this.props.fullscreen}
-      cuePoints={this.props.cuePoints}
-      playhead={this.props.playhead}
-      duration={this.props.duration}
-      volume={this.props.volume}
-      live={this.generateLiveObject()}
-      onPress={(name) => this.handlePress(name)}
-      onScrub={(value) => this.handleScrub(value)}
-      handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-      showAudioAndCCButton={this.props.multiAudioEnabled || ccEnabled}
-      showPlaybackSpeedButton={this.props.playbackSpeedEnabled}
-      showWatermark={this.props.showWatermark}
-      isShow={show}
-      screenReaderEnabled={this.props.screenReaderEnabled}
-      stereoSupported={this.props.stereoSupported}
-      config={{
-        controlBar: this.props.config.controlBar,
-        buttons: this.props.config.buttons,
-        icons: this.props.config.icons,
-        live: this.props.config.live,
-        general: this.props.config.general,
-        selectedPlaybackSpeedRate: this.props.selectedPlaybackSpeedRate
-      }}
-    />);
+    return (
+      <BottomOverlay
+        width={this.props.width}
+        height={this.props.height}
+        primaryButton={!this.props.playing ? "play" : "pause"}
+        fullscreen={this.props.fullscreen}
+        cuePoints={this.props.cuePoints}
+        playhead={this.props.playhead}
+        duration={this.props.duration}
+        volume={this.props.volume}
+        live={this.generateLiveObject()}
+        onPress={(name) => this.handlePress(name)}
+        onScrub={(value) => this.handleScrub(value)}
+        handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
+        showAudioAndCCButton={this.props.multiAudioEnabled || ccEnabled}
+        showPlaybackSpeedButton={this.props.playbackSpeedEnabled}
+        showWatermark={this.props.showWatermark}
+        isShow={show}
+        screenReaderEnabled={this.props.screenReaderEnabled}
+        stereoSupported={this.props.stereoSupported}
+        config={{
+          controlBar: this.props.config.controlBar,
+          buttons: this.props.config.buttons,
+          icons: this.props.config.icons,
+          live: this.props.config.live,
+          general: this.props.config.general,
+          selectedPlaybackSpeedRate: this.props.selectedPlaybackSpeedRate
+        }}>
+      </BottomOverlay>
+    );
   };
 
   _renderPlaceholder = () => {
@@ -190,7 +189,8 @@ class VideoView extends Component {
         onTouchStart={(event) => this.props.handlers.handleVideoTouchStart(event)}
         onTouchMove={(event) => this.props.handlers.handleVideoTouchMove(event)}
         onTouchEnd={(event) => this._placeholderTapHandler(event)}>
-      </View>);
+      </View>
+    );
   };
 
   _renderBottom = () => {
@@ -210,7 +210,8 @@ class VideoView extends Component {
         style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end"}}>
         {watermark}
         {this._renderClosedCaptions()}
-      </View>);
+      </View>
+    );
   };
 
   _renderClosedCaptions = () => {
@@ -242,18 +243,21 @@ class VideoView extends Component {
       return null;
     }
 
-    return <UpNext
-      config={{
-        upNext: this.props.config.upNext,
-        icons: this.props.config.icons
-      }}
-      ad={this.props.ad}
-      playhead={this.props.playhead}
-      duration={this.props.duration}
-      nextVideo={this.props.nextVideo}
-      upNextDismissed={this.props.upNextDismissed}
-      onPress={(value) => this.handlePress(value)}
-      width={this.props.width}/>;
+    return (
+      <UpNext
+        config={{
+          upNext: this.props.config.upNext,
+          icons: this.props.config.icons
+        }}
+        ad={this.props.ad}
+        playhead={this.props.playhead}
+        duration={this.props.duration}
+        nextVideo={this.props.nextVideo}
+        upNextDismissed={this.props.upNextDismissed}
+        onPress={(value) => this.handlePress(value)}
+        width={this.props.width}>
+      </UpNext>
+    );
   };
 
   _renderPlayPause = (show) => {
@@ -319,7 +323,6 @@ class VideoView extends Component {
 
   _renderAdOverlay = () => {
     if (this.props.adOverlay == null) {
-
       return null;
     }
 
@@ -361,7 +364,8 @@ class VideoView extends Component {
             </TouchableHighlight>
           </View>
         </TouchableHighlight>
-      </View>);
+      </View>
+    );
   };
 
   _renderLoading = () => {
@@ -380,7 +384,8 @@ class VideoView extends Component {
       return (
         <ActivityIndicator
           style={loadingStyle}
-          size="large"/>
+          size="large">
+        </ActivityIndicator>
       );
     }
   };

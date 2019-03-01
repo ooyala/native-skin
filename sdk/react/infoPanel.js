@@ -1,12 +1,14 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View
 } from 'react-native';
 
 import Utils from './utils';
-const styles = Utils.getStyles(require('./style/infoPanelStyles.json'));
+
+import infoPanelStyles from './style/infoPanelStyles.json';
+const styles = Utils.getStyles(infoPanelStyles);
 
 class InfoPanel extends Component {
   static propTypes = {
@@ -32,7 +34,6 @@ class InfoPanel extends Component {
       </View>
     );
   }
-
 }
 
 module.exports = InfoPanel;

@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   View
@@ -8,12 +8,12 @@ import {
 import {
   BUTTON_NAMES
 } from '../constants';
-
 import Log from '../log';
 import CollapsingBarUtils from '../collapsingBarUtils';
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
+import moreOptionScreenStyles from './style/moreOptionScreenStyles.json';
+const styles = Utils.getStyles(moreOptionScreenStyles);
 const dismissButtonSize = 20;
 
 class MoreOptionScreen extends Component {

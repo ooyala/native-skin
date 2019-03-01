@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   ScrollView,
@@ -12,11 +12,11 @@ import {
   ERROR_MESSAGE,
   SAS_ERROR_CODES
 } from '../constants';
-
 import Log from '../log';
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/moreDetailsScreenStyles.json'));
+import moreDetailsScreenStyles from './style/moreDetailsScreenStyles.json';
+const styles = Utils.getStyles(moreDetailsScreenStyles);
 const dismissButtonSize = 20;
 
 class MoreDetailsScreen extends Component {
@@ -102,17 +102,17 @@ class MoreDetailsScreen extends Component {
   }
 
   _renderErrorTitle = () => {
-    var errorCode = -1;
+    let errorCode = -1;
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
     }
     const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle =
-      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={styles.title}>
         {localizedTitle}
-      </Text>);
+      </Text>
+    );
   };
 
   _renderErrorDescription = () => {
@@ -121,13 +121,13 @@ class MoreDetailsScreen extends Component {
       const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
-      const localizedDescription =
-        Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+      const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
       Log.warn("ERROR: localized description:" + localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription}
-        </Text>);
+        </Text>
+      );
     }
     return null;
   }

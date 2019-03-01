@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   View,
@@ -11,7 +11,6 @@ import {
   AUTOHIDE_DELAY,
   VALUES
 } from '../constants';
-
 import Log from '../log';
 import BottomOverlay from '../bottomOverlay';
 import AdBar from '../adBar';
@@ -19,7 +18,8 @@ import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
 import Utils from'../utils';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 
-const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
+import videoViewStyles from './style/videoViewStyles.json';
+const styles = Utils.getStyles(videoViewStyles);
 
 class AdPlaybackScreen extends Component {
   static propTypes = {
@@ -55,10 +55,14 @@ class AdPlaybackScreen extends Component {
   };
 
   state = {
-    showControls:true,
+    showControls: true,
   };
 
-  static defaultProps = {playhead: 0, buffered: 0, duration: 1};
+  static defaultProps = {
+    playhead: 0,
+    buffered: 0,
+    duration: 1
+  };
 
   generateLiveObject = () => {
     if (this.props.live) {
@@ -203,9 +207,10 @@ class AdPlaybackScreen extends Component {
 
   _renderAdIcons = () => {
     let iconViews = [];
-    for (const index in this.props.ad.icons) {
+    for (let index in this.props.ad.icons) {
       const icon = this.props.ad.icons[index];
-      if ((this.props.playhead < icon.offset) || (this.props.playhead > (icon.offset + icon.duration))) {
+      if (this.props.playhead < icon.offset ||
+          this.props.playhead > icon.offset + icon.duration) {
         continue;
       }
       const left = icon.x;

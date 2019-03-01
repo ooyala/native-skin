@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -13,14 +13,13 @@ import {
   STRING_CONSTANTS,
   VIEW_ACCESSIBILITY_NAMES
 } from '../constants';
-
 import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
 import VolumeView from './VolumeView';
 import SkipButton from './SkipButton';
-import Log from '../log';
 
-const styles = Utils.getStyles(require('./style/controlBarWidgetStyles.json'));
+import controlBarWidgetStyles from './style/controlBarWidgetStyles.json';
+const styles = Utils.getStyles(controlBarWidgetStyles);
 
 class controlBarWidget extends Component {
   static propTypes = {
@@ -80,8 +79,8 @@ class controlBarWidget extends Component {
         sizeStyle={sizeStyle}
         opacity={isForward ? options.opacity : opacity}
         animate={animate}
-        buttonColor={buttonColor}
-      />
+        buttonColor={buttonColor}>
+      </SkipButton>
     );
   };
 
@@ -129,7 +128,8 @@ class controlBarWidget extends Component {
           <Text style={options.style}>
             {options.durationString}
           </Text>
-        </TouchableHighlight>);
+        </TouchableHighlight>
+      );
     } else {
       const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
       const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;

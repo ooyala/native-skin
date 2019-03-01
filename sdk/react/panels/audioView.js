@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
@@ -12,7 +12,6 @@ import {
   UI_SIZES,
   VALUES
 } from '../constants';
-
 import CollapsingBarUtils from '../collapsingBarUtils';
 import Log from '../log';
 import ProgressBar from '../common/progressBar';
@@ -21,8 +20,10 @@ import ResponsiveDesignManager from '../responsiveDesignManager';
 import Utils from '../utils';
 import timerForSkipButtons from 'react-native-timer';
 
-const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
-const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
+import audioViewStyles from './style/audioViewStyles.json';
+import contBarStyles from '../style/controlBarStyles.json';
+const styles = Utils.getStyles(audioViewStyles);
+const controlBarStyles = Utils.getStyles(contBarStyles);
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
@@ -76,7 +77,6 @@ class AudioView extends Component {
   };
 
   // MARK: - Actions
-
   onPlayPausePress = () => {
     this.props.handlers.onPress(BUTTON_NAMES.PLAY_PAUSE);
   };
@@ -103,7 +103,9 @@ class AudioView extends Component {
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
     this.handleScrub(resultedPlayheadPercent);
 
-    if (this.props.onPlayComplete && skipCountValue < 0) { this.onPlayPausePress() }
+    if (this.props.onPlayComplete && skipCountValue < 0) { 
+      this.onPlayPausePress()
+    }
   };
 
   onMorePress = () => {
@@ -150,7 +152,6 @@ class AudioView extends Component {
   };
 
   // MARK: - Volume
-
   getVolumeControlColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.volumeControl.color) {
@@ -165,7 +166,6 @@ class AudioView extends Component {
   };
 
   // MARK: - Header view
-
   _renderHeaderView = () => {
     const titleLabel = <Text style={styles.titleLabel}>{this.props.title + ': '}</Text>
     const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>
@@ -182,7 +182,6 @@ class AudioView extends Component {
   };
 
   // MARK: - ControlBar
-
   _renderControlBar = () => {
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
     const labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
@@ -250,7 +249,6 @@ class AudioView extends Component {
     };
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
-
     for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
       const item =
@@ -279,7 +277,6 @@ class AudioView extends Component {
   };
 
   // MARK: - Progress bar + scrubber
-
   _calculateTopOffset = (componentSize, progressBarHeight) => {
     return progressBarHeight / 2 - componentSize / 2;
   };
@@ -489,7 +486,6 @@ class AudioView extends Component {
   };
 
   // MARK: - AudioView rendering
-
   _renderPlayer = () => {
     return (
       <View style={styles.container}>

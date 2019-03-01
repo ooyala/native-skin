@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Switch,
   Text,
@@ -8,7 +8,8 @@ import {
 
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/ToggleSwitchStyles.json'));
+import toggleSwitchStyles from './style/ToggleSwitchStyles.json';
+const styles = Utils.getStyles(toggleSwitchStyles);
 
 // Tint props only work for iOS.
 class ToggleSwitch extends Component {
@@ -38,21 +39,21 @@ class ToggleSwitch extends Component {
   };
 
   render() {
-    var onTextStyle = this.props.switchOn ? styles.highlightedText : styles.grayedText;
-    var offTextStyle = this.props.switchOn ? styles.grayedText : styles.highlightedText;
+    const onTextStyle = this.props.switchOn ? styles.highlightedText : styles.grayedText;
+    const offTextStyle = this.props.switchOn ? styles.grayedText : styles.highlightedText;
     return (
-        <View style={styles.container}>
-          <Text style={offTextStyle}>{this.props.switchOffText}</Text>
-            <Switch
-              style={{"width":50}}
-              value={this.props.switchOn}
-              onValueChange={this.onSwitchToggled}
-              disabled={!this.props.areClosedCaptionsAvailable}
-              onTintColor={this.getOnTintColor()}
-              tintColor={this.props.tintColor}
-              thumbTintColor={this.props.thumbTintColor}/>
-          <Text style={onTextStyle}>{this.props.switchOnText}</Text>
-        </View>
+      <View style={styles.container}>
+        <Text style={offTextStyle}>{this.props.switchOffText}</Text>
+          <Switch
+            style={{"width":50}}
+            value={this.props.switchOn}
+            onValueChange={this.onSwitchToggled}
+            disabled={!this.props.areClosedCaptionsAvailable}
+            onTintColor={this.getOnTintColor()}
+            tintColor={this.props.tintColor}
+            thumbTintColor={this.props.thumbTintColor}/>
+        <Text style={onTextStyle}>{this.props.switchOnText}</Text>
+      </View>
     );
   }
 }

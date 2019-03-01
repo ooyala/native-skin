@@ -1,18 +1,20 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   TouchableHighlight,
   Animated
 } from 'react-native';
 
-import { STRING_CONSTANTS } from '../constants';
+import { 
+  STRING_CONSTANTS
+} from '../constants';
 import AccessibilityUtils from '../accessibilityUtils';
 import Utils from '../utils';
 
-const styles = Utils.getStyles(require('./style/RectButtonStyles.json'));
+import rectButtonStyles from './style/RectButtonStyles.json';
+const styles = Utils.getStyles(rectButtonStyles);
 
 class SkipButton extends Component {
-
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
     isForward: PropTypes.bool.isRequired,

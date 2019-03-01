@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   View,
@@ -16,7 +16,6 @@ import {
   ANNOUNCER_TYPES,
   VIEW_ACCESSIBILITY_NAMES
 } from './constants';
-
 import AccessibilityUtils from './accessibilityUtils';
 import Log from './log';
 import Utils from './utils';
@@ -24,8 +23,9 @@ import ProgressBar from './common/progressBar';
 import ControlBar from './controlBar';
 import ResponsiveDesignManager from './responsiveDesignManager';
 
+import bottomOverlayStyles from './style/bottomOverlayStyles.json';
+const styles = Utils.getStyles(bottomOverlayStyles);
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
-const styles = Utils.getStyles(require('./style/bottomOverlayStyles.json'));
 
 const topMargin = 6;
 const leftMargin = 20;
@@ -40,7 +40,6 @@ const accessibilityDelay = 2000; // Workaround for accessibility announcing for 
 const accessibilityProgressDelay = 5000; // Workaround for accessibility announcing for Android.
 
 class BottomOverlay extends Component {
-
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
@@ -150,7 +149,7 @@ class BottomOverlay extends Component {
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
       </View>
-      );
+    );
   }
 
   getScrubberHandleColor() {
@@ -250,19 +249,19 @@ class BottomOverlay extends Component {
 
   _renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel) {
     return (
-            <Animated.View
-              testID={VIEW_NAMES.TIME_SEEK_BAR}
-              accessible={this.state.accessibilityEnabled}
-              accessibilityLabel={scrubberBarAccessibilityLabel}
-              importantForAccessibility="yes"
-              onTouchStart={(event) => this.handleTouchStart(event)}
-              onTouchMove={(event) => this.handleTouchMove(event)}
-              onTouchEnd={(event) => this.handleTouchEnd(event)}
-              style={styles.progressBarStyle}>
-              {this._renderProgressBar(playedPercent)}
-              {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-              {this._renderCuePoints(this.props.cuePoints)}
-            </Animated.View>
+      <Animated.View
+        testID={VIEW_NAMES.TIME_SEEK_BAR}
+        accessible={this.state.accessibilityEnabled}
+        accessibilityLabel={scrubberBarAccessibilityLabel}
+        importantForAccessibility="yes"
+        onTouchStart={(event) => this.handleTouchStart(event)}
+        onTouchMove={(event) => this.handleTouchMove(event)}
+        onTouchEnd={(event) => this.handleTouchEnd(event)}
+        style={styles.progressBarStyle}>
+        {this._renderProgressBar(playedPercent)}
+        {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+        {this._renderCuePoints(this.props.cuePoints)}
+      </Animated.View>
     );
   }
 
@@ -302,8 +301,8 @@ class BottomOverlay extends Component {
     let positionStyle;
     let cuePointView;
 
-    for (var i = 0; i < cuePoints.length; i++) {
-      var cuePoint = cuePoints[i];
+    for (let i = 0; i < cuePoints.length; i++) {
+      let cuePoint = cuePoints[i];
       leftOffset = this._calculateCuePointsLeftOffset(cuePoint, progressBarWidth);
       positionStyle = {top:topOffset, left:leftOffset};
       cuePointView = (
@@ -337,8 +336,8 @@ class BottomOverlay extends Component {
         stereoSupported={this.props.stereoSupported}
         showMoreOptionsButton={this.props.showMoreOptionsButton}
         showAudioAndCCButton={this.props.showAudioAndCCButton}
-        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}
-      />
+        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}>
+      </ControlBar>
     );
   }
 
@@ -429,13 +428,13 @@ class BottomOverlay extends Component {
 
   render() {
     if (this.props.config.controlBar.enabled || this.props.config.controlBar.enabled == null) {
-    var widthStyle = {width:this.props.width, opacity:this.state.opacity};
-        if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
-          return this.renderLiveWithoutDVR(widthStyle);
-        }
-        return this.renderDefault(widthStyle);
+    const widthStyle = {width:this.props.width, opacity:this.state.opacity};
+      if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
+        return this.renderLiveWithoutDVR(widthStyle);
+      }
+      return this.renderDefault(widthStyle);
     } else {
-        return null;
+      return null;
     }
   }
 }
