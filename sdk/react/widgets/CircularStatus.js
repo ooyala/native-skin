@@ -25,7 +25,7 @@ class CircularStatus extends Component {
 
     for (let i = 0; i < edges; i++) {
       const radians = i * segmentangle + (Math.PI/2);
-      const color = progress < i ? 'gray' : 'white' ;
+      const color = progress < i ? 'gray' : 'white';
       circleSegments.push(
         (<View style={{
           'position': 'absolute',

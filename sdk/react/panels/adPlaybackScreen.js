@@ -254,7 +254,16 @@ class AdPlaybackScreen extends Component {
       }
     }
 
-    if (!this.props.config.adScreen.showControlBar) {
+    if (this.props.config.adScreen.showControlBar) {
+      return (
+        <View style={styles.adContainer}>
+          {adBar}
+          {this._renderPlaceholder(adIcons)}
+          {this._renderPlayPause(shouldShowControls)}
+          {this._renderBottomOverlay(shouldShowControls)}
+        </View>
+      );
+    } else {
       let playButtonIfPaused;
       if (!this.props.playing) {
         playButtonIfPaused = this._renderPlayPause(shouldShowControls)
@@ -264,15 +273,6 @@ class AdPlaybackScreen extends Component {
           {adBar}
           {this._renderPlaceholder(adIcons)}
           {playButtonIfPaused}
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.adContainer}>
-          {adBar}
-          {this._renderPlaceholder(adIcons)}
-          {this._renderPlayPause(shouldShowControls)}
-          {this._renderBottomOverlay(shouldShowControls)}
         </View>
       );
     }

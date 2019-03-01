@@ -380,20 +380,7 @@ class OoyalaSkinPanelRenderer {
   };
 
   renderDiscoveryPanel() {
-    if (!this.skin.state.discoveryResults) {
-      return (
-        <DiscoveryPanel
-          config={{
-            discoveryScreen: this.skin.props.discoveryScreen,
-            icons: this.skin.props.icons,
-          }}
-          localizableStrings={this.skin.props.localization}
-          onDismiss={() => this.core.dismissOverlay()}
-          dataSource={[]}
-          screenType={this.skin.state.screenType}>
-        </DiscoveryPanel>
-      );
-    } else {
+    if (this.skin.state.discoveryResults) {
       return (
         <DiscoveryPanel
           config={{
@@ -407,6 +394,19 @@ class OoyalaSkinPanelRenderer {
           onRowAction={(info) => this.core.emitDiscoveryOptionChosen(info)}
           width={this.skin.state.width}
           height={this.skin.state.height}
+          screenType={this.skin.state.screenType}>
+        </DiscoveryPanel>
+      );
+    } else {
+      return (
+        <DiscoveryPanel
+          config={{
+            discoveryScreen: this.skin.props.discoveryScreen,
+            icons: this.skin.props.icons,
+          }}
+          localizableStrings={this.skin.props.localization}
+          onDismiss={() => this.core.dismissOverlay()}
+          dataSource={[]}
           screenType={this.skin.state.screenType}>
         </DiscoveryPanel>
       );

@@ -96,7 +96,7 @@ class ErrorScreen extends Component {
   };
 
   _renderMoreDetailsButton = () => {
-    if (!this.props.isAudioOnly) return null;
+    if (!this.props.isAudioOnly) { return null };
 
     const moreDetailsText = Utils.localizedString(this.props.locale, 'More Details', this.props.localizableStrings);
     return (

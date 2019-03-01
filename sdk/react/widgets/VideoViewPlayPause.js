@@ -206,9 +206,7 @@ class VideoViewPlayPause extends Component {
       left: leftOffset
     }
 
-    if (!this.props.showButton) {
-      return null;
-    } else {
+    if (this.props.showButton) {
       return (
         <View style={[positionStyle]}>
           <Animated.View style={[containerStyle]}>
@@ -218,6 +216,8 @@ class VideoViewPlayPause extends Component {
           </Animated.View>
         </View>
       );
+    } else {
+      return null;
     }
   }
 }

@@ -153,15 +153,15 @@ class AudioView extends Component {
 
   // MARK: - Volume
   getVolumeControlColor = () => {
-    if (!this.props.config.general.accentColor) {
-      if (!this.props.config.controlBar.volumeControl.color) {
+    if (this.props.config.general.accentColor) {
+      return this.props.config.general.accentColor;
+    } else {
+      if (this.props.config.controlBar.volumeControl.color) {
+        return this.props.config.controlBar.volumeControl.color;
+      } else {
         Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
         return '#4389FF';
-      } else {
-        return this.props.config.controlBar.volumeControl.color;
       }
-    } else {
-      return this.props.config.general.accentColor;
     }
   };
 
@@ -299,11 +299,11 @@ class AudioView extends Component {
   getScrubberHandleColor = () => {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
-    } else if (!this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
+    } else if (this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
+      return this.props.config.controlBar.scrubberBar.scrubberHandleColor;
+    } else {
       Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
       return '#4389FF';
-    } else {
-      return this.props.config.controlBar.scrubberBar.scrubberHandleColor ;
     }
   };
 
