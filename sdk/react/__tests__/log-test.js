@@ -1,8 +1,8 @@
-jest.dontMock( '../log.js' );
+jest.dontMock('../log.js');
 
-describe( 'Log Tests', function() {
+describe('Log Tests', function() {
 
-  var Log;
+  let Log;
 
   import {
     LOG_LEVEL,
@@ -12,7 +12,7 @@ describe( 'Log Tests', function() {
     Log = require('../log.js');
   });
 
-  it( 'Default Log is everything but verbose', function() {
+  it('Default Log is everything but verbose', function() {
     expect(Log.verbose('hello log')).toBe(false);
     expect(Log.log('hello log')).toBe(true);
     expect(Log.info('hello log')).toBe(true);
@@ -20,7 +20,7 @@ describe( 'Log Tests', function() {
     expect(Log.error('hello log')).toBe(true);
   });
 
-  it( 'VERBOSE Log is everything but verbose', function() {
+  it('VERBOSE Log is everything but verbose', function() {
     Log.setLogLevel(LOG_LEVEL.VERBOSE)
     expect(Log.verbose('hello log')).toBe(true);
     expect(Log.log('hello log')).toBe(true);
@@ -29,7 +29,7 @@ describe( 'Log Tests', function() {
     expect(Log.error('hello log')).toBe(true);
   });
 
-  it( 'ERROR Log is everything but verbose', function() {
+  it('ERROR Log is everything but verbose', function() {
     Log.setLogLevel(LOG_LEVEL.ERROR)
     expect(Log.verbose('hello log')).toBe(false);
     expect(Log.log('hello log')).toBe(false);
@@ -38,7 +38,7 @@ describe( 'Log Tests', function() {
     expect(Log.error('hello log')).toBe(true);
   });
 
-  it( 'NONE Log is everything but verbose', function() {
+  it('NONE Log is everything but verbose', function() {
     Log.setLogLevel(LOG_LEVEL.NONE)
     expect(Log.verbose('hello log')).toBe(false);
     expect(Log.log('hello log')).toBe(false);

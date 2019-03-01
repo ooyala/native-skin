@@ -1,4 +1,4 @@
-var ReactNative = {};
+let ReactNative = {};
 
 ReactNative.StyleSheet = {
 	create: function(styles) {
