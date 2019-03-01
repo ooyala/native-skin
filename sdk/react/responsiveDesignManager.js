@@ -15,7 +15,7 @@ const ResponsiveDesignManager = {
    * @returns {number}
    */
   getSize: function(width, threshold) {
-    const used_threshold = threshold ? threshold : this.default_threshold;
+    const used_threshold = threshold || this.default_threshold;
     for (let i = 0; i < used_threshold.length; i++) {
       if (width <= used_threshold[i]) {
         return parseInt(i);
@@ -36,7 +36,7 @@ const ResponsiveDesignManager = {
    */
   makeResponsiveMultiplier: function(width, baseSize, multiplier, threshold) {
     const size = this.getSize(width, threshold);
-    const multipliers = multiplier ? multiplier : this.default_multiplier;
+    const multipliers = multiplier || this.default_multiplier;
 
     if (typeof baseSize === 'number' &&
         typeof multipliers === 'object' &&

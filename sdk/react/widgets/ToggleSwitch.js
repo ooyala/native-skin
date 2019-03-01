@@ -35,7 +35,7 @@ class ToggleSwitch extends Component {
   };
 
   getOnTintColor = () => {
-    return this.props.config.general.accentColor ? this.props.config.general.accentColor : '#498DFC';
+    return this.props.config.general.accentColor || '#498DFC';
   };
 
   render() {

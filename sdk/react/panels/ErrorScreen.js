@@ -81,10 +81,10 @@ class ErrorScreen extends Component {
 
   render() {
     return (
-      <View style={!this.props.isAudioOnly ? styles.container : stylesAudio.container}>
-        <View style={!this.props.isAudioOnly ? styles.wrapper: stylesAudio.wrapper}>
-          {!this.props.isAudioOnly ? this.getTitle() : this.getTitleAudioOnly()}
-          {!this.props.isAudioOnly ? this.getDescription() : this.getDescriptionAudioOnly()}
+      <View style={this.props.isAudioOnly ? stylesAudio.container : styles.container}>
+        <View style={this.props.isAudioOnly ? stylesAudio.wrapper : styles.wrapper}>
+          {this.props.isAudioOnly ? this.getTitleAudioOnly() : this.getTitle()}
+          {this.props.isAudioOnly ? this.getDescriptionAudioOnly() : this.getDescription()}
           {this._renderMoreDetailsButton()}
         </View>
       </View>

@@ -150,7 +150,7 @@ class VideoView extends Component {
       <BottomOverlay
         width={this.props.width}
         height={this.props.height}
-        primaryButton={!this.props.playing ? 'play' : 'pause'}
+        primaryButton={this.props.playing ? 'pause' : 'play'}
         fullscreen={this.props.fullscreen}
         cuePoints={this.props.cuePoints}
         playhead={this.props.playhead}

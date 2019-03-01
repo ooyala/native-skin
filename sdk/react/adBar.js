@@ -36,8 +36,8 @@ class AdBar extends Component {
 
   generateResponsiveText = (showLearnMore, showSkip) => {
     let textString;
-    const count = this.props.ad.count ? this.props.ad.count : 1;
-    const unplayed = this.props.ad.unplayedCount ? this.props.ad.unplayedCount : 0;
+    const count = this.props.ad.count || 1;
+    const unplayed = this.props.ad.unplayedCount || 0;
 
     const remainingString = Utils.secondsToString(this.props.duration - this.props.playhead);
 

@@ -114,7 +114,7 @@ class VideoViewPlayPause extends Component {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state.playPause.animationOpacity};
     const animate = {transform: [{scale: this.state.playPause.animationScale}]};
-    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : 'white'};
+    const buttonColor = {color: this.props.buttonColor || 'white'};
     const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
     const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
 
@@ -146,7 +146,7 @@ class VideoViewPlayPause extends Component {
 
     let color = 'gray';
     if (active) {
-      color = !!this.props.buttonColor ? this.props.buttonColor : 'white';
+      color = this.props.buttonColor || 'white';
     }
     const buttonColor = {color: color};
 
