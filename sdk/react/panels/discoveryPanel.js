@@ -91,7 +91,7 @@ class DiscoveryPanel extends Component {
 
   onRowSelected = (row) => {
   	if (this.props.onRowAction) {
-      this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.props.onRowAction({action:'click', embedCode:row.embedCode, bucketInfo:row.bucketInfo});
       this.setState({showCountdownTimer: false});
       timerListenerAndroid.remove();
   	}
@@ -99,7 +99,7 @@ class DiscoveryPanel extends Component {
 
   onRowImpressed = (row) => {
     if (this.props.onRowAction && !this.state.impressionsFired) {
-      this.props.onRowAction({action:"impress", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.props.onRowAction({action:'impress', embedCode:row.embedCode, bucketInfo:row.bucketInfo});
     }
   };
 
@@ -131,7 +131,7 @@ class DiscoveryPanel extends Component {
     const columnContainerStyle = (this.props.width > this.props.height) ? styles.columnContainerLandscape : styles.columnContainerPortrait;
 
     if (!this.state.impressionsFired) {
-      Log.log("Firing Impressions for all " + this.props.dataSource.length + " discovery entries")
+      Log.log('Firing Impressions for all ' + this.props.dataSource.length + ' discovery entries')
     }
     const animationStyle = {opacity:this.state.opacity};
     return (
@@ -194,10 +194,10 @@ class DiscoveryPanel extends Component {
       <CountdownViewAndroid
         style={{width: 44, height: 44}}
         countdown={{
-          main_color:"#AAffffff",
-          secondary_color:"#AA808080",
-          fill_color:"#AA000000",
-          text_color:"#AAffffff",
+          main_color:'#AAffffff',
+          secondary_color:'#AA808080',
+          fill_color:'#AA000000',
+          text_color:'#AAffffff',
           stroke_width:10,
           text_size:75,
           max_time:this.state.counterTime,
@@ -248,7 +248,7 @@ class DiscoveryPanel extends Component {
       }
     }
 
-    const title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
+    const title = Utils.localizedString(this.props.locale, 'Discover', this.props.localizableStrings);
     const panelIcon = this.props.config.icons.discovery.fontString;
 
     // TO-DO for line (277-280) we can not change accessibility label value for text tags.
@@ -266,7 +266,7 @@ class DiscoveryPanel extends Component {
       </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
       <TouchableHighlight
-        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
+        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType='button'
         style = {[panelStyles.dismissButton]}
         onPress={this.onDismissPress}>
         <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
@@ -275,12 +275,12 @@ class DiscoveryPanel extends Component {
   };
 
   renderError = () => {
-    const errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
-    const errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
-    const errorFlexDirectionStyle = {flexDirection: "row"};
+    const errorTitleText = 'SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.';
+    const errorContentText = '(Try Clicking The Discover Button Again On Reload Your Page)';
+    const errorFlexDirectionStyle = {flexDirection: 'row'};
 
     if (this.props.width < widthThreshold) {
-      errorFlexDirectionStyle = {flexDirection: "column"};
+      errorFlexDirectionStyle = {flexDirection: 'column'};
     }
 
     const errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);

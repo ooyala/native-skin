@@ -25,7 +25,7 @@ class ItemSelectionScrollView extends Component {
   };
 
   isSelected = (name) => {
-    return name && name !== "" && name === this.props.selectedItem;
+    return name && name !== '' && name === this.props.selectedItem;
   };
 
   onSelected = (name) => {
@@ -38,7 +38,7 @@ class ItemSelectionScrollView extends Component {
     const isSelectedItem = this.isSelected(item);
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
-    const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
+    const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : '';
     const accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item);
 
     return (
@@ -47,7 +47,7 @@ class ItemSelectionScrollView extends Component {
         accessibilityLabel={accessibilityString}
         key={index}
         style={styles.item}
-        underlayColor="transparent" // Can't move this property to json styles file because it doesn't work
+        underlayColor='transparent' // Can't move this property to json styles file because it doesn't work
         onPress={() => this.onSelected(item)}>
         <View style={buttonStyle}>
           <View style={styles.selectedCheckmarkContainer}>

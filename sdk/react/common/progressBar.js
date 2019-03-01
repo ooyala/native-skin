@@ -25,7 +25,7 @@ class ProgressBar extends Component {
   getAdScrubberBarPlayedColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.adScrubberBar.playedColor) {
-        Log.error("controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
+        Log.error('controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
         return '#FF3F80';
       } else {
        return this.props.config.controlBar.adScrubberBar.playedColor;
@@ -38,7 +38,7 @@ class ProgressBar extends Component {
   getScrubberBarPlayedColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.scrubberBar.playedColor) {
-        Log.error("controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
+        Log.error('controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
         return '#4389FF';
       } else {
         return this.props.config.controlBar.scrubberBar.playedColor;
@@ -72,7 +72,7 @@ class ProgressBar extends Component {
       <View
         style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
-        importantForAccessibility="no-hide-descendants"
+        importantForAccessibility='no-hide-descendants'
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}>
           <View
             style={progressStyles.played}

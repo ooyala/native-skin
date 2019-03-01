@@ -11,12 +11,12 @@ const ReportMeasureMixin = {
   },
 
   _requestMeasure: function() {
-    Log.verbose("_requestMeasure");
+    Log.verbose('_requestMeasure');
     this.refs.myself.measure(this._onMeasure);
   },
 
   _onMeasure: function(ox, oy, width, height, px, py) {
-    Log.verbose("_onMeasure " + this.props.onMeasure);
+    Log.verbose('_onMeasure ' + this.props.onMeasure);
     this.props.onMeasure && this.props.onMeasure(ox, oy, width, height, px, py);
   },
 };

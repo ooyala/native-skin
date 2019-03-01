@@ -107,7 +107,7 @@ class CastDevicesScreen extends Component {
             renderRow={(rowData, sectionID, rowID, _) => this._renderItem(rowData, rowID, castButton, castButtonActive)}
           />
         </Animated.View>
-        <Text style={styles.title}>{"Remote playback"}</Text>
+        <Text style={styles.title}>{'Remote playback'}</Text>
         {dismissButtonRow}
       </Animated.View>
     );

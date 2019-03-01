@@ -463,7 +463,7 @@ class AudioView extends Component {
         {this._renderLiveCircle(isLive)}
         <View>
           <Text style={this.props.live ? styles.liveLabel : styles.progressBarTimeLabel}>
-            {this.props.live ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) : playHeadTime}</Text>
+            {this.props.live ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) : playHeadTime}</Text>
         </View>
         <Animated.View
           onLayout={(event) => {
@@ -479,7 +479,7 @@ class AudioView extends Component {
         </Animated.View>
         <View>
           <Text style={isLive ? styles.progressBarNoTimeLabel : styles.progressBarTimeLabel}>
-            {!this.props.live ? durationTime : isLive ? "- - : - -" : this.getLiveDurationString()}</Text>
+            {!this.props.live ? durationTime : isLive ? '- - : - -' : this.getLiveDurationString()}</Text>
         </View>
       </View>
     )

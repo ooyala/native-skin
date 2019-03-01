@@ -33,7 +33,7 @@ const leftMargin = 20;
 
 class OoyalaSkinPanelRenderer {
   constructor(ooyalaSkin, ooyalaCore) {
-    Log.log("OoyalaSkinPanelRenderer created");
+    Log.log('OoyalaSkinPanelRenderer created');
     this.skin = ooyalaSkin;
     this.core = ooyalaCore;
   }
@@ -374,7 +374,7 @@ class OoyalaSkinPanelRenderer {
       android: () => {
         this.core.bridge.shareTitle({ shareTitle: this.skin.state.title });
         this.core.bridge.shareUrl({ shareUrl: this.skin.state.hostedAtUrl });
-        this.core.bridge.onPress({ name: "Share" });
+        this.core.bridge.onPress({ name: 'Share' });
       }
     })();
   };

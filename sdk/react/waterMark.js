@@ -13,7 +13,7 @@ class WaterMark extends Component {
   	const waterMarkImage = (
 			<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
 				source={{uri: this.props.general.watermark.url}}
-				resizeMode="contain">
+				resizeMode='contain'>
 	    </Image>
   	);
 

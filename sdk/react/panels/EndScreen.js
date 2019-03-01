@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   ActivityIndicator,
@@ -50,10 +50,10 @@ class EndScreen extends Component {
   };
 
   handlePress = (name) => {
-    Log.verbose("VideoView Handle Press: " + name);
+    Log.verbose('VideoView Handle Press: ' + name);
     this.setState({lastPressedTime: new Date().getTime()});
     if (this.state.showControls) {
-      if (name === "LIVE") {
+      if (name === 'LIVE') {
         this.props.onScrub(1);
       } else {
         this.props.onPress(name);
@@ -76,9 +76,9 @@ class EndScreen extends Component {
       const fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replayButton = (
         <TouchableHighlight
-          accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType="button"
+          accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType='button'
           onPress={(name) => this.handleClick(BUTTON_NAMES.REPLAY)}
-          underlayColor="transparent"
+          underlayColor='transparent'
           activeOpacity={0.5}>
           <Text style={[styles.replayButton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
         </TouchableHighlight>
@@ -95,12 +95,12 @@ class EndScreen extends Component {
           source={{uri: this.props.promoUrl}}
           style={
             [styles.fullscreenContainer, {
-              position: "absolute",
+              position: 'absolute',
               top: 0,
               left: 0,
               width: this.props.width,
               height: this.props.height}]}
-          resizeMode="contain">
+          resizeMode='contain'>
         </Image>
         {infoPanel}
         <View style={[replayButtonLocation, {marginBottom: replayMarginBottom}]}>
@@ -122,7 +122,7 @@ class EndScreen extends Component {
     return (<BottomOverlay
       width={this.props.width}
       height={this.props.height}
-      primaryButton={"replay"}
+      primaryButton={'replay'}
       playhead={this.props.duration}
       duration={this.props.duration}
       volume={this.props.volume}
@@ -160,7 +160,7 @@ class EndScreen extends Component {
       return (
         <ActivityIndicator
           style={loadingStyle}
-          size="large"
+          size='large'
         />
       );
     }

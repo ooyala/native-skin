@@ -96,14 +96,14 @@ class StartScreen extends Component {
 
     let infoPanelLocation;
     switch (this.props.config.startScreen.infoPanelPosition) {
-      case "topLeft":
+      case 'topLeft':
         infoPanelLocation = styles.infoPanelNW;
         break;
-      case "bottomLeft":
+      case 'bottomLeft':
         infoPanelLocation = styles.infoPanelSW;
         break;
       default:
-        throw("Invalid infoPanel location " + this.props.config.startScreen.infoPanelPosition);
+        throw('Invalid infoPanel location ' + this.props.config.startScreen.infoPanelPosition);
     }
 
     return (
@@ -124,7 +124,7 @@ class StartScreen extends Component {
           style={fullscreen ?
             {position: 'absolute', top: 0, left: 0, width: this.props.width, height: this.props.height} :
             styles.promoImageSmall}
-          resizeMode="contain">
+          resizeMode='contain'>
         </Image>
       );
     }
@@ -137,7 +137,7 @@ class StartScreen extends Component {
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
              source={{uri: IMG_URLS.OOYALA_LOGO}}
-             resizeMode="contain">
+             resizeMode='contain'>
       </Image>
     );
   };
@@ -159,7 +159,7 @@ class StartScreen extends Component {
       <View
         reactTag={1}
         accessible={true}
-        accessibilityLabel={"Video player. Tap twice to play"}
+        accessibilityLabel={'Video player. Tap twice to play'}
         style={styles.container}
         onTouchEnd={(event) => this._tapHandler(event)}>
         {promoImage}

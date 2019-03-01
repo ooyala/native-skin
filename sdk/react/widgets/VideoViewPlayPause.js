@@ -18,10 +18,10 @@ import timerForSkipButtons from 'react-native-timer';
 // Uses the rectbutton styles
 import rectButtonStyles from './style/RectButtonStyles.json';
 const styles = Utils.getStyles(rectButtonStyles);
-const PLAY = "play";
-const PAUSE = "pause";
-const FORWARD = "seekForward";
-const BACKWARD = "seekBackward";
+const PLAY = 'play';
+const PAUSE = 'pause';
+const FORWARD = 'seekForward';
+const BACKWARD = 'seekBackward';
 
 class VideoViewPlayPause extends Component {
   static propTypes = {
@@ -114,7 +114,7 @@ class VideoViewPlayPause extends Component {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state.playPause.animationOpacity};
     const animate = {transform: [{scale: this.state.playPause.animationScale}]};
-    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
+    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : 'white'};
     const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
     const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
 
@@ -123,7 +123,7 @@ class VideoViewPlayPause extends Component {
         accessible={true}
         accessibilityLabel={label}
         onPress={() => this.onPress()}
-        underlayColor="transparent"
+        underlayColor='transparent'
         activeOpacity={this.props.opacity}
         importantForAccessibility={'yes'}
         style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
@@ -144,9 +144,9 @@ class VideoViewPlayPause extends Component {
     const opacity = {opacity: this.state.skipButtons.animationOpacity};
     const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
 
-    let color = "gray";
+    let color = 'gray';
     if (active) {
-      color = !!this.props.buttonColor ? this.props.buttonColor : "white";
+      color = !!this.props.buttonColor ? this.props.buttonColor : 'white';
     }
     const buttonColor = {color: color};
 

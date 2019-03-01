@@ -105,7 +105,7 @@ class OoyalaSkin extends Component {
      return (
        <ActivityIndicator
         style={styles.loading}
-        size="large"
+        size='large'
       />
     );
   };

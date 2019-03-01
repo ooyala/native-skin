@@ -25,7 +25,7 @@ class VideoWaterMark extends Component {
           <Image
             style={sizeStyle}
             source={{uri: waterMarkName}}
-            resizeMode="contain"/>
+            resizeMode='contain'/>
         </View>
       );
     };

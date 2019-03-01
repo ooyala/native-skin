@@ -17,7 +17,7 @@ class ItemSelectionList extends Component {
   };
 
   renderItems = (items) => {
-    if (typeof(items) !== "undefined") {
+    if (typeof(items) !== 'undefined') {
       const renderedItems = items.map((item, index) => (
         this.props.itemRender(item, index)
       ));
@@ -32,7 +32,7 @@ class ItemSelectionList extends Component {
     return (
       <ScrollView
         style={scrollViewStyle}
-        indicatorStyle={"white"} // Can't move this property to json styles file because it doesn't work
+        indicatorStyle={'white'} // Can't move this property to json styles file because it doesn't work
         horizontal={this.props.horizontal}
         directionalLockEnabled={true}>
           {this.renderItems(this.props.data)}

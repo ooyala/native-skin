@@ -198,7 +198,7 @@ class VolumePanel extends Component {
   _renderDismissButton = () => {
     return (
       <TouchableHighlight style={styles.dismissButton}
-        underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+        underlayColor='transparent' // Can't move this property to json style file because it doesn't works
         onPress={this.onDismissPress}>
           <Text style={styles.dismissIcon}>
             {this.props.config.icons.dismiss.fontString}

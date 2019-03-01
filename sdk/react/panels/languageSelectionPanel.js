@@ -72,9 +72,9 @@ class LanguageSelectionPanel extends Component {
   };
 
   renderHeader = (hasCC) => {
-    let title = Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings);
-    let switchOnText = Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings);
-    let switchOffText = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
+    let title = Utils.localizedString(this.props.config.locale, 'CC Options', this.props.config.localizableStrings);
+    let switchOnText = Utils.localizedString(this.props.config.locale, 'On', this.props.config.localizableStrings);
+    let switchOffText = Utils.localizedString(this.props.config.locale, 'Off', this.props.config.localizableStrings);
     let panelIcon =  this.props.config.icons.cc.fontString;
 
     const minimumWidthPanelIcon = 320;
@@ -85,23 +85,23 @@ class LanguageSelectionPanel extends Component {
 
     // ToggleSwitch without text + panelIcon + dismiss button
     if (width < minimumWidthPanelIcon) {
-      title = "";
-      switchOnText = "";
-      switchOffText = "";
+      title = '';
+      switchOnText = '';
+      switchOffText = '';
     }
     // ToggleSwitch with text + panelIcon + dismiss button
     else if (title.length > 10 && width < fullWidthPanelIcon) {
-      title = "";
+      title = '';
     }
     // ToggleSwitch without text + title + dismiss button
     else if (width < mediumWidthSwitchText) {
-      switchOnText = "";
-      switchOffText = "";
-      panelIcon = "";
+      switchOnText = '';
+      switchOffText = '';
+      panelIcon = '';
     }
     // ToggleSwitch with text + title + dismiss button
     else if (width < fullWidthPanelIcon) {
-      panelIcon = "";
+      panelIcon = '';
     }
     // TO-DO for line (136-140) we can not change accessibility label value for text tags.
     // This ability is added in latest react native 0.46 onwards
@@ -126,11 +126,11 @@ class LanguageSelectionPanel extends Component {
       </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
       <TouchableHighlight
-        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
-        style = {[panelStyles.dismissButton, {"paddingTop": 10, "paddingBottom": 0}]}
+        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType='button'
+        style = {[panelStyles.dismissButton, {'paddingTop': 10, 'paddingBottom': 0}]}
         onPress={this.onDismissPress}>
         <Text
-          style={[panelStyles.dismissIcon, {"paddingBottom": 0}]}>
+          style={[panelStyles.dismissIcon, {'paddingBottom': 0}]}>
           {this.props.config.icons.dismiss.fontString}
         </Text>
       </TouchableHighlight>
@@ -180,7 +180,7 @@ class LanguageSelectionPanel extends Component {
 
   getSelectedStyle = () => {
     if (this.props.config.general.accentColor) {
-      return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
+      return [styles.selectedButton, {'backgroundColor' : this.props.config.general.accentColor}];
     } else {
       return styles.selectedButton;
     }

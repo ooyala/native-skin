@@ -38,21 +38,21 @@ const ResponsiveDesignManager = {
     const size = this.getSize(width, threshold);
     const multipliers = multiplier ? multiplier : this.default_multiplier;
 
-    if (typeof baseSize === "number" &&
-        typeof multipliers === "object" &&
+    if (typeof baseSize === 'number' &&
+        typeof multipliers === 'object' &&
         multipliers.length > 0) {
       if (size >= multipliers.length) {
-        Log.warn("Warning: No multiplier value available for size " + size + " in multiplier array [" + multipliers +
-        "], falling back to the largest multiplier value available. Length of multiplier array should be one more than the length of the threshold array.");
+        Log.warn('Warning: No multiplier value available for size ' + size + ' in multiplier array [' + multipliers +
+        '], falling back to the largest multiplier value available. Length of multiplier array should be one more than the length of the threshold array.');
         return baseSize * multipliers[multipliers.length - 1];
       }
       return baseSize * multipliers[size];
     }
-    if (typeof baseSize !== "number") {
-      Log.warn("Warning: baseSize must be a number.");
+    if (typeof baseSize !== 'number') {
+      Log.warn('Warning: baseSize must be a number.');
     }
-    if (typeof multipliers !== "object" || multipliers.length <= 0) {
-      Log.warn("Warning: multiplier must be a non empty array.");
+    if (typeof multipliers !== 'object' || multipliers.length <= 0) {
+      Log.warn('Warning: multiplier must be a non empty array.');
     }
     return 0;
   },
@@ -69,15 +69,15 @@ const ResponsiveDesignManager = {
   makeResponsiveValues: function(width, values, threshold) {
     const size = this.getSize(width, threshold);
 
-    if (typeof values === "object" && values.length > 0) {
+    if (typeof values === 'object' && values.length > 0) {
       if (size >= values.length) {
-        Log.warn("Warning: No value available for size " + size + " in values array [" + values + 
-        "], falling back to the largest value available. Length of values array should be one more than the length of the threshold array.");
+        Log.warn('Warning: No value available for size ' + size + ' in values array [' + values + 
+        '], falling back to the largest value available. Length of values array should be one more than the length of the threshold array.');
         return values[values.length - 1];
       }
       return values[size];
     }
-    Log.warn("Warning: values must be a non empty array.");
+    Log.warn('Warning: values must be a non empty array.');
     return 0;
   },
 
@@ -98,7 +98,7 @@ const ResponsiveDesignManager = {
       if (o1 !== o2) {
         let errorMessage = 'ASSERTION FAILED: ' + JSON.stringify(o1) + ' !== ' + JSON.stringify(o2);
         if (arguments.length > 2) {
-          errorMessage += " (" + JSON.stringify(Array.prototype.slice.call(arguments, 2)) + ")";
+          errorMessage += ' (' + JSON.stringify(Array.prototype.slice.call(arguments, 2)) + ')';
         }
         throw new Error(errorMessage);
       }
@@ -157,15 +157,15 @@ const ResponsiveDesignManager = {
     Run: function() {
       const keys = Object.keys(this).sort();
       for (let key of keys) {
-        const isFunction = typeof(this[key]) == "function";
-        const isTest = key.indexOf("Test") == 0;
+        const isFunction = typeof(this[key]) == 'function';
+        const isTest = key.indexOf('Test') == 0;
         if (isFunction && isTest) {
-          Log.log("+++", key);
+          Log.log('+++', key);
           this[key]();
-          Log.log("---", key, "PASS!");
+          Log.log('---', key, 'PASS!');
         }
       }
-      Log.log( "ran", keys.length, "tests." );
+      Log.log( 'ran', keys.length, 'tests.' );
     }
   }
 };

@@ -135,8 +135,8 @@ const ERROR_MESSAGE = {
 
 const CELL_TYPES = {
   MULTI_AUDIO: 'multi_audio',
-  SUBTITLES: "subtitles",
-  PLAYBACK_SPEED_RATE: "playback_speed_rate"
+  SUBTITLES: 'subtitles',
+  PLAYBACK_SPEED_RATE: 'playback_speed_rate'
 };
 
 const VIEW_ACCESSIBILITY_NAMES = {
@@ -144,7 +144,7 @@ const VIEW_ACCESSIBILITY_NAMES = {
   VOLUME_VIEW: 'Volume view',
   MULTI_AUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
-  PLAYBACK_SPEED_CELL: "Playback speed cell. Tap twice to choose this playback speed rate",
+  PLAYBACK_SPEED_CELL: 'Playback speed cell. Tap twice to choose this playback speed rate',
   PROGRESS_BAR: 'Progress bar. ',
   PROGRESS_BAR_ANDROID_SPECIFIC: ' %.  Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
@@ -152,8 +152,8 @@ const VIEW_ACCESSIBILITY_NAMES = {
   BACKWARD_BUTTON: 'Backward button. Tap twice to seek backward',
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
-  PLAY_PAUSE_BUTTON: "button. Tap twice to",
-  PLAYBACK_SPEED_BUTTON: "Playback speed",
+  PLAY_PAUSE_BUTTON: 'button. Tap twice to',
+  PLAYBACK_SPEED_BUTTON: 'Playback speed',
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {

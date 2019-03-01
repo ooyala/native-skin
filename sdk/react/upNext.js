@@ -43,7 +43,7 @@ class UpNext extends Component {
     const upNextConfig = this.props.config.upNext || {};
     // TODO: Unit test this functionality, there're still some edge cases
     if (typeof upNextConfig.timeToShow === 'string') {
-      // Support old version of percentage (e.g. "80%")
+      // Support old version of percentage (e.g. '80%')
       if (upNextConfig.timeToShow.indexOf('%') >= 0) {
         return (this.props.duration - parseFloat(upNextConfig.timeToShow.slice(0,-1) / 100) * this.props.duration);
       } else if (isNaN(upNextConfig.timeToShow)) {

@@ -157,7 +157,7 @@ class controlBarWidget extends Component {
         testID={BUTTON_NAMES.DISCOVERY}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.DISCOVERY}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -251,7 +251,7 @@ class controlBarWidget extends Component {
         testID={BUTTON_NAMES.SHARE}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.SHARE}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -278,7 +278,7 @@ class controlBarWidget extends Component {
         testID={BUTTON_NAMES.STEREOSCOPIC}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.STEREOSCOPIC}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -296,7 +296,7 @@ class controlBarWidget extends Component {
         testID={BUTTON_NAMES.AUDIO_AND_CC}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.AUDIO_AND_CC}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -320,7 +320,7 @@ class controlBarWidget extends Component {
         testID={BUTTON_NAMES.PLAYBACK_SPEED}
         accessible={true}
         accessibilityLabel={accessibilityLabel}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style]}>

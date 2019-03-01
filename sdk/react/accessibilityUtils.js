@@ -11,28 +11,28 @@ class AccessibilityUtils {
   static createAccessibilityLabelForCell(cellType, param) {
     switch (cellType) {
       case CELL_TYPES.MULTI_AUDIO:
-        return param + " " + VIEW_ACCESSIBILITY_NAMES.MULTI_AUDIO_CELL;
+        return param + ' ' + VIEW_ACCESSIBILITY_NAMES.MULTI_AUDIO_CELL;
       case CELL_TYPES.SUBTITLES:
-        return param + " " + VIEW_ACCESSIBILITY_NAMES.CC_CELL;
+        return param + ' ' + VIEW_ACCESSIBILITY_NAMES.CC_CELL;
       case CELL_TYPES.PLAYBACK_SPEED_RATE:
-        return param + " " + VIEW_ACCESSIBILITY_NAMES.PLAYBACK_SPEED_CELL;
+        return param + ' ' + VIEW_ACCESSIBILITY_NAMES.PLAYBACK_SPEED_CELL;
       default:
-        return "";
+        return '';
     }
   }
 
   static createAccessibilityLabelForSelectedObject(selectedObject) {
-    return ACCESSIBILITY_COMMON.SELECTED + " " + selectedObject;
+    return ACCESSIBILITY_COMMON.SELECTED + ' ' + selectedObject;
   }
 
   static createAccessibilityAnnouncers(announcerType, param) {
     switch (announcerType) {
       case ANNOUNCER_TYPES.MOVING:
-        return ACCESSIBILITY_ANNOUNCERS.PROGRESS_BAR_MOVING + param + " %";
+        return ACCESSIBILITY_ANNOUNCERS.PROGRESS_BAR_MOVING + param + ' %';
       case ANNOUNCER_TYPES.MOVED:
-        return ACCESSIBILITY_ANNOUNCERS.PROGRESS_BAR_MOVED + param + " %";
+        return ACCESSIBILITY_ANNOUNCERS.PROGRESS_BAR_MOVED + param + ' %';
       default:
-        return "";
+        return '';
     }
   }
 

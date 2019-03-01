@@ -9,7 +9,7 @@ import Utils from '../utils';
 
 import responsiveListStyles from './style/ResponsiveListStyles.json';
 const styles = Utils.getStyles(responsiveListStyles);
-const placeHolderItem = "ResponsiveListPlaceHolder";
+const placeHolderItem = 'ResponsiveListPlaceHolder';
 
 class ResponsiveList extends Component {
   static propTypes = {
@@ -86,7 +86,7 @@ class ResponsiveList extends Component {
   renderItem = (item, sectionId, i) => {
     const placeHolderStyle = {
       flex: 1,
-      backgroundColor: "transparent",
+      backgroundColor: 'transparent',
       width:this.props.itemWidth,
       height: this.props.itemHeight
     };

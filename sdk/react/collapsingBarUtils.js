@@ -8,7 +8,7 @@ const constants = {
 
 const CollapsingBarUtils = {
   // @param barWidth numeric.
-  // @param orderedItems array of left to right ordered items. Each item meets the skin's "button" schema.
+  // @param orderedItems array of left to right ordered items. Each item meets the skin's 'button' schema.
   // @return {fit:[items that fit in the barWidth], overflow:[items that did not fit]}.
   // Note: items which do not meet the item spec will be removed and not appear in the results.
   collapse: function(barWidth, orderedItems) {

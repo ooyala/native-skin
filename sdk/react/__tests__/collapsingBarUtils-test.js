@@ -7,14 +7,14 @@ describe( 'Collapsing Bar Utils', function() {
   // _F means 'fixed' or 'featured' (old terminology): not collapsible.
   // _C means 'collapsible' (which can be overflow or just disappear).
   var data = {
-    B1_Fixed100 : 	{name : "b1", location : "controlBar",	whenDoesNotFit : "keep", minWidth : 100},
-    B2_Fixed1 : 		{name : "b2", location : "controlBar",	whenDoesNotFit : "keep", minWidth : 1},
-    B3_Fixed1 : 		{name : "b3", location : "controlBar",	whenDoesNotFit : "keep", minWidth : 1},
-    B4_Collapsing100 : 	{name : "b4", location : "controlBar",	whenDoesNotFit : "moveToMoreOptions", minWidth : 100},
-    B5_Collapsing1 : 		{name : "b5", location : "controlBar",	whenDoesNotFit : "moveToMoreOptions", minWidth : 1},
-    B6_Collapsing1 : 		{name : "b6", location : "controlBar",	whenDoesNotFit : "moveToMoreOptions", minWidth : 1},
-    B7_MoreOptions100:  {name : "b7", location : "moreOptions", minWidth : 100},
-    B8_None100:     {name : "b7", location : "", minWidth : 100},
+    B1_Fixed100 : 	{name : 'b1', location : 'controlBar',	whenDoesNotFit : 'keep', minWidth : 100},
+    B2_Fixed1 : 		{name : 'b2', location : 'controlBar',	whenDoesNotFit : 'keep', minWidth : 1},
+    B3_Fixed1 : 		{name : 'b3', location : 'controlBar',	whenDoesNotFit : 'keep', minWidth : 1},
+    B4_Collapsing100 : 	{name : 'b4', location : 'controlBar',	whenDoesNotFit : 'moveToMoreOptions', minWidth : 100},
+    B5_Collapsing1 : 		{name : 'b5', location : 'controlBar',	whenDoesNotFit : 'moveToMoreOptions', minWidth : 1},
+    B6_Collapsing1 : 		{name : 'b6', location : 'controlBar',	whenDoesNotFit : 'moveToMoreOptions', minWidth : 1},
+    B7_MoreOptions100:  {name : 'b7', location : 'moreOptions', minWidth : 100},
+    B8_None100:     {name : 'b7', location : '', minWidth : 100},
   };
 
   beforeEach(function() {
@@ -143,23 +143,23 @@ describe( 'Collapsing Bar Utils', function() {
   });
 
   it( 'TestFit_discardInvalidItem_overflow', function() {
-    var results = CollapsingBarUtils.collapse( 100, [{name:"b1", appearance:"controlBar"}] );
+    var results = CollapsingBarUtils.collapse( 100, [{name:'b1', appearance:'controlBar'}] );
     expect( results.overflow.length ).toBe( 0 );
   });
 
   it( 'TestFit_discardInvalidItem_fit', function() {
-    var results = CollapsingBarUtils.collapse( 100, [{name:"b1", appearance:"controlBar"}] );
+    var results = CollapsingBarUtils.collapse( 100, [{name:'b1', appearance:'controlBar'}] );
     expect( results.fit.length ).toBe( 0 );
   });
 
   it( 'TestFit_discardInvalidItemsInZeroSpace', function() {
-    var results = CollapsingBarUtils.collapse( 0, [data.B2_Fixed1, {name:"b1", appearance:"controlBar"}] );
+    var results = CollapsingBarUtils.collapse( 0, [data.B2_Fixed1, {name:'b1', appearance:'controlBar'}] );
     expect( results.fit.length ).toBe( 1 );
   });
 
   it( 'TestFit_variousEdgeCasesDoNotExplode', function() {
     var sizes = [undefined, null, -1, 0, -4096, 4096];
-    var items = [undefined, null, [], ["foo"]];
+    var items = [undefined, null, [], ['foo']];
     for( var si = 0; si < sizes.length; ++si ) {
       for( var ii = 0; ii < items.length; ++ii ) {
         // not saying it returns anything sane, just doesn't die.

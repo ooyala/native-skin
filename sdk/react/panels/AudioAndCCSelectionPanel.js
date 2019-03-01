@@ -18,11 +18,11 @@ import ItemSelectionScrollView from './ItemSelectionScrollView';
 import audioAndCCSelectionPanelStyles from './style/AudioAndCCSelectionPanel';
 const styles = Utils.getStyles(audioAndCCSelectionPanelStyles);
 const stringConstants = {
-  undefinedLanguageTitle: "Undefined language",
-  noLinguisticContentTitle: "No linguistic content",
-  offButtonTitle: "Off",
-  audioHeaderViewSectionTitle: "Audio",
-  subtitlesHeaderViewSectionTitle: "Subtitles"
+  undefinedLanguageTitle: 'Undefined language',
+  noLinguisticContentTitle: 'No linguistic content',
+  offButtonTitle: 'Off',
+  audioHeaderViewSectionTitle: 'Audio',
+  subtitlesHeaderViewSectionTitle: 'Subtitles'
 };
 const animationDuration = 1000;
 
@@ -74,7 +74,7 @@ class AudioAndCCSelectionPanel extends Component {
     const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
 
     if (name === offButtonLocalizedTitle) {
-      this.props.onSelectClosedCaptions("");
+      this.props.onSelectClosedCaptions('');
     } else if (this.props.selectedClosedCaptionsLanguage !== name) {
       this.props.onSelectClosedCaptions(name);
     }
@@ -96,14 +96,14 @@ class AudioAndCCSelectionPanel extends Component {
        rightTitle = localizedSubtitlesTitle;
     } else if (hasMultiAudioTracks) {
       leftTitle = localizedAudioTitle;
-      rightTitle = "";
+      rightTitle = '';
     } else {
       leftTitle = localizedSubtitlesTitle;
-      rightTitle = "";
+      rightTitle = '';
     }
 
-    const isLeftTitleAccessible = !(leftTitle === "");
-    const isRightTitleAccessible = !(rightTitle === "");
+    const isLeftTitleAccessible = !(leftTitle === '');
+    const isRightTitleAccessible = !(rightTitle === '');
 
     return (
       <View style={styles.panelHeaderView}>
@@ -115,8 +115,8 @@ class AudioAndCCSelectionPanel extends Component {
           <TouchableHighlight style={styles.dismissButton}
             accessible={true}
             accessibilityLabel={BUTTON_NAMES.DISMISS}
-            accessibilityComponentType="button"
-            underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+            accessibilityComponentType='button'
+            underlayColor='transparent' // Can't move this property to json style file because it doesn't works
             onPress={this.onDismissPress}>
             <Text style={styles.dismissIcon}>
               {this.props.config.icons.dismiss.fontString}
@@ -163,13 +163,13 @@ class AudioAndCCSelectionPanel extends Component {
   renderCCSelectionScrollView = () => {
     const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
     let selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
-    if (typeof(this.props.closedCaptionsLanguages) !== "undefined") {
+    if (typeof(this.props.closedCaptionsLanguages) !== 'undefined') {
       if (!this.props.closedCaptionsLanguages || this.props.closedCaptionsLanguages[0] !== offButtonTitle) {
         this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle)
       }
     }
 
-    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === "" || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
+    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === '' || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
       selectedClosedCaptionsLanguage = offButtonTitle;
     }
 

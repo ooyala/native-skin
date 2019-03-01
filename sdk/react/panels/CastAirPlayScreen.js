@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
     Modal,
     TouchableHighlight,
@@ -14,7 +14,7 @@ class CastAirPlayScreen extends Component {
     return (
       <View style={{marginTop: 22}}>
         <Modal
-          animationType="slide"
+          animationType='slide'
           transparent={false}
           visible={this.state.modalVisible}
           onRequestClose={() => {

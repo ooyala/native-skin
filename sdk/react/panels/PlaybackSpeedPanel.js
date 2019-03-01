@@ -18,12 +18,12 @@ import playbackSpeedPanelStyles from './style/PlaybackSpeedPanelStyles';
 const styles = Utils.getStyles(playbackSpeedPanelStyles);
 const animationDuration = 1000;
 const constants = {
-  headerViewSectionTitle: "Playback Speed",
-  normalPlaybackSpeedRateTitle: "Normal",
+  headerViewSectionTitle: 'Playback Speed',
+  normalPlaybackSpeedRateTitle: 'Normal',
   normalPlaybackSpeedRateValue: 1.0,
   maxPlaybackSpeedRateValue: 2.0,
   minPlaybackSpeedRateValue: 0.5,
-  playbackSpeedRatePostfix: "x"
+  playbackSpeedRatePostfix: 'x'
 };
 
 class PlaybackSpeedPanel extends Component {
@@ -85,8 +85,8 @@ class PlaybackSpeedPanel extends Component {
         <TouchableHighlight style={styles.dismissButton}
                             accessible={true}
                             accessibilityLabel={BUTTON_NAMES.DISMISS}
-                            accessibilityComponentType="button"
-                            underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+                            accessibilityComponentType='button'
+                            underlayColor='transparent' // Can't move this property to json style file because it doesn't works
                             onPress={this.onDismissPress}>
           <Text style={styles.dismissIcon}>
             {this.props.config.icons.dismiss.fontString}

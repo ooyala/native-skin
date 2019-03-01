@@ -103,7 +103,7 @@ class OoyalaSkin extends Component {
       <ActivityIndicator
         style={styles.loading}
         animating={true}
-        size="large"
+        size='large'
     />);
   };
 

@@ -15,7 +15,7 @@ class Log {
         level = l;
         break;
       default:
-        console.error("Invalid Warning Level: " + l);
+        console.error('Invalid Warning Level: ' + l);
         break;
     }
   }
@@ -62,7 +62,7 @@ class Log {
 
   static assertTrue(condition, msg) {
     if (condition) {
-      error("ASSERT FAILED: ", msg);
+      error('ASSERT FAILED: ', msg);
     }
   }
 };

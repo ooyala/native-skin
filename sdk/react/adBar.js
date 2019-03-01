@@ -41,22 +41,22 @@ class AdBar extends Component {
 
     const remainingString = Utils.secondsToString(this.props.duration - this.props.playhead);
 
-    let prefixString = Utils.localizedString(this.props.locale, "Ad Playing", this.props.localizableStrings);
+    let prefixString = Utils.localizedString(this.props.locale, 'Ad Playing', this.props.localizableStrings);
     if (this.props.ad.title && this.props.ad.title.length > 0) {
-      prefixString = prefixString + ":";
+      prefixString = prefixString + ':';
     }
 
-    const countString = "(" + (count - unplayed) + "/" + count + ")";
+    const countString = '(' + (count - unplayed) + '/' + count + ')';
 
     let allowedTextLength = this.props.width - 32;
     if (showLearnMore) {
       allowedTextLength -= this.props.ad.measures.learnmore + 32;
     }
 
-    Log.verbose("width: " + this.props.width + ". allowed: " + allowedTextLength + 
-                ". learnmore: " + this.props.ad.measures.learnmore);
-    Log.verbose(". duration: " + this.props.ad.measures.duration + ". count: " + this.props.ad.measures.count + 
-                ". title: " + this.props.ad.measures.title + ". prefix: " + this.props.ad.measures.prefix);
+    Log.verbose('width: ' + this.props.width + '. allowed: ' + allowedTextLength + 
+                '. learnmore: ' + this.props.ad.measures.learnmore);
+    Log.verbose('. duration: ' + this.props.ad.measures.duration + '. count: ' + this.props.ad.measures.count + 
+                '. title: ' + this.props.ad.measures.title + '. prefix: ' + this.props.ad.measures.prefix);
     if (this.props.ad.skipoffset >= 0) {
       if (showSkip) {
         allowedTextLength -= this.props.ad.measures.skipad + 32;
@@ -68,15 +68,15 @@ class AdBar extends Component {
     if (this.props.ad.measures.duration <= allowedTextLength) {
       textString = remainingString;
       allowedTextLength -= this.props.ad.measures.duration;
-      Log.verbose("allowedAfterDuration: "+allowedTextLength);
+      Log.verbose('allowedAfterDuration: '+allowedTextLength);
       if (this.props.ad.measures.count <= allowedTextLength) {
         textString = countString + textString;
         allowedTextLength -= this.props.ad.measures.count;
-        Log.verbose("allowedAfterCount: "+allowedTextLength);
+        Log.verbose('allowedAfterCount: '+allowedTextLength);
         if (this.props.ad.measures.title <= allowedTextLength) {
           textString = this.props.ad.title + textString;
           allowedTextLength -= this.props.ad.measures.title;
-          Log.verbose("allowedAfterTitle: "+allowedTextLength);
+          Log.verbose('allowedAfterTitle: '+allowedTextLength);
           if (this.props.ad.measures.prefix <= allowedTextLength) {
             textString = prefixString + textString;
           }
@@ -91,12 +91,12 @@ class AdBar extends Component {
     const showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
     const showSkip = this.props.playhead >= this.props.ad.skipoffset;
     const textString = this.generateResponsiveText(showLearnMore, showSkip);
-    const learnMoreText = Utils.localizedString(this.props.locale, "Learn More", this.props.localizableStrings);
+    const learnMoreText = Utils.localizedString(this.props.locale, 'Learn More', this.props.localizableStrings);
 
     let skipButton;
     let skipLabel;
-    const skipLabelText = Utils.localizedString(this.props.locale, "Skip Ad in ", this.props.localizableStrings);
-    const skipText = Utils.localizedString(this.props.locale, "Skip Ad", this.props.localizableStrings);
+    const skipLabelText = Utils.localizedString(this.props.locale, 'Skip Ad in ', this.props.localizableStrings);
+    const skipText = Utils.localizedString(this.props.locale, 'Skip Ad', this.props.localizableStrings);
 
     if (showLearnMore) {
       learnMoreButton = (

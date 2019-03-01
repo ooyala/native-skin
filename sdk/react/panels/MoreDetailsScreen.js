@@ -91,7 +91,7 @@ class MoreDetailsScreen extends Component {
           style={[animationStyle, {height: this.props.height, width: this.props.width}]}>
           <ScrollView
             style={[styles.column, styles.scrollContainer]}
-            indicatorStyle={"white"}>
+            indicatorStyle={'white'}>
             {this._renderErrorTitle()}
             {this._renderErrorDescription()}
           </ScrollView>
@@ -122,7 +122,7 @@ class MoreDetailsScreen extends Component {
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
       const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-      Log.warn("ERROR: localized description:" + localizedDescription);
+      Log.warn('ERROR: localized description:' + localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription}

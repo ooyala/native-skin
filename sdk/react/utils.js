@@ -96,16 +96,16 @@ const Utils = {
     let mm = date.getUTCMinutes();
     let ss = date.getSeconds();
     if (ss < 10) {
-      ss = "0" + ss;
+      ss = '0' + ss;
     }
     if (mm == 0) {
-      mm = "00";
+      mm = '00';
     } else if (mm < 10) {
-      mm = "0" + mm;
+      mm = '0' + mm;
     }
-    let t = mm + ":" + ss;
+    let t = mm + ':' + ss;
     if (hh > 0) {
-      t = hh + ":" + t;
+      t = hh + ':' + t;
     }
     return minus + t;
   },
@@ -145,103 +145,103 @@ const Utils = {
     switch (errorCode) {
       /* Authorization failed - TODO add to language files */
       case 0:
-        return "Authorization failed";
+        return 'Authorization failed';
       /* Authorization response invalid - TODO add to language files */
       case 1:
-        return "Invalid Authorization Response";
+        return 'Invalid Authorization Response';
        /* Authorization heartbeat failed */
       case 2:
-        return "Invalid Heartbeat"
+        return 'Invalid Heartbeat'
        /* Content tree response invalid - TODO add to language files */
       case 3:
-        return "Content Tree Response Invalid";
+        return 'Content Tree Response Invalid';
        /* Authorization signature invalid - TODO add to language files */
       case 4 :
-        return "The signature of the Authorization Response is invalid";
+        return 'The signature of the Authorization Response is invalid';
       /* Content tree next failed - TODO add to language files */
       case 5:
-        return "Content Tree Next failed";
+        return 'Content Tree Next failed';
       /* Playback failed */
       case 6:
-        return "Playback Error";
+        return 'Playback Error';
       /* The asset is not encoded */
       case 7:
-        return "This video isn't encoded for your device";
+        return 'This video is not encoded for your device';
       /* Internal error - TODO add to language files */
       case 8:
-        return "An internal error occurred";
+        return 'An internal error occurred';
       /* Metadata response invalid */
       case 9:
-        return "Invalid Metadata";
+        return 'Invalid Metadata';
       /* Invalid authorization token */
       case 10:
-        return "Invalid Player Token";
+        return 'Invalid Player Token';
       /* Device limit has been reached */
       case 11:
-        return "Authorization Error";
+        return 'Authorization Error';
       /* Device binding failed */
       case 12:
-        return "Device binding failed";
+        return 'Device binding failed';
        /* Device id too long */
       case 13:
-        return "Device ID is too long";
+        return 'Device ID is too long';
       /* General DRM failure */
       case 14:
-        return "General error acquiring license";
+        return 'General error acquiring license';
       /* DRM file download failure - TODO add to language files */
       case 15:
-        return "Failed to download a required file during the DRM workflow";
+        return 'Failed to download a required file during the DRM workflow';
       /* DRM personalization failure - TODO add to language files */
       case 16:
-        return "Failed to complete device personalization during the DRM workflow";
+        return 'Failed to complete device personalization during the DRM workflow';
       /*  DRM rights server error - TODO add to language files */
       case 17:
-        return "Failed to get rights for asset during the DRM workflow";
+        return 'Failed to get rights for asset during the DRM workflow';
       /* Invalid discovery parameter - TODO add to language files */
       case 18:
-        return "The expected discovery parameters are not provided";
+        return 'The expected discovery parameters are not provided';
       /* Discovery network error - TODO add to language files */
       case 19:
-        return "A discovery network error occurred";
+        return 'A discovery network error occurred';
       /* Discovery response failure - TODO add to language files */
       case 20:
-        return "A discovery response error occurred";
+        return 'A discovery response error occurred';
       /* No available streams - TODO add to language files */
       case 21:
-        return "No available streams";
+        return 'No available streams';
       /* Pcode mismatch - TODO add to language files */
       case 22:
-        return "The provided PCode does not match the embed code owner";
+        return 'The provided PCode does not match the embed code owner';
       /* Download error - TODO add to language files */
       case 23:
-        return "A download error occurred";
+        return 'A download error occurred';
       /* Conncurrent streams */
       case 24:
-        return "You have exceeded the maximum number of concurrent streams";
+        return 'You have exceeded the maximum number of concurrent streams';
       /*  Advertising id failure - TODO add to language files */
       case 25:
-        return "Failed to return the advertising ID";
+        return 'Failed to return the advertising ID';
       /* Discovery GET failure - TODO add to language files */
       case 26:
-        return "Failed to get discovery results";
+        return 'Failed to get discovery results';
       /* Discovery POST failure - TODO add to language files */
       case 27:
-        return "Failed to post discovery pins";
+        return 'Failed to post discovery pins';
       /* Player format mismatch - TODO add to language files */
       case 28:
-        return "Player and player content do not correspond";
+        return 'Player and player content do not correspond';
       /* Failed to create VR player  - TODO add to language files  */
       case 29:
-        return "Failed to create VR player";
+        return 'Failed to create VR player';
       /* Unknown error - TODO add to language files */
       case 30:
-        return "An unknown error occurred";
+        return 'An unknown error occurred';
       /* GeoBlocking access denied - TODO add to language files */
       case 31:
-        return "Geo access denied";
+        return 'Geo access denied';
       /* Default to Unknown error */
       default:
-        return "An unknown error occurred";
+        return 'An unknown error occurred';
     }
   },
 

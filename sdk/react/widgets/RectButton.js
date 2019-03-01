@@ -32,11 +32,11 @@ class RectButton extends Component {
   // Gets the play button based on the current config settings
   render() {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
-    const buttonColor = {color: this.props.buttonColor == null? "white": this.props.buttonColor};
+    const buttonColor = {color: this.props.buttonColor == null? 'white': this.props.buttonColor};
     let positionStyle;
     if(this.props.style != null) {
       positionStyle = this.props.style;
-    } else if (this.props.position == "center") {
+    } else if (this.props.position == 'center') {
       const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
       const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
 
@@ -48,10 +48,10 @@ class RectButton extends Component {
       <TouchableHighlight
         accessible={true}
         accessibilityLabel={this.props.name}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={positionStyle}
         onPress={this.props.onPress}
-        underlayColor="transparent"
+        underlayColor='transparent'
         activeOpacity={this.props.opacity}>
         <View>
           <Text style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle]}>{this.props.icon}</Text>

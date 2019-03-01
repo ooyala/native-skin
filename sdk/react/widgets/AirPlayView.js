@@ -12,5 +12,5 @@ const iface = {
   }
 };
 
-// React automatically resolves this class from "OOAirPlayViewManager"
+// React automatically resolves this class from 'OOAirPlayViewManager'
 module.exports = requireNativeComponent('OOAirPlayView', null);

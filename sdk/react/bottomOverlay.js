@@ -145,7 +145,7 @@ class BottomOverlay extends Component {
       <View
         testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         accessible={false}
-        importantForAccessibility="no-hide-descendants"
+        importantForAccessibility='no-hide-descendants'
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
       </View>
@@ -156,8 +156,8 @@ class BottomOverlay extends Component {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
     } else if (!this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
-      Log.error("controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
-      return "#4389FF";
+      Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
+      return '#4389FF';
     } else {
       return this.props.config.controlBar.scrubberBar.scrubberHandleColor ;
     }
@@ -166,12 +166,12 @@ class BottomOverlay extends Component {
   _customizeScrubber() {
     let scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
     if (!scrubberHandleBorderColor) {
-      Log.error("controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json");
-      scrubberHandleBorderColor = "white";
+      Log.error('controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
+      scrubberHandleBorderColor = 'white';
     }
     const scrubberStyle = {
       flex: 0,
-      position: "absolute",
+      position: 'absolute',
       backgroundColor: this.getScrubberHandleColor(),
       borderRadius: 100,
       borderWidth: 1.5,
@@ -219,7 +219,7 @@ class BottomOverlay extends Component {
 
       return (
         <Slider
-          style={[{flexDirection: "row", height: 5, marginVertical: 6, marginHorizontal: 20}]}
+          style={[{flexDirection: 'row', height: 5, marginVertical: 6, marginHorizontal: 20}]}
           testID={VIEW_NAMES.TIME_SEEK_BAR}
           accessibilityLabel={scrubberBarAccessibilityLabel}
           minimumTrackTintColor={minimumTrackTintColor}
@@ -242,7 +242,7 @@ class BottomOverlay extends Component {
           AndroidAccessibility.announce(scrubberBarAccessibilityLabel);
           previousAnnouncing = 0
         }
-        return this._renderDefaultProgressBar(playedPercent, "")
+        return this._renderDefaultProgressBar(playedPercent, '')
       }
     }
   }
@@ -253,7 +253,7 @@ class BottomOverlay extends Component {
         testID={VIEW_NAMES.TIME_SEEK_BAR}
         accessible={this.state.accessibilityEnabled}
         accessibilityLabel={scrubberBarAccessibilityLabel}
-        importantForAccessibility="yes"
+        importantForAccessibility='yes'
         onTouchStart={(event) => this.handleTouchStart(event)}
         onTouchMove={(event) => this.handleTouchMove(event)}
         onTouchEnd={(event) => this.handleTouchEnd(event)}
@@ -409,7 +409,7 @@ class BottomOverlay extends Component {
     return (
       <Animated.View
         accessible={false}
-        style={[styles.container, widthStyle, {"height": this.state.height}]}>
+        style={[styles.container, widthStyle, {'height': this.state.height}]}>
         {this._renderCompleteProgressBar()}
         {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
         {this._renderControlBar()}
@@ -420,7 +420,7 @@ class BottomOverlay extends Component {
 
   renderLiveWithoutDVR(widthStyle) {
     return (
-      <Animated.View style={[styles.container, widthStyle, {"height": this.state.height - 6}]}>
+      <Animated.View style={[styles.container, widthStyle, {'height': this.state.height - 6}]}>
         {this._renderControlBar()}
       </Animated.View>
     );

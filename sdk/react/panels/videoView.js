@@ -79,8 +79,8 @@ class VideoView extends Component {
       const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
       return ({
         label:
-          isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
-            Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
+          isLive ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) :
+            Utils.localizedString(this.props.locale, 'GO LIVE', this.props.localizableStrings),
         onGoLive: isLive ? null : this.onGoLive
       });
     } else {
@@ -89,16 +89,16 @@ class VideoView extends Component {
   };
 
   onGoLive = () => {
-    Log.log("onGoLive");
+    Log.log('onGoLive');
     if (this.props.handlers.onScrub) {
       this.props.handlers.onScrub(1);
     }
   };
 
   handlePress = (name) => {
-    Log.verbose("VideoView Handle Press: " + name);
+    Log.verbose('VideoView Handle Press: ' + name);
     if (this.state.showControls) {
-      if (name === "LIVE") {
+      if (name === 'LIVE') {
         this.props.handlers.onScrub(1);
       } else {
         this.props.handlers.onPress(name);
@@ -150,7 +150,7 @@ class VideoView extends Component {
       <BottomOverlay
         width={this.props.width}
         height={this.props.height}
-        primaryButton={!this.props.playing ? "play" : "pause"}
+        primaryButton={!this.props.playing ? 'play' : 'pause'}
         fullscreen={this.props.fullscreen}
         cuePoints={this.props.cuePoints}
         playhead={this.props.playhead}
@@ -183,7 +183,7 @@ class VideoView extends Component {
       <View
         reactTag={1}
         accessible={true}
-        accessibilityLabel={"Video player. Tap twice to play or pause"}
+        accessibilityLabel={'Video player. Tap twice to play or pause'}
         style={styles.placeholder}
         importantForAccessibility={'no'}
         onTouchStart={(event) => this.props.handlers.handleVideoTouchStart(event)}
@@ -207,7 +207,7 @@ class VideoView extends Component {
 
     return (
       <View
-        style={{flexDirection: "row", justifyContent: "center", alignItems: "flex-end"}}>
+        style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}>
         {watermark}
         {this._renderClosedCaptions()}
       </View>
@@ -226,8 +226,8 @@ class VideoView extends Component {
       return (
         <View
           accessible={false}
-          importantForAccessibility="no-hide-descendants"
-          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: "absolute"}]}
+          importantForAccessibility='no-hide-descendants'
+          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: 'absolute'}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
           <Text style={[panelStyles.closedCaptions, ccStyle]}>
             {this.props.caption}
@@ -286,7 +286,7 @@ class VideoView extends Component {
         }}
         seekEnabled={seekVisible}
         ffActive={this.props.live ? notInLiveRegion : true}
-        position={"center"}
+        position={'center'}
         onPress={(name) => this.handlePress(name)}
         onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
         seekForwardValue={this.props.config.skipControls.skipForwardTime}
@@ -311,7 +311,7 @@ class VideoView extends Component {
     if (waterMarkName) {
       return (
         <View
-          style={{flex: 1, justifyContent: "flex-end", alignItems: "flex-end"}}>
+          style={{flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
           <VideoWaterMark
             buttonWidth={VideoWaterMarkSize}
             buttonHeight={VideoWaterMarkSize}
@@ -353,7 +353,7 @@ class VideoView extends Component {
             <Image
               style={overlayStyle}
               source={{uri: this.props.adOverlay.resourceUrl}}
-              resizeMode="contain">
+              resizeMode='contain'>
             </Image>
             <TouchableHighlight
               style={panelStyles.dismissOverlay}
@@ -370,7 +370,7 @@ class VideoView extends Component {
 
   _renderLoading = () => {
     const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
-    const scaleMultiplier = Platform.OS === "android" ? 2 : 1;
+    const scaleMultiplier = Platform.OS === 'android' ? 2 : 1;
     const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
     const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
     const loadingStyle = {
@@ -384,7 +384,7 @@ class VideoView extends Component {
       return (
         <ActivityIndicator
           style={loadingStyle}
-          size="large">
+          size='large'>
         </ActivityIndicator>
       );
     }
@@ -406,7 +406,7 @@ class VideoView extends Component {
     return (
       <View
         accessible={false}
-        style={[styles.container, {"height": this.props.height}, {"width": this.props.width}]}>
+        style={[styles.container, {'height': this.props.height}, {'width': this.props.width}]}>
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}

@@ -43,7 +43,7 @@ class ErrorScreen extends Component {
   };
 
   getTitleAudioOnly = () => {
-    const title = "unplayable content error";
+    const title = 'unplayable content error';
     const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={stylesAudio.title}>
@@ -59,7 +59,7 @@ class ErrorScreen extends Component {
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
       const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-      Log.warn("ERROR: localized description:" + localizedDescription);
+      Log.warn('ERROR: localized description:' + localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription}
@@ -70,7 +70,7 @@ class ErrorScreen extends Component {
   };
 
   getDescriptionAudioOnly = () => {
-    const description = "Reload your screen or try selecting different audio.";
+    const description = 'Reload your screen or try selecting different audio.';
     const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
     return (
       <Text style={stylesAudio.description}>
@@ -98,7 +98,7 @@ class ErrorScreen extends Component {
   _renderMoreDetailsButton = () => {
     if (!this.props.isAudioOnly) return null;
 
-    const moreDetailsText = Utils.localizedString(this.props.locale, "More Details", this.props.localizableStrings);
+    const moreDetailsText = Utils.localizedString(this.props.locale, 'More Details', this.props.localizableStrings);
     return (
       <TouchableHighlight
         onPress={this.onMoreDetails}

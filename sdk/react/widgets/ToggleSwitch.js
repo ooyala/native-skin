@@ -45,7 +45,7 @@ class ToggleSwitch extends Component {
       <View style={styles.container}>
         <Text style={offTextStyle}>{this.props.switchOffText}</Text>
           <Switch
-            style={{"width":50}}
+            style={{'width':50}}
             value={this.props.switchOn}
             onValueChange={this.onSwitchToggled}
             disabled={!this.props.areClosedCaptionsAvailable}

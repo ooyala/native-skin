@@ -18,8 +18,8 @@ class InfoPanel extends Component {
 
   render() {
     let infoPanel;
-    const titleAccessible = this.props.title != null && this.props.title != "";
-    const descriptionAccessible = this.props.description != null && this.props.title != "";
+    const titleAccessible = this.props.title != null && this.props.title != '';
+    const descriptionAccessible = this.props.description != null && this.props.title != '';
 
     infoPanel = (
       <View style={styles.infoPanelNW}>

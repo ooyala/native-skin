@@ -50,7 +50,7 @@ class ControlBar extends Component {
     if (this.props.live) {
       return this.props.live.label;
     } else {
-      return (Utils.secondsToString(this.props.playhead) + " - ");
+      return (Utils.secondsToString(this.props.playhead) + ' - ');
     }
   };
 
@@ -69,7 +69,7 @@ class ControlBar extends Component {
   getVolumeControlColor = () => {
     if (!this.props.config.general.accentColor) {
       if (!this.props.config.controlBar.volumeControl.color) {
-        Log.error("controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
+        Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
         return '#4389FF';
       } else {
         return this.props.config.controlBar.volumeControl.color;
@@ -144,7 +144,7 @@ class ControlBar extends Component {
     const widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
@@ -152,7 +152,7 @@ class ControlBar extends Component {
       },
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: this.state.showVolume ? [styles.icon, {'fontSize': iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         iconTouchableStyle: styles.iconTouchable,
@@ -163,8 +163,8 @@ class ControlBar extends Component {
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
-        playHeadTimeStyle: [styles.playheadLabel, {"fontSize": labelFontSize}],
-        durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
+        playHeadTimeStyle: [styles.playheadLabel, {'fontSize': labelFontSize}],
+        durationStyle: [styles.durationLabel, {'fontSize': labelFontSize}],
         completeTimeStyle: [styles.completeTimeStyle],
         playHeadTimeString: this.getPlayHeadTimeString(),
         iconTouchableStyle: styles.iconTouchable,
@@ -173,65 +173,65 @@ class ControlBar extends Component {
       fullscreen: {
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand,
         fullscreen: this.props.fullscreen   // do we want to do this way ??
       },
       rewind: {
         onPress: this.onRewindPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.rewind
       },
       moreOptions: {
-        onPress: this.onMorePress,
+        onPress: this.onCastPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
         enabled: this.props.showMoreOptionsButton
       },
       cast: {
         onPress: this.onCastPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.cast,
-        enabled: this.props.cast
+        enabled: true//this.props.cast
       },
       discovery: {
         onPress: this.onDiscoveryPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.discovery
       },
       share: {
         onPress: this.onSocialSharePress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
         icon:waterMarkName,
-        resizeMode: "contain"
+        resizeMode: 'contain'
       },
       stereoscopic: {
         onPress: this.onStereoscopicPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.stereoscopic
       },
       audioAndCC: {
         onPress: this.onAudioAndCCPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.audioAndCC,
         enabled: this.props.showAudioAndCCButton
       },
       playbackSpeed: {
         onPress: this.onPlaybackSpeedPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": labelFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': labelFontSize}, this.props.config.controlBar.iconStyle.active],
         selectedPlaybackSpeedRate: this.getSelectedPlaybackSpeedRate(),
         enabled: this.props.showPlaybackSpeedButton
       },
