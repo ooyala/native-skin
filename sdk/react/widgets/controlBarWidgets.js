@@ -85,7 +85,7 @@ class controlBarWidget extends Component {
   };
 
   volumeWidget = (options) => {
-    let volumeScrubber = null;
+    let volumeScrubber;
     const scrubberStyle = [options.scrubberStyle];
     if (Platform.OS === 'ios') {
       scrubberStyle.push({top: 5});
@@ -290,7 +290,7 @@ class controlBarWidget extends Component {
 
   audioAndCCWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    let widget = null;
+    let widget;
     if (options.enabled) {
       widget = <TouchableHighlight
         testID={BUTTON_NAMES.AUDIO_AND_CC}
@@ -308,7 +308,7 @@ class controlBarWidget extends Component {
   };
 
   playbackSpeedWidget = (options) => {
-    let widget = null;
+    let widget;
 
     // Create accessibility label for selected playback speed rate button
     const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
@@ -357,7 +357,7 @@ class controlBarWidget extends Component {
       return widgetsMap[this.props.widgetType.name](widgetOptions);
     }
     else {
-      Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
+      // Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
       return <View/>;
     }
   }

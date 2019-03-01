@@ -5,7 +5,7 @@ import {
 let level = LOG_LEVEL.INFO;
 
 class Log {
-  static setLogLevel(l){
+  static setLogLevel(l) {
     switch (l) {
       case LOG_LEVEL.VERBOSE:
       case LOG_LEVEL.INFO:

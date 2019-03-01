@@ -296,7 +296,7 @@ class OoyalaSkinCore {
 
   renderScreen() {
     Log.verbose('Rendering - Current Overlay stack: ' + this.skin.state.overlayStack);
-    let overlayType = null;
+    let overlayType;
     if (this.skin.state.overlayStack.length > 0) {
       overlayType = this.skin.state.overlayStack[this.skin.state.overlayStack.length - 1];
       Log.verbose('Rendering Overlaytype: ' + overlayType);

@@ -34,7 +34,7 @@ class ResponsiveList extends Component {
       itemsPerSlice = itemsPerSliceCap;
     }
     let slices = [];
-    if (this.props.data != null){
+    if (this.props.data) {
       const numberOfSlices = Math.ceil(this.props.data.length / itemsPerSlice);
       for (let i = 0; i  < numberOfSlices; i++) {
         slices[i] = [];

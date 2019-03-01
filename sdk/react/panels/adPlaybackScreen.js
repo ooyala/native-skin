@@ -241,12 +241,11 @@ class AdPlaybackScreen extends Component {
     const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     const doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
-    // var isAdPaused = this.props.ad && !this.props.playing;
+    // const isAdPaused = this.props.ad && !this.props.playing;
     const isContent = !this.props.ad;
     const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
 
-    let adBar;
-    let adIcons;
+    let adBar, adIcons;
 
     if (this.props.ad) {
       adBar = (this.props.ad.requireAdBar && this.props.config.adScreen.showAdMarquee) ? this._renderAdBar() : null;

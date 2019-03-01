@@ -144,19 +144,19 @@ class LanguageSelectionPanel extends Component {
     }
 
     const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
-
     // screen height - title - toggle switch - preview - option bar
     const itemPanelHeight = this.props.height  - 30 - 30 - 60;
     const animationStyle = {opacity: this.state.opacity};
 
+    let previewText;
     if (this.props.selectedLanguage) {
-      var previewText =
-        ( <PreviewWidget
-            isVisible={hasCC}
-            config={this.props.config}
-            selectedLanguage={this.props.selectedLanguage}>
-          </PreviewWidget>
-        );
+      previewText = ( 
+        <PreviewWidget
+          isVisible={hasCC}
+          config={this.props.config}
+          selectedLanguage={this.props.selectedLanguage}>
+        </PreviewWidget>
+      );
     }
 
     return (

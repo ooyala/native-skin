@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import createReactClass from 'create-react-class';
 import {
 	requireNativeComponent,
-	NativeMethodsMixin,
 	View,
-  TouchableHighlight,
-  Platform
+  TouchableHighlight
 } from 'react-native';
 
-var CountdownView = createReactClass({
-  displayName: 'CountdownView',
-  mixins: [NativeMethodsMixin],
+const NativeCountdownView = requireNativeComponent('CountdownView', CountdownView, {
+  nativeOnly: {
+    onTimerUpdate: true,
+    onTimerCompleted: true,
+    canceled: true,
+  },
+});
 
-  propTypes: {
+class CountdownView extends Component {
+  static propTypes = {
     ...View.propTypes,
 
     time: PropTypes.number,
@@ -28,43 +30,39 @@ var CountdownView = createReactClass({
     onTimerUpdate: PropTypes.func,
     onTimerCompleted: PropTypes.func,
     onPress: PropTypes.func,
-  },
+  }
 
-  getDefaultProps: function() {
-    return {
-      time: 10,
-      radius: 20,
-      fillColor: '#000000',
-      fillAlpha: 1.0,
-      strokeColor: '#ffffff',
-      tapCancel: false,
-      automatic: true,
-      timeLeft: 10,
-    };
-  },
+  static defaultProps = {
+    time: 10,
+    radius: 20,
+    fillColor: '#000000',
+    fillAlpha: 1.0,
+    strokeColor: '#ffffff',
+    tapCancel: false,
+    automatic: true,
+    timeLeft: 10,
+  }
 
-  getInitialState: function() {
-    return {
-      canceled: false,
-    };
-  },
+  state = {
+    canceled: false,
+  }
 
-  _onTimerUpdate: function(event) {
+  _onTimerUpdate = (event) => {
     this.props.onTimerUpdate && this.props.onTimerUpdate(event.nativeEvent);
-  },
+  }
 
-  _onTimerCompleted: function(event) {
+  _onTimerCompleted = (event) => {
     this.props.onTimerCompleted && this.props.onTimerCompleted(event.nativeEvent);
-  },
+  }
 
-  _onPress: function() {
+  _onPress = () => {
   if (this.props.tapCancel) {
     this.setState({canceled: true});
   }
     this.props.onPress && this.props.onPress();
-  },
+  }
 
-  renderCountdownView: function() {
+  renderCountdownView() {
     return (
       <NativeCountdownView
         {...this.props}
@@ -73,9 +71,9 @@ var CountdownView = createReactClass({
         onTimerCompleted={this._onTimerCompleted}>
       </NativeCountdownView>
     );
-  },
+  }
 
-  renderClickableView: function() {
+  renderClickableView() {
     return (
       <TouchableHighlight
         underlayColor='transparent'
@@ -83,25 +81,15 @@ var CountdownView = createReactClass({
         {this.renderCountdownView()}
       </TouchableHighlight>
     );
-  },
+  }
 
-  render: function() {
+  render() {
     if (this.props.onPress) {
       return this.renderClickableView();
     } else {
       return this.renderCountdownView();
     }
-  },
-});
+  }
+};
 
-if (Platform.OS === 'ios') {
-  var NativeCountdownView = requireNativeComponent('CountdownView', CountdownView, {
-  	nativeOnly: {
-  		onTimerUpdate: true,
-  		onTimerCompleted: true,
-      canceled: true,
-  	},
-  });
-
-  module.exports = CountdownView;
-}
+module.exports = CountdownView;

@@ -85,8 +85,7 @@ class AudioAndCCSelectionPanel extends Component {
   };
 
   renderHeaderView = (hasMultiAudioTracks, hasClosedCaptions) => {
-    let leftTitle;
-    let rightTitle;
+    let leftTitle, rightTitle;
 
     const localizedAudioTitle = Utils.localizedString(this.props.config.locale, stringConstants.audioHeaderViewSectionTitle, this.props.config.localizableStrings);
     const localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale, stringConstants.subtitlesHeaderViewSectionTitle, this.props.config.localizableStrings);

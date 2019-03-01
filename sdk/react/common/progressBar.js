@@ -53,14 +53,16 @@ class ProgressBar extends Component {
     const bufferedPercent = 0;
     const unbufferedPercent = 1 - playedPercent - bufferedPercent;
 
+    let playedColor, backgroundColor, bufferedColor;
+
     if (this.props.ad) {
-      var playedColor = this.getAdScrubberBarPlayedColor();
-      var backgroundColor = this.props.config.controlBar.adScrubberBar.backgroundColor;
-      var bufferedColor = this.props.config.controlBar.adScrubberBar.bufferedColor;
+      playedColor = this.getAdScrubberBarPlayedColor();
+      backgroundColor = this.props.config.controlBar.adScrubberBar.backgroundColor;
+      bufferedColor = this.props.config.controlBar.adScrubberBar.bufferedColor;
     } else {
-      var playedColor = this.getScrubberBarPlayedColor();
-      var backgroundColor = this.props.config.controlBar.scrubberBar.backgroundColor;
-      var bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
+      playedColor = this.getScrubberBarPlayedColor();
+      backgroundColor = this.props.config.controlBar.scrubberBar.backgroundColor;
+      bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
     }
 
     const playedStyle = {backgroundColor: playedColor, flex: playedPercent};

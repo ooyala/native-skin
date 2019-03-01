@@ -32,9 +32,9 @@ class RectButton extends Component {
   // Gets the play button based on the current config settings
   render() {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.fontFamily};
-    const buttonColor = {color: this.props.buttonColor == null? 'white': this.props.buttonColor};
+    const buttonColor = {color: this.props.buttonColor || 'white'};
     let positionStyle;
-    if(this.props.style != null) {
+    if (this.props.style) {
       positionStyle = this.props.style;
     } else if (this.props.position == 'center') {
       const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);

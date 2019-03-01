@@ -12,7 +12,7 @@ import {
   BUTTON_NAMES
 } from './constants';
 import Utils from './utils';
-import CountdownView from './widgets/countdownTimer';
+import CountdownView from './widgets/countdownTimeriOS';
 import CountdownViewAndroid from './widgets/countdownTimerAndroid';
 
 import upNextStyle from './style/upNext.json';
@@ -120,7 +120,7 @@ class UpNext extends Component {
       && !this.props.upNextDismissed
       && upNextConfig.showUpNext === true
       && !this.props.ad
-      && this.props.nextVideo != null) {
+      && this.props.nextVideo) {
 
       const countdown = this.renderCountdownTimer();
       const upNextImage = (

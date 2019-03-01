@@ -16,7 +16,7 @@ const ResponsiveDesignManager = {
    */
   getSize: function(width, threshold) {
     const used_threshold = threshold ? threshold : this.default_threshold;
-    for (var i = 0; i < used_threshold.length; i++) {
+    for (let i = 0; i < used_threshold.length; i++) {
       if (width <= used_threshold[i]) {
         return parseInt(i);
       }

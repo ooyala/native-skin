@@ -17,7 +17,7 @@ import {
 import Utils from '../utils';
 import Log from '../log';
 import ResponsiveList from '../widgets/ResponsiveList';
-import CountdownView from '../widgets/countdownTimer';
+import CountdownViewiOS from '../widgets/countdownTimeriOS';
 import CountdownViewAndroid from '../widgets/countdownTimerAndroid';
 
 import panelStyles from './style/panelStyles.json';
@@ -178,7 +178,7 @@ class DiscoveryPanel extends Component {
 
   renderCountdownTimer = (item) => Platform.select({
     ios:
-      <CountdownView
+      <CountdownViewiOS
         style={{width: 44, height: 44}}
         automatic={true}
         time={this.state.counterTime}

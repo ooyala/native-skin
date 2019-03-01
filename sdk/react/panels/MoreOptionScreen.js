@@ -103,7 +103,7 @@ class MoreOptionScreen extends Component {
     const buttons = itemCollapsingResults.overflow;
     const buttonStyle = [styles.icon, this.props.config.moreOptionsScreen.iconStyle.active];
 
-    for (var i = 0; i < buttons.length; i++) {
+    for (let i = 0; i < buttons.length; i++) {
       const button = buttons[i];
       let buttonIcon = this._renderIcon(button.name);
       let moreOptionButton;
@@ -157,7 +157,7 @@ class MoreOptionScreen extends Component {
 
   _renderIcon = (buttonName) => {
     let buttonIcon;
-    switch(buttonName){
+    switch (buttonName) {
       case BUTTON_NAMES.DISCOVERY:
         buttonIcon = this.props.config.icons.discovery;
         break;

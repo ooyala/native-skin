@@ -427,9 +427,9 @@ class BottomOverlay extends Component {
   }
 
   render() {
-    if (this.props.config.controlBar.enabled || this.props.config.controlBar.enabled == null) {
+    if (this.props.config.controlBar.enabled || !this.props.config.controlBar.enabled) {
     const widthStyle = {width:this.props.width, opacity:this.state.opacity};
-      if (this.props.live && (this.props.config.live != null && this.props.config.live.forceDvrDisabled)) {
+      if (this.props.live && (this.props.config.live && this.props.config.live.forceDvrDisabled)) {
         return this.renderLiveWithoutDVR(widthStyle);
       }
       return this.renderDefault(widthStyle);

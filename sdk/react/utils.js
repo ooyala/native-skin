@@ -68,7 +68,7 @@ const Utils = {
       timerLabel = '00:0' + (timer | 0).toString();
     } else if (timer < 60) {
       timerLabel = '00:' + (timer | 0).toString();
-    } else if (timer < 600){
+    } else if (timer < 600) {
       timerLabel = '0' + (timer / 60).toString() + ':' + (timer % 60).toString();
     } else {
       timerLabel = (timer / 60).toString() + ':' + (timer % 60).toString();

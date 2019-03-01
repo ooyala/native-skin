@@ -87,14 +87,12 @@ class AdBar extends Component {
   };
 
   render() {
-    let learnMoreButton;
+    let learnMoreButton, skipButton, skipLabel;
     const showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
     const showSkip = this.props.playhead >= this.props.ad.skipoffset;
     const textString = this.generateResponsiveText(showLearnMore, showSkip);
     const learnMoreText = Utils.localizedString(this.props.locale, 'Learn More', this.props.localizableStrings);
 
-    let skipButton;
-    let skipLabel;
     const skipLabelText = Utils.localizedString(this.props.locale, 'Skip Ad in ', this.props.localizableStrings);
     const skipText = Utils.localizedString(this.props.locale, 'Skip Ad', this.props.localizableStrings);
 

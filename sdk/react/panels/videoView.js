@@ -322,7 +322,7 @@ class VideoView extends Component {
   };
 
   _renderAdOverlay = () => {
-    if (this.props.adOverlay == null) {
+    if (!this.props.adOverlay) {
       return null;
     }
 
