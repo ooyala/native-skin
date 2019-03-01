@@ -72,19 +72,19 @@ class ProgressBar extends React.Component {
         style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
         importantForAccessibility="no-hide-descendants"
-        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}>
+        accessibilityLabel="">
           <View
             style={progressStyles.played}
             testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}/>
+            accessibilityLabel=""/>
           <View
             style={progressStyles.background}
             testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}/>
+            accessibilityLabel=""/>
           <View
             style={progressStyles.buffered}
             testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}/>
+            accessibilityLabel=""/>
       </View>
     );
   }
