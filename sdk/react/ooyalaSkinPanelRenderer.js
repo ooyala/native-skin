@@ -1,8 +1,7 @@
 import React from 'react';
 import { 
   Platform,
-  NativeModules,
-  Modal, Text, TouchableHighlight, View
+  NativeModules
 } from 'react-native';
 
 import {
@@ -119,35 +118,11 @@ class OoyalaSkinPanelRenderer {
 
   renderCastAirPlayScreen() {
     return (
-      // <CastAirPlayScreen></CastAirPlayScreen>
-      <Modal transparent>
-        <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-
-          {/* fill space at the top */}
-          <View style={{ flex: 1, justifyContent: 'flex-start' }} />
-
-          <View style={{ flex: 1, backgroundColor: 'transparent' }}>
-            {/* content goes here */}
-            <View style={{
-              width: this.skin.state.width - 20,
-              height: 200,
-              backgroundColor: 'skyblue',
-              borderRadius: 10
-            }}>
-              <TouchableHighlight
-                style={{ flex: 1 }}
-                onPress={() => {
-                  this.core.dismissOverlay();
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-
-          {/* fill space at the bottom*/}
-          <View style={{ flex: 1, justifyContent: 'flex-end' }} />
-        </View>
-      </Modal>
+      <CastAirPlayScreen>
+        width={this.skin.state.width - 20}
+        height={200}
+        onDismiss={() => this.core.dismissOverlay()}
+      </CastAirPlayScreen>
     );
   }
 
