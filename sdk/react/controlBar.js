@@ -107,7 +107,12 @@ class ControlBar extends Component {
   };
 
   onCastPress = () => {
-    this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
+    if (Platform.OS === 'android') {
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
+    } else {
+      console.log('LOGLOG: oncastpress airplay');
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY)
+    }
   };
 
   onRewindPress = () => {
