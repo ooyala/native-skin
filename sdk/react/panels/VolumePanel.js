@@ -26,7 +26,7 @@ class VolumePanel extends Component {
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    config: PropTypes.object,
+    config: PropTypes.object
   };
 
   state = {

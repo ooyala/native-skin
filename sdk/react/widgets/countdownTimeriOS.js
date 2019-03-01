@@ -10,8 +10,8 @@ const NativeCountdownView = requireNativeComponent('CountdownView', CountdownVie
   nativeOnly: {
     onTimerUpdate: true,
     onTimerCompleted: true,
-    canceled: true,
-  },
+    canceled: true
+  }
 });
 
 class CountdownView extends Component {
@@ -29,7 +29,7 @@ class CountdownView extends Component {
 
     onTimerUpdate: PropTypes.func,
     onTimerCompleted: PropTypes.func,
-    onPress: PropTypes.func,
+    onPress: PropTypes.func
   }
 
   static defaultProps = {
@@ -40,11 +40,11 @@ class CountdownView extends Component {
     strokeColor: '#ffffff',
     tapCancel: false,
     automatic: true,
-    timeLeft: 10,
+    timeLeft: 10
   }
 
   state = {
-    canceled: false,
+    canceled: false
   }
 
   _onTimerUpdate = (event) => {

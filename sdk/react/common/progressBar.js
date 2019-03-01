@@ -68,7 +68,11 @@ class ProgressBar extends Component {
     const playedStyle = {backgroundColor: playedColor, flex: playedPercent};
     const backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent};
     const bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent};
-    const progressStyles = StyleSheet.create({played:playedStyle, background:backgroundStyle, buffered:bufferedStyle});
+    const progressStyles = StyleSheet.create({ 
+      played: playedStyle,
+      background: backgroundStyle,
+      buffered: bufferedStyle
+    });
 
     return (
       <View

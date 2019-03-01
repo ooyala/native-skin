@@ -32,7 +32,7 @@ class MoreOptionScreen extends Component {
     translateY: new Animated.Value(this.props.height),
     opacity: new Animated.Value(0),
     buttonOpacity: new Animated.Value(1),
-    button: '',
+    button: ''
   };
 
   componentDidMount() {
@@ -204,7 +204,10 @@ class MoreOptionScreen extends Component {
                                                  this.onDismissPress, dismissButtonSize,
                                                  this.props.config.moreOptionsScreen.color,
                                                  this.props.config.icons.dismiss.fontFamilyName);
-    const rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
+    const rowAnimationStyle = { 
+      transform: [{ translateY: this.state.translateY }],
+      opacity: this.state.buttonOpacity
+    };
 
     const moreOptionRow = (
       <Animated.View
@@ -219,7 +222,7 @@ class MoreOptionScreen extends Component {
         {dismissButton}
       </View>
     );
-    const animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
     const moreOptionScreen = (
       <Animated.View style={[styles.fullscreenContainer, animationStyle, {height: this.props.height, width: this.props.width}]}>
         <Animated.View style={[styles.rowsContainer, animationStyle]}>

@@ -31,7 +31,7 @@ describe('utils test suite', function() {
       'CC Options': 'Opciones de subtitulado',
       'On': 'Sí',
       'Off': 'No',
-    },
+    }
   };
 
   it('tests localizedString() with edge cases', function() {
@@ -40,7 +40,7 @@ describe('utils test suite', function() {
       [undefined, undefined, undefined],
       [[], undefined, undefined],
       [-12.12, null, {}],
-      [{}, undefined, []],
+      [{}, undefined, []]
     ];
     for (let i = 0; i < cases.length; i++) {
       const result = Utils.localizedString.apply(null, cases[i]);
@@ -107,7 +107,7 @@ describe('utils test suite', function() {
       [undefined, undefined],
       [[], undefined],
       [-12.12, {}],
-      ['number', ['x']],
+      ['number', ['x']]
     ];
 
     for (let i = 0; i < cases.length; i++) {

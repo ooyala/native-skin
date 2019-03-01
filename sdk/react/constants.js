@@ -13,7 +13,7 @@ const UI_SIZES = {
   LOADING_ICON: 30,
   CONTROLBAR_ICONSIZE: 20,
   CONTROLBAR_LABELSIZE: 16,
-  CC_PREVIEW_HEIGHT: 80,
+  CC_PREVIEW_HEIGHT: 80
 };
 
 const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
@@ -79,7 +79,7 @@ const SCREEN_TYPES = {
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
   ERROR_SCREEN: 'error',
-  ERROR_SCREEN_AUDIO: 'error_audio',
+  ERROR_SCREEN_AUDIO: 'error_audio'
 };
 
 const OVERLAY_TYPES = {
@@ -96,7 +96,7 @@ const OVERLAY_TYPES = {
 
 const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',
-  DESIRED_PLAY: 'desired_play',
+  DESIRED_PLAY: 'desired_play'
 };
 
 const LOG_LEVEL = {
@@ -153,7 +153,7 @@ const VIEW_ACCESSIBILITY_NAMES = {
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
   PLAY_PAUSE_BUTTON: 'button. Tap twice to',
-  PLAYBACK_SPEED_BUTTON: 'Playback speed',
+  PLAYBACK_SPEED_BUTTON: 'Playback speed'
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {

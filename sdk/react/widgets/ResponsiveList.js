@@ -56,7 +56,7 @@ class ResponsiveList extends Component {
     return (
       <View style={{flex: 1}}>
         <ScrollView
-          style={{width:this.props.width, flex: 1}}
+          style={{ width: this.props.width, flex: 1 }}
           horizontal={this.props.horizontal}
           directionalLockEnabled={true}
           showsHorizontalScrollIndicator={false}>
@@ -87,7 +87,7 @@ class ResponsiveList extends Component {
     const placeHolderStyle = {
       flex: 1,
       backgroundColor: 'transparent',
-      width:this.props.itemWidth,
+      width: this.props.itemWidth,
       height: this.props.itemHeight
     };
     if (item === placeHolderItem) {

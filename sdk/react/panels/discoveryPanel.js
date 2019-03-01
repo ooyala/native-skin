@@ -43,14 +43,14 @@ class DiscoveryPanel extends Component {
     config: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
-    screenType: PropTypes.string,
+    screenType: PropTypes.string
   };
 
   state = {
     opacity: new Animated.Value(0),
     showCountdownTimer: false,
     counterTime: 0,
-    impressionsFired:false,
+    impressionsFired: false
   };
 
   /*
@@ -91,7 +91,7 @@ class DiscoveryPanel extends Component {
 
   onRowSelected = (row) => {
   	if (this.props.onRowAction) {
-      this.props.onRowAction({action:'click', embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.props.onRowAction({ action: 'click', embedCode: row.embedCode, bucketInfo: row.bucketInfo });
       this.setState({showCountdownTimer: false});
       timerListenerAndroid.remove();
   	}
@@ -99,7 +99,7 @@ class DiscoveryPanel extends Component {
 
   onRowImpressed = (row) => {
     if (this.props.onRowAction && !this.state.impressionsFired) {
-      this.props.onRowAction({action:'impress', embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.props.onRowAction({ action: 'impress', embedCode: row.embedCode, bucketInfo: row.bucketInfo });
     }
   };
 
@@ -116,7 +116,7 @@ class DiscoveryPanel extends Component {
 
   setImpressionsFired = (value) => {
     this.setState({
-      impressionsFired:value,
+      impressionsFired: value,
     });
   };
 
@@ -133,7 +133,7 @@ class DiscoveryPanel extends Component {
     if (!this.state.impressionsFired) {
       Log.log('Firing Impressions for all ' + this.props.dataSource.length + ' discovery entries')
     }
-    const animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
     return (
       <Animated.View style={[panelStyles.panel, animationStyle]}>
         {this.renderHeader()}
@@ -189,7 +189,8 @@ class DiscoveryPanel extends Component {
         fillAlpha={0.7}
         tapCancel={true}
         onPress={this.onStatusPressed}
-        onTimerCompleted={() => this.onRowSelected(item)} />,
+        onTimerCompleted={() => this.onRowSelected(item)}>
+      </CountdownViewiOS>,
     android:
       <CountdownViewAndroid
         style={{width: 44, height: 44}}
@@ -198,13 +199,17 @@ class DiscoveryPanel extends Component {
           secondary_color:'#AA808080',
           fill_color:'#AA000000',
           text_color:'#AAffffff',
-          stroke_width:10,
-          text_size:75,
-          max_time:this.state.counterTime,
-          progress:0,
-          automatic:true}}
-        data={{embedCode:item.embedCode,
-               bucketInfo:item.bucketInfo}}/>
+          stroke_width: 10,
+          text_size: 75,
+          max_time: this.state.counterTime,
+          progress: 0,
+          automatic: true
+        }}
+        data={{
+          embedCode: item.embedCode,
+          bucketInfo: item.bucketInfo
+        }}>
+      </CountdownViewAndroid>
   });
 
   renderItem = (item, sectionID, itemID, itemRect, thumbnailStyle, columnContainerStyle) => {
@@ -220,7 +225,7 @@ class DiscoveryPanel extends Component {
 
     let thumbnail = (
       <ImageBackground
-        source={{uri:item.imageUrl}}
+        source={{ uri: item.imageUrl }}
         style={[thumbnailStyle, styles.thumbnailContainer]}>
         {circularStatus}
       </ImageBackground>);

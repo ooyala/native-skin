@@ -162,7 +162,7 @@ class PlaybackSpeedPanel extends Component {
   };
 
   render() {
-    const animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
 
     return (
       <Animated.View style={[styles.panelContainer, styles.panel, animationStyle, {height: this.props.height, width: this.props.width}]}>

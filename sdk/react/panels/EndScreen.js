@@ -42,7 +42,7 @@ class EndScreen extends Component {
   };
 
   state = {
-    showControls:true,
+    showControls: true
   };
 
   handleClick = (name) => {

@@ -9,7 +9,7 @@ const iface = {
   propTypes: {
     ...View.propTypes,
     countdown: PropTypes.object,
-    data: PropTypes.object,
+    data: PropTypes.object
   }
 };
 

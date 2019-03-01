@@ -26,7 +26,7 @@ class RectButton extends Component {
     buttonStyle: PropTypes.object,
     fontSize: PropTypes.number,
     fontFamily: PropTypes.string,
-    style:Text.propTypes.style,
+    style: Text.propTypes.style
   };
 
   // Gets the play button based on the current config settings

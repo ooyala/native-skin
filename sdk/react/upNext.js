@@ -28,7 +28,7 @@ class UpNext extends Component {
     nextVideo: PropTypes.object,
     onPress: PropTypes.func,
     upNextDismissed: PropTypes.bool,
-    width: PropTypes.number,
+    width: PropTypes.number
   };
 
   dismissUpNext = () => {
@@ -106,11 +106,13 @@ class UpNext extends Component {
           secondary_color:'#AA808080',
           fill_color:'#AA000000',
           text_color:'#AAffffff',
-          stroke_width:5,
-          text_size:25,
-          max_time:this.upNextDuration(),
-          progress:parseInt((this.upNextDuration() - (this.props.duration - this.props.playhead))),
-          automatic:false}} />
+          stroke_width: 5,
+          text_size: 25,
+          max_time: this.upNextDuration(),
+          progress: parseInt((this.upNextDuration() - (this.props.duration - this.props.playhead))),
+          automatic: false
+        }}>
+      </CountdownViewAndroid>
   });
 
   render() {

@@ -51,11 +51,11 @@ class AdPlaybackScreen extends Component {
     locale: PropTypes.string,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
-    initialPlay: PropTypes.bool,
+    initialPlay: PropTypes.bool
   };
 
   state = {
-    showControls: true,
+    showControls: true
   };
 
   static defaultProps = {

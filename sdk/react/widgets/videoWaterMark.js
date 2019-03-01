@@ -14,7 +14,7 @@ class VideoWaterMark extends Component {
   static propTypes = {
     buttonWidth: PropTypes.number.isRequired,
     buttonHeight: PropTypes.number.isRequired,
-    waterMarkName: PropTypes.string.isRequired,
+    waterMarkName: PropTypes.string.isRequired
   };
 
   renderLogo = () => {

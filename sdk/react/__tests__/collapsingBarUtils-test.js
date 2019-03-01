@@ -14,7 +14,7 @@ describe('Collapsing Bar Utils', function() {
     B5_Collapsing1: 		{name: 'b5', location: 'controlBar',	whenDoesNotFit: 'moveToMoreOptions', minWidth: 1},
     B6_Collapsing1: 		{name: 'b6', location: 'controlBar',	whenDoesNotFit: 'moveToMoreOptions', minWidth: 1},
     B7_MoreOptions100:  {name: 'b7', location: 'moreOptions', minWidth: 100},
-    B8_None100:         {name: 'b7', location: '', minWidth: 100},
+    B8_None100:         {name: 'b7', location: '', minWidth: 100}
   };
 
   beforeEach(function() {

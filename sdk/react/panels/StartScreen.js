@@ -28,7 +28,7 @@ class StartScreen extends Component {
     playhead: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
-    screenReaderEnabled: PropTypes.bool,
+    screenReaderEnabled: PropTypes.bool
   };
 
   handleClick = () => {

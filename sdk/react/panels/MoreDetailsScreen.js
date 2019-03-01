@@ -32,7 +32,7 @@ class MoreDetailsScreen extends Component {
     translateY: new Animated.Value(this.props.height),
     opacity: new Animated.Value(0),
     buttonOpacity: new Animated.Value(1),
-    button: '',
+    button: ''
   };
 
   componentDidMount() {

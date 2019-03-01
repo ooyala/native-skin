@@ -214,7 +214,7 @@ class AudioAndCCSelectionPanel extends Component {
   render() {
     const hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
     const hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
-    const animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
 
     return (
       <Animated.View style={[styles.panelContainer, styles.panel, animationStyle]}>

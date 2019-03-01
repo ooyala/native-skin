@@ -12,7 +12,7 @@ class CircularStatus extends Component {
     total: PropTypes.number,
     diameter: PropTypes.number,
     thickness: PropTypes.number,
-    onPress: PropTypes.func,
+    onPress: PropTypes.func
   };
 
   renderCircularStatus = () => {

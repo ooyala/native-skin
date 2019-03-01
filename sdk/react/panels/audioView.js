@@ -288,11 +288,13 @@ class AudioView extends Component {
   _renderProgressScrubber = (percent) => {
     const topOffset = this._calculateTopOffset(scrubberSize, this.state.progressBarHeight);
     const leftOffset = this._calculateLeftOffset(scrubberSize, percent, this.state.progressBarWidth);
-    const positionStyle = {top:topOffset, left:leftOffset};
+    const positionStyle = { top: topOffset, left: leftOffset };
     const scrubberStyle = this._customizeScrubber();
 
     return (
-      <View pointerEvents='none' style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}/>
+      <View pointerEvents='none' 
+        style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
+      </View>
     );
   };
 

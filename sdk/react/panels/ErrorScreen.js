@@ -9,7 +9,7 @@ import {
 import {
   SAS_ERROR_CODES,
   ERROR_MESSAGE,
-  BUTTON_NAMES,
+  BUTTON_NAMES
 } from '../constants';
 import Log from '../log';
 import Utils from '../utils';

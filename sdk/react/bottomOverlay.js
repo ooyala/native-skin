@@ -138,7 +138,7 @@ class BottomOverlay extends Component {
     const progressBarWidth = this._calculateProgressBarWidth();
     const topOffset = this._calculateTopOffset(scrubberSize);
     const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
-    const positionStyle = {top:topOffset, left:leftOffset};
+    const positionStyle = { top: topOffset, left: leftOffset };
     const scrubberStyle = this._customizeScrubber();
 
     return (
@@ -147,7 +147,7 @@ class BottomOverlay extends Component {
         accessible={false}
         importantForAccessibility='no-hide-descendants'
         accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
-        style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
+        style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
       </View>
     );
   }
@@ -304,12 +304,12 @@ class BottomOverlay extends Component {
     for (let i = 0; i < cuePoints.length; i++) {
       let cuePoint = cuePoints[i];
       leftOffset = this._calculateCuePointsLeftOffset(cuePoint, progressBarWidth);
-      positionStyle = {top:topOffset, left:leftOffset};
+      positionStyle = { top: topOffset, left: leftOffset };
       cuePointView = (
         <View
           accessible={false}
           key={i}
-          style={[styles.cuePoint, positionStyle,{width:cuePointSize, height:cuePointSize}]}/>
+          style={[styles.cuePoint, positionStyle, { width: cuePointSize, height: cuePointSize }]} />
       );
       cuePointsView.push(cuePointView);
     }
@@ -370,12 +370,15 @@ class BottomOverlay extends Component {
     if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
       return;
     }
-    this.setState({touch:true, x:event.nativeEvent.pageX});
+    this.setState({ 
+      touch: true, 
+      x: event.nativeEvent.pageX 
+    });
   }
 
   handleTouchMove(event) {
     this.props.handleControlsTouch();
-    this.setState({x:event.nativeEvent.pageX});
+    this.setState({ x: event.nativeEvent.pageX });
     if (Platform.OS === 'android') {
       const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
@@ -394,7 +397,10 @@ class BottomOverlay extends Component {
       this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
       this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
     }
-    this.setState({touch:false, x:null});
+    this.setState({ 
+      touch: false, 
+      x: null 
+    });
 
     if (Platform.OS === 'android') {
       const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
@@ -428,7 +434,7 @@ class BottomOverlay extends Component {
 
   render() {
     if (this.props.config.controlBar.enabled || !this.props.config.controlBar.enabled) {
-    const widthStyle = {width:this.props.width, opacity:this.state.opacity};
+      const widthStyle = { width: this.props.width, opacity: this.state.opacity };
       if (this.props.live && (this.props.config.live && this.props.config.live.forceDvrDisabled)) {
         return this.renderLiveWithoutDVR(widthStyle);
       }

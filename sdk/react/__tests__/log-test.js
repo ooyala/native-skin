@@ -5,7 +5,7 @@ describe('Log Tests', function() {
   let Log;
 
   import {
-    LOG_LEVEL,
+    LOG_LEVEL
   } from '../constants';
 
   beforeEach(function() {

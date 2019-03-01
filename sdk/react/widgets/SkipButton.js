@@ -25,7 +25,7 @@ class SkipButton extends Component {
     sizeStyle: PropTypes.object,
     opacity: PropTypes.object,
     animate: PropTypes.object,
-    buttonColor: PropTypes.object,
+    buttonColor: PropTypes.object
   };
 
   state = {

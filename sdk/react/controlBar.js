@@ -43,7 +43,7 @@ class ControlBar extends Component {
   static defaultProps = {playhead: 0, duration: 0};
 
   state = {
-    showVolume: false,
+    showVolume: false
   };
 
   getPlayHeadTimeString = () => {
@@ -110,7 +110,6 @@ class ControlBar extends Component {
     if (Platform.OS === 'android') {
       this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
     } else {
-      console.log('LOGLOG: oncastpress airplay');
       this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY)
     }
   };
@@ -212,7 +211,7 @@ class ControlBar extends Component {
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
-        icon:waterMarkName,
+        icon: waterMarkName,
         resizeMode: 'contain'
       },
       stereoscopic: {
@@ -286,7 +285,7 @@ class ControlBar extends Component {
         pushControl(item);
       }
     }
-    const widthStyle = {width:this.props.width};
+    const widthStyle = { width: this.props.width };
     return (
       <View style={[styles.controlBarContainer, widthStyle]} onTouchEnd={this.props.handleControlsTouch}>
         {controlBarWidgets}
