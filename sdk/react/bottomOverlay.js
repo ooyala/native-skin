@@ -118,7 +118,9 @@ class BottomOverlay extends Component {
   */
   componentWillReceiveProps(nextProps) {
     if (this.props.playhead !== nextProps.playhead) {
-      this.setState({cachedPlayhead: -1.0});
+      this.setState({
+        cachedPlayhead: -1.0
+      });
     }
   }
 
@@ -378,7 +380,9 @@ class BottomOverlay extends Component {
 
   handleTouchMove(event) {
     this.props.handleControlsTouch();
-    this.setState({ x: event.nativeEvent.pageX });
+    this.setState({ 
+      x: event.nativeEvent.pageX
+    });
     if (Platform.OS === 'android') {
       const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
@@ -395,7 +399,9 @@ class BottomOverlay extends Component {
     this.props.handleControlsTouch();
     if (this.state.touch && this.props.onScrub) {
       this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
-      this.setState({cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration});
+      this.setState({
+        cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration
+      });
     }
     this.setState({ 
       touch: false, 

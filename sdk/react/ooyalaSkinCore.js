@@ -44,19 +44,25 @@ class OoyalaSkinCore {
 
   handleLanguageSelection(e) {
     Log.log('onLanguageSelected:' + e);
-    this.skin.setState({ selectedLanguage: e });
+    this.skin.setState({ 
+      selectedLanguage: e
+    });
     this.bridge.onLanguageSelected({ language: e });
   }
 
   handleAudioTrackSelection(e) {
     Log.log('onAudioTrackSelected:' + e);
-    this.skin.setState({ selectedAudioTrack: e });
+    this.skin.setState({
+      selectedAudioTrack: e
+    });
     this.bridge.onAudioTrackSelected({ audioTrack: e });
   }
 
   handlePlaybackSpeedRateSelection(e) {
     Log.log('onPlaybackSpeedRateSelected:' + e);
-    this.skin.setState({ selectedPlaybackSpeedRate: e });
+    this.skin.setState({
+      selectedPlaybackSpeedRate: e
+    });
     this.bridge.onPlaybackSpeedRateSelected({ playbackSpeedRate: e });
   }
 
@@ -150,7 +156,9 @@ class OoyalaSkinCore {
   }
 
   handleAdOverlayDismiss() {
-    this.skin.setState({ adOverlay: null })
+    this.skin.setState({
+      adOverlay: null
+    })
   }
 
   shouldShowLandscape() {
@@ -192,7 +200,9 @@ class OoyalaSkinCore {
       this.handleControlsTouch();
     } else {
       Log.verbose('handleVideoTouch - Time Zeroed');
-      this.skin.setState({ lastPressedTime: new Date(0) })
+      this.skin.setState({
+        lastPressedTime: new Date(0)
+      })
     }
   }
 
@@ -257,17 +267,23 @@ class OoyalaSkinCore {
   handleControlsTouch() {
     if (!this.skin.state.screenReaderEnabled && this.skin.props.controlBar.autoHide === true) {
       Log.verbose('handleVideoTouch - Time set');
-      this.skin.setState({ lastPressedTime: new Date() });
+      this.skin.setState({
+        lastPressedTime: new Date()
+      });
     } else {
       Log.verbose('handleVideoTouch infinite time');
-      this.skin.setState({ lastPressedTime: new Date(MAX_DATE_VALUE) });
+      this.skin.setState({
+        lastPressedTime: new Date(MAX_DATE_VALUE)
+      });
     }
   }
 
   pushToOverlayStackAndMaybePause(overlay) {
     if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {
       Log.log('New stack of overlays, pausing');
-      this.skin.setState({ pausedByOverlay: true });
+      this.skin.setState({
+        pausedByOverlay: true
+      });
       this.bridge.onPress({ name: BUTTON_NAMES.PLAY_PAUSE });
     }
     this.pushToOverlayStack(overlay)
@@ -280,14 +296,18 @@ class OoyalaSkinCore {
   }
 
   clearOverlayStack(overlay) {
-    this.skin.setState({ overlayStack: [] });
+    this.skin.setState({
+      overlayStack: []
+    });
   };
 
   popFromOverlayStackAndMaybeResume(overlay) {
     const retVal = this.skin.state.overlayStack.pop();
     if (this.skin.state.overlayStack.length === 0 && this.skin.state.pausedByOverlay) {
       Log.log('Emptied stack of overlays, resuming');
-      this.skin.setState({ pausedByOverlay: false });
+      this.skin.setState({
+        pausedByOverlay: false
+      });
       this.bridge.onPress({ name: BUTTON_NAMES.PLAY_PAUSE });
     }
     this.skin.forceUpdate();

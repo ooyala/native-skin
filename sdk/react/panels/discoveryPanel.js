@@ -92,7 +92,9 @@ class DiscoveryPanel extends Component {
   onRowSelected = (row) => {
   	if (this.props.onRowAction) {
       this.props.onRowAction({ action: 'click', embedCode: row.embedCode, bucketInfo: row.bucketInfo });
-      this.setState({showCountdownTimer: false});
+      this.setState({
+        showCountdownTimer: false
+      });
       timerListenerAndroid.remove();
   	}
   };
@@ -104,7 +106,9 @@ class DiscoveryPanel extends Component {
   };
 
   onStatusPressed = () => {
-    this.setState({showCountdownTimer: false});
+    this.setState({
+      showCountdownTimer: false
+    });
   };
 
   setCounterTime = (time) => {

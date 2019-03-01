@@ -51,7 +51,9 @@ class EndScreen extends Component {
 
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
-    this.setState({lastPressedTime: new Date().getTime()});
+    this.setState({
+      lastPressedTime: new Date().getTime()
+    });
     if (this.state.showControls) {
       if (name === 'LIVE') {
         this.props.onScrub(1);

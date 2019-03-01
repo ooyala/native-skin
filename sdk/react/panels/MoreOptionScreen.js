@@ -64,7 +64,9 @@ class MoreOptionScreen extends Component {
     if (BUTTON_NAMES.SHARE === buttonName) {
       this.props.onOptionButtonPress(buttonName);
     } else {
-      this.setState({button: buttonName});
+      this.setState({
+        button: buttonName
+      });
       Animated.timing(
         this.state.buttonOpacity,
         {

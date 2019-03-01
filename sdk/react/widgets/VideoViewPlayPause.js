@@ -92,12 +92,16 @@ class VideoViewPlayPause extends Component {
   onSkipPress = (isForward) => {
     timerForSkipButtons.clearTimeout(this);
     const value = this.state.skipCount + (isForward ? 1 : -1);
-    this.setState({skipCount: value}, () => timerForSkipButtons.setTimeout(
+    this.setState({
+      skipCount: value
+    }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
         this.props.onSeekPressed(this.state.skipCount);
-        this.setState({skipCount: 0});
+        this.setState({
+          skipCount: 0
+        });
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS
     ));

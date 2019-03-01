@@ -84,7 +84,9 @@ class ControlBar extends Component {
   };
 
   onVolumePress = () => {
-    this.setState({showVolume:!this.state.showVolume});
+    this.setState({
+      showVolume: !this.state.showVolume
+    });
   };
 
   onSocialSharePress = () => {

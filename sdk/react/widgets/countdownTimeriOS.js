@@ -57,7 +57,9 @@ class CountdownView extends Component {
 
   _onPress = () => {
   if (this.props.tapCancel) {
-    this.setState({canceled: true});
+    this.setState({
+      canceled: true
+    });
   }
     this.props.onPress && this.props.onPress();
   }
