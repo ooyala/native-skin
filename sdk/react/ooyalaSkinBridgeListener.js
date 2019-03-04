@@ -1,6 +1,10 @@
 /**
  * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge
  */
+import { 
+  Platform 
+} from 'react-native';
+
 import {
   CONTENT_TYPES,
   SCREEN_TYPES,
@@ -184,7 +188,6 @@ class OoyalaSkinBridgeListener {
       live: e.live,
       promoUrl: e.promoUrl,
       hostedAtUrl: e.hostedAtUrl,
-      playhead: e.playhead,
       width: e.width,
       height: e.height,
       volume: e.volume,
@@ -291,6 +294,7 @@ class OoyalaSkinBridgeListener {
       desiredState: e.desiredState
     });
   };
+  
   onError(e) {
     Log.log('Error received');
     this.skin.setState({
