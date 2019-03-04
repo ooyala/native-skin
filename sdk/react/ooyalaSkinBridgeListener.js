@@ -192,6 +192,7 @@ class OoyalaSkinBridgeListener {
       height: e.height,
       volume: e.volume,
       caption: null,
+      availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
       contentType: e.contentType
     });
 
@@ -294,7 +295,7 @@ class OoyalaSkinBridgeListener {
       desiredState: e.desiredState
     });
   };
-  
+
   onError(e) {
     Log.log('Error received');
     this.skin.setState({

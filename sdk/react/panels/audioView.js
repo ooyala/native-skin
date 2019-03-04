@@ -37,7 +37,7 @@ class AudioView extends Component {
     height: PropTypes.number,
     volume: PropTypes.number,
     playbackSpeedEnabled: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.number,
+    selectedPlaybackSpeedRate: PropTypes.string,
     handlers: PropTypes.shape({
       onPress: PropTypes.func.isRequired,
       onScrub: PropTypes.func.isRequired,

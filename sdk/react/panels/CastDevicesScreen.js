@@ -139,10 +139,10 @@ class CastDevicesScreen extends Component {
   _renderCastButton = (color) => {
     return Utils.renderRectButton(BUTTON_NAMES.CAST,
       null,
-      this.props.config.icons.cast.fontString,
+      this.props.config.icons['chromecast-disconnected'].fontString,
       null, castButtonSize,
       color,
-      this.props.config.icons.cast.fontFamilyName)
+      this.props.config.icons['chromecast-disconnected'].fontFamilyName)
   };
 
   _onPressButton = (rowID) => {

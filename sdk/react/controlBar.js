@@ -195,7 +195,7 @@ class ControlBar extends Component {
         onPress: this.onCastPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.config.icons.cast,
+        icon: this.props.config.icons['chromecast-disconnected'],
         enabled: true//this.props.cast
       },
       discovery: {
