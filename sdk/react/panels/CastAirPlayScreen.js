@@ -28,42 +28,82 @@ class CastAirPlayScreen extends Component {
     return (
       <Modal transparent>
         <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-
+          {/* <TouchableHighlight
+            onPress={this.props.onPress}
+            style={{
+              backgroundColor: 'transparent'
+            }}>
+          </TouchableHighlight> */}
           {/* fill space at the top */}
           <View style={{ flex: 1, justifyContent: 'flex-start' }} />
 
-          <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'transparent' }}>
+          <View style={{
+            flex: 1, 
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            backgroundColor: 'transparent'}}>
             {/* content goes here */}
+
             <View style={{
               height: this.props.height,
               width: this.props.width,
-              backgroundColor: 'skyblue',
+              backgroundColor: 'transparent',
               borderRadius: 10
             }}>
-              <View style={{ flex: 1, flexDirection: 'row', backgroundColor: 'transparent' }}>
-                <AirPlayView style={{ height: 100, width: 100, color: '#8E8E8E', fontSize: iconFontSize }}>
+              <View style={{
+                height: this.props.height / 2,
+                backgroundColor: 'rgba(0,0,0,0.7)',
+                borderRadius: 10,
+                flex: 1,
+                flexDirection: 'row'}}>
+                <AirPlayView style={{
+                  padding: 4,
+                  height: this.props.height / 2 - 8,
+                  width: this.props.height / 2 - 8,
+                  color: '#8E8E8E'}}>
                 </AirPlayView>
-                <Text>Airplay</Text>
+                <View style={{
+                  height: this.props.height / 2,
+                  width: this.props.width - this.props.height / 2 - 8,
+                  justifyContent: 'center', 
+                  alignItems: 'flex-start'}}>
+                  <Text style={{
+                    textAlign: 'left',
+                    color: '#FFFFFF',
+                    fontSize: 36,
+                    fontFamily: 'AvenirNext-DemiBold'}}>Airplay
+                  </Text>
+                </View>
               </View>
-              <TouchableHighlight 
-                onPress={this.props.onPress}
-                style={{padding: 8}}>
-                <Text style={{
-                  height: iconFontSize,
-                  width: iconFontSize,
-                  color: '#8E8E8E',
-                  fontSize: iconFontSize,
-                  fontFamily: this.props.config.icons['chromecast-disconnected'].fontFamilyStyle}}>
-                    {this.props.config.icons['chromecast-disconnected'].fontString} Chromecast
-                </Text>
-              </TouchableHighlight>
-              <TouchableHighlight
-                style={{ flex: 1 }}
-                onPress={() => {
-                  this.props.onDismiss();
+
+              <View style={{
+                height: this.props.height / 2,
+                backgroundColor: 'rgba(0,0,0,0.7)',
+                borderRadius: 10,
+                flex: 1,
+                flexDirection: 'row'}}>
+                <View style={{
+                  padding: 4,
+                  height: this.props.height / 2 - 8,
+                  width: this.props.height / 2 - 8,
+                  color: '#8E8E8E'
                 }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
+                </View>
+                <View style={{
+                  height: this.props.height / 2,
+                  width: this.props.width - this.props.height / 2 - 8,
+                  justifyContent: 'center',
+                  alignItems: 'flex-start'
+                }}>
+                  <Text style={{
+                    textAlign: 'left',
+                    color: '#FFFFFF',
+                    fontSize: 36,
+                    fontFamily: 'AvenirNext-DemiBold'
+                  }}>Chromecast
+                  </Text>
+                </View>
+              </View>
             </View>
           </View>
 
