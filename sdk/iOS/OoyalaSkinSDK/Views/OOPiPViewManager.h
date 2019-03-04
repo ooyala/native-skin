@@ -6,6 +6,7 @@
 //  Copyright © 2019 ooyala. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "React/RCTViewManager.h"
 
 NS_ASSUME_NONNULL_BEGIN

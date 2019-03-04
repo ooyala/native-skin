@@ -10,4 +10,11 @@
 
 @implementation OOPiPViewManager
 
+RCT_EXPORT_MODULE();
+
+- (UIView *)view {
+  UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 22)];
+  return btn;
+}
+
 @end
