@@ -4,5 +4,5 @@
     "flexDirection": "row",
     "justifyContent": "flex-end",
     "padding": 10
-  },
+  }
 }

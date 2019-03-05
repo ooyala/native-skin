@@ -1,13 +1,14 @@
 {
   "row": {  
     "flex": 1,
-    "flexDirection": "row",
+    "flexDirection": "row"
   },
 
   "column": {
     "flex": 1,  
-    "flexDirection": "column",
+    "flexDirection": "column"
   },
+  
   "container" : {
     "flex": 1
   }
