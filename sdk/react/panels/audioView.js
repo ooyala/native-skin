@@ -268,10 +268,11 @@ class AudioView extends Component {
     }
 
     // Add flexible spaces for first and last widget
-    const flexibleSpace = <View style={styles.flexibleSpace}/>
+    const flexibleSpace1 = <View style={styles.flexibleSpace} key='flexibleSpace1'/>
+    const flexibleSpace2 = <View style={styles.flexibleSpace} key='flexibleSpace2' />
 
-    controlBarWidgets.splice(1, 0, flexibleSpace);
-    controlBarWidgets.splice(controlBarWidgets.length - 1, 0, flexibleSpace);
+    controlBarWidgets.splice(1, 0, flexibleSpace1);
+    controlBarWidgets.splice(controlBarWidgets.length - 1, 0, flexibleSpace2);
 
     return (
       <View
