@@ -9,7 +9,7 @@
 #ifndef OOPiPViewManager_h
 #define OOPiPViewManager_h
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "React/RCTViewManager.h"
 
 NS_ASSUME_NONNULL_BEGIN
