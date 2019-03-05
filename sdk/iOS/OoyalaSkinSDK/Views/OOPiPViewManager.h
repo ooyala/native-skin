@@ -2,7 +2,6 @@
 //  OOPiPViewManager.h
 //  OoyalaSkinSDK
 //
-//  Created by Oleksandr Sulyma on 3/4/19.
 //  Copyright © 2019 ooyala. All rights reserved.
 //
 
