@@ -4,6 +4,7 @@ import {
   Modal,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  TouchableHighlight,
   View,
   Text
 } from 'react-native';
@@ -39,8 +40,9 @@ class CastAirPlayScreen extends Component {
 
   render() {
     const castButton = this._renderCastButton('white');
-    const textContainerDimensions = { height: this.props.height / 2 - 8, width: this.props.width - this.props.height / 2 - 8 };
-    const halfHeightWithMargin = { height: this.props.height / 2 - 8 };
+    const halfHeightWithMargin = this.props.height / 2 - 8;
+    const textContainerDimensions = { height: halfHeightWithMargin, width: this.props.width - halfHeightWithMargin - 4};
+    const halfHeightWithMarginStyle = { height: this.props.height / 2 - 8 };
     
     return (
       <Modal transparent>
@@ -55,23 +57,25 @@ class CastAirPlayScreen extends Component {
 
             <TouchableWithoutFeedback>
               <View style={[styles.modalContent, { height: this.props.height, width: this.props.width }]}>
-              <View style={[styles.modalButton, halfHeightWithMargin]}>
-                <AirPlayView style={{
-                  height: this.props.height / 2 - 8,
-                  width: this.props.height / 2 - 8,
-                  color: '#8E8E8E'}}>
-                </AirPlayView>
-                <View style={[styles.textContainer, textContainerDimensions]}>
-                <Text style={styles.textStyle}>Airplay</Text>
-                </View>
+
+              <View style={[styles.modalButton, halfHeightWithMarginStyle]}>
+                <AirPlayView style={{ height: halfHeightWithMargin, width: halfHeightWithMargin }}></AirPlayView>
+                <TouchableHighlight onPress={this.props.onDismiss}>
+                  <View style={[styles.textContainer, textContainerDimensions]}>
+                    <Text style={styles.textStyle}>Airplay</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
 
-              <View style={[styles.modalButton, halfHeightWithMargin]}>
+              <View style={[styles.modalButton, halfHeightWithMarginStyle]}>
                 {castButton}
-                <View style={[styles.textContainer, textContainerDimensions]}>
-                <Text style={styles.textStyle}>Chromecast</Text>
-                </View>
+                <TouchableHighlight onPress={this.props.onPress}>
+                  <View style={[styles.textContainer, textContainerDimensions]}>
+                    <Text style={styles.textStyle}>Chromecast</Text>
+                  </View>
+                </TouchableHighlight>
               </View>
+
             </View>
             </TouchableWithoutFeedback>
           </View>
