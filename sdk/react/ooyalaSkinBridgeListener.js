@@ -374,14 +374,14 @@ class OoyalaSkinBridgeListener {
       ' selectedPlaybackSpeedRate: ' + e.selectedPlaybackSpeedRate);
     this.skin.setState({
       playbackSpeedEnabled: e.playbackSpeedEnabled,
-      selectedPlaybackSpeedRate: e.selectedPlaybackSpeedRate
+      selectedPlaybackSpeedRate: parseFloat(e.selectedPlaybackSpeedRate)
     });
   };
 
   handlePlaybackSpeedRateChanged(e) {
     Log.log('Playback speed rate changed received:' + e.selectedPlaybackSpeedRate);
     this.skin.setState({
-      selectedPlaybackSpeedRate: e.selectedPlaybackSpeedRate
+      selectedPlaybackSpeedRate: parseFloat(e.selectedPlaybackSpeedRate)
     });
   };
 };

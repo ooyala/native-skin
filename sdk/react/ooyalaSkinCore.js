@@ -61,7 +61,7 @@ class OoyalaSkinCore {
   handlePlaybackSpeedRateSelection(e) {
     Log.log('onPlaybackSpeedRateSelected:' + e);
     this.skin.setState({
-      selectedPlaybackSpeedRate: e
+      selectedPlaybackSpeedRate: parseFloat(e)
     });
     this.bridge.onPlaybackSpeedRateSelected({ playbackSpeedRate: e });
   }
