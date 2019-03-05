@@ -185,7 +185,7 @@ class ControlBar extends Component {
         icon: this.props.config.icons.rewind
       },
       moreOptions: {
-        onPress: this.onCastPress,
+        onPress: this.onMorePress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
@@ -196,7 +196,7 @@ class ControlBar extends Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons['chromecast-disconnected'],
-        enabled: true//this.props.cast
+        enabled: this.props.cast
       },
       discovery: {
         onPress: this.onDiscoveryPress,
@@ -260,7 +260,7 @@ class ControlBar extends Component {
     }
 
     this.props.config.buttons.forEach(_isVisible, this);
-    //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));
+    //Log.warn('collapse isVisible Results:'+JSON.stringify(this.props.config.buttons));
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 
