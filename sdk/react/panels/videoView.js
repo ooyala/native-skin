@@ -43,7 +43,7 @@ class VideoView extends Component {
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
     playbackSpeedEnabled: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.string,
+    selectedPlaybackSpeedRate: PropTypes.number,
     handlers: PropTypes.shape({
       onPress: PropTypes.func,
       onAdOverlay: PropTypes.func,

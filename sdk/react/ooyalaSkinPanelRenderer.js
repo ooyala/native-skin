@@ -145,7 +145,7 @@ class OoyalaSkinPanelRenderer {
         height={this.skin.state.height}
         volume={this.skin.state.volume}
         playbackSpeedEnabled={playbackSpeedEnabled}
-        selectedPlaybackSpeedRate={Utils.formattedPlaybackSpeedRate(this.skin.state.selectedPlaybackSpeedRate)}
+        selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
         handlers={{
           onPress: (value) => this.core.handlePress(value),
           onScrub: (value) => this.core.handleScrub(value),
@@ -191,7 +191,7 @@ class OoyalaSkinPanelRenderer {
         stereoSupported={this.skin.state.stereoSupported}
         multiAudioEnabled={this.skin.state.multiAudioEnabled}
         playbackSpeedEnabled={playbackSpeedEnabled}
-        selectedPlaybackSpeedRate={Utils.formattedPlaybackSpeedRate(this.skin.state.selectedPlaybackSpeedRate)}
+        selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
         handlers={{
           onPress: (value) => this.core.handlePress(value),
           onAdOverlay: (value) => this.core.handleAdOverlayPress(value),
@@ -314,7 +314,7 @@ class OoyalaSkinPanelRenderer {
     return (
       <PlaybackSpeedPanel
         playbackSpeedRates={playbackSpeedRates}
-        selectedPlaybackSpeedRate={Utils.formattedPlaybackSpeedRate(this.skin.state.selectedPlaybackSpeedRate)}
+        selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
         width={this.skin.state.width}
         height={this.skin.state.height}
         onSelectPlaybackSpeedRate={(value) => this.core.handlePlaybackSpeedRateSelection(value)}

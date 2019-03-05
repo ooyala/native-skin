@@ -29,7 +29,7 @@ const constants = {
 class PlaybackSpeedPanel extends Component {
   static propTypes = {
     playbackSpeedRates: PropTypes.array,
-    selectedPlaybackSpeedRate: PropTypes.string,
+    selectedPlaybackSpeedRate: PropTypes.number,
     onSelectPlaybackSpeedRate: PropTypes.func,
     onDismiss: PropTypes.func,
     width: PropTypes.number,
