@@ -6,15 +6,22 @@
 //  Copyright © 2019 ooyala. All rights reserved.
 //
 
+
+
 #import "OOPiPViewManager.h"
+#import <MediaPlayer/MPVolumeView.h>
 
 @implementation OOPiPViewManager
 
 RCT_EXPORT_MODULE();
 
 - (UIView *)view {
-  UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 22)];
-  return btn;
+
+  UIView *viewLikeBtn = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 22)];
+  //viewLikeBtn.backgroundColor = UIColor.yellowColor;
+  return viewLikeBtn;
 }
 
 @end
+
+
