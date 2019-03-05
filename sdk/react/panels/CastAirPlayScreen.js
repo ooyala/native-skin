@@ -30,11 +30,11 @@ class CastAirPlayScreen extends Component {
     return Utils.renderRectButton(
       BUTTON_NAMES.CAST,
       null,
-      this.props.config.icons.cc.fontString,
+      this.props.config.icons['chromecast-disconnected'].fontString,
       null,
       this.props.height / 2 - 8,
       color,
-      this.props.config.icons.cc.fontFamilyName
+      this.props.config.icons['chromecast-disconnected'].fontFamilyName
     )
   };
 
