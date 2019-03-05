@@ -363,6 +363,18 @@ public class BridgeMessageBuilder {
   }
 
   /**
+   * @param connectedDeviceName The name of connected device
+   * @return list available devices.
+   */
+  public static WritableMap buildConnectedDeviceNameParams(Object connectedDeviceName, OoyalaPlayer.State state) {
+    WritableMap params = Arguments.createMap();
+
+    params.putString("connectedDeviceName", (String) connectedDeviceName);
+    params.putString("state", state.name());
+    return params;
+  }
+
+  /**
    * @param exception The current Ooyala exception.
    * @return User info params.
    */

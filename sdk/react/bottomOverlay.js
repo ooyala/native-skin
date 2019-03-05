@@ -62,7 +62,8 @@ class BottomOverlay extends Component {
     stereoSupported: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
-    showPlaybackSpeedButton: PropTypes.bool
+    showPlaybackSpeedButton: PropTypes.bool,
+    inCastMode: PropTypes.bool
   };
 
   static defaultProps = {
@@ -338,8 +339,9 @@ class BottomOverlay extends Component {
         stereoSupported={this.props.stereoSupported}
         showMoreOptionsButton={this.props.showMoreOptionsButton}
         showAudioAndCCButton={this.props.showAudioAndCCButton}
-        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}>
-      </ControlBar>
+        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}
+        inCastMode={this.props.inCastMode}
+        />
     );
   }
 

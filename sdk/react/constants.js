@@ -23,6 +23,8 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   MORE: 'moreOptions',
   CAST: 'cast',
   CAST_AIRPLAY: 'castAirplay',
+  CAST_CONNECTED: 'cast_connected',
+  DISCONNECT: 'disconnect',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
   REPLAY: 'replay',
@@ -87,12 +89,15 @@ const OVERLAY_TYPES = {
   MOREOPTION_SCREEN: 'moreOption',
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen',
-  VOLUME_SCREEN: 'volumeScreen',
   MORE_DETAILS: 'moreDetails',
   VOLUME_SCREEN: 'volumeScreen',
+  CAST_AIRPLAY: 'castAirplay',
   CAST: 'cast',
-  CAST_AIRPLAY: 'castAirplay'
-}
+  CAST_DISCONNECTING: 'cast_disconnecting',
+  CAST_ERROR: 'cast_error',
+  CAST_CONNECTING: 'cast_connecting',
+  CAST_CONNECTED: 'cast_connected',
+};
 
 const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',

@@ -37,7 +37,8 @@ class ControlBar extends Component {
     stereoSupported: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
-    showPlaybackSpeedButton: PropTypes.bool
+    showPlaybackSpeedButton: PropTypes.bool,
+    inCastMode: PropTypes.bool
   };
 
   static defaultProps = {playhead: 0, duration: 0};
@@ -139,6 +140,7 @@ class ControlBar extends Component {
       ios: this.props.config.controlBar.logo.imageResource.iosResource,
       android: this.props.config.controlBar.logo.imageResource.androidResource
     });
+    let color = this.props.inCastMode === true ? "#3eb5f7" : "white";
 
     let controlBarWidgets = [];
 
@@ -194,7 +196,7 @@ class ControlBar extends Component {
       cast: {
         onPress: this.onCastPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active, {color: color}],
         icon: this.props.config.icons.cast,
         enabled: true//this.props.cast
       },

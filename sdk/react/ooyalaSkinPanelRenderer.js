@@ -23,9 +23,15 @@ import VideoView from './panels/videoView';
 import AdPlaybackScreen from './panels/adPlaybackScreen';
 import AudioAndCCSelectionPanel from './panels/AudioAndCCSelectionPanel';
 import PlaybackSpeedPanel from './panels/PlaybackSpeedPanel';
-import CastDevicesScreen from './panels/CastDevicesScreen';
 import Utils from './utils';
 import CastAirPlayScreen from './panels/CastAirPlayScreen';
+
+import CastConnectingScreen from'./panels/cast/CastConnectingScreen';
+import CastDevicesScreen from './panels/cast/CastDevicesScreen';
+import CastConnectedScreen from './panels/cast/CastConnectedScreen';
+import CastErrorScreen from './panels/cast/CastErrorScreen';
+import CastDisconnectingScreen  from './panels/cast/CastDisconnectingScreen';
+
 
 const ActivityView = NativeModules.OOActivityView;
 const leftMargin = 20;
@@ -110,9 +116,9 @@ class OoyalaSkinPanelRenderer {
           castDevicesScreen: this.skin.props.castDevicesScreen,
           icons: this.skin.props.icons,
         }}
+        deviceIds={this.skin.state.castListIds}
         deviceNames={this.skin.state.castListNames}
-        deviceIds={this.skin.state.castListIds}>
-      </CastDevicesScreen>
+        selectedItemName={this.skin.state.connectedDeviceName}/>
     );
   }
 
@@ -125,6 +131,119 @@ class OoyalaSkinPanelRenderer {
       </CastAirPlayScreen>
     );
   }
+
+  renderCastDevicesScreen() {
+    return (
+      <CastDevicesScreen
+        height={this.skin.state.height}
+        width={this.skin.state.width}
+        onDismiss={() => this.core.dismissOverlay()}
+        onDeviceSelected={(deviceName, deviceId) => this.core.handleCastDeviceSelected(deviceName, deviceId)}
+        config={{
+          castDevicesScreen: this.skin.props.castDevicesScreen,
+          icons: this.skin.props.icons,
+        }}
+        deviceIds={this.skin.state.castListIds}
+        deviceNames={this.skin.state.castListNames}
+        selectedItemName={this.skin.state.connectedDeviceName}/>
+    );
+  };
+
+  renderCastConnectingScreen() {
+    return (
+      <CastConnectingScreen
+        height={this.skin.state.height}
+        width={this.skin.state.width}
+        onDisconnect={() => this.core.handleCastDisconnect()}/>
+    );
+  };
+
+  renderCastErrorScreen() {
+    return (
+      <CastErrorScreen
+        height={this.skin.state.height}
+        width={this.skin.state.width}/>
+    );
+  };
+
+  renderCastDisconnectingScreen() {
+    return (
+      <CastDisconnectingScreen
+        height={this.skin.state.height}
+        width={this.skin.state.width}/>
+    );
+  };
+
+  renderCastConnectedScreen() {
+    let playbackSpeedEnabled = false;
+    return (
+      <CastConnectedScreen
+        rate={this.skin.state.rate}
+        playhead={this.skin.state.playhead}
+        duration={this.skin.state.duration}
+        adOverlay={this.skin.state.adOverlay}
+        live={this.skin.state.live}
+        width={this.skin.state.width}
+        height={this.skin.state.height}
+        volume={this.skin.state.volume}
+        fullscreen={this.skin.state.fullscreen}
+        cuePoints={this.skin.state.cuePoints}
+        stereoSupported={this.skin.state.stereoSupported}
+        multiAudioEnabled={this.skin.state.multiAudioEnabled}
+        playbackSpeedEnabled={playbackSpeedEnabled}
+        selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
+        handlers={{
+          onSwitch: (isForward) => this.core.handleSwitch(isForward),
+          onPress: (value) => this.core.handlePress(value),
+          onAdOverlay: (value) => this.core.handleAdOverlayPress(value),
+          onAdOverlayDismiss: () => this.core.handleAdOverlayDismiss(),
+          onScrub: (value) => this.core.handleScrub(value),
+          handleVideoTouchStart: (event) => this.core.handleVideoTouchStart(event),
+          handleVideoTouchMove: (event) => this.core.handleVideoTouchMove(event),
+          handleVideoTouchEnd: (event) => this.core.handleVideoTouchEnd(event),
+          handleControlsTouch: () => this.core.handleControlsTouch(),
+          showControls: () => this.core.showControls()
+        }}
+        lastPressedTime={this.skin.state.lastPressedTime}
+        screenReaderEnabled={this.skin.state.screenReaderEnabled}
+        closedCaptionsLanguage={this.skin.state.selectedLanguage}
+        // todo: change to boolean showCCButton.
+        availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
+        caption={this.skin.state.caption}
+        captionStyles={{
+          textSize: this.skin.state.ccTextSize,
+          textColor: this.skin.state.ccTextColor,
+          fontName: this.skin.state.ccFontName,
+          backgroundColor: this.skin.state.ccBackgroundColor,
+          textBackgroundColor: this.skin.state.ccTextBackgroundColor,
+          backgroundOpacity: this.skin.state.ccBackgroundOpacity,
+          edgeType: this.skin.state.ccEdgeType,
+          edgeColor: this.skin.state.ccEdgeColor,
+        }}
+        config={{
+          controlBar: this.skin.props.controlBar,
+          general: this.skin.props.general,
+          buttons: this.skin.props.buttons.mobileContent,
+          upNext: this.skin.props.upNext,
+          icons: this.skin.props.icons,
+          adScreen: this.skin.props.adScreen,
+          live: this.skin.props.live,
+          castControls: this.skin.props.castControls
+        }}
+        nextVideo={this.skin.state.nextVideo}
+        upNextDismissed={this.skin.state.upNextDismissed}
+        localizableStrings={this.skin.props.localization}
+        locale={this.skin.props.locale}
+        playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
+        loading={this.skin.state.loading}
+        initialPlay={this.skin.state.initialPlay}
+        onDisconnect={() => this.core.handleCastDisconnect()}
+        deviceName={this.skin.state.connectedDeviceName}
+        inCastMode={this.skin.state.inCastMode}
+      />
+    );
+  };
+
 
   renderAudioView() {
     let playbackSpeedEnabled = false;
@@ -444,7 +563,13 @@ class OoyalaSkinPanelRenderer {
         case OVERLAY_TYPES.MORE_DETAILS:
           return this.renderMoreDetailsScreen();
         case OVERLAY_TYPES.CAST:
-          return this.renderCastScreen();
+          return this.renderCastDevicesScreen();
+        case OVERLAY_TYPES.CAST_CONNECTING:
+          return this.renderCastConnectingScreen();
+        case OVERLAY_TYPES.CAST_DISCONNECTING:
+          return this.renderCastDisconnectingScreen();
+        case OVERLAY_TYPES.CAST_ERROR:
+          return this.renderCastErrorScreen();
         case OVERLAY_TYPES.CAST_AIRPLAY:
           return this.renderCastAirPlayScreen();
       }
@@ -473,7 +598,11 @@ class OoyalaSkinPanelRenderer {
       case SCREEN_TYPES.AUDIO_SCREEN:
         return this.renderAudioView();
       default:
-        return this.renderVideoView();
+        if (this.skin.state.inCastMode){
+          return this.renderCastConnectedScreen();
+        } else {
+          return this.renderVideoView();
+        }
     }
   };
 };
