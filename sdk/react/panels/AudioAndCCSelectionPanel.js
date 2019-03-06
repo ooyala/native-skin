@@ -145,7 +145,7 @@ class AudioAndCCSelectionPanel extends React.Component {
     let selectedLocalizedItem = this.props.selectedAudioTrackTitle;
     if (selectedLocalizedItem !== undefined) {
       selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
-      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForUndefinedLanguage);
+      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForNoLinguisticContent);
     }
 
     // Localize other items
