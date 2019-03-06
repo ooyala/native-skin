@@ -28,7 +28,7 @@ const Log = require('../log');
 const VolumeView = require('./VolumeView');
 const AccessibilityUtils = require('../accessibilityUtils');
 const SkipButton = require('./SkipButton');
-import PipButton from './PipButton';
+import PipView from './OOPiPView';
 
 class controlBarWidget extends React.Component {
   static propTypes = {
