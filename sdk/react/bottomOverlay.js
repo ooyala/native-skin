@@ -251,14 +251,13 @@ const BottomOverlay = createReactClass({
       if ((previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityProgressDelay)
               && currentPercent !== VALUES.MAX_PROGRESS_PERCENT) {
         previousAnnouncing = currentAnnouncing;
-        return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel)
       } else {
         if (Platform.OS === 'android' && currentPercent === VALUES.MAX_PROGRESS_PERCENT && previousAnnouncing !== 0) {
           AndroidAccessibility.announce(scrubberBarAccessibilityLabel);
           previousAnnouncing = 0
         }
-        return this._renderDefaultProgressBar(playedPercent, "")
       }
+      return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel)
     }
   },
 
