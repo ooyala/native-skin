@@ -24,6 +24,7 @@ import ControlBar from './controlBar';
 import ResponsiveDesignManager from './responsiveDesignManager';
 
 import bottomOverlayStyles from './style/bottomOverlayStyles.json';
+
 const styles = Utils.getStyles(bottomOverlayStyles);
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
@@ -192,7 +193,7 @@ class BottomOverlay extends Component {
             ref='progressBar'
             percent={percent}
             config={this.props.config}
-            ad={this.props.ad}
+            ad={this.props.ad != null}
             renderDuration={false}>
           </ProgressBar>
       </View>
