@@ -40,6 +40,7 @@ class ControlBar extends React.Component {
     height: PropTypes.number.isRequired,
     primaryButton: PropTypes.string.isRequired,
     fullscreen: PropTypes.bool.isRequired,
+    isPipActivated: PropTypes.bool.isRequired,
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
     volume: PropTypes.number.isRequired,
@@ -115,6 +116,10 @@ class ControlBar extends React.Component {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
   };
 
+  onPipButtonPress = () => {
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.PIP);
+  };
+
   onMorePress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   };
@@ -180,6 +185,13 @@ class ControlBar extends React.Component {
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand,
         fullscreen: this.props.fullscreen   // do we want to do this way ??
+      },
+      pipButton: {
+        onPress: this.onPipButtonPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        icon: this.props.config.icons.compress,
+        isActive: this.props.isPipActivated
       },
       rewind: {
         onPress: this.onRewindPress,

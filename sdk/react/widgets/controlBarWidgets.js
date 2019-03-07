@@ -192,6 +192,23 @@ class controlBarWidget extends React.Component {
     );
   };
 
+  pipButtonWidget = (options) => {
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    const nameLabel = options.isActive ? VIEW_ACCESSIBILITY_NAMES.EXIT_PIP : VIEW_ACCESSIBILITY_NAMES.ACTIVE_PIP;
+    return (
+      <TouchableHighlight
+        testID={nameLabel}
+        accessible={true}
+        accessibilityLabel={nameLabel}
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
+  };
+
   moreOptionsWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (
@@ -323,6 +340,7 @@ class controlBarWidget extends React.Component {
   };
 
   render() {
+    console.disableYellowBox = true;
     const widgetsMap = {
       'playPause': this.playPauseWidget,
       'volume': this.volumeWidget,
@@ -331,6 +349,7 @@ class controlBarWidget extends React.Component {
       'rewind': this.rewindWidget,
       'discovery': this.discoveryWidget,
       'fullscreen': this.fullscreenWidget,
+      'pipButton': this.pipButtonWidget,
       'moreOptions': this.moreOptionsWidget,
       'watermark': this.watermarkWidget,
       'share': this.shareWidget,
