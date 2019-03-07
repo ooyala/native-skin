@@ -20,7 +20,6 @@ import {
 } from '../constants';
 
 const Utils = require('../utils');
-const Log = require('../log');
 const styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
 const ItemSelectionScrollView = require('./ItemSelectionScrollView');
 
