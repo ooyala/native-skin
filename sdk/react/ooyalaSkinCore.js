@@ -61,7 +61,7 @@ class OoyalaSkinCore {
   handlePlaybackSpeedRateSelection(e) {
     Log.log('onPlaybackSpeedRateSelected:' + e);
     this.skin.setState({
-      selectedPlaybackSpeedRate: e
+      selectedPlaybackSpeedRate: parseFloat(e)
     });
     this.bridge.onPlaybackSpeedRateSelected({ playbackSpeedRate: e });
   }
@@ -131,7 +131,7 @@ class OoyalaSkinCore {
         this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MORE_DETAILS);
         break;
       case BUTTON_NAMES.CAST:
-            this.pushToOverlayStack(OVERLAY_TYPES.CAST);
+            this.pushToOverlayStack(OVERLAY_TYPES.CAST_DEVICES);
             break;
       case BUTTON_NAMES.CAST_AIRPLAY:
         this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CAST_AIRPLAY);

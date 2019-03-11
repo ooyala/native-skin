@@ -1,184 +1,230 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {ActivityIndicator, Animated, TouchableHighlight, View} from 'react-native';
+import {
+  ActivityIndicator, Animated, TouchableHighlight, View,
+} from 'react-native';
 
-import SkipButton from './SkipButton'
-import SwitchButton from './SwitchButton'
-import {BUTTON_NAMES, VALUES} from '../constants';
+import SkipButton from './SkipButton';
+import SwitchButton from './SwitchButton';
+import { BUTTON_NAMES, VALUES } from '../constants';
 
-const Log = require('../log');
+const timerForSkipButtons = require('react-native-timer');
 const Utils = require('../utils');
 const AccessibilityUtils = require('../accessibilityUtils');
-const timerForSkipButtons = require('react-native-timer');
 
 // Uses the rectbutton styles
-const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
-const PLAY = "play";
-const PAUSE = "pause";
-const LOADING = "loading";
-const FORWARD = "seekForward";
-const NEXT = "next";
-const PREVIOUS = "previous";
-const BACKWARD = "seekBackward";
+const styles = require('../utils')
+  .getStyles(require('./style/RectButtonStyles.json'));
+
+const PLAY = 'play';
+const PAUSE = 'pause';
+const FORWARD = 'seekForward';
+const NEXT = 'next';
+const PREVIOUS = 'previous';
+const BACKWARD = 'seekBackward';
 
 class CastPlayPauseButtons extends React.Component {
   static propTypes = {
-    seekEnabled: PropTypes.bool,
-    ffActive: PropTypes.bool,
-    icons: PropTypes.object,
-    position: PropTypes.string,
-    onPress: PropTypes.func,
-    onSeekPressed: PropTypes.func,
-    onSwitchPressed: PropTypes.func,
-    seekForwardValue: PropTypes.number,
-    seekBackwardValue: PropTypes.number,
-    opacity: PropTypes.number,
-    frameWidth: PropTypes.number,
-    frameHeight: PropTypes.number,
-    buttonWidth: PropTypes.number,
-    buttonHeight: PropTypes.number,
-    buttonColor: PropTypes.string,
-    buttonStyle: PropTypes.object,
-    fontSize: PropTypes.number,
-    style: PropTypes.object,
-    showButton: PropTypes.bool,
-    showSeekButtons: PropTypes.bool,
-    playing: PropTypes.bool,
-    loading: PropTypes.bool,
-    initialPlay: PropTypes.bool
+    seekEnabled: PropTypes.bool.isRequired,
+    ffActive: PropTypes.bool.isRequired,
+    icons: PropTypes.object.isRequired,
+    position: PropTypes.string.isRequired,
+    onPress: PropTypes.func.isRequired,
+    onSeekPressed: PropTypes.func.isRequired,
+    onSwitchPressed: PropTypes.func.isRequired,
+    seekForwardValue: PropTypes.number.isRequired,
+    seekBackwardValue: PropTypes.number.isRequired,
+    opacity: PropTypes.number.isRequired,
+    frameWidth: PropTypes.number.isRequired,
+    frameHeight: PropTypes.number.isRequired,
+    buttonWidth: PropTypes.number.isRequired,
+    buttonHeight: PropTypes.number.isRequired,
+    buttonColor: PropTypes.string.isRequired,
+    buttonStyle: PropTypes.object.isRequired,
+    fontSize: PropTypes.number.isRequired,
+    style: PropTypes.object.isRequired,
+    showButton: PropTypes.bool.isRequired,
+    showSeekButtons: PropTypes.bool.isRequired,
+    playing: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
+    initialPlay: PropTypes.bool.isRequired,
   };
 
   state = {
     playPause: {
       animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(1)
+      animationOpacity: new Animated.Value(1),
     },
     skipButtons: {
       animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(1)
+      animationOpacity: new Animated.Value(1),
     },
     playing: false,
-    skipCount: 0
+    skipCount: 0,
   };
 
   componentWillMount() {
-    this.state.playing = this.props.playing;
+    const { playing } = this.props;
+    this.state.playing = playing;
     this.state.skipButtons.animationOpacity.setValue(1);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.playing !== this.props.playing) {
+    const { playing } = this.props;
+
+    if (nextProps.playing !== playing) {
       this.state.playing = nextProps.playing;
     }
-  };
+  }
 
   componentWillUnmount() {
     timerForSkipButtons.clearTimeout(this);
   }
 
-  onPress = () => {
-    if (this.props.showButton) {
-      this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
+  onPress() {
+    const { showButton, onPress } = this.props;
+    if (showButton) {
+      onPress(BUTTON_NAMES.PLAY_PAUSE);
     } else {
-      this.props.onPress(BUTTON_NAMES.RESET_AUTOHIDE);
+      onPress(BUTTON_NAMES.RESET_AUTOHIDE);
     }
-  };
+  }
 
-  onSkipPress = (isForward) => {
+  onSkipPress(isForward) {
+    const { skipCount } = this.state;
+    const { onSeekPressed } = this.props;
     timerForSkipButtons.clearTimeout(this);
-    const value = this.state.skipCount + (isForward ? 1 : -1);
-    this.setState({skipCount: value}, () => timerForSkipButtons.setTimeout(
+    const value = skipCount + (isForward ? 1 : -1);
+    this.setState({ skipCount: value }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
-        this.props.onSeekPressed(this.state.skipCount);
-        this.setState({skipCount: 0});
+        onSeekPressed(skipCount);
+        this.setState({ skipCount: 0 });
       },
-      VALUES.DELAY_BETWEEN_SKIPS_MS
+      VALUES.DELAY_BETWEEN_SKIPS_MS,
     ));
-  };
+  }
 
-  onSwitchPressed = (isForward) => {
-    this.props.onSwitchPressed(isForward);
-  };
+  onSwitchPressed(isForward) {
+    const { onSwitchPressed } = this.props;
 
-  _renderPlayPauseButton = () => {
-    if (this.props.loading === true) {
-      return this._renderLoadingButton();
+    onSwitchPressed(isForward);
+  }
+
+  renderPlayPauseButton() {
+    const { loading, playing } = this.props;
+
+    let renderButton = null;
+    if (loading === true) {
+      renderButton = this.renderLoadingButton();
     } else {
-      if (this.props.playing) {
-        return this._renderButton(PAUSE);
-      }
-      if (this.props.playing) {
-        return this._renderButton(PAUSE);
-      }
-
-      return this._renderButton(PLAY);
+      renderButton = playing ? this.renderButton(PAUSE) : this.renderButton(PLAY);
     }
-  };
+    return renderButton;
+  }
 
-  _renderLoadingButton() {
-    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
+  renderLoadingButton() {
+    const { buttonWidth, buttonHeight, opacity } = this.props;
+    const accessible = true;
+    const sizeStyle = {
+      width: buttonWidth * 2,
+      height: buttonHeight * 2,
+    };
 
-    return <TouchableHighlight
-      accessible={true}
-      underlayColor="transparent"
-      activeOpacity={this.props.opacity}
-      importantForAccessibility={'yes'}
-      style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
-      <ActivityIndicator
-        size={60}
-        color='white'
+    return (
+      <TouchableHighlight
+        accessible={accessible}
+        underlayColor="transparent"
+        activeOpacity={opacity}
+        importantForAccessibility="yes"
         style={[sizeStyle, {
           justifyContent: 'center',
           alignItems: 'center',
-        }]}/>
-    </TouchableHighlight>;
+        }]}
+      >
+        <ActivityIndicator
+          size={60}
+          color="white"
+          style={[sizeStyle, {
+            justifyContent: 'center',
+            alignItems: 'center',
+          }]}
+        />
+      </TouchableHighlight>
+    );
   }
 
-  _renderButton = (name) => {
-    const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
-    const opacity = {opacity: this.state.playPause.animationOpacity};
-    const animate = {transform: [{scale: this.state.playPause.animationScale}]};
-    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
-    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
+  renderButton(name) {
+    const {
+      fontSize, icons, buttonColor, opacity, buttonWidth, buttonHeight,
+    } = this.props;
+    const { playPause } = this.state;
+    const { animationOpacity, animationScale } = playPause;
+
+    const accessible = true;
+
+    const fontStyle = {
+      fontSize,
+      fontFamily: icons[name].fontFamily,
+    };
+    const finalOpacity = { opacity: animationOpacity };
+    const animate = { transform: [{ scale: animationScale }] };
+    const finalButtonColor = { color: !!buttonColor ? buttonColor : 'white' };
+    const sizeStyle = {
+      width: buttonWidth * 2,
+      height: buttonHeight * 2,
+    };
     const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
 
     return (
       <TouchableHighlight
-        accessible={true}
+        accessible={accessible}
         accessibilityLabel={label}
         onPress={() => this.onPress()}
         underlayColor="transparent"
-        activeOpacity={this.props.opacity}
-        importantForAccessibility={'yes'}
-        style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
-        <Animated.Text
-          style={[styles.buttonTextStyle, fontStyle, buttonColor, animate, opacity]}>
-          {this.props.icons[name].icon}
+        activeOpacity={opacity}
+        importantForAccessibility="yes"
+        style={[sizeStyle, {
+          justifyContent: 'center',
+          alignItems: 'center',
+        }]}
+      >
+        <Animated.Text style={[styles.buttonTextStyle, fontStyle, finalButtonColor, animate, finalOpacity]}>
+          {icons[name].icon}
         </Animated.Text>
       </TouchableHighlight>
     );
-  };
+  }
 
-  _renderSeekButton = (name, iconScale, active) => {
-    const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
-    const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
-    const opacity = {opacity: this.state.skipButtons.animationOpacity};
-    const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
+  renderSeekButton(name, iconScale, active) {
+    const {
+      fontSize, icons, buttonWidth, buttonHeight, seekForwardValue, seekBackwardValue, buttonColor,
+    } = this.props;
+    const { skipButtons } = this.state;
+    const { animationOpacity, animationScale } = skipButtons;
+    const fontStyle = {
+      fontSize: fontSize * iconScale,
+      fontFamily: icons[name].fontFamily,
+    };
+    const sizeStyle = {
+      width: buttonWidth,
+      height: buttonHeight,
+    };
+    const opacity = { opacity: animationOpacity };
+    const animate = { transform: [{ scale: animationScale }] };
 
-    let color = "gray";
+    let color = 'gray';
     if (active) {
-      color = !!this.props.buttonColor ? this.props.buttonColor : "white";
+      color = !!buttonColor ? buttonColor : 'white';
     }
-    const buttonColor = {color: color};
-
     const isForward = name === FORWARD;
+
     let seekValue;
     if (name === NEXT || name === PREVIOUS) {
-      seekValue = "";
+      seekValue = '';
     } else {
-      seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
+      seekValue = isForward ? seekForwardValue : seekBackwardValue;
       seekValue = Utils.restrictSeekValueIfNeeded(seekValue);
     }
 
@@ -188,28 +234,36 @@ class CastPlayPauseButtons extends React.Component {
         timeValue={seekValue}
         sizeStyle={sizeStyle}
         disabled={!active}
-        onSeek={(isForward) => this.onSkipPress(isForward)}
-        icon={this.props.icons[name].icon}
+        onSeek={forward => this.onSkipPress(forward)}
+        icon={icons[name].icon}
         fontStyle={fontStyle}
         opacity={opacity}
         animate={animate}
-        buttonColor={buttonColor}
+        buttonColor={{ color }}
       />
     );
-  };
+  }
 
+  renderSwitchButton(name, iconScale, active) {
+    const {
+      fontSize, icons, buttonWidth, buttonHeight, buttonColor,
+    } = this.props;
+    const { skipButtons } = this.state;
+    const fontStyle = {
+      fontSize: fontSize * iconScale,
+      fontFamily: icons[name].fontFamily,
+    };
+    const sizeStyle = {
+      width: buttonWidth,
+      height: buttonHeight,
+    };
+    const opacity = { opacity: skipButtons.animationOpacity };
+    const animate = { transform: [{ scale: skipButtons.animationScale }] };
 
-  _renderSwitchButton = (name, iconScale, active) => {
-    const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
-    const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
-    const opacity = {opacity: this.state.skipButtons.animationOpacity};
-    const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
-
-    let color = "gray";
+    let color = 'gray';
     if (active) {
-      color = !!this.props.buttonColor ? this.props.buttonColor : "white";
+      color = !!buttonColor ? buttonColor : 'white';
     }
-    const buttonColor = {color: color};
 
     const isForward = name === NEXT;
 
@@ -218,35 +272,38 @@ class CastPlayPauseButtons extends React.Component {
         isForward={isForward}
         sizeStyle={sizeStyle}
         disabled={!active}
-        onSwitch={(isForward) => this.onSwitchPressed(isForward)}
-        icon={this.props.icons[name].icon}
+        onSwitch={forward => this.onSwitchPressed(forward)}
+        icon={icons[name].icon}
         fontStyle={fontStyle}
         opacity={opacity}
         animate={animate}
-        buttonColor={buttonColor}
+        buttonColor={{ color }}
       />
     );
-  };
+  }
 
   // Gets the play button based on the current config settings
   render() {
+    const {
+      ffActive, showSeekButtons, seekEnabled, frameHeight, buttonHeight, frameWidth, buttonWidth, showButton,
+    } = this.props;
     const seekButtonScale = 0.5;
-    const playPauseButton = this._renderPlayPauseButton();
-    const previousButton = this._renderSwitchButton(PREVIOUS, seekButtonScale, true);
-    const nextButton = this._renderSwitchButton(NEXT, seekButtonScale, true);
-    const backwardButton = this._renderSeekButton(BACKWARD, seekButtonScale, true);
-    const forwardButton = this._renderSeekButton(FORWARD, seekButtonScale, this.props.ffActive);
+    const playPauseButton = this.renderPlayPauseButton();
+    const previousButton = this.renderSwitchButton(PREVIOUS, seekButtonScale, true);
+    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, true);
+    const backwardButton = this.renderSeekButton(BACKWARD, seekButtonScale, true);
+    const forwardButton = this.renderSeekButton(FORWARD, seekButtonScale, ffActive);
 
     const containerStyle = {
       flexDirection: 'row',
       flex: 0,
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
     };
 
     const heightScaleFactor = 2;
     let widthScaleFactor = 2;
-    if (!!this.props.showSeekButtons && !!this.props.seekEnabled) {
+    if (!!showSeekButtons && !!seekEnabled) {
       // we add 2 per each skip button.
       // If you wanted to add more buttons horizontally, this value would change.
       // TODO: Know which button is enabled only.
@@ -255,20 +312,18 @@ class CastPlayPauseButtons extends React.Component {
       widthScaleFactor += 4;
     }
 
-    const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight * heightScaleFactor) * 0.5);
-    const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth * widthScaleFactor) * 0.5);
+    const topOffset = Math.round((frameHeight - buttonHeight * heightScaleFactor) * 0.5);
+    const leftOffset = Math.round((frameWidth - buttonWidth * widthScaleFactor) * 0.5);
 
     // positionStyle is for the view that acts as the container of the buttons.
     // We want it to be centered in the player area and it is dynamic because we have different buttons
     const positionStyle = {
       position: 'absolute',
       top: topOffset,
-      left: leftOffset
+      left: leftOffset,
     };
 
-    if (!this.props.showButton) {
-      return null;
-    } else {
+    if (showButton) {
       return (
         <View style={[positionStyle]}>
           <Animated.View style={[containerStyle]}>
@@ -281,6 +336,7 @@ class CastPlayPauseButtons extends React.Component {
         </View>
       );
     }
+    return null;
   }
 }
 

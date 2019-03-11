@@ -4,14 +4,17 @@
     "flexDirection": "column",
     "alignItems": "stretch"
   },
+
   "item": {
     "flex": 1,
     "width": 160,
     "height": 88
   },
+
   "listView": {
-    "backgroundColor": "#000000",
+    "backgroundColor": "#000000"
   },
+
   "button": {
     "flexDirection":"row",
     "flex":1,
@@ -24,6 +27,7 @@
     "width": 120,
     "height": 48
   },
+
   "selectedButton": {
     "flexDirection":"row",
     "flex":1,
@@ -36,6 +40,7 @@
     "width": 120,
     "height": 48
   },
+
   "itemContainer": {
     "flexDirection":"column",
     "flex":1,
@@ -50,19 +55,23 @@
     "fontFamily": "Helvetica",
     "backgroundColor": "transparent"
   },
+
   "splitter": {
     "height": 1,
     "alignSelf": "stretch",
     "backgroundColor": "#585858"
   },
+
   "previewTextContainer": {
     "alignItems":"flex-start",
     "margin": 5
   },
+
   "previewPanel": {
     "alignItems":"flex-start",
     "backgroundColor": "black"
   },
+  
   "closedCaptionStyle": {
     "textAlign":"left",
     "width": 60,

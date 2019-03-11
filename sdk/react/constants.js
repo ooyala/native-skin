@@ -92,7 +92,7 @@ const OVERLAY_TYPES = {
   MORE_DETAILS: 'moreDetails',
   VOLUME_SCREEN: 'volumeScreen',
   CAST_AIRPLAY: 'castAirplay',
-  CAST: 'cast',
+  CAST_DEVICES: 'cast_devices',
   CAST_DISCONNECTING: 'cast_disconnecting',
   CAST_ERROR: 'cast_error',
   CAST_CONNECTING: 'cast_connecting',

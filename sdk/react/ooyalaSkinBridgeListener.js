@@ -198,6 +198,7 @@ class OoyalaSkinBridgeListener {
       height: e.height,
       volume: e.volume,
       caption: null,
+      availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
       contentType: e.contentType
     });
 
@@ -377,7 +378,8 @@ class OoyalaSkinBridgeListener {
       initialPlay: this.skin.state.screenType == SCREEN_TYPES.START_SCREEN,
       screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
         SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
-      onPlayComplete: false
+      onPlayComplete: false,
+      previewUrl: e.previewUrl,
     });
   };
 
@@ -409,14 +411,14 @@ class OoyalaSkinBridgeListener {
       ' selectedPlaybackSpeedRate: ' + e.selectedPlaybackSpeedRate);
     this.skin.setState({
       playbackSpeedEnabled: e.playbackSpeedEnabled,
-      selectedPlaybackSpeedRate: e.selectedPlaybackSpeedRate
+      selectedPlaybackSpeedRate: parseFloat(e.selectedPlaybackSpeedRate)
     });
   };
 
   handlePlaybackSpeedRateChanged(e) {
     Log.log('Playback speed rate changed received:' + e.selectedPlaybackSpeedRate);
     this.skin.setState({
-      selectedPlaybackSpeedRate: e.selectedPlaybackSpeedRate
+      selectedPlaybackSpeedRate: parseFloat(e.selectedPlaybackSpeedRate)
     });
   };
 };

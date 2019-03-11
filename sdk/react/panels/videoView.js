@@ -168,6 +168,7 @@ class VideoView extends Component {
         stereoSupported={this.props.stereoSupported}
         config={{
           controlBar: this.props.config.controlBar,
+          castControls: this.props.config.castControls,
           buttons: this.props.config.buttons,
           icons: this.props.config.icons,
           live: this.props.config.live,

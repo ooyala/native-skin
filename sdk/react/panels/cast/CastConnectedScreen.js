@@ -1,12 +1,13 @@
 import PropTypes from 'prop-types';
 
 import React from 'react';
-import {Animated, Text, TouchableOpacity, View} from 'react-native';
-import {BUTTON_NAMES, UI_SIZES, VALUES} from "../../constants";
+import {
+  Animated, Text, TouchableOpacity, View, Image,
+} from 'react-native';
+import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 
-const Log = require('../../log');
 const Utils = require('../../utils');
-const styles = Utils.getStyles(require('../style/videoViewStyles.json'));
+const styles = Utils.getStyles(require('../style/CastConnectedStyles.json'));
 const CastPlayPauseButtons = require('../../widgets/CastPlayPauseButtons');
 const ResponsiveDesignManager = require('../../responsiveDesignManager');
 
@@ -14,320 +15,437 @@ const BottomOverlay = require('../../bottomOverlay');
 
 class CastConnectedScreen extends React.Component {
   static propTypes = {
-    playhead: PropTypes.number,
-    buffered: PropTypes.number,
-    duration: PropTypes.number,
-    adOverlay: PropTypes.object,
-    live: PropTypes.bool,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    volume: PropTypes.number,
-    fullscreen: PropTypes.bool,
-    cuePoints: PropTypes.array,
-    stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
-    playbackSpeedEnabled: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.string,
+    playhead: PropTypes.number.isRequired,
+    duration: PropTypes.number.isRequired,
+    live: PropTypes.bool.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+    volume: PropTypes.number.isRequired,
+    fullscreen: PropTypes.bool.isRequired,
+    cuePoints: PropTypes.arrayOf(PropTypes.double).isRequired,
+    stereoSupported: PropTypes.bool.isRequired,
+    multiAudioEnabled: PropTypes.bool.isRequired,
+    playbackSpeedEnabled: PropTypes.bool.isRequired,
+    selectedPlaybackSpeedRate: PropTypes.string.isRequired,
     handlers: PropTypes.shape({
       onSwitch: PropTypes.func,
       onPress: PropTypes.func,
-      onAdOverlay: PropTypes.func,
-      onAdOverlayDismiss: PropTypes.func,
       onScrub: PropTypes.func,
       handleVideoTouchStart: PropTypes.func,
       handleVideoTouchMove: PropTypes.func,
       handleVideoTouchEnd: PropTypes.func,
       handleControlsTouch: PropTypes.func,
-      showControls: PropTypes.func,
-    }),
-    lastPressedTime: PropTypes.any,
-    screenReaderEnabled: PropTypes.bool,
-    closedCaptionsLanguage: PropTypes.string,
-    availableClosedCaptionsLanguages: PropTypes.array,
-    caption: PropTypes.string,
-    captionStyles: PropTypes.object,
-    showWatermark: PropTypes.bool,
-    config: PropTypes.object,
-    nextVideo: PropTypes.object,
-    upNextDismissed: PropTypes.bool,
-    localizableStrings: PropTypes.object,
-    locale: PropTypes.string,
-    playing: PropTypes.bool,
-    loading: PropTypes.bool,
-    initialPlay: PropTypes.bool,
-    onDisconnect: PropTypes.func,
-    deviceName: PropTypes.string,
-    inCastMode: PropTypes.bool
+      handleShowControls: PropTypes.func,
+    }).isRequired,
+    screenReaderEnabled: PropTypes.bool.isRequired,
+    availableClosedCaptionsLanguages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    config: PropTypes.object.isRequired,
+    localizableStrings: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
+    playing: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
+    initialPlay: PropTypes.bool.isRequired,
+    onDisconnect: PropTypes.func.isRequired,
+    deviceName: PropTypes.string.isRequired,
+    inCastMode: PropTypes.bool.isRequired,
+    previewUrl: PropTypes.string.isRequired,
   };
 
   componentWillMount() {
+    const { height } = this.props;
+
     this.state = {
-      translateY: new Animated.Value(this.props.height),
+      translateY: new Animated.Value(height),
       opacity: new Animated.Value(2),
-      selectedID: -1
+      selectedID: -1,
     };
   }
 
   componentDidMount() {
-    this.state.translateY.setValue(this.props.height);
-    this.state.opacity.setValue(0);
+    const { height } = this.props;
+    const { translateY, opacity } = this.state;
+
+    translateY.setValue(height);
+    opacity.setValue(0);
 
     Animated.parallel([
       Animated.timing(
-        this.state.translateY,
+        translateY,
         {
           toValue: 0,
           duration: 700,
-          delay: 0
-        }),
+          delay: 0,
+        },
+      ),
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: 500,
-          delay: 0
-        }),
-    ]).start();
+          delay: 0,
+        },
+      ),
+    ])
+      .start();
   }
 
-  render() {
+  onSeekPressed(skipCountValue) {
+    if (skipCountValue === 0) {
+      return;
+    }
+    const { props } = this;
+    const { playhead, duration } = props;
+    const { skipForwardTime, skipBackwardTime } = props.config.castControls;
+
+    let configSeekValue = (skipCountValue > 0) ? skipForwardTime : skipBackwardTime;
+
+    configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
+    const seekValue = configSeekValue * skipCountValue;
+    let resultedPlayhead = playhead + seekValue;
+    if (resultedPlayhead < 0) {
+      resultedPlayhead = 0;
+    } else if (resultedPlayhead > duration) {
+      resultedPlayhead = duration;
+    }
+    const resultedPlayheadPercent = duration === 0 ? 0 : resultedPlayhead / duration;
+    this.handleScrub(resultedPlayheadPercent);
+  }
+
+  onSwitchPressed(isForwardSwitch) {
+    const { props } = this;
+    const { onSwitch } = props.handlers;
+    onSwitch(isForwardSwitch);
+  }
+
+  generateLiveObject() {
+    const {
+      live, playhead, duration, locale, localizableStrings,
+    } = this.props;
+    if (live) {
+      const isLive = playhead >= duration * VALUES.LIVE_THRESHOLD;
+      return ({
+        label: isLive ? Utils.localizedString(locale, 'LIVE', localizableStrings)
+          : Utils.localizedString(locale, 'GO LIVE', localizableStrings),
+        onGoLive: isLive ? null : this.onGoLive,
+      });
+    }
+    return null;
+  }
+
+  placeholderTapHandler(event) {
+    const { props } = this;
+    const { screenReaderEnabled } = props;
+    const { handleVideoTouchEnd } = props.handlers;
+
+    if (screenReaderEnabled) {
+      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
+    } else {
+      handleVideoTouchEnd(event);
+    }
+  }
+
+  handleScrub(value) {
+    const { props } = this;
+    const { onScrub } = props.handlers;
+    onScrub(value);
+  }
+
+  handlePress(name) {
+    const { showControls } = this.state;
+    const { props } = this;
+    const { onScrub, onPress, handleShowControls } = props.handlers;
+
+    if (showControls) {
+      if (name === 'LIVE') {
+        onScrub(1);
+      } else {
+        onPress(name);
+      }
+    } else {
+      handleShowControls();
+      onPress(name);
+    }
+  }
+
+  renderCastIcon() {
+    const { props } = this;
+    const { fontString, fontFamilyName } = props.config.icons.play;
+
     return (
-      <View
+      <Animated.Text
         accessible={false}
-        style={[styles.container, {"height": this.props.height}, {backgroundColor: "transparent"}, {"width": this.props.width}]}>
-        <View style={{backgroundColor: "transparent", flexDirection: 'row', paddingTop: 20, height: 90}}>
-          <Animated.Text
-            accessible={false}
-            style={{
-              top: 5,
-              marginLeft: 40,
-              marginRight: 10,
-              fontSize: 40,
-              color: "white",
-              icon: this.props.config.icons.play.fontString,
-              fontFamily: this.props.config.icons.play.fontFamilyName
-            }}>
-            {'}'}
-          </Animated.Text>
+        style={{
+          top: 5,
+          marginLeft: 40,
+          marginRight: 10,
+          fontSize: 40,
+          color: 'white',
+          icon: fontString,
+          fontFamily: fontFamilyName,
+        }}
+      >
+        {'}'}
+      </Animated.Text>
+    );
+  }
 
-          <View style={{flex: 1, height: 50, justifyContent: 'center',}}>
-            <Text style={{color: "white"}}> {"Connected to"} </Text>
-            <Text style={{color: "white", fontWeight: "bold"}}> {this.props.deviceName} </Text>
-          </View>
-
-          <View style={{
-            flexDirection: 'column',
-            width: 150,
-            height: 50,
-            flex: 1,
-            marginEnd: 40,
-            justifyContent: 'center',
-          }}>
-            <View style={{alignItems: 'center'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  this.props.onDisconnect();
-                }}>
-                <Text style={{
-                  borderWidth: 1,
-                  paddingLeft: 25,
-                  paddingRight: 25,
-                  paddingTop: 10,
-                  paddingBottom: 10,
-                  borderRadius: 4,
-                  color: "white",
-                  fontWeight: "bold",
-                  borderColor: 'black',
-                  backgroundColor: '#3FB5F7'
-                }}>
-                  {"Disconnect"}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <View
-          style={{
-            borderBottomColor: '#5c5c5c',
-            borderBottomWidth: 0.5,
-          }}
-        />
-        {this._renderPlaceholder()}
-        {this._renderPlayPause(true)}
-        {this._renderBottomOverlay(true)}
+  renderTopPanel() {
+    return (
+      <View style={{
+        backgroundColor: 'transparent',
+        flexDirection: 'row',
+        paddingTop: 20,
+        height: 90,
+      }}
+      >
+        {this.renderCastIcon()}
+        {this.renderDeviceNameLines()}
+        {this.renderDisconnectButton()}
       </View>
     );
   }
 
-  _renderPlaceholder = () => {
+  renderDisconnectButton() {
+    const { onDisconnect } = this.props;
+
+    return (
+      <View style={{
+        flexDirection: 'column',
+        width: 150,
+        height: 50,
+        flex: 1,
+        marginEnd: 40,
+        justifyContent: 'center',
+      }}
+      >
+        <View style={{ alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={() => {
+              onDisconnect();
+            }}
+          >
+            <Text
+              style={{
+                borderWidth: 1,
+                paddingLeft: 20,
+                paddingRight: 20,
+                paddingTop: 10,
+                paddingBottom: 10,
+                borderRadius: 4,
+                color: 'white',
+                fontWeight: 'bold',
+                borderColor: 'black',
+                backgroundColor: '#3FB5F7',
+              }}
+              numberOfLines={1}
+            >
+              {'Disconnect'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+
+  static renderBorder() {
+    return (
+      <View
+        style={{
+          borderBottomColor: '#5c5c5c',
+          borderBottomWidth: 0.5,
+        }}
+      />
+    );
+  }
+
+  renderDeviceNameLines() {
+    const { deviceName } = this.props;
+
+    return (
+      <View style={[styles.deviceNamesView]}>
+        <Text style={[styles.connectedToText]}>
+          {'Connected to'}
+        </Text>
+        <Text style={[styles.deviceNameText]}>
+          {deviceName}
+        </Text>
+      </View>
+    );
+  }
+
+  renderPlaceholder() {
+    const accessible = true;
+    const { props, placeholderTapHandler } = this;
+    const { previewUrl } = props.previewUrl;
+    const { handleVideoTouchStart, handleVideoTouchMove } = props.handlers;
     return (
       <View
         reactTag={1}
-        accessible={true}
-        accessibilityLabel={"Video player. Tap twice to play or pause"}
-        style={styles.placeholder}
-        importantForAccessibility={'no'}
-        onTouchStart={(event) => this.props.handlers.handleVideoTouchStart(event)}
-        onTouchMove={(event) => this.props.handlers.handleVideoTouchMove(event)}
-        onTouchEnd={(event) => this._placeholderTapHandler(event)}>
-      </View>);
-  };
+        accessible={accessible}
+        accessibilityLabel="Video player. Tap twice to play or pause"
+        style={{
+          flex: 1,
+          alignItems: 'stretch',
+          backgroundColor: 'transparent',
+        }}
+        importantForAccessibility="no"
+        onTouchStart={event => handleVideoTouchStart(event)}
+        onTouchMove={event => handleVideoTouchMove(event)}
+        onTouchEnd={event => placeholderTapHandler(event)}
+      >
+        <Image
+          style={{
+            flex: 1,
+            alignItems: 'stretch',
+            resizeMode: 'contain',
+          }}
+          blurRadius={5}
+          source={{ uri: previewUrl }}
+        />
+      </View>
+    );
+  }
 
-  _placeholderTapHandler = (event) => {
-    if (this.props.screenReaderEnabled) {
-      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
-    } else {
-      this.props.handlers.handleVideoTouchEnd(event);
-    }
-  };
+  renderBottomOverlay() {
+    const { props } = this;
+    const {
+      width, height, playing, fullscreen, cuePoints, playhead, duration, volume, availableClosedCaptionsLanguages,
+      handlers, multiAudioEnabled, playbackSpeedEnabled, screenReaderEnabled, stereoSupported, config,
+      selectedPlaybackSpeedRate, inCastMode,
+    } = props;
+    const { handleControlsTouch } = handlers;
 
-  _renderBottomOverlay = (show) => {
-    const ccEnabled =
-      this.props.availableClosedCaptionsLanguages &&
-      this.props.availableClosedCaptionsLanguages.length > 0;
+    const {
+      controlBar, castControls, buttons, icons, live, general,
+    } = config;
 
-    return (<BottomOverlay
-      width={this.props.width}
-      height={this.props.height}
-      primaryButton={this.props.playing ? "pause" : "play"}
-      fullscreen={this.props.fullscreen}
-      cuePoints={this.props.cuePoints}
-      playhead={this.props.playhead}
-      duration={this.props.duration}
-      volume={this.props.volume}
-      live={this.generateLiveObject()}
-      onPress={(name) => this.handlePress(name)}
-      onScrub={(value) => this.handleScrub(value)}
-      handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-      showAudioAndCCButton={this.props.multiAudioEnabled || ccEnabled}
-      showPlaybackSpeedButton={this.props.playbackSpeedEnabled}
-      showWatermark={this.props.showWatermark}
-      isShow={show}
-      screenReaderEnabled={this.props.screenReaderEnabled}
-      stereoSupported={this.props.stereoSupported}
-      config={{
-        controlBar: this.props.config.controlBar,
-        buttons: this.props.config.buttons,
-        icons: this.props.config.icons,
-        live: this.props.config.live,
-        general: this.props.config.general,
-        selectedPlaybackSpeedRate: this.props.selectedPlaybackSpeedRate
-      }}
-      inCastMode={this.props.inCastMode}
-    />);
-  };
 
-  generateLiveObject = () => {
-    if (this.props.live) {
-      const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
-      return ({
-        label:
-          isLive ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) :
-            Utils.localizedString(this.props.locale, "GO LIVE", this.props.localizableStrings),
-        onGoLive: isLive ? null : this.onGoLive
-      });
-    } else {
-      return null;
-    }
-  };
+    const ccEnabled = availableClosedCaptionsLanguages && availableClosedCaptionsLanguages.length > 0;
+    const isShown = true;
 
-  _renderPlayPause = (show) => {
+    return (
+      <BottomOverlay
+        width={width}
+        height={height}
+        primaryButton={playing ? 'pause' : 'play'}
+        fullscreen={fullscreen}
+        cuePoints={cuePoints}
+        playhead={playhead}
+        duration={duration}
+        volume={volume}
+        live={this.generateLiveObject()}
+        onPress={name => this.handlePress(name)}
+        onScrub={value => this.handleScrub(value)}
+        handleControlsTouch={() => handleControlsTouch()}
+        showAudioAndCCButton={multiAudioEnabled || ccEnabled}
+        showPlaybackSpeedButton={playbackSpeedEnabled}
+        isShow={isShown}
+        screenReaderEnabled={screenReaderEnabled}
+        stereoSupported={stereoSupported}
+        config={{
+          controlBar,
+          castControls,
+          buttons,
+          icons,
+          live,
+          general,
+          selectedPlaybackSpeedRate,
+        }}
+        inCastMode={inCastMode}
+      />
+    );
+  }
 
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
-    const seekVisible = !this.props.config.live.forceDvrDisabled || !this.props.live;
-    const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
+  renderCastPlayPause() {
+    const { props } = this;
+    const {
+      width, height, config, live, playhead, duration, rate, playing, loading,
+    } = props;
+    const {
+      play, previous, next, pause, forward, replay,
+    } = config.icons;
+
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const seekVisible = !config.live.forceDvrDisabled || !live;
+    const notInLiveRegion = playhead <= duration * VALUES.LIVE_THRESHOLD;
+    const icons = {
+      play: {
+        icon: play.fontString,
+        fontFamily: play.fontFamilyName,
+      },
+      previous: {
+        icon: previous.fontString,
+        fontFamily: previous.fontFamilyName,
+      },
+      next: {
+        icon: next.fontString,
+        fontFamily: next.fontFamilyName,
+      },
+      pause: {
+        icon: pause.fontString,
+        fontFamily: pause.fontFamilyName,
+      },
+      seekForward: {
+        icon: forward.fontString,
+        fontFamily: forward.fontFamilyName,
+      },
+      seekBackward: {
+        icon: replay.fontString,
+        fontFamily: replay.fontFamilyName,
+      },
+    };
+
+    const showButtons = true;
+    const showSeekButtons = true;
+
     return (
       <CastPlayPauseButtons
-        icons={{
-          play: {
-            icon: this.props.config.icons.play.fontString,
-            fontFamily: this.props.config.icons.play.fontFamilyName
-          },
-          previous: {
-            icon: this.props.config.icons.previous.fontString,
-            fontFamily: this.props.config.icons.previous.fontFamilyName
-          },
-          next: {
-            icon: this.props.config.icons.next.fontString,
-            fontFamily: this.props.config.icons.next.fontFamilyName
-          },
-          pause: {
-            icon: this.props.config.icons.pause.fontString,
-            fontFamily: this.props.config.icons.pause.fontFamilyName
-          },
-          seekForward: {
-            icon: this.props.config.icons.forward.fontString,
-            fontFamily: this.props.config.icons.forward.fontFamilyName
-          },
-          seekBackward: {
-            icon: this.props.config.icons.replay.fontString,
-            fontFamily: this.props.config.icons.replay.fontFamilyName
-          }
-        }}
+        icons={icons}
         seekEnabled={seekVisible}
-        ffActive={this.props.live ? notInLiveRegion : true}
-        position={"center"}
-        onPress={(name) => this.handlePress(name)}
-        onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
-        onSwitchPressed={(isForward) => this.onSwitchPressed(isForward)}
-        seekForwardValue={this.props.config.castControls.skipForwardTime}
-        seekBackwardValue={this.props.config.castControls.skipBackwardTime}
-        frameWidth={this.props.width}
-        frameHeight={this.props.height}
+        ffActive={live ? notInLiveRegion : true}
+        onPress={name => this.handlePress(name)}
+        onSeekPressed={isForward => this.onSeekPressed(isForward)}
+        onSwitchPressed={isForward => this.onSwitchPressed(isForward)}
+        seekForwardValue={config.castControls.skipForwardTime}
+        seekBackwardValue={config.castControls.skipBackwardTime}
+        frameWidth={width}
+        frameHeight={height}
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
         fontSize={iconFontSize}
-        showButton={show}
-        isLive={this.props.live}
-        showSeekButtons={true}
-        rate={this.props.rate}
-        playing={this.props.playing}
-        loading={this.props.loading}
-        initialPlay={this.props.initialPlay}/>
+        showButton={showButtons}
+        isLive={live}
+        showSeekButtons={showSeekButtons}
+        rate={rate}
+        playing={playing}
+        loading={loading}
+      />
     );
-  };
+  }
 
-  onSeekPressed = (skipCountValue) => {
-    if (skipCountValue == 0) {
-      return null;
-    }
+  render() {
+    const { height, width } = this.props;
 
-    let configSeekValue = (skipCountValue > 0) ? this.props.config.castControls.skipForwardTime : this.props.config.castControls.skipBackwardTime;
-
-    configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
-    const seekValue = configSeekValue * skipCountValue;
-    const currentPlayhead = this.props.playhead;
-    let resultedPlayhead = currentPlayhead + seekValue;
-    if (resultedPlayhead < 0) {
-      resultedPlayhead = 0;
-    } else if (resultedPlayhead > this.props.duration) {
-      resultedPlayhead = this.props.duration;
-    }
-    const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
-    this.handleScrub(resultedPlayheadPercent);
-  };
-
-  onSwitchPressed = (isForwardSwitch) => {
-    this.props.handlers.onSwitch(isForwardSwitch);
-  };
-
-  handleScrub = (value) => {
-    this.props.handlers.onScrub(value);
-  };
-
-  handlePress = (name) => {
-    Log.verbose("VideoView Handle Press: " + name);
-    if (this.state.showControls) {
-      if (name === "LIVE") {
-        this.props.handlers.onScrub(1);
-      } else {
-        this.props.handlers.onPress(name);
-      }
-    } else {
-      this.props.handlers.showControls();
-      this.props.handlers.onPress(name);
-    }
-  };
+    return (
+      <View
+        accessible={false}
+        style={{
+          width,
+          height,
+          flex: 0,
+          flexDirection: 'column',
+          backgroundColor: 'transparent',
+          overflow: 'hidden',
+        }}
+      >
+        {this.renderTopPanel()}
+        {CastConnectedScreen.renderBorder()}
+        {this.renderPlaceholder()}
+        {this.renderCastPlayPause()}
+        {this.renderBottomOverlay()}
+      </View>
+    );
+  }
 }
 
 module.exports = CastConnectedScreen;

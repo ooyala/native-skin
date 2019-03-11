@@ -49,7 +49,7 @@ class BottomOverlay extends Component {
     playhead: PropTypes.number,
     duration: PropTypes.number,
     ad: PropTypes.object,
-    volume: PropTypes.number,
+    volume: PropTypes.number.isRequired,
     onPress: PropTypes.func,
     onScrub: PropTypes.func,
     handleControlsTouch: PropTypes.func.isRequired,
@@ -75,7 +75,7 @@ class BottomOverlay extends Component {
   state = {
     touch: false,
     opacity: new Animated.Value(this.props.isShow ? 1 : 0),
-    height: new Animated.Value(this.props.isShow ? 
+    height: new Animated.Value(this.props.isShow ?
                                ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
     cachedPlayhead: -1
   };
@@ -185,7 +185,7 @@ class BottomOverlay extends Component {
 
   _renderProgressBar(percent) {
     return (
-      <View 
+      <View
         style={styles.progressBarContainer}
         accessible={false}>
           <ProgressBar
@@ -239,13 +239,13 @@ class BottomOverlay extends Component {
       if ((previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityProgressDelay)
               && currentPercent !== VALUES.MAX_PROGRESS_PERCENT) {
         previousAnnouncing = currentAnnouncing;
-        return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel)
+        // return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel)
       } else {
         if (Platform.OS === 'android' && currentPercent === VALUES.MAX_PROGRESS_PERCENT && previousAnnouncing !== 0) {
           AndroidAccessibility.announce(scrubberBarAccessibilityLabel);
-          previousAnnouncing = 0
+          previousAnnouncing = 0;
         }
-        return this._renderDefaultProgressBar(playedPercent, '')
+        return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel);
       }
     }
   }
@@ -374,15 +374,15 @@ class BottomOverlay extends Component {
     if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
       return;
     }
-    this.setState({ 
-      touch: true, 
-      x: event.nativeEvent.pageX 
+    this.setState({
+      touch: true,
+      x: event.nativeEvent.pageX
     });
   }
 
   handleTouchMove(event) {
     this.props.handleControlsTouch();
-    this.setState({ 
+    this.setState({
       x: event.nativeEvent.pageX
     });
     if (Platform.OS === 'android') {
@@ -405,9 +405,9 @@ class BottomOverlay extends Component {
         cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration
       });
     }
-    this.setState({ 
-      touch: false, 
-      x: null 
+    this.setState({
+      touch: false,
+      x: null
     });
 
     if (Platform.OS === 'android') {
@@ -441,15 +441,11 @@ class BottomOverlay extends Component {
   }
 
   render() {
-    if (this.props.config.controlBar.enabled || !this.props.config.controlBar.enabled) {
-      const widthStyle = { width: this.props.width, opacity: this.state.opacity };
-      if (this.props.live && (this.props.config.live && this.props.config.live.forceDvrDisabled)) {
-        return this.renderLiveWithoutDVR(widthStyle);
-      }
-      return this.renderDefault(widthStyle);
-    } else {
-      return null;
+    const widthStyle = {width: this.props.width, opacity: this.state.opacity};
+    if (this.props.live && (this.props.config.live && this.props.config.live.forceDvrDisabled)) {
+      return this.renderLiveWithoutDVR(widthStyle);
     }
+    return this.renderDefault(widthStyle);
   }
 }
 

@@ -68,7 +68,7 @@ public class BridgeMessageBuilder {
       String description = currentItem.getDescription();
       params.putString("description", description != null ? description : "");
 
-      String promoUrl = currentItem.getPromoImageURL(2000, 2000);
+      String promoUrl = currentItem.getPromoImageURL();
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
       //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : "";
       Double duration = currentItem.getDuration() / 1000.0;
@@ -87,7 +87,7 @@ public class BridgeMessageBuilder {
       String description = currentItem.getDescription();
       params.putString("description", description != null ? description : "");
 
-      String promoUrl = currentItem.getPromoImageURL(2000, 2000);
+      String promoUrl = currentItem.getPromoImageURL();
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
 
       String hostedAtUrl = player.getCurrentItem().getHostedAtUrl();
@@ -363,14 +363,29 @@ public class BridgeMessageBuilder {
   }
 
   /**
-   * @param connectedDeviceName The name of connected device
-   * @return list available devices.
+   * Use it to build Writable map with necessary params as:
+   *
+   * @param connectedDeviceName the name of connected device that will shown on cast control screen
+   * @param state               the start state of player
+   * @param url                 with video preview, to show black background simple keep empty or config skin.json
+   * @return WritableMap with device name
    */
-  public static WritableMap buildConnectedDeviceNameParams(Object connectedDeviceName, OoyalaPlayer.State state) {
+  public static WritableMap buildConnectedDeviceNameParams(Object connectedDeviceName, OoyalaPlayer.State state, String url) {
     WritableMap params = Arguments.createMap();
 
     params.putString("connectedDeviceName", (String) connectedDeviceName);
     params.putString("state", state.name());
+    params.putString("previewUrl", url);
+    return params;
+  }
+
+  /**
+   * @param url The url with preview for cast control screen
+   * @return WritableMap with preview url.
+   */
+  public static WritableMap buildConnectingParams(String url) {
+    WritableMap params = Arguments.createMap();
+
     return params;
   }
 

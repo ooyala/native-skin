@@ -7,8 +7,6 @@ import com.ooyala.android.skin.BridgeMessageBuilder;
 import com.ooyala.android.skin.OoyalaSkinLayoutController;
 import com.ooyala.android.skin.notification.OoyalaNotificationHandler;
 
-import static com.ooyala.android.OoyalaPlayer.DESIRED_STATE_CHANGED_NOTIFICATION_NAME;
-
 public class CastModeConnectedNotificationHandler extends OoyalaNotificationHandler {
 
   public CastModeConnectedNotificationHandler(OoyalaPlayer player, OoyalaSkinLayoutController layoutController) {
@@ -22,7 +20,7 @@ public class CastModeConnectedNotificationHandler extends OoyalaNotificationHand
 
   @Override
   public void handle(OoyalaNotification notification) {
-    WritableMap params = BridgeMessageBuilder.buildConnectedDeviceNameParams(notification.getData(), player.getState());
+    WritableMap params = BridgeMessageBuilder.buildConnectedDeviceNameParams(notification.getData(), player.getState(), player.getCurrentItem().getPromoImageURL());
     layoutController.sendEvent(getNotificationName(), params);
   }
 }

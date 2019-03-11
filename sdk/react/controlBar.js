@@ -140,10 +140,10 @@ class ControlBar extends Component {
       ios: this.props.config.controlBar.logo.imageResource.iosResource,
       android: this.props.config.controlBar.logo.imageResource.androidResource
     });
+
     let color = this.props.inCastMode === true ? "#3eb5f7" : "white";
-
+    let castIcon = this.props.inCastMode === true ? this.props.config.icons['chromecast-connected'] : this.props.config.icons['chromecast-disconnected'];
     let controlBarWidgets = [];
-
     const widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
@@ -187,18 +187,17 @@ class ControlBar extends Component {
         icon: this.props.config.icons.rewind
       },
       moreOptions: {
-        onPress: this.onCastPress,
+        onPress: this.onMorePress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
-        enabled: this.props.showMoreOptionsButton
       },
       cast: {
         onPress: this.onCastPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active, {color: color}],
-        icon: this.props.config.icons.cast,
-        enabled: true//this.props.cast
+        icon: castIcon,
+        enabled: true,
       },
       discovery: {
         onPress: this.onDiscoveryPress,
@@ -216,7 +215,7 @@ class ControlBar extends Component {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
         icon: waterMarkName,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
       },
       stereoscopic: {
         onPress: this.onStereoscopicPress,
@@ -262,7 +261,6 @@ class ControlBar extends Component {
     }
 
     this.props.config.buttons.forEach(_isVisible, this);
-    //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 

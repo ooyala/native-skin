@@ -1,6 +1,35 @@
 {
   "fullscreenContainer": {
-    "flexDirection": "column",
-    "backgroundColor": "rgba(0, 0, 0, 0.5)"
+    "flex": 1,
+    "justifyContent": "center",
+    "alignItems": "center"
+  },
+  "container": {
+    flex: 0,
+    flexDirection: "column",
+    backgroundColor: "transparent",
+    overflow: "hidden"
+  },
+  "placeholder": {
+    "flex": 1,
+    "alignItems": "stretch",
+    "backgroundColor": "transparent"
+  },
+  "imagePreview": {
+    "flex": 1,
+    "alignItems": "stretch",
+    "resizeMode": "contain"
+  },
+  "deviceNamesView": {
+    "flex": 1,
+    "height": 50,
+    "justifyContent": "center"
+  },
+  "connectedToText": {
+    "color": "white"
+  },
+  "deviceNameText": {
+    "color": "white",
+    "fontWeight": "bold"
   }
 }

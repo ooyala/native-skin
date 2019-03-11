@@ -186,8 +186,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
       @Override
       public void run() {
         if (_player != null && _player.getCurrentItem() != null) {
-          _player.selectRoute(new CastMediaRoute(castDeviceId, castDeviceName));
-          _player.onCastConnecting();
+          _player.connectDevice(new CastMediaRoute(castDeviceId, castDeviceName));
         }
       }
     });
@@ -195,12 +194,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   @Override
   public void onCastDisconnectPressed() {
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        _player.disconnectCast();
-      }
-    });
+    runOnUiThread(() -> _player.disconnectCast());
   }
 
   @Override

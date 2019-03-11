@@ -25,7 +25,7 @@ class MoreOptionScreen extends Component {
     controlBarWidth: PropTypes.number,
     showAudioAndCCButton: PropTypes.bool,
     isAudioOnly: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.number
+    selectedPlaybackSpeedRate: PropTypes.string
   };
 
   state = {

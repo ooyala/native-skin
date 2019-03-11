@@ -11,7 +11,7 @@ import {
 import {
   BUTTON_NAMES,
   STRING_CONSTANTS,
-  VIEW_ACCESSIBILITY_NAMES
+  VIEW_ACCESSIBILITY_NAMES,
 } from '../constants';
 import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
@@ -24,18 +24,18 @@ const styles = Utils.getStyles(controlBarWidgetStyles);
 class controlBarWidget extends Component {
   static propTypes = {
     widgetType: PropTypes.object,
-    options: PropTypes.object
+    options: PropTypes.object,
   };
 
   playPauseWidget = (options) => {
     const iconMap = {
       'play': options.playIcon,
       'pause': options.pauseIcon,
-      'replay': options.replayIcon
+      'replay': options.replayIcon,
     };
 
     const fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
-    let onPressF = options.primaryActionButton == 'replay' ?
+    let onPressF = options.primaryActionButton === 'replay' ?
                    options.onReplay : options.onPress;
     return (
       <TouchableHighlight
@@ -203,18 +203,20 @@ class controlBarWidget extends Component {
 
   castWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    return (
-      <TouchableHighlight
+    let widget = null;
+    if (options.enabled === true) {
+      widget = <TouchableHighlight
         testID={BUTTON_NAMES.CAST}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.CAST}
-        style={[options.iconTouchableStyle]}
+        style={[options.iconTouchableStyle, options.enabled]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
           {options.icon.fontString}
         </Text>
-      </TouchableHighlight>
-    );
+      </TouchableHighlight>;
+    }
+    return widget;
   };
 
   rewindWidget = (options) => {

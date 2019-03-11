@@ -1,50 +1,88 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-    Modal,
-    TouchableHighlight,
-    View,
-    Text
+  Modal,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  TouchableHighlight,
+  View,
+  Text
 } from 'react-native';
 
+import {
+  BUTTON_NAMES
+} from '../constants';
 import AirPlayView from '../widgets/AirPlayView'
+import Utils from '../utils';
+
+import styles from './style/castAirPlayScreenStyles.json'
 
 class CastAirPlayScreen extends Component {
-  static PropTypes = {
-    height: PropTypes.number,
+  static propTypes = {
     width: PropTypes.number,
-    onDismiss: PropTypes.func
+    height: PropTypes.number,
+    onDismiss: PropTypes.func,
+    onPress: PropTypes.func.isRequired,
+    config: PropTypes.object.isRequired
   }
 
+  _renderCastButton = (color) => {
+    return Utils.renderRectButton(
+      BUTTON_NAMES.CAST,
+      null,
+      this.props.config.icons['chromecast-disconnected'].fontString,
+      null,
+      this.props.height / 2 - 8,
+      color,
+      this.props.config.icons['chromecast-disconnected'].fontFamilyName
+    )
+  };
+
   render() {
+    const castButton = this._renderCastButton('white');
+    const halfHeightWithMargin = this.props.height / 2 - 8;
+    const textContainerDimensions = { height: halfHeightWithMargin, width: this.props.width - halfHeightWithMargin - 4};
+    const halfHeightWithMarginStyle = { height: this.props.height / 2 - 8 };
+    
     return (
       <Modal transparent>
-        <View style={{ flex: 1, alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+        <TouchableOpacity style={styles.touchableOpacity}
+          onPress={this.props.onDismiss}>
 
           {/* fill space at the top */}
-          <View style={{ flex: 1, justifyContent: 'flex-start' }} />
+          <View style={styles.topView} />
 
-          <View style={{ flex: 1, backgroundColor: 'transparent' }}>
+          <View style={styles.content}>
             {/* content goes here */}
-            <View style={{
-              width: this.props.width,
-              height: this.props.height,
-              backgroundColor: 'skyblue',
-              borderRadius: 10
-            }}>
-              <TouchableHighlight
-                style={{ flex: 1 }}
-                onPress={() => {
-                  this.props.onDismiss();
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
+
+            <TouchableWithoutFeedback>
+              <View style={[styles.modalContent, { height: this.props.height, width: this.props.width }]}>
+
+              <View style={[styles.modalButton, halfHeightWithMarginStyle]}>
+                <AirPlayView style={{ height: halfHeightWithMargin, width: halfHeightWithMargin }}></AirPlayView>
+                <TouchableHighlight onPress={this.props.onDismiss}>
+                  <View style={[styles.textContainer, textContainerDimensions]}>
+                    <Text style={styles.textStyle}>Airplay</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+
+              <View style={[styles.modalButton, halfHeightWithMarginStyle]}>
+                {castButton}
+                <TouchableHighlight onPress={this.props.onPress}>
+                  <View style={[styles.textContainer, textContainerDimensions]}>
+                    <Text style={styles.textStyle}>Chromecast</Text>
+                  </View>
+                </TouchableHighlight>
+              </View>
+
             </View>
+            </TouchableWithoutFeedback>
           </View>
 
           {/* fill space at the bottom*/}
-          <View style={{ flex: 1, justifyContent: 'flex-end' }} />
-        </View>
+          <View style={styles.bottomView} />
+        </TouchableOpacity>
       </Modal>
     );
   }

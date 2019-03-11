@@ -3,18 +3,20 @@
     "height": 30,
     "flexDirection": "row",
     "alignItems": "center",
-    "marginLeft": 16,
+    "marginLeft": 16
   },
+
   "grayedText": {
     "textAlign": "center",
     "color": "#363636",
     "fontSize": 12,
-    "padding": 6,
+    "padding": 6
   },
+
   "highlightedText": {
     "textAlign": "center",
     "color": "#FFFFFF",
     "fontSize": 12,
-    "padding": 6,
-  },
+    "padding": 6
+  }
 }
