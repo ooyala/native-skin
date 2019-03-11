@@ -75,7 +75,7 @@ class BottomOverlay extends Component {
   state = {
     touch: false,
     opacity: new Animated.Value(this.props.isShow ? 1 : 0),
-    height: new Animated.Value(this.props.isShow ? 
+    height: new Animated.Value(this.props.isShow ?
                                ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
     cachedPlayhead: -1
   };
@@ -185,7 +185,7 @@ class BottomOverlay extends Component {
 
   _renderProgressBar(percent) {
     return (
-      <View 
+      <View
         style={styles.progressBarContainer}
         accessible={false}>
           <ProgressBar
@@ -193,7 +193,7 @@ class BottomOverlay extends Component {
             ref='progressBar'
             percent={percent}
             config={this.props.config}
-            ad={this.props.ad != null}
+            ad={!!this.props.ad}
             renderDuration={false}>
           </ProgressBar>
       </View>
@@ -373,15 +373,15 @@ class BottomOverlay extends Component {
     if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
       return;
     }
-    this.setState({ 
-      touch: true, 
-      x: event.nativeEvent.pageX 
+    this.setState({
+      touch: true,
+      x: event.nativeEvent.pageX
     });
   }
 
   handleTouchMove(event) {
     this.props.handleControlsTouch();
-    this.setState({ 
+    this.setState({
       x: event.nativeEvent.pageX
     });
     if (Platform.OS === 'android') {
@@ -404,9 +404,9 @@ class BottomOverlay extends Component {
         cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration
       });
     }
-    this.setState({ 
-      touch: false, 
-      x: null 
+    this.setState({
+      touch: false,
+      x: null
     });
 
     if (Platform.OS === 'android') {
