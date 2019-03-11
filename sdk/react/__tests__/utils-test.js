@@ -2,54 +2,54 @@
 
 jest.dontMock('../utils');
 
-var Utils = require('../utils');
+import Utils from '../utils';
 
 describe('utils test suite', function() {
 
-  var localizableData = {
+  const localizableData = {
     defaultLanguage: 'en',
     en: {
-      "Learn More": "Learn More",
-      "CLOSED CAPTION PREVIEW": "CLOSED CAPTION PREVIEW",
-      "Sample Text": "Sample Text",
-      "Ad": "Ad",
-      "Skip Ad": "Skip Ad",
-      "LIVE": "LIVE",
-      "GO LIVE": "GO LIVE",
-      "CC Options": "CC Options",
-      "On": "On",
-      "Off": "Off",
+      'Learn More': 'Learn More',
+      'CLOSED CAPTION PREVIEW': 'CLOSED CAPTION PREVIEW',
+      'Sample Text': 'Sample Text',
+      'Ad': 'Ad',
+      'Skip Ad': 'Skip Ad',
+      'LIVE': 'LIVE',
+      'GO LIVE': 'GO LIVE',
+      'CC Options': 'CC Options',
+      'On': 'On',
+      'Off': 'Off',
     },
     es: {
-      "Learn More" : "Más información",
-      "CLOSED CAPTION PREVIEW": "VISTA PRELIMINAR DE SUBTÍTULOS",
-      "Sample Text": "Texto de muestra",
-      "Ad": "Anuncio",
-      "Skip Ad": "Omitir anuncio",
-      "LIVE": "EN VIVO",
-      "GO LIVE": "TRANSMITIR EN VIVO",
-      "CC Options": "Opciones de subtitulado",
-      "On": "Sí",
-      "Off": "No",
-    },
+      'Learn More' : 'Más información',
+      'CLOSED CAPTION PREVIEW': 'VISTA PRELIMINAR DE SUBTÍTULOS',
+      'Sample Text': 'Texto de muestra',
+      'Ad': 'Anuncio',
+      'Skip Ad': 'Omitir anuncio',
+      'LIVE': 'EN VIVO',
+      'GO LIVE': 'TRANSMITIR EN VIVO',
+      'CC Options': 'Opciones de subtitulado',
+      'On': 'Sí',
+      'Off': 'No',
+    }
   };
 
   it('tests localizedString() with edge cases', function() {
-    var cases = [
+    const cases = [
       [null, null, null],
       [undefined, undefined, undefined],
       [[], undefined, undefined],
       [-12.12, null, {}],
-      [{}, undefined, []],
+      [{}, undefined, []]
     ];
-    for (var i = 0; i < cases.length; i++) {
-      var result = Utils.localizedString.apply(null, cases[i]);
+    for (let i = 0; i < cases.length; i++) {
+      const result = Utils.localizedString.apply(null, cases[i]);
       expect(result).toBeNull();
     }
   });
 
   it('tests localizedString() with not found preferredLocale', function() {
-    var result = Utils.localizedString('not found', 'On', localizableData);
+    const result = Utils.localizedString('not found', 'On', localizableData);
     expect(result).toBe('On');
 
     result = Utils.localizedString('not found', 'NotFound', localizableData);
@@ -63,7 +63,7 @@ describe('utils test suite', function() {
   });
 
   it('tests localizedString() with not found stringId', function() {
-    var result = Utils.localizedString('es', 'I do not have a key', localizableData);
+    const result = Utils.localizedString('es', 'I do not have a key', localizableData);
     expect(result).toBe('I do not have a key');
 
     result = Utils.localizedString('es', null, localizableData);
@@ -74,7 +74,7 @@ describe('utils test suite', function() {
   });
 
   it('tests localizedString() without localizableStrings', function() {
-    var result = Utils.localizedString('es', 'LIVE', {});
+    const result = Utils.localizedString('es', 'LIVE', {});
     expect(result).toBe('LIVE');
 
     result = Utils.localizedString('es', 'LIVE', null);
@@ -85,39 +85,39 @@ describe('utils test suite', function() {
   });
 
   it('tests localizedString() uses preferredLocale', function() {
-    var result = Utils.localizedString('es', 'Sample Text', localizableData);
+    const result = Utils.localizedString('es', 'Sample Text', localizableData);
     expect(result).toBe('Texto de muestra');
 
-    var result = Utils.localizedString('en', 'Sample Text', localizableData);
+    const result = Utils.localizedString('en', 'Sample Text', localizableData);
     expect(result).toBe('Sample Text');
   });
 
   it('tests localizedString() uses localizableData defaultLanguage', function() {
-    var result = Utils.localizedString('fr', 'Ad', localizableData);
+    const result = Utils.localizedString('fr', 'Ad', localizableData);
     expect(result).toBe('Ad');
 
     localizableData['defaultLanguage'] = 'es';
-    var result = Utils.localizedString('kr', 'Ad', localizableData);
+    const result = Utils.localizedString('kr', 'Ad', localizableData);
     expect(result).toBe('Anuncio');
   });
 
   it('tests shouldShowLandscape() with invalid arguments', function() {
-    var cases = [
+    const cases = [
       [null, null],
       [undefined, undefined],
       [[], undefined],
       [-12.12, {}],
-      ['number', ['x']],
+      ['number', ['x']]
     ];
 
-    for (var i = 0; i < cases.length; i++) {
-      var result = Utils.shouldShowLandscape.apply(null, cases[i]);
+    for (let i = 0; i < cases.length; i++) {
+      const result = Utils.shouldShowLandscape.apply(null, cases[i]);
       expect(result).toBeFalsy();
     }
   });
 
   it('tests shouldShowLandscape() with valid arguments', function() {
-    var result = Utils.shouldShowLandscape(-12,-14);
+    const result = Utils.shouldShowLandscape(-12,-14);
     expect(result).toBeFalsy();
 
     result = Utils.shouldShowLandscape(0, 0);

@@ -2,7 +2,7 @@
 //  NSDictionary+Utils.m
 //  OoyalaSkinSDK
 //
-//  Created by Eric Vargas on 11/6/15.
+//  Created on 11/6/15.
 //  Copyright © 2015 ooyala. All rights reserved.
 //
 

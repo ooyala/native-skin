@@ -1,5 +1,4 @@
 {
-
   "container": {
     "flexDirection": "column",
     "backgroundColor": "rgba(0,0,0,0.3)"
@@ -24,5 +23,4 @@
     "backgroundColor": "white",
     "borderRadius": 900
   }
-
 }

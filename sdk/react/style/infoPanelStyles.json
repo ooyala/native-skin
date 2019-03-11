@@ -1,6 +1,6 @@
 {
-  container: {
-    flexDirection: 'column',
-    alignItems: 'center',
+  "container": {
+    "flexDirection": "column",
+    "alignItems": "center"
   }
 }

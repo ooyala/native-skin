@@ -1,17 +1,10 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import React from 'react';
 import {
   Animated,
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
 import {
@@ -19,21 +12,21 @@ import {
   CELL_TYPES
 } from '../constants';
 
-const Utils = require('../utils');
-const styles = require('../utils').getStyles(require('./style/AudioAndCCSelectionPanel'));
-const ItemSelectionScrollView = require('./ItemSelectionScrollView');
+import Utils from '../utils';
+import ItemSelectionScrollView from './ItemSelectionScrollView';
 
+import audioAndCCSelectionPanelStyles from './style/AudioAndCCSelectionPanel';
+const styles = Utils.getStyles(audioAndCCSelectionPanelStyles);
 const stringConstants = {
-  undefinedLanguageTitle: "Undefined language",
-  noLinguisticContentTitle: "No linguistic content",
-  offButtonTitle: "Off",
-  audioHeaderViewSectionTitle: "Audio",
-  subtitlesHeaderViewSectionTitle: "Subtitles"
+  undefinedLanguageTitle: 'Undefined language',
+  noLinguisticContentTitle: 'No linguistic content',
+  offButtonTitle: 'Off',
+  audioHeaderViewSectionTitle: 'Audio',
+  subtitlesHeaderViewSectionTitle: 'Subtitles'
 };
-
 const animationDuration = 1000;
 
-class AudioAndCCSelectionPanel extends React.Component {
+class AudioAndCCSelectionPanel extends Component {
   static propTypes = {
     audioTracksTitles: PropTypes.array,
     selectedAudioTrackTitle: PropTypes.string,
@@ -64,7 +57,6 @@ class AudioAndCCSelectionPanel extends React.Component {
     ]).start();
   }
 
-
   onAudioTrackSelected = (name) => {
     const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
     const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
@@ -78,12 +70,11 @@ class AudioAndCCSelectionPanel extends React.Component {
     }
   };
 
-
   onClosedCaptionsLanguageSelected = (name) => {
     const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
 
     if (name === offButtonLocalizedTitle) {
-      this.props.onSelectClosedCaptions("");
+      this.props.onSelectClosedCaptions('');
     } else if (this.props.selectedClosedCaptionsLanguage !== name) {
       this.props.onSelectClosedCaptions(name);
     }
@@ -94,8 +85,7 @@ class AudioAndCCSelectionPanel extends React.Component {
   };
 
   renderHeaderView = (hasMultiAudioTracks, hasClosedCaptions) => {
-    let leftTitle;
-    let rightTitle;
+    let leftTitle, rightTitle;
 
     const localizedAudioTitle = Utils.localizedString(this.props.config.locale, stringConstants.audioHeaderViewSectionTitle, this.props.config.localizableStrings);
     const localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale, stringConstants.subtitlesHeaderViewSectionTitle, this.props.config.localizableStrings);
@@ -105,14 +95,14 @@ class AudioAndCCSelectionPanel extends React.Component {
        rightTitle = localizedSubtitlesTitle;
     } else if (hasMultiAudioTracks) {
       leftTitle = localizedAudioTitle;
-      rightTitle = "";
+      rightTitle = '';
     } else {
       leftTitle = localizedSubtitlesTitle;
-      rightTitle = "";
+      rightTitle = '';
     }
 
-    const isLeftTitleAccessible = !(leftTitle === "");
-    const isRightTitleAccessible = !(rightTitle === "");
+    const isLeftTitleAccessible = !(leftTitle === '');
+    const isRightTitleAccessible = !(rightTitle === '');
 
     return (
       <View style={styles.panelHeaderView}>
@@ -124,8 +114,8 @@ class AudioAndCCSelectionPanel extends React.Component {
           <TouchableHighlight style={styles.dismissButton}
             accessible={true}
             accessibilityLabel={BUTTON_NAMES.DISMISS}
-            accessibilityComponentType="button"
-            underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+            accessibilityComponentType='button'
+            underlayColor='transparent' // Can't move this property to json style file because it doesn't works
             onPress={this.onDismissPress}>
             <Text style={styles.dismissIcon}>
               {this.props.config.icons.dismiss.fontString}
@@ -141,7 +131,6 @@ class AudioAndCCSelectionPanel extends React.Component {
     const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
 
     // Localize selected item
-
     let selectedLocalizedItem = this.props.selectedAudioTrackTitle;
     if (selectedLocalizedItem !== undefined) {
       selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
@@ -149,7 +138,6 @@ class AudioAndCCSelectionPanel extends React.Component {
     }
 
     // Localize other items
-
     const itemsWithLocalizedUndefinedLanguage = this.props.audioTracksTitles.map(function(item) {
       let localizedItem = item;
 
@@ -174,13 +162,13 @@ class AudioAndCCSelectionPanel extends React.Component {
   renderCCSelectionScrollView = () => {
     const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
     let selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
-    if (typeof(this.props.closedCaptionsLanguages) !== "undefined") {
+    if (typeof(this.props.closedCaptionsLanguages) !== 'undefined') {
       if (!this.props.closedCaptionsLanguages || this.props.closedCaptionsLanguages[0] !== offButtonTitle) {
         this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle)
       }
     }
 
-    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === "" || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
+    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === '' || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
       selectedClosedCaptionsLanguage = offButtonTitle;
     }
 
@@ -226,7 +214,7 @@ class AudioAndCCSelectionPanel extends React.Component {
   render() {
     const hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
     const hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
-    const animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
 
     return (
       <Animated.View style={[styles.panelContainer, styles.panel, animationStyle]}>

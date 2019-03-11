@@ -23,7 +23,7 @@
     "alignSelf": "center",
     "justifyContent":"center",
     "backgroundColor": "transparent",
-    "flexWrap": "wrap",
+    "flexWrap": "wrap"
   },
 
   "rowsContainer": {
@@ -32,7 +32,7 @@
     "alignSelf": "center",
     "justifyContent":"center",
     "backgroundColor": "transparent",
-    "flexWrap": "wrap",
+    "flexWrap": "wrap"
   },
 
   "rowBottom": {
@@ -49,6 +49,5 @@
 
   "iconDismiss": {
     "padding": 25
-  },
-
+  }
 }

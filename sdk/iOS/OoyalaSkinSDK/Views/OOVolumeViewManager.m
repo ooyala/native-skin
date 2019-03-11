@@ -8,7 +8,6 @@
 #import "OOVolumeViewManager.h"
 #import <MediaPlayer/MPVolumeView.h>
 
-
 @implementation OOVolumeViewManager
 
 RCT_EXPORT_MODULE();

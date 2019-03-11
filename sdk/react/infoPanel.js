@@ -1,23 +1,25 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 import {
   Text,
   View
 } from 'react-native';
 
-const Utils = require('./utils');
-const styles = Utils.getStyles(require('./style/infoPanelStyles.json'));
+import Utils from './utils';
 
-class InfoPanel extends React.Component {
+import infoPanelStyles from './style/infoPanelStyles.json';
+const styles = Utils.getStyles(infoPanelStyles);
+
+class InfoPanel extends Component {
   static propTypes = {
     title: PropTypes.string,
-    description: PropTypes.string,
+    description: PropTypes.string
   };
 
   render() {
     let infoPanel;
-    const titleAccessible = this.props.title != null && this.props.title != "";
-    const descriptionAccessible = this.props.description != null && this.props.title != "";
+    const titleAccessible = this.props.title && this.props.title != '';
+    const descriptionAccessible = this.props.description && this.props.title != '';
 
     infoPanel = (
       <View style={styles.infoPanelNW}>
@@ -32,7 +34,6 @@ class InfoPanel extends React.Component {
       </View>
     );
   }
-
 }
 
 module.exports = InfoPanel;

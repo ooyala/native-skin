@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -12,23 +6,25 @@ import {
   Text,
   View,
   BackHandler,
-  AccessibilityInfo
+  AccessibilityInfo,
+  NativeModules
 } from 'react-native';
-
-var RCTDeviceEventEmitter = require('RCTDeviceEventEmitter');
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 //calling class layout controller
-var eventBridge = require('NativeModules').OoyalaReactBridge;
+const {
+  OoyalaReactBridge
+} = NativeModules;
 
 import {
   CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES
 } from './constants';
-var OoyalaSkinCore = require('./ooyalaSkinCore');
-var OoyalaSkinCoreInstance;
+import OoyalaSkinCore from './ooyalaSkinCore';
+let OoyalaSkinCoreInstance;
 
-class OoyalaSkin extends React.Component {
+class OoyalaSkin extends Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
   // by the native bridge, and others are used purely on the non-native side.
   // consider using a leading underscore, or something?
@@ -68,12 +64,11 @@ class OoyalaSkin extends React.Component {
   };
 
   componentWillMount() {
-    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, eventBridge);
+    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, OoyalaReactBridge);
     OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
   }
 
   componentDidMount() {
-    // eventBridge.queryState();
     BackHandler.addEventListener('hardwareBackPress', function () {
       return OoyalaSkinCoreInstance.onBackPressed();
     });
@@ -90,7 +85,7 @@ class OoyalaSkin extends React.Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress');	
+    BackHandler.removeEventListener('hardwareBackPress');
     OoyalaSkinCoreInstance.unmount();
 
     AccessibilityInfo.removeEventListener(
@@ -109,7 +104,7 @@ class OoyalaSkin extends React.Component {
      return (
        <ActivityIndicator
         style={styles.loading}
-        size="large"
+        size='large'
       />
     );
   };
@@ -118,7 +113,8 @@ class OoyalaSkin extends React.Component {
     return (
       <View style={styles.container}>
           <Text>{this.state.playerState}</Text>
-      </View>);
+      </View>
+    );
   };
 
   render() {
@@ -138,7 +134,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 200
-  },
+  }
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

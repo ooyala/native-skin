@@ -1,93 +1,145 @@
-'use strict';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
-import PropTypes from 'prop-types';
 
+import {
+  VIEW_NAMES,
+} from '../constants';
 import Log from '../log';
-import { VIEW_NAMES } from '../constants';
+import Utils from '../utils';
+import progressBarStyles from './style/progressBarStyles.json';
 
-const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/progressBarStyles.json'));
+const styles = Utils.getStyles(progressBarStyles);
 
-class ProgressBar extends React.Component {
+export default class ProgressBar extends Component {
   static propTypes = {
     percent: PropTypes.number,
-    config: PropTypes.object,
-    ad: PropTypes.object,
-    renderDuration: PropTypes.bool
+    config: PropTypes.shape({
+      general: PropTypes.shape({
+        accentColor: PropTypes.string,
+      }),
+      controlBar: PropTypes.shape({
+        adScrubberBar: PropTypes.shape({
+          playedColor: PropTypes.string,
+          backgroundColor: PropTypes.string,
+          bufferedColor: PropTypes.string,
+        }),
+        scrubberBar: PropTypes.shape({
+          playedColor: PropTypes.string,
+          backgroundColor: PropTypes.string,
+          bufferedColor: PropTypes.string,
+        }),
+      }),
+    }),
+    ad: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    percent: 0,
+    config: {},
+    ad: false,
   };
 
   getAdScrubberBarPlayedColor = () => {
-    if (!this.props.config.general.accentColor) {
-      if (!this.props.config.controlBar.adScrubberBar.playedColor) {
-        Log.error("controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
-        return '#FF3F80';
-      } else {
-       return this.props.config.controlBar.adScrubberBar.playedColor;
-      }
-    } else {
-      return this.props.config.general.accentColor;
+    const { config } = this.props;
+    const { general, controlBar } = config;
+    const { accentColor } = general;
+    const { adScrubberBar } = controlBar;
+    const { playedColor } = adScrubberBar;
+
+    if (accentColor) {
+      return accentColor;
     }
+
+    if (playedColor) {
+      return playedColor;
+    }
+
+    Log.error('controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json. '
+              + ' Please update your skin.json file to the latest provided file, or add these to your skin.json');
+    return '#FF3F80';
   };
 
   getScrubberBarPlayedColor = () => {
-    if (!this.props.config.general.accentColor) {
-      if (!this.props.config.controlBar.scrubberBar.playedColor) {
-        Log.error("controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
-        return '#4389FF';
-      } else {
-        return this.props.config.controlBar.scrubberBar.playedColor;
-      }
-    } else {
-       return this.props.config.general.accentColor;
+    const { config } = this.props;
+    const { general, controlBar } = config;
+    const { accentColor } = general;
+    const { scrubberBar } = controlBar;
+    const { playedColor } = scrubberBar;
+
+    if (accentColor) {
+      return accentColor;
     }
+
+    if (playedColor) {
+      return playedColor;
+    }
+
+    Log.error('controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json. '
+              + 'Please update your skin.json file to the latest provided file, or add these to your skin.json');
+    return '#4389FF';
   };
 
   render() {
-    const playedPercent = this.props.percent;
-    const bufferedPercent = 0;
-    const unbufferedPercent = 1 - playedPercent - bufferedPercent;
+    const { percent, ad, config } = this.props;
+    const { controlBar } = config;
 
-    if (this.props.ad) {
-      var playedColor = this.getAdScrubberBarPlayedColor();
-      var backgroundColor = this.props.config.controlBar.adScrubberBar.backgroundColor;
-      var bufferedColor = this.props.config.controlBar.adScrubberBar.bufferedColor;
+    const bufferedPercent = 0;
+    const unbufferedPercent = 1 - percent - bufferedPercent;
+
+    let playedColor;
+    let bgColor;
+    let buffColor;
+
+    if (ad) {
+      playedColor = this.getAdScrubberBarPlayedColor();
+      const { adScrubberBar } = controlBar;
+      const { backgroundColor, bufferedColor } = adScrubberBar;
+      bgColor = backgroundColor;
+      buffColor = bufferedColor;
     } else {
-      var playedColor = this.getScrubberBarPlayedColor();
-      var backgroundColor = this.props.config.controlBar.scrubberBar.backgroundColor;
-      var bufferedColor = this.props.config.controlBar.scrubberBar.bufferedColor;
+      playedColor = this.getScrubberBarPlayedColor();
+      const { scrubberBar } = controlBar;
+      const { backgroundColor, bufferedColor } = scrubberBar;
+      bgColor = backgroundColor;
+      buffColor = bufferedColor;
     }
 
-    const playedStyle = {backgroundColor: playedColor, flex: playedPercent};
-    const backgroundStyle = {backgroundColor: backgroundColor, flex: bufferedPercent};
-    const bufferedStyle = {backgroundColor: bufferedColor, flex: unbufferedPercent};
-    const progressStyles = StyleSheet.create({played:playedStyle, background:backgroundStyle, buffered:bufferedStyle});
+    const playedStyle = { backgroundColor: playedColor, flex: percent };
+    const backgroundStyle = { backgroundColor: bgColor, flex: bufferedPercent };
+    const bufferedStyle = { backgroundColor: buffColor, flex: unbufferedPercent };
+    const progressStyles = StyleSheet.create({
+      played: playedStyle,
+      background: backgroundStyle,
+      buffered: bufferedStyle,
+    });
 
     return (
       <View
         style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
         importantForAccessibility="no-hide-descendants"
-        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}>
-          <View
-            style={progressStyles.played}
-            testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}/>
-          <View
-            style={progressStyles.background}
-            testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}/>
-          <View
-            style={progressStyles.buffered}
-            testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
-            accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}/>
+        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR}
+      >
+        <View
+          style={progressStyles.played}
+          testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
+        />
+        <View
+          style={progressStyles.background}
+          testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
+        />
+        <View
+          style={progressStyles.buffered}
+          testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
+          accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
+        />
       </View>
     );
   }
 }
-
-module.exports = ProgressBar;

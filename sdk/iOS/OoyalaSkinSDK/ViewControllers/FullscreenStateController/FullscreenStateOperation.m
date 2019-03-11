@@ -7,19 +7,17 @@
 
 #import "FullscreenStateOperation.h"
 
+@interface FullscreenStateOperation ()
 
-@interface FullscreenStateOperation()
-
-@property (nonatomic, copy) void (^fullscreenBlock)(void (^animationCompletion)());
-@property (nonatomic, copy) void (^inlineBlock)(void (^animationCompletion)());
-@property (nonatomic, copy) void (^completeStateChanges)();
+@property (nonatomic, copy) void (^fullscreenBlock)(void (^animationCompletion)(void));
+@property (nonatomic, copy) void (^inlineBlock)(void (^animationCompletion)(void));
+@property (nonatomic, copy) void (^completeStateChanges)(void);
 @property (nonatomic) BOOL isFullscreen;
 
 @property (atomic, readwrite) BOOL executing;
 @property (atomic, readwrite) BOOL finished;
 
 @end
-
 
 @implementation FullscreenStateOperation
 
@@ -31,9 +29,9 @@
 #pragma mark - Initialization
 
 - (instancetype)initWithFullscreen:(BOOL)isFullscreen
-              enterFullscreenBlock:(void (^)(void (^animationCompletion)()))fullscreenBlock
-                  enterInlineBlock:(void (^)(void (^animationCompletion)()))inlineBlock
-           andCompleteStateChanges:(void (^)())completeStateChanges {
+              enterFullscreenBlock:(void (^)(void (^animationCompletion)(void)))fullscreenBlock
+                  enterInlineBlock:(void (^)(void (^animationCompletion)(void)))inlineBlock
+           andCompleteStateChanges:(void (^)(void))completeStateChanges {
   if (self = [super init]) {
     _isFullscreen = isFullscreen;
     _fullscreenBlock = fullscreenBlock;
@@ -63,11 +61,8 @@
   [self didChangeValueForKey:@"isExecuting"];
   
   dispatch_group_t dispatchGroup = dispatch_group_create();
-  
   dispatch_group_enter(dispatchGroup);
-
   dispatch_async(dispatch_get_main_queue(), ^{
-    
     if (self.isFullscreen) {
       self.fullscreenBlock(^{
         dispatch_group_leave(dispatchGroup);
@@ -78,7 +73,6 @@
       });
     }
   });
-
   dispatch_group_wait(dispatchGroup, DISPATCH_TIME_FOREVER);
   
   // Call completion block
@@ -114,12 +108,10 @@
 }
 
 - (void)cancelOperation {
-  
   // Move the operation to the finished state if it is canceled
   [self willChangeValueForKey:@"isFinished"];
   self.finished = YES;
   [self didChangeValueForKey:@"isFinished"];
 }
-
 
 @end

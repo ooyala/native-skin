@@ -8,7 +8,6 @@
 
 #import "PresentedViewControllerHelper.h"
 
-
 @interface PresentedViewControllerHelper ()
 
 @property (nonatomic) NSMutableArray *storedPresentedViewControllers;
@@ -21,7 +20,7 @@
 
 - (instancetype)init {
   if (self = [super init]) {
-    _storedPresentedViewControllers = [NSMutableArray new];
+    _storedPresentedViewControllers = [NSMutableArray array];
   }
   return self;
 }
@@ -63,11 +62,11 @@
 #pragma mark - Private functions
 
 - (nullable UIViewController *)findPresentedViewController:(nonnull UIViewController *)startedViewController {
-  if ([startedViewController isKindOfClass:[UINavigationController class]]) {
+  if ([startedViewController isKindOfClass:UINavigationController.class]) {
     return [self findPresentedViewController:[(UINavigationController *)startedViewController topViewController]];
   }
   
-  if ([startedViewController isKindOfClass:[UITabBarController class]]) {
+  if ([startedViewController isKindOfClass:UITabBarController.class]) {
     return [self findPresentedViewController:[(UITabBarController *)startedViewController selectedViewController]];
   }
   

@@ -2,7 +2,7 @@
 //  OOReactSkinModel.m
 //  OoyalaSkinSDK
 //
-//  Created by Maksim Kupetskii on 8/13/18.
+//  Created on 8/13/18.
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
@@ -362,7 +362,9 @@ static NSString *volumeChangeKey        = @"volumeChanged";
     }
   }
   
-  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
+                               (int64_t)(0.01 * NSEC_PER_SEC)),
+                 dispatch_get_main_queue(), ^{
     volumeViewSlider.value = volume;
   });
 }
@@ -378,6 +380,9 @@ static NSString *volumeChangeKey        = @"volumeChanged";
 
 - (void)toggleStereoMode {
   [self.skinControllerDelegate toggleStereoMode];
+}
+
+- (void)handleAirPlay {
 }
 
 #pragma mark - OOAudioSessionDelegate

@@ -37,6 +37,7 @@ public class VideoNotificationHandlersProvider implements NotificationHandlersPr
     handlers.add(new ClosedCaptionsLanguageChangedNotificationHandler(player, layoutController));
     handlers.add(new AdStartedNotificationHandler(player, layoutController));
     handlers.add(new AdErrorNotificationHandler(player, layoutController));
+    handlers.add(new CastPressedNotificationHandler(player, layoutController));
     handlers.add(new LiveCcChangedNotificationHandler(player, layoutController));
     handlers.add(new ManifestCcChangedNotificationHandler(player, layoutController));
     handlers.add(new AdOverlayNotificationHandler(player, layoutController));
