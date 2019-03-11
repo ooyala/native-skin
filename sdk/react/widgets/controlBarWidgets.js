@@ -339,7 +339,7 @@ class controlBarWidget extends React.Component {
       'audioAndCC': this.audioAndCCWidget,
       'playbackSpeed': this.playbackSpeedWidget,
       'seekBackwards': this.seekBackwardsWidget,
-      'seekForward': this.seekForwardWidget
+      'seekForward': this.seekForwardWidget,
     };
     if (this.props.widgetType.name in widgetsMap) {
       const widgetOptions = this.props.options[this.props.widgetType.name];

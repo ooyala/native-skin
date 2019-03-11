@@ -25,6 +25,9 @@ import {
   VIEW_ACCESSIBILITY_NAMES
 } from './constants';
 
+console.disableYellowBox = true;
+import MarkersList from './src/progressBar/MarkersList';
+
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 const AccessibilityUtils = require('./accessibilityUtils');
 const Log = require('./log');
@@ -197,7 +200,7 @@ const BottomOverlay = createReactClass({
 
   _renderProgressBar: function(percent) {
     return (
-      <View 
+      <View
         style={styles.progressBarContainer}
         accessible={false}>
           <ProgressBar
@@ -276,6 +279,33 @@ const BottomOverlay = createReactClass({
               {this._renderProgressBar(playedPercent)}
               {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
               {this._renderCuePoints(this.props.cuePoints)}
+              <MarkersList
+                duration={this.props.duration}
+                markers={[
+                  {
+                    color: 'red',
+                    start: 'start',
+                    end: 5,
+                  },
+                  {
+                    color: 'green',
+                    start: 20,
+                  },
+                  {
+                    color: 'blue',
+                    start: 30,
+                    end: 'end',
+                  },
+                ]}
+                style={{
+                  // This should be a predefined style if vars don't change during the component lifecycle.
+                  height: progressBarHeight,
+                  left: leftMargin,
+                  position: 'absolute',
+                  top: this._calculateTopOffset(progressBarHeight),
+                  width: this._calculateProgressBarWidth(),
+                }}
+              />
             </Animated.View>
     );
   },

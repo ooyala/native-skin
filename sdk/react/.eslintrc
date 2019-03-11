@@ -1,0 +1,24 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "import",
+    "jsx-a11y",
+    "react"
+  ],
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 120
+      }
+    ],
+    "react/jsx-filename-extension": "off"
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": false
+    }
+  }
+}
