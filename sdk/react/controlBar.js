@@ -191,7 +191,7 @@ class ControlBar extends React.Component {
         onPress: this.onPipButtonPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.isPipActivated ? this.props.config.icons.compress : this.props.config.icons.replay, //OS: name in your project skin.json -> 'icons'
+        icon: this.props.isPipActivated ? this.props.config.icons.volumeOff : this.props.config.icons.replay, //OS: name in your project skin.json -> 'icons'
         isActive: this.props.isPipActivated,
         enabled: this.props.isPipButtonVisible
       },
