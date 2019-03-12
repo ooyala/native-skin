@@ -277,7 +277,6 @@ class CastConnectedScreen extends React.Component {
   renderPlaceholder() {
     const accessible = false;
     const { props } = this;
-    const { previewUrl } = props.previewUrl;
     const { handleVideoTouchStart, handleVideoTouchMove } = props.handlers;
 
     return (
@@ -302,7 +301,7 @@ class CastConnectedScreen extends React.Component {
             resizeMode: 'contain',
           }}
           blurRadius={5}
-          source={{ uri: previewUrl }}
+          source={{ uri: props.previewUrl }}
         />
       </View>
     );
@@ -318,7 +317,7 @@ class CastConnectedScreen extends React.Component {
     const { handleControlsTouch } = handlers;
 
     const {
-      controlBar, castControls, buttons, icons, live, general,
+      controlBar, castControls, castDevicesScreen, buttons, icons, live, general,
     } = config;
 
 
@@ -347,6 +346,7 @@ class CastConnectedScreen extends React.Component {
         config={{
           controlBar,
           castControls,
+          castDevicesScreen,
           buttons,
           icons,
           live,
@@ -404,6 +404,7 @@ class CastConnectedScreen extends React.Component {
       <CastPlayPauseButtons
         icons={icons}
         seekEnabled={seekVisible}
+        config={config}
         ffActive={live ? notInLiveRegion : true}
         onPress={name => this.handlePress(name)}
         onSeekPressed={isForward => this.onSeekPressed(isForward)}

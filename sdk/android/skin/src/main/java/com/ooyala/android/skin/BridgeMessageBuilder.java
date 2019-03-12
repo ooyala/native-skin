@@ -380,16 +380,6 @@ public class BridgeMessageBuilder {
   }
 
   /**
-   * @param url The url with preview for cast control screen
-   * @return WritableMap with preview url.
-   */
-  public static WritableMap buildConnectingParams(String url) {
-    WritableMap params = Arguments.createMap();
-
-    return params;
-  }
-
-  /**
    * @param exception The current Ooyala exception.
    * @return User info params.
    */

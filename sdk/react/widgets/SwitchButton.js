@@ -11,6 +11,7 @@ const Log = require('../log');
 class SwitchButton extends React.Component {
 
   static propTypes = {
+    visible: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
     isForward: PropTypes.bool.isRequired,
     onSwitch: PropTypes.func.isRequired,
@@ -31,6 +32,9 @@ class SwitchButton extends React.Component {
   }
 
   render() {
+    if(!this.props.visible) {
+      return null;
+    }
     const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, STRING_CONSTANTS.SECONDS);
     const position = {
       position: 'absolute'

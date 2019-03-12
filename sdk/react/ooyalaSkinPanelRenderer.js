@@ -69,6 +69,8 @@ class OoyalaSkinPanelRenderer {
         config={{
           endScreen: this.skin.props.endScreen,
           controlBar: this.skin.props.controlBar,
+          castControls: this.skin.props.castControls,
+          castDevicesScreen: this.skin.props.castDevicesScreen,
           buttons: this.skin.props.buttons.mobileContent,
           icons: this.skin.props.icons,
           general: this.skin.props.general
@@ -182,7 +184,8 @@ class OoyalaSkinPanelRenderer {
           icons: this.skin.props.icons,
           adScreen: this.skin.props.adScreen,
           live: this.skin.props.live,
-          castControls: this.skin.props.castControls
+          castControls: this.skin.props.castControls,
+          castDevicesScreen: this.skin.props.castDevicesScreen,
         }}
         localizableStrings={this.skin.props.localization}
         locale={this.skin.props.locale}
@@ -221,6 +224,7 @@ class OoyalaSkinPanelRenderer {
         config={{
           controlBar: this.skin.props.controlBar,
           castControls: this.skin.props.castControls,
+          castDevicesScreen: this.skin.props.castDevicesScreen,
           general: this.skin.props.general,
           buttons: this.skin.props.buttons.audioOnly.mobile,
           upNext: this.skin.props.upNext,
@@ -290,6 +294,7 @@ class OoyalaSkinPanelRenderer {
         config={{
           controlBar: this.skin.props.controlBar,
           castControls: this.skin.props.castControls,
+          castDevicesScreen: this.skin.props.castDevicesScreen,
           general: this.skin.props.general,
           buttons: this.skin.props.buttons.mobileContent,
           upNext: this.skin.props.upNext,

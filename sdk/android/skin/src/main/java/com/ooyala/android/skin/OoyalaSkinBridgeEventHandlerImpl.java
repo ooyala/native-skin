@@ -131,14 +131,11 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   @Override
   public void onSwitch(ReadableMap isForward) {
     final boolean forward = isForward.getBoolean("direction");
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        if (forward) {
-          _player.nextVideo(OoyalaPlayer.DO_PLAY);
-        } else {
-          _player.previousVideo(OoyalaPlayer.DO_PLAY);
-        }
+    runOnUiThread(() -> {
+      if (forward) {
+        _player.nextVideo(OoyalaPlayer.DO_PLAY);
+      } else {
+        _player.previousVideo(OoyalaPlayer.DO_PLAY);
       }
     });
 
@@ -167,13 +164,10 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   @Override
   public void onLanguageSelected(ReadableMap parameters) {
     final String languageName = parameters.getString("language");
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        if (_player != null && _player.getCurrentItem() != null) {
-          String languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
-          _player.setClosedCaptionsLanguage(languageCode);
-        }
+    runOnUiThread(() -> {
+      if (_player != null && _player.getCurrentItem() != null) {
+        String languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
+        _player.setClosedCaptionsLanguage(languageCode);
       }
     });
   }
@@ -182,12 +176,9 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onCastDeviceSelected(ReadableMap parameters) {
     final String castDeviceName = parameters.getString("castDeviceName");
     final String castDeviceId = parameters.getString("castDeviceId");
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        if (_player != null && _player.getCurrentItem() != null) {
-          _player.connectDevice(new CastMediaRoute(castDeviceId, castDeviceName));
-        }
+    runOnUiThread(() -> {
+      if (_player != null && _player.getCurrentItem() != null) {
+        _player.connectDevice(new CastMediaRoute(castDeviceId, castDeviceName));
       }
     });
   }

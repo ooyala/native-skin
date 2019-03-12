@@ -48,6 +48,7 @@ class CastPlayPauseButtons extends React.Component {
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     initialPlay: PropTypes.bool.isRequired,
+    config: PropTypes.object.isRequired
   };
 
   state = {
@@ -229,6 +230,7 @@ class CastPlayPauseButtons extends React.Component {
 
     return (
       <SkipButton
+        visible={active}
         isForward={isForward}
         timeValue={seekValue}
         sizeStyle={sizeStyle}
@@ -268,6 +270,7 @@ class CastPlayPauseButtons extends React.Component {
 
     return (
       <SwitchButton
+        visible={active}
         isForward={isForward}
         sizeStyle={sizeStyle}
         disabled={!active}
@@ -284,14 +287,17 @@ class CastPlayPauseButtons extends React.Component {
   // Gets the play button based on the current config settings
   render() {
     const {
-      ffActive, showSeekButtons, seekEnabled, frameHeight, buttonHeight, frameWidth, buttonWidth, showButton,
+      showSeekButtons, seekEnabled, frameHeight, buttonHeight, frameWidth, buttonWidth, showButton, config,
     } = this.props;
+    const {
+      previousVideo, nextVideo, skipBackward, skipForward,
+    } = config.castControls.buttons;
     const seekButtonScale = 0.5;
     const playPauseButton = this.renderPlayPauseButton();
-    const previousButton = this.renderSwitchButton(PREVIOUS, seekButtonScale, true);
-    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, true);
-    const backwardButton = this.renderSeekButton(BACKWARD, seekButtonScale, true);
-    const forwardButton = this.renderSeekButton(FORWARD, seekButtonScale, ffActive);
+    const previousButton = this.renderSwitchButton(PREVIOUS, seekButtonScale, previousVideo.enabled);
+    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, nextVideo.enabled);
+    const backwardButton = this.renderSeekButton(BACKWARD, seekButtonScale, skipBackward.enabled);
+    const forwardButton = this.renderSeekButton(FORWARD, seekButtonScale, skipForward.enabled);
 
     const containerStyle = {
       flexDirection: 'row',
@@ -302,13 +308,17 @@ class CastPlayPauseButtons extends React.Component {
 
     const heightScaleFactor = 2;
     let widthScaleFactor = 2;
-    if (!!showSeekButtons && !!seekEnabled) {
-      // we add 2 per each skip button.
-      // If you wanted to add more buttons horizontally, this value would change.
-      // TODO: Know which button is enabled only.
-      // It should be possible to show only one of the skip buttons that
-      // is not implemented yet. When implemented we need to take that into account here.
-      widthScaleFactor += 4;
+    if (previousVideo.enabled) {
+      widthScaleFactor += 1;
+    }
+    if (nextVideo.enabled) {
+      widthScaleFactor += 1;
+    }
+    if (skipBackward.enabled) {
+      widthScaleFactor += 1;
+    }
+    if (skipForward.enabled) {
+      widthScaleFactor += 1;
     }
 
     const topOffset = Math.round((frameHeight - buttonHeight * heightScaleFactor) * 0.5);

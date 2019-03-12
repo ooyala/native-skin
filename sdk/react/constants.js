@@ -94,7 +94,6 @@ const OVERLAY_TYPES = {
   CAST_AIRPLAY: 'castAirplay',
   CAST_DEVICES: 'cast_devices',
   CAST_DISCONNECTING: 'cast_disconnecting',
-  CAST_ERROR: 'cast_error',
   CAST_CONNECTING: 'cast_connecting',
   CAST_CONNECTED: 'cast_connected',
 };

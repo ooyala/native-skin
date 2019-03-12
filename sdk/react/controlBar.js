@@ -141,7 +141,8 @@ class ControlBar extends Component {
       android: this.props.config.controlBar.logo.imageResource.androidResource
     });
 
-    let color = this.props.inCastMode === true ? "#3eb5f7" : "white";
+    let castEnabled = this.props.config.castControls.enabled;
+    let color = this.props.inCastMode === true ? this.props.config.castDevicesScreen.iconStyle.active.color : this.props.config.castDevicesScreen.iconStyle.inactive.color;
     let castIcon = this.props.inCastMode === true ? this.props.config.icons['chromecast-connected'] : this.props.config.icons['chromecast-disconnected'];
     let controlBarWidgets = [];
     const widgetOptions = {
@@ -197,7 +198,7 @@ class ControlBar extends Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active, {color: color}],
         icon: castIcon,
-        enabled: true,
+        enabled: castEnabled,
       },
       discovery: {
         onPress: this.onDiscoveryPress,
