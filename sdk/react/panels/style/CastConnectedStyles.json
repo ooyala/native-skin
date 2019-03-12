@@ -5,10 +5,10 @@
     "alignItems": "center"
   },
   "container": {
-    flex: 0,
-    flexDirection: "column",
-    backgroundColor: "transparent",
-    overflow: "hidden"
+    "flex": 0,
+    "flexDirection": "column",
+    "backgroundColor": "transparent",
+    "overflow": "hidden"
   },
   "placeholder": {
     "flex": 1,

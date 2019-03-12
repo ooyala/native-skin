@@ -12,8 +12,8 @@ import {
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
 //calling class layout controller
-const { 
-  OoyalaReactBridge 
+const {
+  OoyalaReactBridge
 } = NativeModules;
 
 import {
@@ -69,7 +69,6 @@ class OoyalaSkin extends Component {
   }
 
   componentDidMount() {
-    // OoyalaReactBridge.queryState();
     BackHandler.addEventListener('hardwareBackPress', function () {
       return OoyalaSkinCoreInstance.onBackPressed();
     });
@@ -86,7 +85,7 @@ class OoyalaSkin extends Component {
   }
 
   componentWillUnmount() {
-    BackHandler.removeEventListener('hardwareBackPress');	
+    BackHandler.removeEventListener('hardwareBackPress');
     OoyalaSkinCoreInstance.unmount();
 
     AccessibilityInfo.removeEventListener(

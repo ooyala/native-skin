@@ -296,6 +296,7 @@ class OoyalaSkinBridgeListener {
   };
 
   onDesiredStateChange(e) {
+    Log.log('Desired state change received: ' + e.desiredState);
     this.skin.setState({
       desiredState: e.desiredState
     });
