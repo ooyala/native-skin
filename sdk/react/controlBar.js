@@ -191,7 +191,8 @@ class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.isPipActivated ? this.props.config.icons.compress : this.props.config.icons.replay, //OS: name in your project skin.json -> 'icons'
-        isActive: this.props.isPipActivated
+        isActive: this.props.isPipActivated,
+        enabled: false
       },
       rewind: {
         onPress: this.onRewindPress,

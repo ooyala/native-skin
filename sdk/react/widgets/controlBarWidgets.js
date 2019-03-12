@@ -195,8 +195,9 @@ class controlBarWidget extends React.Component {
   pipButtonWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     const nameLabel = options.isActive ? VIEW_ACCESSIBILITY_NAMES.EXIT_PIP : VIEW_ACCESSIBILITY_NAMES.ACTIVE_PIP;
-    return (
-      <TouchableHighlight
+    let widget = null;
+    if (options.enabled) {
+      widget = <TouchableHighlight
         testID={nameLabel}
         accessible={true}
         accessibilityLabel={nameLabel}
@@ -206,7 +207,8 @@ class controlBarWidget extends React.Component {
           {options.icon.fontString}
         </Text>
       </TouchableHighlight>
-    );
+    }
+    return widget;
   };
 
   moreOptionsWidget = (options) => {
