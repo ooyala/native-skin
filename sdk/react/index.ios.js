@@ -47,6 +47,7 @@ class OoyalaSkin extends React.Component {
     cuePoints: [],
     rate: 0,
     fullscreen: false,
+    isRootPipActivated: false,
     lastPressedTime: new Date(0),
     upNextDismissed: false,
     showPlayButton: true,

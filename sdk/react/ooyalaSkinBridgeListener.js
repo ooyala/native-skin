@@ -28,6 +28,7 @@ OoyalaSkinBridgeListener.prototype.mount = function(eventEmitter) {
     [ 'currentItemChanged',       (event) => this.onCurrentItemChange(event) ],
     [ 'frameChanged',             (event) => this.onFrameChange(event) ],
     [ 'fullscreenToggled',        (event) => this.onFullscreenToggle(event) ],
+    [ 'pipChanged',               (event) => this.onPipToggle(event) ],
     [ 'volumeChanged',            (event) => this.onVolumeChanged(event) ],
     [ 'playCompleted',            (event) => this.onPlayComplete(event) ],
     [ 'stateChanged',             (event) => this.onStateChange(event) ],
@@ -215,6 +216,13 @@ OoyalaSkinBridgeListener.prototype.onFullscreenToggle = function(e) {
   Log.log("Received fullscreenToggle: " + e.fullscreen);
   this.skin.setState({
     fullscreen: e.fullscreen
+  });
+};
+
+OoyalaSkinBridgeListener.prototype.onPipToggle = function(e) {
+  Log.log("Received PiP Toggle: " + e.isPipActivated);
+  this.skin.setState({
+    isRootPipActivated: e.isPipActivated
   });
 };
 

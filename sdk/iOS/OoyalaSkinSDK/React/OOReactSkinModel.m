@@ -2,7 +2,6 @@
 //  OOReactSkinModel.m
 //  OoyalaSkinSDK
 //
-//  Created by Maksim Kupetskii on 8/13/18.
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
@@ -71,6 +70,8 @@ static NSString *descriptionKey         = @"description";
 static NSString *imageUrlKey            = @"imageUrl";
 static NSString *resultsKey             = @"results";
 static NSString *volumePropertyKey      = @"outputVolume";
+static NSString *pipEventKey            = @"pipChanged";
+static NSString *isPipActivatedKey      = @"isPipActivated";
 static NSString *volumeChangeKey        = @"volumeChanged";
 
 #pragma mark - Init
@@ -284,6 +285,9 @@ static NSString *volumeChangeKey        = @"volumeChanged";
 
 - (void)handlePip {
   [self.player togglePictureInPictureMode];
+  BOOL isStateActivated = self.player.isPiPActivated;
+  [self.bridge.skinEventsEmitter sendDeviceEventWithName:pipEventKey
+                                                    body:@{isPipActivatedKey: @(isStateActivated)}];
 }
 
 - (void)handlePlay {

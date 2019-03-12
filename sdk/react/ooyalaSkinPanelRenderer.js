@@ -155,6 +155,7 @@ OoyalaSkinPanelRenderer.prototype.renderVideoView = function() {
       height={this.skin.state.height}
       volume={this.skin.state.volume}
       fullscreen={this.skin.state.fullscreen}
+      isPipActivated={this.skin.state.isRootPipActivated}
       cuePoints={this.skin.state.cuePoints}
       stereoSupported={this.skin.state.stereoSupported}
       multiAudioEnabled={this.skin.state.multiAudioEnabled}
