@@ -108,6 +108,7 @@ class CastConnectedScreen extends React.Component {
       resultedPlayhead = duration;
     }
     const resultedPlayheadPercent = duration === 0 ? 0 : resultedPlayhead / duration;
+
     this.handleScrub(resultedPlayheadPercent);
   }
 
@@ -274,10 +275,11 @@ class CastConnectedScreen extends React.Component {
   }
 
   renderPlaceholder() {
-    const accessible = true;
-    const { props, placeholderTapHandler } = this;
+    const accessible = false;
+    const { props } = this;
     const { previewUrl } = props.previewUrl;
     const { handleVideoTouchStart, handleVideoTouchMove } = props.handlers;
+
     return (
       <View
         reactTag={1}
@@ -291,7 +293,7 @@ class CastConnectedScreen extends React.Component {
         importantForAccessibility="no"
         onTouchStart={event => handleVideoTouchStart(event)}
         onTouchMove={event => handleVideoTouchMove(event)}
-        onTouchEnd={event => placeholderTapHandler(event)}
+        onTouchEnd={event => this.placeholderTapHandler(event)}
       >
         <Image
           style={{

@@ -46,6 +46,7 @@
 		39B612F22158D04B00E2277C /* UIColor+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B612F02158D04B00E2277C /* UIColor+Utils.m */; };
 		39D46130221FDAD6008C9FC7 /* OOAirPlayViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D4612F221FDAD6008C9FC7 /* OOAirPlayViewManager.h */; };
 		39D46147221FDAEE008C9FC7 /* OOAirPlayViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D46146221FDAEE008C9FC7 /* OOAirPlayViewManager.m */; };
+		39D462DF222E5F1C008C9FC7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D462C6222E5D78008C9FC7 /* libRCTAnimation.a */; };
 		39EEE0E32122C36A00377DB3 /* OOReactSkinEventsEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		39EEE0E42122C36A00377DB3 /* OOReactSkinEventsEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */; };
 		39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -125,6 +126,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = ED296FEE214C9CF800B7C4FE;
 			remoteInfo = "jsiexecutor-tvOS";
+		};
+		39D462C5222E5D78008C9FC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTAnimation;
+		};
+		39D462C7222E5D78008C9FC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
+			remoteInfo = "RCTAnimation-tvOS";
 		};
 		45ED11711B9F634E004968DE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -348,6 +363,7 @@
 		39B612F02158D04B00E2277C /* UIColor+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utils.m"; sourceTree = "<group>"; };
 		39D4612F221FDAD6008C9FC7 /* OOAirPlayViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOAirPlayViewManager.h; sourceTree = "<group>"; };
 		39D46146221FDAEE008C9FC7 /* OOAirPlayViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOAirPlayViewManager.m; sourceTree = "<group>"; };
+		39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinEventsEmitter.h; sourceTree = "<group>"; };
 		39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinEventsEmitter.m; sourceTree = "<group>"; };
 		39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinModel.h; sourceTree = "<group>"; };
@@ -415,6 +431,7 @@
 				7527B25320AB500D00556330 /* libRCTWebSocket.a in Frameworks */,
 				7527B25420AB501400556330 /* libRCTImage.a in Frameworks */,
 				7527B25520AB501D00556330 /* libRCTNetwork.a in Frameworks */,
+				39D462DF222E5F1C008C9FC7 /* libRCTAnimation.a in Frameworks */,
 				75BCA7C91F850C2800B3F4E6 /* OoyalaSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +494,15 @@
 				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		39D462C1222E5D78008C9FC7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				39D462C6222E5D78008C9FC7 /* libRCTAnimation.a */,
+				39D462C8222E5D78008C9FC7 /* libRCTAnimation.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		39EEE0DA2122C36A00377DB3 /* React */ = {
@@ -610,6 +636,7 @@
 			isa = PBXGroup;
 			children = (
 				972ED8A11AE6FC3E005043DC /* React.xcodeproj */,
+				39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */,
 				45ED11731B9F6369004968DE /* RCTWebSocket.xcodeproj */,
 				45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */,
 				972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */,
@@ -802,6 +829,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 39D462C1222E5D78008C9FC7 /* Products */;
+					ProjectRef = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
+				},
+				{
 					ProductGroup = 972ED8B51AE70307005043DC /* Products */;
 					ProjectRef = 972ED8B41AE70307005043DC /* RCTImage.xcodeproj */;
 				},
@@ -858,6 +889,20 @@
 			fileType = archive.ar;
 			path = "libjsiexecutor-tvOS.a";
 			remoteRef = 395EE27C22143E4D0048166D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		39D462C6222E5D78008C9FC7 /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 39D462C5222E5D78008C9FC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		39D462C8222E5D78008C9FC7 /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 39D462C7222E5D78008C9FC7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		45ED11721B9F634E004968DE /* libRCTNetwork.a */ = {

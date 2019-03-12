@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Platform,
-  NativeModules
+  NativeModules,
 } from 'react-native';
 
 import {
@@ -130,7 +130,8 @@ class OoyalaSkinPanelRenderer {
         }}
         deviceIds={this.skin.state.castListIds}
         deviceNames={this.skin.state.castListNames}
-        selectedItem={this.skin.state.connectedDeviceName}/>
+        selectedItem={this.skin.state.connectedDeviceName}
+      />
     );
   };
 
@@ -144,7 +145,7 @@ class OoyalaSkinPanelRenderer {
   };
 
   renderCastConnectedScreen() {
-    let playbackSpeedEnabled = false;
+    const playbackSpeedEnabled = false;
     return (
       <CastConnectedScreen
         playhead={this.skin.state.playhead}
@@ -171,7 +172,7 @@ class OoyalaSkinPanelRenderer {
           handleControlsTouch: () => this.core.handleControlsTouch(),
           handleShowControls: () => this.core.showControls(),
         }}
-        screenReaderEnabled={this.skin.state.screenReaderEnabled}
+        screenReaderEnabled={false}
         availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
         config={{
           controlBar: this.skin.props.controlBar,
@@ -481,7 +482,7 @@ class OoyalaSkinPanelRenderer {
           icons: this.skin.props.icons,
           // TODO: assumes this is how control bar width is calculated everywhere.
           controlBarWidth: this.skin.state.width - 2 * leftMargin
-        }} >
+        }}>
       </MoreOptionScreen>
     );
   };
@@ -550,7 +551,7 @@ class OoyalaSkinPanelRenderer {
       case SCREEN_TYPES.AUDIO_SCREEN:
         return this.renderAudioView();
       default:
-        if (this.skin.state.inCastMode){
+        if (this.skin.state.inCastMode) {
           return this.renderCastConnectedScreen();
         } else {
           return this.renderVideoView();

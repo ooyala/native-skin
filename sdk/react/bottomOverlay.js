@@ -193,7 +193,7 @@ class BottomOverlay extends Component {
             ref='progressBar'
             percent={percent}
             config={this.props.config}
-            ad={this.props.ad}
+            ad={!!this.props.ad}
             renderDuration={false}>
           </ProgressBar>
       </View>

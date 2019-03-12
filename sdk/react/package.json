@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint .",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
     "cryptiles": "^4.1.2",

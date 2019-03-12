@@ -91,15 +91,14 @@ class CastPlayPauseButtons extends React.Component {
   }
 
   onSkipPress(isForward) {
-    const { skipCount } = this.state;
     const { onSeekPressed } = this.props;
     timerForSkipButtons.clearTimeout(this);
-    const value = skipCount + (isForward ? 1 : -1);
+    const value = this.state.skipCount + (isForward ? 1 : -1);
     this.setState({ skipCount: value }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
-        onSeekPressed(skipCount);
+        onSeekPressed(this.state.skipCount);
         this.setState({ skipCount: 0 });
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS,

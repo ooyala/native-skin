@@ -38,7 +38,7 @@ class ControlBar extends Component {
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
     showPlaybackSpeedButton: PropTypes.bool,
-    inCastMode: PropTypes.bool
+    inCastMode: PropTypes.bool,
   };
 
   static defaultProps = {playhead: 0, duration: 0};
