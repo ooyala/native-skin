@@ -1,40 +1,27 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
-  StyleSheet,
-  Text,
-  Image,
-  TouchableHighlight,
   View,
   Platform,
-  LayoutAnimation,
   NativeModules
 } from 'react-native';
-
-const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
 import {
   BUTTON_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
   UI_SIZES
 } from './constants';
-
 import CollapsingBarUtils from './collapsingBarUtils';
+import Log from './log';
+import Utils from './utils';
+import ControlBarWidget from './widgets/controlBarWidgets';
+import ResponsiveDesignManager from './responsiveDesignManager';
 
-var Log = require('./log');
-var Utils = require('./utils');
-var ControlBarWidget = require('./widgets/controlBarWidgets');
-var ResponsiveDesignManager = require('./responsiveDesignManager');
-var styles = Utils.getStyles(require('./style/controlBarStyles.json'));
+import controlBarStyles from './style/controlBarStyles.json';
+const styles = Utils.getStyles(controlBarStyles);
+const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
-class ControlBar extends React.Component {
+class ControlBar extends Component {
   static propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
@@ -58,14 +45,14 @@ class ControlBar extends React.Component {
   static defaultProps = {playhead: 0, duration: 0};
 
   state = {
-    showVolume: false,
+    showVolume: false
   };
 
   getPlayHeadTimeString = () => {
     if (this.props.live) {
       return this.props.live.label;
     } else {
-      return (Utils.secondsToString(this.props.playhead) + " - ");
+      return (Utils.secondsToString(this.props.playhead) + ' - ');
     }
   };
 
@@ -82,15 +69,15 @@ class ControlBar extends React.Component {
   };
 
   getVolumeControlColor = () => {
-    if (!this.props.config.general.accentColor) {
-      if (!this.props.config.controlBar.volumeControl.color) {
-        Log.error("controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json");
-        return '#4389FF';
-      } else {
-        return this.props.config.controlBar.volumeControl.color;
-      }
-    } else {
+    if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
+    } else {
+      if (this.props.config.controlBar.volumeControl.color) {
+        return this.props.config.controlBar.volumeControl.color;
+      } else {
+        Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
+        return '#4389FF';
+      }
     }
   };
 
@@ -99,7 +86,9 @@ class ControlBar extends React.Component {
   };
 
   onVolumePress = () => {
-    this.setState({showVolume:!this.state.showVolume});
+    this.setState({
+      showVolume: !this.state.showVolume
+    });
   };
 
   onSocialSharePress = () => {
@@ -123,6 +112,14 @@ class ControlBar extends React.Component {
 
   onMorePress = () => {
     this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
+  };
+
+  onCastPress = () => {
+    if (Platform.OS === 'android') {
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
+    } else {
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY)
+    }
   };
 
   onRewindPress = () => {
@@ -149,12 +146,12 @@ class ControlBar extends React.Component {
       android: this.props.config.controlBar.logo.imageResource.androidResource
     });
 
-    var controlBarWidgets = [];
+    let controlBarWidgets = [];
 
-    var widgetOptions = {
+    const widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
@@ -162,7 +159,7 @@ class ControlBar extends React.Component {
       },
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ? [styles.icon, {"fontSize": iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: this.state.showVolume ? [styles.icon, {'fontSize': iconFontSize}, styles.iconHighlighted, this.props.config.controlBar.iconStyle.active] : [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
         iconTouchableStyle: styles.iconTouchable,
@@ -173,8 +170,8 @@ class ControlBar extends React.Component {
       },
       timeDuration: {
         onPress: this.props.live ? this.props.live.onGoLive : null,
-        playHeadTimeStyle: [styles.playheadLabel, {"fontSize": labelFontSize}],
-        durationStyle: [styles.durationLabel, {"fontSize": labelFontSize}],
+        playHeadTimeStyle: [styles.playheadLabel, {'fontSize': labelFontSize}],
+        durationStyle: [styles.durationLabel, {'fontSize': labelFontSize}],
         completeTimeStyle: [styles.completeTimeStyle],
         playHeadTimeString: this.getPlayHeadTimeString(),
         iconTouchableStyle: styles.iconTouchable,
@@ -183,7 +180,7 @@ class ControlBar extends React.Component {
       fullscreen: {
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.fullscreen ? this.props.config.icons.compress : this.props.config.icons.expand,
         fullscreen: this.props.fullscreen   // do we want to do this way ??
       },
@@ -198,57 +195,64 @@ class ControlBar extends React.Component {
       rewind: {
         onPress: this.onRewindPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.rewind
       },
       moreOptions: {
         onPress: this.onMorePress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
         enabled: this.props.showMoreOptionsButton
+      },
+      cast: {
+        onPress: this.onCastPress,
+        iconTouchableStyle: styles.iconTouchable,
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        icon: this.props.config.icons['chromecast-disconnected'],
+        enabled: this.props.cast
       },
       discovery: {
         onPress: this.onDiscoveryPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.discovery
       },
       share: {
         onPress: this.onSocialSharePress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       },
       watermark: {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
-        icon:waterMarkName,
-        resizeMode: "contain"
+        icon: waterMarkName,
+        resizeMode: 'contain'
       },
       stereoscopic: {
         onPress: this.onStereoscopicPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.stereoscopic
       },
       audioAndCC: {
         onPress: this.onAudioAndCCPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.audioAndCC,
         enabled: this.props.showAudioAndCCButton
       },
       playbackSpeed: {
         onPress: this.onPlaybackSpeedPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {"fontSize": labelFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.icon, {'fontSize': labelFontSize}, this.props.config.controlBar.iconStyle.active],
         selectedPlaybackSpeedRate: this.getSelectedPlaybackSpeedRate(),
         enabled: this.props.showPlaybackSpeedButton
       },
     };
 
-    function _isVisible( item ) {
+    function _isVisible(item) {
       let visible = true;
       switch (item.name) {
         case BUTTON_NAMES.MORE:
@@ -270,7 +274,7 @@ class ControlBar extends React.Component {
     }
 
     this.props.config.buttons.forEach(_isVisible, this);
-    //Log.warn("collapse isVisible Results:"+JSON.stringify(this.props.config.buttons));
+    //Log.warn('collapse isVisible Results:'+JSON.stringify(this.props.config.buttons));
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 
@@ -278,7 +282,7 @@ class ControlBar extends React.Component {
       controlBarWidgets.push(item)
     }
 
-    for (var i = 0; i < itemCollapsingResults.fit.length; i++) {
+    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
       const item = <ControlBarWidget
         key={i}
@@ -297,7 +301,7 @@ class ControlBar extends React.Component {
         pushControl(item);
       }
     }
-    const widthStyle = {width:this.props.width};
+    const widthStyle = { width: this.props.width };
     return (
       <View style={[styles.controlBarContainer, widthStyle]} onTouchEnd={this.props.handleControlsTouch}>
         {controlBarWidgets}

@@ -1,24 +1,19 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import React from 'react';
 import {
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
-const AccessibilityUtils = require('../accessibilityUtils');
-const Utils = require('../utils');
-const ItemSelectionList = require('./ItemSelectionList');
-const styles = require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles'));
+import AccessibilityUtils from '../accessibilityUtils';
+import Utils from '../utils';
+import ItemSelectionList from './ItemSelectionList';
 
-class ItemSelectionScrollView extends React.Component {
+import itemSelectionScrollViewStyles from './style/ItemSelectionScrollViewStyles';
+const styles = Utils.getStyles(itemSelectionScrollViewStyles);
+
+class ItemSelectionScrollView extends Component {
   static propTypes = {
     items: PropTypes.array,
     selectedItem: PropTypes.string,
@@ -30,7 +25,7 @@ class ItemSelectionScrollView extends React.Component {
   };
 
   isSelected = (name) => {
-    return name && name !== "" && name === this.props.selectedItem;
+    return name && name !== '' && name === this.props.selectedItem;
   };
 
   onSelected = (name) => {
@@ -43,7 +38,7 @@ class ItemSelectionScrollView extends React.Component {
     const isSelectedItem = this.isSelected(item);
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
-    const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : "";
+    const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : '';
     const accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item);
 
     return (
@@ -52,7 +47,7 @@ class ItemSelectionScrollView extends React.Component {
         accessibilityLabel={accessibilityString}
         key={index}
         style={styles.item}
-        underlayColor="transparent" // Can't move this property to json styles file because it doesn't work
+        underlayColor='transparent' // Can't move this property to json styles file because it doesn't work
         onPress={() => this.onSelected(item)}>
         <View style={buttonStyle}>
           <View style={styles.selectedCheckmarkContainer}>

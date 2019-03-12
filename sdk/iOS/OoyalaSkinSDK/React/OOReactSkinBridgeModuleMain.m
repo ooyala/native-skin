@@ -2,7 +2,7 @@
 //  OOReactSkinBridgeModuleMain.m
 //  OoyalaSkinSDK
 //
-//  Created by Maksim Kupetskii on 8/14/18.
+//  Created on 8/14/18.
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
@@ -54,6 +54,7 @@ static NSString *adOverlayButtonName    = @"Overlay";
 static NSString *stereoscopicButtonName = @"stereoscopic";
 static NSString *pipButtonName          = @"PIP";
 static NSString *replayButtonName       = @"replay";
+static NSString *airPlayButtonName      = @"airPlay";
 
 #pragma mark Keys
 static NSString *nameKey              = @"name";
@@ -132,6 +133,8 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     [self.skinModelDelegate handlePip];
   } else if ([buttonName isEqualToString:stereoscopicButtonName]) {
     [self.skinModelDelegate toggleStereoMode];
+  } else if ([buttonName isEqualToString:airPlayButtonName]) {
+    [self.skinModelDelegate handleAirPlay];
   }
 }
 

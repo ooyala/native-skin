@@ -13,6 +13,7 @@ public enum SkinButton {
   FULLSCREEN("fullscreen"),
   LEARN_MORE("LearnMore"),
   MORE("More"),
+  CAST("Cast"),
   UP_NEXT_DISMISS("upNextDismiss"),
   UN_NEXT_CLICK("upNextClick"),
   BUTTON_SKIP("Skip"),

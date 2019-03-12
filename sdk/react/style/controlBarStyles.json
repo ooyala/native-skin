@@ -4,46 +4,55 @@
     "marginHorizontal": 20,
     "flex": 0,
     "alignItems": "center",
-    "marginBottom":10,
+    "marginBottom":10
   },
+
   "containerHidden": {
     "flexDirection": "row",
     "backgroundColor": "rgba(0,0,0,0.5)",
     "height": 0,
-    "overflow": "hidden",
+    "overflow": "hidden"
   },
+
   "icon": {
-    "color": "#8E8E8E",
+    "color": "#8E8E8E"
   },
+
   "iconTouchable": {
-    "padding":8,
+    "padding":8
   },
+
   "playheadLabel": {
     "flex":0,
     "flexDirection": "row",
     "color": "#FFFFFF",
-    "fontFamily": "AvenirNext-DemiBold",
+    "fontFamily": "AvenirNext-DemiBold"
   },
+
   "durationLabel": {
     "flex":0,
     "flexDirection": "row",
     "color": "#B3B3B3",
-    "fontFamily": "AvenirNext-DemiBold",
+    "fontFamily": "AvenirNext-DemiBold"
   },
+
   "completeTimeStyle": {
     "flex":0,
-    "flexDirection": "row",
+    "flexDirection": "row"
   },
+
   "iconHighlighted": {
-    "color": "#E6E6E6",
+    "color": "#E6E6E6"
   },
+
   "volumeSlider": {
     "height": 30,
     "width": 100,
-    "alignSelf": "center",
+    "alignSelf": "center"
   },
+  
   "placeholder": {
-    "flex": 1,
+    "flex": 1
   },
 
   "waterMarkImage": {

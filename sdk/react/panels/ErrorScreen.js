@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
-  StyleSheet,
   Text,
   TouchableHighlight,
   View
@@ -10,15 +9,17 @@ import {
 import {
   SAS_ERROR_CODES,
   ERROR_MESSAGE,
-  BUTTON_NAMES,
+  BUTTON_NAMES
 } from '../constants';
+import Log from '../log';
+import Utils from '../utils';
 
-var Log = require('../log');
-var Utils = require('../utils');
-var styles = Utils.getStyles(require('./style/errorScreenStyles.json'));
-var stylesAudio = Utils.getStyles(require('./style/errorScreenStylesAudio.json'));
+import errorScreenStyles from './style/errorScreenStyles.json';
+import errorScreenStylesAudio from './style/errorScreenStylesAudio.json';
+const styles = Utils.getStyles(errorScreenStyles);
+const stylesAudio = Utils.getStyles(errorScreenStylesAudio);
 
-class ErrorScreen extends React.Component {
+class ErrorScreen extends Component {
   static propTypes = {
     error: PropTypes.object,
     localizableStrings: PropTypes.object,
@@ -28,27 +29,27 @@ class ErrorScreen extends React.Component {
   };
 
   getTitle = () => {
-    var errorCode = -1;
+    let errorCode = -1;
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
     }
     const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle =
-      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={styles.title}>
         {localizedTitle}
-      </Text>);
+      </Text>
+    );
   };
 
   getTitleAudioOnly = () => {
-    const title = "unplayable content error";
-    const localizedTitle =
-      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const title = 'unplayable content error';
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={stylesAudio.title}>
         {localizedTitle}
-      </Text>);
+      </Text>
+    );
   };
 
   getDescription = () => {
@@ -57,33 +58,33 @@ class ErrorScreen extends React.Component {
       const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
-      const localizedDescription =
-        Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-      Log.warn("ERROR: localized description:" + localizedDescription);
+      const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+      Log.warn('ERROR: localized description:' + localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription}
-        </Text>);
+        </Text>
+      );
     }
     return null;
   };
 
   getDescriptionAudioOnly = () => {
-    const description = "Reload your screen or try selecting different audio.";
-    const localizedDescription =
-      Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+    const description = 'Reload your screen or try selecting different audio.';
+    const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
     return (
       <Text style={stylesAudio.description}>
         {localizedDescription}
-      </Text>);
+      </Text>
+    );
   };
 
   render() {
     return (
-      <View style={!this.props.isAudioOnly ? styles.container : stylesAudio.container}>
-        <View style={!this.props.isAudioOnly ? styles.wrapper: stylesAudio.wrapper}>
-          {!this.props.isAudioOnly ? this.getTitle() : this.getTitleAudioOnly()}
-          {!this.props.isAudioOnly ? this.getDescription() : this.getDescriptionAudioOnly()}
+      <View style={this.props.isAudioOnly ? stylesAudio.container : styles.container}>
+        <View style={this.props.isAudioOnly ? stylesAudio.wrapper : styles.wrapper}>
+          {this.props.isAudioOnly ? this.getTitleAudioOnly() : this.getTitle()}
+          {this.props.isAudioOnly ? this.getDescriptionAudioOnly() : this.getDescription()}
           {this._renderMoreDetailsButton()}
         </View>
       </View>
@@ -95,9 +96,9 @@ class ErrorScreen extends React.Component {
   };
 
   _renderMoreDetailsButton = () => {
-    if (!this.props.isAudioOnly) return null;
+    if (!this.props.isAudioOnly) { return null };
 
-    const moreDetailsText = Utils.localizedString(this.props.locale, "More Details", this.props.localizableStrings);
+    const moreDetailsText = Utils.localizedString(this.props.locale, 'More Details', this.props.localizableStrings);
     return (
       <TouchableHighlight
         onPress={this.onMoreDetails}
@@ -106,7 +107,7 @@ class ErrorScreen extends React.Component {
           <Text style={stylesAudio.buttonText}>{moreDetailsText}</Text>
         </View>
       </TouchableHighlight>
-    )
+    );
   };
 }
 

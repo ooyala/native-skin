@@ -1,17 +1,10 @@
-'use strict';
-
-/**
- * Created by dkao on 7/7/15.
- */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import React, {Component} from 'react';
 import {
   Text,
   View,
   Image,
   Platform,
-  SliderIOS,
   TouchableHighlight
 } from 'react-native';
 
@@ -20,17 +13,15 @@ import {
   STRING_CONSTANTS,
   VIEW_ACCESSIBILITY_NAMES
 } from '../constants';
-
 import Utils from '../utils';
-
-const styles = Utils.getStyles(require('./style/controlBarWidgetStyles.json'));
-const Log = require('../log');
-const VolumeView = require('./VolumeView');
-const AccessibilityUtils = require('../accessibilityUtils');
-const SkipButton = require('./SkipButton');
+import AccessibilityUtils from '../accessibilityUtils';
+import VolumeView from './VolumeView';
+import SkipButton from './SkipButton';
 import PipView from './OOPiPView';
+import controlBarWidgetStyles from './style/controlBarWidgetStyles.json';
+const styles = Utils.getStyles(controlBarWidgetStyles);
 
-class controlBarWidget extends React.Component {
+class controlBarWidget extends Component {
   static propTypes = {
     widgetType: PropTypes.object,
     options: PropTypes.object
@@ -88,13 +79,13 @@ class controlBarWidget extends React.Component {
         sizeStyle={sizeStyle}
         opacity={isForward ? options.opacity : opacity}
         animate={animate}
-        buttonColor={buttonColor}
-      />
+        buttonColor={buttonColor}>
+      </SkipButton>
     );
   };
 
   volumeWidget = (options) => {
-    let volumeScrubber = null;
+    let volumeScrubber;
     const scrubberStyle = [options.scrubberStyle];
     if (Platform.OS === 'ios') {
       scrubberStyle.push({top: 5});
@@ -137,7 +128,8 @@ class controlBarWidget extends React.Component {
           <Text style={options.style}>
             {options.durationString}
           </Text>
-        </TouchableHighlight>);
+        </TouchableHighlight>
+      );
     } else {
       const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
       const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
@@ -165,7 +157,7 @@ class controlBarWidget extends React.Component {
         testID={BUTTON_NAMES.DISCOVERY}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.DISCOVERY}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -177,7 +169,8 @@ class controlBarWidget extends React.Component {
 
   fullscreenWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN : VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
+    const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN :
+                                           VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
     return (
       <TouchableHighlight
         testID={nameLabel}
@@ -227,6 +220,22 @@ class controlBarWidget extends React.Component {
     );
   };
 
+  castWidget = (options) => {
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    return (
+      <TouchableHighlight
+        testID={BUTTON_NAMES.CAST}
+        accessible={true}
+        accessibilityLabel={BUTTON_NAMES.CAST}
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
+  };
+
   rewindWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (
@@ -261,7 +270,7 @@ class controlBarWidget extends React.Component {
         testID={BUTTON_NAMES.SHARE}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.SHARE}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -288,7 +297,7 @@ class controlBarWidget extends React.Component {
         testID={BUTTON_NAMES.STEREOSCOPIC}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.STEREOSCOPIC}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -300,13 +309,13 @@ class controlBarWidget extends React.Component {
 
   audioAndCCWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    let widget = null;
+    let widget;
     if (options.enabled) {
       widget = <TouchableHighlight
         testID={BUTTON_NAMES.AUDIO_AND_CC}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.AUDIO_AND_CC}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style, fontFamilyStyle]}>
@@ -318,7 +327,7 @@ class controlBarWidget extends React.Component {
   };
 
   playbackSpeedWidget = (options) => {
-    let widget = null;
+    let widget;
 
     // Create accessibility label for selected playback speed rate button
     const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0,-1);
@@ -330,7 +339,7 @@ class controlBarWidget extends React.Component {
         testID={BUTTON_NAMES.PLAYBACK_SPEED}
         accessible={true}
         accessibilityLabel={accessibilityLabel}
-        accessibilityComponentType="button"
+        accessibilityComponentType='button'
         style={[options.iconTouchableStyle]}
         onPress={options.onPress}>
         <Text style={[options.style]}>
@@ -352,6 +361,7 @@ class controlBarWidget extends React.Component {
       'discovery': this.discoveryWidget,
       'fullscreen': this.fullscreenWidget,
       'pipButton': this.pipButtonWidget,
+      'cast': this.castWidget,
       'moreOptions': this.moreOptionsWidget,
       'watermark': this.watermarkWidget,
       'share': this.shareWidget,
@@ -368,7 +378,7 @@ class controlBarWidget extends React.Component {
       return widgetsMap[this.props.widgetType.name](widgetOptions);
     }
     else {
-      Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
+      // Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
       return <View/>;
     }
   }

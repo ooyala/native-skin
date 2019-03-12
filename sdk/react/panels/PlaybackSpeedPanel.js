@@ -1,39 +1,35 @@
-'use strict';
-
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import React from 'react';
 import {
   Animated,
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
 import {
   BUTTON_NAMES,
   CELL_TYPES
 } from '../constants';
+import ItemSelectionScrollView from './ItemSelectionScrollView';
+import Utils from '../utils';
 
-const Utils = require('../utils');
-const styles = require('../utils').getStyles(require('./style/PlaybackSpeedPanelStyles'));
-const ItemSelectionScrollView = require('./ItemSelectionScrollView');
-
+import playbackSpeedPanelStyles from './style/PlaybackSpeedPanelStyles';
+const styles = Utils.getStyles(playbackSpeedPanelStyles);
 const animationDuration = 1000;
 const constants = {
-  headerViewSectionTitle: "Playback Speed",
-  normalPlaybackSpeedRateTitle: "Normal",
+  headerViewSectionTitle: 'Playback Speed',
+  normalPlaybackSpeedRateTitle: 'Normal',
   normalPlaybackSpeedRateValue: 1.0,
   maxPlaybackSpeedRateValue: 2.0,
   minPlaybackSpeedRateValue: 0.5,
-  playbackSpeedRatePostfix: "x"
+  playbackSpeedRatePostfix: 'x'
 };
 
-class PlaybackSpeedPanel extends React.Component {
-
+class PlaybackSpeedPanel extends Component {
   static propTypes = {
     playbackSpeedRates: PropTypes.array,
-    selectedPlaybackSpeedRate: PropTypes.string,
+    selectedPlaybackSpeedRate: PropTypes.number,
     onSelectPlaybackSpeedRate: PropTypes.func,
     onDismiss: PropTypes.func,
     width: PropTypes.number,
@@ -89,8 +85,8 @@ class PlaybackSpeedPanel extends React.Component {
         <TouchableHighlight style={styles.dismissButton}
                             accessible={true}
                             accessibilityLabel={BUTTON_NAMES.DISMISS}
-                            accessibilityComponentType="button"
-                            underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+                            accessibilityComponentType='button'
+                            underlayColor='transparent' // Can't move this property to json style file because it doesn't works
                             onPress={this.onDismissPress}>
           <Text style={styles.dismissIcon}>
             {this.props.config.icons.dismiss.fontString}
@@ -166,7 +162,7 @@ class PlaybackSpeedPanel extends React.Component {
   };
 
   render() {
-    const animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
 
     return (
       <Animated.View style={[styles.panelContainer, styles.panel, animationStyle, {height: this.props.height, width: this.props.width}]}>
@@ -174,8 +170,7 @@ class PlaybackSpeedPanel extends React.Component {
         {this.renderPanelsContainerView()}
       </Animated.View>
     );
-  }
-
+  };
 }
 
 module.exports = PlaybackSpeedPanel;

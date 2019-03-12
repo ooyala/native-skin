@@ -2,7 +2,7 @@
 //  OOSkinPlayerObserver.m
 //  OoyalaSkinSDK
 //
-//  Created by Michael Len on 2/25/16.
+//  Created on 2/25/16.
 //  Copyright © 2016 ooyala. All rights reserved.
 //
 
@@ -358,7 +358,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
   NSInteger count       = [adInfo[countKey] integerValue];
   NSInteger unplayed    = [adInfo[unplayedKey] integerValue];
-  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", count - unplayed, (long)count];
+  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (long)(count - unplayed), (long)count];
   NSNumber *skipoffset  = @([adInfo[skipOffsetKey] floatValue]);
   NSArray *icons        = adInfo[iconsKey];
   NSString *title       = adInfo[titleKey];

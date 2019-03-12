@@ -13,7 +13,7 @@ const UI_SIZES = {
   LOADING_ICON: 30,
   CONTROLBAR_ICONSIZE: 20,
   CONTROLBAR_LABELSIZE: 16,
-  CC_PREVIEW_HEIGHT: 80,
+  CC_PREVIEW_HEIGHT: 80
 };
 
 const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
@@ -21,6 +21,8 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'fullscreen',
   MORE: 'moreOptions',
+  CAST: 'cast',
+  CAST_AIRPLAY: 'castAirplay',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
   REPLAY: 'replay',
@@ -77,7 +79,7 @@ const SCREEN_TYPES = {
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
   ERROR_SCREEN: 'error',
-  ERROR_SCREEN_AUDIO: 'error_audio',
+  ERROR_SCREEN_AUDIO: 'error_audio'
 };
 
 const OVERLAY_TYPES = {
@@ -86,12 +88,15 @@ const OVERLAY_TYPES = {
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen',
   VOLUME_SCREEN: 'volumeScreen',
-  MORE_DETAILS: 'moreDetails'
+  MORE_DETAILS: 'moreDetails',
+  VOLUME_SCREEN: 'volumeScreen',
+  CAST: 'cast',
+  CAST_AIRPLAY: 'castAirplay'
 }
 
 const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',
-  DESIRED_PLAY: 'desired_play',
+  DESIRED_PLAY: 'desired_play'
 };
 
 const LOG_LEVEL = {
@@ -130,8 +135,8 @@ const ERROR_MESSAGE = {
 
 const CELL_TYPES = {
   MULTI_AUDIO: 'multi_audio',
-  SUBTITLES: "subtitles",
-  PLAYBACK_SPEED_RATE: "playback_speed_rate"
+  SUBTITLES: 'subtitles',
+  PLAYBACK_SPEED_RATE: 'playback_speed_rate'
 };
 
 const VIEW_ACCESSIBILITY_NAMES = {
@@ -139,7 +144,7 @@ const VIEW_ACCESSIBILITY_NAMES = {
   VOLUME_VIEW: 'Volume view',
   MULTI_AUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
   CC_CELL: 'Subtitle cell. Tap twice to choose this subtitles',
-  PLAYBACK_SPEED_CELL: "Playback speed cell. Tap twice to choose this playback speed rate",
+  PLAYBACK_SPEED_CELL: 'Playback speed cell. Tap twice to choose this playback speed rate',
   PROGRESS_BAR: 'Progress bar. ',
   PROGRESS_BAR_ANDROID_SPECIFIC: ' %.  Use two fingers to adjust the progress value',
   VOLUME_BAR: 'Volume bar. Use two fingers to adjust the volume value',
@@ -149,8 +154,8 @@ const VIEW_ACCESSIBILITY_NAMES = {
   ACTIVE_PIP: 'Enter PIP mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
   EXIT_PIP: 'Exit PIP mode button selected. Double tap to activate.',
-  PLAY_PAUSE_BUTTON: "button. Tap twice to",
-  PLAYBACK_SPEED_BUTTON: "Playback speed",
+  PLAY_PAUSE_BUTTON: 'button. Tap twice to',
+  PLAYBACK_SPEED_BUTTON: 'Playback speed'
 };
 
 const ACCESSIBILITY_ANNOUNCERS = {

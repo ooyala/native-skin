@@ -1,5 +1,4 @@
 {
-
   "backgroundView": {
     "flexDirection": "row",
     "alignItems": "center",
@@ -107,5 +106,4 @@
     "borderRadius": 50,
     "backgroundColor": "#B3B3B3"
   }
-
 }

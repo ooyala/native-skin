@@ -2,7 +2,7 @@
 //  OOLocaleHelper.m
 //  OoyalaSkinSDK
 //
-//  Created by Zhihui Chen on 7/9/15.
+//  Created on 7/9/15.
 //  Copyright (c) 2015 ooyala. All rights reserved.
 //
 

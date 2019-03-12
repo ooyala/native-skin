@@ -1,38 +1,27 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
-  ListView,
   ScrollView,
-  StyleSheet,
-  SwitchIOS,
   Text,
   TouchableHighlight,
-  View,
+  View
 } from 'react-native';
 
 import {
-  BUTTON_NAMES,
-  ICONS
+  BUTTON_NAMES
 } from '../constants';
+import ToggleSwitch from '../widgets/ToggleSwitch';
+import Utils from '../utils';
+import ResponsiveList from '../widgets/ResponsiveList';
+import PreviewWidget from '../languageSelectionPreview';
 
-var ToggleSwitch = require('../widgets/ToggleSwitch');
-var Utils = require('../utils');
-var ResponsiveList = require('../widgets/ResponsiveList');
-var PreviewWidget = require('../languageSelectionPreview');
-var styles = require('../utils').getStyles(require('./style/languageSelectionPanelStyles'));
-var panelStyles = require('./style/panelStyles');
+import panelStyles from './style/panelStyles';
+import languageSelectionPanelStyles from './style/languageSelectionPanelStyles';
+const styles = Utils.getStyles(languageSelectionPanelStyles);
+const animationDuration = 1000;
 
-var animationDuration = 1000;
-
-class LanguageSelectionPanel extends React.Component {
+class LanguageSelectionPanel extends Component {
   static propTypes = {
     languages: PropTypes.array,
     selectedLanguage: PropTypes.string,
@@ -82,41 +71,37 @@ class LanguageSelectionPanel extends React.Component {
     }
   };
 
-  onTouchEnd = (event) => {
-    // ignore.
-  };
-
   renderHeader = (hasCC) => {
-    var title = Utils.localizedString(this.props.config.locale, "CC Options", this.props.config.localizableStrings);
-    var switchOnText = Utils.localizedString(this.props.config.locale, "On", this.props.config.localizableStrings);
-    var switchOffText = Utils.localizedString(this.props.config.locale, "Off", this.props.config.localizableStrings);
-    var panelIcon =  this.props.config.icons.cc.fontString;
+    let title = Utils.localizedString(this.props.config.locale, 'CC Options', this.props.config.localizableStrings);
+    let switchOnText = Utils.localizedString(this.props.config.locale, 'On', this.props.config.localizableStrings);
+    let switchOffText = Utils.localizedString(this.props.config.locale, 'Off', this.props.config.localizableStrings);
+    let panelIcon =  this.props.config.icons.cc.fontString;
 
-    var minimumWidthPanelIcon = 320;
-    var mediumWidthSwitchText = 360;
-    var fullWidthPanelIcon = 380;
+    const minimumWidthPanelIcon = 320;
+    const mediumWidthSwitchText = 360;
+    const fullWidthPanelIcon = 380;
 
-    var width = this.props.width;
+    const width = this.props.width;
 
     // ToggleSwitch without text + panelIcon + dismiss button
     if (width < minimumWidthPanelIcon) {
-      title = "";
-      switchOnText = "";
-      switchOffText = "";
+      title = '';
+      switchOnText = '';
+      switchOffText = '';
     }
     // ToggleSwitch with text + panelIcon + dismiss button
     else if (title.length > 10 && width < fullWidthPanelIcon) {
-      title = "";
+      title = '';
     }
     // ToggleSwitch without text + title + dismiss button
     else if (width < mediumWidthSwitchText) {
-      switchOnText = "";
-      switchOffText = "";
-      panelIcon = "";
+      switchOnText = '';
+      switchOffText = '';
+      panelIcon = '';
     }
     // ToggleSwitch with text + title + dismiss button
     else if (width < fullWidthPanelIcon) {
-      panelIcon = "";
+      panelIcon = '';
     }
     // TO-DO for line (136-140) we can not change accessibility label value for text tags.
     // This ability is added in latest react native 0.46 onwards
@@ -141,11 +126,11 @@ class LanguageSelectionPanel extends React.Component {
       </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
       <TouchableHighlight
-        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
-        style = {[panelStyles.dismissButton, {"paddingTop": 10, "paddingBottom": 0}]}
+        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType='button'
+        style = {[panelStyles.dismissButton, {'paddingTop': 10, 'paddingBottom': 0}]}
         onPress={this.onDismissPress}>
         <Text
-          style={[panelStyles.dismissIcon, {"paddingBottom": 0}]}>
+          style={[panelStyles.dismissIcon, {'paddingBottom': 0}]}>
           {this.props.config.icons.dismiss.fontString}
         </Text>
       </TouchableHighlight>
@@ -153,25 +138,25 @@ class LanguageSelectionPanel extends React.Component {
   };
 
   render() {
-    var hasCC = false;
+    let hasCC = false;
     if (this.props.selectedLanguage && this.props.selectedLanguage !== '') {
       hasCC = true;
     }
 
-    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
-
+    const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     // screen height - title - toggle switch - preview - option bar
-    var itemPanelHeight = this.props.height  - 30 - 30 - 60;
-    var animationStyle = {opacity:this.state.opacity};
+    const itemPanelHeight = this.props.height  - 30 - 30 - 60;
+    const animationStyle = {opacity: this.state.opacity};
 
+    let previewText;
     if (this.props.selectedLanguage) {
-      var previewText =
-        ( <PreviewWidget
-            isVisible={hasCC}
-            config={this.props.config}
-            selectedLanguage={this.props.selectedLanguage}>
-          </PreviewWidget>
-        );
+      previewText = ( 
+        <PreviewWidget
+          isVisible={hasCC}
+          config={this.props.config}
+          selectedLanguage={this.props.selectedLanguage}>
+        </PreviewWidget>
+      );
     }
 
     return (
@@ -195,14 +180,14 @@ class LanguageSelectionPanel extends React.Component {
 
   getSelectedStyle = () => {
     if (this.props.config.general.accentColor) {
-      return [styles.selectedButton, {"backgroundColor" : this.props.config.general.accentColor}];
+      return [styles.selectedButton, {'backgroundColor' : this.props.config.general.accentColor}];
     } else {
       return styles.selectedButton;
     }
   };
 
-  renderItem = (item: object, itemId: number) => {
-    var itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
+  renderItem = (item, itemId) => {
+    const itemStyle = this.isSelected(item) ? this.getSelectedStyle() : styles.button;
     return (
       <TouchableHighlight
         key={itemId}

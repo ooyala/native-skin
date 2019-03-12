@@ -14,6 +14,7 @@ import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
+import com.ooyala.android.item.CastMediaRoute;
 import com.ooyala.android.item.Video;
 import com.ooyala.android.playback.PlaybackNotificationInfo;
 import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
@@ -48,7 +49,7 @@ public class BridgeMessageBuilder {
     Double playhead = player.getPlayheadTime() / 1000.0;
 
     WritableMap params = Arguments.createMap();
-    params.putDouble("duration", duration );
+    params.putDouble("duration", duration);
     params.putDouble("playhead", playhead);
     params.putArray("availableClosedCaptionsLanguages", languages);
     params.putArray("cuePoints", cuePoints);
@@ -322,9 +323,8 @@ public class BridgeMessageBuilder {
   }
 
   /**
-   * @return Multi audio params.
-   *
    * @param audioTracks The list of available audio tracks for the current asset.
+   * @return Multi audio params.
    */
   public static WritableMap buildMultiAudioParams(List<AudioTrack> audioTracks) {
     WritableMap params = Arguments.createMap();
@@ -340,10 +340,31 @@ public class BridgeMessageBuilder {
     return params;
   }
 
+
   /**
-   * @return User info params.
-   *
+   * @param castMediaRoutes The set of available devices for casting.
+   * @return list available devices.
+   */
+  public static WritableMap buildCastDeviceListParams(Object castMediaRoutes) {
+    WritableMap params = Arguments.createMap();
+    WritableArray castDeviceNames = Arguments.createArray();
+    WritableArray castDeviceIds = Arguments.createArray();
+
+    if (castMediaRoutes instanceof Set) {
+      Set<CastMediaRoute> castDevicesSet = (Set<CastMediaRoute>) castMediaRoutes;
+      for (CastMediaRoute device : castDevicesSet) {
+        castDeviceIds.pushString(device.getId());
+        castDeviceNames.pushString(device.getName());
+      }
+    }
+    params.putArray("castDeviceIds", castDeviceIds);
+    params.putArray("castDeviceNames", castDeviceNames);
+    return params;
+  }
+
+  /**
    * @param exception The current Ooyala exception.
+   * @return User info params.
    */
   public static WritableMap buildUserInfoParams(OoyalaException exception) {
     WritableMap params = Arguments.createMap();

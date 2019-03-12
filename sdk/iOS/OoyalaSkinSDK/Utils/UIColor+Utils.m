@@ -2,7 +2,7 @@
 //  UIColor+Utils.m
 //  OoyalaSkinSDK
 //
-//  Created by Maksim Kupetskii on 9/24/18.
+//  Created on 9/24/18.
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 

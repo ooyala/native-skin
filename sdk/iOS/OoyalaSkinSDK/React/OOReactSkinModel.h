@@ -2,6 +2,7 @@
 //  OOReactSkinModel.h
 //  OoyalaSkinSDK
 //
+//  Created on 8/13/18.
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
@@ -65,5 +66,6 @@
 - (void)handleDiscoveryClick:(nullable NSString *)bucketInfo embedCode:(nonnull NSString *)embedCode;
 - (void)handleDiscoveryImpress:(nullable NSString *)bucketInfo;
 - (void)handleVolumeChanged:(float)volume;
+- (void)handleAirPlay;
 
 @end

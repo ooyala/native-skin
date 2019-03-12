@@ -1,19 +1,15 @@
-'use strict';
-
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import React from 'react';
 import {
   ScrollView
 } from 'react-native';
 
-const styles=require('../utils').getStyles(require('./style/ItemSelectionScrollViewStyles.json'));
+import Utils from '../utils';
 
-class ItemSelectionList extends React.Component {
+import itemSelectionScrollViewStyles from './style/ItemSelectionScrollViewStyles.json';
+const styles = Utils.getStyles(itemSelectionScrollViewStyles);
+
+class ItemSelectionList extends Component {
   static propTypes = {
     horizontal: PropTypes.bool,
     data: PropTypes.array,
@@ -21,9 +17,9 @@ class ItemSelectionList extends React.Component {
   };
 
   renderItems = (items) => {
-    if (typeof(items) !== "undefined") {
+    if (typeof(items) !== 'undefined') {
       const renderedItems = items.map((item, index) => (
-          this.props.itemRender(item, index)
+        this.props.itemRender(item, index)
       ));
       return (renderedItems);
     } else {
@@ -36,7 +32,7 @@ class ItemSelectionList extends React.Component {
     return (
       <ScrollView
         style={scrollViewStyle}
-        indicatorStyle={"white"} // Can't move this property to json styles file because it doesn't work
+        indicatorStyle={'white'} // Can't move this property to json styles file because it doesn't work
         horizontal={this.props.horizontal}
         directionalLockEnabled={true}>
           {this.renderItems(this.props.data)}

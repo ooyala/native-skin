@@ -2,6 +2,7 @@
 //  CountdownView.m
 //  ReactNativeCountdownTimer
 //
+//  Created on 11/30/15.
 //  Copyright © 2015 Ooyala. All rights reserved.
 //
 

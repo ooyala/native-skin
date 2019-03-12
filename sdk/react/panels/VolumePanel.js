@@ -1,8 +1,5 @@
-'use strict';
-
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import React from 'react';
 import {
   Animated,
   StyleSheet,
@@ -12,24 +9,24 @@ import {
   View
 } from 'react-native';
 
+import Utils from '../utils';
 
-const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/VolumePanelStyles'));
-
+import volumePanelStyles from './style/VolumePanelStyles';
+const styles = Utils.getStyles(volumePanelStyles);
 const constants = {
   animationDuration: 1000,
   scrubberSize: 14,
   scrubTouchableDistance: 45
 }
 
-class VolumePanel extends React.Component {
+class VolumePanel extends Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     onVolumeChanged: PropTypes.func.isRequired,
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    config: PropTypes.object,
+    config: PropTypes.object
   };
 
   state = {
@@ -74,7 +71,6 @@ class VolumePanel extends React.Component {
   };
 
   // Actions
-
   _panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (event, gestureState) => true,
     onStartShouldSetPanResponderCapture: (event, gestureState) => true,
@@ -124,7 +120,6 @@ class VolumePanel extends React.Component {
   };
 
   // Volume slider
-
   _touchPercent = (x) => {
     let percent = x / (this.state.sliderWidth);
 
@@ -164,7 +159,9 @@ class VolumePanel extends React.Component {
     const thumbStyle = this._thumbStyle();
 
     return (
-      <View pointerEvents='none' style={[thumbStyle, positionStyle]}/>
+      <View pointerEvents='none' 
+        style={[thumbStyle, positionStyle]}>
+      </View>
     );
   }
 
@@ -189,11 +186,11 @@ class VolumePanel extends React.Component {
             sliderHeight: event.nativeEvent.layout.height
           });
         }}>
-          <View pointerEvents='none' style={styles.slider}>
-            <View style={style.filled}/>
-            <View style={style.background}/>
-          </View>
-          {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
+        <View pointerEvents='none' style={styles.slider}>
+          <View style={style.filled}/>
+          <View style={style.background}/>
+        </View>
+        {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
       </View>
     );
   };
@@ -201,7 +198,7 @@ class VolumePanel extends React.Component {
   _renderDismissButton = () => {
     return (
       <TouchableHighlight style={styles.dismissButton}
-        underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+        underlayColor='transparent' // Can't move this property to json style file because it doesn't works
         onPress={this.onDismissPress}>
           <Text style={styles.dismissIcon}>
             {this.props.config.icons.dismiss.fontString}
@@ -221,7 +218,6 @@ class VolumePanel extends React.Component {
       </Animated.View>
     );
   }
-
 }
 
-export default VolumePanel;
+module.exports = VolumePanel;

@@ -1,8 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
@@ -14,8 +9,8 @@ import {
 } from 'react-native';
 
 const {
-   OOReactSkinEventsEmitter,
-   OOReactSkinBridgeModuleMain
+  OOReactSkinEventsEmitter,
+  OOReactSkinBridgeModuleMain
  } = NativeModules;
 
 import {
@@ -23,12 +18,12 @@ import {
   SCREEN_TYPES,
   DESIRED_STATES
 } from './constants';
+import OoyalaSkinCore from './ooyalaSkinCore';
 
-var OoyalaSkinCore = require('./ooyalaSkinCore');
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
-var OoyalaSkinCoreInstance;
+let OoyalaSkinCoreInstance;
 
-class OoyalaSkin extends React.Component {
+class OoyalaSkin extends Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
   // by the native bridge, and others are used purely on the non-native side.
   // consider using a leading underscore, or something?
@@ -107,11 +102,11 @@ class OoyalaSkin extends React.Component {
 
   renderLoadingScreen = () => {
     return (
-       <ActivityIndicator
-          style={styles.loading}
-          animating={true}
-          size="large"
-      />);
+      <ActivityIndicator
+        style={styles.loading}
+        animating={true}
+        size='large'
+    />);
   };
 
   render() {
@@ -125,6 +120,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     height: 200
-  },
+  }
 });
+
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

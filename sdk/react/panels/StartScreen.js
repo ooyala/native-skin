@@ -1,29 +1,24 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
-
 import {
-  StyleSheet,
   Text,
   View,
-  Image,
-  TouchableHighlight,
+  Image
 } from 'react-native';
 
 import {
   IMG_URLS,
   UI_SIZES,
-  BUTTON_NAMES,
+  BUTTON_NAMES
 } from '../constants';
+import Utils from '../utils';
+import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
+import ResponsiveDesignManager from '../responsiveDesignManager';
 
-const Utils = require('../utils');
-const Log = require('../log');
-const styles = Utils.getStyles(require('./style/startScreenStyles.json'));
+import startScreenStyles from './style/startScreenStyles.json';
+const styles = Utils.getStyles(startScreenStyles);
 
-const RectButton = require('../widgets/RectButton');
-const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-const ResponsiveDesignManager = require('../responsiveDesignManager');
-
-class StartScreen extends React.Component {
+class StartScreen extends Component {
   static propTypes = {
     config: PropTypes.object,
     title: PropTypes.string,
@@ -33,7 +28,7 @@ class StartScreen extends React.Component {
     playhead: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
-    screenReaderEnabled: PropTypes.bool,
+    screenReaderEnabled: PropTypes.bool
   };
 
   handleClick = () => {
@@ -76,7 +71,8 @@ class StartScreen extends React.Component {
           fontSize={iconFontSize}
           playing={false}
           showButton={!this.props.screenReaderEnabled}
-          initialPlay={true}/>
+          initialPlay={true}>
+        </VideoViewPlayPause>
       );
     }
   };
@@ -100,14 +96,14 @@ class StartScreen extends React.Component {
 
     let infoPanelLocation;
     switch (this.props.config.startScreen.infoPanelPosition) {
-      case "topLeft":
+      case 'topLeft':
         infoPanelLocation = styles.infoPanelNW;
         break;
-      case "bottomLeft":
+      case 'bottomLeft':
         infoPanelLocation = styles.infoPanelSW;
         break;
       default:
-        throw("Invalid infoPanel location " + this.props.config.startScreen.infoPanelPosition);
+        throw('Invalid infoPanel location ' + this.props.config.startScreen.infoPanelPosition);
     }
 
     return (
@@ -128,7 +124,7 @@ class StartScreen extends React.Component {
           style={fullscreen ?
             {position: 'absolute', top: 0, left: 0, width: this.props.width, height: this.props.height} :
             styles.promoImageSmall}
-          resizeMode="contain">
+          resizeMode='contain'>
         </Image>
       );
     }
@@ -141,7 +137,7 @@ class StartScreen extends React.Component {
     return (
       <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
              source={{uri: IMG_URLS.OOYALA_LOGO}}
-             resizeMode="contain">
+             resizeMode='contain'>
       </Image>
     );
   };
@@ -163,7 +159,7 @@ class StartScreen extends React.Component {
       <View
         reactTag={1}
         accessible={true}
-        accessibilityLabel={"Video player. Tap twice to play"}
+        accessibilityLabel={'Video player. Tap twice to play'}
         style={styles.container}
         onTouchEnd={(event) => this._tapHandler(event)}>
         {promoImage}
@@ -172,7 +168,6 @@ class StartScreen extends React.Component {
         {playButton}
       </View>
     );
-
   }
 }
 
