@@ -41,6 +41,7 @@ class ControlBar extends React.Component {
     primaryButton: PropTypes.string.isRequired,
     fullscreen: PropTypes.bool.isRequired,
     isPipActivated: PropTypes.bool.isRequired,
+    isPipButtonVisible: PropTypes.bool,
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
     volume: PropTypes.number.isRequired,
@@ -192,7 +193,7 @@ class ControlBar extends React.Component {
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.isPipActivated ? this.props.config.icons.compress : this.props.config.icons.replay, //OS: name in your project skin.json -> 'icons'
         isActive: this.props.isPipActivated,
-        enabled: false
+        enabled: this.props.isPipButtonVisible
       },
       rewind: {
         onPress: this.onRewindPress,

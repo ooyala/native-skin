@@ -48,6 +48,7 @@ class OoyalaSkin extends React.Component {
     rate: 0,
     fullscreen: false,
     isRootPipActivated: false,
+    isRootPipButtonVisible: true,
     lastPressedTime: new Date(0),
     upNextDismissed: false,
     showPlayButton: true,

@@ -48,6 +48,7 @@ class VideoView extends React.Component {
     volume: PropTypes.number,
     fullscreen: PropTypes.bool,
     isPipActivated: PropTypes.bool,
+    isPipButtonVisible: PropTypes.bool,
     cuePoints: PropTypes.array,
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
@@ -165,6 +166,7 @@ class VideoView extends React.Component {
       primaryButton={!this.props.playing ? "play" : "pause"}
       fullscreen={this.props.fullscreen}
       isPipActivated={this.props.isPipActivated}
+      isPipButtonVisible={this.props.isPipButtonVisible}
       cuePoints={this.props.cuePoints}
       playhead={this.props.playhead}
       duration={this.props.duration}

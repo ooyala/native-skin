@@ -222,7 +222,8 @@ OoyalaSkinBridgeListener.prototype.onFullscreenToggle = function(e) {
 OoyalaSkinBridgeListener.prototype.onPipToggle = function(e) {
   Log.log("Received PiP Toggle: " + e.isPipActivated);
   this.skin.setState({
-    isRootPipActivated: e.isPipActivated
+    isRootPipActivated: e.isPipActivated,
+    isRootPipButtonVisible: true
   });
 };
 
