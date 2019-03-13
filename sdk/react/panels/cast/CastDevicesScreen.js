@@ -13,7 +13,7 @@ import {
 } from '../../constants';
 import Utils from '../../utils';
 
-import castScreenStyles from '../style/castScreenStyles.json';
+import castScreenStyles from '../style/CastDevicesStyles.json';
 
 const styles = Utils.getStyles(castScreenStyles);
 
@@ -123,7 +123,7 @@ class CastDevicesScreen extends Component {
           }]}
         >
           <ListView
-            style={[{ flex: 0 }, styles.listViewContainer]}
+            style={styles.listViewContainer}
             dataSource={dataSource}
             renderRow={(rowData, sectionID, rowID) => this.renderItem(rowData, rowID, castButton, castButtonActive)}
           />

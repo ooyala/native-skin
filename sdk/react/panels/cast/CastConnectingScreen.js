@@ -55,7 +55,7 @@ export default class CastConnectingScreen extends React.Component {
       <ActivityIndicator
         size={120}
         color={styles.circleIndicatorStyle.color}
-        style={[styles.circleIndicatorStyle]}
+        style={styles.circleIndicatorStyle}
       />
     );
   }
@@ -64,11 +64,7 @@ export default class CastConnectingScreen extends React.Component {
     const { onDisconnect } = this.props;
 
     return (
-      <TouchableOpacity
-        onPress={() => {
-          onDisconnect();
-        }}
-      >
+      <TouchableOpacity onPress={() => onDisconnect()}>
         <Text style={[styles.cancelTextStyle]}>
           {'Cancel'}
         </Text>
