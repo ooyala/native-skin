@@ -75,6 +75,14 @@ class CastPlayPauseButtons extends React.Component {
     }
   }
 
+  /**
+   * This method allows to seek video back or forward.
+   * To avoid several separate skipping for each tap, we added timer
+   * with calculating count of taps on button during VALUES.DELAY_BETWEEN_SKIPS_MS.
+   * This method sum up all touches during this time and pass one command for
+   * skipping with count of total touches.
+   * @param isForward direction of seeking
+   */
   onSkipPress(isForward) {
     const { onSeekPressed } = this.props;
     timerForSkipButtons.clearTimeout(this);
