@@ -142,8 +142,8 @@ class ControlBar extends Component {
     });
 
     let castEnabled = this.props.config.castControls.enabled;
-    let color = this.props.inCastMode === true ? this.props.config.castDevicesScreen.iconStyle.active.color : this.props.config.castDevicesScreen.iconStyle.inactive.color;
-    let castIcon = this.props.inCastMode === true ? this.props.config.icons['chromecast-connected'] : this.props.config.icons['chromecast-disconnected'];
+    let color = this.props.inCastMode ? this.props.config.castDevicesScreen.iconStyle.active.color : this.props.config.castDevicesScreen.iconStyle.inactive.color;
+    let castIcon = this.props.inCastMode ? this.props.config.icons['chromecast-connected'] : this.props.config.icons['chromecast-disconnected'];
     let controlBarWidgets = [];
     const widgetOptions = {
       playPause: {
