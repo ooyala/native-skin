@@ -202,21 +202,23 @@ class controlBarWidget extends Component {
   };
 
   castWidget = (options) => {
-    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
-    let widget = null;
-    if (options.enabled === true) {
-      widget = <TouchableHighlight
+    const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+    if (!options.enabled) {
+      return null;
+    }
+    return (
+      <TouchableHighlight
         testID={BUTTON_NAMES.CAST}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.CAST}
         style={[options.iconTouchableStyle, options.enabled]}
-        onPress={options.onPress}>
+        onPress={options.onPress}
+      >
         <Text style={[options.style, fontFamilyStyle]}>
           {options.icon.fontString}
         </Text>
-      </TouchableHighlight>;
-    }
-    return widget;
+      </TouchableHighlight>
+    );
   };
 
   rewindWidget = (options) => {
