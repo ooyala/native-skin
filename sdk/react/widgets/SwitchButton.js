@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {Animated, TouchableHighlight} from 'react-native';
+import { Animated, TouchableHighlight } from 'react-native';
+import { STRING_CONSTANTS } from '../constants';
+import AccessibilityUtils from '../accessibilityUtils';
+import rectButtonStyles from './style/RectButtonStyles.json';
+import Utils from '../utils';
 
-import {STRING_CONSTANTS} from '../constants';
-
-const AccessibilityUtils = require('../accessibilityUtils');
-const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
-const Log = require('../log');
+const styles = Utils.getStyles(rectButtonStyles);
 
 class SwitchButton extends React.Component {
 
@@ -23,50 +23,54 @@ class SwitchButton extends React.Component {
     buttonColor: PropTypes.object,
   };
 
-  state = {
-    movedPosition: 0
+  onPress = () => {
+    const { props } = this;
+    const { onSwitch, isForward } = props;
+    onSwitch(isForward);
   };
-
-  componentWillReceiveProps(nextProps) {
-    this.state.movedPosition = nextProps.currentPosition;
-  }
 
   render() {
-    if(!this.props.visible) {
+    const { props } = this;
+    const {
+      visible, isForward, timeValue, sizeStyle, disabled, icon, fontStyle, buttonColor, animate, opacity,
+    } = props;
+    if (!visible) {
       return null;
     }
-    const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, STRING_CONSTANTS.SECONDS);
+    const accessibilityLabel = AccessibilityUtils
+      .createAccessibilityForForwardButton(isForward, timeValue, STRING_CONSTANTS.SECONDS);
     const position = {
-      position: 'absolute'
+      position: 'absolute',
     };
 
+    const accessible = true;
     return (
       <TouchableHighlight
-        accessible={true}
+        accessible={accessible}
         accessibilityLabel={accessibilityLabel}
-        disabled={this.props.disabled}
+        disabled={disabled}
         onPress={() => this.onPress()}
-        underlayColor='transparent'
-        importantForAccessibility={'yes'}
-        style={[this.props.sizeStyle]}>
+        underlayColor="transparent"
+        importantForAccessibility="yes"
+        style={[sizeStyle]}
+      >
 
-        <Animated.View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-
+        <Animated.View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        >
           <Animated.Text
             accessible={false}
-            style={[position, styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
-            {this.props.icon}
+            style={[position, styles.buttonTextStyle, fontStyle, buttonColor, animate, opacity]}
+          >
+            {icon}
           </Animated.Text>
-
         </Animated.View>
-
       </TouchableHighlight>
     );
-  };
-
-  onPress = () => {
-    this.props.onSwitch(this.props.isForward);
-  };
+  }
 }
 
 module.exports = SwitchButton;
