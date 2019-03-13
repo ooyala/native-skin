@@ -175,15 +175,7 @@ class CastConnectedScreen extends React.Component {
     return (
       <Animated.Text
         accessible={false}
-        style={{
-          top: 5,
-          marginLeft: 40,
-          marginRight: 10,
-          fontSize: 40,
-          color: 'white',
-          icon: fontString,
-          fontFamily: fontFamilyName,
-        }}
+        style={[styles.castIcon, { icon: fontString, fontFamily: fontFamilyName }]}
       >
         {'}'}
       </Animated.Text>
@@ -192,13 +184,7 @@ class CastConnectedScreen extends React.Component {
 
   renderTopPanel() {
     return (
-      <View style={{
-        backgroundColor: 'transparent',
-        flexDirection: 'row',
-        paddingTop: 20,
-        height: 90,
-      }}
-      >
+      <View style={styles.topPanel}>
         {this.renderCastIcon()}
         {this.renderDeviceNameLines()}
         {this.renderDisconnectButton()}
@@ -210,53 +196,18 @@ class CastConnectedScreen extends React.Component {
     const { onDisconnect } = this.props;
 
     return (
-      <View style={{
-        flexDirection: 'column',
-        width: 150,
-        height: 50,
-        flex: 1,
-        marginEnd: 40,
-        justifyContent: 'center',
-      }}
-      >
-        <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity
-            onPress={() => {
-              onDisconnect();
-            }}
-          >
-            <Text
-              style={{
-                borderWidth: 1,
-                paddingLeft: 20,
-                paddingRight: 20,
-                paddingTop: 10,
-                paddingBottom: 10,
-                borderRadius: 4,
-                color: 'white',
-                fontWeight: 'bold',
-                borderColor: 'black',
-                backgroundColor: '#3FB5F7',
-              }}
-              numberOfLines={1}
-            >
-              {'Disconnect'}
-            </Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.disconnectView}>
+        <TouchableOpacity onPress={() => onDisconnect()}>
+          <Text style={styles.disconnectText} numberOfLines={1}>
+            {'Disconnect'}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
 
   static renderBorder() {
-    return (
-      <View
-        style={{
-          borderBottomColor: '#5c5c5c',
-          borderBottomWidth: 0.5,
-        }}
-      />
-    );
+    return <View style={styles.border} />;
   }
 
   renderDeviceNameLines() {
@@ -284,22 +235,14 @@ class CastConnectedScreen extends React.Component {
         reactTag={1}
         accessible={accessible}
         accessibilityLabel="Video player. Tap twice to play or pause"
-        style={{
-          flex: 1,
-          alignItems: 'stretch',
-          backgroundColor: 'transparent',
-        }}
+        style={styles.placeholder}
         importantForAccessibility="no"
         onTouchStart={event => handleVideoTouchStart(event)}
         onTouchMove={event => handleVideoTouchMove(event)}
         onTouchEnd={event => this.placeholderTapHandler(event)}
       >
         <Image
-          style={{
-            flex: 1,
-            alignItems: 'stretch',
-            resizeMode: 'contain',
-          }}
+          style={styles.imagePreview}
           blurRadius={5}
           source={{ uri: props.previewUrl }}
         />
@@ -432,14 +375,7 @@ class CastConnectedScreen extends React.Component {
     return (
       <View
         accessible={false}
-        style={{
-          width,
-          height,
-          flex: 0,
-          flexDirection: 'column',
-          backgroundColor: 'transparent',
-          overflow: 'hidden',
-        }}
+        style={[styles.castConnectedScreen, { width, height }]}
       >
         {this.renderTopPanel()}
         {CastConnectedScreen.renderBorder()}
