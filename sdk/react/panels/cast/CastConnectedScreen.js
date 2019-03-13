@@ -181,14 +181,12 @@ class CastConnectedScreen extends React.Component {
   }
 
   renderPlaceholder() {
-    const accessible = false;
     const { props } = this;
     const { handleVideoTouchStart, handleVideoTouchMove } = props.handlers;
 
     return (
       <View
         reactTag={1}
-        accessible={accessible}
         accessibilityLabel="Video player. Tap twice to play or pause"
         style={styles.placeholder}
         importantForAccessibility="no"

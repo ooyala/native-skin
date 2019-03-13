@@ -43,10 +43,9 @@ class SwitchButton extends React.Component {
       position: 'absolute',
     };
 
-    const accessible = true;
     return (
       <TouchableHighlight
-        accessible={accessible}
+        accessible
         accessibilityLabel={accessibilityLabel}
         disabled={disabled}
         onPress={() => this.onPress()}

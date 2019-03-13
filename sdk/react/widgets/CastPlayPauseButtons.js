@@ -107,7 +107,6 @@ class CastPlayPauseButtons extends React.Component {
 
   renderLoadingButton() {
     const { buttonWidth, buttonHeight, opacity } = this.props;
-    const accessible = true;
     const sizeStyle = {
       width: buttonWidth * 2,
       height: buttonHeight * 2,
@@ -115,7 +114,7 @@ class CastPlayPauseButtons extends React.Component {
 
     return (
       <TouchableHighlight
-        accessible={accessible}
+        accessible
         underlayColor="transparent"
         activeOpacity={opacity}
         importantForAccessibility="yes"
@@ -143,8 +142,6 @@ class CastPlayPauseButtons extends React.Component {
     const { playPause } = this.state;
     const { animationOpacity, animationScale } = playPause;
 
-    const accessible = true;
-
     const fontStyle = {
       fontSize,
       fontFamily: icons[name].fontFamily,
@@ -160,7 +157,7 @@ class CastPlayPauseButtons extends React.Component {
 
     return (
       <TouchableHighlight
-        accessible={accessible}
+        accessible
         accessibilityLabel={label}
         onPress={() => this.onPress()}
         underlayColor="transparent"
