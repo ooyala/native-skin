@@ -228,7 +228,8 @@ class OoyalaSkinBridgeListener {
       screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
         SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
       autoPlay: false,
-      onPlayComplete: false
+      onPlayComplete: false,
+      isRootPipButtonVisible: e.isPipButtonVisible
     });
   };
 
@@ -340,11 +341,16 @@ class OoyalaSkinBridgeListener {
   };
 
   onPipToggle(e) {
-    Log.log("Received PiP Toggle: " + e.isPipActivated + + e.isPipButtonVisible);
+    Log.log("Received PiP Toggle: " + e.isPipActivated + e.isPipButtonVisible);
     this.skin.setState({
       isRootPipActivated: e.isPipActivated,
-      isRootPipButtonVisible: e.isPipButtonVisible
+      //isRootPipButtonVisible: e.isPipButtonVisible
     });
+    if (e.isPipButtonVisible) {
+      this.skin.setState({
+        isRootPipButtonVisible: e.isPipButtonVisible
+      });
+    }
   };
 
   handleVideoHasVRContent(e) {

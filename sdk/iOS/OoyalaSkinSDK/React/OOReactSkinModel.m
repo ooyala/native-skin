@@ -45,11 +45,12 @@
 @implementation OOReactSkinModel
 
 #pragma mark - Constants
-#pragma mark Events
+#pragma mark - Events
 static NSString *discoveryResultsReceived = @"discoveryResultsReceived";
 static NSString *ccStylingChanged         = @"ccStylingChanged";
+static NSString *pipEventKey            = @"pipChanged";
 
-#pragma mark Keys
+#pragma mark - Private keys
 static NSString *upNextKey              = @"upNext";
 static NSString *volumeKey              = @"volume";
 static NSString *textSizeKey            = @"textSize";
@@ -72,10 +73,11 @@ static NSString *descriptionKey         = @"description";
 static NSString *imageUrlKey            = @"imageUrl";
 static NSString *resultsKey             = @"results";
 static NSString *volumePropertyKey      = @"outputVolume";
-static NSString *pipEventKey            = @"pipChanged";
 static NSString *isPipActivatedKey      = @"isPipActivated";
-static NSString *isPipButtonVisibleKey  = @"isPipButtonVisible";
 static NSString *volumeChangeKey        = @"volumeChanged";
+
+#pragma mark - Public keys
+NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
 #pragma mark - Init
 - (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player
@@ -289,10 +291,8 @@ static NSString *volumeChangeKey        = @"volumeChanged";
 - (void)handlePip {
   [self.player togglePictureInPictureMode];
   BOOL isStateActivated = self.player.isPiPActivated;
-  BOOL isButtonVisible = AVPictureInPictureController.isPictureInPictureSupported;
-  id params = @{isPipActivatedKey:@(isStateActivated), isPipButtonVisibleKey:@(isButtonVisible)};
   [self.bridge.skinEventsEmitter sendDeviceEventWithName:pipEventKey
-                                                    body:params];
+                                                    body:@{isPipActivatedKey:@(isStateActivated)}];
 }
 
 - (void)handlePlay {

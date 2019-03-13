@@ -26,6 +26,7 @@
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
 #import <OoyalaSDK/OOStreamPlayer.h>
 #import <OoyalaSDK/OOPlayerInfo.h>
+@import AVKit.AVPictureInPictureController;
 
 @interface OOSkinPlayerObserver ()
 
@@ -427,7 +428,11 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgePlayStartedNotification:(NSNotification *)notification {
-  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
+  //OS: this is the point where player controlls on JS-Video-view appears, so it's usefull to set visibility of button for device-idiom-depened feature
+  BOOL isAudioOnlyFlag = self.player.isAudioOnly;
+  BOOL isButtonVisible = AVPictureInPictureController.isPictureInPictureSupported && !isAudioOnlyFlag;
+  id params = @{isPipButtonVisibleKey:@(isButtonVisible)};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:params];
 }
 
 - (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {
