@@ -25,7 +25,7 @@
     "fontSize": 18,
     "paddingBottom": 20
   },
-  "circleIndicatorStyle": {
+  "circleIndicator": {
     "paddingBottom": 65,
     "paddingTop": 100,
     "color": "white"

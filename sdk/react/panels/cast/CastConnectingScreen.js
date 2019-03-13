@@ -54,8 +54,8 @@ export default class CastConnectingScreen extends React.Component {
     return (
       <ActivityIndicator
         size={120}
-        color={styles.circleIndicatorStyle.color}
-        style={styles.circleIndicatorStyle}
+        color={styles.circleIndicator.color}
+        style={styles.circleIndicator}
       />
     );
   }
