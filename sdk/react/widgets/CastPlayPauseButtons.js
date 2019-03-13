@@ -99,13 +99,10 @@ class CastPlayPauseButtons extends React.Component {
   renderPlayPauseButton() {
     const { loading, playing } = this.props;
 
-    let renderButton = null;
     if (loading === true) {
-      renderButton = this.renderLoadingButton();
-    } else {
-      renderButton = playing ? this.renderButton(PAUSE) : this.renderButton(PLAY);
+      return this.renderLoadingButton();
     }
-    return renderButton;
+    return playing ? this.renderButton(PAUSE) : this.renderButton(PLAY);
   }
 
   renderLoadingButton() {
