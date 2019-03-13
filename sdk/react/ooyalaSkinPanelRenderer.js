@@ -528,8 +528,6 @@ class OoyalaSkinPanelRenderer {
           return this.renderCastDevicesScreen();
         case OVERLAY_TYPES.CAST_CONNECTING:
           return this.renderCastConnectingScreen();
-        case OVERLAY_TYPES.CAST_DISCONNECTING:
-          return this.renderCastDisconnectingScreen();
         case OVERLAY_TYPES.CAST_AIRPLAY:
           return this.renderCastAirPlayScreen();
       }
