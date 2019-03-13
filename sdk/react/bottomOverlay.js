@@ -26,7 +26,7 @@ import {
 } from './constants';
 
 console.disableYellowBox = true;
-import MarkersList from './src/progressBar/MarkersList';
+import MarkersContainer from './src/MarkersContainer';
 
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 const AccessibilityUtils = require('./accessibilityUtils');
@@ -277,9 +277,7 @@ const BottomOverlay = createReactClass({
               onTouchEnd={(event) => this.handleTouchEnd(event)}
               style={styles.progressBarStyle}>
               {this._renderProgressBar(playedPercent)}
-              {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-              {this._renderCuePoints(this.props.cuePoints)}
-              <MarkersList
+              <MarkersContainer
                 duration={this.props.duration}
                 markers={[
                   {
@@ -306,6 +304,8 @@ const BottomOverlay = createReactClass({
                   width: this._calculateProgressBarWidth(),
                 }}
               />
+              {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+              {this._renderCuePoints(this.props.cuePoints)}
             </Animated.View>
     );
   },
