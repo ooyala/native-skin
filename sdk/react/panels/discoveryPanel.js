@@ -286,7 +286,7 @@ class DiscoveryPanel extends Component {
   renderError = () => {
     const errorTitleText = 'SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.';
     const errorContentText = '(Try Clicking The Discover Button Again On Reload Your Page)';
-    let errorFlexDirectionStyle = {flexDirection: 'row'};
+    const errorFlexDirectionStyle = {flexDirection: 'row'};
 
     if (this.props.width < widthThreshold) {
       errorFlexDirectionStyle = {flexDirection: 'column'};

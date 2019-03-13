@@ -53,7 +53,6 @@ class OoyalaSkinBridgeListener {
       { event: 'castDevicesAvailable',     action: (event) => this.handleCastDevicesAvailable(event)    },
       { event: 'castConnected',            action: (event) => this.handleCastConnected(event)           },
       { event: 'castDisconnected',         action: (event) => this.handleCastDisconnected(event)        },
-      { event: 'castError',                action: (event) => this.handleErrorCastMode(event)           },
       { event: 'castConnecting',           action: (event) => this.handleCastModeConnecting(event)      },
       { event: 'multiAudioEnabled',        action: (event) => this.handleVideoHasMultiAudio(event)      },
       { event: 'audioTrackChanged',        action: (event) => this.handleAudioTrackChanged(event)       },
@@ -394,10 +393,6 @@ class OoyalaSkinBridgeListener {
 
   handleCastModeConnecting(e) {
     this.core.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CAST_CONNECTING);
-  };
-
-  handleErrorCastMode(e) {
-
   };
 
   handleAudioTrackChanged(e) {
