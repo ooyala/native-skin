@@ -60,23 +60,8 @@ class CastPlayPauseButtons extends React.Component {
       animationScale: new Animated.Value(1),
       animationOpacity: new Animated.Value(1),
     },
-    playing: false,
     skipCount: 0,
   };
-
-  componentWillMount() {
-    const { playing } = this.props;
-    this.state.playing = playing;
-    this.state.skipButtons.animationOpacity.setValue(1);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { playing } = this.props;
-
-    if (nextProps.playing !== playing) {
-      this.state.playing = nextProps.playing;
-    }
-  }
 
   componentWillUnmount() {
     timerForSkipButtons.clearTimeout(this);
@@ -287,7 +272,7 @@ class CastPlayPauseButtons extends React.Component {
   // Gets the play button based on the current config settings
   render() {
     const {
-      showSeekButtons, seekEnabled, frameHeight, buttonHeight, frameWidth, buttonWidth, showButton, config,
+      frameHeight, buttonHeight, frameWidth, buttonWidth, showButton, config,
     } = this.props;
     const {
       previousVideo, nextVideo, skipBackward, skipForward,
