@@ -341,16 +341,10 @@ class OoyalaSkinBridgeListener {
   };
 
   onPipToggle(e) {
-    Log.log("Received PiP Toggle: " + e.isPipActivated + e.isPipButtonVisible);
+    Log.log("Received PiP Toggle: " + e.isPipActivated /*+ e.isPipButtonVisible*/);
     this.skin.setState({
-      isRootPipActivated: e.isPipActivated,
-      //isRootPipButtonVisible: e.isPipButtonVisible
+      isRootPipActivated: e.isPipActivated
     });
-    if (e.isPipButtonVisible) {
-      this.skin.setState({
-        isRootPipButtonVisible: e.isPipButtonVisible
-      });
-    }
   };
 
   handleVideoHasVRContent(e) {
