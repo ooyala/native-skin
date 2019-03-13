@@ -17,11 +17,10 @@ export default class CastConnectingScreen extends React.Component {
 
   componentWillMount() {
     const { height } = this.props;
-    this.state = {
+    this.setState({
       translateY: new Animated.Value(height),
       opacity: new Animated.Value(2),
-      selectedID: -1,
-    };
+    });
   }
 
   componentDidMount() {
