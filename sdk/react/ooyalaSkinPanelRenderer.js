@@ -8,7 +8,8 @@ import {
   SCREEN_TYPES,
   OVERLAY_TYPES,
   DESIRED_STATES,
-  BUTTON_NAMES
+  BUTTON_NAMES,
+  UI_SIZES,
 } from './constants';
 
 import AudioView from './panels/audioView';
@@ -106,10 +107,11 @@ class OoyalaSkinPanelRenderer {
   }
 
   renderCastAirPlayScreen() {
+    const castAirPlayerOffset = 40;
     return (
       <CastAirPlayScreen
-        width={this.skin.state.width - 40}
-        height={200}
+        width={this.skin.state.width - castAirPlayerOffset}
+        height={UI_SIZES.CAST_AIR_SCREEN_HEIGHT}
         onDismiss={() => this.core.dismissOverlay()}
         onPress={() => this.core.handlePress(BUTTON_NAMES.CAST)}
         config={{

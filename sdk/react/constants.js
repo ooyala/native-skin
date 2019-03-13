@@ -13,7 +13,8 @@ const UI_SIZES = {
   LOADING_ICON: 30,
   CONTROLBAR_ICONSIZE: 20,
   CONTROLBAR_LABELSIZE: 16,
-  CC_PREVIEW_HEIGHT: 80
+  CC_PREVIEW_HEIGHT: 80,
+  CAST_AIR_SCREEN_HEIGHT: 200,
 };
 
 const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
