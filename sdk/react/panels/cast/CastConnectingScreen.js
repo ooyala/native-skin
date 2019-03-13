@@ -15,40 +15,6 @@ export default class CastConnectingScreen extends React.Component {
     onDisconnect: PropTypes.func.isRequired,
   };
 
-  componentWillMount() {
-    const { height } = this.props;
-    this.setState({
-      translateY: new Animated.Value(height),
-      opacity: new Animated.Value(2),
-    });
-  }
-
-  componentDidMount() {
-    const { height } = this.props;
-    const { translateY, opacity } = this.state;
-
-    translateY.setValue(height);
-    opacity.setValue(0);
-
-    Animated.parallel([
-      Animated.timing(
-        translateY, {
-          toValue: 0,
-          duration: 700,
-          delay: 0,
-        },
-      ),
-      Animated.timing(
-        opacity, {
-          toValue: 1,
-          duration: 500,
-          delay: 0,
-        },
-      ),
-    ])
-      .start();
-  }
-
   static renderCircleIndicator() {
     return (
       <ActivityIndicator
