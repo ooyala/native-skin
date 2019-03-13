@@ -72,8 +72,6 @@ class VideoView extends Component {
     initialPlay: PropTypes.bool
   };
 
-  state = {};
-
   generateLiveObject = () => {
     if (this.props.live) {
       const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
@@ -97,16 +95,8 @@ class VideoView extends Component {
 
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
-    if (this.state.showControls) {
-      if (name === 'LIVE') {
-        this.props.handlers.onScrub(1);
-      } else {
-        this.props.handlers.onPress(name);
-      }
-    } else {
-      this.props.handlers.showControls();
-      this.props.handlers.onPress(name);
-    }
+    this.props.handlers.showControls();
+    this.props.handlers.onPress(name);
   };
 
   onSeekPressed = (skipCountValue) => {

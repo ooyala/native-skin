@@ -10,7 +10,7 @@ const Utils = require('../../utils');
 const styles = Utils.getStyles(require('../style/CastConnectedStyles.json'));
 const CastPlayPauseButtons = require('../../widgets/CastPlayPauseButtons');
 const ResponsiveDesignManager = require('../../responsiveDesignManager');
-
+const Log = require('../../log');
 const BottomOverlay = require('../../bottomOverlay');
 
 class CastConnectedScreen extends React.Component {
@@ -113,22 +113,12 @@ class CastConnectedScreen extends React.Component {
     onScrub(value);
   }
 
-  handlePress(name) {
-    const { showControls } = this.state;
-    const { props } = this;
-    const { onScrub, onPress, handleShowControls } = props.handlers;
-
-    if (showControls) {
-      if (name === 'LIVE') {
-        onScrub(1);
-      } else {
-        onPress(name);
-      }
-    } else {
-      handleShowControls();
-      onPress(name);
-    }
-  }
+  handlePress = (name) => {
+    const { handlers } = this.props;
+    const { onPress, handleShowControls } = handlers;
+    handleShowControls();
+    onPress(name);
+  };
 
   renderCastIcon() {
     const { props } = this;
@@ -240,7 +230,7 @@ class CastConnectedScreen extends React.Component {
         duration={duration}
         volume={volume}
         live={this.generateLiveObject()}
-        onPress={name => this.handlePress(name)}
+        onPress={this.handlePress}
         onScrub={value => this.handleScrub(value)}
         handleControlsTouch={() => handleControlsTouch()}
         showAudioAndCCButton={multiAudioEnabled || ccEnabled}
