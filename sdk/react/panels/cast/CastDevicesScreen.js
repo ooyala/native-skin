@@ -34,11 +34,11 @@ class CastDevicesScreen extends Component {
     selectedItem: PropTypes.string.isRequired,
   };
 
-  componentWillMount() {
-    const { height, deviceNames } = this.props;
+  constructor(props) {
+    super(props);
+    const { deviceNames } = props;
 
     this.state = {
-      translateY: new Animated.Value(height),
       opacity: new Animated.Value(0),
       dataSource: ds.cloneWithRows(deviceNames),
       selectedID: -1,
@@ -46,21 +46,11 @@ class CastDevicesScreen extends Component {
   }
 
   componentDidMount() {
-    const { height } = this.props;
-    const { translateY, opacity } = this.state;
+    const { opacity } = this.state;
 
-    translateY.setValue(height);
     opacity.setValue(0);
 
     Animated.parallel([
-      Animated.timing(
-        translateY,
-        {
-          toValue: 0,
-          duration: 700,
-          delay: 0,
-        },
-      ),
       Animated.timing(
         opacity,
         {
@@ -92,12 +82,11 @@ class CastDevicesScreen extends Component {
   };
 
   onPressButton(rowID) {
-    const { translateY, opacity } = this.state;
+    const { opacity } = this.state;
     const { deviceNames, onDeviceSelected, deviceIds } = this.props;
 
     this.setState({
       selectedID: rowID,
-      translateY,
       opacity,
     });
     onDeviceSelected(deviceNames[rowID], deviceIds[rowID]);
