@@ -5,8 +5,10 @@ import {
   ActivityIndicator, Animated, Text, TouchableOpacity,
 } from 'react-native';
 
-const Utils = require('../../utils');
-const styles = Utils.getStyles(require('../style/CastConnectingStyles.json'));
+import Utils from '../../utils';
+import castConnectingStyles from '../style/CastConnectingStyles.json';
+
+const styles = Utils.getStyles(castConnectingStyles);
 
 export default class CastConnectingScreen extends React.Component {
   static propTypes = {

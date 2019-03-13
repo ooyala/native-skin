@@ -4,17 +4,16 @@ import {
   ActivityIndicator, Animated, TouchableHighlight, View,
 } from 'react-native';
 
+import timerForSkipButtons from 'react-native-timer';
 import SkipButton from './SkipButton';
 import SwitchButton from './SwitchButton';
 import { BUTTON_NAMES, VALUES } from '../constants';
-
-const timerForSkipButtons = require('react-native-timer');
-const Utils = require('../utils');
-const AccessibilityUtils = require('../accessibilityUtils');
+import Utils from '../utils';
+import AccessibilityUtils from '../accessibilityUtils';
+import rectButtonStyles from './style/RectButtonStyles.json';
 
 // Uses the rectbutton styles
-const styles = require('../utils')
-  .getStyles(require('./style/RectButtonStyles.json'));
+const styles = Utils.getStyles(rectButtonStyles);
 
 const PLAY = 'play';
 const PAUSE = 'pause';

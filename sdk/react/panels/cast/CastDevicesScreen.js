@@ -12,10 +12,9 @@ import {
   BUTTON_NAMES,
 } from '../../constants';
 import Utils from '../../utils';
+import castDevicesStyles from '../style/CastDevicesStyles.json';
 
-import castScreenStyles from '../style/CastDevicesStyles.json';
-
-const styles = Utils.getStyles(castScreenStyles);
+const styles = Utils.getStyles(castDevicesStyles);
 
 let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 === r2 });
 

@@ -5,13 +5,13 @@ import {
   Animated, Text, TouchableOpacity, View, Image,
 } from 'react-native';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
+import CastPlayPauseButtons from '../../widgets/CastPlayPauseButtons';
+import Utils from '../../utils';
+import castConnectedStyles from '../style/CastConnectedStyles.json';
+import ResponsiveDesignManager from '../../responsiveDesignManager';
+import BottomOverlay from '../../bottomOverlay';
 
-const Utils = require('../../utils');
-const styles = Utils.getStyles(require('../style/CastConnectedStyles.json'));
-const CastPlayPauseButtons = require('../../widgets/CastPlayPauseButtons');
-const ResponsiveDesignManager = require('../../responsiveDesignManager');
-const Log = require('../../log');
-const BottomOverlay = require('../../bottomOverlay');
+const styles = Utils.getStyles(castConnectedStyles);
 
 class CastConnectedScreen extends React.Component {
   static propTypes = {
@@ -127,7 +127,10 @@ class CastConnectedScreen extends React.Component {
     return (
       <Animated.Text
         accessible={false}
-        style={[styles.castIcon, { icon: fontString, fontFamily: fontFamilyName }]}
+        style={[styles.castIcon, {
+          icon: fontString,
+          fontFamily: fontFamilyName
+        }]}
       >
         {'}'}
       </Animated.Text>
@@ -159,7 +162,7 @@ class CastConnectedScreen extends React.Component {
   }
 
   static renderBorder() {
-    return <View style={styles.border} />;
+    return <View style={styles.border}/>;
   }
 
   renderDeviceNameLines() {
@@ -327,7 +330,10 @@ class CastConnectedScreen extends React.Component {
     return (
       <View
         accessible={false}
-        style={[styles.castConnectedScreen, { width, height }]}
+        style={[styles.castConnectedScreen, {
+          width,
+          height,
+        }]}
       >
         {this.renderTopPanel()}
         {CastConnectedScreen.renderBorder()}
