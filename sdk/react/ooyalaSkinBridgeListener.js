@@ -8,8 +8,7 @@ import {
 import {
   CONTENT_TYPES,
   SCREEN_TYPES,
-  DESIRED_STATES,
-  OVERLAY_TYPES
+  OVERLAY_TYPES,
 } from './constants';
 import Log from './log';
 
