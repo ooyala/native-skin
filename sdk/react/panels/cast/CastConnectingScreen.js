@@ -84,13 +84,8 @@ export default class CastConnectingScreen extends React.Component {
     const { height, width } = this.props;
 
     return (
-      <Animated.View
-        style={[styles.fullscreenContainer, {
-          height,
-          width,
-        }]}
-      >
-        {CastConnectingScreen.renderCircleIndicator()}
+      <Animated.View style={[styles.fullscreenContainer, { height, width }]}>
+        {this.constructor.renderCircleIndicator()}
         {this.constructor.renderConnectingText()}
         {this.renderTouchableCancelText()}
       </Animated.View>
