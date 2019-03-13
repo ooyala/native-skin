@@ -92,12 +92,11 @@ class CastDevicesScreen extends Component {
   };
 
   onPressButton(rowID) {
-    const { dataSource, translateY, opacity } = this.state;
+    const { translateY, opacity } = this.state;
     const { deviceNames, onDeviceSelected, deviceIds } = this.props;
 
     this.setState({
       selectedID: rowID,
-      dataSource: dataSource.cloneWithRows(deviceNames),
       translateY,
       opacity,
     });
