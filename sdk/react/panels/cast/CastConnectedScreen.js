@@ -148,12 +148,12 @@ class CastConnectedScreen extends React.Component {
   }
 
   renderDisconnectButton() {
-    const { onDisconnect } = this.props;
-
+    const { onDisconnect, config } = this.props;
+    const { color } = config.castControls.iconStyle.active;
     return (
       <View style={styles.disconnectView}>
         <TouchableOpacity onPress={() => onDisconnect()}>
-          <Text style={styles.disconnectText} numberOfLines={1}>
+          <Text style={[styles.disconnectText, { backgroundColor: color }]} numberOfLines={1}>
             {'Disconnect'}
           </Text>
         </TouchableOpacity>
@@ -162,7 +162,7 @@ class CastConnectedScreen extends React.Component {
   }
 
   static renderBorder() {
-    return <View style={styles.border}/>;
+    return <View style={styles.border} />;
   }
 
   renderDeviceNameLines() {
@@ -213,7 +213,7 @@ class CastConnectedScreen extends React.Component {
     const { handleControlsTouch } = handlers;
 
     const {
-      controlBar, castControls, castDevicesScreen, buttons, icons, live, general,
+      controlBar, castControls, buttons, icons, live, general,
     } = config;
 
 
@@ -242,7 +242,6 @@ class CastConnectedScreen extends React.Component {
         config={{
           controlBar,
           castControls,
-          castDevicesScreen,
           buttons,
           icons,
           live,

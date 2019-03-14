@@ -125,11 +125,15 @@ class CastDevicesScreen extends Component {
 
   renderItem(rowData, rowID, castButton, castButtonActive) {
     const { selectedItem } = this.props;
+    const { config } = this.props;
+    const { iconStyle } = config.castControls;
     const { selectedID } = this.state;
 
     const isSelected = selectedID === rowID || rowData === selectedItem;
     const itemContainerStyle = isSelected ? styles.itemContainerSelected : styles.itemContainer;
 
+    const textColor = isSelected ? iconStyle.active.color : iconStyle.inactive.color;
+    const textStyle = isSelected ? styles.textSelected : styles.text;
     return (
       <TouchableHighlight
         style={{ flex: 1 }}
@@ -140,7 +144,7 @@ class CastDevicesScreen extends Component {
           <View style={styles.icon}>
             {isSelected ? castButtonActive : castButton}
           </View>
-          <Text style={isSelected ? styles.textSelected : styles.text}>
+          <Text style={[textStyle, { color: textColor }]}>
             {rowData}
           </Text>
         </View>
@@ -166,11 +170,11 @@ class CastDevicesScreen extends Component {
       styles.iconDismiss,
       config.icons.dismiss.fontString,
       this.onDismissPress, dismissButtonSize,
-      config.castDevicesScreen.iconStyle.inactive.color,
+      config.castControls.iconStyle.inactive.color,
       config.icons.dismiss.fontFamilyName);
 
-    const castButton = this.renderCastButton(config.castDevicesScreen.iconStyle.inactive.color);
-    const castButtonActive = this.renderCastButton(config.castDevicesScreen.iconStyle.active.color);
+    const castButton = this.renderCastButton(config.castControls.iconStyle.inactive.color);
+    const castButtonActive = this.renderCastButton(config.castControls.iconStyle.active.color);
 
     const dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>

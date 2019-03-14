@@ -71,7 +71,6 @@ class OoyalaSkinPanelRenderer {
           endScreen: this.skin.props.endScreen,
           controlBar: this.skin.props.controlBar,
           castControls: this.skin.props.castControls,
-          castDevicesScreen: this.skin.props.castDevicesScreen,
           buttons: this.skin.props.buttons.mobileContent,
           icons: this.skin.props.icons,
           general: this.skin.props.general
@@ -129,7 +128,7 @@ class OoyalaSkinPanelRenderer {
         onDismiss={() => this.core.dismissOverlay()}
         onDeviceSelected={(deviceName, deviceId) => this.core.handleCastDeviceSelected(deviceName, deviceId)}
         config={{
-          castDevicesScreen: this.skin.props.castDevicesScreen,
+          castControls: this.skin.props.castControls,
           icons: this.skin.props.icons,
         }}
         deviceIds={this.skin.state.castListIds}
@@ -187,7 +186,6 @@ class OoyalaSkinPanelRenderer {
           adScreen: this.skin.props.adScreen,
           live: this.skin.props.live,
           castControls: this.skin.props.castControls,
-          castDevicesScreen: this.skin.props.castDevicesScreen,
         }}
         localizableStrings={this.skin.props.localization}
         locale={this.skin.props.locale}
@@ -226,7 +224,6 @@ class OoyalaSkinPanelRenderer {
         config={{
           controlBar: this.skin.props.controlBar,
           castControls: this.skin.props.castControls,
-          castDevicesScreen: this.skin.props.castDevicesScreen,
           general: this.skin.props.general,
           buttons: this.skin.props.buttons.audioOnly.mobile,
           upNext: this.skin.props.upNext,
@@ -296,7 +293,6 @@ class OoyalaSkinPanelRenderer {
         config={{
           controlBar: this.skin.props.controlBar,
           castControls: this.skin.props.castControls,
-          castDevicesScreen: this.skin.props.castDevicesScreen,
           general: this.skin.props.general,
           buttons: this.skin.props.buttons.mobileContent,
           upNext: this.skin.props.upNext,

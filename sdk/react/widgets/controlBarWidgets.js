@@ -17,6 +17,7 @@ import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
 import VolumeView from './VolumeView';
 import SkipButton from './SkipButton';
+import Log from '../log';
 
 import controlBarWidgetStyles from './style/controlBarWidgetStyles.json';
 const styles = Utils.getStyles(controlBarWidgetStyles);
@@ -344,7 +345,7 @@ class controlBarWidget extends Component {
       'rewind': this.rewindWidget,
       'discovery': this.discoveryWidget,
       'fullscreen': this.fullscreenWidget,
-      'cast': this.castWidget,
+      'chromecast': this.castWidget,
       'moreOptions': this.moreOptionsWidget,
       'watermark': this.watermarkWidget,
       'share': this.shareWidget,
