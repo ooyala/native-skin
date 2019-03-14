@@ -188,7 +188,7 @@ class ControlBar extends Component {
         onPress: this.onPipButtonPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {"fontSize": iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.isPipActivated ? this.props.config.icons.volumeOff : this.props.config.icons.replay, //OS: name in your project skin.json -> 'icons'
+        icon: this.props.isPipActivated ? this.props.config.icons.volumeOff : this.props.config.icons.replay, //OS: name in your project skin.json -> 'icons'. Should be replaced on feature-specific icons
         isActive: this.props.isPipActivated,
         enabled: this.props.isPipButtonVisible
       },

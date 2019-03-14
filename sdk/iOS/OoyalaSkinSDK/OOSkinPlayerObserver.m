@@ -431,10 +431,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
 - (void)bridgePlayStartedNotification:(NSNotification *)notification {
   //OS: this is the point where player controlls on JS-Video-view appears, so it's usefull to set visibility of button for device-idiom-depened feature
-  
-  BOOL isAudioOnlyFlag = self.player.isAudioOnly;
+  //TODO: used in many places, so should be moved to new method of  OOOoyalaPlayer
   BOOL isPiPSupportRequested = self.player.options.enablePictureInPictureSupport;
-  BOOL isButtonVisible = isPiPSupportRequested && AVPictureInPictureController.isPictureInPictureSupported && !isAudioOnlyFlag;
+  BOOL isButtonVisible = isPiPSupportRequested && AVPictureInPictureController.isPictureInPictureSupported && !self.player.isAudioOnly;
   id params = @{isPipButtonVisibleKey:@(isButtonVisible)};
   [self.ooReactSkinModel sendEventWithName:notification.name body:params];
 }
