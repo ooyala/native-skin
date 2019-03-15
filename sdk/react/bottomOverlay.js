@@ -150,7 +150,7 @@ class BottomOverlay extends Component {
         accessible={false}
         importantForAccessibility='no-hide-descendants'
         accessibilityLabel=''
-        style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}>
+        style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
       </View>
     );
   }
