@@ -58,15 +58,8 @@ class AudioAndCCSelectionPanel extends Component {
   }
 
   onAudioTrackSelected = (name) => {
-    const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
-    const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
-    let originalName = name;
-
-    originalName = originalName.replace(localizedTitleForUndefinedLanguage, stringConstants.undefinedLanguageTitle);
-    originalName = originalName.replace(localizedTitleForNoLinguisticContent, stringConstants.noLinguisticContentTitle);
-
-    if (this.props.selectedAudioTrackTitle !== originalName) {
-      this.props.onSelectAudioTrack(originalName);
+    if (this.props.selectedAudioTrackTitle !== name) {
+      this.props.onSelectAudioTrack(name);
     }
   };
 
@@ -127,26 +120,6 @@ class AudioAndCCSelectionPanel extends Component {
   };
 
   renderAudioSelectionScrollView = () => {
-    const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
-    const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
-
-    // Localize selected item
-    let selectedLocalizedItem = this.props.selectedAudioTrackTitle;
-    if (selectedLocalizedItem !== undefined) {
-      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
-      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForUndefinedLanguage);
-    }
-
-    // Localize other items
-    const itemsWithLocalizedUndefinedLanguage = this.props.audioTracksTitles.map(function(item) {
-      let localizedItem = item;
-
-      localizedItem = localizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
-      localizedItem = localizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForNoLinguisticContent);
-
-      return localizedItem;
-    });
-
     return (
       <ItemSelectionScrollView
         style={styles.panelItemSelectionView}
