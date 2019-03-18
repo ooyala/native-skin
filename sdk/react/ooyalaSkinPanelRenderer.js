@@ -189,7 +189,7 @@ class OoyalaSkinPanelRenderer {
         }}
         localizableStrings={this.skin.props.localization}
         locale={this.skin.props.locale}
-        playing={this.skin.state.desiredState === DESIRED_STATES.DESIRED_PLAY}
+        playing={this.skin.state.playing}
         loading={this.skin.state.loading}
         initialPlay={this.skin.state.initialPlay}
         onDisconnect={() => this.core.handleCastDisconnect()}
