@@ -2,7 +2,6 @@
 //  OOSkinViewController.h
 //  OoyalaSkin
 //
-//
 
 @import UIKit;
 

@@ -45,6 +45,8 @@ class BottomOverlay extends Component {
     height: PropTypes.number,
     primaryButton: PropTypes.string,
     fullscreen: PropTypes.bool,
+    isPipActivated: PropTypes.bool,
+    isPipButtonVisible: PropTypes.bool,
     cuePoints: PropTypes.array,
     playhead: PropTypes.number,
     duration: PropTypes.number,
@@ -149,7 +151,7 @@ class BottomOverlay extends Component {
         testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         accessible={false}
         importantForAccessibility='no-hide-descendants'
-        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
+        accessibilityLabel=''
         style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
       </View>
     );
@@ -332,6 +334,8 @@ class BottomOverlay extends Component {
         width={this.props.width - 2 * leftMargin}
         height={this.props.height}
         fullscreen = {this.props.fullscreen}
+        isPipActivated = {this.props.isPipActivated}
+        isPipButtonVisible = {this.props.isPipButtonVisible}
         onPress={this.props.onPress}
         handleControlsTouch={this.props.handleControlsTouch}
         showWatermark={this.props.showWatermark}
