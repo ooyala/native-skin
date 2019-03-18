@@ -17,7 +17,7 @@ import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
 import VolumeView from './VolumeView';
 import SkipButton from './SkipButton';
-
+import PipView from './PiPView';
 import controlBarWidgetStyles from './style/controlBarWidgetStyles.json';
 const styles = Utils.getStyles(controlBarWidgetStyles);
 
@@ -185,6 +185,25 @@ class controlBarWidget extends Component {
     );
   };
 
+  pipButtonWidget = (options) => {
+    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    const nameLabel = options.isActive ? VIEW_ACCESSIBILITY_NAMES.EXIT_PIP : VIEW_ACCESSIBILITY_NAMES.ACTIVE_PIP;
+    let widget;
+    if (options.enabled) {
+      widget = <TouchableHighlight
+        testID={nameLabel}
+        accessible={true}
+        accessibilityLabel={nameLabel}
+        style={[options.iconTouchableStyle]}
+        onPress={options.onPress}>
+        <Text style={[options.style, fontFamilyStyle]}>
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    }
+    return widget;
+  };
+
   moreOptionsWidget = (options) => {
     const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
     return (
@@ -340,6 +359,7 @@ class controlBarWidget extends Component {
       'rewind': this.rewindWidget,
       'discovery': this.discoveryWidget,
       'fullscreen': this.fullscreenWidget,
+      'pipButton': this.pipButtonWidget,
       'cast': this.castWidget,
       'moreOptions': this.moreOptionsWidget,
       'watermark': this.watermarkWidget,

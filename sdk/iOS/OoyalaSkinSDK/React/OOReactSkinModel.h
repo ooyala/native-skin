@@ -14,6 +14,7 @@
 @class RCTRootView;
 @protocol OOSkinViewControllerDelegate;
 
+extern NSString *const isPipButtonVisibleKey;
 
 @interface OOReactSkinModel : NSObject<RCTBridgeDelegate>
 

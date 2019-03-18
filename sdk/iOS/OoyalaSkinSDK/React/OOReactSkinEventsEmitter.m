@@ -45,6 +45,7 @@ RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
            @"currentItemChanged",
            @"frameChanged",
            @"fullscreenToggled",
+           @"pipChanged",
            @"volumeChanged",
            @"playCompleted",
            @"stateChanged",

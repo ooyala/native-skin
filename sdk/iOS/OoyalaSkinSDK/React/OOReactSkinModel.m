@@ -28,6 +28,7 @@
 #import <OoyalaSDK/OOAudioSession.h>
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
 #import <OoyalaSDK/OOVideo.h>
+@import AVKit.AVPictureInPictureController;
 
 @interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate, OOAudioSessionDelegate>
 
@@ -47,8 +48,9 @@
 #pragma mark Events
 static NSString *discoveryResultsReceived = @"discoveryResultsReceived";
 static NSString *ccStylingChanged         = @"ccStylingChanged";
+static NSString *pipEventKey            = @"pipChanged";
 
-#pragma mark Keys
+#pragma mark Private keys
 static NSString *upNextKey              = @"upNext";
 static NSString *volumeKey              = @"volume";
 static NSString *textSizeKey            = @"textSize";
@@ -71,7 +73,11 @@ static NSString *descriptionKey         = @"description";
 static NSString *imageUrlKey            = @"imageUrl";
 static NSString *resultsKey             = @"results";
 static NSString *volumePropertyKey      = @"outputVolume";
+static NSString *isPipActivatedKey      = @"isPipActivated";
 static NSString *volumeChangeKey        = @"volumeChanged";
+
+#pragma mark Public keys
+NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
 #pragma mark - Init
 - (instancetype)initWithWithPlayer:(OOOoyalaPlayer *)player
@@ -284,6 +290,9 @@ static NSString *volumeChangeKey        = @"volumeChanged";
 
 - (void)handlePip {
   [self.player togglePictureInPictureMode];
+  BOOL isStateActivated = self.player.isPiPActivated;
+  [self.bridge.skinEventsEmitter sendDeviceEventWithName:pipEventKey
+                                                    body:@{isPipActivatedKey:@(isStateActivated)}];
 }
 
 - (void)handlePlay {

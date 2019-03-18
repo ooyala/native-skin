@@ -40,6 +40,8 @@
 		0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */; };
 		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
+		334A2B63222D5F440001881E /* OOPiPViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 334A2B61222D5F440001881E /* OOPiPViewManager.h */; };
+		334A2B64222D5F440001881E /* OOPiPViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A2B62222D5F440001881E /* OOPiPViewManager.m */; };
 		391346C921257B9F0044D42D /* OOQueuedEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 391346B221257B9E0044D42D /* OOQueuedEvent.h */; };
 		391346CA21257B9F0044D42D /* OOQueuedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 391346C821257B9E0044D42D /* OOQueuedEvent.m */; };
 		39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B612EF2158D04B00E2277C /* UIColor+Utils.h */; };
@@ -357,6 +359,8 @@
 		0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinPlayerObserver.m; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
+		334A2B61222D5F440001881E /* OOPiPViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOPiPViewManager.h; sourceTree = "<group>"; };
+		334A2B62222D5F440001881E /* OOPiPViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOPiPViewManager.m; sourceTree = "<group>"; };
 		391346B221257B9E0044D42D /* OOQueuedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOQueuedEvent.h; sourceTree = "<group>"; };
 		391346C821257B9E0044D42D /* OOQueuedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOQueuedEvent.m; sourceTree = "<group>"; };
 		39B612EF2158D04B00E2277C /* UIColor+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utils.h"; sourceTree = "<group>"; };
@@ -466,6 +470,8 @@
 				0BCABD941C7F77A900989005 /* OOGradientViewManager.m */,
 				0BCABD951C7F77A900989005 /* OOVolumeViewManager.h */,
 				0BCABD961C7F77A900989005 /* OOVolumeViewManager.m */,
+				334A2B61222D5F440001881E /* OOPiPViewManager.h */,
+				334A2B62222D5F440001881E /* OOPiPViewManager.m */,
 				39D4612F221FDAD6008C9FC7 /* OOAirPlayViewManager.h */,
 				39D46146221FDAEE008C9FC7 /* OOAirPlayViewManager.m */,
 			);
@@ -734,6 +740,7 @@
 				0BCABD9B1C7F77A900989005 /* OOClosedCaptionsViewManager.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewControllerDelegate.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
+				334A2B63222D5F440001881E /* OOPiPViewManager.h in Headers */,
 				39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */,
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
 				39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */,
@@ -1166,6 +1173,7 @@
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */,
+				334A2B64222D5F440001881E /* OOPiPViewManager.m in Sources */,
 				0BCABDA01C7F77A900989005 /* OOGradientViewManager.m in Sources */,
 				979B01311B910A040032F5CF /* OOConstant.m in Sources */,
 				0BCABDA21C7F77A900989005 /* OOVolumeViewManager.m in Sources */,

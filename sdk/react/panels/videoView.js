@@ -39,6 +39,8 @@ class VideoView extends Component {
     height: PropTypes.number,
     volume: PropTypes.number,
     fullscreen: PropTypes.bool,
+    isPipActivated: PropTypes.bool,
+    isPipButtonVisible: PropTypes.bool,
     cuePoints: PropTypes.array,
     stereoSupported: PropTypes.bool,
     multiAudioEnabled: PropTypes.bool,
@@ -152,6 +154,8 @@ class VideoView extends Component {
         height={this.props.height}
         primaryButton={this.props.playing ? 'pause' : 'play'}
         fullscreen={this.props.fullscreen}
+        isPipActivated={this.props.isPipActivated}
+        isPipButtonVisible={this.props.isPipButtonVisible}
         cuePoints={this.props.cuePoints}
         playhead={this.props.playhead}
         duration={this.props.duration}

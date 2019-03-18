@@ -53,7 +53,8 @@ class OoyalaSkinBridgeListener {
       { event: 'multiAudioEnabled',        action: (event) => this.handleVideoHasMultiAudio(event)      },
       { event: 'audioTrackChanged',        action: (event) => this.handleAudioTrackChanged(event)       },
       { event: 'playbackSpeedEnabled',     action: (event) => this.handlePlaybackSpeedEnabled(event)    },
-      { event: 'playbackSpeedRateChanged', action: (event) => this.handlePlaybackSpeedRateChanged(event)}
+      { event: 'playbackSpeedRateChanged', action: (event) => this.handlePlaybackSpeedRateChanged(event)},
+      { event: 'pipChanged',               action: (event) => this.onPipToggle(event)},
     ];
 
     for (let listener of listenerDefinitions) {
@@ -227,7 +228,8 @@ class OoyalaSkinBridgeListener {
       screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
         SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
       autoPlay: false,
-      onPlayComplete: false
+      onPlayComplete: false,
+      isRootPipButtonVisible: e.isPipButtonVisible
     });
   };
 
@@ -336,6 +338,13 @@ class OoyalaSkinBridgeListener {
   onControllerKeyPressed(e) {
     Log.log('Controller event received');
     this.core.handleControlsTouch();
+  };
+
+  onPipToggle(e) {
+    Log.log("Received PiP Toggle: " + e.isPipActivated /*+ e.isPipButtonVisible*/);
+    this.skin.setState({
+      isRootPipActivated: e.isPipActivated
+    });
   };
 
   handleVideoHasVRContent(e) {

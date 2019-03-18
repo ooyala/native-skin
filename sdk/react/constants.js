@@ -151,7 +151,9 @@ const VIEW_ACCESSIBILITY_NAMES = {
   FORWARD_BUTTON: 'Forward button. Tap twice to seek forward',
   BACKWARD_BUTTON: 'Backward button. Tap twice to seek backward',
   ENTER_FULLSCREEN: 'Enter Fullscreen mode button selected. Double tap to activate.',
+  ACTIVE_PIP: 'Enter PIP mode button selected. Double tap to activate.',
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
+  EXIT_PIP: 'Exit PIP mode button selected. Double tap to activate.',
   PLAY_PAUSE_BUTTON: 'button. Tap twice to',
   PLAYBACK_SPEED_BUTTON: 'Playback speed'
 };
