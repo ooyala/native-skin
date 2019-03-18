@@ -204,7 +204,7 @@ class controlBarWidget extends Component {
 
   castWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
-    if (!options.enabled) {
+    if (!options.enabled || options.enabled === undefined) {
       return null;
     }
     return (
