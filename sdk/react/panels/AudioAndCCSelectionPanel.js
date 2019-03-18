@@ -120,31 +120,11 @@ class AudioAndCCSelectionPanel extends Component {
   };
 
   renderAudioSelectionScrollView = () => {
-    const localizedTitleForUndefinedLanguage = Utils.localizedString(this.props.config.locale, stringConstants.undefinedLanguageTitle, this.props.config.localizableStrings);
-    const localizedTitleForNoLinguisticContent = Utils.localizedString(this.props.config.locale, stringConstants.noLinguisticContentTitle, this.props.config.localizableStrings);
-
-    // Localize selected item
-    let selectedLocalizedItem = this.props.selectedAudioTrackTitle;
-    if (selectedLocalizedItem !== undefined) {
-      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
-      selectedLocalizedItem = selectedLocalizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForUndefinedLanguage);
-    }
-
-    // Localize other items
-    const itemsWithLocalizedUndefinedLanguage = this.props.audioTracksTitles.map(function(item) {
-      let localizedItem = item;
-
-      localizedItem = localizedItem.replace(stringConstants.undefinedLanguageTitle, localizedTitleForUndefinedLanguage);
-      localizedItem = localizedItem.replace(stringConstants.noLinguisticContentTitle, localizedTitleForNoLinguisticContent);
-
-      return localizedItem;
-    });
-
     return (
       <ItemSelectionScrollView
         style={styles.panelItemSelectionView}
-        items={this.props.audioTracksTitles}
-        selectedItem={this.props.selectedAudioTrackTitle}
+        items={itemsWithLocalizedUndefinedLanguage}
+        selectedItem={selectedLocalizedItem}
         onSelect={(item) => this.onAudioTrackSelected(item)}
         config={this.props.config}
         cellType={CELL_TYPES.MULTI_AUDIO}>

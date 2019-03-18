@@ -151,7 +151,7 @@ class BottomOverlay extends Component {
         testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
         accessible={false}
         importantForAccessibility='no-hide-descendants'
-        accessibilityLabel={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
+        accessibilityLabel=''
         style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
       </View>
     );
