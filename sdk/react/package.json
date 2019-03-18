@@ -3,6 +3,7 @@
   "version": "4.44.0",
   "private": true,
   "scripts": {
+    "flow": "flow",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "lint": "eslint ."
@@ -26,6 +27,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "flow-bin": "^0.86.0",
     "jest": "^24.0.0",
     "react-test-renderer": "^16.6.3"
   },
