@@ -25,7 +25,6 @@ import {
   VIEW_ACCESSIBILITY_NAMES
 } from './constants';
 
-console.disableYellowBox = true;
 import MarkersContainer from './src/MarkersContainer';
 
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
@@ -278,22 +277,32 @@ const BottomOverlay = createReactClass({
               style={styles.progressBarStyle}>
               {this._renderProgressBar(playedPercent)}
               <MarkersContainer
+                accentColor={this.props.config.general.accentColor}
                 duration={this.props.duration}
                 markers={[
                   {
-                    color: 'red',
-                    start: 'start',
-                    end: 5,
+                    type: 'text',
+                    "start": 5,
+                    "end": 10,
+                    "text": "Goal!!"
                   },
                   {
-                    color: 'green',
-                    start: 20,
+                    type: 'text',
+                    "start": 20,
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis quo vero, accusamus praesentium, culpa iure, doloremque soluta quisquam ipsa aliquid ducimus. Repellat adipisci recusandae voluptate doloribus, consequatur atque deleniti temporibus."
                   },
                   {
-                    color: 'blue',
-                    start: 30,
-                    end: 'end',
+                    "type": "icon",
+                    "start": 30,
+                    "end": 35,
+                    "iconUrl": "https://via.placeholder.com/150"
                   },
+                  {
+                    "type": "text",
+                    "start": 40,
+                    "end": 'end',
+                    "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit."
+                  }
                 ]}
                 style={{
                   // This should be a predefined style if vars don't change during the component lifecycle.
