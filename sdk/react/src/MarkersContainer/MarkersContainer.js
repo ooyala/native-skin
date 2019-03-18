@@ -1,16 +1,19 @@
 // @flow
 
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import Marker, { type MarkerType } from '../Marker';
+import Marker from '../Marker';
+import type { Marker as MarkerType } from '../types/Marker';
+
 import styles from './MarkersContainer.styles';
 
 type Props = {
   accentColor?: string,
   duration: number,
   markers: Array<MarkerType>,
-  style?: StyleSheet.Styles,
+  style?: ViewStyleProp,
 };
 
 const MarkersContainer = ({

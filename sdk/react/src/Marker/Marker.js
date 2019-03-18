@@ -3,7 +3,8 @@
 import * as React from 'react';
 import { Image, Text, View } from 'react-native';
 
-import type { MarkerType } from './Marker.type';
+import type { Marker as MarkerType } from '../types/Marker';
+
 import styles from './Marker.styles';
 
 type Props = {
@@ -20,9 +21,8 @@ const Marker = ({
     return null;
   }
 
-  const style = {
-    left: (marker.start === 'start' ? 0 : `${marker.start / duration * 100}%`),
-  };
+  const style = {};
+  style.left = (marker.start === 'start' ? 0 : `${marker.start / duration * 100}%`);
 
   if (marker.end) {
     style.right = (marker.end === 'end' ? 0 : `${100 - marker.end / duration * 100}%`);
@@ -34,7 +34,7 @@ const Marker = ({
 
   let addOn = null;
 
-  if (marker.type === 'text') {
+  if (marker.type === 'text' && marker.text) {
     let { text } = marker;
 
     if (!isExpanded && text.length > 80) {
