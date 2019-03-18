@@ -1,22 +1,19 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  SliderIOS,
   Image,
-  TouchableHighlight,
   View
 } from 'react-native';
 
-var Utils = require('./utils');
-var styles = Utils.getStyles();
+import Utils from './utils';
+const styles = Utils.getStyles();
 
-class WaterMark extends React.Component {
+class WaterMark extends Component {
     render() {
-		var waterMarkImageLocation = styles.waterMarkImageSE;
-  	var waterMarkImage = (
-    		<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-	        source={{uri: this.props.general.watermark.url}}
-	        resizeMode={Image.resizeMode.contain}>
+		const waterMarkImageLocation = styles.waterMarkImageSE;
+  	const waterMarkImage = (
+			<Image style={[styles.waterMarkImage, waterMarkImageLocation]}
+				source={{uri: this.props.general.watermark.url}}
+				resizeMode='contain'>
 	    </Image>
   	);
 

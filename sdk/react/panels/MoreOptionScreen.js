@@ -1,26 +1,22 @@
-'use strict';
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
-  View,
+  View
 } from 'react-native';
 
 import {
-  BUTTON_NAMES,
+  BUTTON_NAMES
 } from '../constants';
-
 import Log from '../log';
 import CollapsingBarUtils from '../collapsingBarUtils';
+import Utils from '../utils';
 
-const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/moreOptionScreenStyles.json'));
-
+import moreOptionScreenStyles from './style/moreOptionScreenStyles.json';
+const styles = Utils.getStyles(moreOptionScreenStyles);
 const dismissButtonSize = 20;
 
-class MoreOptionScreen extends React.Component {
+class MoreOptionScreen extends Component {
   static propTypes = {
     height: PropTypes.number,
     onDismiss: PropTypes.func,
@@ -36,7 +32,7 @@ class MoreOptionScreen extends React.Component {
     translateY: new Animated.Value(this.props.height),
     opacity: new Animated.Value(0),
     buttonOpacity: new Animated.Value(1),
-    button: '',
+    button: ''
   };
 
   componentDidMount() {
@@ -68,7 +64,9 @@ class MoreOptionScreen extends React.Component {
     if (BUTTON_NAMES.SHARE === buttonName) {
       this.props.onOptionButtonPress(buttonName);
     } else {
-      this.setState({button: buttonName});
+      this.setState({
+        button: buttonName
+      });
       Animated.timing(
         this.state.buttonOpacity,
         {
@@ -107,7 +105,7 @@ class MoreOptionScreen extends React.Component {
     const buttons = itemCollapsingResults.overflow;
     const buttonStyle = [styles.icon, this.props.config.moreOptionsScreen.iconStyle.active];
 
-    for (var i = 0; i < buttons.length; i++) {
+    for (let i = 0; i < buttons.length; i++) {
       const button = buttons[i];
       let buttonIcon = this._renderIcon(button.name);
       let moreOptionButton;
@@ -161,7 +159,7 @@ class MoreOptionScreen extends React.Component {
 
   _renderIcon = (buttonName) => {
     let buttonIcon;
-    switch(buttonName){
+    switch (buttonName) {
       case BUTTON_NAMES.DISCOVERY:
         buttonIcon = this.props.config.icons.discovery;
         break;
@@ -208,7 +206,10 @@ class MoreOptionScreen extends React.Component {
                                                  this.onDismissPress, dismissButtonSize,
                                                  this.props.config.moreOptionsScreen.color,
                                                  this.props.config.icons.dismiss.fontFamilyName);
-    const rowAnimationStyle = {transform:[{translateY:this.state.translateY}], opacity: this.state.buttonOpacity};
+    const rowAnimationStyle = { 
+      transform: [{ translateY: this.state.translateY }],
+      opacity: this.state.buttonOpacity
+    };
 
     const moreOptionRow = (
       <Animated.View
@@ -223,7 +224,7 @@ class MoreOptionScreen extends React.Component {
         {dismissButton}
       </View>
     );
-    const animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
     const moreOptionScreen = (
       <Animated.View style={[styles.fullscreenContainer, animationStyle, {height: this.props.height, width: this.props.width}]}>
         <Animated.View style={[styles.rowsContainer, animationStyle]}>

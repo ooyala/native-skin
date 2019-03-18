@@ -2,7 +2,7 @@
 //  OOReactSkinModel.h
 //  OoyalaSkinSDK
 //
-//  Created by Maksim Kupetskii on 8/13/18.
+//  Created on 8/13/18.
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
@@ -14,6 +14,7 @@
 @class RCTRootView;
 @protocol OOSkinViewControllerDelegate;
 
+extern NSString *const isPipButtonVisibleKey;
 
 @interface OOReactSkinModel : NSObject<RCTBridgeDelegate>
 
@@ -66,5 +67,6 @@
 - (void)handleDiscoveryClick:(nullable NSString *)bucketInfo embedCode:(nonnull NSString *)embedCode;
 - (void)handleDiscoveryImpress:(nullable NSString *)bucketInfo;
 - (void)handleVolumeChanged:(float)volume;
+- (void)handleAirPlay;
 
 @end

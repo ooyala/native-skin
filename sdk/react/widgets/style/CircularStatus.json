@@ -2,7 +2,6 @@
   "circle": {
     "height": 28,
     "width": 28,
-    //"borderRadius": 14,
     "backgroundColor": "white",
     "transform": [
       {

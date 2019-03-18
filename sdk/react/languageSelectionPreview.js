@@ -1,8 +1,5 @@
-'use strict';
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   Text,
@@ -12,11 +9,12 @@ import {
 import {
   UI_SIZES
 } from './constants';
+import Utils from './utils';
 
-var Utils = require('./utils');
-var styles = Utils.getStyles(require('./panels/style/languageSelectionPanelStyles.json'));
+import languageSelectionPanelStyles from './panels/style/languageSelectionPanelStyles.json';
+const styles = Utils.getStyles(languageSelectionPanelStyles);
 
-class LanguageSelectionPreview extends React.Component {
+class LanguageSelectionPreview extends Component {
   static propTypes = {
     config: PropTypes.object,
     selectedLanguage: PropTypes.string,
@@ -39,11 +37,15 @@ class LanguageSelectionPreview extends React.Component {
   render() {
     return (
       <Animated.View style={styles.previewPanel}>
-      <View style={styles.splitter} />
-      <View style={styles.previewTextContainer}>
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.selectedLanguage, 'CLOSED CAPTION PREVIEW', this.props.config.localizableStrings)}</Text>
-        <Text style={styles.buttonText}>{Utils.localizedString(this.props.selectedLanguage, 'Sample Text', this.props.config.localizableStrings)}</Text>
-      </View>
+        <View style={styles.splitter} />
+        <View style={styles.previewTextContainer}>
+          <Text style={styles.buttonText}>
+            {Utils.localizedString(this.props.selectedLanguage, 'CLOSED CAPTION PREVIEW', this.props.config.localizableStrings)}
+          </Text>
+          <Text style={styles.buttonText}>
+            {Utils.localizedString(this.props.selectedLanguage, 'Sample Text', this.props.config.localizableStrings)}
+          </Text>
+        </View>
       </Animated.View>
     );
   }

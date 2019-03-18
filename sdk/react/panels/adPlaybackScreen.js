@@ -1,8 +1,5 @@
-'use strict';
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   View,
@@ -14,17 +11,17 @@ import {
   AUTOHIDE_DELAY,
   VALUES
 } from '../constants';
-
 import Log from '../log';
+import BottomOverlay from '../bottomOverlay';
+import AdBar from '../adBar';
+import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
+import Utils from'../utils';
+import ResponsiveDesignManager from '../responsiveDesignManager';
 
-const BottomOverlay = require('../bottomOverlay');
-const AdBar = require('../adBar');
-const VideoViewPlayPause = require('../widgets/VideoViewPlayPause');
-const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/videoViewStyles.json'));
-const ResponsiveDesignManager = require('../responsiveDesignManager');
+import videoViewStyles from './style/videoViewStyles.json';
+const styles = Utils.getStyles(videoViewStyles);
 
-class AdPlaybackScreen extends React.Component {
+class AdPlaybackScreen extends Component {
   static propTypes = {
     rate: PropTypes.number,
     playhead: PropTypes.number,
@@ -54,14 +51,18 @@ class AdPlaybackScreen extends React.Component {
     locale: PropTypes.string,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
-    initialPlay: PropTypes.bool,
+    initialPlay: PropTypes.bool
   };
 
   state = {
-    showControls:true,
+    showControls: true
   };
 
-  static defaultProps = {playhead: 0, buffered: 0, duration: 1};
+  static defaultProps = {
+    playhead: 0,
+    buffered: 0,
+    duration: 1
+  };
 
   generateLiveObject = () => {
     if (this.props.live) {
@@ -106,7 +107,7 @@ class AdPlaybackScreen extends React.Component {
       <BottomOverlay
         width={this.props.width}
         height={this.props.height}
-        primaryButton={!this.props.playing ? 'play' : 'pause'}
+        primaryButton={this.props.playing ? 'pause' : 'play'}
         fullscreen = {this.props.fullscreen}
         cuePoints = {this.props.cuePoints}
         playhead={this.props.playhead}
@@ -206,9 +207,10 @@ class AdPlaybackScreen extends React.Component {
 
   _renderAdIcons = () => {
     let iconViews = [];
-    for (const index in this.props.ad.icons) {
+    for (let index in this.props.ad.icons) {
       const icon = this.props.ad.icons[index];
-      if ((this.props.playhead < icon.offset) || (this.props.playhead > (icon.offset + icon.duration))) {
+      if (this.props.playhead < icon.offset ||
+          this.props.playhead > icon.offset + icon.duration) {
         continue;
       }
       const left = icon.x;
@@ -239,12 +241,10 @@ class AdPlaybackScreen extends React.Component {
     const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     const doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
-    // var isAdPaused = this.props.ad && !this.props.playing;
     const isContent = !this.props.ad;
     const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
 
-    let adBar;
-    let adIcons;
+    let adBar, adIcons;
 
     if (this.props.ad) {
       adBar = (this.props.ad.requireAdBar && this.props.config.adScreen.showAdMarquee) ? this._renderAdBar() : null;
@@ -253,19 +253,7 @@ class AdPlaybackScreen extends React.Component {
       }
     }
 
-    if (!this.props.config.adScreen.showControlBar) {
-      let playButtonIfPaused;
-      if (!this.props.playing) {
-        playButtonIfPaused = this._renderPlayPause(shouldShowControls)
-      }
-      return (
-        <View style={styles.adContainer}>
-          {adBar}
-          {this._renderPlaceholder(adIcons)}
-          {playButtonIfPaused}
-        </View>
-      );
-    } else {
+    if (this.props.config.adScreen.showControlBar) {
       return (
         <View style={styles.adContainer}>
           {adBar}
@@ -275,6 +263,14 @@ class AdPlaybackScreen extends React.Component {
         </View>
       );
     }
+
+    return (
+      <View style={styles.adContainer}>
+        {adBar}
+        {this._renderPlaceholder(adIcons)}
+        {!this.props.playing && this._renderPlayPause(shouldShowControls)}
+      </View>
+    );
   }
 
 }

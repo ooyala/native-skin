@@ -1,19 +1,20 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
 import {
   TouchableHighlight,
-  Animated,
-  View,
-  Text
+  Animated
 } from 'react-native';
 
-import { STRING_CONSTANTS } from '../constants';;
+import { 
+  STRING_CONSTANTS
+} from '../constants';
+import AccessibilityUtils from '../accessibilityUtils';
+import Utils from '../utils';
 
-const AccessibilityUtils = require('../accessibilityUtils');
-const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
+import rectButtonStyles from './style/RectButtonStyles.json';
+const styles = Utils.getStyles(rectButtonStyles);
 
-class SkipButton extends React.Component {
-
+class SkipButton extends Component {
   static propTypes = {
     disabled: PropTypes.bool.isRequired,
     isForward: PropTypes.bool.isRequired,
@@ -24,7 +25,7 @@ class SkipButton extends React.Component {
     sizeStyle: PropTypes.object,
     opacity: PropTypes.object,
     animate: PropTypes.object,
-    buttonColor: PropTypes.object,
+    buttonColor: PropTypes.object
   };
 
   state = {

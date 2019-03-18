@@ -1,12 +1,5 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
-
-import PropTypes from 'prop-types';
-
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Animated,
   ImageBackground,
@@ -21,25 +14,26 @@ import {
   BUTTON_NAMES,
   SCREEN_TYPES
 } from '../constants';
+import Utils from '../utils';
+import Log from '../log';
+import ResponsiveList from '../widgets/ResponsiveList';
+import CountdownViewiOS from '../widgets/countdownTimeriOS';
+import CountdownViewAndroid from '../widgets/countdownTimerAndroid';
 
-var Utils = require('../utils');
-var ResponsiveList = require('../widgets/ResponsiveList');
-var CountdownView = require('../widgets/countdownTimer');
-var CountdownViewAndroid = require('../widgets/countdownTimerAndroid');
-var styles = Utils.getStyles(require('./style/discoveryPanelStyles.json'));
-var panelStyles = require('./style/panelStyles.json');
+import panelStyles from './style/panelStyles.json';
+import discoveryPanelStyles from './style/discoveryPanelStyles.json';
+const styles = Utils.getStyles(discoveryPanelStyles);
 
-var Log = require('../log');
 // TODO: read this from config.
-var animationDuration = 1000;
+const animationDuration = 1000;
 
-var rectWidth = 176;
-var rectHeight = 160;
-var widthThreshold = 300;
+const rectWidth = 176;
+const rectHeight = 160;
+const widthThreshold = 300;
 
-var timerListenerAndroid;
+let timerListenerAndroid;
 
-class DiscoveryPanel extends React.Component {
+class DiscoveryPanel extends Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     localizableStrings: PropTypes.object,
@@ -49,25 +43,25 @@ class DiscoveryPanel extends React.Component {
     config: PropTypes.object,
     width: PropTypes.number,
     height: PropTypes.number,
-    screenType: PropTypes.string,
+    screenType: PropTypes.string
   };
 
   state = {
     opacity: new Animated.Value(0),
     showCountdownTimer: false,
     counterTime: 0,
-    impressionsFired:false,
+    impressionsFired: false
   };
 
   /*
     onTimerCompleted is emitted by native CountdownViewAndroid component.
     Regular CountdownView uses onTimerCompleted callback defined in jsx
   */
-  onTimerCompleted = (e: Event) => {
+  onTimerCompleted = (e) => {
     this.onRowSelected(e);
   };
 
-  componentWillMount(e: Event) {
+  componentWillMount(e) {
     timerListenerAndroid = DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted)
   }
 
@@ -97,20 +91,24 @@ class DiscoveryPanel extends React.Component {
 
   onRowSelected = (row) => {
   	if (this.props.onRowAction) {
-        this.props.onRowAction({action:"click", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
-        this.setState({showCountdownTimer: false});
-        timerListenerAndroid.remove();
+      this.props.onRowAction({ action: 'click', embedCode: row.embedCode, bucketInfo: row.bucketInfo });
+      this.setState({
+        showCountdownTimer: false
+      });
+      timerListenerAndroid.remove();
   	}
   };
 
   onRowImpressed = (row) => {
     if (this.props.onRowAction && !this.state.impressionsFired) {
-      this.props.onRowAction({action:"impress", embedCode:row.embedCode, bucketInfo:row.bucketInfo});
+      this.props.onRowAction({ action: 'impress', embedCode: row.embedCode, bucketInfo: row.bucketInfo });
     }
   };
 
   onStatusPressed = () => {
-    this.setState({showCountdownTimer: false});
+    this.setState({
+      showCountdownTimer: false
+    });
   };
 
   setCounterTime = (time) => {
@@ -122,7 +120,7 @@ class DiscoveryPanel extends React.Component {
 
   setImpressionsFired = (value) => {
     this.setState({
-      impressionsFired:value,
+      impressionsFired: value,
     });
   };
 
@@ -131,15 +129,15 @@ class DiscoveryPanel extends React.Component {
   };
 
   render() {
-    var numOfRectsInRow = Math.floor(this.props.width / rectWidth);
-    var itemRect = {width: this.props.width / numOfRectsInRow, height: rectHeight};
-    var thumbnailStyle = (this.props.width > this.props.height) ? styles.thumbnailLandscape : styles.thumbnailPortrait;
-    var columnContainerStyle = (this.props.width > this.props.height) ? styles.columnContainerLandscape : styles.columnContainerPortrait;
+    const numOfRectsInRow = Math.floor(this.props.width / rectWidth);
+    const itemRect = {width: this.props.width / numOfRectsInRow, height: rectHeight};
+    const thumbnailStyle = (this.props.width > this.props.height) ? styles.thumbnailLandscape : styles.thumbnailPortrait;
+    const columnContainerStyle = (this.props.width > this.props.height) ? styles.columnContainerLandscape : styles.columnContainerPortrait;
 
     if (!this.state.impressionsFired) {
-      Log.log("Firing Impressions for all " + this.props.dataSource.length + " discovery entries")
+      Log.log('Firing Impressions for all ' + this.props.dataSource.length + ' discovery entries')
     }
-    var animationStyle = {opacity:this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
     return (
       <Animated.View style={[panelStyles.panel, animationStyle]}>
         {this.renderHeader()}
@@ -154,8 +152,8 @@ class DiscoveryPanel extends React.Component {
   };
 
   renderList = (itemRect, thumbnailStyle, containerStyle) => {
-    var panelHeight = this.props.height - 40;
-    var renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+    const panelHeight = this.props.height - 40;
+    const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
     if (this._isDiscoveryError()) {
       return (
         <ResponsiveList
@@ -184,7 +182,7 @@ class DiscoveryPanel extends React.Component {
 
   renderCountdownTimer = (item) => Platform.select({
     ios:
-      <CountdownView
+      <CountdownViewiOS
         style={{width: 44, height: 44}}
         automatic={true}
         time={this.state.counterTime}
@@ -195,45 +193,43 @@ class DiscoveryPanel extends React.Component {
         fillAlpha={0.7}
         tapCancel={true}
         onPress={this.onStatusPressed}
-        onTimerCompleted={() => this.onRowSelected(item)} />,
+        onTimerCompleted={() => this.onRowSelected(item)}>
+      </CountdownViewiOS>,
     android:
       <CountdownViewAndroid
         style={{width: 44, height: 44}}
         countdown={{
-          main_color:"#AAffffff",
-          secondary_color:"#AA808080",
-          fill_color:"#AA000000",
-          text_color:"#AAffffff",
-          stroke_width:10,
-          text_size:75,
-          max_time:this.state.counterTime,
-          progress:0,
-          automatic:true}}
-        data={{embedCode:item.embedCode,
-               bucketInfo:item.bucketInfo}}/>
+          main_color:'#AAffffff',
+          secondary_color:'#AA808080',
+          fill_color:'#AA000000',
+          text_color:'#AAffffff',
+          stroke_width: 10,
+          text_size: 75,
+          max_time: this.state.counterTime,
+          progress: 0,
+          automatic: true
+        }}
+        data={{
+          embedCode: item.embedCode,
+          bucketInfo: item.bucketInfo
+        }}>
+      </CountdownViewAndroid>
   });
 
-  renderItem = (
-    item: object,
-    sectionID: number,
-    itemID: number,
-    itemRect:Object,
-    thumbnailStyle:object,
-    columnContainerStyle:object,
-  ) => {
-    var title;
+  renderItem = (item, sectionID, itemID, itemRect, thumbnailStyle, columnContainerStyle) => {
+    let title;
     if (this.props.config.discoveryScreen.contentTitle && this.props.config.discoveryScreen.contentTitle.show) {
       title = <Text style={[styles.contentText, this.props.config.discoveryScreen.contentTitle.font]} numberOfLines={1}>{item.name}</Text>;
     }
 
-    var circularStatus;
+    let circularStatus;
     if (itemID === 0 && this.props.screenType === SCREEN_TYPES.END_SCREEN && this.state.showCountdownTimer) {
       circularStatus = this.renderCountdownTimer(item);
     }
 
-    var thumbnail = (
+    let thumbnail = (
       <ImageBackground
-        source={{uri:item.imageUrl}}
+        source={{ uri: item.imageUrl }}
         style={[thumbnailStyle, styles.thumbnailContainer]}>
         {circularStatus}
       </ImageBackground>);
@@ -255,15 +251,14 @@ class DiscoveryPanel extends React.Component {
   };
 
   renderHeader = () => {
-    var title;
     if (this.props.config.discoveryScreen.panelTitle) {
       if (this.props.config.discoveryScreen.panelTitle.imageUri && this.props.config.discoveryScreen.panelTitle.showImage) {
         return (<Image style={styles.waterMarkImage} source={{uri: this.props.config.discoveryScreen.panelTitle.imageUri}} />);
       }
     }
 
-    title = Utils.localizedString(this.props.locale, "Discover", this.props.localizableStrings);
-    var panelIcon = this.props.config.icons.discovery.fontString;
+    const title = Utils.localizedString(this.props.locale, 'Discover', this.props.localizableStrings);
+    const panelIcon = this.props.config.icons.discovery.fontString;
 
     // TO-DO for line (277-280) we can not change accessibility label value for text tags.
     // This ability is added in latest react native 0.46 onwards
@@ -280,7 +275,7 @@ class DiscoveryPanel extends React.Component {
       </TouchableHighlight>
       <View style={panelStyles.headerFlexibleSpace}></View>
       <TouchableHighlight
-        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType="button"
+        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType='button'
         style = {[panelStyles.dismissButton]}
         onPress={this.onDismissPress}>
         <Text style={panelStyles.dismissIcon}>{this.props.config.icons.dismiss.fontString}</Text>
@@ -289,16 +284,16 @@ class DiscoveryPanel extends React.Component {
   };
 
   renderError = () => {
-    var errorTitleText = "SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.";
-    var errorContentText = "(Try Clicking The Discover Button Again On Reload Your Page)";
-    var errorFlexDirectionStyle = {flexDirection: "row"};
+    const errorTitleText = 'SOMETHING NOT RIGHT! THERE SHOULD BE VIDEOS HERE.';
+    const errorContentText = '(Try Clicking The Discover Button Again On Reload Your Page)';
+    const errorFlexDirectionStyle = {flexDirection: 'row'};
 
     if (this.props.width < widthThreshold) {
-      errorFlexDirectionStyle = {flexDirection: "column"};
+      errorFlexDirectionStyle = {flexDirection: 'column'};
     }
 
-    var errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
-    var errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
+    const errorTitle = Utils.localizedString(this.props.locale, errorTitleText, this.props.localizedString);
+    const errorContent = Utils.localizedString(this.props.locale, errorContentText, this.props.localizedString);
     if (this._isDiscoveryError()) {
       return (
         <View style={[styles.panelErrorPanel, errorFlexDirectionStyle]}>

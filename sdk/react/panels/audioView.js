@@ -1,8 +1,5 @@
-'use strict';
-
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React, {Component} from 'react';
-
 import {
   Text,
   View,
@@ -15,24 +12,23 @@ import {
   UI_SIZES,
   VALUES
 } from '../constants';
-
-
 import CollapsingBarUtils from '../collapsingBarUtils';
 import Log from '../log';
+import ProgressBar from '../common/progressBar';
+import ControlBarWidget from '../widgets/controlBarWidgets';
+import ResponsiveDesignManager from '../responsiveDesignManager';
+import Utils from '../utils';
+import timerForSkipButtons from 'react-native-timer';
 
-const timerForSkipButtons = require('react-native-timer');
-const ProgressBar = require('../common/progressBar');
-const ControlBarWidget = require('../widgets/controlBarWidgets');
-
-const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/audioViewStyles.json'));
-const controlBarStyles = Utils.getStyles(require('../style/controlBarStyles.json'));
-const ResponsiveDesignManager = require('../responsiveDesignManager');
+import audioViewStyles from './style/audioViewStyles.json';
+import contBarStyles from '../style/controlBarStyles.json';
+const styles = Utils.getStyles(audioViewStyles);
+const controlBarStyles = Utils.getStyles(contBarStyles);
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
-class AudioView extends React.Component {
+class AudioView extends Component {
   static propTypes = {
     playhead: PropTypes.number,
     duration: PropTypes.number,
@@ -41,7 +37,7 @@ class AudioView extends React.Component {
     height: PropTypes.number,
     volume: PropTypes.number,
     playbackSpeedEnabled: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.string,
+    selectedPlaybackSpeedRate: PropTypes.number,
     handlers: PropTypes.shape({
       onPress: PropTypes.func.isRequired,
       onScrub: PropTypes.func.isRequired,
@@ -68,7 +64,9 @@ class AudioView extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.playhead !== nextProps.playhead) {
-      this.setState({cachedPlayhead: -1.0});
+      this.setState({
+        cachedPlayhead: -1.0
+      });
     }
   }
 
@@ -81,7 +79,6 @@ class AudioView extends React.Component {
   };
 
   // MARK: - Actions
-
   onPlayPausePress = () => {
     this.props.handlers.onPress(BUTTON_NAMES.PLAY_PAUSE);
   };
@@ -108,7 +105,9 @@ class AudioView extends React.Component {
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
     this.handleScrub(resultedPlayheadPercent);
 
-    if (this.props.onPlayComplete && skipCountValue < 0) { this.onPlayPausePress() }
+    if (this.props.onPlayComplete && skipCountValue < 0) { 
+      this.onPlayPausePress()
+    }
   };
 
   onMorePress = () => {
@@ -134,12 +133,16 @@ class AudioView extends React.Component {
   onSkipPress = (isForward) => {
     timerForSkipButtons.clearTimeout(this);
     const value = this.state.skipCount + (isForward ? 1 : -1);
-    this.setState({skipCount: value}, () => timerForSkipButtons.setTimeout(
+    this.setState({
+      skipCount: value
+    }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
         this.onSeekPressed(this.state.skipCount);
-        this.setState({skipCount: 0});
+        this.setState({
+          skipCount: 0
+        });
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS
     ));
@@ -155,28 +158,26 @@ class AudioView extends React.Component {
   };
 
   // MARK: - Volume
-
   getVolumeControlColor = () => {
-    if (!this.props.config.general.accentColor) {
-      if (!this.props.config.controlBar.volumeControl.color) {
+    if (this.props.config.general.accentColor) {
+      return this.props.config.general.accentColor;
+    } else {
+      if (this.props.config.controlBar.volumeControl.color) {
+        return this.props.config.controlBar.volumeControl.color;
+      } else {
         Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
         return '#4389FF';
-      } else {
-        return this.props.config.controlBar.volumeControl.color;
       }
-    } else {
-      return this.props.config.general.accentColor;
     }
   };
 
   // MARK: - Header view
-
   _renderHeaderView = () => {
     const titleLabel = <Text style={styles.titleLabel}>{this.props.title + ': '}</Text>
     const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>
     return (
       <View style={styles.headerView}>
-        <Text 
+        <Text
           style={styles.headerBaseLabel}
           numberOfLines={1}>
             {titleLabel}
@@ -187,7 +188,6 @@ class AudioView extends React.Component {
   };
 
   // MARK: - ControlBar
-
   _renderControlBar = () => {
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_ICONSIZE);
     const labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
@@ -255,8 +255,7 @@ class AudioView extends React.Component {
     };
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
-
-    for (const i = 0; i < itemCollapsingResults.fit.length; i++) {
+    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
       const item =
         <ControlBarWidget
@@ -269,10 +268,11 @@ class AudioView extends React.Component {
     }
 
     // Add flexible spaces for first and last widget
-    const flexibleSpace = <View style={styles.flexibleSpace}/>
+    const flexibleSpace1 = <View style={styles.flexibleSpace} key='flexibleSpace1'/>
+    const flexibleSpace2 = <View style={styles.flexibleSpace} key='flexibleSpace2' />
 
-    controlBarWidgets.splice(1, 0, flexibleSpace);
-    controlBarWidgets.splice(controlBarWidgets.length - 1, 0, flexibleSpace);
+    controlBarWidgets.splice(1, 0, flexibleSpace1);
+    controlBarWidgets.splice(controlBarWidgets.length - 1, 0, flexibleSpace2);
 
     return (
       <View
@@ -284,7 +284,6 @@ class AudioView extends React.Component {
   };
 
   // MARK: - Progress bar + scrubber
-
   _calculateTopOffset = (componentSize, progressBarHeight) => {
     return progressBarHeight / 2 - componentSize / 2;
   };
@@ -296,22 +295,24 @@ class AudioView extends React.Component {
   _renderProgressScrubber = (percent) => {
     const topOffset = this._calculateTopOffset(scrubberSize, this.state.progressBarHeight);
     const leftOffset = this._calculateLeftOffset(scrubberSize, percent, this.state.progressBarWidth);
-    const positionStyle = {top:topOffset, left:leftOffset};
+    const positionStyle = { top: topOffset, left: leftOffset };
     const scrubberStyle = this._customizeScrubber();
 
     return (
-      <View pointerEvents='none' style={[scrubberStyle, positionStyle, {width:scrubberSize, height:scrubberSize}]}/>
+      <View pointerEvents='none' 
+        style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
+      </View>
     );
   };
 
   getScrubberHandleColor = () => {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
-    } else if (!this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
+    } else if (this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
+      return this.props.config.controlBar.scrubberBar.scrubberHandleColor;
+    } else {
       Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
       return '#4389FF';
-    } else {
-      return this.props.config.controlBar.scrubberBar.scrubberHandleColor ;
     }
   };
 
@@ -427,7 +428,7 @@ class AudioView extends React.Component {
 
   _renderProgressBar = (percent) => {
     return (
-      <View 
+      <View
         style={styles.progressBarContainer}
         accessible={false}
         pointerEvents='none'>
@@ -437,7 +438,7 @@ class AudioView extends React.Component {
             percent={percent}
             config={this.props.config}
             ad={null}
-            renderDuration={true}>  
+            renderDuration={true}>
           </ProgressBar>
       </View>
     );
@@ -471,7 +472,7 @@ class AudioView extends React.Component {
         {this._renderLiveCircle(isLive)}
         <View>
           <Text style={this.props.live ? styles.liveLabel : styles.progressBarTimeLabel}>
-            {this.props.live ? Utils.localizedString(this.props.locale, "LIVE", this.props.localizableStrings) : playHeadTime}</Text>
+            {this.props.live ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) : playHeadTime}</Text>
         </View>
         <Animated.View
           onLayout={(event) => {
@@ -487,14 +488,13 @@ class AudioView extends React.Component {
         </Animated.View>
         <View>
           <Text style={isLive ? styles.progressBarNoTimeLabel : styles.progressBarTimeLabel}>
-            {!this.props.live ? durationTime : isLive ? "- - : - -" : this.getLiveDurationString()}</Text>
+            {!this.props.live ? durationTime : isLive ? '- - : - -' : this.getLiveDurationString()}</Text>
         </View>
       </View>
     )
   };
 
   // MARK: - AudioView rendering
-
   _renderPlayer = () => {
     return (
       <View style={styles.container}>
@@ -514,4 +514,4 @@ class AudioView extends React.Component {
   };
 }
 
-export default AudioView;
+module.exports = AudioView;

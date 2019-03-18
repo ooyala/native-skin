@@ -2,7 +2,7 @@
 //  OOSkinPlayerObserver.m
 //  OoyalaSkinSDK
 //
-//  Created by Michael Len on 2/25/16.
+//  Created on 2/25/16.
 //  Copyright © 2016 ooyala. All rights reserved.
 //
 
@@ -26,6 +26,9 @@
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
 #import <OoyalaSDK/OOStreamPlayer.h>
 #import <OoyalaSDK/OOPlayerInfo.h>
+#import <OoyalaSDK/OOOptions.h>
+
+@import AVKit.AVPictureInPictureController;
 
 @interface OOSkinPlayerObserver ()
 
@@ -146,7 +149,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)addNotificationsObservers:(NSDictionary *)notificationsSelectors {
-  [notificationsSelectors enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL * _Nonnull stop) {
+  [notificationsSelectors enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key,
+                                                              id _Nonnull obj,
+                                                              BOOL * _Nonnull stop) {
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:NSSelectorFromString(obj)
                                                name:(NSString *)key
@@ -245,7 +250,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *playheadNumber  = [self getAdjustedPlayhead:self.player];
   NSNumber *durationNumber  = [self getTotalDuration:self.player];
   NSNumber *rateNumber      = @(self.player.playbackRate);
-  NSMutableArray *cuePoints = [NSMutableArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
+  NSArray *cuePoints = [NSArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
   NSDictionary *eventBody = @{durationKey:         durationNumber,
                               playheadKey:         playheadNumber,
@@ -356,7 +361,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
 
   NSInteger count       = [adInfo[countKey] integerValue];
   NSInteger unplayed    = [adInfo[unplayedKey] integerValue];
-  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", count - unplayed, (long)count];
+  NSString *countString = [NSString stringWithFormat:@"(%ld/%ld)", (long)(count - unplayed), (long)count];
   NSNumber *skipoffset  = @([adInfo[skipOffsetKey] floatValue]);
   NSArray *icons        = adInfo[iconsKey];
   NSString *title       = adInfo[titleKey];
@@ -425,7 +430,12 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgePlayStartedNotification:(NSNotification *)notification {
-  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
+  //OS: this is the point where player controlls on JS-Video-view appears, so it's usefull to set visibility of button for device-idiom-depened feature
+  //TODO: used in many places, so should be moved to new method of  OOOoyalaPlayer
+  BOOL isPiPSupportRequested = self.player.options.enablePictureInPictureSupport;
+  BOOL isButtonVisible = isPiPSupportRequested && AVPictureInPictureController.isPictureInPictureSupported && !self.player.isAudioOnly;
+  id params = @{isPipButtonVisibleKey:@(isButtonVisible)};
+  [self.ooReactSkinModel sendEventWithName:notification.name body:params];
 }
 
 - (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {

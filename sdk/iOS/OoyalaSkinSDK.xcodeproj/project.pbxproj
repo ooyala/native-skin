@@ -40,10 +40,15 @@
 		0BCABDA61C7F781200989005 /* OOSkinPlayerObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */; };
 		2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */; };
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
+		334A2B63222D5F440001881E /* OOPiPViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 334A2B61222D5F440001881E /* OOPiPViewManager.h */; };
+		334A2B64222D5F440001881E /* OOPiPViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A2B62222D5F440001881E /* OOPiPViewManager.m */; };
 		391346C921257B9F0044D42D /* OOQueuedEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 391346B221257B9E0044D42D /* OOQueuedEvent.h */; };
 		391346CA21257B9F0044D42D /* OOQueuedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 391346C821257B9E0044D42D /* OOQueuedEvent.m */; };
 		39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B612EF2158D04B00E2277C /* UIColor+Utils.h */; };
 		39B612F22158D04B00E2277C /* UIColor+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 39B612F02158D04B00E2277C /* UIColor+Utils.m */; };
+		39D46130221FDAD6008C9FC7 /* OOAirPlayViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 39D4612F221FDAD6008C9FC7 /* OOAirPlayViewManager.h */; };
+		39D46147221FDAEE008C9FC7 /* OOAirPlayViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39D46146221FDAEE008C9FC7 /* OOAirPlayViewManager.m */; };
+		39D462DF222E5F1C008C9FC7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39D462C6222E5D78008C9FC7 /* libRCTAnimation.a */; };
 		39EEE0E32122C36A00377DB3 /* OOReactSkinEventsEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		39EEE0E42122C36A00377DB3 /* OOReactSkinEventsEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */; };
 		39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -96,6 +101,48 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		395EE27622143E4D0048166D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EDEBC6D6214B3E7000DD5AC8;
+			remoteInfo = jsi;
+		};
+		395EE27822143E4D0048166D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EDEBC73B214B45A300DD5AC8;
+			remoteInfo = jsiexecutor;
+		};
+		395EE27A22143E4D0048166D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ED296FB6214C9A0900B7C4FE;
+			remoteInfo = "jsi-tvOS";
+		};
+		395EE27C22143E4D0048166D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = ED296FEE214C9CF800B7C4FE;
+			remoteInfo = "jsiexecutor-tvOS";
+		};
+		39D462C5222E5D78008C9FC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTAnimation;
+		};
+		39D462C7222E5D78008C9FC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28201D9B03D100D4039D;
+			remoteInfo = "RCTAnimation-tvOS";
+		};
 		45ED11711B9F634E004968DE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */;
@@ -187,20 +234,6 @@
 			remoteGlobalIDString = 3D3CD9321DE5FBEE00167DC4;
 			remoteInfo = "cxxreact-tvOS";
 		};
-		7527B23D20AB4CB700556330 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD90B1DE5FBD600167DC4;
-			remoteInfo = jschelpers;
-		};
-		7527B23F20AB4CB700556330 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
-			remoteInfo = "jschelpers-tvOS";
-		};
 		7527B24120AB4CB700556330 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
@@ -242,20 +275,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
-		};
-		7527B24D20AB4CB700556330 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F3131F5F2E4B0010BF04;
-			remoteInfo = privatedata;
-		};
-		7527B24F20AB4CB700556330 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9936F32F1F5F2E5B0010BF04;
-			remoteInfo = "privatedata-tvOS";
 		};
 		757A84CE20E11CDB00AC6070 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -340,10 +359,15 @@
 		0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOSkinPlayerObserver.m; sourceTree = "<group>"; };
 		2F12F9253B74765509247EF1 /* OOUpNextManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOUpNextManager.h; sourceTree = "<group>"; };
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
+		334A2B61222D5F440001881E /* OOPiPViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOPiPViewManager.h; sourceTree = "<group>"; };
+		334A2B62222D5F440001881E /* OOPiPViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOPiPViewManager.m; sourceTree = "<group>"; };
 		391346B221257B9E0044D42D /* OOQueuedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOQueuedEvent.h; sourceTree = "<group>"; };
 		391346C821257B9E0044D42D /* OOQueuedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOQueuedEvent.m; sourceTree = "<group>"; };
 		39B612EF2158D04B00E2277C /* UIColor+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utils.h"; sourceTree = "<group>"; };
 		39B612F02158D04B00E2277C /* UIColor+Utils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Utils.m"; sourceTree = "<group>"; };
+		39D4612F221FDAD6008C9FC7 /* OOAirPlayViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOAirPlayViewManager.h; sourceTree = "<group>"; };
+		39D46146221FDAEE008C9FC7 /* OOAirPlayViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOAirPlayViewManager.m; sourceTree = "<group>"; };
+		39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		39EEE0DD2122C36A00377DB3 /* OOReactSkinEventsEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinEventsEmitter.h; sourceTree = "<group>"; };
 		39EEE0DE2122C36A00377DB3 /* OOReactSkinEventsEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOReactSkinEventsEmitter.m; sourceTree = "<group>"; };
 		39EEE0DF2122C36A00377DB3 /* OOReactSkinModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOReactSkinModel.h; sourceTree = "<group>"; };
@@ -391,12 +415,12 @@
 		CA2C6FC51BEA8C53006B86BC /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		CA2C6FC71BEA8E84006B86BC /* NSString+UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UtilsTests.m"; sourceTree = "<group>"; };
 		CA2C6FC91BEA9715006B86BC /* NSMutableDictionary+UtilsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+UtilsTests.m"; sourceTree = "<group>"; };
-		CA742B581BE279040056784E /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Utils.h"; path = "Utils/NSString+Utils.h"; sourceTree = "<group>"; };
-		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Utils.m"; path = "Utils/NSString+Utils.m"; sourceTree = "<group>"; };
-		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableDictionary+Utils.h"; path = "Utils/NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
-		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableDictionary+Utils.m"; path = "Utils/NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
-		CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+Utils.h"; path = "Utils/NSDictionary+Utils.h"; sourceTree = "<group>"; };
-		CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+Utils.m"; path = "Utils/NSDictionary+Utils.m"; sourceTree = "<group>"; };
+		CA742B581BE279040056784E /* NSString+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Utils.h"; sourceTree = "<group>"; };
+		CA742B591BE279040056784E /* NSString+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Utils.m"; sourceTree = "<group>"; };
+		CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Utils.h"; sourceTree = "<group>"; };
+		CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableDictionary+Utils.m"; sourceTree = "<group>"; };
+		CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Utils.h"; sourceTree = "<group>"; };
+		CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Utils.m"; sourceTree = "<group>"; };
 		CAF600E61C3307D800CBB708 /* OOActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOActivityView.h; sourceTree = "<group>"; };
 		CAF600E71C3307D800CBB708 /* OOActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOActivityView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -411,6 +435,7 @@
 				7527B25320AB500D00556330 /* libRCTWebSocket.a in Frameworks */,
 				7527B25420AB501400556330 /* libRCTImage.a in Frameworks */,
 				7527B25520AB501D00556330 /* libRCTNetwork.a in Frameworks */,
+				39D462DF222E5F1C008C9FC7 /* libRCTAnimation.a in Frameworks */,
 				75BCA7C91F850C2800B3F4E6 /* OoyalaSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +470,10 @@
 				0BCABD941C7F77A900989005 /* OOGradientViewManager.m */,
 				0BCABD951C7F77A900989005 /* OOVolumeViewManager.h */,
 				0BCABD961C7F77A900989005 /* OOVolumeViewManager.m */,
+				334A2B61222D5F440001881E /* OOPiPViewManager.h */,
+				334A2B62222D5F440001881E /* OOPiPViewManager.m */,
+				39D4612F221FDAD6008C9FC7 /* OOAirPlayViewManager.h */,
+				39D46146221FDAEE008C9FC7 /* OOAirPlayViewManager.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -456,6 +485,30 @@
 				CAF600E71C3307D800CBB708 /* OOActivityView.m */,
 			);
 			path = Social;
+			sourceTree = "<group>";
+		};
+		39D460BA221ECE9B008C9FC7 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				39B612EF2158D04B00E2277C /* UIColor+Utils.h */,
+				39B612F02158D04B00E2277C /* UIColor+Utils.m */,
+				CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */,
+				CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */,
+				CA742B581BE279040056784E /* NSString+Utils.h */,
+				CA742B591BE279040056784E /* NSString+Utils.m */,
+				CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */,
+				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		39D462C1222E5D78008C9FC7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				39D462C6222E5D78008C9FC7 /* libRCTAnimation.a */,
+				39D462C8222E5D78008C9FC7 /* libRCTAnimation.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		39EEE0DA2122C36A00377DB3 /* React */ = {
@@ -569,10 +622,10 @@
 				0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
+				0BCABD8A1C7F77A900989005 /* Views */,
+				39D460BA221ECE9B008C9FC7 /* Utils */,
 				2F12F06F64B2FE9323AA598C /* Social */,
 				972ED84E1AE6EEEB005043DC /* Supporting Files */,
-				CA742B4E1BE2761D0056784E /* Utils */,
-				0BCABD8A1C7F77A900989005 /* Views */,
 			);
 			path = OoyalaSkinSDK;
 			sourceTree = "<group>";
@@ -589,6 +642,7 @@
 			isa = PBXGroup;
 			children = (
 				972ED8A11AE6FC3E005043DC /* React.xcodeproj */,
+				39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */,
 				45ED11731B9F6369004968DE /* RCTWebSocket.xcodeproj */,
 				45ED116D1B9F634E004968DE /* RCTNetwork.xcodeproj */,
 				972ED8CD1AE7075F005043DC /* RCTText.xcodeproj */,
@@ -607,16 +661,16 @@
 				7527B23820AB4CB700556330 /* libyoga.a */,
 				7527B23A20AB4CB700556330 /* libcxxreact.a */,
 				7527B23C20AB4CB700556330 /* libcxxreact.a */,
-				7527B23E20AB4CB700556330 /* libjschelpers.a */,
-				7527B24020AB4CB700556330 /* libjschelpers.a */,
 				7527B24220AB4CB700556330 /* libjsinspector.a */,
 				7527B24420AB4CB700556330 /* libjsinspector-tvOS.a */,
 				7527B24620AB4CB700556330 /* libthird-party.a */,
 				7527B24820AB4CB700556330 /* libthird-party.a */,
 				7527B24A20AB4CB700556330 /* libdouble-conversion.a */,
 				7527B24C20AB4CB700556330 /* libdouble-conversion.a */,
-				7527B24E20AB4CB700556330 /* libprivatedata.a */,
-				7527B25020AB4CB700556330 /* libprivatedata-tvOS.a */,
+				395EE27722143E4D0048166D /* libjsi.a */,
+				395EE27922143E4D0048166D /* libjsiexecutor.a */,
+				395EE27B22143E4D0048166D /* libjsi-tvOS.a */,
+				395EE27D22143E4D0048166D /* libjsiexecutor-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -649,21 +703,6 @@
 			path = OoyalaSkinSDKTests;
 			sourceTree = "<group>";
 		};
-		CA742B4E1BE2761D0056784E /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				CA742B601BE27C3A0056784E /* NSMutableDictionary+Utils.h */,
-				CA742B611BE27C3A0056784E /* NSMutableDictionary+Utils.m */,
-				CA742B581BE279040056784E /* NSString+Utils.h */,
-				CA742B591BE279040056784E /* NSString+Utils.m */,
-				CABBC4E51BED017A00A8464A /* NSDictionary+Utils.h */,
-				CABBC4E61BED017A00A8464A /* NSDictionary+Utils.m */,
-				39B612EF2158D04B00E2277C /* UIColor+Utils.h */,
-				39B612F02158D04B00E2277C /* UIColor+Utils.m */,
-			);
-			name = Utils;
-			sourceTree = "<group>";
-		};
 		FF12905E1AEABA9B00664374 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -691,6 +730,7 @@
 				0BCABDA51C7F781200989005 /* OOSkinPlayerObserver.h in Headers */,
 				0BCABDA11C7F77A900989005 /* OOVolumeViewManager.h in Headers */,
 				391346C921257B9F0044D42D /* OOQueuedEvent.h in Headers */,
+				39D46130221FDAD6008C9FC7 /* OOAirPlayViewManager.h in Headers */,
 				0BCABD9F1C7F77A900989005 /* OOGradientViewManager.h in Headers */,
 				0BCABD991C7F77A900989005 /* CountdownViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
@@ -700,6 +740,7 @@
 				0BCABD9B1C7F77A900989005 /* OOClosedCaptionsViewManager.h in Headers */,
 				9769227D1B8E37F300A61ACF /* OOSkinViewControllerDelegate.h in Headers */,
 				9769227B1B8E37F300A61ACF /* OOSkinOptions.h in Headers */,
+				334A2B63222D5F440001881E /* OOPiPViewManager.h in Headers */,
 				39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */,
 				CAF600E81C3307D800CBB708 /* OOActivityView.h in Headers */,
 				39EEE0E52122C36A00377DB3 /* OOReactSkinModel.h in Headers */,
@@ -776,6 +817,7 @@
 					};
 					972ED84A1AE6EEEB005043DC = {
 						CreatedOnToolsVersion = 6.2;
+						ProvisioningStyle = Automatic;
 					};
 					CA2C6FAE1BEA8599006B86BC = {
 						CreatedOnToolsVersion = 7.1;
@@ -793,6 +835,10 @@
 			productRefGroup = 972ED84C1AE6EEEB005043DC /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 39D462C1222E5D78008C9FC7 /* Products */;
+					ProjectRef = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
+				},
 				{
 					ProductGroup = 972ED8B51AE70307005043DC /* Products */;
 					ProjectRef = 972ED8B41AE70307005043DC /* RCTImage.xcodeproj */;
@@ -824,6 +870,48 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		395EE27722143E4D0048166D /* libjsi.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsi.a;
+			remoteRef = 395EE27622143E4D0048166D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		395EE27922143E4D0048166D /* libjsiexecutor.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libjsiexecutor.a;
+			remoteRef = 395EE27822143E4D0048166D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		395EE27B22143E4D0048166D /* libjsi-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsi-tvOS.a";
+			remoteRef = 395EE27A22143E4D0048166D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		395EE27D22143E4D0048166D /* libjsiexecutor-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libjsiexecutor-tvOS.a";
+			remoteRef = 395EE27C22143E4D0048166D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		39D462C6222E5D78008C9FC7 /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 39D462C5222E5D78008C9FC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		39D462C8222E5D78008C9FC7 /* libRCTAnimation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTAnimation.a;
+			remoteRef = 39D462C7222E5D78008C9FC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		45ED11721B9F634E004968DE /* libRCTNetwork.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -915,20 +1003,6 @@
 			remoteRef = 7527B23B20AB4CB700556330 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7527B23E20AB4CB700556330 /* libjschelpers.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = 7527B23D20AB4CB700556330 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7527B24020AB4CB700556330 /* libjschelpers.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libjschelpers.a;
-			remoteRef = 7527B23F20AB4CB700556330 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		7527B24220AB4CB700556330 /* libjsinspector.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -969,20 +1043,6 @@
 			fileType = archive.ar;
 			path = "libdouble-conversion.a";
 			remoteRef = 7527B24B20AB4CB700556330 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7527B24E20AB4CB700556330 /* libprivatedata.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libprivatedata.a;
-			remoteRef = 7527B24D20AB4CB700556330 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		7527B25020AB4CB700556330 /* libprivatedata-tvOS.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libprivatedata-tvOS.a";
-			remoteRef = 7527B24F20AB4CB700556330 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		972ED8A61AE6FC3E005043DC /* libReact.a */ = {
@@ -1101,6 +1161,7 @@
 				972ED88C1AE6F008005043DC /* OOSkinViewController.m in Sources */,
 				5EA2FFA21B20C209004A5080 /* OOSkinAutoUpdatingClosedCaptionsStyle.m in Sources */,
 				0BCABD9C1C7F77A900989005 /* OOClosedCaptionsViewManager.m in Sources */,
+				39D46147221FDAEE008C9FC7 /* OOAirPlayViewManager.m in Sources */,
 				39B612F22158D04B00E2277C /* UIColor+Utils.m in Sources */,
 				0BCABD9A1C7F77A900989005 /* CountdownViewManager.m in Sources */,
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
@@ -1112,6 +1173,7 @@
 				CABBC4E81BED017A00A8464A /* NSDictionary+Utils.m in Sources */,
 				2F12F5F76ED9606A0BAB9570 /* OOUpNextManager.m in Sources */,
 				CAF600E91C3307D800CBB708 /* OOActivityView.m in Sources */,
+				334A2B64222D5F440001881E /* OOPiPViewManager.m in Sources */,
 				0BCABDA01C7F77A900989005 /* OOGradientViewManager.m in Sources */,
 				979B01311B910A040032F5CF /* OOConstant.m in Sources */,
 				0BCABDA21C7F77A900989005 /* OOVolumeViewManager.m in Sources */,
@@ -1302,9 +1364,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1320,6 +1384,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ooyala.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1328,8 +1393,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1345,6 +1412,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ooyala.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

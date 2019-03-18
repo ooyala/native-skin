@@ -2,12 +2,12 @@
   "container": {
     "flex": 1,
     "alignItems": "center",
-    "backgroundColor": "#000000",
+    "backgroundColor": "#000000"
   },
 
   "wrapper": {
     "flex":1,
-    "justifyContent": "center",
+    "justifyContent": "center"
   },
 
   "title": {
@@ -15,7 +15,7 @@
     "fontFamily": "GillSans-Bold",
     "color":"#FFFFFF",
     "textAlign": "left",
-    "marginHorizontal": 10,
+    "marginHorizontal": 10
   },
 
   "description": {

@@ -21,10 +21,13 @@
 
 @end
 
-
 @implementation OOReactSkinEventsEmitter
 
 RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
+
++ (BOOL)requiresMainQueueSetup {
+  return YES;
+}
 
 - (instancetype)init {
   if (self = [super init]) {
@@ -42,6 +45,7 @@ RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
            @"currentItemChanged",
            @"frameChanged",
            @"fullscreenToggled",
+           @"pipChanged",
            @"volumeChanged",
            @"playCompleted",
            @"stateChanged",
@@ -64,7 +68,8 @@ RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
            @"multiAudioEnabled",
            @"audioTrackChanged",
            @"playbackSpeedEnabled",
-           @"playbackSpeedRateChanged"];
+           @"playbackSpeedRateChanged",
+           @"castDevicesAvailable"];
 }
 
 - (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {

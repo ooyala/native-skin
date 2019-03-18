@@ -1,20 +1,25 @@
-'use strict';
-
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+  Animated,
+  ScrollView,
+  Text,
+  View
+} from 'react-native';
 
-import React from 'react';
-import {Animated, ScrollView, Text, View,} from 'react-native';
-
-import {BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES,} from '../constants';
-
-const Utils = require('../utils');
-const styles = Utils.getStyles(require('./style/moreDetailsScreenStyles.json'));
-
+import {
+  BUTTON_NAMES,
+  ERROR_MESSAGE,
+  SAS_ERROR_CODES
+} from '../constants';
 import Log from '../log';
+import Utils from '../utils';
 
+import moreDetailsScreenStyles from './style/moreDetailsScreenStyles.json';
+const styles = Utils.getStyles(moreDetailsScreenStyles);
 const dismissButtonSize = 20;
 
-class MoreDetailsScreen extends React.Component {
+class MoreDetailsScreen extends Component {
   static propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
@@ -27,7 +32,7 @@ class MoreDetailsScreen extends React.Component {
     translateY: new Animated.Value(this.props.height),
     opacity: new Animated.Value(0),
     buttonOpacity: new Animated.Value(1),
-    button: '',
+    button: ''
   };
 
   componentDidMount() {
@@ -86,7 +91,7 @@ class MoreDetailsScreen extends React.Component {
           style={[animationStyle, {height: this.props.height, width: this.props.width}]}>
           <ScrollView
             style={[styles.column, styles.scrollContainer]}
-            indicatorStyle={"white"}>
+            indicatorStyle={'white'}>
             {this._renderErrorTitle()}
             {this._renderErrorDescription()}
           </ScrollView>
@@ -97,17 +102,17 @@ class MoreDetailsScreen extends React.Component {
   }
 
   _renderErrorTitle = () => {
-    var errorCode = -1;
+    let errorCode = -1;
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
     }
     const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle =
-      Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
       <Text style={styles.title}>
         {localizedTitle}
-      </Text>);
+      </Text>
+    );
   };
 
   _renderErrorDescription = () => {
@@ -116,13 +121,13 @@ class MoreDetailsScreen extends React.Component {
       const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
-      const localizedDescription =
-        Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-      Log.warn("ERROR: localized description:" + localizedDescription);
+      const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+      Log.warn('ERROR: localized description:' + localizedDescription);
       return (
         <Text style={styles.description}>
           {localizedDescription}
-        </Text>);
+        </Text>
+      );
     }
     return null;
   }

@@ -4,11 +4,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.view.MotionEvent;
+
 import com.facebook.react.bridge.Dynamic;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
+import com.ooyala.android.item.CastMediaRoute;
 import com.ooyala.android.skin.button.SkinButton;
 import com.ooyala.android.util.DebugMode;
 
@@ -116,8 +118,14 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onScrub(ReadableMap percentage) {
     double percentValue = percentage.getDouble("percentage");
     percentValue = percentValue * 100.0f; // percentage * 100 so it can deal fine with milliseconds
-    float percent = (float) percentValue;
-    _player.seekToPercent(percent);
+    final float percent = (float) percentValue;
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        _player.seekToPercent(percent);
+      }
+    });
+
   }
 
   public void onDiscoveryRow(ReadableMap parameters) {
@@ -140,6 +148,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     }
   }
 
+  @Override
   public void onLanguageSelected(ReadableMap parameters) {
     String languageName = parameters.getString("language");
     String languageCode = languageName;
@@ -147,6 +156,20 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
       languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
       _player.setClosedCaptionsLanguage(languageCode);
     }
+  }
+
+  @Override
+  public void onCastDeviceSelected(ReadableMap parameters) {
+    final String castDeviceName = parameters.getString("castDeviceName");
+    final String castDeviceId = parameters.getString("castDeviceId");
+    runOnUiThread(new Runnable() {
+      @Override
+      public void run() {
+        if (_player != null && _player.getCurrentItem() != null) {
+          _player.selectRoute(new CastMediaRoute(castDeviceId, castDeviceName));
+        }
+      }
+    });
   }
 
   @Override
@@ -178,7 +201,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   @Override
   public void onVolumeChanged(ReadableMap parameters) {
-    float volume = (float)parameters.getDouble("volume");
+    float volume = (float) parameters.getDouble("volume");
     _layoutController.setVolume(volume);
   }
 

@@ -1,29 +1,29 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import React from 'react';
 import {
   View,
   TouchableHighlight,
   Animated
 } from 'react-native';
 
-import SkipButton from './SkipButton'
 import {
   BUTTON_NAMES,
   VALUES
 } from '../constants';
-
-const Utils = require('../utils');
-const AccessibilityUtils = require('../accessibilityUtils');
-const timerForSkipButtons = require('react-native-timer');
+import SkipButton from './SkipButton'
+import Utils from '../utils';
+import AccessibilityUtils from '../accessibilityUtils';
+import timerForSkipButtons from 'react-native-timer';
 
 // Uses the rectbutton styles
-const styles = require('../utils').getStyles(require('./style/RectButtonStyles.json'));
-const PLAY = "play";
-const PAUSE = "pause";
-const FORWARD = "seekForward";
-const BACKWARD = "seekBackward";
+import rectButtonStyles from './style/RectButtonStyles.json';
+const styles = Utils.getStyles(rectButtonStyles);
+const PLAY = 'play';
+const PAUSE = 'pause';
+const FORWARD = 'seekForward';
+const BACKWARD = 'seekBackward';
 
-class VideoViewPlayPause extends React.Component {
+class VideoViewPlayPause extends Component {
   static propTypes = {
     seekEnabled: PropTypes.bool,
     ffActive: PropTypes.bool,
@@ -92,12 +92,16 @@ class VideoViewPlayPause extends React.Component {
   onSkipPress = (isForward) => {
     timerForSkipButtons.clearTimeout(this);
     const value = this.state.skipCount + (isForward ? 1 : -1);
-    this.setState({skipCount: value}, () => timerForSkipButtons.setTimeout(
+    this.setState({
+      skipCount: value
+    }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
         this.props.onSeekPressed(this.state.skipCount);
-        this.setState({skipCount: 0});
+        this.setState({
+          skipCount: 0
+        });
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS
     ));
@@ -114,7 +118,7 @@ class VideoViewPlayPause extends React.Component {
     const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
     const opacity = {opacity: this.state.playPause.animationOpacity};
     const animate = {transform: [{scale: this.state.playPause.animationScale}]};
-    const buttonColor = {color: !!this.props.buttonColor ? this.props.buttonColor : "white"};
+    const buttonColor = {color: this.props.buttonColor || 'white'};
     const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
     const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
 
@@ -123,7 +127,7 @@ class VideoViewPlayPause extends React.Component {
         accessible={true}
         accessibilityLabel={label}
         onPress={() => this.onPress()}
-        underlayColor="transparent"
+        underlayColor='transparent'
         activeOpacity={this.props.opacity}
         importantForAccessibility={'yes'}
         style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
@@ -144,9 +148,9 @@ class VideoViewPlayPause extends React.Component {
     const opacity = {opacity: this.state.skipButtons.animationOpacity};
     const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
 
-    let color = "gray";
+    let color = 'gray';
     if (active) {
-      color = !!this.props.buttonColor ? this.props.buttonColor : "white";
+      color = this.props.buttonColor || 'white';
     }
     const buttonColor = {color: color};
 
@@ -165,8 +169,8 @@ class VideoViewPlayPause extends React.Component {
         fontStyle={fontStyle}
         opacity={opacity}
         animate={animate}
-        buttonColor={buttonColor}
-      />
+        buttonColor={buttonColor}>
+      </SkipButton>
     );
   };
 
@@ -206,9 +210,7 @@ class VideoViewPlayPause extends React.Component {
       left: leftOffset
     }
 
-    if (!this.props.showButton) {
-      return null;
-    } else {
+    if (this.props.showButton) {
       return (
         <View style={[positionStyle]}>
           <Animated.View style={[containerStyle]}>
@@ -218,6 +220,8 @@ class VideoViewPlayPause extends React.Component {
           </Animated.View>
         </View>
       );
+    } else {
+      return null;
     }
   }
 }
