@@ -68,7 +68,7 @@ public class BridgeMessageBuilder {
       String description = currentItem.getDescription();
       params.putString("description", description != null ? description : "");
 
-      String promoUrl = currentItem.getPromoImageURL(2000, 2000);
+      String promoUrl = currentItem.getPromoImageURL();
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
       //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : "";
       Double duration = currentItem.getDuration() / 1000.0;
@@ -87,7 +87,7 @@ public class BridgeMessageBuilder {
       String description = currentItem.getDescription();
       params.putString("description", description != null ? description : "");
 
-      String promoUrl = currentItem.getPromoImageURL(2000, 2000);
+      String promoUrl = currentItem.getPromoImageURL();
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
 
       String hostedAtUrl = player.getCurrentItem().getHostedAtUrl();
