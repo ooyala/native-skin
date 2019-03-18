@@ -148,7 +148,6 @@ class VideoView extends Component {
       this.props.availableClosedCaptionsLanguages &&
       this.props.availableClosedCaptionsLanguages.length > 0;
 
-
     return (
       <BottomOverlay
         width={this.props.width}

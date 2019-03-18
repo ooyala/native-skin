@@ -45,12 +45,12 @@
 @implementation OOReactSkinModel
 
 #pragma mark - Constants
-#pragma mark - Events
+#pragma mark Events
 static NSString *discoveryResultsReceived = @"discoveryResultsReceived";
 static NSString *ccStylingChanged         = @"ccStylingChanged";
 static NSString *pipEventKey            = @"pipChanged";
 
-#pragma mark - Private keys
+#pragma mark Private keys
 static NSString *upNextKey              = @"upNext";
 static NSString *volumeKey              = @"volume";
 static NSString *textSizeKey            = @"textSize";
@@ -76,7 +76,7 @@ static NSString *volumePropertyKey      = @"outputVolume";
 static NSString *isPipActivatedKey      = @"isPipActivated";
 static NSString *volumeChangeKey        = @"volumeChanged";
 
-#pragma mark - Public keys
+#pragma mark Public keys
 NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
 #pragma mark - Init
