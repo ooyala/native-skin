@@ -7,6 +7,8 @@ import type { Marker as MarkerType } from '../types/Marker';
 
 import styles from './Marker.styles';
 
+const TEXT_MARKER_COLLAPSED_LENGTH = 80;
+
 type Props = {
   accentColor?: string,
   duration: number,
@@ -37,8 +39,8 @@ const Marker = ({
   if (marker.type === 'text' && marker.text) {
     let { text } = marker;
 
-    if (!isExpanded && text.length > 80) {
-      text = text.slice(0, 80).concat('...');
+    if (!isExpanded && text.length > TEXT_MARKER_COLLAPSED_LENGTH) {
+      text = text.slice(0, TEXT_MARKER_COLLAPSED_LENGTH).concat('...');
     }
 
     addOn = <Text style={styles.text}>{text}</Text>;

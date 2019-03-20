@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -22,7 +24,7 @@ import Utils from './utils';
 import ProgressBar from './common/progressBar';
 import ControlBar from './controlBar';
 import ResponsiveDesignManager from './responsiveDesignManager';
-
+import MarkersContainer from './src/MarkersContainer';
 import bottomOverlayStyles from './style/bottomOverlayStyles.json';
 
 const styles = Utils.getStyles(bottomOverlayStyles);
@@ -252,6 +254,42 @@ class BottomOverlay extends Component {
     }
   }
 
+  renderMarkersContainer() {
+    const { config, duration } = this.props;
+    // TODO: Get it from config.
+    const markers = [
+      {
+        start: 'start',
+        end: 10,
+        text: 'Hello, world!',
+        type: 'text',
+      },
+      {
+        start: 30,
+        end: 40,
+        iconUrl: 'https://via.placeholder.com/64x64',
+        type: 'icon',
+      },
+    ];
+
+    const progressBarWidth = this._calculateProgressBarWidth();
+
+    return (
+      <MarkersContainer
+        accentColor={config.general.accentColor}
+        duration={duration}
+        markers={markers}
+        style={{
+          height: progressBarHeight,
+          left: leftMargin,
+          position: 'absolute',
+          top: topMargin + padding,
+          width: progressBarWidth,
+        }}
+      />
+    );
+  }
+
   _renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel) {
     return (
       <Animated.View
@@ -266,6 +304,7 @@ class BottomOverlay extends Component {
         {this._renderProgressBar(playedPercent)}
         {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
         {this._renderCuePoints(this.props.cuePoints)}
+        {this.renderMarkersContainer()}
       </Animated.View>
     );
   }
