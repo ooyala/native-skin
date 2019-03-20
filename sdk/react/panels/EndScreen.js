@@ -16,7 +16,7 @@ import {
 import Utils from '../utils';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 import InfoPanel from '../infoPanel';
-import BottomOverlay from '../bottomOverlay';
+import BottomOverlay from '../src/BottomOverlay';
 import Log from '../log';
 
 import endScreenStyles from './style/endScreenStyles.json';

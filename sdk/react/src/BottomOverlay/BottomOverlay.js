@@ -7,17 +7,17 @@ import {
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
-import AccessibilityUtils from './accessibilityUtils';
-import ProgressBar from './common/progressBar';
+import AccessibilityUtils from '../../accessibilityUtils';
+import ProgressBar from '../../common/progressBar';
 import {
   ANNOUNCER_TYPES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
-} from './constants';
-import ControlBar from './controlBar';
-import Log from './log';
-import ResponsiveDesignManager from './responsiveDesignManager';
-import styles from './src/BottomOverlay/BottomOverlay.styles';
-import MarkersContainer from './src/MarkersContainer';
-import type { Config } from './src/types/Config';
+} from '../../constants';
+import ControlBar from '../../controlBar';
+import Log from '../../log';
+import ResponsiveDesignManager from '../../responsiveDesignManager';
+import styles from './BottomOverlay.styles';
+import MarkersContainer from '../MarkersContainer';
+import type { Config } from '../types/Config';
 
 const { AndroidAccessibility } = NativeModules;
 

@@ -12,7 +12,7 @@ import {
   VALUES
 } from '../constants';
 import Log from '../log';
-import BottomOverlay from '../bottomOverlay';
+import BottomOverlay from '../src/BottomOverlay';
 import AdBar from '../adBar';
 import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
 import Utils from'../utils';

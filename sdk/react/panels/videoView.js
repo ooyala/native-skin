@@ -15,7 +15,7 @@ import {
   AUTOHIDE_DELAY,
   VALUES
 } from '../constants';
-import BottomOverlay from '../bottomOverlay';
+import BottomOverlay from '../src/BottomOverlay';
 import UpNext from '../upNext';
 import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
 import Log from '../log';
