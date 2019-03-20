@@ -10,7 +10,7 @@ import styles from './Marker.styles';
 const TEXT_MARKER_COLLAPSED_LENGTH = 80;
 
 type Props = {
-  accentColor?: string,
+  accentColor?: ?string,
   duration: number,
   isExpanded?: boolean,
   marker: MarkerType,

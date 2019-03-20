@@ -10,7 +10,7 @@ import type { Marker as MarkerType } from '../types/Marker';
 import styles from './MarkersContainer.styles';
 
 type Props = {
-  accentColor?: string,
+  accentColor?: ?string,
   duration: number,
   markers: Array<MarkerType>,
   style?: ViewStyleProp,

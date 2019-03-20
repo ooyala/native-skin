@@ -1,34 +1,25 @@
 // @flow
 
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import * as React from 'react';
 import {
-  Animated,
-  View,
-  Slider,
-  NativeModules,
-  AccessibilityInfo,
-  Platform
+  AccessibilityInfo, Animated, NativeModules, Platform, Slider, View,
 } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
-import {
-  VIEW_NAMES,
-  UI_SIZES,
-  VALUES,
-  ANNOUNCER_TYPES,
-  VIEW_ACCESSIBILITY_NAMES
-} from './constants';
 import AccessibilityUtils from './accessibilityUtils';
-import Log from './log';
-import Utils from './utils';
 import ProgressBar from './common/progressBar';
+import {
+  ANNOUNCER_TYPES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
+} from './constants';
 import ControlBar from './controlBar';
+import Log from './log';
 import ResponsiveDesignManager from './responsiveDesignManager';
+import styles from './src/BottomOverlay/BottomOverlay.styles';
 import MarkersContainer from './src/MarkersContainer';
-import bottomOverlayStyles from './style/bottomOverlayStyles.json';
+import type { Config } from './src/types/Config';
 
-const styles = Utils.getStyles(bottomOverlayStyles);
-const AndroidAccessibility = NativeModules.AndroidAccessibility;
+const { AndroidAccessibility } = NativeModules;
 
 const topMargin = 6;
 const leftMargin = 20;
@@ -42,216 +33,380 @@ let previousAnnouncing = 0;
 const accessibilityDelay = 2000; // Workaround for accessibility announcing for Android.
 const accessibilityProgressDelay = 5000; // Workaround for accessibility announcing for Android.
 
-class BottomOverlay extends Component {
-  static propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
-    primaryButton: PropTypes.string,
-    fullscreen: PropTypes.bool,
-    isPipActivated: PropTypes.bool,
-    isPipButtonVisible: PropTypes.bool,
-    cuePoints: PropTypes.array,
-    playhead: PropTypes.number,
-    duration: PropTypes.number,
-    ad: PropTypes.object,
-    volume: PropTypes.number,
-    onPress: PropTypes.func,
-    onScrub: PropTypes.func,
-    handleControlsTouch: PropTypes.func.isRequired,
-    isShow: PropTypes.bool,
-    shouldShowProgressBar: PropTypes.bool,
-    live: PropTypes.object,
-    shouldShowLandscape: PropTypes.bool,
-    screenReaderEnabled: PropTypes.bool,
-    config: PropTypes.object,
-    stereoSupported: PropTypes.bool,
-    showMoreOptionsButton: PropTypes.bool,
-    showAudioAndCCButton: PropTypes.bool,
-    showPlaybackSpeedButton: PropTypes.bool
-  };
+type Props = {
+  width: number,
+  height?: ?number,
+  primaryButton?: ?string,
+  fullscreen?: ?boolean,
+  isPipActivated?: ?boolean,
+  isPipButtonVisible?: ?boolean,
+  cuePoints?: ?Array<number>,
+  playhead: number,
+  duration: number,
+  ad?: ?{},
+  volume?: ?number,
+  onPress?: ?(() => void),
+  onScrub: (number) => void,
+  handleControlsTouch: () => void,
+  isShow?: ?boolean,
+  shouldShowProgressBar?: ?boolean,
+  live?: ?{},
+  screenReaderEnabled?: ?boolean,
+  config: Config,
+  stereoSupported?: ?boolean,
+  showMoreOptionsButton?: ?boolean,
+  showAudioAndCCButton?: ?boolean,
+  showPlaybackSpeedButton?: ?boolean,
+  showWatermark?: ?boolean,
+};
 
+type State = {
+  accessibilityEnabled: boolean,
+  cachedPlayhead: number,
+  height: AnimatedValue,
+  opacity: AnimatedValue,
+  touch: boolean,
+  x: number,
+};
+
+export default class BottomOverlay extends React.Component<Props, State> {
   static defaultProps = {
+    height: undefined,
+    primaryButton: undefined,
+    fullscreen: undefined,
+    isPipActivated: undefined,
+    isPipButtonVisible: undefined,
+    cuePoints: undefined,
+    ad: undefined,
+    volume: undefined,
+    onPress: undefined,
+    isShow: undefined,
+    screenReaderEnabled: undefined,
+    live: undefined,
+    stereoSupported: undefined,
     shouldShowProgressBar: true,
     showMoreOptionsButton: true,
-    showAudioAndCCButton: true
+    showAudioAndCCButton: true,
+    showPlaybackSpeedButton: undefined,
+    showWatermark: undefined,
   };
 
-  state = {
-    touch: false,
-    opacity: new Animated.Value(this.props.isShow ? 1 : 0),
-    height: new Animated.Value(this.props.isShow ?
-                               ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
-    cachedPlayhead: -1
-  };
+  static calculateLeftOffset(componentSize: number, percent: number, progressBarWidth: number) {
+    return leftMargin + percent * progressBarWidth - componentSize / 2;
+  }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.width !== this.props.width && this.props.isShow) {
-      this.state.height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
+  static calculateTopOffset(componentSize: number) {
+    return topMargin + padding + progressBarHeight / 2 - componentSize / 2;
+  }
+
+  static playedPercent(playhead: number, duration: number) {
+    if (duration === 0) {
+      return 0;
     }
-    if (prevProps.isShow !== this.props.isShow ) {
-      this.state.opacity.setValue(this.props.isShow? 0 : 1);
-      this.state.height.setValue(this.props.isShow? 1 : ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT));
-      Animated.parallel([
-        Animated.timing(
-          this.state.opacity,
-          {
-            toValue: this.props.isShow ? 1 : 0,
-            duration: 500,
-            delay: 0
-          }),
-        Animated.timing(
-          this.state.height,
-          {
-            toValue: this.props.isShow ? ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1,
-            duration: 500,
-            delay: 0
-          })
-      ]).start();
+
+    let percent = playhead / duration;
+
+    if (percent > 1) {
+      percent = 1;
+    } else if (percent < 0) {
+      percent = 0;
     }
+
+    return percent;
+  }
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      accessibilityEnabled: false,
+      cachedPlayhead: -1,
+      height: new Animated.Value(props.isShow
+        ? ResponsiveDesignManager.makeResponsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
+      opacity: new Animated.Value(props.isShow ? 1 : 0),
+      touch: false,
+      x: 0,
+    };
+
+    (this: Object).handleTouchEnd = this.handleTouchEnd.bind(this);
+    (this: Object).handleTouchMove = this.handleTouchMove.bind(this);
+    (this: Object).handleTouchStart = this.handleTouchStart.bind(this);
   }
 
   componentDidMount() {
     AccessibilityInfo.fetch().done((isEnabled) => {
-      this.setState({
-        accessibilityEnabled: isEnabled
-      });
+      this.setState({ accessibilityEnabled: isEnabled });
     });
   }
 
-  /*
-  If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the scrubber
-  */
-  componentWillReceiveProps(nextProps) {
-    if (this.props.playhead !== nextProps.playhead) {
-      this.setState({
-        cachedPlayhead: -1.0
-      });
+  componentWillReceiveProps(nextProps: Props) {
+    // If the playhead position has changed, reset the cachedPlayhead to -1 so that it is not used when rendering the
+    // scrubber.
+    const { playhead } = this.props;
+
+    if (playhead !== nextProps.playhead) {
+      this.setState({ cachedPlayhead: -1.0 });
     }
   }
 
-  _calculateProgressBarWidth() {
-    return this.props.width - 2 * leftMargin;
+  componentDidUpdate(prevProps: Props) {
+    const { isShow, width } = this.props;
+    const { height, opacity } = this.state;
+
+    if (prevProps.width !== width && isShow) {
+      height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
+    }
+
+    if (prevProps.isShow !== isShow) {
+      height.setValue(isShow ? 1 : ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
+      opacity.setValue(isShow ? 0 : 1);
+
+      Animated.parallel([
+        Animated.timing(opacity, {
+          delay: 0,
+          duration: 500,
+          toValue: (isShow ? 1 : 0),
+        }),
+        Animated.timing(height, {
+          delay: 0,
+          duration: 500,
+          toValue: (isShow ? ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT) : 1),
+        }),
+      ]).start();
+    }
   }
 
-  _calculateTopOffset(componentSize) {
-    return topMargin + padding + progressBarHeight / 2 - componentSize / 2;
-  }
+  onValueChange(value: number) {
+    const { duration, onScrub, playhead } = this.props;
 
-  _calculateLeftOffset(componentSize, percent, progressBarWidth) {
-    return leftMargin + percent * progressBarWidth - componentSize / 2
-  }
+    let newPlayhead = playhead - value;
 
-  _renderProgressScrubber(percent) {
-    const progressBarWidth = this._calculateProgressBarWidth();
-    const topOffset = this._calculateTopOffset(scrubberSize);
-    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
-    const positionStyle = { top: topOffset, left: leftOffset };
-    const scrubberStyle = this._customizeScrubber();
+    if (newPlayhead >= 0) {
+      newPlayhead = playhead - VALUES.SEEK_VALUE;
+    } else {
+      newPlayhead = playhead + VALUES.SEEK_VALUE;
+    }
 
-    return (
-      <View
-        testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
-        accessible={false}
-        importantForAccessibility='no-hide-descendants'
-        accessibilityLabel=''
-        style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
-      </View>
-    );
+    const seekPercent = this.constructor.playedPercent(newPlayhead, duration);
+
+    onScrub(seekPercent);
   }
 
   getScrubberHandleColor() {
-    if (this.props.config.general.accentColor) {
-      return this.props.config.general.accentColor;
-    } else if (this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
-      return this.props.config.controlBar.scrubberBar.scrubberHandleColor;
-    } else {
-      Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
-      return '#4389FF';
+    const { config } = this.props;
+
+    if (config.general.accentColor) {
+      return config.general.accentColor;
     }
+
+    if (config.controlBar.scrubberBar.scrubberHandleColor) {
+      return config.controlBar.scrubberBar.scrubberHandleColor;
+    }
+
+    Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json. Please update your '
+      + 'skin.json file to the latest provided file, or add this to your skin.json');
+
+    return '#4389FF';
   }
 
-  _customizeScrubber() {
-    let scrubberHandleBorderColor = this.props.config.controlBar.scrubberBar.scrubberHandleBorderColor;
+  customizeScrubber() {
+    const { config } = this.props;
+    let { scrubberHandleBorderColor } = config.controlBar.scrubberBar;
+
     if (!scrubberHandleBorderColor) {
-      Log.error('controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json');
+      Log.error('controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json. Please update your '
+        + 'skin.json file to the latest provided file, or add this to your skin.json');
+
       scrubberHandleBorderColor = 'white';
     }
-    const scrubberStyle = {
-      flex: 0,
-      position: 'absolute',
+
+    return {
       backgroundColor: this.getScrubberHandleColor(),
+      borderColor: scrubberHandleBorderColor,
       borderRadius: 100,
       borderWidth: 1.5,
-      borderColor: scrubberHandleBorderColor
+      flex: 0,
+      position: 'absolute',
     };
-    return scrubberStyle;
   }
 
-  _renderProgressBar(percent) {
+  calculateProgressBarWidth() {
+    const { width } = this.props;
+
+    return width - 2 * leftMargin;
+  }
+
+  calculateCuePointsLeftOffset(cuePoint: number, progressBarWidth: number) {
+    const { duration } = this.props;
+
+    let cuePointPercent = cuePoint / duration;
+
+    if (cuePointPercent > 1) {
+      cuePointPercent = 1;
+    }
+
+    if (cuePointPercent < 0) {
+      cuePointPercent = 0;
+    }
+
+    return this.constructor.calculateLeftOffset(cuePointSize, cuePointPercent, progressBarWidth);
+  }
+
+  touchPercent(x: number) {
+    const { width } = this.props;
+
+    let percent = (x - leftMargin) / (width - 2 * leftMargin);
+
+    if (percent > 1) {
+      percent = 1;
+    } else if (percent < 0) {
+      percent = 0;
+    }
+
+    return percent;
+  }
+
+  handleTouchStart(event: SyntheticTouchEvent<Object>) {
+    const { handleControlsTouch, height, width } = this.props;
+    const { pageX, pageY } = (event.nativeEvent: Object);
+
+    handleControlsTouch();
+
+    const touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(width, scrubTouchableDistance);
+
+    // Accessing Animated.Value provides number, so it can be used in arithmetic operations.
+    // $FlowFixMe
+    if ((height - pageY) < touchableDistance) {
+      return;
+    }
+
+    this.setState({
+      touch: true,
+      x: pageX,
+    });
+  }
+
+  handleTouchMove(event: SyntheticTouchEvent<Object>) {
+    const { handleControlsTouch } = this.props;
+
+    handleControlsTouch();
+
+    const { pageX } = (event.nativeEvent: Object);
+
+    this.setState({ x: pageX });
+
+    if (Platform.OS === 'android') {
+      const playedPercent = this.touchPercent(pageX);
+      const currentPercent = parseInt(playedPercent * 100, 10);
+      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
+      const currentAnnouncing = new Date().getTime();
+
+      if (previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityDelay) {
+        previousAnnouncing = currentAnnouncing;
+        AndroidAccessibility.announce(announcingLabel);
+      }
+    }
+  }
+
+  handleTouchEnd(event: SyntheticTouchEvent<Object>) {
+    const { duration, handleControlsTouch, onScrub } = this.props;
+    const { touch } = this.state;
+    const { pageX } = (event.nativeEvent: Object);
+
+    handleControlsTouch();
+
+    if (touch && onScrub) {
+      onScrub(this.touchPercent(pageX));
+
+      this.setState({
+        cachedPlayhead: this.touchPercent(pageX) * duration,
+      });
+    }
+
+    this.setState({
+      touch: false,
+      x: 0,
+    });
+
+    if (Platform.OS === 'android') {
+      const playedPercent = this.touchPercent(pageX);
+      const currentPercent = parseInt(playedPercent * 100, 10);
+      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
+
+      AndroidAccessibility.announce(announcingLabel);
+      previousAnnouncing = 0;
+    }
+  }
+
+  renderProgressBar(percent: number) {
+    const { ad, config } = this.props;
+
     return (
-      <View
-        style={styles.progressBarContainer}
-        accessible={false}>
-          <ProgressBar
-            accessible={false}
-            ref='progressBar'
-            percent={percent}
-            config={this.props.config}
-            ad={!!this.props.ad}
-            renderDuration={false}>
-          </ProgressBar>
+      <View accessible={false} style={styles.progressBarContainer}>
+        <ProgressBar
+          accessible={false}
+          ad={!!ad}
+          percent={percent}
+          config={config}
+          renderDuration={false}
+        />
       </View>
     );
   }
 
-  _renderCompleteProgressBar() {
-    if (!this.props.shouldShowProgressBar) {
-      return;
+  renderProgressScrubber(percent: number) {
+    const progressBarWidth = this.calculateProgressBarWidth();
+    const scrubberStyle = this.customizeScrubber();
+
+    const positionStyle = {
+      left: this.constructor.calculateLeftOffset(scrubberSize, percent, progressBarWidth),
+      top: this.constructor.calculateTopOffset(scrubberSize),
+    };
+
+    return (
+      <View
+        accessible={false}
+        accessibilityLabel=""
+        importantForAccessibility="no-hide-descendants"
+        testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
+        style={[
+          scrubberStyle,
+          positionStyle,
+          { height: scrubberSize, width: scrubberSize },
+        ]}
+      />
+    );
+  }
+
+  renderCuePoints(cuePoints: ?Array<number>) {
+    if (!cuePoints) {
+      return null;
     }
-    let playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-    if (this.state.cachedPlayhead >= 0.0) {
-      playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
-    }
 
-    const currentPercent = parseInt(playedPercent * 100, 10);
-    const scrubberBarAccessibilityLabel = Platform.select({
-      ios: VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR,
-      android: VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent +
-               VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC
-    });
+    const cuePointsView = [];
 
-    if (Platform.OS === 'ios' && this.props.screenReaderEnabled) {
-      const minimumTrackTintColor = this.props.config.controlBar.scrubberBar.playedColor || this.props.config.general.accentColor;
-      const maximumTrackTintColor = this.props.config.controlBar.scrubberBar.bufferedColor;
+    const progressBarWidth = this.calculateProgressBarWidth();
+    const topOffset = this.constructor.calculateTopOffset(cuePointSize);
 
-      return (
-        <Slider
-          style={[{flexDirection: 'row', height: 5, marginVertical: 6, marginHorizontal: 20}]}
-          testID={VIEW_NAMES.TIME_SEEK_BAR}
-          accessibilityLabel={scrubberBarAccessibilityLabel}
-          minimumTrackTintColor={minimumTrackTintColor}
-          maximumTrackTintColor={maximumTrackTintColor}
-          value={this.props.playhead}
-          maximumValue={this.props.duration}
-          step={1.0}
-          onValueChange={this._onValueChange}>
-        </Slider>
+    for (let i = 0; i < cuePoints.length; i += 1) {
+      cuePointsView.push(
+        <View
+          accessible={false}
+          key={i}
+          style={[
+            styles.cuePoint,
+            {
+              left: this.calculateCuePointsLeftOffset(cuePoints[i], progressBarWidth),
+              height: cuePointSize,
+              top: topOffset,
+              width: cuePointSize,
+            },
+          ]}
+        />,
       );
-    } else {
-      const currentAnnouncing = new Date().getTime();
-
-      if ((previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityProgressDelay)
-              && currentPercent !== VALUES.MAX_PROGRESS_PERCENT) {
-        previousAnnouncing = currentAnnouncing;
-        return this._renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel)
-      } else {
-        if (Platform.OS === 'android' && currentPercent === VALUES.MAX_PROGRESS_PERCENT && previousAnnouncing !== 0) {
-          AndroidAccessibility.announce(scrubberBarAccessibilityLabel);
-          previousAnnouncing = 0
-        }
-        return this._renderDefaultProgressBar(playedPercent, '')
-      }
     }
+
+    return cuePointsView;
   }
 
   renderMarkersContainer() {
@@ -272,7 +427,7 @@ class BottomOverlay extends Component {
       },
     ];
 
-    const progressBarWidth = this._calculateProgressBarWidth();
+    const progressBarWidth = this.calculateProgressBarWidth();
 
     return (
       <MarkersContainer
@@ -290,209 +445,178 @@ class BottomOverlay extends Component {
     );
   }
 
-  _renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel) {
+  renderDefaultProgressBar(playedPercent: number, scrubberBarAccessibilityLabel: string) {
+    const { ad, cuePoints } = this.props;
+    const { accessibilityEnabled, touch, x } = this.state;
+
     return (
       <Animated.View
-        testID={VIEW_NAMES.TIME_SEEK_BAR}
-        accessible={this.state.accessibilityEnabled}
         accessibilityLabel={scrubberBarAccessibilityLabel}
-        importantForAccessibility='yes'
-        onTouchStart={(event) => this.handleTouchStart(event)}
-        onTouchMove={(event) => this.handleTouchMove(event)}
-        onTouchEnd={(event) => this.handleTouchEnd(event)}
-        style={styles.progressBarStyle}>
-        {this._renderProgressBar(playedPercent)}
-        {this._renderProgressScrubber(!this.props.ad && this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
-        {this._renderCuePoints(this.props.cuePoints)}
+        accessible={accessibilityEnabled}
+        importantForAccessibility="yes"
+        onTouchEnd={this.handleTouchEnd}
+        onTouchMove={this.handleTouchMove}
+        onTouchStart={this.handleTouchStart}
+        style={styles.progressBarStyle}
+        testID={VIEW_NAMES.TIME_SEEK_BAR}
+      >
+        {this.renderProgressBar(playedPercent)}
+        {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
+        {this.renderCuePoints(cuePoints)}
         {this.renderMarkersContainer()}
       </Animated.View>
     );
   }
 
-  _onValueChange(value) {
-    // increase or decrease playhead by X seconds
-    let newPlayhead = this.props.playhead - value;
-    if (newPlayhead >= 0) {
-      newPlayhead = this.props.playhead - VALUES.SEEK_VALUE;
-    } else {
-      newPlayhead = this.props.playhead + VALUES.SEEK_VALUE;
+  renderCompleteProgressBar() {
+    const {
+      config, duration, playhead, screenReaderEnabled, shouldShowProgressBar,
+    } = this.props;
+    const { cachedPlayhead } = this.state;
+
+    if (!shouldShowProgressBar) {
+      return null;
     }
 
-    const seekPercent = this.playedPercent(newPlayhead, this.props.duration);
-    this.props.onScrub(seekPercent);
-  }
+    let playedPercent = this.constructor.playedPercent(playhead, duration);
 
-  _calculateCuePointsLeftOffset(cuePoint, progressBarWidth) {
-    let cuePointPercent = cuePoint / this.props.duration;
-    if (cuePointPercent > 1) {
-      cuePointPercent = 1;
+    if (cachedPlayhead >= 0.0) {
+      playedPercent = this.constructor.playedPercent(cachedPlayhead, duration);
     }
-    if (cuePointPercent < 0) {
-      cuePointPercent = 0;
-    }
-    const leftOffset = this._calculateLeftOffset(cuePointSize, cuePointPercent, progressBarWidth);
-    return leftOffset;
-  }
 
-  _renderCuePoints(cuePoints) {
-    if (!cuePoints) {
-      return;
-    }
-    const cuePointsView = [];
-    const progressBarWidth = this._calculateProgressBarWidth();
-    const topOffset = this._calculateTopOffset(cuePointSize);
-    let leftOffset = 0;
-    let positionStyle;
-    let cuePointView;
+    const currentPercent = parseInt(playedPercent * 100, 10);
 
-    for (let i = 0; i < cuePoints.length; i++) {
-      let cuePoint = cuePoints[i];
-      leftOffset = this._calculateCuePointsLeftOffset(cuePoint, progressBarWidth);
-      positionStyle = { top: topOffset, left: leftOffset };
-      cuePointView = (
-        <View
-          accessible={false}
-          key={i}
-          style={[styles.cuePoint, positionStyle, { width: cuePointSize, height: cuePointSize }]} />
+    const scrubberBarAccessibilityLabel = Platform.select({
+      android: VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR + currentPercent
+        + VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR_ANDROID_SPECIFIC,
+      ios: VIEW_ACCESSIBILITY_NAMES.PROGRESS_BAR,
+    });
+
+    if (Platform.OS === 'ios' && screenReaderEnabled) {
+      const maximumTrackTintColor = config.controlBar.scrubberBar.bufferedColor;
+      const minimumTrackTintColor = config.controlBar.scrubberBar.playedColor || config.general.accentColor;
+
+      return (
+        <Slider
+          accessibilityLabel={scrubberBarAccessibilityLabel}
+          maximumTrackTintColor={maximumTrackTintColor}
+          minimumTrackTintColor={minimumTrackTintColor}
+          maximumValue={duration}
+          onValueChange={this.onValueChange}
+          step={1.0}
+          style={{
+            flexDirection: 'row',
+            height: 5,
+            marginHorizontal: 20,
+            marginVertical: 6,
+          }}
+          testID={VIEW_NAMES.TIME_SEEK_BAR}
+          value={playhead}
+        />
       );
-      cuePointsView.push(cuePointView);
     }
 
-    return cuePointsView;
+    const currentAnnouncing = new Date().getTime();
+
+    if ((previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityProgressDelay)
+      && currentPercent !== VALUES.MAX_PROGRESS_PERCENT) {
+      previousAnnouncing = currentAnnouncing;
+
+      return this.renderDefaultProgressBar(playedPercent, scrubberBarAccessibilityLabel);
+    }
+
+    if (Platform.OS === 'android' && currentPercent === VALUES.MAX_PROGRESS_PERCENT && previousAnnouncing !== 0) {
+      AndroidAccessibility.announce(scrubberBarAccessibilityLabel);
+      previousAnnouncing = 0;
+    }
+
+    return this.renderDefaultProgressBar(playedPercent, '');
   }
 
-  _renderControlBar() {
+  renderControlBar() {
+    const {
+      duration, primaryButton, playhead, volume, live, width, height, fullscreen, isPipActivated, isPipButtonVisible,
+      onPress, handleControlsTouch, showWatermark, config, stereoSupported, showMoreOptionsButton, showAudioAndCCButton,
+      showPlaybackSpeedButton,
+    } = this.props;
+
     return (
       <ControlBar
-        ref='controlBar'
-        primaryButton={this.props.primaryButton}
-        playhead={this.props.playhead}
-        duration={this.props.duration}
-        volume={this.props.volume}
-        live={this.props.live}
-        width={this.props.width - 2 * leftMargin}
-        height={this.props.height}
-        fullscreen = {this.props.fullscreen}
-        isPipActivated = {this.props.isPipActivated}
-        isPipButtonVisible = {this.props.isPipButtonVisible}
-        onPress={this.props.onPress}
-        handleControlsTouch={this.props.handleControlsTouch}
-        showWatermark={this.props.showWatermark}
-        config={this.props.config}
-        stereoSupported={this.props.stereoSupported}
-        showMoreOptionsButton={this.props.showMoreOptionsButton}
-        showAudioAndCCButton={this.props.showAudioAndCCButton}
-        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}>
-      </ControlBar>
+        primaryButton={primaryButton}
+        playhead={playhead}
+        duration={duration}
+        volume={volume}
+        live={live}
+        width={width - 2 * leftMargin}
+        height={height}
+        fullscreen={fullscreen}
+        isPipActivated={isPipActivated}
+        isPipButtonVisible={isPipButtonVisible}
+        onPress={onPress}
+        handleControlsTouch={handleControlsTouch}
+        showWatermark={showWatermark}
+        config={config}
+        stereoSupported={stereoSupported}
+        showMoreOptionsButton={showMoreOptionsButton}
+        showAudioAndCCButton={showAudioAndCCButton}
+        showPlaybackSpeedButton={showPlaybackSpeedButton}
+      />
     );
   }
 
-  playedPercent(playhead, duration) {
-    if (this.props.duration === 0) {
-      return 0;
-    }
-    let percent = playhead / duration;
-    if (percent > 1) {
-      percent = 1;
-    } else if (percent < 0) {
-      percent = 0;
-    }
-    return percent;
-  }
+  renderDefault(widthStyle: ViewStyleProp) {
+    const { height } = this.state;
 
-  touchPercent(x) {
-    let percent = (x - leftMargin) / (this.props.width - 2 * leftMargin);
-    if (percent > 1) {
-      percent = 1;
-    } else if (percent < 0) {
-      percent = 0;
-    }
-    return percent;
-  }
-
-  handleTouchStart(event) {
-    this.props.handleControlsTouch();
-    let touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, scrubTouchableDistance);
-    if ((this.props.height - event.nativeEvent.pageY) < touchableDistance) {
-      return;
-    }
-    this.setState({
-      touch: true,
-      x: event.nativeEvent.pageX
-    });
-  }
-
-  handleTouchMove(event) {
-    this.props.handleControlsTouch();
-    this.setState({
-      x: event.nativeEvent.pageX
-    });
-    if (Platform.OS === 'android') {
-      const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
-      const currentPercent = parseInt(playedPercent * 100, 10);
-      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
-      const currentAnnouncing = new Date().getTime();
-      if (previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityDelay) {
-        previousAnnouncing = currentAnnouncing;
-        AndroidAccessibility.announce(announcingLabel);
-      }
-    }
-  }
-
-  handleTouchEnd(event) {
-    this.props.handleControlsTouch();
-    if (this.state.touch && this.props.onScrub) {
-      this.props.onScrub(this.touchPercent(event.nativeEvent.pageX));
-      this.setState({
-        cachedPlayhead: this.touchPercent(event.nativeEvent.pageX) * this.props.duration
-      });
-    }
-    this.setState({
-      touch: false,
-      x: null
-    });
-
-    if (Platform.OS === 'android') {
-      const playedPercent =  this.touchPercent(event.nativeEvent.pageX);
-      const currentPercent = parseInt(playedPercent * 100, 10);
-      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
-      AndroidAccessibility.announce(announcingLabel);
-      previousAnnouncing = 0;
-    }
-  }
-
-  renderDefault(widthStyle) {
     return (
       <Animated.View
         accessible={false}
-        style={[styles.container, widthStyle, {'height': this.state.height}]}>
-        {this._renderCompleteProgressBar()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
-        {this._renderControlBar()}
-        {<View style ={[styles.bottomOverlayFlexibleSpace]}/>}
+        style={[
+          styles.container,
+          widthStyle,
+          { height },
+        ]}
+      >
+
+        {this.renderCompleteProgressBar()}
+
+        <View style={styles.bottomOverlayFlexibleSpace} />
+
+        {this.renderControlBar()}
+
+        <View style={styles.bottomOverlayFlexibleSpace} />
+
       </Animated.View>
     );
   }
 
-  renderLiveWithoutDVR(widthStyle) {
+  renderLiveWithoutDVR(widthStyle: ViewStyleProp) {
+    const { height } = this.state;
+
     return (
-      <Animated.View style={[styles.container, widthStyle, {'height': this.state.height - 6}]}>
-        {this._renderControlBar()}
+      <Animated.View
+        style={[
+          styles.container,
+          widthStyle,
+          // Accessing Animated.Value provides number, so it can be used in arithmetic operations.
+          // $FlowFixMe
+          { height: height - 6 },
+        ]}
+      >
+        {this.renderControlBar()}
       </Animated.View>
     );
   }
 
   render() {
-    if (this.props.config.controlBar.enabled || !this.props.config.controlBar.enabled) {
-      const widthStyle = { width: this.props.width, opacity: this.state.opacity };
-      if (this.props.live && (this.props.config.live && this.props.config.live.forceDvrDisabled)) {
-        return this.renderLiveWithoutDVR(widthStyle);
-      }
-      return this.renderDefault(widthStyle);
-    } else {
-      return null;
+    const { config, live, width } = this.props;
+    const { opacity } = this.state;
+
+    const widthStyle = { opacity, width };
+
+    if (live && (config.live && config.live.forceDvrDisabled)) {
+      return this.renderLiveWithoutDVR(widthStyle);
     }
+
+    return this.renderDefault(widthStyle);
   }
 }
-
-module.exports = BottomOverlay;
