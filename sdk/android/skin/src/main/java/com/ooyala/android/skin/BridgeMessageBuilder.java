@@ -14,7 +14,7 @@ import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
-import com.ooyala.android.item.CastMediaRoute;
+import com.ooyala.android.item.CastDevice;
 import com.ooyala.android.item.Video;
 import com.ooyala.android.playback.PlaybackNotificationInfo;
 import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
@@ -351,8 +351,8 @@ public class BridgeMessageBuilder {
     WritableArray castDeviceIds = Arguments.createArray();
 
     if (castMediaRoutes instanceof Set) {
-      Set<CastMediaRoute> castDevicesSet = (Set<CastMediaRoute>) castMediaRoutes;
-      for (CastMediaRoute device : castDevicesSet) {
+      Set<CastDevice> castDevicesSet = (Set<CastDevice>) castMediaRoutes;
+      for (CastDevice device : castDevicesSet) {
         castDeviceIds.pushString(device.getId());
         castDeviceNames.pushString(device.getName());
       }

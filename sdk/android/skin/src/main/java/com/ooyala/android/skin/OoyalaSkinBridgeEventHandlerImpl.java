@@ -10,7 +10,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
-import com.ooyala.android.item.CastMediaRoute;
+import com.ooyala.android.item.CastDevice;
 import com.ooyala.android.skin.button.SkinButton;
 import com.ooyala.android.util.DebugMode;
 
@@ -178,7 +178,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     final String castDeviceId = parameters.getString("castDeviceId");
     runOnUiThread(() -> {
       if (_player != null && _player.getCurrentItem() != null) {
-        _player.connectDevice(new CastMediaRoute(castDeviceId, castDeviceName));
+        _player.connectDevice(new CastDevice(castDeviceId, castDeviceName));
       }
     });
   }

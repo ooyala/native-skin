@@ -3,7 +3,7 @@ package com.ooyala.android.skin.notification.common;
 import com.facebook.react.bridge.WritableMap;
 import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
-import com.ooyala.android.item.CastMediaRoute;
+import com.ooyala.android.item.CastDevice;
 import com.ooyala.android.skin.BridgeMessageBuilder;
 import com.ooyala.android.skin.OoyalaSkinLayoutController;
 import com.ooyala.android.skin.notification.OoyalaNotificationHandler;
@@ -23,7 +23,7 @@ public class CastPressedNotificationHandler extends OoyalaNotificationHandler {
 
   @Override
   public void handle(OoyalaNotification notification) {
-    WritableMap params = BridgeMessageBuilder.buildCastDeviceListParams((Set<CastMediaRoute>) notification.getData());
+    WritableMap params = BridgeMessageBuilder.buildCastDeviceListParams((Set<CastDevice>) notification.getData());
     layoutController.sendEvent(getNotificationName(), params);
   }
 }
