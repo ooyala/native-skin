@@ -58,7 +58,11 @@ class ControlBar extends Component {
 
   getDurationString = () => {
     if (this.props.live) {
-      return null;
+      if (this.props.live.isLive) {
+        return null;
+      } else {
+        return (' -' + Utils.secondsToString(this.props.duration - this.props.playhead) );
+      }
     } else {
       return Utils.secondsToString(this.props.duration);
     }
@@ -175,6 +179,7 @@ class ControlBar extends Component {
         completeTimeStyle: [styles.completeTimeStyle],
         playHeadTimeString: this.getPlayHeadTimeString(),
         iconTouchableStyle: styles.iconTouchable,
+        liveCircle: this.props.live ? (this.props.live.isLive ? styles.liveCircleActive : styles.liveCircleNonActive) : null,
         durationString: this.getDurationString()
       },
       fullscreen: {

@@ -61,5 +61,25 @@
     "alignItems": "center",
     "backgroundColor": "transparent",
     "margin": 10
+  },
+
+  "liveCircleActive": {
+    "marginLeft": 6,
+    "marginRight": 6,
+    "width": 7,
+    "height": 7,
+    "borderRadius": 50,
+    "backgroundColor": "#FF0000",
+    "alignSelf": "center"
+  },
+
+  "liveCircleNonActive": {
+    "marginLeft": 6,
+    "marginRight": 6,
+    "width": 7,
+    "height": 7,
+    "borderRadius": 50,
+    "backgroundColor": "#B3B3B3",
+    "alignSelf": "center"
   }
 }

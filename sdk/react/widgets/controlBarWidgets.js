@@ -120,6 +120,14 @@ class controlBarWidget extends Component {
     );
   };
 
+  _renderLiveCircle = (options) => {
+    if (options.liveCircle) {
+      return (<View style={options.liveCircle}/>);
+    } else {
+      return null;
+    }
+  };
+
   timeDurationWidget = (options) => {
     if (options.onPress) {
       return (
@@ -137,6 +145,7 @@ class controlBarWidget extends Component {
         <View
           style={options.completeTimeStyle}
           accessible={true}>
+          {this._renderLiveCircle(options)}
           {playHead}
           {duration}
         </View>

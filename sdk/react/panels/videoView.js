@@ -80,22 +80,14 @@ class VideoView extends Component {
     if (this.props.live) {
       const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
       return ({
-        label:
-          isLive ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) :
-            Utils.localizedString(this.props.locale, 'GO LIVE', this.props.localizableStrings),
-        onGoLive: isLive ? null : this.onGoLive
+        label: Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings),
+        isLive: isLive
       });
     } else {
       return null;
     }
   };
 
-  onGoLive = () => {
-    Log.log('onGoLive');
-    if (this.props.handlers.onScrub) {
-      this.props.handlers.onScrub(1);
-    }
-  };
 
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
