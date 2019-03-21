@@ -96,9 +96,8 @@ class CastConnectedScreen extends React.Component {
   }
 
   placeholderTapHandler(event) {
-    const { props } = this;
-    const { screenReaderEnabled } = props;
-    const { handleVideoTouchEnd } = props.handlers;
+    const { handlers, screenReaderEnabled } = this.props;
+    const { handleVideoTouchEnd } = handlers;
 
     if (screenReaderEnabled) {
       this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
