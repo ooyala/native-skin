@@ -24,7 +24,6 @@ import ControlBar from './controlBar';
 import ResponsiveDesignManager from './responsiveDesignManager';
 
 import bottomOverlayStyles from './style/bottomOverlayStyles.json';
-
 const styles = Utils.getStyles(bottomOverlayStyles);
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
@@ -52,7 +51,7 @@ class BottomOverlay extends Component {
     playhead: PropTypes.number,
     duration: PropTypes.number,
     ad: PropTypes.object,
-    volume: PropTypes.number,
+    volume: PropTypes.number.isRequired,
     onPress: PropTypes.func,
     onScrub: PropTypes.func,
     handleControlsTouch: PropTypes.func.isRequired,
@@ -65,7 +64,8 @@ class BottomOverlay extends Component {
     stereoSupported: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
-    showPlaybackSpeedButton: PropTypes.bool
+    showPlaybackSpeedButton: PropTypes.bool,
+    inCastMode: PropTypes.bool
   };
 
   static defaultProps = {
@@ -245,9 +245,9 @@ class BottomOverlay extends Component {
       } else {
         if (Platform.OS === 'android' && currentPercent === VALUES.MAX_PROGRESS_PERCENT && previousAnnouncing !== 0) {
           AndroidAccessibility.announce(scrubberBarAccessibilityLabel);
-          previousAnnouncing = 0
+          previousAnnouncing = 0;
         }
-        return this._renderDefaultProgressBar(playedPercent, '')
+        return this._renderDefaultProgressBar(playedPercent, '');
       }
     }
   }
@@ -343,8 +343,9 @@ class BottomOverlay extends Component {
         stereoSupported={this.props.stereoSupported}
         showMoreOptionsButton={this.props.showMoreOptionsButton}
         showAudioAndCCButton={this.props.showAudioAndCCButton}
-        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}>
-      </ControlBar>
+        showPlaybackSpeedButton={this.props.showPlaybackSpeedButton}
+        inCastMode={this.props.inCastMode}
+        />
     );
   }
 
@@ -444,15 +445,11 @@ class BottomOverlay extends Component {
   }
 
   render() {
-    if (this.props.config.controlBar.enabled || !this.props.config.controlBar.enabled) {
-      const widthStyle = { width: this.props.width, opacity: this.state.opacity };
-      if (this.props.live && (this.props.config.live && this.props.config.live.forceDvrDisabled)) {
-        return this.renderLiveWithoutDVR(widthStyle);
-      }
-      return this.renderDefault(widthStyle);
-    } else {
-      return null;
+    const widthStyle = {width: this.props.width, opacity: this.state.opacity};
+    if (this.props.live && (this.props.config.live && this.props.config.live.forceDvrDisabled)) {
+      return this.renderLiveWithoutDVR(widthStyle);
     }
+    return this.renderDefault(widthStyle);
   }
 }
 

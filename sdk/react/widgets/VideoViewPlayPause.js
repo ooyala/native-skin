@@ -160,6 +160,7 @@ class VideoViewPlayPause extends Component {
 
     return (
       <SkipButton
+        visible={true}
         isForward={isForward}
         timeValue={seekValue}
         sizeStyle={sizeStyle}

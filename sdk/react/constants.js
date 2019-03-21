@@ -13,7 +13,8 @@ const UI_SIZES = {
   LOADING_ICON: 30,
   CONTROLBAR_ICONSIZE: 20,
   CONTROLBAR_LABELSIZE: 16,
-  CC_PREVIEW_HEIGHT: 80
+  CC_PREVIEW_HEIGHT: 80,
+  CAST_AIR_SCREEN_HEIGHT: 200,
 };
 
 const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
@@ -21,8 +22,10 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'fullscreen',
   MORE: 'moreOptions',
-  CAST: 'cast',
+  CAST: 'chromecast',
   CAST_AIRPLAY: 'castAirplay',
+  CAST_CONNECTED: 'cast_connected',
+  DISCONNECT: 'disconnect',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
   REPLAY: 'replay',
@@ -87,12 +90,13 @@ const OVERLAY_TYPES = {
   MOREOPTION_SCREEN: 'moreOption',
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen',
-  VOLUME_SCREEN: 'volumeScreen',
   MORE_DETAILS: 'moreDetails',
   VOLUME_SCREEN: 'volumeScreen',
-  CAST: 'cast',
-  CAST_AIRPLAY: 'castAirplay'
-}
+  CAST_AIRPLAY: 'castAirplay',
+  CAST_DEVICES: 'cast_devices',
+  CAST_CONNECTING: 'cast_connecting',
+  CAST_CONNECTED: 'cast_connected',
+};
 
 const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',

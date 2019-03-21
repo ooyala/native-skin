@@ -139,6 +139,7 @@ class EndScreen extends Component {
       showAudioAndCCButton={this.props.showAudioAndCCButton}
       config={{
         controlBar: this.props.config.controlBar,
+        castControls: this.props.config.castControls,
         buttons: this.props.config.buttons,
         icons: this.props.config.icons,
         live: this.props.config.live,

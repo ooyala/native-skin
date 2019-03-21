@@ -74,8 +74,6 @@ class VideoView extends Component {
     initialPlay: PropTypes.bool
   };
 
-  state = {};
-
   generateLiveObject = () => {
     if (this.props.live) {
       const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
@@ -91,16 +89,8 @@ class VideoView extends Component {
 
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
-    if (this.state.showControls) {
-      if (name === 'LIVE') {
-        this.props.handlers.onScrub(1);
-      } else {
-        this.props.handlers.onPress(name);
-      }
-    } else {
-      this.props.handlers.showControls();
-      this.props.handlers.onPress(name);
-    }
+    this.props.handlers.showControls();
+    this.props.handlers.onPress(name);
   };
 
   onSeekPressed = (skipCountValue) => {
@@ -164,6 +154,7 @@ class VideoView extends Component {
         stereoSupported={this.props.stereoSupported}
         config={{
           controlBar: this.props.config.controlBar,
+          castControls: this.props.config.castControls,
           buttons: this.props.config.buttons,
           icons: this.props.config.icons,
           live: this.props.config.live,
