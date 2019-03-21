@@ -4,9 +4,11 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   root: {
-    bottom: 0,
-    minWidth: 10,
+    backgroundColor: 'red',
+    bottom: 10,
+    color: 'white',
+    left: 0,
     position: 'absolute',
-    top: 0,
+    width: 100,
   },
 });

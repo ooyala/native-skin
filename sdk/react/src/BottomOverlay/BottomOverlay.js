@@ -128,6 +128,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
       x: 0,
     };
 
+    (this: Object).handleMarkerSeek = this.handleMarkerSeek.bind(this);
     (this: Object).handleTouchEnd = this.handleTouchEnd.bind(this);
     (this: Object).handleTouchMove = this.handleTouchMove.bind(this);
     (this: Object).handleTouchStart = this.handleTouchStart.bind(this);
@@ -338,6 +339,11 @@ export default class BottomOverlay extends React.Component<Props, State> {
     }
   }
 
+  handleMarkerSeek(position: number) {
+    // TODO: Implement.
+    console.warn('handleMarkerSeek', position);
+  }
+
   renderProgressBar(percent: number) {
     const { ad, config } = this.props;
 
@@ -354,75 +360,23 @@ export default class BottomOverlay extends React.Component<Props, State> {
     );
   }
 
-  renderProgressScrubber(percent: number) {
-    const progressBarWidth = this.calculateProgressBarWidth();
-    const scrubberStyle = this.customizeScrubber();
-
-    const positionStyle = {
-      left: this.constructor.calculateLeftOffset(scrubberSize, percent, progressBarWidth),
-      top: this.constructor.calculateTopOffset(scrubberSize),
-    };
-
-    return (
-      <View
-        accessible={false}
-        accessibilityLabel=""
-        importantForAccessibility="no-hide-descendants"
-        testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
-        style={[
-          scrubberStyle,
-          positionStyle,
-          { height: scrubberSize, width: scrubberSize },
-        ]}
-      />
-    );
-  }
-
-  renderCuePoints(cuePoints: ?Array<number>) {
-    if (!cuePoints) {
-      return null;
-    }
-
-    const cuePointsView = [];
-
-    const progressBarWidth = this.calculateProgressBarWidth();
-    const topOffset = this.constructor.calculateTopOffset(cuePointSize);
-
-    for (let i = 0; i < cuePoints.length; i += 1) {
-      cuePointsView.push(
-        <View
-          accessible={false}
-          key={i}
-          style={[
-            styles.cuePoint,
-            {
-              left: this.calculateCuePointsLeftOffset(cuePoints[i], progressBarWidth),
-              height: cuePointSize,
-              top: topOffset,
-              width: cuePointSize,
-            },
-          ]}
-        />,
-      );
-    }
-
-    return cuePointsView;
-  }
-
   renderMarkersContainer() {
     const { config, duration } = this.props;
-    // TODO: Get it from config.
+    // TODO: Remove, get it from the config.
     const markers = [
       {
+        markerColor: 'red',
         start: 'start',
         end: 10,
-        text: 'Hello, world!',
+        text: 'Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello',
         type: 'text',
       },
       {
+        markerColor: 'green',
         start: 30,
         end: 40,
         iconUrl: 'https://via.placeholder.com/64x64',
+        imageUrl: 'https://via.placeholder.com/40x40',
         type: 'icon',
       },
     ];
@@ -434,15 +388,67 @@ export default class BottomOverlay extends React.Component<Props, State> {
         accentColor={config.general.accentColor}
         duration={duration}
         markers={markers}
+        onSeek={this.handleMarkerSeek}
         style={{
           height: progressBarHeight,
           left: leftMargin,
-          position: 'absolute',
-          top: topMargin + padding,
+          top: this.constructor.calculateTopOffset(progressBarHeight),
           width: progressBarWidth,
         }}
       />
     );
+  }
+
+  renderProgressScrubber(percent: number) {
+    const progressBarWidth = this.calculateProgressBarWidth();
+    const scrubberStyle = this.customizeScrubber();
+
+    return (
+      <View
+        accessible={false}
+        accessibilityLabel=""
+        importantForAccessibility="no-hide-descendants"
+        testID={VIEW_NAMES.TIME_SEEK_BAR_THUMB}
+        style={[
+          scrubberStyle,
+          {
+            height: scrubberSize,
+            left: this.constructor.calculateLeftOffset(scrubberSize, percent, progressBarWidth),
+            top: this.constructor.calculateTopOffset(scrubberSize),
+            width: scrubberSize,
+          },
+        ]}
+      />
+    );
+  }
+
+  renderCuePoints(cuePoints: ?Array<number>) {
+    if (!cuePoints) {
+      return null;
+    }
+
+    const progressBarWidth = this.calculateProgressBarWidth();
+    const cuePointsView = [];
+
+    for (let i = 0; i < cuePoints.length; i += 1) {
+      cuePointsView.push(
+        <View
+          accessible={false}
+          key={i}
+          style={[
+            styles.cuePoint,
+            {
+              height: cuePointSize,
+              left: this.calculateCuePointsLeftOffset(cuePoints[i], progressBarWidth),
+              top: this.constructor.calculateTopOffset(cuePointSize),
+              width: cuePointSize,
+            },
+          ]}
+        />,
+      );
+    }
+
+    return cuePointsView;
   }
 
   renderDefaultProgressBar(playedPercent: number, scrubberBarAccessibilityLabel: string) {
@@ -461,9 +467,9 @@ export default class BottomOverlay extends React.Component<Props, State> {
         testID={VIEW_NAMES.TIME_SEEK_BAR}
       >
         {this.renderProgressBar(playedPercent)}
+        {this.renderMarkersContainer()}
         {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
         {this.renderCuePoints(cuePoints)}
-        {this.renderMarkersContainer()}
       </Animated.View>
     );
   }
@@ -478,12 +484,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
       return null;
     }
 
-    let playedPercent = this.constructor.playedPercent(playhead, duration);
-
-    if (cachedPlayhead >= 0.0) {
-      playedPercent = this.constructor.playedPercent(cachedPlayhead, duration);
-    }
-
+    const playedPercent = this.constructor.playedPercent((cachedPlayhead >= 0.0 ? cachedPlayhead : playhead), duration);
     const currentPercent = parseInt(playedPercent * 100, 10);
 
     const scrubberBarAccessibilityLabel = Platform.select({
