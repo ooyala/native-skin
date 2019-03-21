@@ -87,6 +87,13 @@ export default class IconMarker extends React.Component<Props, State> {
           ]}
         >
           <Image source={{ uri: image }} style={styles.image} />
+          <View
+            style={[
+              styles.triangle,
+              // Apply expanded style only if the larger image is present.
+              isExpanded && imageUrl && touchColor && { borderTopColor: touchColor },
+            ]}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

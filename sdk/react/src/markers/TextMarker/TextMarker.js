@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { Text, TouchableWithoutFeedback } from 'react-native';
+import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import styles from './TextMarker.styles';
@@ -62,17 +62,17 @@ export default class TextMarker extends React.Component<Props, State> {
 
     return (
       <TouchableWithoutFeedback onPress={this.handlePress}>
-        <Text
+        <View
           style={[
             styles.root,
             style,
             backgroundColor && { backgroundColor },
             isExpanded && styles.expanded,
           ]}
-          suppressHighlighting
         >
-          {shownText}
-        </Text>
+          <Text style={styles.text} suppressHighlighting>{shownText}</Text>
+          <View style={[styles.triangle, backgroundColor && { borderTopColor: backgroundColor }]} />
+        </View>
       </TouchableWithoutFeedback>
     );
   }
