@@ -6,7 +6,7 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import Marker from '../Marker';
 import styles from './MarkersContainer.styles';
-import type { Marker as MarkerType } from '../types/Marker';
+import type { Marker as MarkerType } from '../../types/Marker';
 
 type Props = {
   duration: number,

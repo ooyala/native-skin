@@ -16,8 +16,8 @@ import ControlBar from '../../controlBar';
 import Log from '../../log';
 import ResponsiveDesignManager from '../../responsiveDesignManager';
 import styles from './BottomOverlay.styles';
-import MarkersContainer from '../MarkersContainer';
-import MarkersProgressBarOverlayContainer from '../MarkersProgressBarOverlayContainer';
+import MarkersContainer from '../markers/MarkersContainer';
+import MarkersProgressBarOverlayContainer from '../markers/MarkersProgressBarOverlayContainer';
 import type { Config } from '../types/Config';
 
 // TODO: Remove, get it from the config.

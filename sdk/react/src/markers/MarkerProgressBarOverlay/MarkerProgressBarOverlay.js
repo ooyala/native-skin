@@ -4,7 +4,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 
 import styles from './MarkerProgressBarOverlay.styles';
-import type { Marker as MarkerType } from '../types/Marker';
+import type { Marker as MarkerType } from '../../types/Marker';
 
 type Props = {
   accentColor?: ?string,
