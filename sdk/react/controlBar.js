@@ -176,7 +176,6 @@ class ControlBar extends Component {
         volumeControlColor: this.getVolumeControlColor(),
       },
       timeDuration: {
-        onPress: this.props.live ? this.props.live.onGoLive : null,
         playHeadTimeStyle: [styles.playheadLabel, {'fontSize': labelFontSize}],
         durationStyle: [styles.durationLabel, {'fontSize': labelFontSize}],
         completeTimeStyle: [styles.completeTimeStyle],
