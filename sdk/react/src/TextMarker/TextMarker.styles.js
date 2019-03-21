@@ -7,7 +7,6 @@ export default StyleSheet.create({
     backgroundColor: 'red',
     bottom: 10,
     color: 'white',
-    left: 0,
     position: 'absolute',
     width: 100,
   },

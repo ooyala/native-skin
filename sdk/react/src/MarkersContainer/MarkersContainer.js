@@ -9,7 +9,6 @@ import styles from './MarkersContainer.styles';
 import type { Marker as MarkerType } from '../types/Marker';
 
 type Props = {
-  accentColor?: ?string,
   duration: number,
   markers: Array<MarkerType>,
   onSeek: number => void,
@@ -17,14 +16,13 @@ type Props = {
 };
 
 const MarkersContainer = ({
-  accentColor, duration, markers, onSeek, style,
+  duration, markers, onSeek, style,
 }: Props) => (
   markers.length > 0
     ? (
       <View style={[styles.root, style]}>
         {markers.map((marker, index) => (
           <Marker
-            accentColor={accentColor}
             duration={duration}
             key={index} // eslint-disable-line react/no-array-index-key
             marker={marker}
@@ -37,7 +35,6 @@ const MarkersContainer = ({
 );
 
 MarkersContainer.defaultProps = {
-  accentColor: undefined,
   style: undefined,
 };
 

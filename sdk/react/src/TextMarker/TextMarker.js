@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Text, TouchableWithoutFeedback } from 'react-native';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import styles from './TextMarker.styles';
 
@@ -10,6 +11,7 @@ const TEXT_MARKER_COLLAPSED_LENGTH = 80;
 type Props = {
   onSeek: () => void,
   text: string,
+  style?: ViewStyleProp,
 };
 
 type State = {
@@ -17,6 +19,10 @@ type State = {
 };
 
 export default class TextMarker extends React.Component<Props, State> {
+  static defaultProps = {
+    style: undefined,
+  };
+
   constructor(props: Props) {
     super(props);
 
@@ -43,7 +49,7 @@ export default class TextMarker extends React.Component<Props, State> {
   }
 
   render() {
-    const { text } = this.props;
+    const { style, text } = this.props;
     const { isExpanded } = this.state;
 
     let shownText = text;
@@ -54,7 +60,7 @@ export default class TextMarker extends React.Component<Props, State> {
 
     return (
       <TouchableWithoutFeedback onPress={this.handlePress}>
-        <Text style={styles.root} suppressHighlighting>{shownText}</Text>
+        <Text style={[styles.root, style]} suppressHighlighting>{shownText}</Text>
       </TouchableWithoutFeedback>
     );
   }
