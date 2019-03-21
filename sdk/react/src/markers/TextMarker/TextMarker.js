@@ -6,9 +6,10 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import styles from './TextMarker.styles';
 
-const TEXT_MARKER_COLLAPSED_LENGTH = 80;
+const TEXT_MARKER_COLLAPSED_LENGTH = 8;
 
 type Props = {
+  backgroundColor?: ?string,
   onSeek: () => void,
   text: string,
   style?: ViewStyleProp,
@@ -20,6 +21,7 @@ type State = {
 
 export default class TextMarker extends React.Component<Props, State> {
   static defaultProps = {
+    backgroundColor: undefined,
     style: undefined,
   };
 
@@ -49,18 +51,28 @@ export default class TextMarker extends React.Component<Props, State> {
   }
 
   render() {
-    const { style, text } = this.props;
+    const { backgroundColor, style, text } = this.props;
     const { isExpanded } = this.state;
 
     let shownText = text;
 
     if (!isExpanded && text.length > TEXT_MARKER_COLLAPSED_LENGTH) {
-      shownText = text.slice(0, TEXT_MARKER_COLLAPSED_LENGTH).concat('...');
+      shownText = text.slice(0, TEXT_MARKER_COLLAPSED_LENGTH - 3).concat('...'); // 3 is the dots length
     }
 
     return (
       <TouchableWithoutFeedback onPress={this.handlePress}>
-        <Text style={[styles.root, style]} suppressHighlighting>{shownText}</Text>
+        <Text
+          style={[
+            styles.root,
+            style,
+            backgroundColor && { backgroundColor },
+            isExpanded && styles.expanded,
+          ]}
+          suppressHighlighting
+        >
+          {shownText}
+        </Text>
       </TouchableWithoutFeedback>
     );
   }

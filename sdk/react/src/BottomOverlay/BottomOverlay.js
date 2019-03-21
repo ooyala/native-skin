@@ -367,11 +367,12 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderMarkersContainer() {
-    const { duration } = this.props;
+    const { config, duration } = this.props;
     const progressBarWidth = this.calculateProgressBarWidth();
 
     return (
       <MarkersContainer
+        accentColor={config.general.accentColor}
         duration={duration}
         markers={markers}
         onSeek={this.handleMarkerSeek}
