@@ -1,16 +1,18 @@
 // @flow
 
 import * as React from 'react';
-import { Image, TouchableWithoutFeedback } from 'react-native';
+import { Image, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import styles from './IconMarker.styles';
 
 type Props = {
+  backgroundColor?: ?string,
   iconUrl: ?string,
   imageUrl: ?string,
   onSeek: () => void,
   style?: ViewStyleProp,
+  touchColor?: ?string,
 };
 
 type State = {
@@ -19,7 +21,9 @@ type State = {
 
 export default class IconMarker extends React.Component<Props, State> {
   static defaultProps = {
+    backgroundColor: undefined,
     style: undefined,
+    touchColor: undefined,
   };
 
   constructor(props: Props) {
@@ -48,7 +52,9 @@ export default class IconMarker extends React.Component<Props, State> {
   }
 
   render() {
-    const { iconUrl, imageUrl, style } = this.props;
+    const {
+      backgroundColor, iconUrl, imageUrl, style, touchColor,
+    } = this.props;
     const { isExpanded } = this.state;
 
     // If the marker is expanded and there is `imageUrl`, we have to use it.
@@ -59,9 +65,29 @@ export default class IconMarker extends React.Component<Props, State> {
       return null;
     }
 
+    const expandedStyles = [];
+
+    // Apply expanded style only if the larger image is present.
+    if (isExpanded && imageUrl) {
+      expandedStyles.push(styles.expanded);
+
+      if (touchColor) {
+        expandedStyles.push({ backgroundColor: touchColor });
+      }
+    }
+
     return (
       <TouchableWithoutFeedback onPress={this.handlePress}>
-        <Image source={{ uri: image }} style={[styles.root, style]} />
+        <View
+          style={[
+            styles.root,
+            style,
+            backgroundColor && { backgroundColor },
+            ...expandedStyles,
+          ]}
+        >
+          <Image source={{ uri: image }} style={styles.image} />
+        </View>
       </TouchableWithoutFeedback>
     );
   }

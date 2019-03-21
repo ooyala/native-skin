@@ -2,32 +2,19 @@
 
 import { StyleSheet } from 'react-native';
 
-const BORDER_WIDTH = 1;
-const COLLAPSED_WIDTH = 64;
-const EXPANDED_WIDTH = 128;
-const FONT_SIZE = 13;
-const PADDING = 2;
+import { MARKERS_SIZES } from '../../../constants';
+import commonMarkerStyle from '../styles/commonMarkerStyle';
 
 export default StyleSheet.create({
   expanded: {
-    width: EXPANDED_WIDTH + 2 * PADDING + 2 * BORDER_WIDTH,
+    width: MARKERS_SIZES.TEXT_EXPANDED_WIDTH + 2 * MARKERS_SIZES.PADDING + 2 * MARKERS_SIZES.BORDER_WIDTH,
   },
   root: {
-    backgroundColor: 'black',
-    borderColor: '#4E4E4E',
-    borderRadius: 2,
-    borderWidth: BORDER_WIDTH,
-    bottom: 6,
+    ...commonMarkerStyle,
     color: 'white',
-    fontSize: FONT_SIZE,
-    lineHeight: FONT_SIZE,
-    padding: PADDING,
-    position: 'absolute',
-    shadowColor: 'black',
-    shadowOffset: { height: 2, width: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
+    fontSize: MARKERS_SIZES.FONT_SIZE,
+    lineHeight: MARKERS_SIZES.FONT_SIZE,
     textAlign: 'center',
-    width: COLLAPSED_WIDTH + 2 * PADDING + 2 * BORDER_WIDTH,
+    width: MARKERS_SIZES.TEXT_COLLAPSED_WIDTH + 2 * MARKERS_SIZES.PADDING + 2 * MARKERS_SIZES.BORDER_WIDTH,
   },
 });

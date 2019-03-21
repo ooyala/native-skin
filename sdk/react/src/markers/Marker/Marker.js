@@ -33,10 +33,12 @@ const Marker = ({
   if (marker.type === 'icon') {
     return (
       <IconMarker
+        backgroundColor={marker.backgroundColor}
         iconUrl={marker.iconUrl}
         imageUrl={marker.imageUrl}
         onSeek={() => onSeek(start)}
         style={{ left }}
+        touchColor={marker.markerColor || accentColor}
       />
     );
   }
