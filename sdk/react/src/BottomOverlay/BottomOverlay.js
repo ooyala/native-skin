@@ -17,7 +17,27 @@ import Log from '../../log';
 import ResponsiveDesignManager from '../../responsiveDesignManager';
 import styles from './BottomOverlay.styles';
 import MarkersContainer from '../MarkersContainer';
+import MarkersProgressBarOverlayContainer from '../MarkersProgressBarOverlayContainer';
 import type { Config } from '../types/Config';
+
+// TODO: Remove, get it from the config.
+const markers = [
+  {
+    markerColor: 'red',
+    start: 5,
+    end: 10,
+    text: 'Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello',
+    type: 'text',
+  },
+  {
+    markerColor: 'green',
+    start: 30,
+    end: 40,
+    iconUrl: 'https://via.placeholder.com/64x64',
+    imageUrl: 'https://via.placeholder.com/40x40',
+    type: 'icon',
+  },
+];
 
 const { AndroidAccessibility } = NativeModules;
 
@@ -340,8 +360,28 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   handleMarkerSeek(position: number) {
-    // TODO: Implement.
-    console.warn('handleMarkerSeek', position);
+    const { duration, handleControlsTouch, onScrub } = this.props;
+
+    handleControlsTouch();
+    onScrub(position / duration);
+  }
+
+  renderMarkersContainer() {
+    const { duration } = this.props;
+    const progressBarWidth = this.calculateProgressBarWidth();
+
+    return (
+      <MarkersContainer
+        duration={duration}
+        markers={markers}
+        onSeek={this.handleMarkerSeek}
+        style={{
+          left: leftMargin,
+          top: this.constructor.calculateTopOffset(progressBarHeight),
+          width: progressBarWidth,
+        }}
+      />
+    );
   }
 
   renderProgressBar(percent: number) {
@@ -360,35 +400,15 @@ export default class BottomOverlay extends React.Component<Props, State> {
     );
   }
 
-  renderMarkersContainer() {
+  renderMarkersProgressBarOverlayContainer() {
     const { config, duration } = this.props;
-    // TODO: Remove, get it from the config.
-    const markers = [
-      {
-        markerColor: 'red',
-        start: 'start',
-        end: 10,
-        text: 'Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello',
-        type: 'text',
-      },
-      {
-        markerColor: 'green',
-        start: 30,
-        end: 40,
-        iconUrl: 'https://via.placeholder.com/64x64',
-        imageUrl: 'https://via.placeholder.com/40x40',
-        type: 'icon',
-      },
-    ];
-
     const progressBarWidth = this.calculateProgressBarWidth();
 
     return (
-      <MarkersContainer
+      <MarkersProgressBarOverlayContainer
         accentColor={config.general.accentColor}
         duration={duration}
         markers={markers}
-        onSeek={this.handleMarkerSeek}
         style={{
           height: progressBarHeight,
           left: leftMargin,
@@ -455,22 +475,30 @@ export default class BottomOverlay extends React.Component<Props, State> {
     const { ad, cuePoints } = this.props;
     const { accessibilityEnabled, touch, x } = this.state;
 
+    // MarkersContainer is rendering in a separate stack to avoid touch events interception by the Animated.View
+    // component. It's also placed behind the Animated.View so it will not impact on Animated.View touch handling.
     return (
-      <Animated.View
-        accessibilityLabel={scrubberBarAccessibilityLabel}
-        accessible={accessibilityEnabled}
-        importantForAccessibility="yes"
-        onTouchEnd={this.handleTouchEnd}
-        onTouchMove={this.handleTouchMove}
-        onTouchStart={this.handleTouchStart}
-        style={styles.progressBarStyle}
-        testID={VIEW_NAMES.TIME_SEEK_BAR}
-      >
-        {this.renderProgressBar(playedPercent)}
+      <React.Fragment>
+
         {this.renderMarkersContainer()}
-        {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
-        {this.renderCuePoints(cuePoints)}
-      </Animated.View>
+
+        <Animated.View
+          accessibilityLabel={scrubberBarAccessibilityLabel}
+          accessible={accessibilityEnabled}
+          importantForAccessibility="yes"
+          onTouchEnd={this.handleTouchEnd}
+          onTouchMove={this.handleTouchMove}
+          onTouchStart={this.handleTouchStart}
+          style={styles.progressBarStyle}
+          testID={VIEW_NAMES.TIME_SEEK_BAR}
+        >
+          {this.renderProgressBar(playedPercent)}
+          {this.renderMarkersProgressBarOverlayContainer()}
+          {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
+          {this.renderCuePoints(cuePoints)}
+        </Animated.View>
+
+      </React.Fragment>
     );
   }
 
