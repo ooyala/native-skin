@@ -91,6 +91,13 @@ class CastDevicesScreen extends Component {
     onDeviceSelected(deviceNames[rowID], deviceIds[rowID]);
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { deviceNames } = nextProps;
+    return {
+      dataSource: ds.cloneWithRows(deviceNames),
+    };
+  }
+
   renderCastDevicesScreen(animationStyle, castButton, castButtonActive, dismissButtonRow) {
     const { height, width } = this.props;
     const { dataSource } = this.state;
