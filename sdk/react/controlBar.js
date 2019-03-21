@@ -39,7 +39,8 @@ class ControlBar extends Component {
     stereoSupported: PropTypes.bool,
     showMoreOptionsButton: PropTypes.bool,
     showAudioAndCCButton: PropTypes.bool,
-    showPlaybackSpeedButton: PropTypes.bool
+    showPlaybackSpeedButton: PropTypes.bool,
+    inCastMode: PropTypes.bool,
   };
 
   static defaultProps = {playhead: 0, duration: 0};
@@ -146,8 +147,10 @@ class ControlBar extends Component {
       android: this.props.config.controlBar.logo.imageResource.androidResource
     });
 
+    let castEnabled = this.props.config.castControls.enabled;
+    let color = this.props.inCastMode ? this.props.config.castControls.iconStyle.active.color : this.props.config.castControls.iconStyle.inactive.color;
+    let castIcon = this.props.inCastMode ? this.props.config.icons['chromecast-connected'] : this.props.config.icons['chromecast-disconnected'];
     let controlBarWidgets = [];
-
     const widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
@@ -203,14 +206,13 @@ class ControlBar extends Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
-        enabled: this.props.showMoreOptionsButton
       },
-      cast: {
+      chromecast: {
         onPress: this.onCastPress,
         iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.config.icons['chromecast-disconnected'],
-        enabled: this.props.cast
+        style: [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active, {color: color}],
+        icon: castIcon,
+        enabled: castEnabled,
       },
       discovery: {
         onPress: this.onDiscoveryPress,
@@ -228,7 +230,7 @@ class ControlBar extends Component {
         shouldShow: Utils.shouldShowLandscape(this.props.width, this.props.height),
         style: styles.waterMarkImage,
         icon: waterMarkName,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
       },
       stereoscopic: {
         onPress: this.onStereoscopicPress,
@@ -274,7 +276,6 @@ class ControlBar extends Component {
     }
 
     this.props.config.buttons.forEach(_isVisible, this);
-    //Log.warn('collapse isVisible Results:'+JSON.stringify(this.props.config.buttons));
 
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 

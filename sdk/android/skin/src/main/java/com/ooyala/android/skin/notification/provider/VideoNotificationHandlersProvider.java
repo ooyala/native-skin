@@ -3,6 +3,10 @@ package com.ooyala.android.skin.notification.provider;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.skin.OoyalaSkinLayoutController;
 import com.ooyala.android.skin.notification.OoyalaNotificationHandler;
+import com.ooyala.android.skin.notification.cast.CastConnectingNotificationHandler;
+import com.ooyala.android.skin.notification.cast.CastPressedNotificationHandler;
+import com.ooyala.android.skin.notification.cast.CastConnectedNotificationHandler;
+import com.ooyala.android.skin.notification.cast.CastDisconnectedNotificationHandler;
 import com.ooyala.android.skin.notification.common.*;
 import com.ooyala.android.skin.notification.video.*;
 
@@ -37,7 +41,12 @@ public class VideoNotificationHandlersProvider implements NotificationHandlersPr
     handlers.add(new ClosedCaptionsLanguageChangedNotificationHandler(player, layoutController));
     handlers.add(new AdStartedNotificationHandler(player, layoutController));
     handlers.add(new AdErrorNotificationHandler(player, layoutController));
+
     handlers.add(new CastPressedNotificationHandler(player, layoutController));
+    handlers.add(new CastConnectingNotificationHandler(player, layoutController));
+    handlers.add(new CastConnectedNotificationHandler(player, layoutController));
+    handlers.add(new CastDisconnectedNotificationHandler(player, layoutController));
+
     handlers.add(new LiveCcChangedNotificationHandler(player, layoutController));
     handlers.add(new ManifestCcChangedNotificationHandler(player, layoutController));
     handlers.add(new AdOverlayNotificationHandler(player, layoutController));

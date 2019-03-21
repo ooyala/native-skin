@@ -44,7 +44,7 @@ class OoyalaSkinCore {
 
   handleLanguageSelection(e) {
     Log.log('onLanguageSelected:' + e);
-    this.skin.setState({ 
+    this.skin.setState({
       selectedLanguage: e
     });
     this.bridge.onLanguageSelected({ language: e });
@@ -131,8 +131,8 @@ class OoyalaSkinCore {
         this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MORE_DETAILS);
         break;
       case BUTTON_NAMES.CAST:
-        this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CAST);
-        break;
+            this.pushToOverlayStack(OVERLAY_TYPES.CAST_DEVICES);
+            break;
       case BUTTON_NAMES.CAST_AIRPLAY:
         this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CAST_AIRPLAY);
         break;
@@ -146,6 +146,10 @@ class OoyalaSkinCore {
   handleScrub(value) {
     this.bridge.onScrub({ percentage: value });
   }
+
+      handleSwitch(isForward) {
+            this.bridge.onSwitch({direction: isForward});
+      };
 
   handleIconPress(index) {
     this.bridge.onPress({ name: BUTTON_NAMES.AD_ICON, index: index })
@@ -238,7 +242,11 @@ class OoyalaSkinCore {
     });
   }
 
-  handleVideoTouchEnd(event) {
+      handleCastDisconnect() {
+            this.bridge.onCastDisconnectPressed();
+      };
+
+      handleVideoTouchEnd(event) {
     //return boolean -> touch end was in clickRadius from touch start
     let isClick = function (endX, endY) {
       return Math.sqrt((endX - startedClickX) * (endX - startedClickX) +

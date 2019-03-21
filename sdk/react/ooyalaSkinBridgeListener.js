@@ -1,14 +1,14 @@
 /**
  * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge
  */
-import { 
-  Platform 
+import {
+  Platform
 } from 'react-native';
 
 import {
   CONTENT_TYPES,
   SCREEN_TYPES,
-  OVERLAY_TYPES
+  OVERLAY_TYPES,
 } from './constants';
 import Log from './log';
 
@@ -50,6 +50,9 @@ class OoyalaSkinBridgeListener {
       { event: 'controllerKeyPressEvent',  action: (event) => this.onControllerKeyPressed(event)        },
       { event: 'vrContentEvent',           action: (event) => this.handleVideoHasVRContent(event)       },
       { event: 'castDevicesAvailable',     action: (event) => this.handleCastDevicesAvailable(event)    },
+      { event: 'castConnected',            action: (event) => this.handleCastConnected(event)           },
+      { event: 'castDisconnected',         action: (event) => this.handleCastDisconnected(event)        },
+      { event: 'castConnecting',           action: (event) => this.handleCastModeConnecting(event)      },
       { event: 'multiAudioEnabled',        action: (event) => this.handleVideoHasMultiAudio(event)      },
       { event: 'audioTrackChanged',        action: (event) => this.handleAudioTrackChanged(event)       },
       { event: 'playbackSpeedEnabled',     action: (event) => this.handlePlaybackSpeedEnabled(event)    },
@@ -189,6 +192,7 @@ class OoyalaSkinBridgeListener {
       live: e.live,
       promoUrl: e.promoUrl,
       hostedAtUrl: e.hostedAtUrl,
+      playhead: e.playhead,
       width: e.width,
       height: e.height,
       volume: e.volume,
@@ -229,7 +233,7 @@ class OoyalaSkinBridgeListener {
         SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
       autoPlay: false,
       onPlayComplete: false,
-      isRootPipButtonVisible: e.isPipButtonVisible
+      isRootPipButtonVisible: e === null ? false : e.isPipButtonVisible,
     });
   };
 
@@ -369,6 +373,34 @@ class OoyalaSkinBridgeListener {
       castListIds: e.castDeviceIds,
       castListNames: e.castDeviceNames
     });
+  };
+
+
+  handleCastConnected(e) {
+    this.core.clearOverlayStack();
+    this.skin.setState({
+      connectedDeviceName: e.connectedDeviceName,
+      inCastMode: true,
+      playing: e.state === "PLAYING",
+      loading: false,
+      initialPlay: this.skin.state.screenType == SCREEN_TYPES.START_SCREEN,
+      screenType: this.skin.state.contentType == CONTENT_TYPES.AUDIO ?
+        SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
+      onPlayComplete: false,
+      previewUrl: e.previewUrl,
+    });
+  };
+
+  handleCastDisconnected(e) {
+    this.core.popFromOverlayStackAndMaybeResume({});
+    this.skin.setState({
+      inCastMode: false,
+      connectedDeviceName: null,
+    });
+  };
+
+  handleCastModeConnecting(e) {
+    this.core.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CAST_CONNECTING);
   };
 
   handleAudioTrackChanged(e) {
