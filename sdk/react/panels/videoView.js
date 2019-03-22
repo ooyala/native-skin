@@ -61,6 +61,7 @@ class VideoView extends Component {
     screenReaderEnabled: PropTypes.bool,
     closedCaptionsLanguage: PropTypes.string,
     availableClosedCaptionsLanguages: PropTypes.array,
+    audioTracksTitles: PropTypes.array,
     caption: PropTypes.string,
     captionStyles: PropTypes.object,
     showWatermark: PropTypes.bool,
@@ -128,10 +129,10 @@ class VideoView extends Component {
   };
 
   _renderBottomOverlay = (show) => {
-    const ccEnabled =
-      this.props.availableClosedCaptionsLanguages &&
-      this.props.availableClosedCaptionsLanguages.length > 0;
-
+    const ccEnabled = this.props.availableClosedCaptionsLanguages 
+                   && this.props.availableClosedCaptionsLanguages.length > 0;
+    const hasMultiAudioTracks = this.props.audioTracksTitles 
+                             && this.props.audioTracksTitles.length > 1;
     return (
       <BottomOverlay
         width={this.props.width}
@@ -161,7 +162,8 @@ class VideoView extends Component {
           icons: this.props.config.icons,
           live: this.props.config.live,
           general: this.props.config.general,
-          selectedPlaybackSpeedRate: this.props.selectedPlaybackSpeedRate
+          selectedPlaybackSpeedRate: this.props.selectedPlaybackSpeedRate,
+          hasMultiAudioTracks: hasMultiAudioTracks,
         }}>
       </BottomOverlay>
     );
