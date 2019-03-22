@@ -148,7 +148,7 @@ class ControlBar extends Component {
 
   render() {
     const {
-      config, live, width, height,
+      config, live, width, height, showAudioAndCCButton,
     } = this.props;
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_ICONSIZE);
     const labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_LABELSIZE);
@@ -166,7 +166,7 @@ class ControlBar extends Component {
     const color = this.props.inCastMode ? config.castControls.iconStyle.active.color : config.castControls.iconStyle.inactive.color;
     const castIcon = this.props.inCastMode ? config.icons['chromecast-connected'] : config.icons['chromecast-disconnected'];
     const controlBarWidgets = [];
-    
+
 
     const widgetOptions = {
       playPause: {
@@ -259,8 +259,8 @@ class ControlBar extends Component {
         onPress: this.onAudioAndCCPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
-        icon: config.icons.audioAndCC,
-        enabled: this.props.showAudioAndCCButton,
+        icon: config.hasMultiAudioTracks ? config.icons.audioAndCC : config.icons.cc,
+        enabled: showAudioAndCCButton,
       },
       playbackSpeed: {
         onPress: this.onPlaybackSpeedPress,

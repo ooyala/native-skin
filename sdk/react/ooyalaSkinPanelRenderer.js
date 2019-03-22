@@ -281,6 +281,7 @@ class OoyalaSkinPanelRenderer {
         closedCaptionsLanguage={this.skin.state.selectedLanguage}
         // todo: change to boolean showCCButton.
         availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
+        audioTracksTitles={this.skin.state.audioTracksTitles}
         caption={this.skin.state.caption}
         captionStyles={{
           textSize: this.skin.state.ccTextSize,
