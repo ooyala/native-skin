@@ -1,18 +1,31 @@
-/**
- * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge
- */
-import { 
-  Platform 
-} from 'react-native';
+// @flow
+import { Platform } from 'react-native';
 
-import {
-  CONTENT_TYPES,
-  SCREEN_TYPES,
-  OVERLAY_TYPES
-} from './constants';
+import { CONTENT_TYPES, OVERLAY_TYPES, SCREEN_TYPES } from './constants';
 import Log from './log';
+import type { Marker } from './src/types/Marker';
 
-class OoyalaSkinBridgeListener {
+/**
+ * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge.
+ */
+export default class OoyalaSkinBridgeListener {
+  static parseMarkers(markers: ?Array<string>): Array<Marker> {
+    if (!markers) {
+      return [];
+    }
+
+    return markers
+      .map((serializedJson) => {
+        try {
+          return JSON.parse(serializedJson);
+        } catch (error) {
+          Log.error('Error caught trying parse serialized marker JSON', error);
+          return null;
+        }
+      })
+      .filter(marker => Boolean(marker));
+  }
+
   constructor(ooyalaSkin, ooyalaCore) {
     Log.log('SkinBridgeListener Created');
     this.skin = ooyalaSkin;
@@ -194,7 +207,8 @@ class OoyalaSkinBridgeListener {
       volume: e.volume,
       caption: null,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
-      contentType: e.contentType
+      contentType: e.contentType,
+      markers: this.constructor.parseMarkers(e.markers),
     });
 
     if (!this.skin.state.autoPlay) {
@@ -393,6 +407,4 @@ class OoyalaSkinBridgeListener {
       selectedPlaybackSpeedRate: parseFloat(e.selectedPlaybackSpeedRate)
     });
   };
-};
-
-module.exports = OoyalaSkinBridgeListener;
+}

@@ -48,6 +48,7 @@ class OoyalaSkin extends Component {
     showPlayButton: true,
     isRootPipActivated: false,
     isRootPipButtonVisible: false,
+    markers: [],
     // things which default to null and thus don't have to be stated:
     // selectedLanguage: null,
     // availableClosedCaptionsLanguages: null,
