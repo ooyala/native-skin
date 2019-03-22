@@ -122,28 +122,26 @@ class controlBarWidget extends Component {
     );
   };
 
-  timeDurationWidget = (options) => {
-    if (options.onPress) {
-      return (
-        <TouchableHighlight
-          onPress={options.onPress}>
-          <Text style={options.style}>
-            {options.durationString}
-          </Text>
-        </TouchableHighlight>
-      );
+  _renderLiveCircle = (options) => {
+    if (options.liveCircle) {
+      return (<View style={options.liveCircle}/>);
     } else {
-      const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
-      const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
-      return (
-        <View
-          style={options.completeTimeStyle}
-          accessible={true}>
-          {playHead}
-          {duration}
-        </View>
-      );
+      return null;
     }
+  };
+
+  timeDurationWidget = (options) => {
+    const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
+    const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
+    return (
+      <View
+        style={options.completeTimeStyle}
+        accessible={true}>
+        {this._renderLiveCircle(options)}
+        {playHead}
+        {duration}
+      </View>
+    );
   };
 
   flexibleSpaceWidget = (options) => {

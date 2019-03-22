@@ -75,25 +75,19 @@ class VideoView extends Component {
   };
 
   generateLiveObject = () => {
-    if (this.props.live) {
-      const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
+    const {
+      live, playhead, duration, locale, localizableStrings,
+    } = this.props;
+    if (live) {
+      const isLive = playhead >= duration * VALUES.LIVE_THRESHOLD;
       return ({
-        label:
-          isLive ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) :
-            Utils.localizedString(this.props.locale, 'GO LIVE', this.props.localizableStrings),
-        onGoLive: isLive ? null : this.onGoLive
+        label: Utils.localizedString(locale, 'LIVE', localizableStrings),
+        isLive,
       });
-    } else {
-      return null;
     }
+    return null;
   };
 
-  onGoLive = () => {
-    Log.log('onGoLive');
-    if (this.props.handlers.onScrub) {
-      this.props.handlers.onScrub(1);
-    }
-  };
 
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
