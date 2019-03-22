@@ -75,15 +75,17 @@ class VideoView extends Component {
   };
 
   generateLiveObject = () => {
-    if (this.props.live) {
-      const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
+    const {
+      live, playhead, duration, locale, localizableStrings,
+    } = this.props;
+    if (live) {
+      const isLive = playhead >= duration * VALUES.LIVE_THRESHOLD;
       return ({
-        label: Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings),
-        isLive: isLive
+        label: Utils.localizedString(locale, 'LIVE', localizableStrings),
+        isLive,
       });
-    } else {
-      return null;
     }
+    return null;
   };
 
 
