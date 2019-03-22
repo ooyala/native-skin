@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeArray;
 import com.ooyala.android.AdIconInfo;
 import com.ooyala.android.AdOverlayInfo;
 import com.ooyala.android.AdPodInfo;
@@ -15,6 +16,7 @@ import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.item.CastMediaRoute;
+import com.ooyala.android.item.Marker;
 import com.ooyala.android.item.Video;
 import com.ooyala.android.playback.PlaybackNotificationInfo;
 import com.ooyala.android.player.exoplayer.multiaudio.AudioTrack;
@@ -99,6 +101,15 @@ public class BridgeMessageBuilder {
       params.putInt("width", width);
       params.putInt("height", height);
       params.putDouble("volume", currentVolume);
+
+      WritableArray array = new WritableNativeArray();
+      if (currentItem.getMarkers() != null) {
+        for (Marker marker : currentItem.getMarkers()) {
+          array.pushString(marker.toString());
+        }
+      }
+      params.putArray("markers", array);
+
       if (currentItem.hasClosedCaptions()) {
         WritableArray languages = Arguments.createArray();
         for (String s : currentItem.getClosedCaptions().getLanguagesNames()) {
