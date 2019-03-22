@@ -19,6 +19,7 @@ import styles from './BottomOverlay.styles';
 import MarkersContainer from '../markers/MarkersContainer';
 import MarkersProgressBarOverlayContainer from '../markers/MarkersProgressBarOverlayContainer';
 import type { Config } from '../types/Config';
+import type { Marker } from '../types/Marker';
 
 // TODO: Remove, get it from the config.
 const markers = [
@@ -78,6 +79,7 @@ type Props = {
   showAudioAndCCButton?: ?boolean,
   showPlaybackSpeedButton?: ?boolean,
   showWatermark?: ?boolean,
+  markers: Array<Marker>,
 };
 
 type State = {
@@ -367,6 +369,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderMarkersContainer() {
+    // TODO: Destructure `markers` prop and pass it to the MarkersContainer.
     const { config, duration } = this.props;
     const progressBarWidth = this.calculateProgressBarWidth();
 
@@ -402,6 +405,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderMarkersProgressBarOverlayContainer() {
+    // TODO: Destructure `markers` prop and pass it to the MarkersProgressBarOverlayContainer.
     const { config, duration } = this.props;
     const progressBarWidth = this.calculateProgressBarWidth();
 

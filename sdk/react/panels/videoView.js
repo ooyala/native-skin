@@ -71,7 +71,8 @@ class VideoView extends Component {
     locale: PropTypes.string,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
-    initialPlay: PropTypes.bool
+    initialPlay: PropTypes.bool,
+    markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
 
   state = {};
@@ -143,44 +144,49 @@ class VideoView extends Component {
     }
   };
 
-  _renderBottomOverlay = (show) => {
-    const ccEnabled =
-      this.props.availableClosedCaptionsLanguages &&
-      this.props.availableClosedCaptionsLanguages.length > 0;
+  _renderBottomOverlay(show) {
+    const {
+      availableClosedCaptionsLanguages, config, cuePoints, duration, fullscreen, handlers, height, isPipActivated,
+      isPipButtonVisible, markers, multiAudioEnabled, playbackSpeedEnabled, playhead, playing, screenReaderEnabled,
+      selectedPlaybackSpeedRate, showWatermark, stereoSupported, volume, width,
+    } = this.props;
+
+    const ccEnabled = (availableClosedCaptionsLanguages && availableClosedCaptionsLanguages.length > 0);
 
     return (
       <BottomOverlay
-        width={this.props.width}
-        height={this.props.height}
-        primaryButton={this.props.playing ? 'pause' : 'play'}
-        fullscreen={this.props.fullscreen}
-        isPipActivated={this.props.isPipActivated}
-        isPipButtonVisible={this.props.isPipButtonVisible}
-        cuePoints={this.props.cuePoints}
-        playhead={this.props.playhead}
-        duration={this.props.duration}
-        volume={this.props.volume}
+        width={width}
+        height={height}
+        primaryButton={playing ? 'pause' : 'play'}
+        fullscreen={fullscreen}
+        isPipActivated={isPipActivated}
+        isPipButtonVisible={isPipButtonVisible}
+        cuePoints={cuePoints}
+        playhead={playhead}
+        duration={duration}
+        volume={volume}
         live={this.generateLiveObject()}
-        onPress={(name) => this.handlePress(name)}
-        onScrub={(value) => this.handleScrub(value)}
-        handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
-        showAudioAndCCButton={this.props.multiAudioEnabled || ccEnabled}
-        showPlaybackSpeedButton={this.props.playbackSpeedEnabled}
-        showWatermark={this.props.showWatermark}
+        onPress={name => this.handlePress(name)}
+        onScrub={value => this.handleScrub(value)}
+        handleControlsTouch={() => handlers.handleControlsTouch()}
+        showAudioAndCCButton={multiAudioEnabled || ccEnabled}
+        showPlaybackSpeedButton={playbackSpeedEnabled}
+        showWatermark={showWatermark}
         isShow={show}
-        screenReaderEnabled={this.props.screenReaderEnabled}
-        stereoSupported={this.props.stereoSupported}
+        screenReaderEnabled={screenReaderEnabled}
+        stereoSupported={stereoSupported}
         config={{
-          controlBar: this.props.config.controlBar,
-          buttons: this.props.config.buttons,
-          icons: this.props.config.icons,
-          live: this.props.config.live,
-          general: this.props.config.general,
-          selectedPlaybackSpeedRate: this.props.selectedPlaybackSpeedRate
-        }}>
-      </BottomOverlay>
+          controlBar: config.controlBar,
+          buttons: config.buttons,
+          icons: config.icons,
+          live: config.live,
+          general: config.general,
+          selectedPlaybackSpeedRate,
+        }}
+        markers={markers}
+      />
     );
-  };
+  }
 
   _renderPlaceholder = () => {
     return (
