@@ -105,7 +105,7 @@ public class BridgeMessageBuilder {
       WritableArray array = new WritableNativeArray();
       if (currentItem.getMarkers() != null) {
         for (Marker marker : currentItem.getMarkers()) {
-          array.pushString(marker.toString());
+          array.pushString(marker.toJsonString());
         }
       }
       params.putArray("markers", array);
