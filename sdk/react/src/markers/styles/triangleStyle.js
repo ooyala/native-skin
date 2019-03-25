@@ -3,12 +3,12 @@
 import { MARKERS_SIZES } from '../../../constants';
 
 export default {
+  // Create triangle shape using border magic.
   borderColor: 'transparent',
-  borderLeftWidth: MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
-  borderRightWidth: MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
-  borderTopWidth: 2 * MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
   borderTopColor: '#4E4E4E',
-  bottom: -2 * MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
+  borderWidth: MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
+  borderBottomWidth: 0,
+  bottom: -1 * MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
   height: 0,
   left: '50%',
   position: 'absolute',

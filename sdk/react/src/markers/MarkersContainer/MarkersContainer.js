@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import { View } from 'react-native';
+import { Animated } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import Marker from '../Marker';
@@ -21,7 +21,8 @@ const MarkersContainer = ({
 }: Props) => (
   markers.length > 0
     ? (
-      <View style={[styles.root, style]}>
+      // Path pointer events through the View to its children.
+      <Animated.View pointerEvents="box-none" style={[styles.root, style]}>
         {markers.map((marker, index) => (
           <Marker
             accentColor={accentColor}
@@ -31,7 +32,7 @@ const MarkersContainer = ({
             onSeek={onSeek}
           />
         ))}
-      </View>
+      </Animated.View>
     )
     : null
 );

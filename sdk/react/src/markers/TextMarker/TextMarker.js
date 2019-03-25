@@ -4,6 +4,7 @@ import * as React from 'react';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
+import { MARKERS_SIZES } from '../../../constants';
 import styles from './TextMarker.styles';
 
 const TEXT_MARKER_COLLAPSED_LENGTH = 8;
@@ -70,7 +71,13 @@ export default class TextMarker extends React.Component<Props, State> {
             isExpanded && styles.expanded,
           ]}
         >
-          <Text style={styles.text} suppressHighlighting>{shownText}</Text>
+          <Text
+            numberOfLines={MARKERS_SIZES.TEXT_NUMBER_OF_LINES}
+            style={styles.text}
+            suppressHighlighting
+          >
+            {shownText}
+          </Text>
           <View style={[styles.triangle, backgroundColor && { borderTopColor: backgroundColor }]} />
         </View>
       </TouchableWithoutFeedback>

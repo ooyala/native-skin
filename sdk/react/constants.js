@@ -185,6 +185,11 @@ export const AUTOHIDE_DELAY = 5000;
 
 export const MARKERS_SIZES = {
   BORDER_WIDTH: 1,
+  // Calculate height based on the biggest possible marker which is TextMarker with max lines. The dimensions of
+  // container should cover all markers because touch events are not supported on overflow elements on Android.
+  // Refer https://github.com/facebook/react-native/issues/21455
+  // distance + 2 * padding + 2 * border + number of lines * font size
+  CONTAINER_HEIGHT: 6 + 2 * 2 + 2 + 4 * 13,
   DISTANCE_FROM_BOTTOM: 6,
   FONT_SIZE: 13,
   ICON_COLLAPSED_SIZE: 32,
@@ -192,4 +197,5 @@ export const MARKERS_SIZES = {
   PADDING: 2,
   TEXT_COLLAPSED_WIDTH: 64,
   TEXT_EXPANDED_WIDTH: 128,
+  TEXT_NUMBER_OF_LINES: 4,
 };

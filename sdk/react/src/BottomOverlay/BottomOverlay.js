@@ -4,13 +4,12 @@ import * as React from 'react';
 import {
   AccessibilityInfo, Animated, NativeModules, Platform, Slider, View,
 } from 'react-native';
-import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import AccessibilityUtils from '../../accessibilityUtils';
 import ProgressBar from '../../common/progressBar';
 import {
-  ANNOUNCER_TYPES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
+  ANNOUNCER_TYPES, MARKERS_SIZES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
 } from '../../constants';
 import ControlBar from '../../controlBar';
 import Log from '../../log';
@@ -86,6 +85,7 @@ type State = {
   accessibilityEnabled: boolean,
   cachedPlayhead: number,
   height: AnimatedValue,
+  markersContainerHeight: AnimatedValue,
   opacity: AnimatedValue,
   touch: boolean,
   x: number,
@@ -145,6 +145,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
       cachedPlayhead: -1,
       height: new Animated.Value(props.isShow
         ? ResponsiveDesignManager.makeResponsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
+      markersContainerHeight: new Animated.Value(props.isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
       opacity: new Animated.Value(props.isShow ? 1 : 0),
       touch: false,
       x: 0,
@@ -174,15 +175,17 @@ export default class BottomOverlay extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     const { isShow, width } = this.props;
-    const { height, opacity } = this.state;
+    const { height, markersContainerHeight, opacity } = this.state;
 
     if (prevProps.width !== width && isShow) {
       height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
+      markersContainerHeight.setValue(MARKERS_SIZES.CONTAINER_HEIGHT);
     }
 
     if (prevProps.isShow !== isShow) {
       height.setValue(isShow ? 1 : ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
       opacity.setValue(isShow ? 0 : 1);
+      markersContainerHeight.setValue(isShow ? 0 : MARKERS_SIZES.CONTAINER_HEIGHT);
 
       Animated.parallel([
         Animated.timing(opacity, {
@@ -194,6 +197,11 @@ export default class BottomOverlay extends React.Component<Props, State> {
           delay: 0,
           duration: 500,
           toValue: (isShow ? ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT) : 1),
+        }),
+        Animated.timing(markersContainerHeight, {
+          delay: 0,
+          duration: 500,
+          toValue: (isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
         }),
       ]).start();
     }
@@ -368,26 +376,6 @@ export default class BottomOverlay extends React.Component<Props, State> {
     onScrub(position / duration);
   }
 
-  renderMarkersContainer() {
-    // TODO: Destructure `markers` prop and pass it to the MarkersContainer.
-    const { config, duration } = this.props;
-    const progressBarWidth = this.calculateProgressBarWidth();
-
-    return (
-      <MarkersContainer
-        accentColor={config.general.accentColor}
-        duration={duration}
-        markers={markers}
-        onSeek={this.handleMarkerSeek}
-        style={{
-          left: leftMargin,
-          top: this.constructor.calculateTopOffset(progressBarHeight),
-          width: progressBarWidth,
-        }}
-      />
-    );
-  }
-
   renderProgressBar(percent: number) {
     const { ad, config } = this.props;
 
@@ -480,30 +468,22 @@ export default class BottomOverlay extends React.Component<Props, State> {
     const { ad, cuePoints } = this.props;
     const { accessibilityEnabled, touch, x } = this.state;
 
-    // MarkersContainer is rendering in a separate stack to avoid touch events interception by the Animated.View
-    // component. It's also placed behind the Animated.View so it will not impact on Animated.View touch handling.
     return (
-      <React.Fragment>
-
-        {this.renderMarkersContainer()}
-
-        <Animated.View
-          accessibilityLabel={scrubberBarAccessibilityLabel}
-          accessible={accessibilityEnabled}
-          importantForAccessibility="yes"
-          onTouchEnd={this.handleTouchEnd}
-          onTouchMove={this.handleTouchMove}
-          onTouchStart={this.handleTouchStart}
-          style={styles.progressBarStyle}
-          testID={VIEW_NAMES.TIME_SEEK_BAR}
-        >
-          {this.renderProgressBar(playedPercent)}
-          {this.renderMarkersProgressBarOverlayContainer()}
-          {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
-          {this.renderCuePoints(cuePoints)}
-        </Animated.View>
-
-      </React.Fragment>
+      <Animated.View
+        accessibilityLabel={scrubberBarAccessibilityLabel}
+        accessible={accessibilityEnabled}
+        importantForAccessibility="yes"
+        onTouchEnd={this.handleTouchEnd}
+        onTouchMove={this.handleTouchMove}
+        onTouchStart={this.handleTouchStart}
+        style={styles.progressBarStyle}
+        testID={VIEW_NAMES.TIME_SEEK_BAR}
+      >
+        {this.renderProgressBar(playedPercent)}
+        {this.renderMarkersProgressBarOverlayContainer()}
+        {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
+        {this.renderCuePoints(cuePoints)}
+      </Animated.View>
     );
   }
 
@@ -598,16 +578,56 @@ export default class BottomOverlay extends React.Component<Props, State> {
     );
   }
 
-  renderDefault(widthStyle: ViewStyleProp) {
-    const { height } = this.state;
+  renderBackground() {
+    const { width } = this.props;
+    const { height, opacity } = this.state;
+
+    return (
+      <Animated.View
+        accessible={false}
+        style={[
+          styles.background,
+          { height, opacity, width },
+        ]}
+      />
+    );
+  }
+
+  renderMarkersContainer() {
+    // TODO: Destructure `markers` prop and pass it to the MarkersContainer.
+    const { config, duration } = this.props;
+    const { markersContainerHeight, opacity } = this.state;
+    const progressBarWidth = this.calculateProgressBarWidth();
+
+    return (
+      <MarkersContainer
+        accentColor={config.general.accentColor}
+        duration={duration}
+        markers={markers}
+        onSeek={this.handleMarkerSeek}
+        style={{
+          bottom: -1 * this.constructor.calculateTopOffset(progressBarHeight),
+          // Accessing Animated.Value provides number, so it can be used in arithmetic operations.
+          // $FlowFixMe
+          height: markersContainerHeight,
+          left: leftMargin,
+          opacity,
+          width: progressBarWidth,
+        }}
+      />
+    );
+  }
+
+  renderDefault() {
+    const { width } = this.props;
+    const { height, opacity } = this.state;
 
     return (
       <Animated.View
         accessible={false}
         style={[
           styles.container,
-          widthStyle,
-          { height },
+          { height, opacity, width },
         ]}
       >
 
@@ -623,17 +643,21 @@ export default class BottomOverlay extends React.Component<Props, State> {
     );
   }
 
-  renderLiveWithoutDVR(widthStyle: ViewStyleProp) {
-    const { height } = this.state;
+  renderLiveWithoutDVR() {
+    const { width } = this.props;
+    const { height, opacity } = this.state;
 
     return (
       <Animated.View
         style={[
           styles.container,
-          widthStyle,
-          // Accessing Animated.Value provides number, so it can be used in arithmetic operations.
-          // $FlowFixMe
-          { height: height - 6 },
+          {
+            // Accessing Animated.Value provides number, so it can be used in arithmetic operations.
+            // $FlowFixMe
+            height: height - 6,
+            opacity,
+            width,
+          },
         ]}
       >
         {this.renderControlBar()}
@@ -642,15 +666,24 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   render() {
-    const { config, live, width } = this.props;
-    const { opacity } = this.state;
-
-    const widthStyle = { opacity, width };
+    const { config, live } = this.props;
 
     if (live && (config.live && config.live.forceDvrDisabled)) {
-      return this.renderLiveWithoutDVR(widthStyle);
+      return this.renderLiveWithoutDVR();
     }
 
-    return this.renderDefault(widthStyle);
+    // MarkersContainer is rendering in a separate stack to prevent overflowing by default controls. It's also placed
+    // behind the main bar so it will not impact on main bar controls touches.
+    return (
+      <React.Fragment>
+
+        {this.renderBackground()}
+
+        {this.renderMarkersContainer()}
+
+        {this.renderDefault()}
+
+      </React.Fragment>
+    );
   }
 }
