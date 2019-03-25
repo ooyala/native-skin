@@ -20,25 +20,6 @@ import MarkersProgressBarOverlayContainer from '../markers/MarkersProgressBarOve
 import type { Config } from '../types/Config';
 import type { Marker } from '../types/Marker';
 
-// TODO: Remove, get it from the config.
-const markers = [
-  {
-    markerColor: 'red',
-    start: 5,
-    end: 10,
-    text: 'Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello, world! Hello',
-    type: 'text',
-  },
-  {
-    markerColor: 'green',
-    start: 30,
-    end: 40,
-    iconUrl: 'https://via.placeholder.com/64x64',
-    imageUrl: 'https://via.placeholder.com/40x40',
-    type: 'icon',
-  },
-];
-
 const { AndroidAccessibility } = NativeModules;
 
 const topMargin = 6;
@@ -393,8 +374,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderMarkersProgressBarOverlayContainer() {
-    // TODO: Destructure `markers` prop and pass it to the MarkersProgressBarOverlayContainer.
-    const { config, duration } = this.props;
+    const { config, duration, markers } = this.props;
     const progressBarWidth = this.calculateProgressBarWidth();
 
     return (
@@ -594,8 +574,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderMarkersContainer() {
-    // TODO: Destructure `markers` prop and pass it to the MarkersContainer.
-    const { config, duration } = this.props;
+    const { config, duration, markers } = this.props;
     const { markersContainerHeight, opacity } = this.state;
     const progressBarWidth = this.calculateProgressBarWidth();
 
