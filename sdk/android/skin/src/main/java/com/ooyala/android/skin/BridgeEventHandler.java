@@ -18,11 +18,15 @@ public interface BridgeEventHandler {
 
   void onScrub(ReadableMap percentage);
 
+  void onSwitch(ReadableMap isForward);
+
   void onDiscoveryRow(ReadableMap parameters);
 
   void onLanguageSelected(ReadableMap parameters);
 
   void onCastDeviceSelected(ReadableMap parameters);
+
+  void onCastDisconnectPressed();
 
   void handleTouchStart(ReadableMap parameters);
 

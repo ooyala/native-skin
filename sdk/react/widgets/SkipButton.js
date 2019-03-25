@@ -5,7 +5,7 @@ import {
   Animated
 } from 'react-native';
 
-import { 
+import {
   STRING_CONSTANTS
 } from '../constants';
 import AccessibilityUtils from '../accessibilityUtils';
@@ -16,6 +16,7 @@ const styles = Utils.getStyles(rectButtonStyles);
 
 class SkipButton extends Component {
   static propTypes = {
+    visible: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
     isForward: PropTypes.bool.isRequired,
     timeValue: PropTypes.number.isRequired,
@@ -37,6 +38,9 @@ class SkipButton extends Component {
   }
 
   render() {
+    if(!this.props.visible) {
+      return null;
+    }
     const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, STRING_CONSTANTS.SECONDS);
     const position = {
       position: 'absolute'

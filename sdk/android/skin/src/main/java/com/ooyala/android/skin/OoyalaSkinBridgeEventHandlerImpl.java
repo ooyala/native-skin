@@ -10,7 +10,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
-import com.ooyala.android.item.CastMediaRoute;
+import com.ooyala.android.item.CastDevice;
 import com.ooyala.android.skin.button.SkinButton;
 import com.ooyala.android.util.DebugMode;
 
@@ -128,6 +128,19 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   }
 
+  @Override
+  public void onSwitch(ReadableMap isForward) {
+    final boolean forward = isForward.getBoolean("direction");
+    runOnUiThread(() -> {
+      if (forward) {
+        _player.nextVideo(OoyalaPlayer.DO_PLAY);
+      } else {
+        _player.previousVideo(OoyalaPlayer.DO_PLAY);
+      }
+    });
+
+  }
+
   public void onDiscoveryRow(ReadableMap parameters) {
     String android_id = Settings.Secure.getString(_layoutController.getLayout().getContext().getContentResolver(), Settings.Secure.ANDROID_ID);
     String bucketInfo = parameters.getString("bucketInfo");
@@ -150,12 +163,13 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
 
   @Override
   public void onLanguageSelected(ReadableMap parameters) {
-    String languageName = parameters.getString("language");
-    String languageCode = languageName;
-    if (_player != null && _player.getCurrentItem() != null) {
-      languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
-      _player.setClosedCaptionsLanguage(languageCode);
-    }
+    final String languageName = parameters.getString("language");
+    runOnUiThread(() -> {
+      if (_player != null && _player.getCurrentItem() != null) {
+        String languageCode = _player.getCurrentItem().getLanguageCodeFor(languageName);
+        _player.setClosedCaptionsLanguage(languageCode);
+      }
+    });
   }
 
   @Override
@@ -164,9 +178,14 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     final String castDeviceId = parameters.getString("castDeviceId");
     runOnUiThread(() -> {
       if (_player != null && _player.getCurrentItem() != null) {
-        _player.connectDevice(new CastMediaRoute(castDeviceId, castDeviceName));
+        _player.connectDevice(new CastDevice(castDeviceId, castDeviceName));
       }
     });
+  }
+
+  @Override
+  public void onCastDisconnectPressed() {
+    runOnUiThread(() -> _player.disconnectCast());
   }
 
   @Override

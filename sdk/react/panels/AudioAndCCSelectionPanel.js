@@ -123,8 +123,8 @@ class AudioAndCCSelectionPanel extends Component {
     return (
       <ItemSelectionScrollView
         style={styles.panelItemSelectionView}
-        items={itemsWithLocalizedUndefinedLanguage}
-        selectedItem={selectedLocalizedItem}
+        items={this.props.audioTracksTitles}
+        selectedItem={this.props.selectedAudioTrackTitle}
         onSelect={(item) => this.onAudioTrackSelected(item)}
         config={this.props.config}
         cellType={CELL_TYPES.MULTI_AUDIO}>

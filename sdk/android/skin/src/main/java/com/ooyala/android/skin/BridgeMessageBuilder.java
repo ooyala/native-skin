@@ -15,7 +15,7 @@ import com.ooyala.android.OoyalaException;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.SeekInfo;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
-import com.ooyala.android.item.CastMediaRoute;
+import com.ooyala.android.item.CastDevice;
 import com.ooyala.android.item.Marker;
 import com.ooyala.android.item.Video;
 import com.ooyala.android.playback.PlaybackNotificationInfo;
@@ -362,14 +362,31 @@ public class BridgeMessageBuilder {
     WritableArray castDeviceIds = Arguments.createArray();
 
     if (castMediaRoutes instanceof Set) {
-      Set<CastMediaRoute> castDevicesSet = (Set<CastMediaRoute>) castMediaRoutes;
-      for (CastMediaRoute device : castDevicesSet) {
+      Set<CastDevice> castDevicesSet = (Set<CastDevice>) castMediaRoutes;
+      for (CastDevice device : castDevicesSet) {
         castDeviceIds.pushString(device.getId());
         castDeviceNames.pushString(device.getName());
       }
     }
     params.putArray("castDeviceIds", castDeviceIds);
     params.putArray("castDeviceNames", castDeviceNames);
+    return params;
+  }
+
+  /**
+   * Use it to build Writable map with necessary params as:
+   *
+   * @param connectedDeviceName the name of connected device that will shown on cast control screen
+   * @param state               the start state of player
+   * @param url                 with video preview, to show black background simple keep empty or config skin.json
+   * @return WritableMap with device name
+   */
+  public static WritableMap buildConnectedDeviceNameParams(Object connectedDeviceName, OoyalaPlayer.State state, String url) {
+    WritableMap params = Arguments.createMap();
+
+    params.putString("connectedDeviceName", (String) connectedDeviceName);
+    params.putString("state", state.name());
+    params.putString("previewUrl", url);
     return params;
   }
 

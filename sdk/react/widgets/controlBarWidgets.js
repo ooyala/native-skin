@@ -11,31 +11,33 @@ import {
 import {
   BUTTON_NAMES,
   STRING_CONSTANTS,
-  VIEW_ACCESSIBILITY_NAMES
+  VIEW_ACCESSIBILITY_NAMES,
 } from '../constants';
 import Utils from '../utils';
 import AccessibilityUtils from '../accessibilityUtils';
 import VolumeView from './VolumeView';
 import SkipButton from './SkipButton';
 import PipView from './PiPView';
+import Log from '../log';
+
 import controlBarWidgetStyles from './style/controlBarWidgetStyles.json';
 const styles = Utils.getStyles(controlBarWidgetStyles);
 
 class controlBarWidget extends Component {
   static propTypes = {
     widgetType: PropTypes.object,
-    options: PropTypes.object
+    options: PropTypes.object,
   };
 
   playPauseWidget = (options) => {
     const iconMap = {
       'play': options.playIcon,
       'pause': options.pauseIcon,
-      'replay': options.replayIcon
+      'replay': options.replayIcon,
     };
 
     const fontFamilyStyle = {fontFamily: iconMap[options.primaryActionButton].fontFamilyName};
-    let onPressF = options.primaryActionButton == 'replay' ?
+    let onPressF = options.primaryActionButton === 'replay' ?
                    options.onReplay : options.onPress;
     return (
       <TouchableHighlight
@@ -120,28 +122,26 @@ class controlBarWidget extends Component {
     );
   };
 
-  timeDurationWidget = (options) => {
-    if (options.onPress) {
-      return (
-        <TouchableHighlight
-          onPress={options.onPress}>
-          <Text style={options.style}>
-            {options.durationString}
-          </Text>
-        </TouchableHighlight>
-      );
+  _renderLiveCircle = (options) => {
+    if (options.liveCircle) {
+      return (<View style={options.liveCircle}/>);
     } else {
-      const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
-      const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
-      return (
-        <View
-          style={options.completeTimeStyle}
-          accessible={true}>
-          {playHead}
-          {duration}
-        </View>
-      );
+      return null;
     }
+  };
+
+  timeDurationWidget = (options) => {
+    const playHead = <Text style={options.playHeadTimeStyle} accessibilityLabel={options.playHeadTimeString + STRING_CONSTANTS.SECONDS}>{options.playHeadTimeString}</Text>;
+    const duration = <Text style={options.durationStyle} accessibilityLabel={options.durationString + STRING_CONSTANTS.TOTAL_SECONDS}>{options.durationString}</Text>;
+    return (
+      <View
+        style={options.completeTimeStyle}
+        accessible={true}>
+        {this._renderLiveCircle(options)}
+        {playHead}
+        {duration}
+      </View>
+    );
   };
 
   flexibleSpaceWidget = (options) => {
@@ -221,14 +221,18 @@ class controlBarWidget extends Component {
   };
 
   castWidget = (options) => {
-    const fontFamilyStyle = {fontFamily: options.icon.fontFamilyName};
+    const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+    if (!options.enabled || options.enabled === undefined) {
+      return null;
+    }
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.CAST}
         accessible={true}
         accessibilityLabel={BUTTON_NAMES.CAST}
-        style={[options.iconTouchableStyle]}
-        onPress={options.onPress}>
+        style={[options.iconTouchableStyle, options.enabled]}
+        onPress={options.onPress}
+      >
         <Text style={[options.style, fontFamilyStyle]}>
           {options.icon.fontString}
         </Text>
@@ -359,8 +363,8 @@ class controlBarWidget extends Component {
       'rewind': this.rewindWidget,
       'discovery': this.discoveryWidget,
       'fullscreen': this.fullscreenWidget,
+      'chromecast': this.castWidget,
       'pipButton': this.pipButtonWidget,
-      'cast': this.castWidget,
       'moreOptions': this.moreOptionsWidget,
       'watermark': this.watermarkWidget,
       'share': this.shareWidget,

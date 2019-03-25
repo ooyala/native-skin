@@ -18,6 +18,7 @@ export const UI_SIZES = {
   CONTROLBAR_ICONSIZE: 20,
   CONTROLBAR_LABELSIZE: 16,
   CC_PREVIEW_HEIGHT: 80,
+  CAST_AIR_SCREEN_HEIGHT: 200,
 };
 
 export const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
@@ -25,8 +26,10 @@ export const BUTTON_NAMES = { // must match Objective-C code expectations & skin
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'fullscreen',
   MORE: 'moreOptions',
-  CAST: 'cast',
+  CAST: 'chromecast',
   CAST_AIRPLAY: 'castAirplay',
+  CAST_CONNECTED: 'cast_connected',
+  DISCONNECT: 'disconnect',
   DISMISS: 'dismiss',
   VOLUME: 'volume',
   REPLAY: 'replay',
@@ -93,8 +96,10 @@ export const OVERLAY_TYPES = {
   PLAYBACK_SPEED_SCREEN: 'playbackSpeedScreen',
   VOLUME_SCREEN: 'volumeScreen',
   MORE_DETAILS: 'moreDetails',
-  CAST: 'cast',
   CAST_AIRPLAY: 'castAirplay',
+  CAST_DEVICES: 'cast_devices',
+  CAST_CONNECTING: 'cast_connecting',
+  CAST_CONNECTED: 'cast_connected',
 };
 
 export const DESIRED_STATES = {

@@ -71,6 +71,11 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   }
 
   @ReactMethod
+  public void onSwitch(ReadableMap isForward) {
+    handler.onSwitch(isForward);
+  }
+
+  @ReactMethod
   public void onDiscoveryRow(ReadableMap parameters) {
     handler.onDiscoveryRow(parameters);
   }
@@ -83,6 +88,11 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   @ReactMethod
   public void onCastDeviceSelected(ReadableMap parameters) {
     handler.onCastDeviceSelected(parameters);
+  }
+
+  @ReactMethod
+  public void onCastDisconnectPressed() {
+    handler.onCastDisconnectPressed();
   }
 
   @ReactMethod

@@ -61,6 +61,7 @@ class VideoView extends Component {
     screenReaderEnabled: PropTypes.bool,
     closedCaptionsLanguage: PropTypes.string,
     availableClosedCaptionsLanguages: PropTypes.array,
+    audioTracksTitles: PropTypes.array,
     caption: PropTypes.string,
     captionStyles: PropTypes.object,
     showWatermark: PropTypes.bool,
@@ -75,41 +76,25 @@ class VideoView extends Component {
     markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
 
-  state = {};
-
   generateLiveObject = () => {
-    if (this.props.live) {
-      const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
+    const {
+      live, playhead, duration, locale, localizableStrings,
+    } = this.props;
+    if (live) {
+      const isLive = playhead >= duration * VALUES.LIVE_THRESHOLD;
       return ({
-        label:
-          isLive ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) :
-            Utils.localizedString(this.props.locale, 'GO LIVE', this.props.localizableStrings),
-        onGoLive: isLive ? null : this.onGoLive
+        label: Utils.localizedString(locale, 'LIVE', localizableStrings),
+        isLive,
       });
-    } else {
-      return null;
     }
+    return null;
   };
 
-  onGoLive = () => {
-    Log.log('onGoLive');
-    if (this.props.handlers.onScrub) {
-      this.props.handlers.onScrub(1);
-    }
-  };
 
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
-    if (this.state.showControls) {
-      if (name === 'LIVE') {
-        this.props.handlers.onScrub(1);
-      } else {
-        this.props.handlers.onPress(name);
-      }
-    } else {
-      this.props.handlers.showControls();
-      this.props.handlers.onPress(name);
-    }
+    this.props.handlers.showControls();
+    this.props.handlers.onPress(name);
   };
 
   onSeekPressed = (skipCountValue) => {
@@ -152,6 +137,8 @@ class VideoView extends Component {
     } = this.props;
 
     const ccEnabled = (availableClosedCaptionsLanguages && availableClosedCaptionsLanguages.length > 0);
+    const hasMultiAudioTracks = this.props.audioTracksTitles
+      && this.props.audioTracksTitles.length > 1;
 
     return (
       <BottomOverlay
@@ -177,11 +164,13 @@ class VideoView extends Component {
         stereoSupported={stereoSupported}
         config={{
           controlBar: config.controlBar,
+          castControls: config.castControls,
           buttons: config.buttons,
           icons: config.icons,
           live: config.live,
           general: config.general,
           selectedPlaybackSpeedRate,
+          hasMultiAudioTracks,
         }}
         markers={markers}
       />
