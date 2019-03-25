@@ -47,6 +47,7 @@ class OoyalaSkin extends Component {
     lastPressedTime: new Date(0),
     upNextDismissed: false,
     showPlayButton: true,
+    markers: [],
     // things which default to null and thus don't have to be stated:
     // selectedLanguage: null,
     // availableClosedCaptionsLanguages: null,

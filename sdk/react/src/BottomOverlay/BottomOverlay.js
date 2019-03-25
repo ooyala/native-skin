@@ -45,7 +45,7 @@ type Props = {
   playhead: number,
   duration: number,
   ad?: ?{},
-  volume?: ?number,
+  volume: number,
   onPress?: ?(() => void),
   onScrub: (number) => void,
   handleControlsTouch: () => void,
@@ -58,6 +58,7 @@ type Props = {
   showMoreOptionsButton?: ?boolean,
   showAudioAndCCButton?: ?boolean,
   showPlaybackSpeedButton?: ?boolean,
+  inCastMode?: ?boolean,
   showWatermark?: ?boolean,
   markers: Array<Marker>,
 };
@@ -81,7 +82,6 @@ export default class BottomOverlay extends React.Component<Props, State> {
     isPipButtonVisible: undefined,
     cuePoints: undefined,
     ad: undefined,
-    volume: undefined,
     onPress: undefined,
     isShow: undefined,
     screenReaderEnabled: undefined,
@@ -91,6 +91,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     showMoreOptionsButton: true,
     showAudioAndCCButton: true,
     showPlaybackSpeedButton: undefined,
+    inCastMode: undefined,
     showWatermark: undefined,
   };
 
@@ -531,7 +532,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     const {
       duration, primaryButton, playhead, volume, live, width, height, fullscreen, isPipActivated, isPipButtonVisible,
       onPress, handleControlsTouch, showWatermark, config, stereoSupported, showMoreOptionsButton, showAudioAndCCButton,
-      showPlaybackSpeedButton,
+      showPlaybackSpeedButton, inCastMode,
     } = this.props;
 
     return (
@@ -554,6 +555,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
         showMoreOptionsButton={showMoreOptionsButton}
         showAudioAndCCButton={showAudioAndCCButton}
         showPlaybackSpeedButton={showPlaybackSpeedButton}
+        inCastMode={inCastMode}
       />
     );
   }

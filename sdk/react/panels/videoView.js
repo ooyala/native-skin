@@ -131,14 +131,12 @@ class VideoView extends Component {
 
   _renderBottomOverlay(show) {
     const {
-      availableClosedCaptionsLanguages, config, cuePoints, duration, fullscreen, handlers, height, isPipActivated,
-      isPipButtonVisible, markers, multiAudioEnabled, playbackSpeedEnabled, playhead, playing, screenReaderEnabled,
-      selectedPlaybackSpeedRate, showWatermark, stereoSupported, volume, width,
+      audioTracksTitles, availableClosedCaptionsLanguages, config, cuePoints, duration, fullscreen, handlers, height,
+      isPipActivated, isPipButtonVisible, markers, multiAudioEnabled, playbackSpeedEnabled, playhead, playing,
+      screenReaderEnabled, selectedPlaybackSpeedRate, showWatermark, stereoSupported, volume, width,
     } = this.props;
 
     const ccEnabled = (availableClosedCaptionsLanguages && availableClosedCaptionsLanguages.length > 0);
-    const hasMultiAudioTracks = this.props.audioTracksTitles
-      && this.props.audioTracksTitles.length > 1;
 
     return (
       <BottomOverlay
@@ -170,7 +168,7 @@ class VideoView extends Component {
           live: config.live,
           general: config.general,
           selectedPlaybackSpeedRate,
-          hasMultiAudioTracks,
+          hasMultiAudioTracks: (audioTracksTitles && audioTracksTitles.length > 1),
         }}
         markers={markers}
       />
