@@ -3,29 +3,12 @@ import { Platform } from 'react-native';
 
 import { CONTENT_TYPES, OVERLAY_TYPES, SCREEN_TYPES } from './constants';
 import Log from './log';
-import type { Marker } from './src/types/Marker';
+import { parseInputArray as parseMarkersInputArray } from './src/markers/lib';
 
 /**
  * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge.
  */
 export default class OoyalaSkinBridgeListener {
-  static parseMarkers(markers: ?Array<string>): Array<Marker> {
-    if (!markers) {
-      return [];
-    }
-
-    return markers
-      .map((serializedJson) => {
-        try {
-          return JSON.parse(serializedJson);
-        } catch (error) {
-          Log.error('Error caught trying parse serialized marker JSON', error);
-          return null;
-        }
-      })
-      .filter(marker => Boolean(marker));
-  }
-
   constructor(ooyalaSkin, ooyalaCore) {
     Log.log('SkinBridgeListener Created');
     this.skin = ooyalaSkin;
@@ -212,7 +195,7 @@ export default class OoyalaSkinBridgeListener {
       caption: null,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
       contentType: e.contentType,
-      markers: this.constructor.parseMarkers(e.markers),
+      markers: parseMarkersInputArray(e.markers),
     });
 
     if (!this.skin.state.autoPlay) {
