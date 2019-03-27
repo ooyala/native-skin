@@ -188,7 +188,6 @@ export default class OoyalaSkinBridgeListener {
       live: e.live,
       promoUrl: e.promoUrl,
       hostedAtUrl: e.hostedAtUrl,
-      playhead: e.playhead,
       width: e.width,
       height: e.height,
       volume: e.volume,
