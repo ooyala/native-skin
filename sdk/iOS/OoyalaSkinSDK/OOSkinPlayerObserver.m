@@ -63,6 +63,7 @@ static NSString *videoKey                     = @"video";
 static NSString *audioKey                     = @"audio";
 static NSString *playbackSpeedEnabledKey      = @"playbackSpeedEnabled";
 static NSString *selectedPlaybackSpeedRateKey = @"selectedPlaybackSpeedRate";
+static NSString *markersKey                   = @"markers";
 
 static NSString *languagesKey        = @"languages";
 static NSString *availableCCLangsKey = @"availableClosedCaptionsLanguages";
@@ -291,6 +292,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *volume                 = @(OOAudioSession.sharedInstance.applicationVolume);
   NSString *contentType            = OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
                                      @"Audio" : @"Video";
+  NSArray *markersStrings          = [self.player.currentItem markersJSONArray];
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
@@ -302,7 +304,9 @@ static NSString *requireAdBarKey = @"requireAdBar";
                               widthKey:       frameWidth,
                               heigthKey:      frameHeight,
                               volumeKey:      volume,
-                              contentTypeKey: contentType};
+                              contentTypeKey: contentType,
+                              markersKey:     markersStrings
+                              };
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
 }

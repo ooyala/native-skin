@@ -9,7 +9,7 @@ import CastPlayPauseButtons from '../../widgets/CastPlayPauseButtons';
 import Utils from '../../utils';
 import castConnectedStyles from '../style/CastConnectedStyles.json';
 import ResponsiveDesignManager from '../../responsiveDesignManager';
-import BottomOverlay from '../../bottomOverlay';
+import BottomOverlay from '../../src/BottomOverlay';
 
 const styles = Utils.getStyles(castConnectedStyles);
 

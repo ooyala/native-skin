@@ -1,12 +1,16 @@
-const CONTENT_TYPES = {
+// @flow
+/* eslint-disable max-len */
+// `max-len` rule disabled because sometimes strings can be huge.
+
+export const CONTENT_TYPES = {
   CHANNEL_SET: 'MultiChannel',
   CHANNEL: 'Channel',
   VIDEO: 'Video',
   LIVE_STREAM: 'LiveStream',
-  AUDIO: 'Audio'
+  AUDIO: 'Audio',
 };
 
-const UI_SIZES = {
+export const UI_SIZES = {
   VIDEOVIEW_PLAYPAUSE: 60,
   CONTROLBAR_HEIGHT: 75,
   VIDEOWATERMARK: 30,
@@ -17,7 +21,7 @@ const UI_SIZES = {
   CAST_AIR_SCREEN_HEIGHT: 200,
 };
 
-const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
+export const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PLAY: 'Play',
   PLAY_PAUSE: 'PlayPause',
   FULLSCREEN: 'fullscreen',
@@ -52,27 +56,27 @@ const BUTTON_NAMES = { // must match Objective-C code expectations & skin.json.
   PIP: 'PIP',
   UP_NEXT: 'Select up next',
   CLOSED_CAPTIONS: 'closedCaption',
-  MORE_DETAILS: 'moreDetails'
+  MORE_DETAILS: 'moreDetails',
 };
 
-const VIEW_NAMES = {
+export const VIEW_NAMES = {
   // Time seek bar views
   TIME_SEEK_BAR: 'seekBar',
   TIME_SEEK_BAR_THUMB: 'seekBar_thumb',
   TIME_SEEK_BAR_PLAYED: 'seekBar_played',
   TIME_SEEK_BAR_BACKGROUND: 'seekBar_background',
-  TIME_SEEK_BAR_BUFFERED: 'seekBar_buffered'
+  TIME_SEEK_BAR_BUFFERED: 'seekBar_buffered',
 };
 
-const IMG_URLS = {
+export const IMG_URLS = {
   FACEBOOK: 'http://static1.squarespace.com/static/54823afbe4b023af78555735/549860e4e4b03ff49a6f3da6/549860e5e4b01fe317edf760/1419276283280/facebook+logo+png+transparent+background.png',
   TWITTER: 'https://g.twimg.com/ios_homescreen_icon.png',
   GOOGLEPLUS: 'https://lh3.ggpht.com/1Ug9gpwI16ARkDni8VYezbIaETcukEtwrnzRyzqWKV2u15SGpZGSmHQDVX0uPlzmgg=w300',
   EMAIL: 'http://www.themissionsuite.com/wp-content/uploads/2014/06/large.png',
-  OOYALA_LOGO: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png'
+  OOYALA_LOGO: 'http://www.palantir.net/presentations/dcamsterdam2014-decoupled-drupal-silex/assets/ooyala-logo.png',
 };
 
-const SCREEN_TYPES = {
+export const SCREEN_TYPES = {
   LOADING_SCREEN: 'loading',
   VIDEO_SCREEN: 'video',
   AUDIO_SCREEN: 'audio',
@@ -82,10 +86,10 @@ const SCREEN_TYPES = {
   PAUSE_SCREEN: 'pause',
   AD_SCREEN: 'ad',
   ERROR_SCREEN: 'error',
-  ERROR_SCREEN_AUDIO: 'error_audio'
+  ERROR_SCREEN_AUDIO: 'error_audio',
 };
 
-const OVERLAY_TYPES = {
+export const OVERLAY_TYPES = {
   DISCOVERY_SCREEN: 'discovery_screen',
   MOREOPTION_SCREEN: 'moreOption',
   AUDIO_AND_CC_SCREEN: 'audioAndCCScreen',
@@ -98,52 +102,55 @@ const OVERLAY_TYPES = {
   CAST_CONNECTED: 'cast_connected',
 };
 
-const DESIRED_STATES = {
+export const DESIRED_STATES = {
   DESIRED_PAUSE: 'desired_pause',
-  DESIRED_PLAY: 'desired_play'
+  DESIRED_PLAY: 'desired_play',
 };
 
-const LOG_LEVEL = {
+export const LOG_LEVEL = {
   VERBOSE: 4,
   INFO: 3,
   WARN: 2,
   ERROR: 1,
-  NONE: 0
+  NONE: 0,
 };
 
-const STRING_CONSTANTS = {
+export const STRING_CONSTANTS = {
   SECONDS: 'seconds',
   TOTAL_SECONDS: 'seconds total time',
-  VIDEO_SEEK_SCRUBBER: 'video scrubber'
+  VIDEO_SEEK_SCRUBBER: 'video scrubber',
 };
 
-const VALUES = {
+export const VALUES = {
   SEEK_VALUE: 10,
   MAX_SKIP_VALUE: 99,
   MIN_SKIP_VALUE: 1,
   MAX_PROGRESS_PERCENT: 100,
   LIVE_THRESHOLD: 0.95,
   LIVE_AUDIO_THRESHOLD: 0.99,
-  DELAY_BETWEEN_SKIPS_MS: 300
+  DELAY_BETWEEN_SKIPS_MS: 300,
 };
 
-const SAS_ERROR_CODES = {
+export const SAS_ERROR_CODES = {
+  // Numbers quoted because they are accessible as string , plus Flow doesn't support numbers as index signature.
+  /* eslint-disable quote-props */
   '22': 'account_device_limit',
-  '29': 'entitlement_device_limit'
+  '29': 'entitlement_device_limit',
+  /* eslint-enable quote-props */
 };
 
-const ERROR_MESSAGE = {
-  'account_device_limit': 'Unable to register this device to this account, as the maximum number of authorized devices has already been reached. Error Code 22',
-  'entitlement_device_limit': 'Unable to access this content, as the maximum number of devices has already been authorized. Error Code 29'
+export const ERROR_MESSAGE = {
+  account_device_limit: 'Unable to register this device to this account, as the maximum number of authorized devices has already been reached. Error Code 22',
+  entitlement_device_limit: 'Unable to access this content, as the maximum number of devices has already been authorized. Error Code 29',
 };
 
-const CELL_TYPES = {
+export const CELL_TYPES = {
   MULTI_AUDIO: 'multi_audio',
   SUBTITLES: 'subtitles',
-  PLAYBACK_SPEED_RATE: 'playback_speed_rate'
+  PLAYBACK_SPEED_RATE: 'playback_speed_rate',
 };
 
-const VIEW_ACCESSIBILITY_NAMES = {
+export const VIEW_ACCESSIBILITY_NAMES = {
   SCRUBBER_BAR_VIEW: 'Scrubber bar',
   VOLUME_VIEW: 'Volume view',
   MULTI_AUDIO_CELL: 'Language cell. Tap twice to choose this audio track',
@@ -159,46 +166,41 @@ const VIEW_ACCESSIBILITY_NAMES = {
   EXIT_FULLSCREEN: 'Exit Fullscreen mode button selected. Double tap to activate.',
   EXIT_PIP: 'Exit PIP mode button selected. Double tap to activate.',
   PLAY_PAUSE_BUTTON: 'button. Tap twice to',
-  PLAYBACK_SPEED_BUTTON: 'Playback speed'
+  PLAYBACK_SPEED_BUTTON: 'Playback speed',
 };
 
-const ACCESSIBILITY_ANNOUNCERS = {
+export const ACCESSIBILITY_ANNOUNCERS = {
   PROGRESS_BAR_MOVING: 'Moving to ',
   PROGRESS_BAR_MOVED: 'Moved to ',
-  SCREEN_MODE_CHANGED: 'Screen mode changed'
+  SCREEN_MODE_CHANGED: 'Screen mode changed',
 };
 
-const ANNOUNCER_TYPES = {
+export const ANNOUNCER_TYPES = {
   MOVING: 'moving',
-  MOVED: 'moved'
+  MOVED: 'moved',
 };
 
-const ACCESSIBILITY_COMMON = {
-  SELECTED: 'selected'
+export const ACCESSIBILITY_COMMON = {
+  SELECTED: 'selected',
 };
 
-const MAX_DATE_VALUE = 8640000000000000;
-const AUTOHIDE_DELAY = 5000;
+export const MAX_DATE_VALUE = 8640000000000000;
 
-export {
-  CONTENT_TYPES,
-  UI_SIZES,
-  BUTTON_NAMES,
-  VIEW_NAMES,
-  IMG_URLS,
-  SCREEN_TYPES,
-  OVERLAY_TYPES,
-  LOG_LEVEL,
-  MAX_DATE_VALUE,
-  AUTOHIDE_DELAY,
-  DESIRED_STATES,
-  STRING_CONSTANTS,
-  VALUES,
-  SAS_ERROR_CODES,
-  ERROR_MESSAGE,
-  CELL_TYPES,
-  VIEW_ACCESSIBILITY_NAMES,
-  ACCESSIBILITY_ANNOUNCERS,
-  ANNOUNCER_TYPES,
-  ACCESSIBILITY_COMMON
+export const AUTOHIDE_DELAY = 5000;
+
+export const MARKERS_SIZES = {
+  BORDER_WIDTH: 1,
+  // Calculate height based on the biggest possible marker which is TextMarker with max lines. The dimensions of
+  // container should cover all markers because touch events are not supported on overflow elements on Android.
+  // Refer https://github.com/facebook/react-native/issues/21455
+  // distance + 2 * padding + 2 * border + number of lines * font size
+  CONTAINER_HEIGHT: 6 + 2 * 2 + 2 + 4 * 13,
+  DISTANCE_FROM_BOTTOM: 6,
+  FONT_SIZE: 13,
+  ICON_COLLAPSED_SIZE: 32,
+  ICON_EXPANDED_SIZE: 64,
+  PADDING: 2,
+  TEXT_COLLAPSED_WIDTH: 64,
+  TEXT_EXPANDED_WIDTH: 128,
+  TEXT_NUMBER_OF_LINES: 4,
 };

@@ -16,7 +16,7 @@ import {
 import Utils from '../utils';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 import InfoPanel from '../infoPanel';
-import BottomOverlay from '../bottomOverlay';
+import BottomOverlay from '../src/BottomOverlay';
 import Log from '../log';
 
 import endScreenStyles from './style/endScreenStyles.json';
@@ -38,7 +38,8 @@ class EndScreen extends Component {
     handleControlsTouch: PropTypes.func,
     loading: PropTypes.bool,
     onScrub: PropTypes.func,
-    showAudioAndCCButton: PropTypes.bool
+    showAudioAndCCButton: PropTypes.bool,
+    markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
 
   state = {
@@ -120,32 +121,41 @@ class EndScreen extends Component {
     this.handleClick(BUTTON_NAMES.PLAY_PAUSE);
   };
 
-  _renderBottomOverlay = (show) => {
-    return (<BottomOverlay
-      width={this.props.width}
-      height={this.props.height}
-      primaryButton={'replay'}
-      playhead={this.props.duration}
-      duration={this.props.duration}
-      volume={this.props.volume}
-      onPress={(name) => this.handlePress(name)}
-      shouldShowProgressBar={true}
-      showWatermark={this.props.showWatermark}
-      handleControlsTouch={() => this.props.handleControlsTouch()}
-      onScrub={(value)=>this.handleScrub(value)}
-      fullscreen={this.props.fullscreen}
-      isShow={show}
-      loading={this.props.loading}
-      showAudioAndCCButton={this.props.showAudioAndCCButton}
-      config={{
-        controlBar: this.props.config.controlBar,
-        castControls: this.props.config.castControls,
-        buttons: this.props.config.buttons,
-        icons: this.props.config.icons,
-        live: this.props.config.live,
-        general: this.props.config.general
-      }} />);
-  };
+  _renderBottomOverlay(show) {
+    const {
+      config, duration, fullscreen, handleControlsTouch, height, loading, markers, showAudioAndCCButton, showWatermark,
+      volume, width,
+    } = this.props;
+
+    return (
+      <BottomOverlay
+        width={width}
+        height={height}
+        primaryButton="replay"
+        playhead={duration}
+        duration={duration}
+        volume={volume}
+        onPress={name => this.handlePress(name)}
+        shouldShowProgressBar
+        showWatermark={showWatermark}
+        handleControlsTouch={() => handleControlsTouch()}
+        onScrub={value => this.handleScrub(value)}
+        fullscreen={fullscreen}
+        isShow={show}
+        loading={loading}
+        showAudioAndCCButton={showAudioAndCCButton}
+        config={{
+          controlBar: config.controlBar,
+          castControls: config.castControls,
+          buttons: config.buttons,
+          icons: config.icons,
+          live: config.live,
+          general: config.general,
+        }}
+        markers={markers}
+      />
+    );
+  }
 
   _renderLoading ()  {
     const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);

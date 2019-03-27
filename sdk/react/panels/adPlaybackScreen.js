@@ -12,7 +12,7 @@ import {
   VALUES
 } from '../constants';
 import Log from '../log';
-import BottomOverlay from '../bottomOverlay';
+import BottomOverlay from '../src/BottomOverlay';
 import AdBar from '../adBar';
 import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
 import Utils from'../utils';
@@ -51,7 +51,8 @@ class AdPlaybackScreen extends Component {
     locale: PropTypes.string,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
-    initialPlay: PropTypes.bool
+    initialPlay: PropTypes.bool,
+    markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
 
   state = {
@@ -102,38 +103,44 @@ class AdPlaybackScreen extends Component {
     }
   };
 
-  _renderBottomOverlay = (show) => {
+  _renderBottomOverlay(show) {
+    const {
+      ad, config, cuePoints, duration, fullscreen, handlers, height, markers, playhead, playing, showWatermark, volume,
+      width,
+    } = this.props;
+
     return (
       <BottomOverlay
-        width={this.props.width}
-        height={this.props.height}
-        primaryButton={this.props.playing ? 'pause' : 'play'}
-        fullscreen = {this.props.fullscreen}
-        cuePoints = {this.props.cuePoints}
-        playhead={this.props.playhead}
-        duration={this.props.duration}
-        ad={this.props.ad}
-        volume={this.props.volume}
+        width={width}
+        height={height}
+        primaryButton={playing ? 'pause' : 'play'}
+        fullscreen={fullscreen}
+        cuePoints={cuePoints}
+        playhead={playhead}
+        duration={duration}
+        ad={ad}
+        volume={volume}
         live={this.generateLiveObject()}
-        onPress={(name) => this.handlePress(name)}
-        onScrub={(value)=>this.handleScrub(value)}
-        handleControlsTouch={() => this.props.handlers.handleControlsTouch()}
+        onPress={name => this.handlePress(name)}
+        onScrub={value => this.handleScrub(value)}
+        handleControlsTouch={() => handlers.handleControlsTouch()}
         showClosedCaptionsButton={false}
-        showWatermark={this.props.showWatermark}
+        showWatermark={showWatermark}
         isShow={show}
         config={{
-          controlBar: this.props.config.controlBar,
-          buttons: this.props.config.buttons,
-          icons: this.props.config.icons,
-          live: this.props.config.live,
-          general: this.props.config.general
+          controlBar: config.controlBar,
+          buttons: config.buttons,
+          icons: config.icons,
+          live: config.live,
+          general: config.general,
         }}
         showMoreOptionsButton={false}
         showAudioAndCCButton={false}
-        showPlaybackSpeedButton={false}>
-      </BottomOverlay>
+        showPlaybackSpeedButton={false}
+        markers={markers}
+      />
     );
-  };
+  }
 
   _renderAdBar = () => {
     return (

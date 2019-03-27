@@ -1,18 +1,14 @@
-/**
- * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge
- */
-import {
-  Platform
-} from 'react-native';
+// @flow
+import { Platform } from 'react-native';
 
-import {
-  CONTENT_TYPES,
-  SCREEN_TYPES,
-  OVERLAY_TYPES,
-} from './constants';
+import { CONTENT_TYPES, OVERLAY_TYPES, SCREEN_TYPES } from './constants';
 import Log from './log';
+import { parseInputArray as parseMarkersInputArray } from './src/markers/lib';
 
-class OoyalaSkinBridgeListener {
+/**
+ * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge.
+ */
+export default class OoyalaSkinBridgeListener {
   constructor(ooyalaSkin, ooyalaCore) {
     Log.log('SkinBridgeListener Created');
     this.skin = ooyalaSkin;
@@ -192,13 +188,13 @@ class OoyalaSkinBridgeListener {
       live: e.live,
       promoUrl: e.promoUrl,
       hostedAtUrl: e.hostedAtUrl,
-      playhead: e.playhead,
       width: e.width,
       height: e.height,
       volume: e.volume,
       caption: null,
       availableClosedCaptionsLanguages: e.availableClosedCaptionsLanguages,
-      contentType: e.contentType
+      contentType: e.contentType,
+      markers: parseMarkersInputArray(e.markers),
     });
 
     if (!this.skin.state.autoPlay) {
@@ -425,6 +421,4 @@ class OoyalaSkinBridgeListener {
       selectedPlaybackSpeedRate: parseFloat(e.selectedPlaybackSpeedRate)
     });
   };
-};
-
-module.exports = OoyalaSkinBridgeListener;
+}
