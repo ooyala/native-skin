@@ -37,17 +37,16 @@ export default class TextMarker extends React.Component<Props, State> {
   }
 
   handlePress() {
-    const { onSeek, text } = this.props;
-    const { isExpanded } = this.state;
+    this.setState(({ isExpanded }, { onSeek, text }) => {
+      // Trigger seek callback if the marker text is shorter than maximum or has been expanded. If there the text is
+      // longer we have to expand it first and only after the second click on that text trigger the callback.
+      if (text.length <= TEXT_MARKER_COLLAPSED_LENGTH || isExpanded) {
+        onSeek();
+      }
 
-    // Trigger seek callback if the marker text is shorter than maximum or has been expanded. If there the text is
-    // longer we have to expand it first and only after the second click on that text trigger the callback.
-    if (text.length <= TEXT_MARKER_COLLAPSED_LENGTH || isExpanded) {
-      onSeek();
-    }
-
-    this.setState({
-      isExpanded: !isExpanded,
+      return {
+        isExpanded: !isExpanded,
+      };
     });
   }
 

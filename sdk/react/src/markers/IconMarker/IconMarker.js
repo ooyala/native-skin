@@ -37,17 +37,16 @@ export default class IconMarker extends React.Component<Props, State> {
   }
 
   handlePress() {
-    const { imageUrl, onSeek } = this.props;
-    const { isExpanded } = this.state;
+    this.setState(({ isExpanded }, { imageUrl, onSeek }) => {
+      // Trigger seek callback if the marker has no image or has been expanded. If there is an image we have to show it
+      // first and only after the second click on that image trigger the callback.
+      if (!imageUrl || isExpanded) {
+        onSeek();
+      }
 
-    // Trigger seek callback if the marker has no image or has been expanded. If there is an image we have to show it
-    // first and only after the second click on that image trigger the callback.
-    if (!imageUrl || isExpanded) {
-      onSeek();
-    }
-
-    this.setState({
-      isExpanded: !isExpanded,
+      return {
+        isExpanded: !isExpanded,
+      };
     });
   }
 
