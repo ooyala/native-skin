@@ -292,7 +292,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
   NSNumber *volume                 = @(OOAudioSession.sharedInstance.applicationVolume);
   NSString *contentType            = OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
                                      @"Audio" : @"Video";
-  NSArray *markersStrings          = [self.player.currentItem markersJSONArray];
+  // TODO: Use self.player.currentItem markersJSONArray instead when Carlos implement it in the core SDK.
+  NSArray *markersStrings          = [NSArray array];
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
