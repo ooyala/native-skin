@@ -69,11 +69,7 @@ RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
            @"audioTrackChanged",
            @"playbackSpeedEnabled",
            @"playbackSpeedRateChanged",
-           @"castDevicesAvailable",
-           
-           @"castConnected",
-           @"castDisconnected",
-           @"castConnecting"
+           @"castDevicesAvailable"
            ];
 }
 
