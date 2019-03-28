@@ -69,7 +69,10 @@ RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
            @"audioTrackChanged",
            @"playbackSpeedEnabled",
            @"playbackSpeedRateChanged",
-           @"castDevicesAvailable"];
+           @"castDevicesAvailable",
+           @"castConnected",
+           @"castDisconnected",
+           @"castConnecting"];
 }
 
 - (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {
