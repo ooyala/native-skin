@@ -108,9 +108,9 @@ export default class OoyalaSkinPanelRenderer {
         onDismiss={() => this.core.dismissOverlay()}
         onPress={() => this.core.handlePress(BUTTON_NAMES.CAST)}
         config={{
-          icons: this.skin.props.icons
-        }}>
-      </CastAirPlayScreen>
+          icons: this.skin.props.icons,
+        }}
+      />
     );
   }
 
@@ -130,16 +130,17 @@ export default class OoyalaSkinPanelRenderer {
         selectedItem={this.skin.state.connectedDeviceName}
       />
     );
-  };
+  }
 
   renderCastConnectingScreen() {
     return (
       <CastConnectingScreen
         height={this.skin.state.height}
         width={this.skin.state.width}
-        onDisconnect={() => this.core.handleCastDisconnect()}/>
+        onDisconnect={() => this.core.handleCastDisconnect()}
+      />
     );
-  };
+  }
 
   renderCastConnectedScreen() {
     const playbackSpeedEnabled = false;
@@ -158,14 +159,14 @@ export default class OoyalaSkinPanelRenderer {
         playbackSpeedEnabled={playbackSpeedEnabled}
         selectedPlaybackSpeedRate={this.skin.state.selectedPlaybackSpeedRate}
         handlers={{
-          onSwitch: (isForward) => this.core.handleSwitch(isForward),
-          onPress: (value) => this.core.handlePress(value),
-          onAdOverlay: (value) => this.core.handleAdOverlayPress(value),
+          onSwitch: isForward => this.core.handleSwitch(isForward),
+          onPress: value => this.core.handlePress(value),
+          onAdOverlay: value => this.core.handleAdOverlayPress(value),
           onAdOverlayDismiss: () => this.core.handleAdOverlayDismiss(),
-          onScrub: (value) => this.core.handleScrub(value),
-          handleVideoTouchStart: (event) => this.core.handleVideoTouchStart(event),
-          handleVideoTouchMove: (event) => this.core.handleVideoTouchMove(event),
-          handleVideoTouchEnd: (event) => this.core.handleVideoTouchEnd(event),
+          onScrub: value => this.core.handleScrub(value),
+          handleVideoTouchStart: event => this.core.handleVideoTouchStart(event),
+          handleVideoTouchMove: event => this.core.handleVideoTouchMove(event),
+          handleVideoTouchEnd: event => this.core.handleVideoTouchEnd(event),
           handleControlsTouch: () => this.core.handleControlsTouch(),
           handleShowControls: () => this.core.showControls(),
         }}
@@ -192,8 +193,7 @@ export default class OoyalaSkinPanelRenderer {
         previewUrl={this.skin.state.previewUrl}
       />
     );
-  };
-
+  }
 
   renderAudioView() {
     let playbackSpeedEnabled = false;
@@ -577,9 +577,8 @@ export default class OoyalaSkinPanelRenderer {
       default:
         if (this.skin.state.inCastMode) {
           return this.renderCastConnectedScreen();
-        } else {
-          return this.renderVideoView();
         }
+        return this.renderVideoView();
     }
   }
 }
