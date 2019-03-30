@@ -2,16 +2,17 @@ import {
   BUTTON_NAMES,
   OVERLAY_TYPES,
   AUTOHIDE_DELAY,
-  MAX_DATE_VALUE
+  MAX_DATE_VALUE,
 } from './constants';
 import Log from './log';
 import OoyalaSkinBridgeListener from './ooyalaSkinBridgeListener';
 import OoyalaSkinPanelRenderer from './ooyalaSkinPanelRenderer';
 
 const clickRadius = 5;
-let startedClickX, startedClickY;
+let startedClickX;
+let startedClickY;
 
-class OoyalaSkinCore {
+export default class OoyalaSkinCore {
   constructor(ooyalaSkin, eventBridge) {
     this.skin = ooyalaSkin;
     this.bridge = eventBridge;
@@ -38,37 +39,37 @@ class OoyalaSkinCore {
   }
 
   onBackPressed() {
-    let retVal = this.popFromOverlayStackAndMaybeResume();
+    const retVal = this.popFromOverlayStackAndMaybeResume();
     return retVal;
   }
 
   handleLanguageSelection(e) {
-    Log.log('onLanguageSelected:' + e);
+    Log.log(`onLanguageSelected: ${e}`);
     this.skin.setState({
-      selectedLanguage: e
+      selectedLanguage: e,
     });
     this.bridge.onLanguageSelected({ language: e });
   }
 
   handleAudioTrackSelection(e) {
-    Log.log('onAudioTrackSelected:' + e);
+    Log.log(`onAudioTrackSelected: ${e}`);
     this.skin.setState({
-      selectedAudioTrack: e
+      selectedAudioTrack: e,
     });
     this.bridge.onAudioTrackSelected({ audioTrack: e });
   }
 
   handlePlaybackSpeedRateSelection(e) {
-    Log.log('onPlaybackSpeedRateSelected:' + e);
+    Log.log(`onPlaybackSpeedRateSelected: ${e}`);
     this.skin.setState({
-      selectedPlaybackSpeedRate: parseFloat(e)
+      selectedPlaybackSpeedRate: parseFloat(e),
     });
     this.bridge.onPlaybackSpeedRateSelected({ playbackSpeedRate: e });
   }
 
   onVolumeChanged(volume) {
-    Log.log('onVolumeChanged:' + volume);
-    this.bridge.onVolumeChanged({ volume: volume });
+    Log.log(`onVolumeChanged: ${volume}`);
+    this.bridge.onVolumeChanged({ volume });
   }
 
   // event handlers.
@@ -131,8 +132,8 @@ class OoyalaSkinCore {
         this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.MORE_DETAILS);
         break;
       case BUTTON_NAMES.CAST:
-            this.pushToOverlayStack(OVERLAY_TYPES.CAST_DEVICES);
-            break;
+        this.pushToOverlayStack(OVERLAY_TYPES.CAST_DEVICES);
+        break;
       case BUTTON_NAMES.CAST_AIRPLAY:
         this.pushToOverlayStackAndMaybePause(OVERLAY_TYPES.CAST_AIRPLAY);
         break;
@@ -147,22 +148,22 @@ class OoyalaSkinCore {
     this.bridge.onScrub({ percentage: value });
   }
 
-      handleSwitch(isForward) {
-            this.bridge.onSwitch({direction: isForward});
-      };
+  handleSwitch(isForward) {
+    this.bridge.onSwitch({ direction: isForward });
+  }
 
   handleIconPress(index) {
-    this.bridge.onPress({ name: BUTTON_NAMES.AD_ICON, index: index })
+    this.bridge.onPress({ name: BUTTON_NAMES.AD_ICON, index });
   }
 
   handleAdOverlayPress(clickUrl) {
-    this.bridge.onPress({ name: BUTTON_NAMES.AD_OVERLAY, clickUrl: clickUrl })
+    this.bridge.onPress({ name: BUTTON_NAMES.AD_OVERLAY, clickUrl });
   }
 
   handleAdOverlayDismiss() {
     this.skin.setState({
-      adOverlay: null
-    })
+      adOverlay: null,
+    });
   }
 
   shouldShowLandscape() {
@@ -199,14 +200,14 @@ class OoyalaSkinCore {
    */
 
   showControls() {
-    const isPastAutoHideTime = (new Date).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
+    const isPastAutoHideTime = (new Date()).getTime() - this.skin.state.lastPressedTime > AUTOHIDE_DELAY;
     if (isPastAutoHideTime) {
       this.handleControlsTouch();
     } else {
       Log.verbose('handleVideoTouch - Time Zeroed');
       this.skin.setState({
-        lastPressedTime: new Date(0)
-      })
+        lastPressedTime: new Date(0),
+      });
     }
   }
 
@@ -216,10 +217,10 @@ class OoyalaSkinCore {
       startedClickY = event.nativeEvent.pageY;
 
       this.bridge.handleTouchStart({
-        'x_location': event.nativeEvent.pageX,
-        'y_location': event.nativeEvent.pageY,
-        'touchTime': event.nativeEvent.timestamp,
-        'isClicked': false
+        x_location: event.nativeEvent.pageX,
+        y_location: event.nativeEvent.pageY,
+        touchTime: event.nativeEvent.timestamp,
+        isClicked: false,
       });
     }
   }
@@ -227,30 +228,30 @@ class OoyalaSkinCore {
   handleVideoTouchMove(event) {
     if (this.skin.state.vrContent) {
       this.bridge.handleTouchMove({
-        'x_location': event.nativeEvent.pageX,
-        'y_location': event.nativeEvent.pageY,
-        'touchTime': event.nativeEvent.timestamp,
-        'isClicked': false
+        x_location: event.nativeEvent.pageX,
+        y_location: event.nativeEvent.pageY,
+        touchTime: event.nativeEvent.timestamp,
+        isClicked: false,
       });
     }
   }
 
   handleCastDeviceSelected(name, id) {
     this.bridge.onCastDeviceSelected({
-      'castDeviceId': id,
-      'castDeviceName': name
+      castDeviceId: id,
+      castDeviceName: name,
     });
   }
 
-      handleCastDisconnect() {
-            this.bridge.onCastDisconnectPressed();
-      };
+  handleCastDisconnect() {
+    this.bridge.onCastDisconnectPressed();
+  }
 
-      handleVideoTouchEnd(event) {
-    //return boolean -> touch end was in clickRadius from touch start
-    let isClick = function (endX, endY) {
-      return Math.sqrt((endX - startedClickX) * (endX - startedClickX) +
-        (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
+  handleVideoTouchEnd(event) {
+    // return boolean -> touch end was in clickRadius from touch start
+    const isClick = function isClick(endX, endY) {
+      return Math.sqrt((endX - startedClickX) * (endX - startedClickX)
+        + (endY - startedClickY) * (endY - startedClickY)) < clickRadius;
     };
 
     if (this.skin.state.vrContent && event) {
@@ -259,10 +260,10 @@ class OoyalaSkinCore {
         this.showControls();
       }
       this.bridge.handleTouchEnd({
-        'x_location': event.nativeEvent.pageX,
-        'y_location': event.nativeEvent.pageY,
-        'touchTime': event.nativeEvent.timestamp,
-        'isClicked': isClicked
+        x_location: event.nativeEvent.pageX,
+        y_location: event.nativeEvent.pageY,
+        touchTime: event.nativeEvent.timestamp,
+        isClicked,
       });
     } else {
       this.showControls();
@@ -276,12 +277,12 @@ class OoyalaSkinCore {
     if (!this.skin.state.screenReaderEnabled && this.skin.props.controlBar.autoHide === true) {
       Log.verbose('handleVideoTouch - Time set');
       this.skin.setState({
-        lastPressedTime: new Date()
+        lastPressedTime: new Date(),
       });
     } else {
       Log.verbose('handleVideoTouch infinite time');
       this.skin.setState({
-        lastPressedTime: new Date(MAX_DATE_VALUE)
+        lastPressedTime: new Date(MAX_DATE_VALUE),
       });
     }
   }
@@ -290,11 +291,11 @@ class OoyalaSkinCore {
     if (this.skin.state.overlayStack.length === 0 && this.skin.state.playing) {
       Log.log('New stack of overlays, pausing');
       this.skin.setState({
-        pausedByOverlay: true
+        pausedByOverlay: true,
       });
       this.bridge.onPress({ name: BUTTON_NAMES.PLAY_PAUSE });
     }
-    this.pushToOverlayStack(overlay)
+    this.pushToOverlayStack(overlay);
   }
 
   pushToOverlayStack(overlay) {
@@ -303,18 +304,18 @@ class OoyalaSkinCore {
     return retVal;
   }
 
-  clearOverlayStack(overlay) {
+  clearOverlayStack() {
     this.skin.setState({
-      overlayStack: []
+      overlayStack: [],
     });
-  };
+  }
 
-  popFromOverlayStackAndMaybeResume(overlay) {
+  popFromOverlayStackAndMaybeResume() {
     const retVal = this.skin.state.overlayStack.pop();
     if (this.skin.state.overlayStack.length === 0 && this.skin.state.pausedByOverlay) {
       Log.log('Emptied stack of overlays, resuming');
       this.skin.setState({
-        pausedByOverlay: false
+        pausedByOverlay: false,
       });
       this.bridge.onPress({ name: BUTTON_NAMES.PLAY_PAUSE });
     }
@@ -323,17 +324,15 @@ class OoyalaSkinCore {
   }
 
   renderScreen() {
-    Log.verbose('Rendering - Current Overlay stack: ' + this.skin.state.overlayStack);
+    Log.verbose(`Rendering - Current Overlay stack: ${this.skin.state.overlayStack}`);
     let overlayType;
     if (this.skin.state.overlayStack.length > 0) {
       overlayType = this.skin.state.overlayStack[this.skin.state.overlayStack.length - 1];
-      Log.verbose('Rendering Overlaytype: ' + overlayType);
+      Log.verbose(`Rendering Overlaytype: ${overlayType}`);
     } else {
-      Log.verbose('Rendering screentype: ' + this.skin.state.screenType);
+      Log.verbose(`Rendering screentype: ${this.skin.state.screenType}`);
     }
 
     return this.ooyalaSkinPanelRenderer.renderScreen(overlayType, this.skin.state.inAdPod, this.skin.state.screenType);
   }
-};
-
-module.exports = OoyalaSkinCore;
+}
