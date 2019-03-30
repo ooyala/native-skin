@@ -30,8 +30,12 @@ export default class CastDevicesScreen extends Component {
     config: PropTypes.shape({
       castControls: PropTypes.shape({
         iconStyle: PropTypes.shape({
-          active: PropTypes.string,
-          inactive: PropTypes.string,
+          active: PropTypes.shape({
+            color: PropTypes.string,
+          }),
+          inactive: PropTypes.shape({
+            color: PropTypes.string,
+          }),
         }),
       }),
       icons: PropTypes.shape({
