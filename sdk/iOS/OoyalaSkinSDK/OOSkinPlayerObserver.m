@@ -161,23 +161,23 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 // PBA-4831 Return total duration calculated from the seekable range
-- (NSNumber *)getTotalDuration:(OOOoyalaPlayer *)player {
-  CMTimeRange seekableRange = player.seekableTimeRange;
+- (NSNumber *)totalDuration {
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
   Float64 duration;
 
-  duration = CMTIMERANGE_IS_INVALID(seekableRange) ? player.duration : CMTimeGetSeconds(seekableRange.duration);
-
+  duration = CMTIMERANGE_IS_INVALID(seekableRange) ?
+             self.player.duration : CMTimeGetSeconds(seekableRange.duration);
   return @(duration);
 }
 
 // PBA-4831 Return adjusted playhead calculated from the seekable range
-- (NSNumber *)getAdjustedPlayhead:(OOOoyalaPlayer *)player {
-  CMTimeRange seekableRange = player.seekableTimeRange;
+- (NSNumber *)adjustedPlayhead {
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
   Float64 seekableStart     = CMTimeGetSeconds(seekableRange.start);
-  Float64 adjustedPlayhead  = player.playheadTime;
+  Float64 adjustedPlayhead  = self.player.playheadTime;
 
   if (!CMTIMERANGE_IS_INVALID(seekableRange)) {
-    adjustedPlayhead = player.playheadTime - seekableStart;
+    adjustedPlayhead = self.player.playheadTime - seekableStart;
   }
   return @(adjustedPlayhead);
 }
@@ -248,8 +248,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber  = [self getAdjustedPlayhead:self.player];
-  NSNumber *durationNumber  = [self getTotalDuration:self.player];
+  NSNumber *playheadNumber  = self.adjustedPlayhead;
+  NSNumber *durationNumber  = self.totalDuration;
   NSNumber *rateNumber      = @(self.player.playbackRate);
   NSArray *cuePoints = [NSArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
@@ -438,8 +438,10 @@ static NSString *requireAdBarKey = @"requireAdBar";
   //OS: this is the point where player controlls on JS-Video-view appears, so it's usefull to set visibility of button for device-idiom-depened feature
   //TODO: used in many places, so should be moved to new method of  OOOoyalaPlayer
   BOOL isPiPSupportRequested = self.player.options.enablePictureInPictureSupport;
-  BOOL isButtonVisible = isPiPSupportRequested && AVPictureInPictureController.isPictureInPictureSupported && !self.player.isAudioOnly;
-  id params = @{isPipButtonVisibleKey:@(isButtonVisible)};
+  BOOL isButtonVisible = isPiPSupportRequested &&
+                         AVPictureInPictureController.isPictureInPictureSupported &&
+                         !self.player.isAudioOnly;
+  id params = @{isPipButtonVisibleKey: @(isButtonVisible)};
   [self.ooReactSkinModel sendEventWithName:notification.name body:params];
 }
 
