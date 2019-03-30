@@ -143,7 +143,11 @@ static NSString *requireAdBarKey = @"requireAdBar";
                                              OOOoyalaPlayerCCManifestChangedNotification: @"bridgeCCManifestChangedNotification:",
                                              OOOoyalaPlayerPlaybackSpeedEnabledNotification: @"bridgePlaybackSpeedEnabledNotification:",
                                              OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:",
-                                             OOOoyalaPlayerApplicationVolumeChangedNotification: @"bridgeApplicationVolumeChangedNotification:"
+                                             OOOoyalaPlayerApplicationVolumeChangedNotification: @"bridgeApplicationVolumeChangedNotification:",
+                                             OOCastManagerDidUpdateDevicesNotification: @"bridgeCastDevicesListUpdated:",
+                                             OOCastManagerIsConnectingDeviceNotification: @"bridgeCastIsConnectingToDevice:",
+                                             OOCastManagerDidConnectDeviceNotification: @"bridgeCastConnectedToDevice:",
+                                             OOCastManagerDidDisconnectDeviceNotification: @"bridgeCastDidDisconnectFromDevice:"
                                              };
     [self addNotificationsObservers:notificationsSelectors];
   }
@@ -495,6 +499,24 @@ static NSString *requireAdBarKey = @"requireAdBar";
 - (void)bridgeApplicationVolumeChangedNotification:(NSNotification *)notification {
    [self.ooReactSkinModel sendEventWithName:@"volumeChanged"
                                        body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
+}
+
+- (void)bridgeCastDevicesListUpdated:(NSNotification *)notification {
+  NSDictionary *eventBody = notification.userInfo;
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgeCastIsConnectingToDevice:(NSNotification *)notification {
+  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
+}
+
+- (void)bridgeCastConnectedToDevice:(NSNotification *)notification {
+  NSDictionary *eventBody = notification.userInfo;
+  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+}
+
+- (void)bridgeCastDidDisconnectFromDevice:(NSNotification *)notification {
+  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
 }
 
 - (void)dealloc {
