@@ -379,7 +379,7 @@ export default class OoyalaSkinBridgeListener {
     this.skin.setState({
       connectedDeviceName: e.connectedDeviceName,
       inCastMode: true,
-      playing: e.state === 'PLAYING',
+      playing: e.isPlaying,
       loading: false,
       initialPlay: this.skin.state.screenType === SCREEN_TYPES.START_SCREEN,
       screenType: this.skin.state.contentType === CONTENT_TYPES.AUDIO
