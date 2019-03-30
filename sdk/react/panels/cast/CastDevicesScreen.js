@@ -16,20 +16,37 @@ import castDevicesStyles from '../style/CastDevicesStyles.json';
 
 const styles = Utils.getStyles(castDevicesStyles);
 
-let ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 === r2 });
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 === r2 });
 
 const dismissButtonSize = 20;
 const castButtonSize = 35;
 
-class CastDevicesScreen extends Component {
+export default class CastDevicesScreen extends Component {
   static propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     onDismiss: PropTypes.func.isRequired,
     onDeviceSelected: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
-    deviceIds: PropTypes.array.isRequired,
-    deviceNames: PropTypes.array.isRequired,
+    config: PropTypes.shape({
+      castControls: PropTypes.shape({
+        iconStyle: PropTypes.shape({
+          active: PropTypes.string,
+          inactive: PropTypes.string,
+        }),
+      }),
+      icons: PropTypes.shape({
+        'chromecast-disconnected': PropTypes.shape({
+          fontString: PropTypes.string,
+          fontFamilyName: PropTypes.string,
+        }),
+        dismiss: PropTypes.shape({
+          fontString: PropTypes.string,
+          fontFamilyName: PropTypes.string,
+        }),
+      }),
+    }).isRequired,
+    deviceIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    deviceNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     selectedItem: PropTypes.string.isRequired,
   };
 
@@ -91,7 +108,7 @@ class CastDevicesScreen extends Component {
     onDeviceSelected(deviceNames[rowID], deviceIds[rowID]);
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
+  static getDerivedStateFromProps(nextProps) {
     const { deviceNames } = nextProps;
     return {
       dataSource: ds.cloneWithRows(deviceNames),
@@ -192,5 +209,3 @@ class CastDevicesScreen extends Component {
     return (this.renderCastDevicesScreen(animationStyle, castButton, castButtonActive, dismissButtonRow));
   }
 }
-
-module.exports = CastDevicesScreen;
