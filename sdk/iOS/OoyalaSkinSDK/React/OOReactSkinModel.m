@@ -6,9 +6,10 @@
 //  Copyright © 2018 ooyala. All rights reserved.
 //
 
-#import <React/RCTRootView.h>
+@import MediaPlayer.MPVolumeView;
+@import AVKit.AVPictureInPictureController;
 
-#import <MediaPlayer/MPVolumeView.h>
+#import <React/RCTRootView.h>
 
 #import "OOReactSkinModel.h"
 #import "OOReactSkinBridge.h"
@@ -28,7 +29,6 @@
 #import <OoyalaSDK/OOAudioSession.h>
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
 #import <OoyalaSDK/OOVideo.h>
-@import AVKit.AVPictureInPictureController;
 
 @interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate, OOAudioSessionDelegate>
 
@@ -48,7 +48,7 @@
 #pragma mark Events
 static NSString *discoveryResultsReceived = @"discoveryResultsReceived";
 static NSString *ccStylingChanged         = @"ccStylingChanged";
-static NSString *pipEventKey            = @"pipChanged";
+static NSString *pipEventKey              = @"pipChanged";
 
 #pragma mark Private keys
 static NSString *upNextKey              = @"upNext";
@@ -93,11 +93,11 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
     OOAudioSession.sharedInstance.delegate = self;
 
-    _playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player ooReactSkinModel:self];
+    _playerObserver = [[OOSkinPlayerObserver alloc] initWithPlayer:player
+                                                  ooReactSkinModel:self];
     _upNextManager = [[OOUpNextManager alloc] initWithPlayer:self.player
                                             ooReactSkinModel:self
                                                       config:self.skinConfig[upNextKey]];
-
     // Audio settings
     [self setupAudioSettingsFromConfig:_skinConfig];
   }
@@ -240,7 +240,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
       return;
     }
   }
-
   LOG(@"handleAudioTrackSelection - Can't find audio track");
 }
 
@@ -292,7 +291,7 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   [self.player togglePictureInPictureMode];
   BOOL isStateActivated = self.player.isPiPActivated;
   [self.bridge.skinEventsEmitter sendDeviceEventWithName:pipEventKey
-                                                    body:@{isPipActivatedKey:@(isStateActivated)}];
+                                                    body:@{isPipActivatedKey: @(isStateActivated)}];
 }
 
 - (void)handlePlay {
@@ -335,7 +334,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
     if (playhead < 0.0f) {
       playhead = 0.0f;
     }
-    
     [self.player seek:playhead];
   }
 }
