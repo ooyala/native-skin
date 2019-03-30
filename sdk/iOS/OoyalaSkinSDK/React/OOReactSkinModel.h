@@ -68,5 +68,7 @@ extern NSString *const isPipButtonVisibleKey;
 - (void)handleDiscoveryImpress:(nullable NSString *)bucketInfo;
 - (void)handleVolumeChanged:(float)volume;
 - (void)handleAirPlay;
+- (void)handleCastDeviceSelected:(nonnull NSDictionary *)deviceInfo;
+- (void)handleCastDisconnect;
 
 @end

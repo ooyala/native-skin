@@ -392,6 +392,17 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 - (void)handleAirPlay {
 }
 
+- (void)handleCastDeviceSelected:(NSDictionary *)deviceInfo {
+  [NSNotificationCenter.defaultCenter postNotificationName:OOCastManagerHandleDeviceSelected
+                                                    object:nil
+                                                  userInfo:deviceInfo];
+}
+
+- (void)handleCastDisconnect {
+  [NSNotificationCenter.defaultCenter postNotificationName:OOCastManagerHandleDeviceDisconnect
+                                                    object:nil];
+}
+
 #pragma mark - OOAudioSessionDelegate
 
 - (void)volumeChanged:(float)volume {
