@@ -51,7 +51,11 @@ export default class CastDevicesScreen extends Component {
     }).isRequired,
     deviceIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     deviceNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-    selectedItem: PropTypes.string.isRequired,
+    selectedItem: PropTypes.string,
+  };
+
+  static defaultProps = {
+    selectedItem: null,
   };
 
   constructor(props) {
