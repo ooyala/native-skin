@@ -100,15 +100,13 @@ class OoyalaSkin extends Component {
     });
   };
 
-  renderLoadingScreen = () => {
-    return (
-      <ActivityIndicator
-        style={styles.loading}
-        animating={true}
-        size="large"
-      />
-    );
-  };
+  renderLoadingScreen = () => (
+    <ActivityIndicator
+      style={styles.loading}
+      animating
+      size="large"
+    />
+  );
 
   render() {
     return OoyalaSkinCoreInstance.renderScreen();
