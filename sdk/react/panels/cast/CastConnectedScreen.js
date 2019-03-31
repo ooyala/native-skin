@@ -80,6 +80,30 @@ class CastConnectedScreen extends React.Component {
     onSwitch(isForwardSwitch);
   }
 
+  handlePress = (name) => {
+    const { handlers } = this.props;
+    const { onPress, handleShowControls } = handlers;
+    handleShowControls();
+    onPress(name);
+  };
+
+  handleScrub(value) {
+    const { props } = this;
+    const { onScrub } = props.handlers;
+    onScrub(value);
+  }
+
+  placeholderTapHandler(event) {
+    const { handlers, screenReaderEnabled } = this.props;
+    const { handleVideoTouchEnd } = handlers;
+
+    if (screenReaderEnabled) {
+      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
+    } else {
+      handleVideoTouchEnd(event);
+    }
+  }
+
   generateLiveObject() {
     const {
       live, playhead, duration, locale, localizableStrings,
@@ -95,30 +119,6 @@ class CastConnectedScreen extends React.Component {
     return null;
   }
 
-  placeholderTapHandler(event) {
-    const { handlers, screenReaderEnabled } = this.props;
-    const { handleVideoTouchEnd } = handlers;
-
-    if (screenReaderEnabled) {
-      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
-    } else {
-      handleVideoTouchEnd(event);
-    }
-  }
-
-  handleScrub(value) {
-    const { props } = this;
-    const { onScrub } = props.handlers;
-    onScrub(value);
-  }
-
-  handlePress = (name) => {
-    const { handlers } = this.props;
-    const { onPress, handleShowControls } = handlers;
-    handleShowControls();
-    onPress(name);
-  };
-
   renderCastIcon() {
     const { props } = this;
     const { fontString, fontFamilyName } = props.config.icons.play;
@@ -128,7 +128,7 @@ class CastConnectedScreen extends React.Component {
         accessible={false}
         style={[styles.castIcon, {
           icon: fontString,
-          fontFamily: fontFamilyName
+          fontFamily: fontFamilyName,
         }]}
       >
         {'}'}
