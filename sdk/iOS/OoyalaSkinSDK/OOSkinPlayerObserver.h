@@ -8,10 +8,12 @@
 
 @import Foundation;
 
+#import <OoyalaSDK/OOCastModeOptions.h>
+
 @class OOReactSkinModel;
 @class OOOoyalaPlayer;
 
-@interface OOSkinPlayerObserver : NSObject
+@interface OOSkinPlayerObserver : NSObject <OOCastNotifiable>
 
 - (instancetype)init __attribute__((unavailable("init not available")));
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player

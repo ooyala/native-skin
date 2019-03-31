@@ -102,6 +102,11 @@ static NSString *adSkipKey       = @"Skip Ad";
 static NSString *adSkipInKey     = @"Skip Ad in 00:00";
 static NSString *requireAdBarKey = @"requireAdBar";
 
+static NSString *castManagerDidUpdateDevices    = @"castDevicesAvailable";
+static NSString *castManagerIsConnectingDevice  = @"castConnecting";
+static NSString *castManagerDidConnectDevice    = @"castConnected";
+static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
+
 #pragma mark - Methods
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
@@ -112,6 +117,10 @@ static NSString *requireAdBarKey = @"requireAdBar";
     [self addSelfAsObserverToPlayer:player];
   }
   return self;
+}
+
+- (void)dealloc {
+  LOG(@"OOSkinPlayerObserver dealloc");
 }
 
 - (void)addSelfAsObserverToPlayer:(OOOoyalaPlayer *)player {
@@ -143,11 +152,7 @@ static NSString *requireAdBarKey = @"requireAdBar";
                                              OOOoyalaPlayerCCManifestChangedNotification: @"bridgeCCManifestChangedNotification:",
                                              OOOoyalaPlayerPlaybackSpeedEnabledNotification: @"bridgePlaybackSpeedEnabledNotification:",
                                              OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:",
-                                             OOOoyalaPlayerApplicationVolumeChangedNotification: @"bridgeApplicationVolumeChangedNotification:",
-                                             OOCastManagerDidUpdateDevicesNotification: @"bridgeCastDevicesListUpdated:",
-                                             OOCastManagerIsConnectingDeviceNotification: @"bridgeCastIsConnectingToDevice:",
-                                             OOCastManagerDidConnectDeviceNotification: @"bridgeCastConnectedToDevice:",
-                                             OOCastManagerDidDisconnectDeviceNotification: @"bridgeCastDidDisconnectFromDevice:"
+                                             OOOoyalaPlayerApplicationVolumeChangedNotification: @"bridgeApplicationVolumeChangedNotification:"
                                              };
     [self addNotificationsObservers:notificationsSelectors];
   }
@@ -501,26 +506,20 @@ static NSString *requireAdBarKey = @"requireAdBar";
                                        body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
-- (void)bridgeCastDevicesListUpdated:(NSNotification *)notification {
-  NSDictionary *eventBody = notification.userInfo;
-  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+- (void)castManagerDidUpdateDeviceList:(NSMutableDictionary *)deviceList {
+  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:deviceList];
 }
 
-- (void)bridgeCastIsConnectingToDevice:(NSNotification *)notification {
-  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
+- (void)castManagerIsConnectingToDevice {
+  [self.ooReactSkinModel sendEventWithName:castManagerIsConnectingDevice body:nil];
 }
 
-- (void)bridgeCastConnectedToDevice:(NSNotification *)notification {
-  NSDictionary *eventBody = notification.userInfo;
-  [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
+- (void)castManagerDidConnectToDevice:(NSDictionary *)deviceInfo {
+  [self.ooReactSkinModel sendEventWithName:castManagerDidConnectDevice body:deviceInfo];
 }
 
-- (void)bridgeCastDidDisconnectFromDevice:(NSNotification *)notification {
-  [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
-}
-
-- (void)dealloc {
-  LOG(@"OOSkinPlayerObserver dealloc");
+- (void)castManagerDidDisconnectFromCurrentDevice {
+  [self.ooReactSkinModel sendEventWithName:castManagerDidDisconnectDevice body:nil];
 }
 
 @end
