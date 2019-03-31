@@ -39,6 +39,7 @@
 @property (nonatomic) OOSkinPlayerObserver *playerObserver;
 @property (nonatomic) OOUpNextManager *upNextManager;
 @property (nonatomic, readwrite) RCTBridge *bridge;
+@property (nonatomic, weak) id<OOCastManageable> castManageableHandler;
 
 @end
 
@@ -104,9 +105,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   return self;
 }
 
-- (void)dealloc {
-}
-
 #pragma mark - Public
 
 - (RCTRootView *)viewForModuleWithName:(NSString *)moduleName{
@@ -156,6 +154,14 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
 - (void)setReactViewInteractionEnabled:(BOOL)reactViewInteractionEnabled {
   self.skinControllerDelegate.reactViewInteractionEnabled = reactViewInteractionEnabled;
+}
+
+- (id<OOCastNotifiable>)castNotifyHandler {
+  return self.playerObserver;
+}
+
+- (void)setCastManageableHandler:(id<OOCastManageable>)castManageableHandler {
+  _castManageableHandler = castManageableHandler;
 }
 
 #pragma mark - Private
@@ -296,6 +302,7 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
 - (void)handlePlay {
   [self.player play];
+  [self.castManageableHandler forceCastDeviceUpdate];
 }
 
 - (void)handlePlayPause {
@@ -393,14 +400,11 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 }
 
 - (void)handleCastDeviceSelected:(NSDictionary *)deviceInfo {
-  [NSNotificationCenter.defaultCenter postNotificationName:OOCastManagerHandleDeviceSelected
-                                                    object:nil
-                                                  userInfo:deviceInfo];
+  [self.castManageableHandler castDeviceSelected:deviceInfo];
 }
 
 - (void)handleCastDisconnect {
-  [NSNotificationCenter.defaultCenter postNotificationName:OOCastManagerHandleDeviceDisconnect
-                                                    object:nil];
+  [self.castManageableHandler castDisconnectCurrentDevice];
 }
 
 #pragma mark - OOAudioSessionDelegate
