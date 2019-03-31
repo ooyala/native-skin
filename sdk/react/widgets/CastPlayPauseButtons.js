@@ -132,7 +132,7 @@ class CastPlayPauseButtons extends React.Component {
         }]}
       >
         <ActivityIndicator
-          size={60}
+          size="small"
           color="white"
           style={[sizeStyle, {
             justifyContent: 'center',
@@ -156,7 +156,7 @@ class CastPlayPauseButtons extends React.Component {
     };
     const finalOpacity = { opacity: animationOpacity };
     const animate = { transform: [{ scale: animationScale }] };
-    const finalButtonColor = { color: !!buttonColor ? buttonColor : 'white' };
+    const finalButtonColor = { color: buttonColor || 'white' };
     const sizeStyle = {
       width: buttonWidth * 2,
       height: buttonHeight * 2,
@@ -202,7 +202,7 @@ class CastPlayPauseButtons extends React.Component {
 
     let color = 'gray';
     if (active) {
-      color = !!buttonColor ? buttonColor : 'white';
+      color = buttonColor || 'white';
     }
     const isForward = name === FORWARD;
 
@@ -249,7 +249,7 @@ class CastPlayPauseButtons extends React.Component {
 
     let color = 'gray';
     if (active) {
-      color = !!buttonColor ? buttonColor : 'white';
+      color = buttonColor || 'white';
     }
 
     const isForward = name === NEXT;
