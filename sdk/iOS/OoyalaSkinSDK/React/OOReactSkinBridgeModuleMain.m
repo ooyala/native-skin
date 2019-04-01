@@ -100,8 +100,8 @@ RCT_EXPORT_METHOD(onPlaybackSpeedRateSelected:(NSDictionary *)parameters) {
   [self.skinModelDelegate handlePlaybackSpeedRateSelection:parameters[playbackSpeedRateKey]];
 }
 
-RCT_EXPORT_METHOD(onCastDeviceSelected:(NSDictionary *)deviceInfo) {
-  [self.skinModelDelegate handleCastDeviceSelected:deviceInfo];
+RCT_EXPORT_METHOD(onCastDeviceSelected:(NSString *)deviceId) {
+  [self.skinModelDelegate handleCastDeviceSelected:deviceId];
 }
 
 RCT_EXPORT_METHOD(onCastDisconnectPressed) {
