@@ -368,16 +368,14 @@ export default class OoyalaSkinBridgeListener {
 
   handleCastDevicesAvailable(e) {
     this.skin.setState({
-      castListIds: e.castDeviceIds,
-      castListNames: e.castDeviceNames,
+      castDevices: e,
     });
   }
-
 
   handleCastConnected(e) {
     this.core.clearOverlayStack();
     this.skin.setState({
-      connectedDeviceName: e.connectedDeviceName,
+      connectedDevice: e.connectedDevice,
       inCastMode: true,
       playing: e.isPlaying,
       loading: false,
@@ -393,7 +391,7 @@ export default class OoyalaSkinBridgeListener {
     this.core.popFromOverlayStackAndMaybeResume({});
     this.skin.setState({
       inCastMode: false,
-      connectedDeviceName: null,
+      connectedDevice: null,
     });
   }
 
