@@ -64,6 +64,7 @@ static NSString *audioKey                     = @"audio";
 static NSString *playbackSpeedEnabledKey      = @"playbackSpeedEnabled";
 static NSString *selectedPlaybackSpeedRateKey = @"selectedPlaybackSpeedRate";
 static NSString *markersKey                   = @"markers";
+static NSString *deviceKey                    = @"devices";
 
 static NSString *languagesKey        = @"languages";
 static NSString *availableCCLangsKey = @"availableClosedCaptionsLanguages";
@@ -289,6 +290,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 }
 
 - (void)bridgeCurrentItemChangedNotification:(NSNotification *)notification {
+  [self.ooReactSkinModel forceUpdateCast];
+  
   NSString *title                  = self.player.currentItem.title ? self.player.currentItem.title : @"";
   NSString *itemDescription        = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
   NSString *promoUrl               = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
@@ -506,8 +509,9 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
                                        body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
-- (void)castManagerDidUpdateDeviceList:(NSMutableDictionary *)deviceList {
-  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:deviceList];
+- (void)castManagerDidUpdateDeviceList:(NSDictionary *)deviceList {
+  NSArray *devices = deviceList[deviceKey];
+  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:devices];
 }
 
 - (void)castManagerIsConnectingToDevice {
