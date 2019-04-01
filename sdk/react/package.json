@@ -3,10 +3,14 @@
   "version": "4.44.0",
   "private": true,
   "scripts": {
+    "ci": "npm run lint && npm run flow && npm run coverage",
+    "clean:coverage": "rm -rf coverage",
+    "coverage": "npm run clean:coverage && npm run test:coverage",
     "flow": "flow",
+    "lint": "eslint .",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "lint": "eslint ."
+    "test": "jest src",
+    "test:coverage": "npm test -- --coverage"
   },
   "dependencies": {
     "prop-types": "^15.6.1",
@@ -32,6 +36,10 @@
     "react-test-renderer": "^16.6.3"
   },
   "jest": {
-    "preset": "react-native"
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "preset": "react-native",
+    "verbose": true
   }
 }
