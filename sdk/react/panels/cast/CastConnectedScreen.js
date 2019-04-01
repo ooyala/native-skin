@@ -13,7 +13,7 @@ import BottomOverlay from '../../src/BottomOverlay';
 
 const styles = Utils.getStyles(castConnectedStyles);
 
-class CastConnectedScreen extends React.Component {
+export default class CastConnectedScreen extends React.Component {
   static propTypes = {
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
@@ -341,5 +341,3 @@ class CastConnectedScreen extends React.Component {
     );
   }
 }
-
-module.exports = CastConnectedScreen;
