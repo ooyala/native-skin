@@ -120,14 +120,13 @@ export default class OoyalaSkinPanelRenderer {
         height={this.skin.state.height}
         width={this.skin.state.width}
         onDismiss={() => this.core.dismissOverlay()}
-        onDeviceSelected={(deviceName, deviceId) => this.core.handleCastDeviceSelected(deviceName, deviceId)}
+        onDeviceSelected={deviceId => this.core.handleCastDeviceSelected(deviceId)}
         config={{
           castControls: this.skin.props.castControls,
           icons: this.skin.props.icons,
         }}
-        deviceIds={this.skin.state.castListIds}
-        deviceNames={this.skin.state.castListNames}
-        selectedItem={this.skin.state.connectedDeviceName}
+        selectedDeviceId={this.skin.state.connectedDevice.id}
+        devices={this.skin.state.castDevices}
       />
     );
   }
@@ -188,7 +187,7 @@ export default class OoyalaSkinPanelRenderer {
         loading={this.skin.state.loading}
         initialPlay={this.skin.state.initialPlay}
         onDisconnect={() => this.core.handleCastDisconnect()}
-        deviceName={this.skin.state.connectedDeviceName}
+        deviceName={this.skin.state.connectedDevice.title}
         inCastMode={this.skin.state.inCastMode}
         previewUrl={this.skin.state.previewUrl}
         markers={this.skin.state.markers}
