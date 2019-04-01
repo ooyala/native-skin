@@ -236,11 +236,8 @@ export default class OoyalaSkinCore {
     }
   }
 
-  handleCastDeviceSelected(name, id) {
-    this.bridge.onCastDeviceSelected({
-      castDeviceId: id,
-      castDeviceName: name,
-    });
+  handleCastDeviceSelected(deviceId) {
+    this.bridge.onCastDeviceSelected(deviceId);
   }
 
   handleCastDisconnect() {
