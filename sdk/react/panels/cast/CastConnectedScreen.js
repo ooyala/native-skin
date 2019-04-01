@@ -49,6 +49,7 @@ class CastConnectedScreen extends React.Component {
     deviceName: PropTypes.string.isRequired,
     inCastMode: PropTypes.bool.isRequired,
     previewUrl: PropTypes.string.isRequired,
+    markers: PropTypes.array.isRequired,
   };
 
   onSeekPressed(skipCountValue) {
@@ -203,12 +204,11 @@ class CastConnectedScreen extends React.Component {
   }
 
   renderBottomOverlay() {
-    const { props } = this;
     const {
       width, height, playing, fullscreen, cuePoints, playhead, duration, volume, availableClosedCaptionsLanguages,
       handlers, multiAudioEnabled, playbackSpeedEnabled, screenReaderEnabled, stereoSupported, config,
-      selectedPlaybackSpeedRate, inCastMode,
-    } = props;
+      selectedPlaybackSpeedRate, inCastMode, markers,
+    } = this.props;
     const { handleControlsTouch } = handlers;
 
     const {
@@ -248,6 +248,7 @@ class CastConnectedScreen extends React.Component {
           selectedPlaybackSpeedRate,
         }}
         inCastMode={inCastMode}
+        markers={markers}
       />
     );
   }

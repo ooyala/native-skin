@@ -191,6 +191,7 @@ export default class OoyalaSkinPanelRenderer {
         deviceName={this.skin.state.connectedDeviceName}
         inCastMode={this.skin.state.inCastMode}
         previewUrl={this.skin.state.previewUrl}
+        markers={this.skin.state.markers}
       />
     );
   }
