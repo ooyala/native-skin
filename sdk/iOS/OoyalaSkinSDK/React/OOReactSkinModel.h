@@ -33,6 +33,7 @@ extern NSString * _Nonnull const isPipButtonVisibleKey;
 - (void)setIsReactReady:(BOOL)isReactReady;
 - (void)ccStyleChanged:(nullable NSNotification *)notification;
 - (void)setCastManageableHandler:(nonnull id<OOCastManageable>)castManageableHandler;
+- (void)forceUpdateCast;
 
 // Note: This is for IMA ad playback only.
 // When IMA ad plays, IMA consumes clicks for learn more, skip, etc and notify ooyala if the click is not consumed.
@@ -72,7 +73,7 @@ extern NSString * _Nonnull const isPipButtonVisibleKey;
 - (void)handleDiscoveryImpress:(nullable NSString *)bucketInfo;
 - (void)handleVolumeChanged:(float)volume;
 - (void)handleAirPlay;
-- (void)handleCastDeviceSelected:(nonnull NSDictionary *)deviceInfo;
+- (void)handleCastDeviceSelected:(nonnull NSString *)deviceId;
 - (void)handleCastDisconnect;
 
 @end

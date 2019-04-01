@@ -164,6 +164,10 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   _castManageableHandler = castManageableHandler;
 }
 
+- (void)forceUpdateCast {
+  [self.castManageableHandler forceCastDeviceUpdate];
+}
+
 #pragma mark - Private
 
 - (void)setupAudioSettingsFromConfig:(NSDictionary *)config {
@@ -302,7 +306,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
 - (void)handlePlay {
   [self.player play];
-  [self.castManageableHandler forceCastDeviceUpdate];
 }
 
 - (void)handlePlayPause {
@@ -399,8 +402,8 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 - (void)handleAirPlay {
 }
 
-- (void)handleCastDeviceSelected:(NSDictionary *)deviceInfo {
-  [self.castManageableHandler castDeviceSelected:deviceInfo];
+- (void)handleCastDeviceSelected:(NSString *)deviceId {
+  [self.castManageableHandler castDeviceSelected:deviceId];
 }
 
 - (void)handleCastDisconnect {
