@@ -1,19 +1,19 @@
 // @flow
 
-import * as React from 'react';
-import renderer from 'react-test-renderer';
+import React from 'react';
+import TestRenderer from 'react-test-renderer';
 
 import TextMarker from './TextMarker';
 
 describe('TextMarker', () => {
   it('renders matching snapshot', () => {
-    const tree = renderer.create(
+    const testRenderer = TestRenderer.create(
       <TextMarker
         text="Hello, world"
         onSeek={() => undefined}
       />,
-    ).toJSON();
+    );
 
-    expect(tree).toMatchSnapshot();
+    expect(testRenderer.toJSON()).toMatchSnapshot();
   });
 });

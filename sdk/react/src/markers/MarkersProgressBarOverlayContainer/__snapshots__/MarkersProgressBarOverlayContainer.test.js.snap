@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MarkersProgressBarOverlayContainer renders matching snapshot 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "height": "100%",
+        "left": 0,
+        "position": "absolute",
+        "top": 0,
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "minWidth": 10,
+          "position": "absolute",
+          "top": 0,
+        },
+        Object {
+          "left": 0,
+        },
+      ]
+    }
+  />
+  <View
+    style={
+      Array [
+        Object {
+          "bottom": 0,
+          "minWidth": 10,
+          "position": "absolute",
+          "top": 0,
+        },
+        Object {
+          "left": 0,
+        },
+      ]
+    }
+  />
+</View>
+`;

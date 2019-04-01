@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MarkersContainer renders matching snapshot 1`] = `
+<View
+  pointerEvents="box-none"
+  style={
+    Object {
+      "height": 64,
+    }
+  }
+>
+  <View
+    accessible={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "black",
+          "borderColor": "#4E4E4E",
+          "borderRadius": 2,
+          "borderWidth": 1,
+          "bottom": 6,
+          "padding": 2,
+          "position": "absolute",
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.5,
+          "shadowRadius": 4,
+          "transform": Array [
+            Object {
+              "translateX": -35,
+            },
+          ],
+          "width": 70,
+        },
+        Object {
+          "left": "0%",
+        },
+        undefined,
+        false,
+      ]
+    }
+  >
+    <Text
+      numberOfLines={4}
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 13,
+          "lineHeight": 13,
+          "textAlign": "center",
+        }
+      }
+      suppressHighlighting={true}
+    >
+      Hello...
+    </Text>
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 0,
+            "borderColor": "transparent",
+            "borderTopColor": "#4E4E4E",
+            "borderWidth": 6,
+            "bottom": -6,
+            "height": 0,
+            "left": "50%",
+            "position": "absolute",
+            "transform": Array [
+              Object {
+                "translateX": -3,
+              },
+            ],
+            "width": 0,
+          },
+          undefined,
+        ]
+      }
+    />
+  </View>
+  <View
+    accessible={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Array [
+        Object {
+          "backgroundColor": "black",
+          "borderColor": "#4E4E4E",
+          "borderRadius": 2,
+          "borderWidth": 1,
+          "bottom": 6,
+          "height": 32,
+          "padding": 2,
+          "position": "absolute",
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.5,
+          "shadowRadius": 4,
+          "transform": Array [
+            Object {
+              "translateX": -16,
+            },
+          ],
+          "width": 32,
+        },
+        Object {
+          "left": "0%",
+        },
+        undefined,
+      ]
+    }
+  >
+    <Image
+      source={
+        Object {
+          "uri": "http://example.com/icon.png",
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 0,
+            "borderColor": "transparent",
+            "borderTopColor": "#4E4E4E",
+            "borderWidth": 6,
+            "bottom": -6,
+            "height": 0,
+            "left": "50%",
+            "position": "absolute",
+            "transform": Array [
+              Object {
+                "translateX": -3,
+              },
+            ],
+            "width": 0,
+          },
+          false,
+        ]
+      }
+    />
+  </View>
+</View>
+`;
