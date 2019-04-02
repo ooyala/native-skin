@@ -125,7 +125,7 @@ export default class OoyalaSkinPanelRenderer {
           castControls: this.skin.props.castControls,
           icons: this.skin.props.icons,
         }}
-        selectedDeviceId={this.skin.state.connectedDevice.id}
+        selectedDeviceId={this.skin.state.connectedDevice === undefined ? '' : this.skin.state.connectedDevice.id}
         devices={this.skin.state.castDevices}
       />
     );
