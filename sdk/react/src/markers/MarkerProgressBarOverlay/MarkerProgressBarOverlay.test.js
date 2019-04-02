@@ -7,7 +7,7 @@ import MarkerProgressBarOverlay from './MarkerProgressBarOverlay';
 
 describe('MarkerProgressBarOverlay', () => {
   it('renders matching snapshot', () => {
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <MarkerProgressBarOverlay
         duration={60}
         marker={{
@@ -18,6 +18,6 @@ describe('MarkerProgressBarOverlay', () => {
       />,
     );
 
-    expect(testRenderer.toJSON()).toMatchSnapshot();
+    expect(wrapper.toJSON()).toMatchSnapshot();
   });
 });

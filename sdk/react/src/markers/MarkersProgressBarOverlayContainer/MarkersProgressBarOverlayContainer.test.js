@@ -7,7 +7,7 @@ import MarkersProgressBarOverlayContainer from './MarkersProgressBarOverlayConta
 
 describe('MarkersProgressBarOverlayContainer', () => {
   it('renders matching snapshot', () => {
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <MarkersProgressBarOverlayContainer
         duration={60}
         markers={[
@@ -26,11 +26,11 @@ describe('MarkersProgressBarOverlayContainer', () => {
       />,
     );
 
-    expect(testRenderer.toJSON()).toMatchSnapshot();
+    expect(wrapper.toJSON()).toMatchSnapshot();
   });
 
   it('does not render anything when markers array is empty', () => {
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <MarkersProgressBarOverlayContainer
         duration={60}
         markers={[]}
@@ -38,6 +38,6 @@ describe('MarkersProgressBarOverlayContainer', () => {
       />,
     );
 
-    expect(testRenderer.toJSON()).toBeNull();
+    expect(wrapper.toJSON()).toBeNull();
   });
 });

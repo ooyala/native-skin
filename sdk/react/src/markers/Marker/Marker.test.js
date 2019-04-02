@@ -7,7 +7,7 @@ import Marker from './Marker';
 
 describe('Marker', () => {
   it('renders marker of the text type matching snapshot', () => {
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <Marker
         duration={60}
         marker={{
@@ -19,11 +19,11 @@ describe('Marker', () => {
       />,
     );
 
-    expect(testRenderer.toJSON()).toMatchSnapshot();
+    expect(wrapper.toJSON()).toMatchSnapshot();
   });
 
   it('renders marker of the icon type matching snapshot', () => {
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <Marker
         duration={60}
         marker={{
@@ -35,6 +35,6 @@ describe('Marker', () => {
       />,
     );
 
-    expect(testRenderer.toJSON()).toMatchSnapshot();
+    expect(wrapper.toJSON()).toMatchSnapshot();
   });
 });

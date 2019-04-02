@@ -8,7 +8,7 @@ import IconMarker from './IconMarker';
 
 describe('IconMarker', () => {
   it('renders matching snapshot', () => {
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <IconMarker
         iconUrl="http://example.com/icon.png"
         imageUrl="http://example.com/image.png"
@@ -16,11 +16,11 @@ describe('IconMarker', () => {
       />,
     );
 
-    expect(testRenderer.toJSON()).toMatchSnapshot();
+    expect(wrapper.toJSON()).toMatchSnapshot();
   });
 
   it('does not render anything when URLs are empty', () => {
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <IconMarker
         iconUrl={undefined}
         imageUrl={undefined}
@@ -28,12 +28,12 @@ describe('IconMarker', () => {
       />,
     );
 
-    expect(testRenderer.toJSON()).toBeNull();
+    expect(wrapper.toJSON()).toBeNull();
   });
 
   it('triggers `onSeek` callback every time when pressed if `imageUrl` is empty', () => {
     const onSeekMock = jest.fn();
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <IconMarker
         iconUrl="http://example.com/icon.png"
         imageUrl={undefined}
@@ -41,14 +41,14 @@ describe('IconMarker', () => {
       />,
     );
 
-    testRenderer.root.findByType(TouchableWithoutFeedback).props.onPress();
+    wrapper.root.findByType(TouchableWithoutFeedback).props.onPress();
 
     expect(onSeekMock).toBeCalled();
   });
 
   it('triggers `onSeek` callback when pressed being expanded', () => {
     const onSeekMock = jest.fn();
-    const testRenderer = TestRenderer.create(
+    const wrapper = TestRenderer.create(
       <IconMarker
         iconUrl="http://example.com/icon.png"
         imageUrl="http://example.com/image.png"
@@ -56,11 +56,11 @@ describe('IconMarker', () => {
       />,
     );
 
-    testRenderer.root.findByType(TouchableWithoutFeedback).props.onPress();
+    wrapper.root.findByType(TouchableWithoutFeedback).props.onPress();
 
     expect(onSeekMock).not.toBeCalled();
 
-    testRenderer.root.findByType(TouchableWithoutFeedback).props.onPress();
+    wrapper.root.findByType(TouchableWithoutFeedback).props.onPress();
 
     expect(onSeekMock).toBeCalled();
   });
