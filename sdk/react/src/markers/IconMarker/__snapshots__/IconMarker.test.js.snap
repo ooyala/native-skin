@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IconMarker renders matching snapshot 1`] = `
+<TouchableWithoutFeedback
+  onPress={[Function]}
+>
+  <View
+    style={
+      Array [
+        Object {
+          "backgroundColor": "black",
+          "borderColor": "#4E4E4E",
+          "borderRadius": 2,
+          "borderWidth": 1,
+          "bottom": 6,
+          "height": 32,
+          "padding": 2,
+          "position": "absolute",
+          "shadowColor": "black",
+          "shadowOffset": Object {
+            "height": 2,
+            "width": 0,
+          },
+          "shadowOpacity": 0.5,
+          "shadowRadius": 4,
+          "transform": Array [
+            Object {
+              "translateX": -16,
+            },
+          ],
+          "width": 32,
+        },
+        undefined,
+        undefined,
+      ]
+    }
+  >
+    <Component
+      source={
+        Object {
+          "uri": "http://example.com/icon.png",
+        }
+      }
+      style={
+        Object {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+    <View
+      style={
+        Array [
+          Object {
+            "borderBottomWidth": 0,
+            "borderColor": "transparent",
+            "borderTopColor": "#4E4E4E",
+            "borderWidth": 6,
+            "bottom": -6,
+            "height": 0,
+            "left": "50%",
+            "position": "absolute",
+            "transform": Array [
+              Object {
+                "translateX": -3,
+              },
+            ],
+            "width": 0,
+          },
+          false,
+        ]
+      }
+    />
+  </View>
+</TouchableWithoutFeedback>
+`;

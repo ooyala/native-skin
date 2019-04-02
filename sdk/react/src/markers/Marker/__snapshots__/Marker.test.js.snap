@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Marker renders marker of the icon type matching snapshot 1`] = `
+<IconMarker
+  iconUrl="http://example.com/icon.png"
+  onSeek={[Function]}
+  style={
+    Object {
+      "left": "0%",
+    }
+  }
+/>
+`;
+
+exports[`Marker renders marker of the text type matching snapshot 1`] = `
+<TextMarker
+  onSeek={[Function]}
+  style={
+    Object {
+      "left": "0%",
+    }
+  }
+  text="Hello, world!"
+/>
+`;

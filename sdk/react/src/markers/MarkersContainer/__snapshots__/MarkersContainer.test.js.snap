@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MarkersContainer renders matching snapshot 1`] = `
+<AnimatedComponent
+  pointerEvents="box-none"
+  style={
+    Array [
+      Object {
+        "height": 64,
+      },
+      undefined,
+    ]
+  }
+>
+  <Marker
+    duration={60}
+    key="0"
+    marker={
+      Object {
+        "start": "start",
+        "text": "Hello, world!",
+        "type": "text",
+      }
+    }
+    onSeek={[Function]}
+  />
+  <Marker
+    duration={60}
+    key="1"
+    marker={
+      Object {
+        "iconUrl": "http://example.com/icon.png",
+        "start": "start",
+        "type": "icon",
+      }
+    }
+    onSeek={[Function]}
+  />
+</AnimatedComponent>
+`;
