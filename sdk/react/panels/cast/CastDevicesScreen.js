@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Animated,
@@ -17,7 +17,7 @@ import castDevicesStyles from '../style/CastDevicesStyles.json';
 const styles = Utils.getStyles(castDevicesStyles);
 const dismissButtonSize = 20;
 
-export default class CastDevicesScreen extends PureComponent {
+export default class CastDevicesScreen extends Component {
   static propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,

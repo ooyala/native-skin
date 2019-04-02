@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   Text,
@@ -15,7 +15,7 @@ import Utils from '../../utils';
 const styles = Utils.getStyles(castDevicesStyles);
 const castButtonSize = 35;
 
-export default class DeviceListItem extends PureComponent {
+export default class DeviceListItem extends Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,

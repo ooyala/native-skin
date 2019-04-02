@@ -1,8 +1,12 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import React from 'react';
 import {
-  Animated, Text, TouchableOpacity, View, Image,
+  Animated,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
 } from 'react-native';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 import CastPlayPauseButtons from '../../widgets/CastPlayPauseButtons';
@@ -13,7 +17,7 @@ import BottomOverlay from '../../src/BottomOverlay';
 
 const styles = Utils.getStyles(castConnectedStyles);
 
-export default class CastConnectedScreen extends React.Component {
+export default class CastConnectedScreen extends Component {
   static propTypes = {
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
