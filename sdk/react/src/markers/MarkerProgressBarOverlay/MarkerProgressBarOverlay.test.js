@@ -1,13 +1,13 @@
 // @flow
 
+import { shallow } from 'enzyme';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
 
 import MarkerProgressBarOverlay from './MarkerProgressBarOverlay';
 
 describe('MarkerProgressBarOverlay', () => {
   it('renders matching snapshot', () => {
-    const wrapper = TestRenderer.create(
+    const wrapper = shallow(
       <MarkerProgressBarOverlay
         duration={60}
         marker={{
@@ -18,6 +18,6 @@ describe('MarkerProgressBarOverlay', () => {
       />,
     );
 
-    expect(wrapper.toJSON()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

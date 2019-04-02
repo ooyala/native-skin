@@ -1,13 +1,13 @@
 // @flow
 
+import { shallow } from 'enzyme';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
 
 import MarkersContainer from './MarkersContainer';
 
 describe('MarkersContainer', () => {
   it('renders matching snapshot', () => {
-    const wrapper = TestRenderer.create(
+    const wrapper = shallow(
       <MarkersContainer
         duration={60}
         markers={[
@@ -26,11 +26,11 @@ describe('MarkersContainer', () => {
       />,
     );
 
-    expect(wrapper.toJSON()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('does not render anything when markers array is empty', () => {
-    const wrapper = TestRenderer.create(
+    const wrapper = shallow(
       <MarkersContainer
         duration={60}
         markers={[]}
@@ -38,6 +38,6 @@ describe('MarkersContainer', () => {
       />,
     );
 
-    expect(wrapper.toJSON()).toBeNull();
+    expect(wrapper).toEqual({});
   });
 });

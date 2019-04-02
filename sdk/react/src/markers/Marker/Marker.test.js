@@ -1,13 +1,13 @@
 // @flow
 
+import { shallow } from 'enzyme';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
 
 import Marker from './Marker';
 
 describe('Marker', () => {
   it('renders marker of the text type matching snapshot', () => {
-    const wrapper = TestRenderer.create(
+    const wrapper = shallow(
       <Marker
         duration={60}
         marker={{
@@ -19,11 +19,11 @@ describe('Marker', () => {
       />,
     );
 
-    expect(wrapper.toJSON()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('renders marker of the icon type matching snapshot', () => {
-    const wrapper = TestRenderer.create(
+    const wrapper = shallow(
       <Marker
         duration={60}
         marker={{
@@ -35,6 +35,6 @@ describe('Marker', () => {
       />,
     );
 
-    expect(wrapper.toJSON()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 });

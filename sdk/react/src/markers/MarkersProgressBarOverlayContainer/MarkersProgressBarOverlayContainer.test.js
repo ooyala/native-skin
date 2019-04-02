@@ -1,13 +1,13 @@
 // @flow
 
+import { shallow } from 'enzyme';
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
 
 import MarkersProgressBarOverlayContainer from './MarkersProgressBarOverlayContainer';
 
 describe('MarkersProgressBarOverlayContainer', () => {
   it('renders matching snapshot', () => {
-    const wrapper = TestRenderer.create(
+    const wrapper = shallow(
       <MarkersProgressBarOverlayContainer
         duration={60}
         markers={[
@@ -26,11 +26,11 @@ describe('MarkersProgressBarOverlayContainer', () => {
       />,
     );
 
-    expect(wrapper.toJSON()).toMatchSnapshot();
+    expect(wrapper).toMatchSnapshot();
   });
 
   it('does not render anything when markers array is empty', () => {
-    const wrapper = TestRenderer.create(
+    const wrapper = shallow(
       <MarkersProgressBarOverlayContainer
         duration={60}
         markers={[]}
@@ -38,6 +38,6 @@ describe('MarkersProgressBarOverlayContainer', () => {
       />,
     );
 
-    expect(wrapper.toJSON()).toBeNull();
+    expect(wrapper).toEqual({});
   });
 });

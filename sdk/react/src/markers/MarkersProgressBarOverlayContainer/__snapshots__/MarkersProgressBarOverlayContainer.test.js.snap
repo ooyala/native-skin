@@ -15,34 +15,26 @@ exports[`MarkersProgressBarOverlayContainer renders matching snapshot 1`] = `
     ]
   }
 >
-  <View
-    style={
-      Array [
-        Object {
-          "bottom": 0,
-          "minWidth": 10,
-          "position": "absolute",
-          "top": 0,
-        },
-        Object {
-          "left": 0,
-        },
-      ]
+  <MarkerProgressBarOverlay
+    duration={60}
+    key="0"
+    marker={
+      Object {
+        "start": "start",
+        "text": "Hello, world!",
+        "type": "text",
+      }
     }
   />
-  <View
-    style={
-      Array [
-        Object {
-          "bottom": 0,
-          "minWidth": 10,
-          "position": "absolute",
-          "top": 0,
-        },
-        Object {
-          "left": 0,
-        },
-      ]
+  <MarkerProgressBarOverlay
+    duration={60}
+    key="1"
+    marker={
+      Object {
+        "iconUrl": "http://example.com/icon.png",
+        "start": "start",
+        "type": "icon",
+      }
     }
   />
 </View>
