@@ -19,7 +19,7 @@ export default class OoyalaSkinBridgeListener {
     Log.log('SkinBridgeListener Mounted');
     this.listeners = [];
     const listenerDefinitions = [
-    /* eslint-disable */
+    /* eslint-disable no-multi-spaces */
       { event: 'timeChanged',              action: event => this.onTimeChange(event)                  },
       { event: 'seekStarted',              action: event => this.onSeekStarted(event)                 },
       { event: 'seekCompleted',            action: event => this.onSeekComplete(event)                },
@@ -55,7 +55,7 @@ export default class OoyalaSkinBridgeListener {
       { event: 'playbackSpeedEnabled',     action: event => this.handlePlaybackSpeedEnabled(event)    },
       { event: 'playbackSpeedRateChanged', action: event => this.handlePlaybackSpeedRateChanged(event)},
       { event: 'pipChanged',               action: event => this.onPipToggle(event)                   },
-    /* eslint-enable */
+    /* eslint-enable no-multi-spaces */
     ];
 
     this.listeners = listenerDefinitions.map(
