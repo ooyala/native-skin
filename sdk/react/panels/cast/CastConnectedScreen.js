@@ -1,8 +1,12 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import React from 'react';
 import {
-  Animated, Text, TouchableOpacity, View, Image,
+  Animated,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
 } from 'react-native';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 import CastPlayPauseButtons from '../../widgets/CastPlayPauseButtons';
@@ -13,7 +17,7 @@ import BottomOverlay from '../../src/BottomOverlay';
 
 const styles = Utils.getStyles(castConnectedStyles);
 
-class CastConnectedScreen extends React.Component {
+export default class CastConnectedScreen extends Component {
   static propTypes = {
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
@@ -49,6 +53,7 @@ class CastConnectedScreen extends React.Component {
     deviceName: PropTypes.string.isRequired,
     inCastMode: PropTypes.bool.isRequired,
     previewUrl: PropTypes.string.isRequired,
+    markers: PropTypes.array.isRequired,
   };
 
   onSeekPressed(skipCountValue) {
@@ -80,6 +85,30 @@ class CastConnectedScreen extends React.Component {
     onSwitch(isForwardSwitch);
   }
 
+  handlePress = (name) => {
+    const { handlers } = this.props;
+    const { onPress, handleShowControls } = handlers;
+    handleShowControls();
+    onPress(name);
+  };
+
+  handleScrub(value) {
+    const { props } = this;
+    const { onScrub } = props.handlers;
+    onScrub(value);
+  }
+
+  placeholderTapHandler(event) {
+    const { handlers, screenReaderEnabled } = this.props;
+    const { handleVideoTouchEnd } = handlers;
+
+    if (screenReaderEnabled) {
+      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
+    } else {
+      handleVideoTouchEnd(event);
+    }
+  }
+
   generateLiveObject() {
     const {
       live, playhead, duration, locale, localizableStrings,
@@ -95,30 +124,6 @@ class CastConnectedScreen extends React.Component {
     return null;
   }
 
-  placeholderTapHandler(event) {
-    const { handlers, screenReaderEnabled } = this.props;
-    const { handleVideoTouchEnd } = handlers;
-
-    if (screenReaderEnabled) {
-      this.handlePress(BUTTON_NAMES.PLAY_PAUSE);
-    } else {
-      handleVideoTouchEnd(event);
-    }
-  }
-
-  handleScrub(value) {
-    const { props } = this;
-    const { onScrub } = props.handlers;
-    onScrub(value);
-  }
-
-  handlePress = (name) => {
-    const { handlers } = this.props;
-    const { onPress, handleShowControls } = handlers;
-    handleShowControls();
-    onPress(name);
-  };
-
   renderCastIcon() {
     const { props } = this;
     const { fontString, fontFamilyName } = props.config.icons.play;
@@ -128,7 +133,7 @@ class CastConnectedScreen extends React.Component {
         accessible={false}
         style={[styles.castIcon, {
           icon: fontString,
-          fontFamily: fontFamilyName
+          fontFamily: fontFamilyName,
         }]}
       >
         {'}'}
@@ -203,12 +208,11 @@ class CastConnectedScreen extends React.Component {
   }
 
   renderBottomOverlay() {
-    const { props } = this;
     const {
       width, height, playing, fullscreen, cuePoints, playhead, duration, volume, availableClosedCaptionsLanguages,
       handlers, multiAudioEnabled, playbackSpeedEnabled, screenReaderEnabled, stereoSupported, config,
-      selectedPlaybackSpeedRate, inCastMode,
-    } = props;
+      selectedPlaybackSpeedRate, inCastMode, markers,
+    } = this.props;
     const { handleControlsTouch } = handlers;
 
     const {
@@ -248,6 +252,7 @@ class CastConnectedScreen extends React.Component {
           selectedPlaybackSpeedRate,
         }}
         inCastMode={inCastMode}
+        markers={markers}
       />
     );
   }
@@ -340,5 +345,3 @@ class CastConnectedScreen extends React.Component {
     );
   }
 }
-
-module.exports = CastConnectedScreen;

@@ -23,7 +23,6 @@
 #import "OOSkinFullScreenViewController.h"
 #import "FullscreenStateController.h"
 
-
 @interface OOSkinViewController () <OOSkinViewControllerDelegate>
 
 #pragma mark - Properties
@@ -164,7 +163,6 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                          selector:@selector(orientationChanged:)
                                              name:UIDeviceOrientationDidChangeNotification
                                            object:UIDevice.currentDevice];
-
   // Auto rotation support
   [UIDevice.currentDevice beginGeneratingDeviceOrientationNotifications];
 }
@@ -245,7 +243,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (void)onReactReady:(NSNotification *)notification {
   [self.skinModel setIsReactReady:YES];
-  [self ccStyleChanged:nil];
+  [self ccStyleChanged:notification];;
 }
 
 - (void)onApplicationDidBecomeActive:(NSNotification *)notification {
@@ -274,6 +272,14 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (NSString *)version {
   return OO_SKIN_VERSION;
+}
+
+- (id<OOCastNotifiable>)castNotifyHandler {
+  return self.skinModel.castNotifyHandler;
+}
+
+- (void)setCastManageableHandler:(id<OOCastManageable>)castManageableHandler {
+  [self.skinModel setCastManageableHandler:castManageableHandler];
 }
 
 #pragma mark - KVO

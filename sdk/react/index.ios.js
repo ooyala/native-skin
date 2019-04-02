@@ -5,21 +5,20 @@ import {
   NativeEventEmitter,
   NativeModules,
   StyleSheet,
-  AccessibilityInfo
+  AccessibilityInfo,
 } from 'react-native';
 
-const {
-  OOReactSkinEventsEmitter,
-  OOReactSkinBridgeModuleMain
- } = NativeModules;
-
+import OoyalaSkinCore from './ooyalaSkinCore';
 import {
   CONTENT_TYPES,
   SCREEN_TYPES,
-  DESIRED_STATES
+  DESIRED_STATES,
 } from './constants';
-import OoyalaSkinCore from './ooyalaSkinCore';
 
+const {
+  OOReactSkinEventsEmitter,
+  OOReactSkinBridgeModuleMain,
+} = NativeModules;
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
 let OoyalaSkinCoreInstance;
 
@@ -60,10 +59,10 @@ class OoyalaSkin extends Component {
     alertTitle: '',
     alertMessage: '',
     error: null,
-    volume: 0,          // between 0 and 1
+    volume: 0, // between 0 and 1
     screenReaderEnabled: false,
     contentType: CONTENT_TYPES.VIDEO,
-    onPlayComplete: false
+    onPlayComplete: false,
   };
 
   componentWillMount() {
@@ -74,11 +73,11 @@ class OoyalaSkin extends Component {
   componentDidMount() {
     AccessibilityInfo.addEventListener(
       'change',
-      this._handleScreenReaderToggled
+      this.handleScreenReaderToggled,
     );
     AccessibilityInfo.fetch().done((isEnabled) => {
       this.setState({
-        screenReaderEnabled: isEnabled
+        screenReaderEnabled: isEnabled,
       });
     });
 
@@ -91,24 +90,23 @@ class OoyalaSkin extends Component {
 
     AccessibilityInfo.removeEventListener(
       'change',
-      this._handleScreenReaderToggled
+      this.handleScreenReaderToggled,
     );
   }
 
-  _handleScreenReaderToggled = (isEnabled) => {
+  handleScreenReaderToggled = (isEnabled) => {
     this.setState({
-      screenReaderEnabled: isEnabled
+      screenReaderEnabled: isEnabled,
     });
   };
 
-  renderLoadingScreen = () => {
-    return (
-      <ActivityIndicator
-        style={styles.loading}
-        animating={true}
-        size='large'
-    />);
-  };
+  renderLoadingScreen = () => (
+    <ActivityIndicator
+      style={styles.loading}
+      animating
+      size="large"
+    />
+  );
 
   render() {
     return OoyalaSkinCoreInstance.renderScreen();
@@ -120,8 +118,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 200
-  }
+    height: 200,
+  },
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

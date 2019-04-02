@@ -64,6 +64,7 @@ static NSString *audioKey                     = @"audio";
 static NSString *playbackSpeedEnabledKey      = @"playbackSpeedEnabled";
 static NSString *selectedPlaybackSpeedRateKey = @"selectedPlaybackSpeedRate";
 static NSString *markersKey                   = @"markers";
+static NSString *deviceKey                    = @"devices";
 
 static NSString *languagesKey        = @"languages";
 static NSString *availableCCLangsKey = @"availableClosedCaptionsLanguages";
@@ -102,6 +103,11 @@ static NSString *adSkipKey       = @"Skip Ad";
 static NSString *adSkipInKey     = @"Skip Ad in 00:00";
 static NSString *requireAdBarKey = @"requireAdBar";
 
+static NSString *castManagerDidUpdateDevices    = @"castDevicesAvailable";
+static NSString *castManagerIsConnectingDevice  = @"castConnecting";
+static NSString *castManagerDidConnectDevice    = @"castConnected";
+static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
+
 #pragma mark - Methods
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
@@ -112,6 +118,10 @@ static NSString *requireAdBarKey = @"requireAdBar";
     [self addSelfAsObserverToPlayer:player];
   }
   return self;
+}
+
+- (void)dealloc {
+  LOG(@"OOSkinPlayerObserver dealloc");
 }
 
 - (void)addSelfAsObserverToPlayer:(OOOoyalaPlayer *)player {
@@ -161,23 +171,23 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 // PBA-4831 Return total duration calculated from the seekable range
-- (NSNumber *)getTotalDuration:(OOOoyalaPlayer *)player {
-  CMTimeRange seekableRange = player.seekableTimeRange;
+- (NSNumber *)totalDuration {
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
   Float64 duration;
 
-  duration = CMTIMERANGE_IS_INVALID(seekableRange) ? player.duration : CMTimeGetSeconds(seekableRange.duration);
-
+  duration = CMTIMERANGE_IS_INVALID(seekableRange) ?
+             self.player.duration : CMTimeGetSeconds(seekableRange.duration);
   return @(duration);
 }
 
 // PBA-4831 Return adjusted playhead calculated from the seekable range
-- (NSNumber *)getAdjustedPlayhead:(OOOoyalaPlayer *)player {
-  CMTimeRange seekableRange = player.seekableTimeRange;
+- (NSNumber *)adjustedPlayhead {
+  CMTimeRange seekableRange = self.player.seekableTimeRange;
   Float64 seekableStart     = CMTimeGetSeconds(seekableRange.start);
-  Float64 adjustedPlayhead  = player.playheadTime;
+  Float64 adjustedPlayhead  = self.player.playheadTime;
 
   if (!CMTIMERANGE_IS_INVALID(seekableRange)) {
-    adjustedPlayhead = player.playheadTime - seekableStart;
+    adjustedPlayhead = self.player.playheadTime - seekableStart;
   }
   return @(adjustedPlayhead);
 }
@@ -248,8 +258,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
-  NSNumber *playheadNumber  = [self getAdjustedPlayhead:self.player];
-  NSNumber *durationNumber  = [self getTotalDuration:self.player];
+  NSNumber *playheadNumber  = self.adjustedPlayhead;
+  NSNumber *durationNumber  = self.totalDuration;
   NSNumber *rateNumber      = @(self.player.playbackRate);
   NSArray *cuePoints = [NSArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
@@ -280,6 +290,8 @@ static NSString *requireAdBarKey = @"requireAdBar";
 }
 
 - (void)bridgeCurrentItemChangedNotification:(NSNotification *)notification {
+  [self.ooReactSkinModel forceUpdateCast];
+  
   NSString *title                  = self.player.currentItem.title ? self.player.currentItem.title : @"";
   NSString *itemDescription        = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
   NSString *promoUrl               = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
@@ -438,8 +450,10 @@ static NSString *requireAdBarKey = @"requireAdBar";
   //OS: this is the point where player controlls on JS-Video-view appears, so it's usefull to set visibility of button for device-idiom-depened feature
   //TODO: used in many places, so should be moved to new method of  OOOoyalaPlayer
   BOOL isPiPSupportRequested = self.player.options.enablePictureInPictureSupport;
-  BOOL isButtonVisible = isPiPSupportRequested && AVPictureInPictureController.isPictureInPictureSupported && !self.player.isAudioOnly;
-  id params = @{isPipButtonVisibleKey:@(isButtonVisible)};
+  BOOL isButtonVisible = isPiPSupportRequested &&
+                         AVPictureInPictureController.isPictureInPictureSupported &&
+                         !self.player.isAudioOnly;
+  id params = @{isPipButtonVisibleKey: @(isButtonVisible)};
   [self.ooReactSkinModel sendEventWithName:notification.name body:params];
 }
 
@@ -495,8 +509,21 @@ static NSString *requireAdBarKey = @"requireAdBar";
                                        body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
-- (void)dealloc {
-  LOG(@"OOSkinPlayerObserver dealloc");
+- (void)castManagerDidUpdateDeviceList:(NSDictionary *)deviceList {
+  NSArray *devices = deviceList[deviceKey];
+  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:devices];
+}
+
+- (void)castManagerIsConnectingToDevice {
+  [self.ooReactSkinModel sendEventWithName:castManagerIsConnectingDevice body:nil];
+}
+
+- (void)castManagerDidConnectToDevice:(NSDictionary *)deviceInfo {
+  [self.ooReactSkinModel sendEventWithName:castManagerDidConnectDevice body:deviceInfo];
+}
+
+- (void)castManagerDidDisconnectFromCurrentDevice {
+  [self.ooReactSkinModel sendEventWithName:castManagerDidDisconnectDevice body:nil];
 }
 
 @end

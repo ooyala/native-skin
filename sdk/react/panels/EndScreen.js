@@ -6,20 +6,20 @@ import {
   View,
   Image,
   TouchableHighlight,
-  Platform
+  Platform,
 } from 'react-native';
 
 import {
   BUTTON_NAMES,
-  UI_SIZES
+  UI_SIZES,
 } from '../constants';
 import Utils from '../utils';
 import ResponsiveDesignManager from '../responsiveDesignManager';
 import InfoPanel from '../infoPanel';
 import BottomOverlay from '../src/BottomOverlay';
 import Log from '../log';
-
 import endScreenStyles from './style/endScreenStyles.json';
+
 const styles = Utils.getStyles(endScreenStyles);
 
 class EndScreen extends Component {
@@ -43,7 +43,7 @@ class EndScreen extends Component {
   };
 
   state = {
-    showControls: true
+    showControls: true,
   };
 
   handleClick = (name) => {
@@ -53,7 +53,7 @@ class EndScreen extends Component {
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
     this.setState({
-      lastPressedTime: new Date().getTime()
+      lastPressedTime: new Date().getTime(),
     });
     if (this.state.showControls) {
       if (name === 'LIVE') {
@@ -66,7 +66,7 @@ class EndScreen extends Component {
     }
   };
 
-  _renderDefaultScreen = () => {
+  renderDefaultScreen = () => {
     const endScreenConfig = this.props.config.endScreen || {};
 
     const replayMarginBottom = !this.props.config.controlBar.enabled ?
@@ -79,10 +79,13 @@ class EndScreen extends Component {
       const fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
       replayButton = (
         <TouchableHighlight
-          accessible={true} accessibilityLabel={BUTTON_NAMES.REPLAY} accessibilityComponentType='button'
-          onPress={(name) => this.handleClick(BUTTON_NAMES.REPLAY)}
-          underlayColor='transparent'
-          activeOpacity={0.5}>
+          accessible={true}
+          accessibilityLabel={BUTTON_NAMES.REPLAY}
+          accessibilityComponentType="button"
+          onPress={() => this.handleClick(BUTTON_NAMES.REPLAY)}
+          underlayColor="transparent"
+          activeOpacity={0.5}
+        >
           <Text style={[styles.replayButton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
         </TouchableHighlight>
       );
@@ -93,9 +96,9 @@ class EndScreen extends Component {
     const infoPanel = (<InfoPanel title={title} description={description} />);
 
     return (
-      <View style={[styles.fullscreenContainer, {width: this.props.width,height: this.props.height}]}>
+      <View style={[styles.fullscreenContainer, { width: this.props.width,height: this.props.height }]}>
         <Image
-          source={{uri: this.props.promoUrl}}
+          source={{ uri: this.props.promoUrl }}
           style={
             [styles.fullscreenContainer, {
               position: 'absolute',
@@ -103,8 +106,8 @@ class EndScreen extends Component {
               left: 0,
               width: this.props.width,
               height: this.props.height}]}
-          resizeMode='contain'>
-        </Image>
+          resizeMode="contain"
+        />
         {infoPanel}
         <View style={[replayButtonLocation, {marginBottom: replayMarginBottom}]}>
           {replayButton}
@@ -157,7 +160,7 @@ class EndScreen extends Component {
     );
   }
 
-  _renderLoading ()  {
+  renderLoading() {
     const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
     const scaleMultiplier = Platform.OS === 'android' ? 2 : 1;
     const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
@@ -167,23 +170,24 @@ class EndScreen extends Component {
       top: topOffset,
       left: leftOffset,
       width: loadingSize,
-      height: loadingSize
+      height: loadingSize,
     };
     if (this.props.loading) {
       return (
         <ActivityIndicator
           style={loadingStyle}
-          size='large'
+          size="large"
         />
       );
     }
-  };
+    return null;
+  }
 
   render() {
     return (
       <View accessible={false} style={styles.container}>
-        {this._renderDefaultScreen()}
-        {this._renderLoading()}
+        {this.renderDefaultScreen()}
+        {this.renderLoading()}
       </View>
     );
   }

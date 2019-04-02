@@ -100,6 +100,14 @@ RCT_EXPORT_METHOD(onPlaybackSpeedRateSelected:(NSDictionary *)parameters) {
   [self.skinModelDelegate handlePlaybackSpeedRateSelection:parameters[playbackSpeedRateKey]];
 }
 
+RCT_EXPORT_METHOD(onCastDeviceSelected:(NSString *)deviceId) {
+  [self.skinModelDelegate handleCastDeviceSelected:deviceId];
+}
+
+RCT_EXPORT_METHOD(onCastDisconnectPressed) {
+  [self.skinModelDelegate handleCastDisconnect];
+}
+
 RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
   NSString *buttonName = parameters[nameKey];
 

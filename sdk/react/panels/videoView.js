@@ -6,14 +6,14 @@ import {
   Text,
   View,
   Platform,
-  TouchableHighlight
+  TouchableHighlight,
 } from 'react-native';
 
 import {
   BUTTON_NAMES,
   UI_SIZES,
   AUTOHIDE_DELAY,
-  VALUES
+  VALUES,
 } from '../constants';
 import BottomOverlay from '../src/BottomOverlay';
 import UpNext from '../upNext';
@@ -25,6 +25,7 @@ import VideoWaterMark from '../widgets/videoWaterMark';
 
 import panelStyles from './style/panelStyles.json';
 import videoViewStyles from './style/videoViewStyles.json';
+
 const styles = Utils.getStyles(videoViewStyles);
 
 class VideoView extends Component {
@@ -92,13 +93,13 @@ class VideoView extends Component {
 
 
   handlePress = (name) => {
-    Log.verbose('VideoView Handle Press: ' + name);
+    Log.verbose(`VideoView Handle Press: ${name}`);
     this.props.handlers.showControls();
     this.props.handlers.onPress(name);
   };
 
   onSeekPressed = (skipCountValue) => {
-    if (skipCountValue == 0) { return null; }
+    if (skipCountValue === 0) { return null; }
 
     let configSeekValue = (skipCountValue > 0) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
     configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
@@ -194,7 +195,7 @@ class VideoView extends Component {
     const VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
     let waterMarkName = Platform.select({
       ios: this.props.config.general.watermark.imageResource.iosResource,
-      android: this.props.config.general.watermark.imageResource.androidResource
+      android: this.props.config.general.watermark.imageResource.androidResource,
     });
 
     let watermark;
@@ -217,7 +218,7 @@ class VideoView extends Component {
 
     const ccStyle = {
       color: this.props.captionStyles.textColor, fontFamily: this.props.captionStyles.fontName,
-      backgroundColor: 'rgba(0,0,0,'+this.props.config.ccBackgroundOpacity+')'
+      backgroundColor: 'rgba(0,0,0,'+this.props.config.ccBackgroundOpacity+')',
     };
     if (this.props.caption) {
       return (
@@ -244,7 +245,7 @@ class VideoView extends Component {
       <UpNext
         config={{
           upNext: this.props.config.upNext,
-          icons: this.props.config.icons
+          icons: this.props.config.icons,
         }}
         ad={this.props.ad}
         playhead={this.props.playhead}
@@ -266,20 +267,20 @@ class VideoView extends Component {
         icons={{
           play: {
             icon: this.props.config.icons.play.fontString,
-            fontFamily: this.props.config.icons.play.fontFamilyName
+            fontFamily: this.props.config.icons.play.fontFamilyName,
           },
           pause: {
             icon: this.props.config.icons.pause.fontString,
-            fontFamily: this.props.config.icons.pause.fontFamilyName
+            fontFamily: this.props.config.icons.pause.fontFamilyName,
           },
           seekForward: {
             icon: this.props.config.icons.forward.fontString,
-            fontFamily: this.props.config.icons.forward.fontFamilyName
+            fontFamily: this.props.config.icons.forward.fontFamilyName,
           },
           seekBackward: {
             icon: this.props.config.icons.replay.fontString,
-            fontFamily: this.props.config.icons.replay.fontFamilyName
-          }
+            fontFamily: this.props.config.icons.replay.fontFamilyName,
+          },
         }}
         seekEnabled={seekVisible}
         ffActive={this.props.live ? notInLiveRegion : true}
@@ -375,7 +376,7 @@ class VideoView extends Component {
       top: topOffset,
       left: leftOffset,
       width: loadingSize,
-      height: loadingSize
+      height: loadingSize,
     };
     if (this.props.loading) {
       return (
