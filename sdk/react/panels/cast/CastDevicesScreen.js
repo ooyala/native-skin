@@ -108,8 +108,6 @@ export default class CastDevicesScreen extends Component {
     onDeviceSelected(deviceId);
   }
 
-  keyExtractor = item => item.id;
-
   renderCastDevicesScreen(animationStyle, dismissButtonRow) {
     const { height, width, devices } = this.props;
 
@@ -131,7 +129,7 @@ export default class CastDevicesScreen extends Component {
             style={styles.listViewContainer}
             data={devices}
             extraData={this.state}
-            keyExtractor={this.keyExtractor}
+            keyExtractor={item => item.id}
             renderItem={this.renderItem}
           />
         </Animated.View>
