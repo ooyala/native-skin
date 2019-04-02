@@ -110,7 +110,7 @@ export default class CastDevicesScreen extends Component {
 
   renderCastDevicesScreen(animationStyle, dismissButtonRow) {
     const { height, width, devices } = this.props;
-
+    const { selectedID } = this.state;
     return (
       <Animated.View
         style={[styles.fullscreenContainer, animationStyle, {
@@ -128,7 +128,7 @@ export default class CastDevicesScreen extends Component {
           <FlatList
             style={styles.listViewContainer}
             data={devices}
-            extraData={this.state}
+            extraData={selectedID}
             keyExtractor={item => item.id}
             renderItem={this.renderItem}
           />
