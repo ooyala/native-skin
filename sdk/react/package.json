@@ -5,10 +5,10 @@
   "scripts": {
     "build": "npm run clean:build && npm run build:android && npm run build:ios",
     "build:android": "mkdir -p dist && npm run cli -- bundle --entry-file index.android.js --platform android --dev false --bundle-output dist/index.android.jsbundle",
-    "build:ios": "mkdir -p dist && npm run cli -- bundle --entry-file index.ios.js --platform ios --dev false --bundle-output dist/index.ios.jsbundle",
+    "build:ios": "mkdir -p dist && npm run cli -- bundle --entry-file index.ios.js --platform ios --dev false --bundle-output dist/main.jsbundle",
     "build:dev": "npm run clean:build && npm run build:dev:android && npm run build:dev:ios",
     "build:dev:android": "mkdir -p dist && npm run cli -- bundle --entry-file index.android.js --platform android --dev true --bundle-output dist/index.android.jsbundle",
-    "build:dev:ios": "mkdir -p dist && npm run cli -- bundle --entry-file index.ios.js --platform ios --dev true --bundle-output dist/index.ios.jsbundle",
+    "build:dev:ios": "mkdir -p dist && npm run cli -- bundle --entry-file index.ios.js --platform ios --dev true --bundle-output dist/main.jsbundle",
     "ci": "npm run lint && npm run flow && npm run coverage && npm run build",
     "clean:build": "rm -rf dist",
     "clean:coverage": "rm -rf coverage",

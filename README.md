@@ -88,8 +88,8 @@ files are present there.
 JavaScript project produces only one type of artifacts: bundled JavaScript files that can be used in the mobile SDK
 build process. Use the following commands to create production bundles in the `dist` directory:
 
-* `npm run build:android` - creates Android production bundle.
-* `npm run build:ios` - creates iOS production bundle.
+* `npm run build:android` - creates Android production bundle `index.android.jsbundle`.
+* `npm run build:ios` - creates iOS production bundle `main.jsbundle`.
 * `npm run build` - creates both production bundles.
 
 Also, for development purposes you can build bundles with the development mode enabled. That means bundles will not be
@@ -99,6 +99,12 @@ interface.
 * `npm run build:dev:android` - creates Android development bundle.
 * `npm run build:dev:ios` - creates iOS development bundle.
 * `npm run build:dev` - creates both development bundles.
+
+You can also pass your own `bundle-output` path like so:
+
+```sh
+npm run build:ios -- --bundle-output ../../../ios-sample-apps/vendor/Ooyala/OoyalaSkinSDK-iOS/main.jsbundle
+```
 
 #### Continuous integration
 
