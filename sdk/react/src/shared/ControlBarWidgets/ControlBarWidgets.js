@@ -12,15 +12,15 @@ import {
   BUTTON_NAMES,
   STRING_CONSTANTS,
   VIEW_ACCESSIBILITY_NAMES,
-} from '../constants';
-import Utils from '../utils';
-import AccessibilityUtils from '../accessibilityUtils';
-import VolumeView from './VolumeView';
-import SkipButton from './SkipButton';
-import PipView from './PiPView';
-import Log from '../log';
+} from '../../constants';
+import Utils from '../../lib/utils';
+import AccessibilityUtils from '../../lib/accessibilityUtils';
+import VolumeView from './VolumeView/VolumeView';
+import SkipButton from '../SkipButton/SkipButton';
+import PipView from './PipView/PipView';
+import Log from '../../lib/log';
 
-import controlBarWidgetStyles from './style/controlBarWidgetStyles.json';
+import controlBarWidgetStyles from './ControlBarWidgets.styles';
 const styles = Utils.getStyles(controlBarWidgetStyles);
 
 class controlBarWidget extends Component {

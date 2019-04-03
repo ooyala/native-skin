@@ -7,10 +7,10 @@ import {
 
 import {
   VIEW_NAMES,
-} from '../constants';
-import Log from '../log';
-import Utils from '../utils';
-import progressBarStyles from './style/progressBarStyles.json';
+} from '../../constants';
+import Log from '../../lib/log';
+import Utils from '../../lib/utils';
+import progressBarStyles from './ProgressBar.styles';
 
 const styles = Utils.getStyles(progressBarStyles);
 

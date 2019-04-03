@@ -6,9 +6,9 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import Utils from '../utils';
+import Utils from '../../lib/utils';
 
-import rectButtonStyles from './style/RectButtonStyles.json';
+import rectButtonStyles from '../styles/RectButtonStyles';
 const styles = Utils.getStyles(rectButtonStyles);
 
 class RectButton extends Component {

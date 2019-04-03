@@ -9,7 +9,7 @@ import Log from './log';
 const Utils = {
 
   renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
-    const RectButton = require('../widgets/RectButton/RectButton');
+    const RectButton = require('../shared/RectButton/RectButton');
     return (
       <RectButton
         name={name}

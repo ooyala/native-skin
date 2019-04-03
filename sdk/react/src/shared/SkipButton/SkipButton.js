@@ -7,11 +7,11 @@ import {
 
 import {
   STRING_CONSTANTS
-} from '../constants';
-import AccessibilityUtils from '../accessibilityUtils';
-import Utils from '../utils';
+} from '../../constants';
+import AccessibilityUtils from '../../lib/accessibilityUtils';
+import Utils from '../../lib/utils';
 
-import rectButtonStyles from './style/RectButtonStyles.json';
+import rectButtonStyles from '../styles/RectButtonStyles';
 const styles = Utils.getStyles(rectButtonStyles);
 
 class SkipButton extends Component {

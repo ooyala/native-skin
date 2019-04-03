@@ -5,9 +5,9 @@ import {
   ScrollView
 } from 'react-native';
 
-import Utils from '../utils';
+import Utils from '../../../lib/utils';
 
-import responsiveListStyles from './style/ResponsiveListStyles.json';
+import responsiveListStyles from './ResponsiveList.styles';
 const styles = Utils.getStyles(responsiveListStyles);
 const placeHolderItem = 'ResponsiveListPlaceHolder';
 

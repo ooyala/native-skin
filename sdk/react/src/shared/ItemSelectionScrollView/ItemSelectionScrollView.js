@@ -6,11 +6,11 @@ import {
   View
 } from 'react-native';
 
-import AccessibilityUtils from '../accessibilityUtils';
-import Utils from '../utils';
-import ItemSelectionList from './ItemSelectionList';
+import AccessibilityUtils from '../../lib/accessibilityUtils';
+import Utils from '../../lib/utils';
+import ItemSelectionList from './ItemSelectionList/ItemSelectionList';
 
-import itemSelectionScrollViewStyles from './style/ItemSelectionScrollViewStyles';
+import itemSelectionScrollViewStyles from './ItemSelectionScrollView.styles';
 const styles = Utils.getStyles(itemSelectionScrollViewStyles);
 
 class ItemSelectionScrollView extends Component {

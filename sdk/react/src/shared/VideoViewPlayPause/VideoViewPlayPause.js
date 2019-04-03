@@ -9,14 +9,14 @@ import {
 import {
   BUTTON_NAMES,
   VALUES
-} from '../constants';
-import SkipButton from './SkipButton'
-import Utils from '../utils';
-import AccessibilityUtils from '../accessibilityUtils';
+} from '../../constants';
+import SkipButton from '../SkipButton/SkipButton'
+import Utils from '../../lib/utils';
+import AccessibilityUtils from '../../lib/accessibilityUtils';
 import timerForSkipButtons from 'react-native-timer';
 
 // Uses the rectbutton styles
-import rectButtonStyles from './style/RectButtonStyles.json';
+import rectButtonStyles from '../styles/RectButtonStyles';
 const styles = Utils.getStyles(rectButtonStyles);
 const PLAY = 'play';
 const PAUSE = 'pause';
