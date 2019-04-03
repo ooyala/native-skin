@@ -15,7 +15,7 @@ import Log from '../../lib/log';
 import Utils from '../../lib/utils';
 
 import errorScreenStyles from './ErrorScreen.styles';
-import errorScreenStylesAudio from './errorScreenStylesAudio';
+import errorScreenStylesAudio from './ErrorScreenAudio.styles';
 
 const styles = Utils.getStyles(errorScreenStyles);
 const stylesAudio = Utils.getStyles(errorScreenStylesAudio);

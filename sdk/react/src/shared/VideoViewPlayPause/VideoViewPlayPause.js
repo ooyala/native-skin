@@ -16,7 +16,7 @@ import AccessibilityUtils from '../../lib/accessibility';
 import timerForSkipButtons from 'react-native-timer';
 
 // Uses the rectbutton styles
-import rectButtonStyles from '../styles/RectButtonStyles';
+import rectButtonStyles from '../styles/rectangularButton.styles';
 const styles = Utils.getStyles(rectButtonStyles);
 const PLAY = 'play';
 const PAUSE = 'pause';

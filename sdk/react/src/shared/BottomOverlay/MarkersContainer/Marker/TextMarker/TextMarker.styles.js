@@ -3,8 +3,8 @@
 import { StyleSheet } from 'react-native';
 
 import { MARKERS_SIZES } from '../../../../../constants';
-import commonMarkerStyle from '../styles/commonMarkerStyle';
-import triangleStyle from '../styles/triangleStyle';
+import commonMarkerStyle from '../styles/commonMarker.style';
+import triangleStyle from '../styles/triangle.style';
 
 const collapsedWidth = MARKERS_SIZES.TEXT_COLLAPSED_WIDTH + 2 * MARKERS_SIZES.PADDING + 2 * MARKERS_SIZES.BORDER_WIDTH;
 const expandedWidth = MARKERS_SIZES.TEXT_EXPANDED_WIDTH + 2 * MARKERS_SIZES.PADDING + 2 * MARKERS_SIZES.BORDER_WIDTH;

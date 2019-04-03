@@ -8,10 +8,10 @@ import {
 
 import Utils from '../../lib/utils';
 
-import rectButtonStyles from '../styles/RectButtonStyles';
+import rectButtonStyles from '../styles/rectangularButton.styles';
 const styles = Utils.getStyles(rectButtonStyles);
 
-class RectButton extends Component {
+class RectangularButton extends Component {
   static propTypes = {
     icon: PropTypes.string,
     name: PropTypes.string,
@@ -61,4 +61,4 @@ class RectButton extends Component {
   }
 }
 
-module.exports = RectButton;
+module.exports = RectangularButton;

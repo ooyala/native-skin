@@ -3,8 +3,8 @@
 import { StyleSheet } from 'react-native';
 
 import { MARKERS_SIZES } from '../../../../../constants';
-import commonMarkerStyle from '../styles/commonMarkerStyle';
-import triangleStyle from '../styles/triangleStyle';
+import commonMarkerStyle from '../styles/commonMarker.style';
+import triangleStyle from '../styles/triangle.style';
 
 export default StyleSheet.create({
   expanded: {

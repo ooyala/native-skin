@@ -21,7 +21,7 @@ import ResponsiveList from './ResponsiveList/ResponsiveList';
 import CountdownViewiOS from '../../shared/CountdownTimerIos/CountdownTimerIos';
 import CountdownViewAndroid from '../../shared/CountdownTimerAndroid/CountdownTimerAndroid';
 
-import panelStyles from '../styles/common.styles';
+import panelStyles from '../styles/panel.styles';
 import discoveryPanelStyles from './DiscoveryPanel.styles';
 
 const styles = Utils.getStyles(discoveryPanelStyles);

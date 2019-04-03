@@ -11,7 +11,7 @@ import {
 import AccessibilityUtils from '../../lib/accessibility';
 import Utils from '../../lib/utils';
 
-import rectButtonStyles from '../styles/RectButtonStyles';
+import rectButtonStyles from '../styles/rectangularButton.styles';
 const styles = Utils.getStyles(rectButtonStyles);
 
 class SkipButton extends Component {

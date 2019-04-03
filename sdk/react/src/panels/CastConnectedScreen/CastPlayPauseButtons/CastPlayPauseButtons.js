@@ -10,7 +10,7 @@ import SwitchButton from './SwitchButton/SwitchButton';
 import { BUTTON_NAMES, VALUES } from '../../../constants';
 import Utils from '../../../lib/utils';
 import AccessibilityUtils from '../../../lib/accessibility';
-import rectButtonStyles from '../../../shared/styles/RectButtonStyles';
+import rectButtonStyles from '../../../shared/styles/rectangularButton.styles';
 
 // Uses the rectbutton styles
 const styles = Utils.getStyles(rectButtonStyles);
