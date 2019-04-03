@@ -5,9 +5,9 @@ import {
   View
 } from 'react-native';
 
-import Utils from './utils';
+import Utils from '../../../lib/utils';
 
-import infoPanelStyles from './style/infoPanelStyles.json';
+import infoPanelStyles from './InfoPanel.styles';
 const styles = Utils.getStyles(infoPanelStyles);
 
 class InfoPanel extends Component {

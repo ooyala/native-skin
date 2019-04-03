@@ -5,12 +5,12 @@ import {
 } from 'react-native';
 
 import timerForSkipButtons from 'react-native-timer';
-import SkipButton from './SkipButton';
-import SwitchButton from './SwitchButton';
-import { BUTTON_NAMES, VALUES } from '../constants';
-import Utils from '../utils';
-import AccessibilityUtils from '../accessibilityUtils';
-import rectButtonStyles from './style/RectButtonStyles.json';
+import SkipButton from '../../../shared/SkipButton/SkipButton';
+import SwitchButton from './SwitchButton/SwitchButton';
+import { BUTTON_NAMES, VALUES } from '../../../constants';
+import Utils from '../../../lib/utils';
+import AccessibilityUtils from '../../../lib/accessibilityUtils';
+import rectButtonStyles from '../../../shared/styles/RectButtonStyles';
 
 // Uses the rectbutton styles
 const styles = Utils.getStyles(rectButtonStyles);

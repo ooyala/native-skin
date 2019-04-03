@@ -10,12 +10,12 @@ import {
 
 import {
   BUTTON_NAMES
-} from './constants';
-import Utils from './utils';
-import CountdownView from './widgets/countdownTimeriOS';
-import CountdownViewAndroid from './widgets/countdownTimerAndroid';
+} from '../../../constants';
+import Utils from '../../../lib/utils';
+import CountdownView from '../../../shared/CountdownTimerIos/CountdownTimerIos';
+import CountdownViewAndroid from '../../../shared/CountdownTimerAndroid/CountdownTimerAndroid';
 
-import upNextStyle from './style/upNext.json';
+import upNextStyle from './UpNext.styles';
 const styles = Utils.getStyles(upNextStyle);
 const defaultCountdownVal = 10;
 

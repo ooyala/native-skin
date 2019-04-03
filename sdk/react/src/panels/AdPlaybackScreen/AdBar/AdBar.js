@@ -8,11 +8,11 @@ import {
 
 import {
   BUTTON_NAMES
-} from './constants';
-import Log from './log';
-import Utils from './utils';
+} from '../../../constants';
+import Log from '../../../lib/log';
+import Utils from '../../../lib/utils';
 
-import adBarStyles from './style/adBarStyles.json';
+import adBarStyles from './AdBar.styles';
 const styles = Utils.getStyles(adBarStyles);
 
 class AdBar extends Component {
@@ -53,9 +53,9 @@ class AdBar extends Component {
       allowedTextLength -= this.props.ad.measures.learnmore + 32;
     }
 
-    Log.verbose('width: ' + this.props.width + '. allowed: ' + allowedTextLength + 
+    Log.verbose('width: ' + this.props.width + '. allowed: ' + allowedTextLength +
                 '. learnmore: ' + this.props.ad.measures.learnmore);
-    Log.verbose('. duration: ' + this.props.ad.measures.duration + '. count: ' + this.props.ad.measures.count + 
+    Log.verbose('. duration: ' + this.props.ad.measures.duration + '. count: ' + this.props.ad.measures.count +
                 '. title: ' + this.props.ad.measures.title + '. prefix: ' + this.props.ad.measures.prefix);
     if (this.props.ad.skipoffset >= 0) {
       if (showSkip) {

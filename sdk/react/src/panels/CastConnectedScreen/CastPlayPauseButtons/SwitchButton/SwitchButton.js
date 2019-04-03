@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
-import { STRING_CONSTANTS } from '../constants';
-import AccessibilityUtils from '../accessibilityUtils';
-import rectButtonStyles from './style/RectButtonStyles.json';
-import Utils from '../utils';
+import { STRING_CONSTANTS } from '../../../../constants';
+import AccessibilityUtils from '../../../../lib/accessibilityUtils';
+import rectButtonStyles from '../../../../shared/styles/RectButtonStyles';
+import Utils from '../../../../lib/utils';
 
 const styles = Utils.getStyles(rectButtonStyles);
 

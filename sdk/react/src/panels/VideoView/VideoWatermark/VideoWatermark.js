@@ -5,12 +5,12 @@ import {
   View
 } from 'react-native';
 
-import Utils from '../utils';
+import Utils from '../../../lib/utils';
 
-import videoWaterMarkStyles from './style/videoWaterMarkStyles.json';
+import videoWaterMarkStyles from './VideoWatermark.styles';
 const styles = Utils.getStyles(videoWaterMarkStyles);
 
-class VideoWaterMark extends Component {
+class VideoWatermark extends Component {
   static propTypes = {
     buttonWidth: PropTypes.number.isRequired,
     buttonHeight: PropTypes.number.isRequired,
@@ -35,4 +35,4 @@ class VideoWaterMark extends Component {
   }
 }
 
-module.exports = VideoWaterMark;
+module.exports = VideoWatermark;

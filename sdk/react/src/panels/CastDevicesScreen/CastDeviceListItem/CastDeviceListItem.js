@@ -8,9 +8,9 @@ import {
 
 import {
   BUTTON_NAMES,
-} from '../../constants';
-import castDevicesStyles from '../style/CastDevicesStyles.json';
-import Utils from '../../utils';
+} from '../../../constants';
+import castDevicesStyles from '../CastDevicesScreen.styles';
+import Utils from '../../../lib/utils';
 
 const styles = Utils.getStyles(castDevicesStyles);
 const castButtonSize = 35;
