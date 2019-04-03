@@ -44,7 +44,7 @@ const Utils = {
   // Returns a React stylesheet based on the json object passed in. This method takes the json object,
   // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
   getStyles: function(specificStyles) {
-    const globalStyles = require('./styles.json');
+    const globalStyles = require('../shared/styles/utils.styles.json');
 
     if (specificStyles == undefined) {
       specificStyles = {};

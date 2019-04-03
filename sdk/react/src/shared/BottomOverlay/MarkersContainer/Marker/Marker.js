@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import IconMarker from './IconMarker';
 import TextMarker from './TextMarker';
-import type { Marker as MarkerType } from '../../../../types/Marker';
+import type { Marker as MarkerType } from '../../../../types/Markers';
 
 type Props = {
   accentColor?: ?string,

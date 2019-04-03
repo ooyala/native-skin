@@ -12,7 +12,7 @@ import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 import CastPlayPauseButtons from './CastPlayPauseButtons/CastPlayPauseButtons';
 import Utils from '../../lib/utils';
 import castConnectedStyles from './CastConnectedScreen.styles';
-import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import BottomOverlay from '../../shared/BottomOverlay';
 
 const styles = Utils.getStyles(castConnectedStyles);

@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native';
 
-import AccessibilityUtils from '../../lib/accessibilityUtils';
+import AccessibilityUtils from '../../lib/accessibility';
 import Utils from '../../lib/utils';
 import ItemSelectionList from './ItemSelectionList/ItemSelectionList';
 

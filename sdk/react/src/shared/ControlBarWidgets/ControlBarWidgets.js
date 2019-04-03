@@ -14,7 +14,7 @@ import {
   VIEW_ACCESSIBILITY_NAMES,
 } from '../../constants';
 import Utils from '../../lib/utils';
-import AccessibilityUtils from '../../lib/accessibilityUtils';
+import AccessibilityUtils from '../../lib/accessibility';
 import VolumeView from './VolumeView/VolumeView';
 import SkipButton from '../SkipButton/SkipButton';
 import PipView from './PipView/PipView';

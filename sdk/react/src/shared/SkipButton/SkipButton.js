@@ -8,7 +8,7 @@ import {
 import {
   STRING_CONSTANTS
 } from '../../constants';
-import AccessibilityUtils from '../../lib/accessibilityUtils';
+import AccessibilityUtils from '../../lib/accessibility';
 import Utils from '../../lib/utils';
 
 import rectButtonStyles from '../styles/RectButtonStyles';

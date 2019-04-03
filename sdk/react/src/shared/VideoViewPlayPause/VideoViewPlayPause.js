@@ -12,7 +12,7 @@ import {
 } from '../../constants';
 import SkipButton from '../SkipButton/SkipButton'
 import Utils from '../../lib/utils';
-import AccessibilityUtils from '../../lib/accessibilityUtils';
+import AccessibilityUtils from '../../lib/accessibility';
 import timerForSkipButtons from 'react-native-timer';
 
 // Uses the rectbutton styles

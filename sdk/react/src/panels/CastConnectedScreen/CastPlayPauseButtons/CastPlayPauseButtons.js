@@ -9,7 +9,7 @@ import SkipButton from '../../../shared/SkipButton/SkipButton';
 import SwitchButton from './SwitchButton/SwitchButton';
 import { BUTTON_NAMES, VALUES } from '../../../constants';
 import Utils from '../../../lib/utils';
-import AccessibilityUtils from '../../../lib/accessibilityUtils';
+import AccessibilityUtils from '../../../lib/accessibility';
 import rectButtonStyles from '../../../shared/styles/RectButtonStyles';
 
 // Uses the rectbutton styles

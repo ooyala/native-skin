@@ -16,7 +16,7 @@ import BottomOverlay from '../../shared/BottomOverlay';
 import AdBar from './AdBar/AdBar';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
 import Utils from '../../lib/utils';
-import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 
 import videoViewStyles from '../VideoView/VideoView.styles';
 const styles = Utils.getStyles(videoViewStyles);

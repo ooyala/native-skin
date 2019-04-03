@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
 import { STRING_CONSTANTS } from '../../../../constants';
-import AccessibilityUtils from '../../../../lib/accessibilityUtils';
+import AccessibilityUtils from '../../../../lib/accessibility';
 import rectButtonStyles from '../../../../shared/styles/RectButtonStyles';
 import Utils from '../../../../lib/utils';
 

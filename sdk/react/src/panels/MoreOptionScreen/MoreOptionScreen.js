@@ -9,7 +9,7 @@ import {
   BUTTON_NAMES
 } from '../../constants';
 import Log from '../../lib/log';
-import CollapsingBarUtils from '../../lib/collapsingBarUtils';
+import CollapsingBarUtils from '../../lib/collapser';
 import Utils from '../../lib/utils';
 
 import moreOptionScreenStyles from './MoreOptionScreen.styles';

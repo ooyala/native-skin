@@ -6,7 +6,7 @@ import {
 } from './constants';
 import Log from './lib/log';
 import BridgeListener from './BridgeListener';
-import PanelRenderer from './panels/PanelRenderer';
+import PanelRenderer from './PanelRenderer';
 
 const clickRadius = 5;
 let startedClickX;

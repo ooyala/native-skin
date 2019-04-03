@@ -14,7 +14,7 @@ import {
   UI_SIZES,
 } from '../../constants';
 import Utils from '../../lib/utils';
-import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import InfoPanel from './InfoPanel/InfoPanel';
 import BottomOverlay from '../../shared/BottomOverlay';
 import Log from '../../lib/log';

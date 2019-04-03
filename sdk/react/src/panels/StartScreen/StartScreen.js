@@ -13,7 +13,7 @@ import {
 } from '../../constants';
 import Utils from '../../lib/utils';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
-import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 
 import startScreenStyles from './StartScreen.styles';
 const styles = Utils.getStyles(startScreenStyles);

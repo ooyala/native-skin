@@ -3,26 +3,26 @@ import { Platform, NativeModules } from 'react-native';
 
 import {
   BUTTON_NAMES, DESIRED_STATES, OVERLAY_TYPES, SCREEN_TYPES, UI_SIZES,
-} from '../constants';
-import Log from '../lib/log';
-import Utils from '../lib/utils';
+} from './constants';
+import Log from './lib/log';
+import Utils from './lib/utils';
 
-import AdPlaybackScreen from './AdPlaybackScreen/AdPlaybackScreen';
-import AudioAndCCSelectionPanel from './AudioAndCcSelectionPanel/AudioAndCcSelectionPanel';
-import AudioView from './AudioView/AudioView';
-import CastAirPlayScreen from './CastAirPlayScreen/CastAirPlayScreen';
-import CastConnectedScreen from './CastConnectedScreen/CastConnectedScreen';
-import CastConnectingScreen from './CastConnectingScreen/CastConnectingScreen';
-import CastDevicesScreen from './CastDevicesScreen/CastDevicesScreen';
-import DiscoveryPanel from './DiscoveryPanel/DiscoveryPanel';
-import EndScreen from './EndScreen/EndScreen';
-import ErrorScreen from './ErrorScreen/ErrorScreen';
-import MoreDetailsScreen from './MoreDetailsScreen/MoreDetailsScreen';
-import MoreOptionScreen from './MoreOptionScreen/MoreOptionScreen';
-import PlaybackSpeedPanel from './PlaybackSpeedPanel/PlaybackSpeedPanel';
-import StartScreen from './StartScreen/StartScreen';
-import VideoView from './VideoView/VideoView';
-import VolumePanel from './VolumePanel/VolumePanel';
+import AdPlaybackScreen from './panels/AdPlaybackScreen/AdPlaybackScreen';
+import AudioAndCCSelectionPanel from './panels/AudioAndCcSelectionPanel/AudioAndCcSelectionPanel';
+import AudioView from './panels/AudioView/AudioView';
+import CastAirPlayScreen from './panels/CastAirPlayScreen/CastAirPlayScreen';
+import CastConnectedScreen from './panels/CastConnectedScreen/CastConnectedScreen';
+import CastConnectingScreen from './panels/CastConnectingScreen/CastConnectingScreen';
+import CastDevicesScreen from './panels/CastDevicesScreen/CastDevicesScreen';
+import DiscoveryPanel from './panels/DiscoveryPanel/DiscoveryPanel';
+import EndScreen from './panels/EndScreen/EndScreen';
+import ErrorScreen from './panels/ErrorScreen/ErrorScreen';
+import MoreDetailsScreen from './panels/MoreDetailsScreen/MoreDetailsScreen';
+import MoreOptionScreen from './panels/MoreOptionScreen/MoreOptionScreen';
+import PlaybackSpeedPanel from './panels/PlaybackSpeedPanel/PlaybackSpeedPanel';
+import StartScreen from './panels/StartScreen/StartScreen';
+import VideoView from './panels/VideoView/VideoView';
+import VolumePanel from './panels/VolumePanel/VolumePanel';
 
 const ActivityView = NativeModules.OOActivityView;
 

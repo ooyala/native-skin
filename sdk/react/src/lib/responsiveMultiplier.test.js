@@ -1,4 +1,4 @@
-jest.dontMock('../responsiveDesignManager.js');
+jest.dontMock('./responsiveMultiplier.js');
 
 describe('Responsive Design Manager', function() {
   let ResponsiveDesignManager;
@@ -8,7 +8,7 @@ describe('Responsive Design Manager', function() {
   };
 
   beforeEach(function() {
-    ResponsiveDesignManager = require('./responsiveDesignManager.js');
+    ResponsiveDesignManager = require('./responsiveMultiplier.js');
   });
 
   it('Get Size should return 0  when below lowest threshold ', function() {

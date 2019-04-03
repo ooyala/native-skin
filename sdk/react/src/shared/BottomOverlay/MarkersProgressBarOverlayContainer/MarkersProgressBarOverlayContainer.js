@@ -6,7 +6,7 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 
 import MarkerProgressBarOverlay from './MarkerProgressBarOverlay';
 import styles from './MarkersProgressBarOverlayContainer.styles';
-import type { Marker as MarkerType } from '../../../types/Marker';
+import type { Marker as MarkerType } from '../../../types/Markers';
 
 type Props = {
   accentColor?: ?string,

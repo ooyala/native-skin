@@ -1,6 +1,6 @@
 import Log from './log';
 
-const ResponsiveDesignManager = {
+const ResponsiveMultiplier = {
 
   // Default threshold and multiplier
   default_threshold: [320, 860],
@@ -105,52 +105,52 @@ const ResponsiveDesignManager = {
     },
 
     TestResponsive_multiplier_medium: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveMultiplier(500, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 200, responsive);
     },
 
     TestResponsive_multiplier_medium_default: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(500, 100);
+      const responsive = ResponsiveMultiplier.makeResponsiveMultiplier(500, 100);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_small: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(100, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveMultiplier(100, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_small_border: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(200, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveMultiplier(200, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_multiplier_large_border: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(800, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveMultiplier(800, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 200, responsive);
     },
 
     TestResponsive_multiplier_large: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1, 2, 3], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveMultiplier(900, 100, [1, 2, 3], [200, 800]);
       this.AssertStrictEquals(responsive, 300, responsive);
     },
 
     TestResponsive_multiplier_overflow: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveMultiplier(900, 100, [1], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveMultiplier(900, 100, [1], [200, 800]);
       this.AssertStrictEquals(responsive, 100, responsive);
     },
 
     TestResponsive_values_medium: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200, 300, 400], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveValues(500, [200, 300, 400], [200, 800]);
       this.AssertStrictEquals( responsive, 300, responsive );
     },
 
     TestResponsive_values_overflow: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveValues(500, [200], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveValues(500, [200], [200, 800]);
       this.AssertStrictEquals( responsive, 200, responsive );
     },
 
     TestResponsive_values_empty_array: function() {
-      const responsive = ResponsiveDesignManager.makeResponsiveValues(500, [], [200, 800]);
+      const responsive = ResponsiveMultiplier.makeResponsiveValues(500, [], [200, 800]);
       this.AssertStrictEquals( responsive, 0, responsive );
     },
 
@@ -170,4 +170,4 @@ const ResponsiveDesignManager = {
   }
 };
 
-module.exports = ResponsiveDesignManager;
+module.exports = ResponsiveMultiplier;

@@ -1,4 +1,4 @@
-jest.dontMock('../collapsingBarUtils.js');
+jest.dontMock('./collapser.js');
 
 describe('Collapsing Bar Utils', function() {
 
@@ -18,7 +18,7 @@ describe('Collapsing Bar Utils', function() {
   };
 
   beforeEach(function() {
-    CollapsingBarUtils = require('./collapsingBarUtils.js');
+    CollapsingBarUtils = require('./collapser.js');
   });
 
   it('TestOverflow_overflowMoreOptionsDoesntCount', function() {

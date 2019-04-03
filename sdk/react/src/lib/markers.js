@@ -1,7 +1,7 @@
 // @flow
 
 import Log from './log';
-import type { Marker } from '../types/Marker';
+import type { Marker } from '../types/Markers';
 
 // eslint-disable-next-line import/prefer-default-export
 export const parseInputArray = (markers: ?Array<string>): Array<Marker> => {

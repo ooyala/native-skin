@@ -6,7 +6,7 @@ import {
   ACCESSIBILITY_COMMON
 } from '../constants'
 
-class AccessibilityUtils {
+class Accessibility {
 
   static createAccessibilityLabelForCell(cellType, param) {
     switch (cellType) {
@@ -46,4 +46,4 @@ class AccessibilityUtils {
   }
 };
 
-module.exports = AccessibilityUtils;
+module.exports = Accessibility;

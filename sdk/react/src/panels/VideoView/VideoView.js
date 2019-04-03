@@ -20,7 +20,7 @@ import UpNext from './UpNext/UpNext';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
 import Log from '../../lib/log';
 import Utils from '../../lib/utils';
-import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import VideoWaterMark from './VideoWatermark/VideoWatermark';
 
 import panelStyles from '../styles/common.styles';

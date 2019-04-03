@@ -11,11 +11,11 @@ import {
   ACCESSIBILITY_ANNOUNCERS,
   UI_SIZES
 } from '../../../constants';
-import CollapsingBarUtils from '../../../lib/collapsingBarUtils';
+import CollapsingBarUtils from '../../../lib/collapser';
 import Log from '../../../lib/log';
 import Utils from '../../../lib/utils';
 import ControlBarWidget from '../../ControlBarWidgets/ControlBarWidgets';
-import ResponsiveDesignManager from '../../../lib/responsiveDesignManager';
+import ResponsiveDesignManager from '../../../lib/responsiveMultiplier';
 
 import controlBarStyles from './ControlBar.styles';
 const styles = Utils.getStyles(controlBarStyles);

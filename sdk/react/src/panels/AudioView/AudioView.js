@@ -12,11 +12,11 @@ import {
   UI_SIZES,
   VALUES
 } from '../../constants';
-import CollapsingBarUtils from '../../lib/collapsingBarUtils';
+import CollapsingBarUtils from '../../lib/collapser';
 import Log from '../../lib/log';
 import ProgressBar from '../../shared/ProgressBar/ProgressBar';
 import ControlBarWidget from '../../shared/ControlBarWidgets/ControlBarWidgets';
-import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import Utils from '../../lib/utils';
 import timerForSkipButtons from 'react-native-timer';
 
