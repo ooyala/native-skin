@@ -7,28 +7,28 @@ import {
 import Log from './lib/log';
 import Utils from './lib/utils';
 
-import AdPlaybackScreen from './panels/AdPlaybackScreen/AdPlaybackScreen';
-import AudioAndCCSelectionPanel from './panels/AudioAndCcSelectionPanel/AudioAndCcSelectionPanel';
-import AudioView from './panels/AudioView/AudioView';
-import CastAirPlayScreen from './panels/CastAirPlayScreen/CastAirPlayScreen';
-import CastConnectedScreen from './panels/CastConnectedScreen/CastConnectedScreen';
-import CastConnectingScreen from './panels/CastConnectingScreen/CastConnectingScreen';
-import CastDevicesScreen from './panels/CastDevicesScreen/CastDevicesScreen';
-import DiscoveryPanel from './panels/DiscoveryPanel/DiscoveryPanel';
-import EndScreen from './panels/EndScreen/EndScreen';
-import ErrorScreen from './panels/ErrorScreen/ErrorScreen';
-import MoreDetailsScreen from './panels/MoreDetailsScreen/MoreDetailsScreen';
-import MoreOptionScreen from './panels/MoreOptionScreen/MoreOptionScreen';
-import PlaybackSpeedPanel from './panels/PlaybackSpeedPanel/PlaybackSpeedPanel';
-import StartScreen from './panels/StartScreen/StartScreen';
-import VideoView from './panels/VideoView/VideoView';
-import VolumePanel from './panels/VolumePanel/VolumePanel';
+import AdPlaybackScreen from './views/AdPlaybackScreen/AdPlaybackScreen';
+import AudioAndCCSelectionPanel from './views/AudioAndCcSelectionPanel/AudioAndCcSelectionPanel';
+import AudioView from './views/AudioView/AudioView';
+import CastAirPlayScreen from './views/CastAirPlayScreen/CastAirPlayScreen';
+import CastConnectedScreen from './views/CastConnectedScreen/CastConnectedScreen';
+import CastConnectingScreen from './views/CastConnectingScreen/CastConnectingScreen';
+import CastDevicesScreen from './views/CastDevicesScreen/CastDevicesScreen';
+import DiscoveryPanel from './views/DiscoveryPanel/DiscoveryPanel';
+import EndScreen from './views/EndScreen/EndScreen';
+import ErrorScreen from './views/ErrorScreen/ErrorScreen';
+import MoreDetailsScreen from './views/MoreDetailsScreen/MoreDetailsScreen';
+import MoreOptionScreen from './views/MoreOptionScreen/MoreOptionScreen';
+import PlaybackSpeedPanel from './views/PlaybackSpeedPanel/PlaybackSpeedPanel';
+import StartScreen from './views/StartScreen/StartScreen';
+import VideoView from './views/VideoView/VideoView';
+import VolumePanel from './views/VolumePanel/VolumePanel';
 
 const ActivityView = NativeModules.OOActivityView;
 
 const leftMargin = 20;
 
-export default class PanelRenderer {
+export default class ViewsRenderer {
   constructor(ooyalaSkin, ooyalaCore) {
     Log.log('OoyalaSkinPanelRenderer created');
     this.skin = ooyalaSkin;

@@ -6,7 +6,7 @@ import {
 } from './constants';
 import Log from './lib/log';
 import BridgeListener from './BridgeListener';
-import PanelRenderer from './PanelRenderer';
+import ViewsRenderer from './ViewsRenderer';
 
 const clickRadius = 5;
 let startedClickX;
@@ -17,7 +17,7 @@ export default class Core {
     this.skin = ooyalaSkin;
     this.bridge = eventBridge;
     this.ooyalaSkinBridgeListener = new BridgeListener(ooyalaSkin, this);
-    this.ooyalaSkinPanelRenderer = new PanelRenderer(ooyalaSkin, this);
+    this.ooyalaSkinPanelRenderer = new ViewsRenderer(ooyalaSkin, this);
   }
 
   mount(eventEmitter) {

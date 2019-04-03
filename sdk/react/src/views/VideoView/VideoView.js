@@ -23,7 +23,7 @@ import Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import VideoWaterMark from './VideoWatermark/VideoWatermark';
 
-import panelStyles from '../styles/panel.styles';
+import panelStyles from '../styles/view.styles';
 import videoViewStyles from './VideoView.styles';
 
 const styles = Utils.getStyles(videoViewStyles);
