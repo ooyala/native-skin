@@ -4,20 +4,20 @@ import {
   AUTOHIDE_DELAY,
   MAX_DATE_VALUE,
 } from './constants';
-import Log from './log';
-import OoyalaSkinBridgeListener from './ooyalaSkinBridgeListener';
-import OoyalaSkinPanelRenderer from './ooyalaSkinPanelRenderer';
+import Log from './lib/log';
+import BridgeListener from './BridgeListener';
+import PanelRenderer from './panels/PanelRenderer';
 
 const clickRadius = 5;
 let startedClickX;
 let startedClickY;
 
-export default class OoyalaSkinCore {
+export default class Core {
   constructor(ooyalaSkin, eventBridge) {
     this.skin = ooyalaSkin;
     this.bridge = eventBridge;
-    this.ooyalaSkinBridgeListener = new OoyalaSkinBridgeListener(ooyalaSkin, this);
-    this.ooyalaSkinPanelRenderer = new OoyalaSkinPanelRenderer(ooyalaSkin, this);
+    this.ooyalaSkinBridgeListener = new BridgeListener(ooyalaSkin, this);
+    this.ooyalaSkinPanelRenderer = new PanelRenderer(ooyalaSkin, this);
   }
 
   mount(eventEmitter) {

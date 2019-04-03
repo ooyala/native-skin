@@ -2,13 +2,13 @@
 import { Platform } from 'react-native';
 
 import { CONTENT_TYPES, OVERLAY_TYPES, SCREEN_TYPES } from './constants';
-import Log from './log';
-import { parseInputArray as parseMarkersInputArray } from './src/markers/lib';
+import Log from './lib/log';
+import { parseInputArray as parseMarkersInputArray } from './markers/lib';
 
 /**
  * The OoyalaSkinBridgeListener handles all of the listening of Player events from the Bridge.
  */
-export default class OoyalaSkinBridgeListener {
+export default class BridgeListener {
   constructor(ooyalaSkin, ooyalaCore) {
     Log.log('SkinBridgeListener Created');
     this.skin = ooyalaSkin;
