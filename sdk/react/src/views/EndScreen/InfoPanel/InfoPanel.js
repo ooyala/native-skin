@@ -10,7 +10,7 @@ import Utils from '../../../lib/utils';
 import infoPanelStyles from './InfoPanel.styles';
 const styles = Utils.getStyles(infoPanelStyles);
 
-class InfoPanel extends Component {
+export default class InfoPanel extends Component {
   static propTypes = {
     title: PropTypes.string,
     description: PropTypes.string
@@ -35,5 +35,3 @@ class InfoPanel extends Component {
     );
   }
 }
-
-module.exports = InfoPanel;

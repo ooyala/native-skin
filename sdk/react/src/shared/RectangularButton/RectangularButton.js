@@ -11,7 +11,7 @@ import Utils from '../../lib/utils';
 import rectButtonStyles from '../styles/rectangularButton.styles';
 const styles = Utils.getStyles(rectButtonStyles);
 
-class RectangularButton extends Component {
+export default class RectangularButton extends Component {
   static propTypes = {
     icon: PropTypes.string,
     name: PropTypes.string,
@@ -60,5 +60,3 @@ class RectangularButton extends Component {
     );
   }
 }
-
-module.exports = RectangularButton;

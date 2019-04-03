@@ -4,7 +4,7 @@ import {
 
 let level = LOG_LEVEL.INFO;
 
-class Log {
+export default class Log {
   static setLogLevel(l) {
     switch (l) {
       case LOG_LEVEL.VERBOSE:
@@ -66,5 +66,3 @@ class Log {
     }
   }
 };
-
-module.exports = Log;

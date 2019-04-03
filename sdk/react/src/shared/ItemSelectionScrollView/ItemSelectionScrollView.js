@@ -13,7 +13,7 @@ import ItemSelectionList from './ItemSelectionList/ItemSelectionList';
 import itemSelectionScrollViewStyles from './ItemSelectionScrollView.styles';
 const styles = Utils.getStyles(itemSelectionScrollViewStyles);
 
-class ItemSelectionScrollView extends Component {
+export default class ItemSelectionScrollView extends Component {
   static propTypes = {
     items: PropTypes.array,
     selectedItem: PropTypes.string,
@@ -74,5 +74,3 @@ class ItemSelectionScrollView extends Component {
     );
   }
 }
-
-module.exports = ItemSelectionScrollView;

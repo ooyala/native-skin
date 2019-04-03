@@ -28,7 +28,7 @@ import videoViewStyles from './VideoView.styles';
 
 const styles = Utils.getStyles(videoViewStyles);
 
-class VideoView extends Component {
+export default class VideoView extends Component {
   static propTypes = {
     rate: PropTypes.number,
     playhead: PropTypes.number,
@@ -416,5 +416,3 @@ class VideoView extends Component {
     );
   }
 }
-
-module.exports = VideoView;

@@ -19,7 +19,7 @@ const constants = {
   scrubTouchableDistance: 45
 }
 
-class VolumePanel extends Component {
+export default class VolumePanel extends Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     onVolumeChanged: PropTypes.func.isRequired,
@@ -219,5 +219,3 @@ class VolumePanel extends Component {
     );
   }
 }
-
-module.exports = VolumePanel;

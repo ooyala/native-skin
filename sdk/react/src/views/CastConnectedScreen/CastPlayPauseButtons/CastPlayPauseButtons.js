@@ -22,7 +22,7 @@ const NEXT = 'next';
 const PREVIOUS = 'previous';
 const BACKWARD = 'seekBackward';
 
-class CastPlayPauseButtons extends React.Component {
+export default class CastPlayPauseButtons extends React.Component {
   static propTypes = {
     seekEnabled: PropTypes.bool.isRequired,
     ffActive: PropTypes.bool.isRequired,
@@ -334,5 +334,3 @@ class CastPlayPauseButtons extends React.Component {
     return null;
   }
 }
-
-module.exports = CastPlayPauseButtons;

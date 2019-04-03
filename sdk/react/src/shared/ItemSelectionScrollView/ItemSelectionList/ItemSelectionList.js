@@ -9,7 +9,7 @@ import Utils from '../../../lib/utils';
 import itemSelectionScrollViewStyles from '../ItemSelectionScrollView.styles';
 const styles = Utils.getStyles(itemSelectionScrollViewStyles);
 
-class ItemSelectionList extends Component {
+export default class ItemSelectionList extends Component {
   static propTypes = {
     horizontal: PropTypes.bool,
     data: PropTypes.array,
@@ -40,5 +40,3 @@ class ItemSelectionList extends Component {
     );
   }
 }
-
-module.exports = ItemSelectionList;

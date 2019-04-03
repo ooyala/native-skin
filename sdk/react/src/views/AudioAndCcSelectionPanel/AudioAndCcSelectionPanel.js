@@ -26,7 +26,7 @@ const stringConstants = {
 };
 const animationDuration = 1000;
 
-class AudioAndCcSelectionPanel extends Component {
+export default class AudioAndCcSelectionPanel extends Component {
   static propTypes = {
     audioTracksTitles: PropTypes.array,
     selectedAudioTrackTitle: PropTypes.string,
@@ -197,5 +197,3 @@ class AudioAndCcSelectionPanel extends Component {
     );
   }
 }
-
-module.exports = AudioAndCcSelectionPanel;

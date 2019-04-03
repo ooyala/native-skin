@@ -8,7 +8,7 @@ import Utils from '../../../../lib/utils';
 
 const styles = Utils.getStyles(rectButtonStyles);
 
-class SwitchButton extends React.Component {
+export default class SwitchButton extends React.Component {
 
   static propTypes = {
     visible: PropTypes.bool.isRequired,
@@ -71,5 +71,3 @@ class SwitchButton extends React.Component {
     );
   }
 }
-
-module.exports = SwitchButton;

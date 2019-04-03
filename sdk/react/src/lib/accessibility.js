@@ -6,7 +6,7 @@ import {
   ACCESSIBILITY_COMMON
 } from '../constants'
 
-class Accessibility {
+export default class Accessibility {
 
   static createAccessibilityLabelForCell(cellType, param) {
     switch (cellType) {
@@ -45,5 +45,3 @@ class Accessibility {
     return buttonName + ' ' + VIEW_ACCESSIBILITY_NAMES.PLAY_PAUSE_BUTTON + ' ' + buttonName;
   }
 };
-
-module.exports = Accessibility;

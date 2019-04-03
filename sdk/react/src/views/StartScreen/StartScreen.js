@@ -18,7 +18,7 @@ import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import startScreenStyles from './StartScreen.styles';
 const styles = Utils.getStyles(startScreenStyles);
 
-class StartScreen extends Component {
+export default class StartScreen extends Component {
   static propTypes = {
     config: PropTypes.object,
     title: PropTypes.string,
@@ -170,5 +170,3 @@ class StartScreen extends Component {
     );
   }
 }
-
-module.exports = StartScreen;

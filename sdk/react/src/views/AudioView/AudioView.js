@@ -28,7 +28,7 @@ const controlBarStyles = Utils.getStyles(contBarStyles);
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
-class AudioView extends Component {
+export default class AudioView extends Component {
   static propTypes = {
     playhead: PropTypes.number,
     duration: PropTypes.number,
@@ -513,5 +513,3 @@ class AudioView extends Component {
     )
   };
 }
-
-module.exports = AudioView;

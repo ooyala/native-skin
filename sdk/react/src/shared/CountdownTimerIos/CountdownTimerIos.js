@@ -14,7 +14,7 @@ const NativeCountdownView = requireNativeComponent('CountdownView', CountdownVie
   }
 });
 
-class CountdownView extends Component {
+export default class CountdownTimerIos extends Component {
   static propTypes = {
     ...View.propTypes,
 
@@ -93,5 +93,3 @@ class CountdownView extends Component {
     }
   }
 };
-
-module.exports = CountdownView;

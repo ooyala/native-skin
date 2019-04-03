@@ -3,4 +3,4 @@ import {
 } from 'react-native';
 
 // React automatically resolves this class from "OOPiPViewManager"
-module.exports = requireNativeComponent('OOPipView', null);
+export default requireNativeComponent('OOPipView', null);

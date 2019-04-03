@@ -11,7 +11,7 @@ import responsiveListStyles from './ResponsiveList.styles';
 const styles = Utils.getStyles(responsiveListStyles);
 const placeHolderItem = 'ResponsiveListPlaceHolder';
 
-class ResponsiveList extends Component {
+export default class ResponsiveList extends Component {
   static propTypes = {
     horizontal: PropTypes.bool,
     data: PropTypes.array,
@@ -97,5 +97,3 @@ class ResponsiveList extends Component {
     }
   };
 }
-
-module.exports = ResponsiveList;

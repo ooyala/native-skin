@@ -5,11 +5,11 @@ import {
 
 import { VALUES } from '../constants';
 import Log from './log';
+import RectButton from '../shared/RectangularButton/RectangularButton';
 
-const Utils = {
+export default {
 
   renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
-    const RectButton = require('../shared/RectangularButton/RectangularButton');
     return (
       <RectButton
         name={name}
@@ -250,5 +250,3 @@ const Utils = {
     return value;
   }
 };
-
-module.exports = Utils;

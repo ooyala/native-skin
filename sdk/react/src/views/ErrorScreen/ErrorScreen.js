@@ -20,7 +20,7 @@ import errorScreenStylesAudio from './ErrorScreenAudio.styles';
 const styles = Utils.getStyles(errorScreenStyles);
 const stylesAudio = Utils.getStyles(errorScreenStylesAudio);
 
-class ErrorScreen extends Component {
+export default class ErrorScreen extends Component {
   static propTypes = {
     error: PropTypes.object,
     localizableStrings: PropTypes.object,
@@ -111,5 +111,3 @@ class ErrorScreen extends Component {
     );
   };
 }
-
-module.exports = ErrorScreen;

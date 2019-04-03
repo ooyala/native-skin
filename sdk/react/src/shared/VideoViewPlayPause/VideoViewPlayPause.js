@@ -23,7 +23,7 @@ const PAUSE = 'pause';
 const FORWARD = 'seekForward';
 const BACKWARD = 'seekBackward';
 
-class VideoViewPlayPause extends Component {
+export default class VideoViewPlayPause extends Component {
   static propTypes = {
     seekEnabled: PropTypes.bool,
     ffActive: PropTypes.bool,
@@ -226,5 +226,3 @@ class VideoViewPlayPause extends Component {
     }
   }
 }
-
-module.exports = VideoViewPlayPause;

@@ -6,7 +6,7 @@ const constants = {
   keep: 'keep'
 };
 
-const Collapser = {
+export default {
   // @param barWidth numeric.
   // @param orderedItems array of left to right ordered items. Each item meets the skin's 'button' schema.
   // @return {fit:[items that fit in the barWidth], overflow:[items that did not fit]}.
@@ -94,5 +94,3 @@ const Collapser = {
     return item.whenDoesNotFit && item.whenDoesNotFit == constants.moveToMoreOptions;
   }
 };
-
-module.exports = Collapser;

@@ -1,6 +1,6 @@
 import Log from './log';
 
-const ResponsiveMultiplier = {
+export default {
 
   // Default threshold and multiplier
   default_threshold: [320, 860],
@@ -169,5 +169,3 @@ const ResponsiveMultiplier = {
     }
   }
 };
-
-module.exports = ResponsiveMultiplier;

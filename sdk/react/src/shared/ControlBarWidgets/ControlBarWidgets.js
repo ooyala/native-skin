@@ -23,7 +23,7 @@ import Log from '../../lib/log';
 import controlBarWidgetStyles from './ControlBarWidgets.styles';
 const styles = Utils.getStyles(controlBarWidgetStyles);
 
-class controlBarWidget extends Component {
+export default class ControlBarWidgets extends Component {
   static propTypes = {
     widgetType: PropTypes.object,
     options: PropTypes.object,
@@ -386,5 +386,3 @@ class controlBarWidget extends Component {
     }
   }
 }
-
-module.exports = controlBarWidget;

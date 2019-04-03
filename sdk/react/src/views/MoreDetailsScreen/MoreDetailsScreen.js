@@ -19,7 +19,7 @@ import moreDetailsScreenStyles from './MoreDetailsScreen.styles';
 const styles = Utils.getStyles(moreDetailsScreenStyles);
 const dismissButtonSize = 20;
 
-class MoreDetailsScreen extends Component {
+export default class MoreDetailsScreen extends Component {
   static propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
@@ -132,5 +132,3 @@ class MoreDetailsScreen extends Component {
     return null;
   }
 }
-
-module.exports = MoreDetailsScreen;

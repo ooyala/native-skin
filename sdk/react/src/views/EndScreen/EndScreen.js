@@ -22,7 +22,7 @@ import endScreenStyles from './EndScreen.styles';
 
 const styles = Utils.getStyles(endScreenStyles);
 
-class EndScreen extends Component {
+export default class EndScreen extends Component {
   static propTypes = {
     config: PropTypes.object,
     title: PropTypes.string,
@@ -193,5 +193,3 @@ class EndScreen extends Component {
   }
 
 }
-
-module.exports = EndScreen;

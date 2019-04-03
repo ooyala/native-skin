@@ -14,7 +14,7 @@ import Utils from '../../lib/utils';
 import rectButtonStyles from '../styles/rectangularButton.styles';
 const styles = Utils.getStyles(rectButtonStyles);
 
-class SkipButton extends Component {
+export default class SkipButton extends Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
@@ -74,5 +74,3 @@ class SkipButton extends Component {
     this.props.onSeek(this.props.isForward);
   };
 }
-
-module.exports = SkipButton;

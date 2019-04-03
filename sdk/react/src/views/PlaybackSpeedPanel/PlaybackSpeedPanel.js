@@ -27,7 +27,7 @@ const constants = {
   playbackSpeedRatePostfix: 'x'
 };
 
-class PlaybackSpeedPanel extends Component {
+export default class PlaybackSpeedPanel extends Component {
   static propTypes = {
     playbackSpeedRates: PropTypes.array,
     selectedPlaybackSpeedRate: PropTypes.number,
@@ -173,5 +173,3 @@ class PlaybackSpeedPanel extends Component {
     );
   };
 }
-
-module.exports = PlaybackSpeedPanel;

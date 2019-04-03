@@ -17,7 +17,7 @@ import Utils from '../../lib/utils';
 
 import styles from './CastAirPlayScreen.styles'
 
-class CastAirPlayScreen extends Component {
+export default class CastAirPlayScreen extends Component {
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,
@@ -87,5 +87,3 @@ class CastAirPlayScreen extends Component {
     );
   }
 }
-
-module.exports = CastAirPlayScreen;

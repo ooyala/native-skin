@@ -19,7 +19,7 @@ import upNextStyle from './UpNext.styles';
 const styles = Utils.getStyles(upNextStyle);
 const defaultCountdownVal = 10;
 
-class UpNext extends Component {
+export default class UpNext extends Component {
   static propTypes = {
     config: PropTypes.object,
     playhead: PropTypes.number,
@@ -167,5 +167,3 @@ class UpNext extends Component {
     return null;
   }
 }
-
-module.exports = UpNext;

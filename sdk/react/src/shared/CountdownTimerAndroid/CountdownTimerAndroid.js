@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import {
-  View, 
+  View,
   requireNativeComponent
 } from 'react-native';
 
@@ -13,4 +13,4 @@ const iface = {
   }
 };
 
-module.exports = requireNativeComponent('RCTCountdownView', iface);
+export default requireNativeComponent('RCTCountdownView', iface);

@@ -10,7 +10,7 @@ import Utils from '../../../lib/utils';
 import videoWaterMarkStyles from './VideoWatermark.styles';
 const styles = Utils.getStyles(videoWaterMarkStyles);
 
-class VideoWatermark extends Component {
+export default class VideoWatermark extends Component {
   static propTypes = {
     buttonWidth: PropTypes.number.isRequired,
     buttonHeight: PropTypes.number.isRequired,
@@ -34,5 +34,3 @@ class VideoWatermark extends Component {
     return this.renderLogo();
   }
 }
-
-module.exports = VideoWatermark;

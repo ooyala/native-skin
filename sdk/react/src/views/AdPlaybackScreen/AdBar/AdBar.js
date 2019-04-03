@@ -15,7 +15,7 @@ import Utils from '../../../lib/utils';
 import adBarStyles from './AdBar.styles';
 const styles = Utils.getStyles(adBarStyles);
 
-class AdBar extends Component {
+export default class AdBar extends Component {
   static propTypes = {
     ad: PropTypes.object,
     playhead: PropTypes.number,
@@ -137,5 +137,3 @@ class AdBar extends Component {
     );
   }
 }
-
-module.exports = AdBar;

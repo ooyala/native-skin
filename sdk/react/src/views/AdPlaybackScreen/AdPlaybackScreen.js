@@ -21,7 +21,7 @@ import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import videoViewStyles from '../VideoView/VideoView.styles';
 const styles = Utils.getStyles(videoViewStyles);
 
-class AdPlaybackScreen extends Component {
+export default class AdPlaybackScreen extends Component {
   static propTypes = {
     rate: PropTypes.number,
     playhead: PropTypes.number,
@@ -281,5 +281,3 @@ class AdPlaybackScreen extends Component {
   }
 
 }
-
-module.exports = AdPlaybackScreen;

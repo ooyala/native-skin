@@ -21,7 +21,7 @@ import controlBarStyles from './ControlBar.styles';
 const styles = Utils.getStyles(controlBarStyles);
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
-class ControlBar extends Component {
+export default class ControlBar extends Component {
   static propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
@@ -327,5 +327,3 @@ class ControlBar extends Component {
     );
   }
 }
-
-module.exports = ControlBar;

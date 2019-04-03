@@ -16,7 +16,7 @@ import moreOptionScreenStyles from './MoreOptionScreen.styles';
 const styles = Utils.getStyles(moreOptionScreenStyles);
 const dismissButtonSize = 20;
 
-class MoreOptionScreen extends Component {
+export default class MoreOptionScreen extends Component {
   static propTypes = {
     height: PropTypes.number,
     onDismiss: PropTypes.func,
@@ -237,5 +237,3 @@ class MoreOptionScreen extends Component {
   }
 
 }
-
-module.exports = MoreOptionScreen;
