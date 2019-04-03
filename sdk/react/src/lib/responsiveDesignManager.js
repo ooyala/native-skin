@@ -71,7 +71,7 @@ const ResponsiveDesignManager = {
 
     if (typeof values === 'object' && values.length > 0) {
       if (size >= values.length) {
-        Log.warn('Warning: No value available for size ' + size + ' in values array [' + values + 
+        Log.warn('Warning: No value available for size ' + size + ' in values array [' + values +
         '], falling back to the largest value available. Length of values array should be one more than the length of the threshold array.');
         return values[values.length - 1];
       }

@@ -1,6 +1,6 @@
 import {
   LOG_LEVEL
-} from './constants';
+} from '../constants';
 
 let level = LOG_LEVEL.INFO;
 

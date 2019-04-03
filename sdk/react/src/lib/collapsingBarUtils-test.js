@@ -18,7 +18,7 @@ describe('Collapsing Bar Utils', function() {
   };
 
   beforeEach(function() {
-    CollapsingBarUtils = require('../collapsingBarUtils.js');
+    CollapsingBarUtils = require('./collapsingBarUtils.js');
   });
 
   it('TestOverflow_overflowMoreOptionsDoesntCount', function() {

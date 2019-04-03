@@ -4,7 +4,7 @@ import {
   ANNOUNCER_TYPES,
   CELL_TYPES,
   ACCESSIBILITY_COMMON
-} from './constants'
+} from '../constants'
 
 class AccessibilityUtils {
 

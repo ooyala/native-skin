@@ -3,13 +3,13 @@ import {
   StyleSheet
 } from 'react-native';
 
-import { VALUES } from './constants';
+import { VALUES } from '../constants';
 import Log from './log';
 
 const Utils = {
 
   renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
-    const RectButton = require('./widgets/RectButton');
+    const RectButton = require('../widgets/RectButton/RectButton');
     return (
       <RectButton
         name={name}
@@ -44,7 +44,7 @@ const Utils = {
   // Returns a React stylesheet based on the json object passed in. This method takes the json object,
   // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
   getStyles: function(specificStyles) {
-    const globalStyles = require('./style/styles.json');
+    const globalStyles = require('./styles.json');
 
     if (specificStyles == undefined) {
       specificStyles = {};
@@ -55,7 +55,7 @@ const Utils = {
       styles[attrname] = globalStyles[attrname];
     }
     for (let attrname in specificStyles) {
-      styles[attrname] = specificStyles[attrname]; 
+      styles[attrname] = specificStyles[attrname];
     }
 
     return StyleSheet.create(styles);
@@ -111,7 +111,7 @@ const Utils = {
   },
 
   localizedString: function(preferredLocale, stringId, localizableStrings) {
-    if (typeof stringId !== 'string') { 
+    if (typeof stringId !== 'string') {
       return null;
     }
     if (typeof preferredLocale !== 'string') {

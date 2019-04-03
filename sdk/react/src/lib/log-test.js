@@ -9,7 +9,7 @@ describe('Log Tests', function() {
   } from '../constants';
 
   beforeEach(function() {
-    Log = require('../log.js');
+    Log = require('./log.js');
   });
 
   it('Default Log is everything but verbose', function() {

@@ -8,7 +8,7 @@ describe('Responsive Design Manager', function() {
   };
 
   beforeEach(function() {
-    ResponsiveDesignManager = require('../responsiveDesignManager.js');
+    ResponsiveDesignManager = require('./responsiveDesignManager.js');
   });
 
   it('Get Size should return 0  when below lowest threshold ', function() {

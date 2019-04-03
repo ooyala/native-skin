@@ -2,7 +2,7 @@
 
 jest.dontMock('../utils');
 
-import Utils from '../utils';
+import Utils from './utils';
 
 describe('utils test suite', function() {
 
