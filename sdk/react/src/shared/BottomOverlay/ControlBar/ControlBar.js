@@ -10,14 +10,14 @@ import {
   BUTTON_NAMES,
   ACCESSIBILITY_ANNOUNCERS,
   UI_SIZES
-} from './constants';
-import CollapsingBarUtils from './collapsingBarUtils';
-import Log from './log';
-import Utils from './utils';
-import ControlBarWidget from './widgets/controlBarWidgets';
-import ResponsiveDesignManager from './responsiveDesignManager';
+} from '../../../constants';
+import CollapsingBarUtils from '../../../lib/collapsingBarUtils';
+import Log from '../../../lib/log';
+import Utils from '../../../lib/utils';
+import ControlBarWidget from '../../ControlBarWidgets/ControlBarWidgets';
+import ResponsiveDesignManager from '../../../lib/responsiveDesignManager';
 
-import controlBarStyles from './style/controlBarStyles.json';
+import controlBarStyles from './ControlBar.styles';
 const styles = Utils.getStyles(controlBarStyles);
 const AndroidAccessibility = NativeModules.AndroidAccessibility;
 

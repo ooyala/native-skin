@@ -1,6 +1,6 @@
 // @flow
 
-import { MARKERS_SIZES } from '../../../constants';
+import { MARKERS_SIZES } from '../../../../../constants';
 
 export default {
   // Create triangle shape using border magic.

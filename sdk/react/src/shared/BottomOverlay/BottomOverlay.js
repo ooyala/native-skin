@@ -6,19 +6,19 @@ import {
 } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
-import AccessibilityUtils from '../../accessibilityUtils';
-import ProgressBar from '../../common/progressBar';
+import AccessibilityUtils from '../../lib/accessibilityUtils';
+import ProgressBar from '../ProgressBar/ProgressBar';
 import {
   ANNOUNCER_TYPES, MARKERS_SIZES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
 } from '../../constants';
-import ControlBar from '../../controlBar';
-import Log from '../../log';
-import ResponsiveDesignManager from '../../responsiveDesignManager';
+import ControlBar from './ControlBar/ControlBar';
+import Log from '../../lib/log';
+import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
 import styles from './BottomOverlay.styles';
-import MarkersContainer from '../markers/MarkersContainer';
-import MarkersProgressBarOverlayContainer from '../markers/MarkersProgressBarOverlayContainer';
-import type { Config } from '../types/Config';
-import type { Marker } from '../types/Marker';
+import MarkersContainer from './MarkersContainer';
+import MarkersProgressBarOverlayContainer from './MarkersProgressBarOverlayContainer';
+import type { Config } from '../../types/Config';
+import type { Marker } from '../../types/Marker';
 
 const { AndroidAccessibility } = NativeModules;
 

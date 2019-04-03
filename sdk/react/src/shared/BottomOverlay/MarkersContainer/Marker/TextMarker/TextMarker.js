@@ -4,7 +4,7 @@ import * as React from 'react';
 import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import { MARKERS_SIZES } from '../../../constants';
+import { MARKERS_SIZES } from '../../../../../constants';
 import styles from './TextMarker.styles';
 
 const TEXT_MARKER_COLLAPSED_LENGTH = 8;

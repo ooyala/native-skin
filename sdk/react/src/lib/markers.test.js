@@ -1,6 +1,6 @@
 // @flow
 
-import { parseInputArray } from './index';
+import { parseInputArray } from './markers';
 
 describe('parseInputArray', () => {
   it('parses array of serialized JSON strings', () => {
