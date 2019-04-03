@@ -42,16 +42,71 @@ This project relies on __React Native__, a UI Framework that allows for similar 
     2. *skin-schema.json*: A JSON schema that defines all of the possible options for the skin.json
     3. *[language].json*: A series of files that represent the localization of all strings used in our Skin UI (i.e. en.json, zh.json)
 
-## Other Developer notes
+# Development
 
-### Running Unit Tests
+## JavaScript
 
-  1. Some of the JavaScript components have unit tests in their file. It is possible
-     to run them using the [Node REPL](https://nodejs.org/api/repl.html).
-  1. For example, run the REPL and then do ".load collapsingBarUtils.js" followed by
-     "CollapsingBarUtils.TestSuite.Run();".
+JavaScript project located in the `sdk/react` directory and requires Node v10+ and npm v6+ to operate. Consider using
+[nvm](https://github.com/creationix/nvm), [nvm-windows](https://github.com/coreybutler/nvm-windows) to manage your Node
+installations.
 
-### Bundle
-to bundle iOS or Android:
-     cd sdk/react && react-native bundle --dev=false --bundle-output iOS/main.jsbundle --entry-file index.ios.js
-     cd sdk/react && react-native bundle --dev=false --bundle-output index.android.jsbundle --entry-file index.android.js --platform android
+Navigate to the `sdk/react` directory and start with installing dependencies:
+
+```sh
+npm install
+```
+
+### Tasks
+
+The following tasks relate to the JavaScript project only, what means you have to be in the `sdk/react` directory to run
+them.
+
+#### Development server
+
+* `npm start` - starts local development server serving dynamically bundled JavaScript.
+
+#### Code checks
+
+Code checks are important parts of development process, the following commands should be used to check source code
+quality:
+
+* `npm run lint` - outputs lint errors.
+* `npm run flow` - outputs [Flow](https://flow.org/) errors.
+
+#### Tests
+
+* `npm test` - runs test suite.
+* `npm run test:coverage` - runs test suite to generate coverage report in the `coverage` directory, you can open
+`coverage/lcov-report/index.html` page in your browser to check what's covered and what's not.
+* `npm run test:update` - runs test suite and updates snapshots, helpful if you made intended changes and want to
+actualize snapshots.
+* `npm run coverage` - does the same as `test:coverage` but cleans `coverage` directory previously to ensure no old
+files are present there.
+
+#### Build
+
+JavaScript project produces only one type of artifacts: bundled JavaScript files that can be used in the mobile SDK
+build process. Use the following commands to create production bundles in the `dist` directory:
+
+* `npm run build:android` - creates Android production bundle `index.android.jsbundle`.
+* `npm run build:ios` - creates iOS production bundle `main.jsbundle`.
+* `npm run build` - creates both production bundles.
+
+Also, for development purposes you can build bundles with the development mode enabled. That means bundles will not be
+minified (to ease debugging process) and warning and errors will be shown in yellow or red boxes over the user
+interface.
+
+* `npm run build:dev:android` - creates Android development bundle.
+* `npm run build:dev:ios` - creates iOS development bundle.
+* `npm run build:dev` - creates both development bundles.
+
+You can also pass your own `bundle-output` path like so:
+
+```sh
+npm run build:ios -- --bundle-output ../../../ios-sample-apps/vendor/Ooyala/OoyalaSkinSDK-iOS/main.jsbundle
+```
+
+#### Continuous integration
+
+* `npm run ci` - runs all checks, generates coverage report and build production bundles for Android and iOS, stops the
+process if any errors occur.

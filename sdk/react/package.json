@@ -3,14 +3,24 @@
   "version": "4.44.0",
   "private": true,
   "scripts": {
-    "ci": "npm run lint && npm run flow && npm run coverage",
+    "build": "npm run clean:build && npm run build:android && npm run build:ios",
+    "build:android": "mkdir -p dist && npm run cli -- bundle --entry-file index.android.js --platform android --dev false --bundle-output dist/index.android.jsbundle",
+    "build:ios": "mkdir -p dist && npm run cli -- bundle --entry-file index.ios.js --platform ios --dev false --bundle-output dist/main.jsbundle",
+    "build:dev": "npm run clean:build && npm run build:dev:android && npm run build:dev:ios",
+    "build:dev:android": "mkdir -p dist && npm run cli -- bundle --entry-file index.android.js --platform android --dev true --bundle-output dist/index.android.jsbundle",
+    "build:dev:ios": "mkdir -p dist && npm run cli -- bundle --entry-file index.ios.js --platform ios --dev true --bundle-output dist/main.jsbundle",
+    "ci": "npm run lint && npm run flow && npm run coverage && npm run build",
+    "clean:build": "rm -rf dist",
     "clean:coverage": "rm -rf coverage",
+    "cli": "node node_modules/react-native/local-cli/cli.js",
     "coverage": "npm run clean:coverage && npm run test:coverage",
     "flow": "flow",
+    "flow:stop": "flow stop",
     "lint": "eslint .",
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "start": "npm run cli -- start",
     "test": "jest src",
-    "test:coverage": "npm test -- --coverage"
+    "test:coverage": "npm test -- --coverage",
+    "test:update": "npm test -- --updateSnapshot"
   },
   "engines": {
     "node": ">= 10.0.0",
