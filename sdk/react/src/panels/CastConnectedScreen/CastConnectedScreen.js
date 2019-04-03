@@ -9,11 +9,11 @@ import {
   Image,
 } from 'react-native';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
-import CastPlayPauseButtons from '../../widgets/CastPlayPauseButtons';
-import Utils from '../../utils';
-import castConnectedStyles from '../style/CastConnectedStyles.json';
-import ResponsiveDesignManager from '../../responsiveDesignManager';
-import BottomOverlay from '../../src/BottomOverlay';
+import CastPlayPauseButtons from './CastPlayPauseButtons/CastPlayPauseButtons';
+import Utils from '../../lib/utils';
+import castConnectedStyles from './CastConnectedScreen.styles';
+import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import BottomOverlay from '../../shared/BottomOverlay';
 
 const styles = Utils.getStyles(castConnectedStyles);
 

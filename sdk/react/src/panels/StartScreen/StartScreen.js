@@ -10,12 +10,12 @@ import {
   IMG_URLS,
   UI_SIZES,
   BUTTON_NAMES
-} from '../constants';
-import Utils from '../utils';
-import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
-import ResponsiveDesignManager from '../responsiveDesignManager';
+} from '../../constants';
+import Utils from '../../lib/utils';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
+import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
 
-import startScreenStyles from './style/startScreenStyles.json';
+import startScreenStyles from './StartScreen.styles';
 const styles = Utils.getStyles(startScreenStyles);
 
 class StartScreen extends Component {

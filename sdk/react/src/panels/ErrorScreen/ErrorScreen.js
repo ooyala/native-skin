@@ -10,12 +10,13 @@ import {
   SAS_ERROR_CODES,
   ERROR_MESSAGE,
   BUTTON_NAMES
-} from '../constants';
-import Log from '../log';
-import Utils from '../utils';
+} from '../../constants';
+import Log from '../../lib/log';
+import Utils from '../../lib/utils';
 
-import errorScreenStyles from './style/errorScreenStyles.json';
-import errorScreenStylesAudio from './style/errorScreenStylesAudio.json';
+import errorScreenStyles from './ErrorScreen.styles';
+import errorScreenStylesAudio from './errorScreenStylesAudio';
+
 const styles = Utils.getStyles(errorScreenStyles);
 const stylesAudio = Utils.getStyles(errorScreenStylesAudio);
 

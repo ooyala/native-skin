@@ -14,17 +14,17 @@ import {
   UI_SIZES,
   AUTOHIDE_DELAY,
   VALUES,
-} from '../constants';
-import BottomOverlay from '../src/BottomOverlay';
-import UpNext from '../upNext';
-import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
-import Log from '../log';
-import Utils from '../utils';
-import ResponsiveDesignManager from '../responsiveDesignManager';
-import VideoWaterMark from '../widgets/videoWaterMark';
+} from '../../constants';
+import BottomOverlay from '../../shared/BottomOverlay';
+import UpNext from './UpNext/UpNext';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
+import Log from '../../lib/log';
+import Utils from '../../lib/utils';
+import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import VideoWaterMark from './VideoWatermark/VideoWatermark';
 
-import panelStyles from './style/panelStyles.json';
-import videoViewStyles from './style/videoViewStyles.json';
+import panelStyles from '../styles/common.styles';
+import videoViewStyles from './VideoView.styles';
 
 const styles = Utils.getStyles(videoViewStyles);
 

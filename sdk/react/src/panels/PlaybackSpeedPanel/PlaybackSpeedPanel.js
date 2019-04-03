@@ -10,11 +10,12 @@ import {
 import {
   BUTTON_NAMES,
   CELL_TYPES
-} from '../constants';
-import ItemSelectionScrollView from './ItemSelectionScrollView';
-import Utils from '../utils';
+} from '../../constants';
+import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView/ItemSelectionScrollView';
+import Utils from '../../lib/utils';
 
-import playbackSpeedPanelStyles from './style/PlaybackSpeedPanelStyles';
+import playbackSpeedPanelStyles from './PlaybackSpeedPanel.styles';
+
 const styles = Utils.getStyles(playbackSpeedPanelStyles);
 const animationDuration = 1000;
 const constants = {

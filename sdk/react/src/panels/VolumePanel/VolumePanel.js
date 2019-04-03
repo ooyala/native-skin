@@ -9,9 +9,9 @@ import {
   View
 } from 'react-native';
 
-import Utils from '../utils';
+import Utils from '../../lib/utils';
 
-import volumePanelStyles from './style/VolumePanelStyles';
+import volumePanelStyles from './VolumePanel.styles';
 const styles = Utils.getStyles(volumePanelStyles);
 const constants = {
   animationDuration: 1000,
@@ -159,7 +159,7 @@ class VolumePanel extends Component {
     const thumbStyle = this._thumbStyle();
 
     return (
-      <View pointerEvents='none' 
+      <View pointerEvents='none'
         style={[thumbStyle, positionStyle]}>
       </View>
     );
@@ -177,7 +177,7 @@ class VolumePanel extends Component {
     const style = StyleSheet.create({filled: filledStyle, background: backgroundStyle});
 
     return (
-      <View 
+      <View
         style={styles.sliderContainer}
         {...this._panResponder.panHandlers}
         onLayout={(event) => {
@@ -194,7 +194,7 @@ class VolumePanel extends Component {
       </View>
     );
   };
-  
+
   _renderDismissButton = () => {
     return (
       <TouchableHighlight style={styles.dismissButton}

@@ -12,13 +12,13 @@ import {
 import {
   BUTTON_NAMES,
   UI_SIZES,
-} from '../constants';
-import Utils from '../utils';
-import ResponsiveDesignManager from '../responsiveDesignManager';
-import InfoPanel from '../infoPanel';
-import BottomOverlay from '../src/BottomOverlay';
-import Log from '../log';
-import endScreenStyles from './style/endScreenStyles.json';
+} from '../../constants';
+import Utils from '../../lib/utils';
+import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import InfoPanel from './InfoPanel/InfoPanel';
+import BottomOverlay from '../../shared/BottomOverlay';
+import Log from '../../lib/log';
+import endScreenStyles from './EndScreen.styles';
 
 const styles = Utils.getStyles(endScreenStyles);
 

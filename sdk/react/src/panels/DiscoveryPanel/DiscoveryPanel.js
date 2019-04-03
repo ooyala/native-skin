@@ -14,15 +14,15 @@ import {
 import {
   BUTTON_NAMES,
   SCREEN_TYPES,
-} from '../constants';
-import Utils from '../utils';
-import Log from '../log';
-import ResponsiveList from '../widgets/ResponsiveList';
-import CountdownViewiOS from '../widgets/countdownTimeriOS';
-import CountdownViewAndroid from '../widgets/countdownTimerAndroid';
+} from '../../constants';
+import Utils from '../../lib/utils';
+import Log from '../../lib/log';
+import ResponsiveList from '../../widgets/ResponsiveList/ResponsiveList';
+import CountdownViewiOS from '../../shared/CountdownTimerIos/CountdownTimerIos';
+import CountdownViewAndroid from '../../shared/CountdownTimerAndroid/CountdownTimerAndroid';
 
-import panelStyles from './style/panelStyles.json';
-import discoveryPanelStyles from './style/discoveryPanelStyles.json';
+import panelStyles from '../styles/common.styles';
+import discoveryPanelStyles from './DiscoveryPanel.styles';
 
 const styles = Utils.getStyles(discoveryPanelStyles);
 

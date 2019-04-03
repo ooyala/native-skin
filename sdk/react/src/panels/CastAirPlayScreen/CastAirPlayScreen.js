@@ -11,11 +11,11 @@ import {
 
 import {
   BUTTON_NAMES
-} from '../constants';
-import AirPlayView from '../widgets/AirPlayView'
-import Utils from '../utils';
+} from '../../constants';
+import AirPlayView from './AirPlayView/AirPlayView'
+import Utils from '../../lib/utils';
 
-import styles from './style/castAirPlayScreenStyles.json'
+import styles from './CastAirPlayScreen.styles'
 
 class CastAirPlayScreen extends Component {
   static propTypes = {
@@ -43,7 +43,7 @@ class CastAirPlayScreen extends Component {
     const halfHeightWithMargin = this.props.height / 2 - 8;
     const textContainerDimensions = { height: halfHeightWithMargin, width: this.props.width - halfHeightWithMargin - 4};
     const halfHeightWithMarginStyle = { height: this.props.height / 2 - 8 };
-    
+
     return (
       <Modal transparent>
         <TouchableOpacity style={styles.touchableOpacity}

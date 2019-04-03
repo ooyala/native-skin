@@ -11,11 +11,11 @@ import {
   BUTTON_NAMES,
   ERROR_MESSAGE,
   SAS_ERROR_CODES
-} from '../constants';
-import Log from '../log';
-import Utils from '../utils';
+} from '../../constants';
+import Log from '../../lib/log';
+import Utils from '../../lib/utils';
 
-import moreDetailsScreenStyles from './style/moreDetailsScreenStyles.json';
+import moreDetailsScreenStyles from './MoreDetailsScreen.styles';
 const styles = Utils.getStyles(moreDetailsScreenStyles);
 const dismissButtonSize = 20;
 

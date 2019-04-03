@@ -10,9 +10,9 @@ import {
 import {
   BUTTON_NAMES,
 } from '../../constants';
-import CastDeviceListItem from './CastDeviceListItem';
-import Utils from '../../utils';
-import castDevicesStyles from '../style/CastDevicesStyles.json';
+import CastDeviceListItem from './CastDeviceListItem/CastDeviceListItem';
+import Utils from '../../lib/utils';
+import castDevicesStyles from './CastDevicesScreen.styles';
 
 const styles = Utils.getStyles(castDevicesStyles);
 const dismissButtonSize = 20;

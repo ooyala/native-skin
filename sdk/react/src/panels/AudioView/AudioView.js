@@ -11,17 +11,17 @@ import {
   BUTTON_NAMES,
   UI_SIZES,
   VALUES
-} from '../constants';
-import CollapsingBarUtils from '../collapsingBarUtils';
-import Log from '../log';
-import ProgressBar from '../common/progressBar';
-import ControlBarWidget from '../widgets/controlBarWidgets';
-import ResponsiveDesignManager from '../responsiveDesignManager';
-import Utils from '../utils';
+} from '../../constants';
+import CollapsingBarUtils from '../../lib/collapsingBarUtils';
+import Log from '../../lib/log';
+import ProgressBar from '../../shared/ProgressBar/ProgressBar';
+import ControlBarWidget from '../../shared/ControlBarWidgets/ControlBarWidgets';
+import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
+import Utils from '../../lib/utils';
 import timerForSkipButtons from 'react-native-timer';
 
-import audioViewStyles from './style/audioViewStyles.json';
-import contBarStyles from '../style/controlBarStyles.json';
+import audioViewStyles from './AudioView.styles';
+import contBarStyles from '../../shared/BottomOverlay/ControlBar/ControlBar.styles';
 const styles = Utils.getStyles(audioViewStyles);
 const controlBarStyles = Utils.getStyles(contBarStyles);
 
@@ -105,7 +105,7 @@ class AudioView extends Component {
     const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
     this.handleScrub(resultedPlayheadPercent);
 
-    if (this.props.onPlayComplete && skipCountValue < 0) { 
+    if (this.props.onPlayComplete && skipCountValue < 0) {
       this.onPlayPausePress()
     }
   };
@@ -299,7 +299,7 @@ class AudioView extends Component {
     const scrubberStyle = this._customizeScrubber();
 
     return (
-      <View pointerEvents='none' 
+      <View pointerEvents='none'
         style={[scrubberStyle, positionStyle, { width: scrubberSize, height: scrubberSize }]}>
       </View>
     );

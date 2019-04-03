@@ -7,12 +7,12 @@ import {
 
 import {
   BUTTON_NAMES
-} from '../constants';
-import Log from '../log';
-import CollapsingBarUtils from '../collapsingBarUtils';
-import Utils from '../utils';
+} from '../../constants';
+import Log from '../../lib/log';
+import CollapsingBarUtils from '../../lib/collapsingBarUtils';
+import Utils from '../../lib/utils';
 
-import moreOptionScreenStyles from './style/moreOptionScreenStyles.json';
+import moreOptionScreenStyles from './MoreOptionScreen.styles';
 const styles = Utils.getStyles(moreOptionScreenStyles);
 const dismissButtonSize = 20;
 
@@ -206,7 +206,7 @@ class MoreOptionScreen extends Component {
                                                  this.onDismissPress, dismissButtonSize,
                                                  this.props.config.moreOptionsScreen.color,
                                                  this.props.config.icons.dismiss.fontFamilyName);
-    const rowAnimationStyle = { 
+    const rowAnimationStyle = {
       transform: [{ translateY: this.state.translateY }],
       opacity: this.state.buttonOpacity
     };

@@ -10,15 +10,15 @@ import {
   UI_SIZES,
   AUTOHIDE_DELAY,
   VALUES
-} from '../constants';
-import Log from '../log';
-import BottomOverlay from '../src/BottomOverlay';
-import AdBar from '../adBar';
-import VideoViewPlayPause from '../widgets/VideoViewPlayPause';
-import Utils from'../utils';
-import ResponsiveDesignManager from '../responsiveDesignManager';
+} from '../../constants';
+import Log from '../../lib/log';
+import BottomOverlay from '../../shared/BottomOverlay';
+import AdBar from './AdBar/AdBar';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
+import Utils from '../../lib/utils';
+import ResponsiveDesignManager from '../../lib/responsiveDesignManager';
 
-import videoViewStyles from './style/videoViewStyles.json';
+import videoViewStyles from '../VideoView/VideoView.styles';
 const styles = Utils.getStyles(videoViewStyles);
 
 class AdPlaybackScreen extends Component {

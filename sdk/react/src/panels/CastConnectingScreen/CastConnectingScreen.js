@@ -5,8 +5,8 @@ import {
   ActivityIndicator, Animated, Text, TouchableOpacity,
 } from 'react-native';
 
-import Utils from '../../utils';
-import castConnectingStyles from '../style/CastConnectingStyles.json';
+import Utils from '../../lib/utils';
+import castConnectingStyles from './CastConnectingScreen.styles';
 
 const styles = Utils.getStyles(castConnectingStyles);
 

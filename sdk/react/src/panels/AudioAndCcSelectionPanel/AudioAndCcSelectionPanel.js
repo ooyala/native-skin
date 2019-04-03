@@ -10,12 +10,12 @@ import {
 import {
   BUTTON_NAMES,
   CELL_TYPES
-} from '../constants';
+} from '../../constants';
 
-import Utils from '../utils';
-import ItemSelectionScrollView from './ItemSelectionScrollView';
+import Utils from '../../lib/utils';
+import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView/ItemSelectionScrollView';
 
-import audioAndCCSelectionPanelStyles from './style/AudioAndCCSelectionPanel';
+import audioAndCCSelectionPanelStyles from './AudioAndCcSelectionPanel.styles';
 const styles = Utils.getStyles(audioAndCCSelectionPanelStyles);
 const stringConstants = {
   undefinedLanguageTitle: 'Undefined language',
@@ -26,7 +26,7 @@ const stringConstants = {
 };
 const animationDuration = 1000;
 
-class AudioAndCCSelectionPanel extends Component {
+class AudioAndCcSelectionPanel extends Component {
   static propTypes = {
     audioTracksTitles: PropTypes.array,
     selectedAudioTrackTitle: PropTypes.string,
@@ -198,4 +198,4 @@ class AudioAndCCSelectionPanel extends Component {
   }
 }
 
-module.exports = AudioAndCCSelectionPanel;
+module.exports = AudioAndCcSelectionPanel;
