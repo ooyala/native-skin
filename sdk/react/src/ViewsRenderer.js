@@ -7,22 +7,22 @@ import {
 import Log from './lib/log';
 import Utils from './lib/utils';
 
-import AdPlaybackScreen from './views/AdPlaybackScreen/AdPlaybackScreen';
-import AudioAndCCSelectionPanel from './views/AudioAndCcSelectionPanel/AudioAndCcSelectionPanel';
-import AudioView from './views/AudioView/AudioView';
-import CastAirPlayScreen from './views/CastAirPlayScreen/CastAirPlayScreen';
-import CastConnectedScreen from './views/CastConnectedScreen/CastConnectedScreen';
-import CastConnectingScreen from './views/CastConnectingScreen/CastConnectingScreen';
-import CastDevicesScreen from './views/CastDevicesScreen/CastDevicesScreen';
-import DiscoveryPanel from './views/DiscoveryPanel/DiscoveryPanel';
-import EndScreen from './views/EndScreen/EndScreen';
-import ErrorScreen from './views/ErrorScreen/ErrorScreen';
-import MoreDetailsScreen from './views/MoreDetailsScreen/MoreDetailsScreen';
-import MoreOptionScreen from './views/MoreOptionScreen/MoreOptionScreen';
-import PlaybackSpeedPanel from './views/PlaybackSpeedPanel/PlaybackSpeedPanel';
-import StartScreen from './views/StartScreen/StartScreen';
-import VideoView from './views/VideoView/VideoView';
-import VolumePanel from './views/VolumePanel/VolumePanel';
+import AdPlaybackScreen from './views/AdPlaybackScreen';
+import AudioAndCCSelectionPanel from './views/AudioAndCcSelectionPanel';
+import AudioView from './views/AudioView';
+import CastAirPlayScreen from './views/CastAirPlayScreen';
+import CastConnectedScreen from './views/CastConnectedScreen';
+import CastConnectingScreen from './views/CastConnectingScreen';
+import CastDevicesScreen from './views/CastDevicesScreen';
+import DiscoveryPanel from './views/DiscoveryPanel';
+import EndScreen from './views/EndScreen';
+import ErrorScreen from './views/ErrorScreen';
+import MoreDetailsScreen from './views/MoreDetailsScreen';
+import MoreOptionScreen from './views/MoreOptionScreen';
+import PlaybackSpeedPanel from './views/PlaybackSpeedPanel';
+import StartScreen from './views/StartScreen';
+import VideoView from './views/VideoView';
+import VolumePanel from './views/VolumePanel';
 
 const ActivityView = NativeModules.OOActivityView;
 
