@@ -15,11 +15,10 @@ import {
 } from '../../constants';
 import Utils from '../../lib/utils';
 import AccessibilityUtils from '../../lib/accessibility';
-import VolumeView from './VolumeView/VolumeView';
-import SkipButton from '../SkipButton/SkipButton';
-import Log from '../../lib/log';
-
+import VolumeView from './VolumeView';
+import SkipButton from '../SkipButton';
 import controlBarWidgetStyles from './ControlBarWidgets.styles';
+
 const styles = Utils.getStyles(controlBarWidgetStyles);
 
 export default class ControlBarWidgets extends Component {

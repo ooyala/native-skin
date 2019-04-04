@@ -14,7 +14,7 @@ import {
 import CollapsingBarUtils from '../../../lib/collapser';
 import Log from '../../../lib/log';
 import Utils from '../../../lib/utils';
-import ControlBarWidget from '../../ControlBarWidgets/ControlBarWidgets';
+import ControlBarWidget from '../../ControlBarWidgets';
 import ResponsiveDesignManager from '../../../lib/responsiveMultiplier';
 
 import controlBarStyles from './ControlBar.styles';

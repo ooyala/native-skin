@@ -7,11 +7,11 @@ import {
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import AccessibilityUtils from '../../lib/accessibility';
-import ProgressBar from '../ProgressBar/ProgressBar';
+import ProgressBar from '../ProgressBar';
 import {
   ANNOUNCER_TYPES, MARKERS_SIZES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
 } from '../../constants';
-import ControlBar from './ControlBar/ControlBar';
+import ControlBar from './ControlBar';
 import Log from '../../lib/log';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import styles from './BottomOverlay.styles';

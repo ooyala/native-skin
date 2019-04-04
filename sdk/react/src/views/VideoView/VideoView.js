@@ -17,7 +17,7 @@ import {
 } from '../../constants';
 import BottomOverlay from '../../shared/BottomOverlay';
 import UpNext from './UpNext/UpNext';
-import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import Log from '../../lib/log';
 import Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';

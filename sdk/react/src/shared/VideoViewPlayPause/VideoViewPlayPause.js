@@ -10,7 +10,7 @@ import {
   BUTTON_NAMES,
   VALUES
 } from '../../constants';
-import SkipButton from '../SkipButton/SkipButton'
+import SkipButton from '../SkipButton'
 import Utils from '../../lib/utils';
 import AccessibilityUtils from '../../lib/accessibility';
 import timerForSkipButtons from 'react-native-timer';

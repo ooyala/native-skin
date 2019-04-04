@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import timerForSkipButtons from 'react-native-timer';
-import SkipButton from '../../../shared/SkipButton/SkipButton';
+import SkipButton from '../../../shared/SkipButton';
 import SwitchButton from './SwitchButton/SwitchButton';
 import { BUTTON_NAMES, VALUES } from '../../../constants';
 import Utils from '../../../lib/utils';

@@ -5,7 +5,7 @@ import {
 
 import { VALUES } from '../constants';
 import Log from './log';
-import RectButton from '../shared/RectangularButton/RectangularButton';
+import RectButton from '../shared/RectangularButton';
 
 export default {
 

@@ -18,8 +18,8 @@ import {
 import Utils from '../../lib/utils';
 import Log from '../../lib/log';
 import ResponsiveList from './ResponsiveList/ResponsiveList';
-import CountdownViewiOS from '../../shared/CountdownTimerIos/CountdownTimerIos';
-import CountdownViewAndroid from '../../shared/CountdownTimerAndroid/CountdownTimerAndroid';
+import CountdownViewiOS from '../../shared/CountdownTimerIos';
+import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
 
 import panelStyles from '../styles/view.styles';
 import discoveryPanelStyles from './DiscoveryPanel.styles';

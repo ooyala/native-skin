@@ -12,7 +12,7 @@ import {
   BUTTON_NAMES
 } from '../../constants';
 import Utils from '../../lib/utils';
-import VideoViewPlayPause from '../../shared/VideoViewPlayPause/VideoViewPlayPause';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 
 import startScreenStyles from './StartScreen.styles';

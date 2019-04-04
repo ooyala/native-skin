@@ -12,8 +12,8 @@ import {
   BUTTON_NAMES
 } from '../../../constants';
 import Utils from '../../../lib/utils';
-import CountdownView from '../../../shared/CountdownTimerIos/CountdownTimerIos';
-import CountdownViewAndroid from '../../../shared/CountdownTimerAndroid/CountdownTimerAndroid';
+import CountdownView from '../../../shared/CountdownTimerIos';
+import CountdownViewAndroid from '../../../shared/CountdownTimerAndroid';
 
 import upNextStyle from './UpNext.styles';
 const styles = Utils.getStyles(upNextStyle);

@@ -13,7 +13,7 @@ import {
 } from '../../constants';
 
 import Utils from '../../lib/utils';
-import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView/ItemSelectionScrollView';
+import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView';
 
 import audioAndCCSelectionPanelStyles from './AudioAndCcSelectionPanel.styles';
 const styles = Utils.getStyles(audioAndCCSelectionPanelStyles);

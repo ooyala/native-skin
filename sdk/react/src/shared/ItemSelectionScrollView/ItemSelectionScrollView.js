@@ -8,7 +8,7 @@ import {
 
 import AccessibilityUtils from '../../lib/accessibility';
 import Utils from '../../lib/utils';
-import ItemSelectionList from './ItemSelectionList/ItemSelectionList';
+import ItemSelectionList from './ItemSelectionList';
 
 import itemSelectionScrollViewStyles from './ItemSelectionScrollView.styles';
 const styles = Utils.getStyles(itemSelectionScrollViewStyles);

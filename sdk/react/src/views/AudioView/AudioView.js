@@ -14,8 +14,8 @@ import {
 } from '../../constants';
 import CollapsingBarUtils from '../../lib/collapser';
 import Log from '../../lib/log';
-import ProgressBar from '../../shared/ProgressBar/ProgressBar';
-import ControlBarWidget from '../../shared/ControlBarWidgets/ControlBarWidgets';
+import ProgressBar from '../../shared/ProgressBar';
+import ControlBarWidget from '../../shared/ControlBarWidgets';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import Utils from '../../lib/utils';
 import timerForSkipButtons from 'react-native-timer';
