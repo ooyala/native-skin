@@ -17,7 +17,6 @@ import Utils from '../../lib/utils';
 import AccessibilityUtils from '../../lib/accessibility';
 import VolumeView from './VolumeView/VolumeView';
 import SkipButton from '../SkipButton/SkipButton';
-import PipView from './PipView/PipView';
 import Log from '../../lib/log';
 
 import controlBarWidgetStyles from './ControlBarWidgets.styles';
