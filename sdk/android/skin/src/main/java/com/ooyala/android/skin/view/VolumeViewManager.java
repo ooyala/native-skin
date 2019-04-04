@@ -43,5 +43,6 @@ public class VolumeViewManager extends SimpleViewManager<VolumeView> {
 
     view.setProgress((int)(volume*view.getMax()));
     view.invalidate();
+    view.setTag("volumeView"); //that label is for LayoutController.getTagsForScrollableViews impl
   }
 }

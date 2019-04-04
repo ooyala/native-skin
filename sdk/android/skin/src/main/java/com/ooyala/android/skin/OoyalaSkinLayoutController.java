@@ -43,6 +43,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
 
 /**
@@ -54,7 +56,7 @@ import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
  * - Observation of the OoyalaPlayer to provide up-to-date state to the UI
  * - Handlers of all React Native callbacks
  */
-public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough, View.OnKeyListener {
+public class OoyalaSkinLayoutController extends Observable implements LayoutController, OoyalaSkinLayout.FrameChangeCallback, DiscoveryManager.Callback, ReactInstanceManagerActivityPassthrough, View.OnKeyListener, View.OnLayoutChangeListener {
   final String TAG = this.getClass().toString();
 
   private static final double MAX_CARBOARD_DIAGONAL_INCH_VALUE = 6.5;
@@ -108,6 +110,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private List<Pair<String, WritableMap>> queuedEvents;
   private boolean isReactMounted;
   private boolean isTargetTV;
+  private RecyclerView rootRecyclerView = null;
+  private View.OnLayoutChangeListener recyclerLayoutChangeListener = null;
 
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
@@ -528,6 +532,48 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  @Override
+  public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+    if (rootRecyclerView == null) {
+      return;
+    }
+    for (String tag: getTagsForScrollableViews()) {
+      View scrollableView = rootRecyclerView.findViewWithTag(tag);
+      if (scrollableView != null) {
+        scrollableView.setOnTouchListener((View view, MotionEvent event) -> {
+          if (rootRecyclerView == null) {
+            return false;
+          }
+          rootRecyclerView.requestDisallowInterceptTouchEvent(true);
+          int action = event.getActionMasked();
+          if (action == MotionEvent.ACTION_UP) {
+            rootRecyclerView.requestDisallowInterceptTouchEvent(false);
+            view.performClick();
+          }
+          return false;
+
+        });
+      }
+    }
+  }
+
+  @Override
+  public void setRootRecyclerView(RecyclerView recyclerView) {
+
+    if (recyclerView == null) {
+      return;
+    }
+    rootRecyclerView = recyclerView;
+    rootRecyclerView.addOnLayoutChangeListener(this);
+
+  }
+
+  @Override
+  public String[] getTagsForScrollableViews() {
+    String[] tags = {"seekBar", "volumeView"};
+    return tags;
+  }
+
   /****** End LayoutController **********/
 
   void handlePlay() {
@@ -665,6 +711,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       _reactInstanceManager.destroy();
     }
 
+    if (rootRecyclerView != null) {
+      rootRecyclerView.removeOnLayoutChangeListener(this);
+    }
+
     if (rootView != null) {
       rootView.unmountReactApplication();
     }
@@ -720,4 +770,5 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       return null;
     }
   }
+
 }
