@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
-import CastPlayPauseButtons from './CastPlayPauseButtons/CastPlayPauseButtons';
+import CastPlayPauseButtons from './CastPlayPauseButtons';
 import Utils from '../../lib/utils';
 import castConnectedStyles from './CastConnectedScreen.styles';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';

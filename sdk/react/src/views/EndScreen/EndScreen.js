@@ -15,7 +15,7 @@ import {
 } from '../../constants';
 import Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
-import InfoPanel from './InfoPanel/InfoPanel';
+import InfoPanel from './InfoPanel';
 import BottomOverlay from '../../shared/BottomOverlay';
 import Log from '../../lib/log';
 import endScreenStyles from './EndScreen.styles';

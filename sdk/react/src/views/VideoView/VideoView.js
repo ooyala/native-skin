@@ -16,12 +16,12 @@ import {
   VALUES,
 } from '../../constants';
 import BottomOverlay from '../../shared/BottomOverlay';
-import UpNext from './UpNext/UpNext';
+import UpNext from './UpNext';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import Log from '../../lib/log';
 import Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
-import VideoWaterMark from './VideoWatermark/VideoWatermark';
+import VideoWaterMark from './VideoWatermark';
 
 import panelStyles from '../styles/view.styles';
 import videoViewStyles from './VideoView.styles';

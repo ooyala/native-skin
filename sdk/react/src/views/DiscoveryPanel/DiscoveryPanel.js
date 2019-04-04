@@ -17,7 +17,7 @@ import {
 } from '../../constants';
 import Utils from '../../lib/utils';
 import Log from '../../lib/log';
-import ResponsiveList from './ResponsiveList/ResponsiveList';
+import ResponsiveList from './ResponsiveList';
 import CountdownViewiOS from '../../shared/CountdownTimerIos';
 import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
 

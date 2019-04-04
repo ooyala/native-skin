@@ -10,7 +10,7 @@ import {
 import {
   BUTTON_NAMES,
 } from '../../constants';
-import CastDeviceListItem from './CastDeviceListItem/CastDeviceListItem';
+import CastDeviceListItem from './CastDeviceListItem';
 import Utils from '../../lib/utils';
 import castDevicesStyles from './CastDevicesScreen.styles';
 
