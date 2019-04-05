@@ -6,7 +6,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-const NativeCountdownView = requireNativeComponent('CountdownView', CountdownView, {
+const NativeCountdownView = requireNativeComponent('CountdownView', CountdownTimerIos, {
   nativeOnly: {
     onTimerUpdate: true,
     onTimerCompleted: true,
