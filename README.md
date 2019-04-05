@@ -103,6 +103,7 @@ interface.
 You can also pass your own `bundle-output` path like so:
 
 ```sh
+npm run build:android -- --bundle-output ../../../android-sample-apps/vendor/Ooyala/OoyalaSkinSDK-Android/index.android.jsbundle
 npm run build:ios -- --bundle-output ../../../ios-sample-apps/vendor/Ooyala/OoyalaSkinSDK-iOS/main.jsbundle
 ```
 
@@ -110,3 +111,59 @@ npm run build:ios -- --bundle-output ../../../ios-sample-apps/vendor/Ooyala/Ooya
 
 * `npm run ci` - runs all checks, generates coverage report and build production bundles for Android and iOS, stops the
 process if any errors occur.
+
+### File structure
+
+* The app sources are located in the `src` directory, except `index.android.js` and `index.ios.js`.
+* Tests should be placed next to the code they cover.
+* Root level contains only core functionality required in `index.android.js` and `index.ios.js`, constants and script to
+setup tests.
+* `lib` contains different services used across the project.
+* `types` contains Flow types definitions.
+* `shared` and `views` contains only React components and some common styles that are used by them.
+* `shared` components are components used (e.g. imported) in more than one place, in views or in other shared
+components.
+* `views` components are components directly used in `ViewsRenderer.js`.
+
+#### Components
+
+Each component should be treated as a small package and placed in its own directory:
+
+```
+SomeComponent
+|-- __fixtures__
+|   `-- data for tests
+|-- __snapshots__
+|   `-- test snapshots
+|-- ChildComponent
+|   `-- child component files
+|-- index.js
+|-- SomeComponent.js
+|-- SomeComponent.styles.js
+`-- SomeComponent.test.js
+```
+
+Component should be as clean (dumb, stateless) as possible, `index.js` can be used to apply higher order components if
+needed. `index.js` exports ready to use component as default, so you shouldn't import component directly:
+
+```
+// DON'T!
+import SomeComponent from 'shared/SomeComponent/SomeComponent';
+```
+
+```
+// DO!
+import SomeComponent from 'shared/SomeComponent';
+```
+
+Component can also have children components in its directory, but only in the case when those children components are
+not used anywhere else (in this case they should be moved to the `shared` directory).
+
+#### Namings
+
+* service in `lib` - `someService.js`
+* types file in `types` - `SomeTypes.js`
+* component - `SomeComponent.js`
+* component styles - `SomeComponent.styles.js`
+* common styles file - `someStyles.styles.js` or `someStyle.style.js` if the file contains only one style object
+* test should have the same name as the module it covers ending with `.test.js`
