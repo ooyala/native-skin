@@ -11,6 +11,7 @@ import {
 } from '../../../constants';
 import castDevicesStyles from '../CastDevicesScreen.styles';
 import * as Utils from '../../../lib/utils';
+import RectangularButton from '../../../shared/RectangularButton';
 
 const styles = Utils.getStyles(castDevicesStyles);
 const castButtonSize = 35;
@@ -43,11 +44,17 @@ export default class DeviceListItem extends Component {
   renderCastButton(color) {
     const { castIcon } = this.props;
 
-    return Utils.renderRectButton(BUTTON_NAMES.CAST,
-      null,
-      castIcon.fontString,
-      null, castButtonSize, color,
-      castIcon.fontFamilyName);
+    return (
+      <RectangularButton
+        name={BUTTON_NAMES.CAST}
+        style={null}
+        icon={castIcon.fontString}
+        onPress={null}
+        fontSize={castButtonSize}
+        buttonColor={color}
+        fontFamily={castIcon.fontFamilyName}
+      />
+    );
   }
 
   render() {

@@ -13,6 +13,8 @@ import CollapsingBarUtils from '../../lib/collapser';
 import * as Utils from '../../lib/utils';
 
 import moreOptionScreenStyles from './MoreOptionScreen.styles';
+import RectangularButton from '../../shared/RectangularButton';
+
 const styles = Utils.getStyles(moreOptionScreenStyles);
 const dismissButtonSize = 20;
 
@@ -108,7 +110,6 @@ export default class MoreOptionScreen extends Component {
     for (let i = 0; i < buttons.length; i++) {
       const button = buttons[i];
       let buttonIcon = this._renderIcon(button.name);
-      let moreOptionButton;
 
       // If a color style exists, we remove it as it is applied to a view, which doesn't support
       // text color modification. Color key only applies to Text views.
@@ -144,16 +145,18 @@ export default class MoreOptionScreen extends Component {
         };
       } (button.name, this.onOptionPress);
 
-      moreOptionButton = Utils.renderRectButton(button.name,
-                                                buttonStyle,
-                                                buttonIcon.fontString,
-                                                onOptionPress,
-                                                this.props.config.moreOptionsScreen.iconSize,
-                                                this.props.config.moreOptionsScreen.color,
-                                                buttonIcon.fontFamilyName,
-                                                i);
-
-      moreOptionButtons.push(moreOptionButton);
+      moreOptionButtons.push(
+        <RectangularButton
+          name={button.name}
+          style={buttonStyle}
+          icon={buttonIcon.fontString}
+          onPress={onOptionPress}
+          fontSize={this.props.config.moreOptionsScreen.iconSize}
+          buttonColor={this.props.config.moreOptionsScreen.color}
+          fontFamily={buttonIcon.fontFamilyName}
+          key={i}
+        />,
+      );
     }
   };
 
@@ -200,12 +203,6 @@ export default class MoreOptionScreen extends Component {
   render() {
     let moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
-    const dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS,
-                                                 styles.iconDismiss,
-                                                 this.props.config.icons.dismiss.fontString,
-                                                 this.onDismissPress, dismissButtonSize,
-                                                 this.props.config.moreOptionsScreen.color,
-                                                 this.props.config.icons.dismiss.fontFamilyName);
     const rowAnimationStyle = {
       transform: [{ translateY: this.state.translateY }],
       opacity: this.state.buttonOpacity
@@ -221,7 +218,15 @@ export default class MoreOptionScreen extends Component {
 
     const dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
-        {dismissButton}
+        <RectangularButton
+          name={BUTTON_NAMES.DISMISS}
+          style={styles.iconDismiss}
+          icon={this.props.config.icons.dismiss.fontString}
+          onPress={this.onDismissPress}
+          fontSize={dismissButtonSize}
+          buttonColor={this.props.config.moreOptionsScreen.color}
+          fontFamily={this.props.config.icons.dismiss.fontFamilyName}
+        />
       </View>
     );
     const animationStyle = { opacity: this.state.opacity };

@@ -13,7 +13,7 @@ import {
   BUTTON_NAMES
 } from '../../constants';
 import AirPlayView from './AirPlayView'
-import * as Utils from '../../lib/utils';
+import RectangularButton from '../../shared/RectangularButton';
 
 import styles from './CastAirPlayScreen.styles'
 
@@ -27,15 +27,19 @@ export default class CastAirPlayScreen extends Component {
   }
 
   _renderCastButton = (color) => {
-    return Utils.renderRectButton(
-      BUTTON_NAMES.CAST,
-      null,
-      this.props.config.icons['chromecast-disconnected'].fontString,
-      null,
-      this.props.height / 2 - 8,
-      color,
-      this.props.config.icons['chromecast-disconnected'].fontFamilyName
-    )
+    const { config, height } = this.props;
+
+    return (
+      <RectangularButton
+        name={BUTTON_NAMES.CAST}
+        style={null}
+        icon={config.icons['chromecast-disconnected'].fontString}
+        onPress={null}
+        fontSize={height / 2 - 8}
+        buttonColor={color}
+        fontFamily={config.icons['chromecast-disconnected'].fontFamilyName}
+      />
+    );
   };
 
   render() {

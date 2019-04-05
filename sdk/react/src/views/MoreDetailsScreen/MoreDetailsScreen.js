@@ -16,6 +16,8 @@ import Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 
 import moreDetailsScreenStyles from './MoreDetailsScreen.styles';
+import RectangularButton from '../../shared/RectangularButton';
+
 const styles = Utils.getStyles(moreDetailsScreenStyles);
 const dismissButtonSize = 20;
 
@@ -72,36 +74,41 @@ export default class MoreDetailsScreen extends Component {
   };
 
   render() {
-    const dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS,
-      styles.iconDismiss,
-      this.props.config.icons.dismiss.fontString,
-      this.onDismissPress, dismissButtonSize,
-      this.props.config.moreDetailsScreen.color,
-      this.props.config.icons.dismiss.fontFamilyName);
-    const dismissButtonRow = (
-      <View style={styles.dismissButtonTopRight}>
-        {dismissButton}
-      </View>
-    );
-    const animationStyle = {opacity: this.state.opacity};
+    const { config, height, width } = this.props;
+    const { opacity } = this.state;
+
+    const animationStyle = { opacity };
+
     return (
-      <Animated.View
-        style={[styles.fullscreenContainer, animationStyle, {height: this.props.height, width: this.props.width}]}>
-        <Animated.View
-          style={[animationStyle, {height: this.props.height, width: this.props.width}]}>
+      <Animated.View style={[styles.fullscreenContainer, animationStyle, { height, width }]}>
+
+        <Animated.View style={[animationStyle, { height, width }]}>
           <ScrollView
             style={[styles.column, styles.scrollContainer]}
-            indicatorStyle={'white'}>
-            {this._renderErrorTitle()}
-            {this._renderErrorDescription()}
+            indicatorStyle="white"
+          >
+            {this.renderErrorTitle()}
+            {this.renderErrorDescription()}
           </ScrollView>
         </Animated.View>
-        {dismissButtonRow}
+
+        <View style={styles.dismissButtonTopRight}>
+          <RectangularButton
+            name={BUTTON_NAMES.DISMISS}
+            style={styles.iconDismiss}
+            icon={config.icons.dismiss.fontString}
+            onPress={this.onDismissPress}
+            fontSize={dismissButtonSize}
+            buttonColor={config.moreDetailsScreen.color}
+            fontFamily={config.icons.dismiss.fontFamilyName}
+          />
+        </View>
+
       </Animated.View>
     );
   }
 
-  _renderErrorTitle = () => {
+  renderErrorTitle = () => {
     let errorCode = -1;
     if (this.props.error && this.props.error.code) {
       errorCode = this.props.error.code;
@@ -115,7 +122,7 @@ export default class MoreDetailsScreen extends Component {
     );
   };
 
-  _renderErrorDescription = () => {
+  renderErrorDescription = () => {
     if (this.props.error && this.props.error.description) {
       const userInfo = this.props.error.userInfo || {};
       const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';

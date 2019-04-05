@@ -1,27 +1,8 @@
-import React from 'react';
-import {
-  StyleSheet
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { VALUES } from '../constants';
 import Log from './log';
-import RectButton from '../shared/RectangularButton';
 import globalStyles from '../shared/styles/utils.styles';
-
-export const renderRectButton = (name, style, icon, func, size, color, fontFamily, key) => {
-    return (
-      <RectButton
-        name={name}
-        key={key}
-        icon={icon}
-        onPress={func}
-        fontSize={size}
-        fontFamily={fontFamily}
-        style={style}
-        buttonColor={color}>
-      </RectButton>
-    );
-};
 
 export const shouldShowLandscape = (width, height) => {
     if (isNaN(width) || isNaN(height) ||

@@ -13,6 +13,7 @@ import {
 import CastDeviceListItem from './CastDeviceListItem';
 import * as Utils from '../../lib/utils';
 import castDevicesStyles from './CastDevicesScreen.styles';
+import RectangularButton from '../../shared/RectangularButton';
 
 const styles = Utils.getStyles(castDevicesStyles);
 const dismissButtonSize = 20;
@@ -162,18 +163,20 @@ export default class CastDevicesScreen extends Component {
     const { config } = this.props;
     const { opacity } = this.state;
 
-    const dismissButton = Utils.renderRectButton(BUTTON_NAMES.DISMISS,
-      styles.iconDismiss,
-      config.icons.dismiss.fontString,
-      this.onDismissPress, dismissButtonSize,
-      config.castControls.iconStyle.inactive.color,
-      config.icons.dismiss.fontFamilyName);
-
     const dismissButtonRow = (
       <View style={styles.dismissButtonTopRight}>
-        {dismissButton}
+        <RectangularButton
+          name={BUTTON_NAMES.DISMISS}
+          style={styles.iconDismiss}
+          icon={config.icons.dismiss.fontString}
+          onPress={this.onDismissPress}
+          fontSize={dismissButtonSize}
+          buttonColor={config.castControls.iconStyle.inactive.color}
+          fontFamily={config.icons.dismiss.fontFamilyName}
+        />
       </View>
     );
+
     const animationStyle = { opacity };
     return this.renderCastDevicesScreen(animationStyle, dismissButtonRow);
   }
