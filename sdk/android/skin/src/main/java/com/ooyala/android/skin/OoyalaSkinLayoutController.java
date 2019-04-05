@@ -111,7 +111,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private boolean isReactMounted;
   private boolean isTargetTV;
   private RecyclerView rootRecyclerView = null;
-  private View.OnLayoutChangeListener recyclerLayoutChangeListener = null;
 
   /**
    * Create the OoyalaSkinLayoutController, which is the core unit of the Ooyala Skin Integration
@@ -537,6 +536,9 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     if (rootRecyclerView == null) {
       return;
     }
+    if (getTagsForScrollableViews() == null) {
+      return;
+    }
     for (String tag: getTagsForScrollableViews()) {
       View scrollableView = rootRecyclerView.findViewWithTag(tag);
       if (scrollableView != null) {
@@ -551,7 +553,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
             view.performClick();
           }
           return false;
-
         });
       }
     }
@@ -559,13 +560,11 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public void setRootRecyclerView(RecyclerView recyclerView) {
-
     if (recyclerView == null) {
       return;
     }
     rootRecyclerView = recyclerView;
     rootRecyclerView.addOnLayoutChangeListener(this);
-
   }
 
   @Override
