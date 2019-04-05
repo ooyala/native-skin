@@ -8,12 +8,12 @@ import {
   AccessibilityInfo,
 } from 'react-native';
 
-import OoyalaSkinCore from './ooyalaSkinCore';
+import Core from './src/Core';
 import {
   CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES,
-} from './constants';
+} from './src/constants';
 
 const {
   OOReactSkinEventsEmitter,
@@ -66,7 +66,7 @@ class OoyalaSkin extends Component {
   };
 
   componentWillMount() {
-    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, OOReactSkinBridgeModuleMain);
+    OoyalaSkinCoreInstance = new Core(this, OOReactSkinBridgeModuleMain);
     OoyalaSkinCoreInstance.mount(eventBridgeEmitter);
   }
 

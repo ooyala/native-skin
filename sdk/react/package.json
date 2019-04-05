@@ -16,9 +16,9 @@
     "coverage": "npm run clean:coverage && npm run test:coverage",
     "flow": "flow",
     "flow:stop": "flow stop",
-    "lint": "eslint .",
+    "lint": "eslint src babel.config.js index.android.js index.ios.js",
     "start": "npm run cli -- start",
-    "test": "jest src",
+    "test": "jest",
     "test:coverage": "npm test -- --coverage",
     "test:update": "npm test -- --updateSnapshot"
   },

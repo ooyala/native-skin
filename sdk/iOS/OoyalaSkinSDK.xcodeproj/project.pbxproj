@@ -311,6 +311,13 @@
 			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
 			remoteInfo = RCTNetwork;
 		};
+  		83E7442F22575B0500F15455 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
+			remoteInfo = RCTAnimation;
+		};
 		972ED8A51AE6FC3E005043DC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 972ED8A11AE6FC3E005043DC /* React.xcodeproj */;
@@ -774,6 +781,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				83E7443022575B0500F15455 /* PBXTargetDependency */,
 				757A84CF20E11CDB00AC6070 /* PBXTargetDependency */,
 				757A84EB20E11CE200AC6070 /* PBXTargetDependency */,
 				757A84ED20E11CE700AC6070 /* PBXTargetDependency */,
@@ -1219,6 +1227,11 @@
 			isa = PBXTargetDependency;
 			name = RCTNetwork;
 			targetProxy = 757A84F020E11CF300AC6070 /* PBXContainerItemProxy */;
+		};
+		83E7443022575B0500F15455 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = RCTAnimation;
+			targetProxy = 83E7442F22575B0500F15455 /* PBXContainerItemProxy */;
 		};
 		CA2C6FB61BEA8599006B86BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

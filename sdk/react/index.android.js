@@ -20,8 +20,8 @@ import {
   CONTENT_TYPES,
   SCREEN_TYPES,
   DESIRED_STATES
-} from './constants';
-import OoyalaSkinCore from './ooyalaSkinCore';
+} from './src/constants';
+import Core from './src/Core';
 let OoyalaSkinCoreInstance;
 
 class OoyalaSkin extends Component {
@@ -67,7 +67,7 @@ class OoyalaSkin extends Component {
   };
 
   componentWillMount() {
-    OoyalaSkinCoreInstance = new OoyalaSkinCore(this, OoyalaReactBridge);
+    OoyalaSkinCoreInstance = new Core(this, OoyalaReactBridge);
     OoyalaSkinCoreInstance.mount(RCTDeviceEventEmitter);
   }
 
