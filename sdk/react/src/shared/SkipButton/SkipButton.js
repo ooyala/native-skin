@@ -9,7 +9,7 @@ import {
   STRING_CONSTANTS
 } from '../../constants';
 import AccessibilityUtils from '../../lib/accessibility';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 
 import rectButtonStyles from '../styles/rectangularButton.styles';
 const styles = Utils.getStyles(rectButtonStyles);

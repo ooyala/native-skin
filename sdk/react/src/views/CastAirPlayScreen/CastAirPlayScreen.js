@@ -13,7 +13,7 @@ import {
   BUTTON_NAMES
 } from '../../constants';
 import AirPlayView from './AirPlayView'
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 
 import styles from './CastAirPlayScreen.styles'
 

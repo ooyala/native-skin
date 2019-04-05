@@ -4,7 +4,7 @@ import {
   ScrollView
 } from 'react-native';
 
-import Utils from '../../../lib/utils';
+import * as Utils from '../../../lib/utils';
 
 import itemSelectionScrollViewStyles from '../ItemSelectionScrollView.styles';
 const styles = Utils.getStyles(itemSelectionScrollViewStyles);

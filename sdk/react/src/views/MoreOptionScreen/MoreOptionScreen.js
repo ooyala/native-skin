@@ -10,7 +10,7 @@ import {
 } from '../../constants';
 import Log from '../../lib/log';
 import CollapsingBarUtils from '../../lib/collapser';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 
 import moreOptionScreenStyles from './MoreOptionScreen.styles';
 const styles = Utils.getStyles(moreOptionScreenStyles);

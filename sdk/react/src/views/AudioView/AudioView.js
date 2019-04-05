@@ -17,7 +17,7 @@ import Log from '../../lib/log';
 import ProgressBar from '../../shared/ProgressBar';
 import ControlBarWidget from '../../shared/ControlBarWidgets';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import timerForSkipButtons from 'react-native-timer';
 
 import audioViewStyles from './AudioView.styles';

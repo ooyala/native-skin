@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 
 import AccessibilityUtils from '../../lib/accessibility';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import ItemSelectionList from './ItemSelectionList';
 
 import itemSelectionScrollViewStyles from './ItemSelectionScrollView.styles';

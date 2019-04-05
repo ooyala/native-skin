@@ -9,7 +9,7 @@ import {
   View
 } from 'react-native';
 
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 
 import volumePanelStyles from './VolumePanel.styles';
 const styles = Utils.getStyles(volumePanelStyles);

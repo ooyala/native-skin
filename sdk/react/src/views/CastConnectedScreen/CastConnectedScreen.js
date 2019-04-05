@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 import CastPlayPauseButtons from './CastPlayPauseButtons';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import castConnectedStyles from './CastConnectedScreen.styles';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import BottomOverlay from '../../shared/BottomOverlay';

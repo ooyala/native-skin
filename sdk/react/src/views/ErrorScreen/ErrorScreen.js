@@ -12,7 +12,7 @@ import {
   BUTTON_NAMES
 } from '../../constants';
 import Log from '../../lib/log';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 
 import errorScreenStyles from './ErrorScreen.styles';
 import errorScreenStylesAudio from './ErrorScreenAudio.styles';

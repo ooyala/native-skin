@@ -11,7 +11,7 @@ import {
   BUTTON_NAMES,
 } from '../../constants';
 import CastDeviceListItem from './CastDeviceListItem';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import castDevicesStyles from './CastDevicesScreen.styles';
 
 const styles = Utils.getStyles(castDevicesStyles);

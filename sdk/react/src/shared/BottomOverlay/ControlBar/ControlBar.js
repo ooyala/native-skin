@@ -13,7 +13,7 @@ import {
 } from '../../../constants';
 import CollapsingBarUtils from '../../../lib/collapser';
 import Log from '../../../lib/log';
-import Utils from '../../../lib/utils';
+import * as Utils from '../../../lib/utils';
 import ControlBarWidget from '../../ControlBarWidgets';
 import ResponsiveDesignManager from '../../../lib/responsiveMultiplier';
 

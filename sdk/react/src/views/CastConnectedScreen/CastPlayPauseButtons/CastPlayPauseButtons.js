@@ -8,7 +8,7 @@ import timerForSkipButtons from 'react-native-timer';
 import SkipButton from '../../../shared/SkipButton';
 import SwitchButton from './SwitchButton';
 import { BUTTON_NAMES, VALUES } from '../../../constants';
-import Utils from '../../../lib/utils';
+import * as Utils from '../../../lib/utils';
 import AccessibilityUtils from '../../../lib/accessibility';
 import rectButtonStyles from '../../../shared/styles/rectangularButton.styles';
 

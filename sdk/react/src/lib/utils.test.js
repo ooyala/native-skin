@@ -1,8 +1,8 @@
 'use strict';
 
-jest.dontMock('../utils');
+jest.dontMock('./utils');
 
-import Utils from './utils';
+import * as Utils from './utils';
 
 describe('utils test suite', function() {
 

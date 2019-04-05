@@ -12,7 +12,7 @@ import {
   CELL_TYPES
 } from '../../constants';
 
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView';
 
 import audioAndCCSelectionPanelStyles from './AudioAndCcSelectionPanel.styles';

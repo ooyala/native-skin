@@ -13,7 +13,7 @@ import {
   SAS_ERROR_CODES
 } from '../../constants';
 import Log from '../../lib/log';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 
 import moreDetailsScreenStyles from './MoreDetailsScreen.styles';
 const styles = Utils.getStyles(moreDetailsScreenStyles);

@@ -19,7 +19,7 @@ import BottomOverlay from '../../shared/BottomOverlay';
 import UpNext from './UpNext';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import Log from '../../lib/log';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import VideoWaterMark from './VideoWatermark';
 

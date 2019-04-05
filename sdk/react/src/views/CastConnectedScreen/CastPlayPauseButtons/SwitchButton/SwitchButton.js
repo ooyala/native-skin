@@ -4,7 +4,7 @@ import { Animated, TouchableHighlight } from 'react-native';
 import { STRING_CONSTANTS } from '../../../../constants';
 import AccessibilityUtils from '../../../../lib/accessibility';
 import rectButtonStyles from '../../../../shared/styles/rectangularButton.styles';
-import Utils from '../../../../lib/utils';
+import * as Utils from '../../../../lib/utils';
 
 const styles = Utils.getStyles(rectButtonStyles);
 

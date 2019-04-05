@@ -13,7 +13,7 @@ import {
   BUTTON_NAMES,
   UI_SIZES,
 } from '../../constants';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import InfoPanel from './InfoPanel';
 import BottomOverlay from '../../shared/BottomOverlay';

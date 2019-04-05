@@ -6,10 +6,9 @@ import {
 import { VALUES } from '../constants';
 import Log from './log';
 import RectButton from '../shared/RectangularButton';
+import globalStyles from '../shared/styles/utils.styles';
 
-export default {
-
-  renderRectButton: function(name, style, icon, func, size, color, fontFamily, key) {
+export const renderRectButton = (name, style, icon, func, size, color, fontFamily, key) => {
     return (
       <RectButton
         name={name}
@@ -22,9 +21,9 @@ export default {
         buttonColor={color}>
       </RectButton>
     );
-  },
+};
 
-  shouldShowLandscape: function(width, height) {
+export const shouldShowLandscape = (width, height) => {
     if (isNaN(width) || isNaN(height) ||
         width === null || height === null ||
         width < 0 || height < 0) {
@@ -32,20 +31,18 @@ export default {
     }
 
     return width > height;
-  },
+};
 
-  formattedPlaybackSpeedRate: function(selectedPlaybackSpeedRate) {
+export const formattedPlaybackSpeedRate = selectedPlaybackSpeedRate => {
     const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(selectedPlaybackSpeedRate)).toFixed(2))
     const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
 
     return selectedPlaybackSpeedRateString.concat('x');
-  },
+};
 
   // Returns a React stylesheet based on the json object passed in. This method takes the json object,
   // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
-  getStyles: function(specificStyles) {
-    const globalStyles = require('../shared/styles/utils.styles.json');
-
+export const getStyles = specificStyles => {
     if (specificStyles == undefined) {
       specificStyles = {};
     }
@@ -59,9 +56,9 @@ export default {
     }
 
     return StyleSheet.create(styles);
-  },
+};
 
-  getTimerLabel: function(timer) {
+export const getTimerLabel = timer => {
     let timerLabel = '';
 
     if (timer < 10) {
@@ -75,17 +72,17 @@ export default {
     }
 
     return timerLabel;
-  },
+};
 
-  isPlaying: function( rate ) {
+export const isPlaying = rate => {
     return rate > 0;
-  },
+};
 
-  isPaused: function( rate ) {
+export const isPaused = rate => {
     return rate == 0;
-  },
+};
 
-  secondsToString: function(seconds) {
+export const secondsToString = seconds => {
     let minus = '';
     if (seconds < 0) {
       minus = '-';
@@ -108,9 +105,9 @@ export default {
       t = hh + ':' + t;
     }
     return minus + t;
-  },
+};
 
-  localizedString: function(preferredLocale, stringId, localizableStrings) {
+export const localizedString = (preferredLocale, stringId, localizableStrings) => {
     if (typeof stringId !== 'string') {
       return null;
     }
@@ -135,13 +132,13 @@ export default {
     }
 
     return stringId;
-  },
+};
 
   /**
    * Takes an integer error code andd locale
    * Returns the localized error message
   */
-  stringForErrorCode: function(errorCode) {
+export const stringForErrorCode = errorCode => {
     switch (errorCode) {
       /* Authorization failed - TODO add to language files */
       case 0:
@@ -243,10 +240,9 @@ export default {
       default:
         return 'An unknown error occurred';
     }
-  },
+};
 
-  restrictSeekValueIfNeeded: function (seekValue) {
+export const restrictSeekValueIfNeeded = seekValue => {
     let value = Math.min(Math.max(VALUES.MIN_SKIP_VALUE, seekValue), VALUES.MAX_SKIP_VALUE);
     return value;
-  }
 };

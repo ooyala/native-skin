@@ -13,7 +13,7 @@ import {
   STRING_CONSTANTS,
   VIEW_ACCESSIBILITY_NAMES,
 } from '../../constants';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import AccessibilityUtils from '../../lib/accessibility';
 import VolumeView from './VolumeView';
 import SkipButton from '../SkipButton';

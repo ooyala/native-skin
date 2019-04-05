@@ -10,7 +10,7 @@ import {
   BUTTON_NAMES
 } from '../../../constants';
 import Log from '../../../lib/log';
-import Utils from '../../../lib/utils';
+import * as Utils from '../../../lib/utils';
 
 import adBarStyles from './AdBar.styles';
 const styles = Utils.getStyles(adBarStyles);

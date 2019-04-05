@@ -11,7 +11,7 @@ import {
 import {
   BUTTON_NAMES
 } from '../../../constants';
-import Utils from '../../../lib/utils';
+import * as Utils from '../../../lib/utils';
 import CountdownView from '../../../shared/CountdownTimerIos';
 import CountdownViewAndroid from '../../../shared/CountdownTimerAndroid';
 

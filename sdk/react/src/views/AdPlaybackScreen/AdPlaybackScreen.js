@@ -15,7 +15,7 @@ import Log from '../../lib/log';
 import BottomOverlay from '../../shared/BottomOverlay';
 import AdBar from './AdBar';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 
 import videoViewStyles from '../VideoView/VideoView.styles';

@@ -6,7 +6,7 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 
 import rectButtonStyles from '../styles/rectangularButton.styles';
 const styles = Utils.getStyles(rectButtonStyles);

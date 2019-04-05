@@ -15,7 +15,7 @@ import {
   BUTTON_NAMES,
   SCREEN_TYPES,
 } from '../../constants';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import Log from '../../lib/log';
 import ResponsiveList from './ResponsiveList';
 import CountdownViewiOS from '../../shared/CountdownTimerIos';

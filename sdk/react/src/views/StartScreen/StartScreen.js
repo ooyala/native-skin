@@ -11,7 +11,7 @@ import {
   UI_SIZES,
   BUTTON_NAMES
 } from '../../constants';
-import Utils from '../../lib/utils';
+import * as Utils from '../../lib/utils';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 
