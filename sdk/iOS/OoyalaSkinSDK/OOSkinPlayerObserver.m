@@ -1,4 +1,4 @@
-//
+﻿//
 //  OOSkinPlayerObserver.m
 //  OoyalaSkinSDK
 //
@@ -510,8 +510,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 }
 
 - (void)castManagerDidUpdateDeviceList:(NSDictionary *)deviceList {
-  NSArray *devices = deviceList[deviceKey];
-  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:devices];
+  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:deviceList];
 }
 
 - (void)castManagerIsConnectingToDevice {

@@ -86,8 +86,8 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
   }
 
   @ReactMethod
-  public void onCastDeviceSelected(ReadableMap parameters) {
-    handler.onCastDeviceSelected(parameters);
+  public void onCastDeviceSelected(String id) {
+    handler.onCastDeviceSelected(id);
   }
 
   @ReactMethod
