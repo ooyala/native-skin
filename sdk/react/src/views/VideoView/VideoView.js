@@ -15,6 +15,7 @@ import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import UpNext from './UpNext';
 import VideoWaterMark from './VideoWatermark';
 
+// TODO(styles): Prefer own styles instead.
 import panelStyles from '../styles/view.styles';
 import styles from './VideoView.styles';
 

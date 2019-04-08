@@ -5,6 +5,7 @@ import { Animated, TouchableHighlight } from 'react-native';
 import { STRING_CONSTANTS } from '../../constants';
 import AccessibilityUtils from '../../lib/accessibility';
 
+// TODO(styles): Prefer own styles instead.
 import styles from '../styles/rectangularButton.styles';
 
 export default class SkipButton extends Component {

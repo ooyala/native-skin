@@ -11,6 +11,7 @@ import * as Utils from '../../../lib/utils';
 import SkipButton from '../../../shared/SkipButton';
 import SwitchButton from './SwitchButton';
 
+// TODO(styles): Prefer own styles instead.
 import styles from '../../../shared/styles/rectangularButton.styles';
 
 const PLAY = 'play';

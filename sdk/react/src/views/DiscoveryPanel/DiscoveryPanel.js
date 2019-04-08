@@ -11,6 +11,7 @@ import ResponsiveList from './ResponsiveList';
 import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
 import CountdownViewiOS from '../../shared/CountdownTimerIos';
 
+// TODO(styles): Prefer own styles instead.
 import panelStyles from '../styles/view.styles';
 import styles from './DiscoveryPanel.styles';
 

@@ -13,6 +13,7 @@ import * as Utils from '../../lib/utils';
 import ControlBarWidget from '../../shared/ControlBarWidgets';
 import ProgressBar from '../../shared/ProgressBar';
 
+// TODO(styles): Prefer own styles instead.
 import controlBarStyles from '../../shared/BottomOverlay/ControlBar/ControlBar.styles';
 import styles from './AudioView.styles';
 

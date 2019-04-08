@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 
+// TODO(styles): Prefer own styles instead.
 import styles from '../ItemSelectionScrollView.styles';
 
 export default class ItemSelectionList extends Component {

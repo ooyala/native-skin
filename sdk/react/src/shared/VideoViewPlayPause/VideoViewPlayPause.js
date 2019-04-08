@@ -8,6 +8,7 @@ import AccessibilityUtils from '../../lib/accessibility';
 import * as Utils from '../../lib/utils';
 import SkipButton from '../SkipButton';
 
+// TODO(styles): Prefer own styles instead.
 import styles from '../styles/rectangularButton.styles';
 
 const PLAY = 'play';
