@@ -1,71 +1,63 @@
-{
-  "panelTitleView": {
-    "flexDirection": "row",
-    "alignItems": "center"
-  },
+// @flow
 
-  "panelIcon": {
-    "textAlign": "left",
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 16,
-    "color": "white",
-    "paddingTop": 10,
-    "paddingBottom": 10
+export default {
+  panelTitleView: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-
-  "headerFlexibleSpace": {
-    "flex": 1
+  panelIcon: {
+    textAlign: 'left',
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 16,
+    color: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
   },
-
-  "dismissButton": {
-    "padding": 20
+  headerFlexibleSpace: {
+    flex: 1,
   },
-
-  "dismissOverlay": {
-    "position": "absolute",
-    "left": 10,
-    "top": 10
+  dismissButton: {
+    padding: 20,
   },
-
-  "dismissIcon": {
-    "flex": 1,
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 20,
-    "color": "white"
+  dismissOverlay: {
+    position: 'absolute',
+    left: 10,
+    top: 10,
   },
-
-  "panelTitleText": {
-    "padding": 10,
-    "margin": 10,
-    "fontWeight": "bold",
-    "fontSize": 20,
-    "fontFamily": "Helvetica",
-    "color": "white"
+  dismissIcon: {
+    flex: 1,
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 20,
+    color: 'white',
   },
-
-  "closedCaptionsContainer": {
-    "backgroundColor": "transparent",
-    "alignItems": "center",
-    "justifyContent": "center"
+  panelTitleText: {
+    padding: 10,
+    margin: 10,
+    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'Helvetica',
+    color: 'white',
   },
-
-  "closedCaptions": {
-    "alignSelf": "center",
-    "textAlign": "center",
-    "padding": 4,
-    "fontWeight": "bold",
-    "fontSize": 16,
-    "fontFamily": "Helvetica",
-    "color": "white",
-    "backgroundColor": "rgba(0, 0, 0, 0.7)"
+  closedCaptionsContainer: {
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
-  "closedCaptionsFlexibleSpace": {
-    "flex": 1
+  closedCaptions: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    padding: 4,
+    fontWeight: 'bold',
+    fontSize: 16,
+    fontFamily: 'Helvetica',
+    color: 'white',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
-  
-  "panel": {
-    "flex": 1,
-    "backgroundColor": "rgba(0, 0, 0, 0.7)"
-  }
-}
+  closedCaptionsFlexibleSpace: {
+    flex: 1,
+  },
+  panel: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
+};

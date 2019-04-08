@@ -1,49 +1,44 @@
-{
-  "touchableOpacity": { 
-    "flex": 1,
-    "alignItems": "center",
-    "backgroundColor": "rgba(0,0,0,0.5)"
-  },
+// @flow
 
-  "topView": { 
-    "flex": 1,
-    "justifyContent": "flex-start"
+export default {
+  touchableOpacity: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
-
-  "content": {
-    "flex": 1, 
-    "flexDirection": "column",
-    "alignItems": "stretch",
-    "backgroundColor": "transparent"
+  topView: {
+    flex: 1,
+    justifyContent: 'flex-start',
   },
-
-  "modalContent": {
-    "backgroundColor": "transparent",
-    "borderRadius": 10
+  content: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    backgroundColor: 'transparent',
   },
-
-  "modalButton": {
-    "backgroundColor": "rgba(0, 0, 0, 0.7)",
-    "borderRadius": 10,
-    "flex": 1,
-    "flexDirection": "row",
-    "margin": 4
+  modalContent: {
+    backgroundColor: 'transparent',
+    borderRadius: 10,
   },
-
-  "textContainer": {
-    "justifyContent": "center", 
-    "alignItems": "flex-start"
+  modalButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderRadius: 10,
+    flex: 1,
+    flexDirection: 'row',
+    margin: 4,
   },
-
-  "textStyle":{
-    "textAlign": "left",
-    "color": "#FFFFFF",
-    "fontSize": 36,
-    "fontFamily": "AvenirNext-DemiBold"
+  textContainer: {
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
-
-  "bottomView": {
-    "flex": 1,
-    "justifyContent": "flex-end"
-  }
-}
+  textStyle: {
+    textAlign: 'left',
+    color: '#FFFFFF',
+    fontSize: 36,
+    fontFamily: 'AvenirNext-DemiBold',
+  },
+  bottomView: {
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+};

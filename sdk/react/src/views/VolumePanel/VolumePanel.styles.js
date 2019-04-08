@@ -1,57 +1,53 @@
-{
-  "container": {
-    "flexDirection": "row",
-    "alignItems": "center",
-    "justifyContent": "flex-start",
-    "backgroundColor": "rgba(0, 0, 0, 0.3)"
-  },
+// @flow
 
-  "dismissButton": {
-    "position": "absolute",
-    "right": 0,
-    "top": 0,
-    "height": 42,
-    "width": 44,
-    "justifyContent": "center",
-    "alignItems": "center",
-    "flexDirection": "column"
+export default {
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
-
-  "dismissIcon": {
-    "flex": -1,
-    "maxHeight": 42,
-    "minHeight": 0,
-    "maxWidth": 44,
-    "minWidth": 16,
-    "textAlign": "center",
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 12,
-    "color": "#55595c"
+  dismissButton: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    height: 42,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
-
-  "volumeIconContainer": {
-    "marginLeft": 16
+  dismissIcon: {
+    flex: -1,
+    maxHeight: 42,
+    minHeight: 0,
+    maxWidth: 44,
+    minWidth: 16,
+    textAlign: 'center',
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 12,
+    color: '#55595c',
   },
-
-  "volumeIcon": {
-    "fontSize": 20,
-    "color": "white"
+  volumeIconContainer: {
+    marginLeft: 16,
   },
-
-  "sliderContainer": {
-    "flex": 1,
-    "flexDirection": "row",
-    "height": 60,
-    "alignItems": "center",
-    "marginLeft": 8,
-    "marginRight": 16
+  volumeIcon: {
+    fontSize: 20,
+    color: 'white',
   },
-
-  "slider": {
-    "flex": 1,
-    "height": 5,
-    "borderRadius": 2.5,
-    "flexDirection": "row",
-    "overflow": "hidden"
-  }
-}
+  sliderContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 60,
+    alignItems: 'center',
+    marginLeft: 8,
+    marginRight: 16,
+  },
+  slider: {
+    flex: 1,
+    height: 5,
+    borderRadius: 2.5,
+    flexDirection: 'row',
+    overflow: 'hidden',
+  },
+};

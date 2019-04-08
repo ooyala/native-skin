@@ -1,53 +1,48 @@
-{
-  "fullscreenContainer": {
-    "flexDirection": "column",
-    "backgroundColor": "rgba(0, 0, 0, 0.8)"
-  },
+// @flow
 
-  "container": {
-    "flex": 1,
-    "flexDirection": "column",
-    "alignItems": "flex-end"
+export default {
+  fullscreenContainer: {
+    flexDirection: 'column',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
-
-  "dismissButtonTopRight":{
-    "position": "absolute",
-    "top": 0,
-    "right": 0
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-end',
   },
-
-  "rowCenter": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "center",
-    "alignSelf": "center",
-    "justifyContent":"center",
-    "backgroundColor": "transparent",
-    "flexWrap": "wrap"
+  dismissButtonTopRight: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
-
-  "rowsContainer": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignSelf": "center",
-    "justifyContent":"center",
-    "backgroundColor": "transparent",
-    "flexWrap": "wrap"
+  rowCenter: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    flexWrap: 'wrap',
   },
-
-  "rowBottom": {
-    "flex":1,
-    "flexDirection": "row",
-    "alignSelf": "center",
-    "alignItems": "flex-end",
-    "backgroundColor": "transparent"
+  rowsContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+    flexWrap: 'wrap',
   },
-
-  "icon": {
-    "margin": 15
+  rowBottom: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'flex-end',
+    backgroundColor: 'transparent',
   },
-
-  "iconDismiss": {
-    "padding": 25
-  }
-}
+  icon: {
+    margin: 15,
+  },
+  iconDismiss: {
+    padding: 25,
+  },
+};

@@ -1,90 +1,81 @@
-{
-  "panel": {
-    "flex": 1,
-    "backgroundColor": "rgba(255, 255, 255, 0.2)"
-  },
+// @flow
 
-  "panelContainer": {
-    "flex": 1,
-    "flexDirection": "column",
-    "alignItems": "stretch"
+export default {
+  panel: {
+    flex: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
-
-  "panelHeaderView": {
-    "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "transparent",
-    "borderBottomColor": "black",
-    "borderBottomWidth": 2,
-    "height": 44
+  panelContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
   },
-  
-  "panelItemSelectionContainerView": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "stretch",
-    "backgroundColor": "transparent"
+  panelHeaderView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderBottomColor: 'black',
+    borderBottomWidth: 2,
+    height: 44,
   },
-
-  "panelItemSelectionView": {
-    "flex": 1,
-    "backgroundColor": "transparent"
+  panelItemSelectionContainerView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    backgroundColor: 'transparent',
   },
-
-  "panelItemSelectionContainerSeparationView": {
-    "width": 2,
-    "backgroundColor": "black"
+  panelItemSelectionView: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
-
-  "panelHeaderViewLeftView": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "center"
+  panelItemSelectionContainerSeparationView: {
+    width: 2,
+    backgroundColor: 'black',
   },
-
-  "panelHeaderViewLeftText": {
-    "flex": 1,
-    "fontSize": 16,
-    "minWidth": 0,
-    "textAlign": "left",
-    "marginLeft": 10,
-    "fontWeight": "bold",
-    "color": "white"
+  panelHeaderViewLeftView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-
-  "panelHeaderViewRightView": {
-    "flex": 1,
-    "alignItems": "center",
-    "flexDirection": "row"
+  panelHeaderViewLeftText: {
+    flex: 1,
+    fontSize: 16,
+    minWidth: 0,
+    textAlign: 'left',
+    marginLeft: 10,
+    fontWeight: 'bold',
+    color: 'white',
   },
-
-  "panelHeaderViewRightText": {
-    "flex": 1,
-    "minWidth": 0,
-    "fontSize": 16,
-    "marginLeft": 10,
-    "fontWeight": "bold",
-    "color": "white"
+  panelHeaderViewRightView: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row',
   },
-
-  "dismissButton": {
-    "flex": -1,
-    "height": 42,
-    "width": 44,
-    "justifyContent": "center",
-    "alignItems": "center",
-    "flexDirection": "column"
+  panelHeaderViewRightText: {
+    flex: 1,
+    minWidth: 0,
+    fontSize: 16,
+    marginLeft: 10,
+    fontWeight: 'bold',
+    color: 'white',
   },
-
-  "dismissIcon": {
-    "flex": -1,
-    "maxHeight": 42,
-    "minHeight": 0,
-    "maxWidth": 44,
-    "minWidth": 16,
-    "textAlign": "center",
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 16,
-    "color": "white"
-  }
-}
+  dismissButton: {
+    flex: -1,
+    height: 42,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  dismissIcon: {
+    flex: -1,
+    maxHeight: 42,
+    minHeight: 0,
+    maxWidth: 44,
+    minWidth: 16,
+    textAlign: 'center',
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 16,
+    color: 'white',
+  },
+};

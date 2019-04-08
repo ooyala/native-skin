@@ -1,6 +1,8 @@
-{
-  "container": {
-    "flexDirection": "column",
-    "alignItems": "center"
-  }
-}
+// @flow
+
+export default {
+  container: {
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+};

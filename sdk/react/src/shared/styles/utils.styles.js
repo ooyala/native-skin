@@ -1,60 +1,53 @@
-{
-  "loading": {
-    "flex": 1,
-    "alignItems": "center",
-    "justifyContent": "center"
-  },
+// @flow
 
-  "waterMarkContainer": {
-    "flexDirection": "row", 
-    "height": 8
+export default {
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
-  "waterMarkImageSW": {
-    "position": "absolute",
-    "bottom": 20,
-    "left": 20
+  waterMarkContainer: {
+    flexDirection: 'row',
+    height: 8,
   },
-
-  "waterMarkImageNE": {
-    "position": "absolute",
-    "top": 20,
-    "right": 20
+  waterMarkImageSW: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
   },
-
-  "waterMarkImageSE": {
-    "position": "absolute",
-    "bottom": 20,
-    "right": 20
+  waterMarkImageNE: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
   },
-
-  "waterMarkImage": {
-    "width":160,
-    "height": 24,
-    "alignItems": "center",
-    "backgroundColor": "transparent",
-    "margin": 10
+  waterMarkImageSE: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
   },
-
-  "infoPanelNW": {
-    "flexDirection": "column",
-    "backgroundColor": "transparent"
+  waterMarkImage: {
+    width: 160,
+    height: 24,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 10,
   },
-
-  "infoPanelSW": {
-    "position": "absolute",    
-    "bottom": 0,
-    "left": 0
+  infoPanelNW: {
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
   },
-
-  "infoPanelTitle": {
-    "textAlign": "left",
-    "marginTop": 20,
-    "marginLeft": 10
+  infoPanelSW: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
   },
-
-  "infoPanelDescription": {
-    "textAlign": "left",
-    "margin": 10
-  }
-}
+  infoPanelTitle: {
+    textAlign: 'left',
+    marginTop: 20,
+    marginLeft: 10,
+  },
+  infoPanelDescription: {
+    textAlign: 'left',
+    margin: 10,
+  },
+};

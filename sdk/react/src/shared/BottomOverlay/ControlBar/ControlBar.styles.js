@@ -1,85 +1,75 @@
-{
-  "controlBarContainer": {
-    "flexDirection": "row",
-    "marginHorizontal": 20,
-    "flex": 0,
-    "alignItems": "center",
-    "marginBottom":10
-  },
+// @flow
 
-  "containerHidden": {
-    "flexDirection": "row",
-    "backgroundColor": "rgba(0,0,0,0.5)",
-    "height": 0,
-    "overflow": "hidden"
+export default {
+  controlBarContainer: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    flex: 0,
+    alignItems: 'center',
+    marginBottom: 10,
   },
-
-  "icon": {
-    "color": "#8E8E8E"
+  containerHidden: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    height: 0,
+    overflow: 'hidden',
   },
-
-  "iconTouchable": {
-    "padding":8
+  icon: {
+    color: '#8E8E8E',
   },
-
-  "playheadLabel": {
-    "flex":0,
-    "flexDirection": "row",
-    "color": "#FFFFFF",
-    "fontFamily": "AvenirNext-DemiBold"
+  iconTouchable: {
+    padding: 8,
   },
-
-  "durationLabel": {
-    "flex":0,
-    "flexDirection": "row",
-    "color": "#B3B3B3",
-    "fontFamily": "AvenirNext-DemiBold"
+  playheadLabel: {
+    flex: 0,
+    flexDirection: 'row',
+    color: '#FFFFFF',
+    fontFamily: 'AvenirNext-DemiBold',
   },
-
-  "completeTimeStyle": {
-    "flex":0,
-    "flexDirection": "row"
+  durationLabel: {
+    flex: 0,
+    flexDirection: 'row',
+    color: '#B3B3B3',
+    fontFamily: 'AvenirNext-DemiBold',
   },
-
-  "iconHighlighted": {
-    "color": "#E6E6E6"
+  completeTimeStyle: {
+    flex: 0,
+    flexDirection: 'row',
   },
-
-  "volumeSlider": {
-    "height": 30,
-    "width": 100,
-    "alignSelf": "center"
+  iconHighlighted: {
+    color: '#E6E6E6',
   },
-  
-  "placeholder": {
-    "flex": 1
+  volumeSlider: {
+    height: 30,
+    width: 100,
+    alignSelf: 'center',
   },
-
-  "waterMarkImage": {
-    "width": 120,
-    "height": 18,
-    "alignItems": "center",
-    "backgroundColor": "transparent",
-    "margin": 10
+  placeholder: {
+    flex: 1,
   },
-
-  "liveCircleActive": {
-    "marginLeft": 6,
-    "marginRight": 6,
-    "width": 7,
-    "height": 7,
-    "borderRadius": 50,
-    "backgroundColor": "#FF0000",
-    "alignSelf": "center"
+  waterMarkImage: {
+    width: 120,
+    height: 18,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 10,
   },
-
-  "liveCircleNonActive": {
-    "marginLeft": 6,
-    "marginRight": 6,
-    "width": 7,
-    "height": 7,
-    "borderRadius": 50,
-    "backgroundColor": "#B3B3B3",
-    "alignSelf": "center"
-  }
-}
+  liveCircleActive: {
+    marginLeft: 6,
+    marginRight: 6,
+    width: 7,
+    height: 7,
+    borderRadius: 50,
+    backgroundColor: '#FF0000',
+    alignSelf: 'center',
+  },
+  liveCircleNonActive: {
+    marginLeft: 6,
+    marginRight: 6,
+    width: 7,
+    height: 7,
+    borderRadius: 50,
+    backgroundColor: '#B3B3B3',
+    alignSelf: 'center',
+  },
+};

@@ -1,61 +1,56 @@
-{
-  "panel": {
-    "backgroundColor": "rgba(255, 255, 255, 0.2)"
-  },
+// @flow
 
-  "panelContainer": {
-    "flexDirection": "column",
-    "alignItems": "stretch"
+export default {
+  panel: {
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
-
-  "panelHeaderView": {
-    "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "transparent",
-    "borderBottomColor": "black",
-    "borderBottomWidth": 2,
-    "height": 44
+  panelContainer: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
   },
-
-  "panelHeaderViewText": {
-    "flex": 1,
-    "minWidth": 0,
-    "fontSize": 16,
-    "marginLeft": 10,
-    "fontWeight": "bold",
-    "color": "white"
+  panelHeaderView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    borderBottomColor: 'black',
+    borderBottomWidth: 2,
+    height: 44,
   },
-
-  "panelItemSelectionView": {
-    "flex": 1,
-    "backgroundColor": "transparent"
+  panelHeaderViewText: {
+    flex: 1,
+    minWidth: 0,
+    fontSize: 16,
+    marginLeft: 10,
+    fontWeight: 'bold',
+    color: 'white',
   },
-
-  "panelItemSelectionContainerView": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "stretch",
-    "backgroundColor": "transparent"
+  panelItemSelectionView: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
-
-  "dismissButton": {
-    "flex": -1,
-    "height": 42,
-    "width": 44,
-    "justifyContent": "center",
-    "alignItems": "center",
-    "flexDirection": "column"
+  panelItemSelectionContainerView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    backgroundColor: 'transparent',
   },
-
-  "dismissIcon": {
-    "flex": -1,
-    "maxHeight": 42,
-    "minHeight": 0,
-    "maxWidth": 44,
-    "minWidth": 16,
-    "textAlign": "center",
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 16,
-    "color": "white"
-  }
-}
+  dismissButton: {
+    flex: -1,
+    height: 42,
+    width: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  dismissIcon: {
+    flex: -1,
+    maxHeight: 42,
+    minHeight: 0,
+    maxWidth: 44,
+    minWidth: 16,
+    textAlign: 'center',
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 16,
+    color: 'white',
+  },
+};

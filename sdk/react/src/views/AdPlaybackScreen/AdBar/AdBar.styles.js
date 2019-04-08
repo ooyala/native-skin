@@ -1,36 +1,34 @@
-{
-  "container": {
-    "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "rgba(0,0,0,0.5)"
-  },
+// @flow
 
-  "label": {
-    "textAlign": "center",
-    "color": "white",
-    "fontSize": 16,
-    "margin": 10,
-    "padding": 6,
-    "fontFamily": "AvenirNext-DemiBold"
+export default {
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
-
-  "placeholder": {
-    "flex": 1
+  label: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 16,
+    margin: 10,
+    padding: 6,
+    fontFamily: 'AvenirNext-DemiBold',
   },
-
-  "button": {
-    "backgroundColor": "transparent",
-    "padding": 6,
-    "margin": 10,
-    "borderRadius": 5,
-    "borderColor": "white",
-    "borderWidth": 1
+  placeholder: {
+    flex: 1,
   },
-  
-  "buttonText": {
-    "textAlign": "center",
-    "color": "white",
-    "fontSize": 16,
-    "fontFamily": "Roboto"
-  }
-}
+  button: {
+    backgroundColor: 'transparent',
+    padding: 6,
+    margin: 10,
+    borderRadius: 5,
+    borderColor: 'white',
+    borderWidth: 1,
+  },
+  buttonText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 16,
+    fontFamily: 'Roboto',
+  },
+};

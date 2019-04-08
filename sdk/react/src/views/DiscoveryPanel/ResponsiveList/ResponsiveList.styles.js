@@ -1,15 +1,15 @@
-{
-  "row": {  
-    "flex": 1,
-    "flexDirection": "row"
-  },
+// @flow
 
-  "column": {
-    "flex": 1,  
-    "flexDirection": "column"
+export default {
+  row: {
+    flex: 1,
+    flexDirection: 'row',
   },
-  
-  "container" : {
-    "flex": 1
-  }
-}
+  column: {
+    flex: 1,
+    flexDirection: 'column',
+  },
+  container: {
+    flex: 1,
+  },
+};

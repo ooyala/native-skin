@@ -1,80 +1,70 @@
-{
-  "container": {
-    "backgroundColor": "rgba(22,22,22,0.9)",
-    "flexDirection": "row",
-    "height": 80
-  },
+// @flow
 
-  "thumbnailContainer": {
-    "marginRight": 15
+export default {
+  container: {
+    backgroundColor: 'rgba(22,22,22,0.9)',
+    flexDirection: 'row',
+    height: 80,
   },
-
-  "thumbnail": {
-    "height": 80,
-    "flex": 2
+  thumbnailContainer: {
+    marginRight: 15,
   },
-
-  "thumbnailImage": {
-    "flex": 1,
-    "justifyContent": "center",
-    "alignItems": "center"
+  thumbnail: {
+    height: 80,
+    flex: 2,
   },
-
-  "thumbnailPlayButton": {
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 23,
-    "alignSelf": "center",
-    "textAlign": "center",
-    "color": "white"
+  thumbnailImage: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-
-  "countdownText": {
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 23,
-    "textAlign": "center",
-    "color": "white"
+  thumbnailPlayButton: {
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 23,
+    alignSelf: 'center',
+    textAlign: 'center',
+    color: 'white',
   },
-
-  "countdownView": {
-    "width": 18,
-    "height": 18,
-    "marginLeft": 10
+  countdownText: {
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 23,
+    textAlign: 'center',
+    color: 'white',
   },
-
-  "textContainer": {
-    "flex": 5,
-    "flexDirection": "row",
-    "paddingTop": 15,
-    "marginRight": 15
+  countdownView: {
+    width: 18,
+    height: 18,
+    marginLeft: 10,
   },
-
-  "titleContainer": {
-    "flex": 1,
-    "flexDirection": "column"
+  textContainer: {
+    flex: 5,
+    flexDirection: 'row',
+    paddingTop: 15,
+    marginRight: 15,
   },
-
-  "title": {
-    "color": "white",
-    "fontWeight": "bold",
-    "marginLeft": 10,
-    "fontSize": 14,
-    "fontFamily": "Roboto"
+  titleContainer: {
+    flex: 1,
+    flexDirection: 'column',
   },
-
-  "description": {
-    "color": "white",
-    "marginTop": 15,
-    "fontFamily": "GillSans",
-    "fontSize": 11
+  title: {
+    color: 'white',
+    fontWeight: 'bold',
+    marginLeft: 10,
+    fontSize: 14,
+    fontFamily: 'Roboto',
   },
-
-  "dismissButtonContainer": {
-    "marginTop": 20,
-    "marginRight": 15
+  description: {
+    color: 'white',
+    marginTop: 15,
+    fontFamily: 'GillSans',
+    fontSize: 11,
   },
-
-  "dismissButton": {
-    "fontSize": 10,
-    "color": "white"
-  }
-}
+  dismissButtonContainer: {
+    marginTop: 20,
+    marginRight: 15,
+  },
+  dismissButton: {
+    fontSize: 10,
+    color: 'white',
+  },
+};

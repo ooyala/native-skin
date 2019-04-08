@@ -1,81 +1,72 @@
-{
-  "panelErrorPanel": {
-    "alignSelf": "flex-end"
-  },
+// @flow
 
-  "panelErrorInfo": {
-    "flexDirection": "column",
-    "alignSelf": "flex-start",
-    "backgroundColor": "black",
-    "marginBottom":10,
-    "marginRight":10
+export default {
+  panelErrorPanel: {
+    alignSelf: 'flex-end',
   },
-
-  "panelWarning": {
-    "alignSelf": "flex-end",
-    "backgroundColor": "transparent",
-    "marginRight":10,
-    "marginBottom":10
+  panelErrorInfo: {
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+    backgroundColor: 'black',
+    marginBottom: 10,
+    marginRight: 10,
   },
-
-  "panelErrorTitleText": {
-    "flex": 1,
-    "fontSize": 10,
-    "padding": 7,
-    "color": "white",
-    "fontWeight": "bold",
-    "textAlign": "center"
+  panelWarning: {
+    alignSelf: 'flex-end',
+    backgroundColor: 'transparent',
+    marginRight: 10,
+    marginBottom: 10,
   },
-
-  "panelErrorContentText": {
-    "flex": 1,
-    "fontSize": 9.8,
-    "padding": 7,
-    "color": "white",
-    "textAlign": "center"
+  panelErrorTitleText: {
+    flex: 1,
+    fontSize: 10,
+    padding: 7,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
-
-  "rightContainer": {
-    "flex": 1,
-    "marginLeft": 8
+  panelErrorContentText: {
+    flex: 1,
+    fontSize: 9.8,
+    padding: 7,
+    color: 'white',
+    textAlign: 'center',
   },
-
-  "contentText": {
-    "marginTop": 8,
-    "textAlign": "left"
+  rightContainer: {
+    flex: 1,
+    marginLeft: 8,
   },
-
-  "thumbnailContainer": {
-    "flex": 1,
-    "alignItems": "center",
-    "justifyContent": "center"
+  contentText: {
+    marginTop: 8,
+    textAlign: 'left',
   },
-
-  "thumbnailPortrait": {
-    "width": 148,
-    "height": 88
+  thumbnailContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
-  "thumbnailLandscape": {
-    "width": 128,
-    "height": 88
+  thumbnailPortrait: {
+    width: 148,
+    height: 88,
   },
-
-  "columnContainerPortrait": {
-    "flex": 1,
-    "flexDirection": "column",
-    "backgroundColor": "transparent",
-    "alignItems": "center",
-    "padding": 5,
-    "marginTop": 20
+  thumbnailLandscape: {
+    width: 128,
+    height: 88,
   },
-  
-  "columnContainerLandscape": {
-    "flex": 1,
-    "flexDirection": "column",
-    "backgroundColor": "transparent",
-    "alignItems": "center",
-    "padding": 4,
-    "marginTop": 20
-  }
-}
+  columnContainerPortrait: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    padding: 5,
+    marginTop: 20,
+  },
+  columnContainerLandscape: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+    padding: 4,
+    marginTop: 20,
+  },
+};

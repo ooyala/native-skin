@@ -1,109 +1,96 @@
-{
-  "backgroundView": {
-    "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "transparent",
-    "overflow": "hidden"
-  },
+// @flow
 
-  "container": {
-    "flex": 1,
-    "backgroundColor": "rgba(0,0,0,0.3)"
+export default {
+  backgroundView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    overflow: 'hidden',
   },
-
-  "headerView": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "center",
-    "backgroundColor": "transparent",
-    "overflow": "hidden"
+  container: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.3)',
   },
-
-  "controlBar": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "center"
+  headerView: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    overflow: 'hidden',
   },
-
-  "progressBarContainer": {
-    "flex": 1,
-    "flexDirection": "row",
-    "height": 3,
-    "borderRadius": 1.5,
-    "overflow": "hidden"
+  controlBar: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-
-  "progressBar":  {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignItems": "center"
+  progressBarContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 3,
+    borderRadius: 1.5,
+    overflow: 'hidden',
   },
-
-  "progressBarScrubberContainer": {
-    "flex": 1,
-    "flexDirection": "row",
-    "height": 20,
-    "alignItems": "center"
+  progressBar: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
-
-  "flexibleSpace": {
-    "flex": 1,
-    "backgroundColor": "transparent"
+  progressBarScrubberContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    height: 20,
+    alignItems: 'center',
   },
-
-  "headerBaseLabel": {
-    "flex": 1,
-    "marginLeft": 8,
-    "marginRight": 8
+  flexibleSpace: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
-
-  "titleLabel": {
-    "flex": 1,
-    "color": "#FFFFFF",
-    "fontFamily": "AvenirNext-Bold"
+  headerBaseLabel: {
+    flex: 1,
+    marginLeft: 8,
+    marginRight: 8,
   },
-
-  "subtitleLabel": {
-    "flex": 1,
-    "color": "#B3B3B3",
-    "fontFamily": "AvenirNext-DemiBold"
+  titleLabel: {
+    flex: 1,
+    color: '#FFFFFF',
+    fontFamily: 'AvenirNext-Bold',
   },
-
-  "progressBarTimeLabel": {
-    "fontSize": 12,
-    "marginHorizontal": 8,
-    "color": "#B3B3B3",
-    "fontFamily": "AvenirNext-DemiBold"
+  subtitleLabel: {
+    flex: 1,
+    color: '#B3B3B3',
+    fontFamily: 'AvenirNext-DemiBold',
   },
-
-  "progressBarNoTimeLabel": {
-    "fontSize": 12,
-    "marginHorizontal": 10,
-    "color": "#B3B3B3",
-    "fontFamily": "AvenirNext-DemiBold"
+  progressBarTimeLabel: {
+    fontSize: 12,
+    marginHorizontal: 8,
+    color: '#B3B3B3',
+    fontFamily: 'AvenirNext-DemiBold',
   },
-
-  "liveLabel": {
-    "fontSize": 11,
-    "marginLeft": 4,
-    "marginRight": 8,
-    "color": "#FFFFFF",
-    "fontFamily": "AvenirNext-Bold"
+  progressBarNoTimeLabel: {
+    fontSize: 12,
+    marginHorizontal: 10,
+    color: '#B3B3B3',
+    fontFamily: 'AvenirNext-DemiBold',
   },
-
-  "liveCircleActive": {
-    "marginLeft": 6,
-    "width": 5,
-    "height": 5,
-    "borderRadius": 50,
-    "backgroundColor": "#FF0000"
+  liveLabel: {
+    fontSize: 11,
+    marginLeft: 4,
+    marginRight: 8,
+    color: '#FFFFFF',
+    fontFamily: 'AvenirNext-Bold',
   },
-
-  "liveCircleNonActive": {
-    "marginLeft": 6,
-    "width": 5,
-    "height": 5,
-    "borderRadius": 50,
-    "backgroundColor": "#B3B3B3"
-  }
-}
+  liveCircleActive: {
+    marginLeft: 6,
+    width: 5,
+    height: 5,
+    borderRadius: 50,
+    backgroundColor: '#FF0000',
+  },
+  liveCircleNonActive: {
+    marginLeft: 6,
+    width: 5,
+    height: 5,
+    borderRadius: 50,
+    backgroundColor: '#B3B3B3',
+  },
+};

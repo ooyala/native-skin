@@ -1,49 +1,45 @@
-{
-  "container": {
-    "flex": 1,
-    "flexDirection": "column",
-    "alignItems": "flex-start"
-  },
+// @flow
 
-  "fullscreenContainer": {
-    "flex": 1,
-    "flexDirection": "column",
-    "backgroundColor": "black"
+export default {
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
-
-  "promoImageSmall": {
-    "width": 180,
-    "height": 90,
-    "margin": 20
+  fullscreenContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'black',
   },
-
-  "controlBarPosition": {
-    "flex": 0,
-    "flexDirection": "column",
-    "backgroundColor": "rgba(0,0,0,0.3)"
+  promoImageSmall: {
+    width: 180,
+    height: 90,
+    margin: 20,
   },
-  "replayButtonCenter": {
-    "flex": 1,
-    "flexDirection": "row",
-    "alignSelf": "center",
-    "alignItems": "center",
-    "backgroundColor": "transparent"
+  controlBarPosition: {
+    flex: 0,
+    flexDirection: 'column',
+    backgroundColor: 'rgba(0,0,0,0.3)',
   },
-
-  "replayButton": {
-    "fontSize": 40,
-    "textAlign": "center",
-    "color": "white",
-    "margin": 10
+  replayButtonCenter: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
-
-  "iconDismiss": {
-    "padding": 25
+  replayButton: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'white',
+    margin: 10,
   },
-
-   "dismissButtonTopRight":{
-    "position": "absolute",
-    "top": 0,
-    "right": 0
-  }
-}
+  iconDismiss: {
+    padding: 25,
+  },
+  dismissButtonTopRight: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+};

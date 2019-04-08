@@ -1,63 +1,58 @@
-{
-  "item": {
-    "minHeight": 33,
-    "backgroundColor": "transparent"
-  },
+// @flow
 
-  "itemContainer": {
-    "flex": 1,
-    "marginLeft": 32,
-    "backgroundColor": "transparent"
+export default {
+  item: {
+    minHeight: 33,
+    backgroundColor: 'transparent',
   },
-
-  "button": {
-    "flex": 1,
-    "flexDirection":"row",
-    "alignItems":"center",
-    "backgroundColor": "transparent"
+  itemContainer: {
+    flex: 1,
+    marginLeft: 32,
+    backgroundColor: 'transparent',
   },
-
-  "selectedButton": {
-    "flex": 1,
-    "flexDirection":"row",
-    "alignItems":"center",
-    "backgroundColor": "rgba(0, 0, 0, 0.2)"
+  button: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
   },
-
-  "buttonText": {
-    "textAlign": "left",
-    "minWidth": 0,
-    "marginRight": 32,
-    "color": "white",
-    "fontSize": 13,
-    "fontFamily": "Roboto",
-    "backgroundColor": "transparent"
+  selectedButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
   },
-
-  "selectedButtonText": {
-    "textAlign": "left",
-    "minWidth": 0,
-    "marginRight": 32,
-    "color": "#448aff",
-    "fontSize": 13,
-    "fontFamily": "Roboto",
-    "fontWeight": "bold",
-    "backgroundColor": "transparent"
+  buttonText: {
+    textAlign: 'left',
+    minWidth: 0,
+    marginRight: 32,
+    color: 'white',
+    fontSize: 13,
+    fontFamily: 'Roboto',
+    backgroundColor: 'transparent',
   },
-
-  "selectedCheckmarkContainer": {
-    "position": "absolute",
-    "top": 0,
-    "bottom": 0,
-    "alignItems": "center",
-    "justifyContent": "center",
-    "maxWidth": 20,
-    "marginLeft": 9
+  selectedButtonText: {
+    textAlign: 'left',
+    minWidth: 0,
+    marginRight: 32,
+    color: '#448aff',
+    fontSize: 13,
+    fontFamily: 'Roboto',
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
   },
-
-  "selectedCheckmarkIcon": {
-    "fontFamily": "ooyala-slick-type",
-    "fontSize": 16,
-    "color": "#448aff"
-  }  
-}
+  selectedCheckmarkContainer: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    maxWidth: 20,
+    marginLeft: 9,
+  },
+  selectedCheckmarkIcon: {
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 16,
+    color: '#448aff',
+  },
+};

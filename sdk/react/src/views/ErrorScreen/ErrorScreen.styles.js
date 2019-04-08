@@ -1,29 +1,28 @@
-{
-  "container": {
-    "flex": 1,
-    "alignItems": "center",
-    "backgroundColor": "#000000"
-  },
+// @flow
 
-  "wrapper": {
-    "flex":1,
-    "justifyContent": "center"
+export default {
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    backgroundColor: '#000000',
   },
-
-  "title": {
-    "fontSize": 40,
-    "fontFamily": "GillSans-Bold",
-    "color":"#FFFFFF",
-    "textAlign": "left",
-    "marginHorizontal": 10
+  wrapper: {
+    flex: 1,
+    justifyContent: 'center',
   },
-
-  "description": {
-    "fontSize": 24,
-    "fontFamily": "GillSans",
-    "color": "#FFFFFF",
-    "textAlign": "left",
-    "marginHorizontal": 20,
-    "marginVertical": 20
-  }
-}
+  title: {
+    fontSize: 40,
+    fontFamily: 'GillSans-Bold',
+    color: '#FFFFFF',
+    textAlign: 'left',
+    marginHorizontal: 10,
+  },
+  description: {
+    fontSize: 24,
+    fontFamily: 'GillSans',
+    color: '#FFFFFF',
+    textAlign: 'left',
+    marginHorizontal: 20,
+    marginVertical: 20,
+  },
+};

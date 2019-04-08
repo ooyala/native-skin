@@ -1,27 +1,26 @@
-{
-  "fullscreenContainer": {
-    "flex": 1,
-    "justifyContent": "center",
-    "alignItems": "center"
-  },
-  
-  "container": {
-    "flex": 0,
-    "flexDirection": "column",
-    "backgroundColor": "transparent",
-    "overflow": "hidden"
-  },
+// @flow
 
-  "adContainer": {
-    "flex": 1,
-    "flexDirection": "column",
-    "backgroundColor": "transparent",
-    "overflow": "hidden"
+export default {
+  fullscreenContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-
-  "placeholder" : {
-    "flex": 1,
-    "alignItems": "stretch",
-    "backgroundColor": "transparent"
-  }
-}
+  container: {
+    flex: 0,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+    overflow: 'hidden',
+  },
+  adContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+    overflow: 'hidden',
+  },
+  placeholder: {
+    flex: 1,
+    alignItems: 'stretch',
+    backgroundColor: 'transparent',
+  },
+};

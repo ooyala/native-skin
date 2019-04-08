@@ -1,6 +1,8 @@
-{
-  "container": {
-    "flex": 1,
-    "flexDirection": "row"
-  }
-}
+// @flow
+
+export default {
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+};
