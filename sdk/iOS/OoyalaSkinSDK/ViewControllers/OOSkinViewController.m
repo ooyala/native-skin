@@ -66,8 +66,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
                    skinOptions:(OOSkinOptions *)skinOptions
-                        parent:(UIView *)parentView
-                 launchOptions:(NSDictionary *)options {
+                        parent:(UIView *)parentView {
   if (self = [super init]) {
     LOG(@"Ooyala SKin Version: %@", OO_SKIN_VERSION);
 
