@@ -173,12 +173,10 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   }
 
   @Override
-  public void onCastDeviceSelected(ReadableMap parameters) {
-    final String castDeviceName = parameters.getString("castDeviceName");
-    final String castDeviceId = parameters.getString("castDeviceId");
+  public void onCastDeviceSelected(String id) {
     runOnUiThread(() -> {
       if (_player != null && _player.getCurrentItem() != null) {
-        _player.connectDevice(new CastDevice(castDeviceId, castDeviceName));
+        _player.connectDevice(id);
       }
     });
   }

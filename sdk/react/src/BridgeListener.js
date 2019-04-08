@@ -366,7 +366,7 @@ export default class BridgeListener {
 
   handleCastDevicesAvailable(e) {
     this.skin.setState({
-      castDevices: e,
+      castDevices: e.devices,
     });
   }
 
