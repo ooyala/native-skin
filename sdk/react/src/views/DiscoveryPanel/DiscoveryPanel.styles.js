@@ -71,4 +71,11 @@ export default StyleSheet.create({
     padding: 4,
     marginTop: 20,
   },
+  waterMarkImage: {
+    width: 160,
+    height: 24,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 10,
+  },
 });
