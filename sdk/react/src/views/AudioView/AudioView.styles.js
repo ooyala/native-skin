@@ -25,6 +25,17 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  controlBarIcon: {
+    color: '#8E8E8E',
+  },
+  controlBarIconTouchable: {
+    padding: 8,
+  },
+  controlBarVolumeSlider: {
+    alignSelf: 'center',
+    height: 30,
+    width: 100,
+  },
   progressBarContainer: {
     flex: 1,
     flexDirection: 'row',

@@ -10,8 +10,7 @@ import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 
-// TODO(styles): Prefer own styles instead.
-import styles from '../VideoView/VideoView.styles';
+import styles from './AdPlaybackScreen.styles';
 
 export default class AdPlaybackScreen extends Component {
   static propTypes = {

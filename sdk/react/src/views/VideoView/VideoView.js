@@ -15,8 +15,6 @@ import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import UpNext from './UpNext';
 import VideoWaterMark from './VideoWatermark';
 
-// TODO(styles): Prefer own styles instead.
-import panelStyles from '../styles/view.styles';
 import styles from './VideoView.styles';
 
 export default class VideoView extends Component {
@@ -216,9 +214,9 @@ export default class VideoView extends Component {
         <View
           accessible={false}
           importantForAccessibility='no-hide-descendants'
-          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: 'absolute'}]}
+          style={[styles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: 'absolute'}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
-          <Text style={[panelStyles.closedCaptions, ccStyle]}>
+          <Text style={[styles.closedCaptions, ccStyle]}>
             {this.props.caption}
           </Text>
         </View>
@@ -345,9 +343,9 @@ export default class VideoView extends Component {
               resizeMode='contain'>
             </Image>
             <TouchableHighlight
-              style={panelStyles.dismissOverlay}
+              style={styles.dismissOverlay}
               onPress={this.props.handlers.onAdOverlayDismiss}>
-              <Text style={panelStyles.dismissIcon}>
+              <Text style={styles.dismissIcon}>
                 {this.props.config.icons.dismiss.fontString}
               </Text>
             </TouchableHighlight>

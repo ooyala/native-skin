@@ -5,8 +5,7 @@ import { Text, TouchableHighlight, View } from 'react-native';
 import { BUTTON_NAMES } from '../../../constants';
 import RectangularButton from '../../../shared/RectangularButton';
 
-// TODO(styles): Prefer own styles instead.
-import styles from '../CastDevicesScreen.styles';
+import styles from './CastDeviceListItem.styles';
 
 const castButtonSize = 35;
 

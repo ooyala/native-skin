@@ -5,8 +5,7 @@ import { Animated, TouchableHighlight } from 'react-native';
 import { STRING_CONSTANTS } from '../../../../constants';
 import AccessibilityUtils from '../../../../lib/accessibility';
 
-// TODO(styles): Prefer own styles instead.
-import styles from '../../../../shared/styles/rectangularButton.styles';
+import styles from './SwitchButton.styles';
 
 export default class SwitchButton extends Component {
 

@@ -78,4 +78,40 @@ export default StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 10,
   },
+  panelTitleView: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  panelTitleText: {
+    padding: 10,
+    margin: 10,
+    fontWeight: 'bold',
+    fontSize: 20,
+    fontFamily: 'Helvetica',
+    color: 'white',
+  },
+  panelIcon: {
+    textAlign: 'left',
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 16,
+    color: 'white',
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
+  headerFlexibleSpace: {
+    flex: 1,
+  },
+  dismissButton: {
+    padding: 20,
+  },
+  dismissIcon: {
+    flex: 1,
+    fontFamily: 'ooyala-slick-type',
+    fontSize: 20,
+    color: 'white',
+  },
+  panel: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
 });
