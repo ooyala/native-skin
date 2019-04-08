@@ -1,26 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  ActivityIndicator,
-  Text,
-  View,
-  Image,
-  TouchableHighlight,
-  Platform,
+  ActivityIndicator, Image, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  UI_SIZES,
-} from '../../constants';
-import * as Utils from '../../lib/utils';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import { BUTTON_NAMES, UI_SIZES } from '../../constants';
 import InfoPanel from './InfoPanel';
-import BottomOverlay from '../../shared/BottomOverlay';
 import Log from '../../lib/log';
-import endScreenStyles from './EndScreen.styles';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import BottomOverlay from '../../shared/BottomOverlay';
 
-const styles = Utils.getStyles(endScreenStyles);
+import styles from './EndScreen.styles';
 
 export default class EndScreen extends Component {
   static propTypes = {

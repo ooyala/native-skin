@@ -1,17 +1,12 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
 
+import ItemSelectionList from './ItemSelectionList';
 import AccessibilityUtils from '../../lib/accessibility';
 import * as Utils from '../../lib/utils';
-import ItemSelectionList from './ItemSelectionList';
 
-import itemSelectionScrollViewStyles from './ItemSelectionScrollView.styles';
-const styles = Utils.getStyles(itemSelectionScrollViewStyles);
+import styles from './ItemSelectionScrollView.styles';
 
 export default class ItemSelectionScrollView extends Component {
   static propTypes = {

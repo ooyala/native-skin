@@ -1,23 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Animated,
-  StyleSheet,
-  PanResponder,
-  Text,
-  TouchableHighlight,
-  View
+  Animated, PanResponder, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import * as Utils from '../../lib/utils';
+import styles from './VolumePanel.styles';
 
-import volumePanelStyles from './VolumePanel.styles';
-const styles = Utils.getStyles(volumePanelStyles);
 const constants = {
   animationDuration: 1000,
   scrubberSize: 14,
-  scrubTouchableDistance: 45
-}
+  scrubTouchableDistance: 45,
+};
 
 export default class VolumePanel extends Component {
   static propTypes = {
@@ -174,7 +167,6 @@ export default class VolumePanel extends Component {
 
     const filledStyle = {backgroundColor: filledColor, flex: volumeValue};
     const backgroundStyle = {backgroundColor: backgroundColor, flex: backgroundValue};
-    const style = StyleSheet.create({filled: filledStyle, background: backgroundStyle});
 
     return (
       <View
@@ -187,8 +179,8 @@ export default class VolumePanel extends Component {
           });
         }}>
         <View pointerEvents='none' style={styles.slider}>
-          <View style={style.filled}/>
-          <View style={style.background}/>
+          <View style={filledStyle}/>
+          <View style={backgroundStyle}/>
         </View>
         {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
       </View>

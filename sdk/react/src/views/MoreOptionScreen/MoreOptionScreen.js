@@ -1,21 +1,14 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Animated,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { Animated, View } from 'react-native';
 
-import {
-  BUTTON_NAMES
-} from '../../constants';
-import Log from '../../lib/log';
+import { BUTTON_NAMES } from '../../constants';
 import CollapsingBarUtils from '../../lib/collapser';
-import * as Utils from '../../lib/utils';
-
-import moreOptionScreenStyles from './MoreOptionScreen.styles';
+import Log from '../../lib/log';
 import RectangularButton from '../../shared/RectangularButton';
 
-const styles = Utils.getStyles(moreOptionScreenStyles);
+import styles from './MoreOptionScreen.styles';
+
 const dismissButtonSize = 20;
 
 export default class MoreOptionScreen extends Component {

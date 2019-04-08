@@ -1,22 +1,12 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  View,
-  Image
-} from 'react-native';
+import React, { Component } from 'react';
+import { Image, Text, View } from 'react-native';
 
-import {
-  IMG_URLS,
-  UI_SIZES,
-  BUTTON_NAMES
-} from '../../constants';
-import * as Utils from '../../lib/utils';
-import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
+import { BUTTON_NAMES, IMG_URLS, UI_SIZES } from '../../constants';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 
-import startScreenStyles from './StartScreen.styles';
-const styles = Utils.getStyles(startScreenStyles);
+import styles from './StartScreen.styles';
 
 export default class StartScreen extends Component {
   static propTypes = {

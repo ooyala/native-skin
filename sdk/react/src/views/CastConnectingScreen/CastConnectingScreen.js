@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
-
-import React from 'react';
+import React, { Component } from 'react';
 import {
   ActivityIndicator, Animated, Text, TouchableOpacity,
 } from 'react-native';
 
-import * as Utils from '../../lib/utils';
-import castConnectingStyles from './CastConnectingScreen.styles';
+import styles from './CastConnectingScreen.styles';
 
-const styles = Utils.getStyles(castConnectingStyles);
-
-export default class CastConnectingScreen extends React.Component {
+export default class CastConnectingScreen extends Component {
   static propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,

@@ -1,13 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ScrollView
-} from 'react-native';
+import React, { Component } from 'react';
+import { ScrollView } from 'react-native';
 
-import * as Utils from '../../../lib/utils';
-
-import itemSelectionScrollViewStyles from '../ItemSelectionScrollView.styles';
-const styles = Utils.getStyles(itemSelectionScrollViewStyles);
+import styles from '../ItemSelectionScrollView.styles';
 
 export default class ItemSelectionList extends Component {
   static propTypes = {

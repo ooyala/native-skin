@@ -1,30 +1,24 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Animated,
-  Text,
-  TouchableHighlight,
-  View
+  Animated, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  CELL_TYPES
-} from '../../constants';
-import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView';
+import { BUTTON_NAMES, CELL_TYPES } from '../../constants';
 import * as Utils from '../../lib/utils';
+import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView';
 
-import playbackSpeedPanelStyles from './PlaybackSpeedPanel.styles';
+import styles from './PlaybackSpeedPanel.styles';
 
-const styles = Utils.getStyles(playbackSpeedPanelStyles);
 const animationDuration = 1000;
+
 const constants = {
   headerViewSectionTitle: 'Playback Speed',
   normalPlaybackSpeedRateTitle: 'Normal',
   normalPlaybackSpeedRateValue: 1.0,
   maxPlaybackSpeedRateValue: 2.0,
   minPlaybackSpeedRateValue: 0.5,
-  playbackSpeedRatePostfix: 'x'
+  playbackSpeedRatePostfix: 'x',
 };
 
 export default class PlaybackSpeedPanel extends Component {

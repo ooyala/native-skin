@@ -1,15 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  View,
-  TouchableHighlight
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
 
-import * as Utils from '../../lib/utils';
-
-import rectButtonStyles from '../styles/rectangularButton.styles';
-const styles = Utils.getStyles(rectButtonStyles);
+import styles from '../styles/rectangularButton.styles';
 
 export default class RectangularButton extends Component {
   static propTypes = {

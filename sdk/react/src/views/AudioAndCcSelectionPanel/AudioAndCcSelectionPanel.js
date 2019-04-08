@@ -1,30 +1,24 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Animated,
-  Text,
-  TouchableHighlight,
-  View
+  Animated, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  CELL_TYPES
-} from '../../constants';
-
+import { BUTTON_NAMES, CELL_TYPES } from '../../constants';
 import * as Utils from '../../lib/utils';
 import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView';
 
-import audioAndCCSelectionPanelStyles from './AudioAndCcSelectionPanel.styles';
-const styles = Utils.getStyles(audioAndCCSelectionPanelStyles);
+import styles from './AudioAndCcSelectionPanel.styles';
+
+const animationDuration = 1000;
+
 const stringConstants = {
   undefinedLanguageTitle: 'Undefined language',
   noLinguisticContentTitle: 'No linguistic content',
   offButtonTitle: 'Off',
   audioHeaderViewSectionTitle: 'Audio',
-  subtitlesHeaderViewSectionTitle: 'Subtitles'
+  subtitlesHeaderViewSectionTitle: 'Subtitles',
 };
-const animationDuration = 1000;
 
 export default class AudioAndCcSelectionPanel extends Component {
   static propTypes = {

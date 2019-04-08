@@ -1,25 +1,17 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Platform,
-  NativeModules
-} from 'react-native';
+import React, { Component } from 'react';
+import { NativeModules, Platform, View } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  ACCESSIBILITY_ANNOUNCERS,
-  UI_SIZES
-} from '../../../constants';
+import { ACCESSIBILITY_ANNOUNCERS, BUTTON_NAMES, UI_SIZES } from '../../../constants';
 import CollapsingBarUtils from '../../../lib/collapser';
 import Log from '../../../lib/log';
+import ResponsiveDesignManager from '../../../lib/responsiveMultiplier';
 import * as Utils from '../../../lib/utils';
 import ControlBarWidget from '../../ControlBarWidgets';
-import ResponsiveDesignManager from '../../../lib/responsiveMultiplier';
 
-import controlBarStyles from './ControlBar.styles';
-const styles = Utils.getStyles(controlBarStyles);
-const AndroidAccessibility = NativeModules.AndroidAccessibility;
+import styles from './ControlBar.styles';
+
+const { AndroidAccessibility } = NativeModules;
 
 export default class ControlBar extends Component {
   static propTypes = {

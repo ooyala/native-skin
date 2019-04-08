@@ -1,22 +1,15 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Text,
-  View,
-  ImageBackground,
-  Platform,
-  TouchableHighlight
+  ImageBackground, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES
-} from '../../../constants';
-import * as Utils from '../../../lib/utils';
-import CountdownView from '../../../shared/CountdownTimerIos';
+import { BUTTON_NAMES } from '../../../constants';
 import CountdownViewAndroid from '../../../shared/CountdownTimerAndroid';
+import CountdownView from '../../../shared/CountdownTimerIos';
 
-import upNextStyle from './UpNext.styles';
-const styles = Utils.getStyles(upNextStyle);
+import styles from './UpNext.styles';
+
 const defaultCountdownVal = 10;
 
 export default class UpNext extends Component {

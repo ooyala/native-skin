@@ -1,23 +1,15 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  TouchableHighlight,
-  Animated
-} from 'react-native';
-
-import {
-  BUTTON_NAMES,
-  VALUES
-} from '../../constants';
-import SkipButton from '../SkipButton'
-import * as Utils from '../../lib/utils';
-import AccessibilityUtils from '../../lib/accessibility';
+import React, { Component } from 'react';
+import { Animated, TouchableHighlight, View } from 'react-native';
 import timerForSkipButtons from 'react-native-timer';
 
-// Uses the rectbutton styles
-import rectButtonStyles from '../styles/rectangularButton.styles';
-const styles = Utils.getStyles(rectButtonStyles);
+import { BUTTON_NAMES, VALUES } from '../../constants';
+import AccessibilityUtils from '../../lib/accessibility';
+import * as Utils from '../../lib/utils';
+import SkipButton from '../SkipButton';
+
+import styles from '../styles/rectangularButton.styles';
+
 const PLAY = 'play';
 const PAUSE = 'pause';
 const FORWARD = 'seekForward';

@@ -1,14 +1,9 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  ScrollView
-} from 'react-native';
+import React, { Component } from 'react';
+import { ScrollView, View } from 'react-native';
 
-import * as Utils from '../../../lib/utils';
+import styles from './ResponsiveList.styles';
 
-import responsiveListStyles from './ResponsiveList.styles';
-const styles = Utils.getStyles(responsiveListStyles);
 const placeHolderItem = 'ResponsiveListPlaceHolder';
 
 export default class ResponsiveList extends Component {

@@ -1,24 +1,13 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
 
-import {
-  SAS_ERROR_CODES,
-  ERROR_MESSAGE,
-  BUTTON_NAMES
-} from '../../constants';
+import { BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES } from '../../constants';
 import Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 
-import errorScreenStyles from './ErrorScreen.styles';
-import errorScreenStylesAudio from './ErrorScreenAudio.styles';
-
-const styles = Utils.getStyles(errorScreenStyles);
-const stylesAudio = Utils.getStyles(errorScreenStylesAudio);
+import styles from './ErrorScreen.styles';
+import stylesAudio from './ErrorScreenAudio.styles';
 
 export default class ErrorScreen extends Component {
   static propTypes = {

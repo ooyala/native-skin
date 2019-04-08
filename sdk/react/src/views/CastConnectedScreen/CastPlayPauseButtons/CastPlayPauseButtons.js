@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   ActivityIndicator, Animated, TouchableHighlight, View,
 } from 'react-native';
-
 import timerForSkipButtons from 'react-native-timer';
+
+import { BUTTON_NAMES, VALUES } from '../../../constants';
+import AccessibilityUtils from '../../../lib/accessibility';
+import * as Utils from '../../../lib/utils';
 import SkipButton from '../../../shared/SkipButton';
 import SwitchButton from './SwitchButton';
-import { BUTTON_NAMES, VALUES } from '../../../constants';
-import * as Utils from '../../../lib/utils';
-import AccessibilityUtils from '../../../lib/accessibility';
-import rectButtonStyles from '../../../shared/styles/rectangularButton.styles';
 
-// Uses the rectbutton styles
-const styles = Utils.getStyles(rectButtonStyles);
+import styles from '../../../shared/styles/rectangularButton.styles';
 
 const PLAY = 'play';
 const PAUSE = 'pause';
@@ -22,7 +20,7 @@ const NEXT = 'next';
 const PREVIOUS = 'previous';
 const BACKWARD = 'seekBackward';
 
-export default class CastPlayPauseButtons extends React.Component {
+export default class CastPlayPauseButtons extends Component {
   static propTypes = {
     seekEnabled: PropTypes.bool.isRequired,
     ffActive: PropTypes.bool.isRequired,

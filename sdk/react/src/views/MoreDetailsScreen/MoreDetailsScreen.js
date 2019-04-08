@@ -1,24 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Animated,
-  ScrollView,
-  Text,
-  View
+  Animated, ScrollView, Text, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  ERROR_MESSAGE,
-  SAS_ERROR_CODES
-} from '../../constants';
+import { BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES } from '../../constants';
 import Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
-
-import moreDetailsScreenStyles from './MoreDetailsScreen.styles';
 import RectangularButton from '../../shared/RectangularButton';
 
-const styles = Utils.getStyles(moreDetailsScreenStyles);
+import styles from './MoreDetailsScreen.styles';
+
 const dismissButtonSize = 20;
 
 export default class MoreDetailsScreen extends Component {

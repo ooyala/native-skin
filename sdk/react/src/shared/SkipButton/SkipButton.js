@@ -1,18 +1,11 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  TouchableHighlight,
-  Animated
-} from 'react-native';
+import React, { Component } from 'react';
+import { Animated, TouchableHighlight } from 'react-native';
 
-import {
-  STRING_CONSTANTS
-} from '../../constants';
+import { STRING_CONSTANTS } from '../../constants';
 import AccessibilityUtils from '../../lib/accessibility';
-import * as Utils from '../../lib/utils';
 
-import rectButtonStyles from '../styles/rectangularButton.styles';
-const styles = Utils.getStyles(rectButtonStyles);
+import styles from '../styles/rectangularButton.styles';
 
 export default class SkipButton extends Component {
   static propTypes = {

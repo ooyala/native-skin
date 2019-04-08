@@ -1,30 +1,18 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Animated,
-  ImageBackground,
-  Image,
-  Text,
-  TouchableHighlight,
-  View,
-  DeviceEventEmitter,
-  Platform,
+  Animated, DeviceEventEmitter, Image, ImageBackground, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  SCREEN_TYPES,
-} from '../../constants';
-import * as Utils from '../../lib/utils';
+import { BUTTON_NAMES, SCREEN_TYPES } from '../../constants';
 import Log from '../../lib/log';
+import * as Utils from '../../lib/utils';
 import ResponsiveList from './ResponsiveList';
-import CountdownViewiOS from '../../shared/CountdownTimerIos';
 import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
+import CountdownViewiOS from '../../shared/CountdownTimerIos';
 
 import panelStyles from '../styles/view.styles';
-import discoveryPanelStyles from './DiscoveryPanel.styles';
-
-const styles = Utils.getStyles(discoveryPanelStyles);
+import styles from './DiscoveryPanel.styles';
 
 // TODO: read this from config.
 const animationDuration = 1000;

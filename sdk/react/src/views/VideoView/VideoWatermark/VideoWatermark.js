@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { Image, View } from 'react-native';
 
-import * as Utils from '../../../lib/utils';
-
-import videoWaterMarkStyles from './VideoWatermark.styles';
-const styles = Utils.getStyles(videoWaterMarkStyles);
+import styles from './VideoWatermark.styles';
 
 export default class VideoWatermark extends Component {
   static propTypes = {

@@ -1,19 +1,12 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  View,
-  TouchableHighlight,
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-} from '../../../constants';
-import castDevicesStyles from '../CastDevicesScreen.styles';
-import * as Utils from '../../../lib/utils';
+import { BUTTON_NAMES } from '../../../constants';
 import RectangularButton from '../../../shared/RectangularButton';
 
-const styles = Utils.getStyles(castDevicesStyles);
+import styles from '../CastDevicesScreen.styles';
+
 const castButtonSize = 35;
 
 export default class DeviceListItem extends Component {

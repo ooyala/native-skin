@@ -1,18 +1,11 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
+import React, { Component } from 'react';
+import { View } from 'react-native';
 
-import {
-  VIEW_NAMES,
-} from '../../constants';
+import { VIEW_NAMES } from '../../constants';
 import Log from '../../lib/log';
-import * as Utils from '../../lib/utils';
-import progressBarStyles from './ProgressBar.styles';
 
-const styles = Utils.getStyles(progressBarStyles);
+import styles from './ProgressBar.styles';
 
 export default class ProgressBar extends Component {
   static propTypes = {
@@ -111,11 +104,6 @@ export default class ProgressBar extends Component {
     const playedStyle = { backgroundColor: playedColor, flex: percent };
     const backgroundStyle = { backgroundColor: bgColor, flex: bufferedPercent };
     const bufferedStyle = { backgroundColor: buffColor, flex: unbufferedPercent };
-    const progressStyles = StyleSheet.create({
-      played: playedStyle,
-      background: backgroundStyle,
-      buffered: bufferedStyle,
-    });
 
     return (
       <View
@@ -125,15 +113,15 @@ export default class ProgressBar extends Component {
         accessibilityLabel=''
       >
           <View
-            style={progressStyles.played}
+            style={playedStyle}
             testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
             accessibilityLabel=""/>
           <View
-            style={progressStyles.background}
+            style={backgroundStyle}
             testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
             accessibilityLabel=""/>
           <View
-            style={progressStyles.buffered}
+            style={bufferedStyle}
             testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
             accessibilityLabel=""/>
       </View>

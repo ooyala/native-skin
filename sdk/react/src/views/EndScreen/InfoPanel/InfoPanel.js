@@ -1,14 +1,8 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
 
-import * as Utils from '../../../lib/utils';
-
-import infoPanelStyles from './InfoPanel.styles';
-const styles = Utils.getStyles(infoPanelStyles);
+import styles from './InfoPanel.styles';
 
 export default class InfoPanel extends Component {
   static propTypes = {

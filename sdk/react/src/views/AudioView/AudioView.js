@@ -1,29 +1,20 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Text,
-  View,
-  Animated,
-  PanResponder
+  Animated, PanResponder, Text, View,
 } from 'react-native';
-
-import {
-  BUTTON_NAMES,
-  UI_SIZES,
-  VALUES
-} from '../../constants';
-import CollapsingBarUtils from '../../lib/collapser';
-import Log from '../../lib/log';
-import ProgressBar from '../../shared/ProgressBar';
-import ControlBarWidget from '../../shared/ControlBarWidgets';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
-import * as Utils from '../../lib/utils';
 import timerForSkipButtons from 'react-native-timer';
 
-import audioViewStyles from './AudioView.styles';
-import contBarStyles from '../../shared/BottomOverlay/ControlBar/ControlBar.styles';
-const styles = Utils.getStyles(audioViewStyles);
-const controlBarStyles = Utils.getStyles(contBarStyles);
+import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
+import CollapsingBarUtils from '../../lib/collapser';
+import Log from '../../lib/log';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Utils from '../../lib/utils';
+import ControlBarWidget from '../../shared/ControlBarWidgets';
+import ProgressBar from '../../shared/ProgressBar';
+
+import controlBarStyles from '../../shared/BottomOverlay/ControlBar/ControlBar.styles';
+import styles from './AudioView.styles';
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;

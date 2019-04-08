@@ -1,19 +1,12 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
 
-import {
-  BUTTON_NAMES
-} from '../../../constants';
+import { BUTTON_NAMES } from '../../../constants';
 import Log from '../../../lib/log';
 import * as Utils from '../../../lib/utils';
 
-import adBarStyles from './AdBar.styles';
-const styles = Utils.getStyles(adBarStyles);
+import styles from './AdBar.styles';
 
 export default class AdBar extends Component {
   static propTypes = {
