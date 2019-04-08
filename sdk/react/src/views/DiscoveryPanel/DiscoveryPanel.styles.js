@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   panelErrorPanel: {
     alignSelf: 'flex-end',
   },
@@ -69,4 +71,4 @@ export default {
     padding: 4,
     marginTop: 20,
   },
-};
+});

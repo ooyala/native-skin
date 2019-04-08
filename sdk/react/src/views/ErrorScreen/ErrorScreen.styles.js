@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -25,4 +27,4 @@ export default {
     marginHorizontal: 20,
     marginVertical: 20,
   },
-};
+});

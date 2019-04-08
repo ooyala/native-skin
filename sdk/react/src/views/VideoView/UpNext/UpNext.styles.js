@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   container: {
     backgroundColor: 'rgba(22,22,22,0.9)',
     flexDirection: 'row',
@@ -67,4 +69,4 @@ export default {
     fontSize: 10,
     color: 'white',
   },
-};
+});

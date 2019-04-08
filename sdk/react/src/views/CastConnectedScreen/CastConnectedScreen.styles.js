@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   placeholder: {
     flex: 1,
     alignItems: 'stretch',
@@ -66,4 +68,4 @@ export default {
     backgroundColor: 'transparent',
     overflow: 'hidden',
   },
-};
+});

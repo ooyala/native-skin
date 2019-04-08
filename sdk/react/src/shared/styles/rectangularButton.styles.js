@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   topRight: {
     position: 'absolute',
     top: 10,
@@ -29,4 +31,4 @@ export default {
   buttonTextStyle: {
     color: 'white',
   },
-};
+});

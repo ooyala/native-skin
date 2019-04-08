@@ -1,5 +1,6 @@
 // @flow
 
+// TODO: Remove or refactor to React Native StyleSheet.
 export default {
   loading: {
     flex: 1,

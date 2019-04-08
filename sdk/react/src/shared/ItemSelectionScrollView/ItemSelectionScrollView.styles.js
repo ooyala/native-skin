@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   item: {
     minHeight: 33,
     backgroundColor: 'transparent',
@@ -55,4 +57,4 @@ export default {
     fontSize: 16,
     color: '#448aff',
   },
-};
+});

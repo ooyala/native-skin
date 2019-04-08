@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   backgroundView: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -93,4 +95,4 @@ export default {
     borderRadius: 50,
     backgroundColor: '#B3B3B3',
   },
-};
+});

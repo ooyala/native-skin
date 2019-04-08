@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   touchableOpacity: {
     flex: 1,
     alignItems: 'center',
@@ -41,4 +43,4 @@ export default {
     flex: 1,
     justifyContent: 'flex-end',
   },
-};
+});

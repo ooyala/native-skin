@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   controlBarContainer: {
     flexDirection: 'row',
     marginHorizontal: 20,
@@ -72,4 +74,4 @@ export default {
     backgroundColor: '#B3B3B3',
     alignSelf: 'center',
   },
-};
+});

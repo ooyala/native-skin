@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   fullscreenContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -23,4 +25,4 @@ export default {
     alignItems: 'stretch',
     backgroundColor: 'transparent',
   },
-};
+});

@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   fullscreenContainer: {
     flexDirection: 'column',
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
@@ -45,4 +47,4 @@ export default {
   iconDismiss: {
     padding: 25,
   },
-};
+});

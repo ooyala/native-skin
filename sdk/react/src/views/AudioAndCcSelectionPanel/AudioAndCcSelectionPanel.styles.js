@@ -1,6 +1,8 @@
 // @flow
 
-export default {
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
   panel: {
     flex: 1,
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -78,4 +80,4 @@ export default {
     fontSize: 16,
     color: 'white',
   },
-};
+});
