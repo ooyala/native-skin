@@ -1,25 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Text,
-  View,
-  Image,
-  Platform,
-  TouchableHighlight
+  Image, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  STRING_CONSTANTS,
-  VIEW_ACCESSIBILITY_NAMES,
-} from '../../constants';
-import * as Utils from '../../lib/utils';
+import { BUTTON_NAMES, STRING_CONSTANTS, VIEW_ACCESSIBILITY_NAMES } from '../../constants';
 import AccessibilityUtils from '../../lib/accessibility';
-import VolumeView from './VolumeView';
+import * as Utils from '../../lib/utils';
 import SkipButton from '../SkipButton';
-import controlBarWidgetStyles from './ControlBarWidgets.styles';
+import VolumeView from './VolumeView';
 
-const styles = Utils.getStyles(controlBarWidgetStyles);
+import styles from './ControlBarWidgets.styles';
 
 export default class ControlBarWidgets extends Component {
   static propTypes = {

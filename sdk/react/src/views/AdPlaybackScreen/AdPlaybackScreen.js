@@ -1,25 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  View,
-  TouchableHighlight
-} from 'react-native';
+import React, { Component } from 'react';
+import { Image, TouchableHighlight, View } from 'react-native';
 
-import {
-  UI_SIZES,
-  AUTOHIDE_DELAY,
-  VALUES
-} from '../../constants';
-import Log from '../../lib/log';
-import BottomOverlay from '../../shared/BottomOverlay';
 import AdBar from './AdBar';
-import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
-import * as Utils from '../../lib/utils';
+import { AUTOHIDE_DELAY, UI_SIZES, VALUES } from '../../constants';
+import Log from '../../lib/log';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Utils from '../../lib/utils';
+import BottomOverlay from '../../shared/BottomOverlay';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 
-import videoViewStyles from '../VideoView/VideoView.styles';
-const styles = Utils.getStyles(videoViewStyles);
+import styles from './AdPlaybackScreen.styles';
 
 export default class AdPlaybackScreen extends Component {
   static propTypes = {

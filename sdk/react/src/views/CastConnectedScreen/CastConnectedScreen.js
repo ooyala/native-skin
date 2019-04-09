@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import React, { Component } from 'react';
 import {
-  Animated,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
+  Animated, Image, Text, TouchableOpacity, View,
 } from 'react-native';
-import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
+
 import CastPlayPauseButtons from './CastPlayPauseButtons';
-import * as Utils from '../../lib/utils';
-import castConnectedStyles from './CastConnectedScreen.styles';
+import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';
 
-const styles = Utils.getStyles(castConnectedStyles);
+import styles from './CastConnectedScreen.styles';
 
 export default class CastConnectedScreen extends Component {
   static propTypes = {

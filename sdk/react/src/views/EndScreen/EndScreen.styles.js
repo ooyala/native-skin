@@ -1,0 +1,47 @@
+// @flow
+
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  },
+  fullscreenContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: 'black',
+  },
+  promoImageSmall: {
+    width: 180,
+    height: 90,
+    margin: 20,
+  },
+  controlBarPosition: {
+    flex: 0,
+    flexDirection: 'column',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+  },
+  replayButtonCenter: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  replayButton: {
+    fontSize: 40,
+    textAlign: 'center',
+    color: 'white',
+    margin: 10,
+  },
+  iconDismiss: {
+    padding: 25,
+  },
+  dismissButtonTopRight: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+});

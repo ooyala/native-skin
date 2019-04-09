@@ -1,32 +1,21 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  ActivityIndicator,
-  Image,
-  Text,
-  View,
-  Platform,
-  TouchableHighlight,
+  ActivityIndicator, Image, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
 
 import {
-  BUTTON_NAMES,
-  UI_SIZES,
-  AUTOHIDE_DELAY,
-  VALUES,
+  AUTOHIDE_DELAY, BUTTON_NAMES, UI_SIZES, VALUES,
 } from '../../constants';
-import BottomOverlay from '../../shared/BottomOverlay';
-import UpNext from './UpNext';
-import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import Log from '../../lib/log';
-import * as Utils from '../../lib/utils';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Utils from '../../lib/utils';
+import BottomOverlay from '../../shared/BottomOverlay';
+import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
+import UpNext from './UpNext';
 import VideoWaterMark from './VideoWatermark';
 
-import panelStyles from '../styles/view.styles';
-import videoViewStyles from './VideoView.styles';
-
-const styles = Utils.getStyles(videoViewStyles);
+import styles from './VideoView.styles';
 
 export default class VideoView extends Component {
   static propTypes = {
@@ -225,9 +214,9 @@ export default class VideoView extends Component {
         <View
           accessible={false}
           importantForAccessibility='no-hide-descendants'
-          style={[panelStyles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: 'absolute'}]}
+          style={[styles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: 'absolute'}]}
           onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
-          <Text style={[panelStyles.closedCaptions, ccStyle]}>
+          <Text style={[styles.closedCaptions, ccStyle]}>
             {this.props.caption}
           </Text>
         </View>
@@ -354,9 +343,9 @@ export default class VideoView extends Component {
               resizeMode='contain'>
             </Image>
             <TouchableHighlight
-              style={panelStyles.dismissOverlay}
+              style={styles.dismissOverlay}
               onPress={this.props.handlers.onAdOverlayDismiss}>
-              <Text style={panelStyles.dismissIcon}>
+              <Text style={styles.dismissIcon}>
                 {this.props.config.icons.dismiss.fontString}
               </Text>
             </TouchableHighlight>

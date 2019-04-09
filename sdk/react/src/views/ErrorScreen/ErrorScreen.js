@@ -1,24 +1,12 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+import React, { Component } from 'react';
+import { Text, TouchableHighlight, View } from 'react-native';
 
-import {
-  SAS_ERROR_CODES,
-  ERROR_MESSAGE,
-  BUTTON_NAMES
-} from '../../constants';
+import { BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES } from '../../constants';
 import Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 
-import errorScreenStyles from './ErrorScreen.styles';
-import errorScreenStylesAudio from './ErrorScreenAudio.styles';
-
-const styles = Utils.getStyles(errorScreenStyles);
-const stylesAudio = Utils.getStyles(errorScreenStylesAudio);
+import styles from './ErrorScreen.styles';
 
 export default class ErrorScreen extends Component {
   static propTypes = {
@@ -47,7 +35,7 @@ export default class ErrorScreen extends Component {
     const title = 'unplayable content error';
     const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
     return (
-      <Text style={stylesAudio.title}>
+      <Text style={styles.titleAudio}>
         {localizedTitle}
       </Text>
     );
@@ -74,7 +62,7 @@ export default class ErrorScreen extends Component {
     const description = 'Reload your screen or try selecting different audio.';
     const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
     return (
-      <Text style={stylesAudio.description}>
+      <Text style={styles.descriptionAudio}>
         {localizedDescription}
       </Text>
     );
@@ -82,8 +70,8 @@ export default class ErrorScreen extends Component {
 
   render() {
     return (
-      <View style={this.props.isAudioOnly ? stylesAudio.container : styles.container}>
-        <View style={this.props.isAudioOnly ? stylesAudio.wrapper : styles.wrapper}>
+      <View style={this.props.isAudioOnly ? styles.containerAudio : styles.container}>
+        <View style={this.props.isAudioOnly ? styles.wrapperAudio : styles.wrapper}>
           {this.props.isAudioOnly ? this.getTitleAudioOnly() : this.getTitle()}
           {this.props.isAudioOnly ? this.getDescriptionAudioOnly() : this.getDescription()}
           {this._renderMoreDetailsButton()}
@@ -103,9 +91,9 @@ export default class ErrorScreen extends Component {
     return (
       <TouchableHighlight
         onPress={this.onMoreDetails}
-        style={stylesAudio.buttonContainer}>
-        <View style={stylesAudio.button}>
-          <Text style={stylesAudio.buttonText}>{moreDetailsText}</Text>
+        style={styles.buttonContainer}>
+        <View style={styles.button}>
+          <Text style={styles.buttonText}>{moreDetailsText}</Text>
         </View>
       </TouchableHighlight>
     );

@@ -1,21 +1,15 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Animated,
-  Text,
-  View,
-  FlatList,
+  Animated, FlatList, Text, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-} from '../../constants';
 import CastDeviceListItem from './CastDeviceListItem';
-import * as Utils from '../../lib/utils';
-import castDevicesStyles from './CastDevicesScreen.styles';
+import { BUTTON_NAMES } from '../../constants';
 import RectangularButton from '../../shared/RectangularButton';
 
-const styles = Utils.getStyles(castDevicesStyles);
+import styles from './CastDevicesScreen.styles';
+
 const dismissButtonSize = 20;
 
 export default class CastDevicesScreen extends Component {

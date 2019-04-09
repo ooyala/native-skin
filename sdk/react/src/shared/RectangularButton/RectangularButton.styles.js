@@ -1,0 +1,34 @@
+// @flow
+
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
+  topRight: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  topLeft: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
+  },
+  bottomRight: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+  },
+  bottomLeft: {
+    position: 'absolute',
+    bottom: 10,
+    left: 10,
+  },
+  playPauseButtonArea: {
+    flex: 1,
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  buttonTextStyle: {
+    color: 'white',
+  },
+});

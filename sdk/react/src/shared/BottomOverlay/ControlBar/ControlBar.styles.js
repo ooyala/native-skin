@@ -1,0 +1,77 @@
+// @flow
+
+import { StyleSheet } from 'react-native';
+
+export default StyleSheet.create({
+  controlBarContainer: {
+    flexDirection: 'row',
+    marginHorizontal: 20,
+    flex: 0,
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  containerHidden: {
+    flexDirection: 'row',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    height: 0,
+    overflow: 'hidden',
+  },
+  icon: {
+    color: '#8E8E8E',
+  },
+  iconTouchable: {
+    padding: 8,
+  },
+  playheadLabel: {
+    flex: 0,
+    flexDirection: 'row',
+    color: '#FFFFFF',
+    fontFamily: 'AvenirNext-DemiBold',
+  },
+  durationLabel: {
+    flex: 0,
+    flexDirection: 'row',
+    color: '#B3B3B3',
+    fontFamily: 'AvenirNext-DemiBold',
+  },
+  completeTimeStyle: {
+    flex: 0,
+    flexDirection: 'row',
+  },
+  iconHighlighted: {
+    color: '#E6E6E6',
+  },
+  volumeSlider: {
+    height: 30,
+    width: 100,
+    alignSelf: 'center',
+  },
+  placeholder: {
+    flex: 1,
+  },
+  waterMarkImage: {
+    width: 120,
+    height: 18,
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 10,
+  },
+  liveCircleActive: {
+    marginLeft: 6,
+    marginRight: 6,
+    width: 7,
+    height: 7,
+    borderRadius: 50,
+    backgroundColor: '#FF0000',
+    alignSelf: 'center',
+  },
+  liveCircleNonActive: {
+    marginLeft: 6,
+    marginRight: 6,
+    width: 7,
+    height: 7,
+    borderRadius: 50,
+    backgroundColor: '#B3B3B3',
+    alignSelf: 'center',
+  },
+});

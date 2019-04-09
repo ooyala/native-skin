@@ -1,8 +1,5 @@
-import { StyleSheet } from 'react-native';
-
 import { VALUES } from '../constants';
 import Log from './log';
-import globalStyles from '../shared/styles/utils.styles';
 
 export const shouldShowLandscape = (width, height) => {
     if (isNaN(width) || isNaN(height) ||
@@ -19,24 +16,6 @@ export const formattedPlaybackSpeedRate = selectedPlaybackSpeedRate => {
     const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
 
     return selectedPlaybackSpeedRateString.concat('x');
-};
-
-  // Returns a React stylesheet based on the json object passed in. This method takes the json object,
-  // adds in any global styles that are specifed in styles.json, and returns the React Stylesheet.
-export const getStyles = specificStyles => {
-    if (specificStyles == undefined) {
-      specificStyles = {};
-    }
-
-    let styles = {};
-    for (let attrname in globalStyles) {
-      styles[attrname] = globalStyles[attrname];
-    }
-    for (let attrname in specificStyles) {
-      styles[attrname] = specificStyles[attrname];
-    }
-
-    return StyleSheet.create(styles);
 };
 
 export const getTimerLabel = timer => {

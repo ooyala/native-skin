@@ -1,13 +1,6 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ScrollView
-} from 'react-native';
-
-import * as Utils from '../../../lib/utils';
-
-import itemSelectionScrollViewStyles from '../ItemSelectionScrollView.styles';
-const styles = Utils.getStyles(itemSelectionScrollViewStyles);
+import React, { Component } from 'react';
+import { ScrollView } from 'react-native';
 
 export default class ItemSelectionList extends Component {
   static propTypes = {
@@ -28,10 +21,8 @@ export default class ItemSelectionList extends Component {
   };
 
   render() {
-    const scrollViewStyle = this.props.horizontal ? styles.column : styles.row;
     return (
       <ScrollView
-        style={scrollViewStyle}
         indicatorStyle={'white'} // Can't move this property to json styles file because it doesn't work
         horizontal={this.props.horizontal}
         directionalLockEnabled={true}>

@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
+
 import { STRING_CONSTANTS } from '../../../../constants';
 import AccessibilityUtils from '../../../../lib/accessibility';
-import rectButtonStyles from '../../../../shared/styles/rectangularButton.styles';
-import * as Utils from '../../../../lib/utils';
 
-const styles = Utils.getStyles(rectButtonStyles);
+import styles from './SwitchButton.styles';
 
-export default class SwitchButton extends React.Component {
+export default class SwitchButton extends Component {
 
   static propTypes = {
     visible: PropTypes.bool.isRequired,

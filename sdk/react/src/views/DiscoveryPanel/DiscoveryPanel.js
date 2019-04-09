@@ -1,30 +1,17 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Animated,
-  ImageBackground,
-  Image,
-  Text,
-  TouchableHighlight,
-  View,
-  DeviceEventEmitter,
-  Platform,
+  Animated, DeviceEventEmitter, Image, ImageBackground, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
 
-import {
-  BUTTON_NAMES,
-  SCREEN_TYPES,
-} from '../../constants';
-import * as Utils from '../../lib/utils';
+import { BUTTON_NAMES, SCREEN_TYPES } from '../../constants';
 import Log from '../../lib/log';
+import * as Utils from '../../lib/utils';
 import ResponsiveList from './ResponsiveList';
-import CountdownViewiOS from '../../shared/CountdownTimerIos';
 import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
+import CountdownViewiOS from '../../shared/CountdownTimerIos';
 
-import panelStyles from '../styles/view.styles';
-import discoveryPanelStyles from './DiscoveryPanel.styles';
-
-const styles = Utils.getStyles(discoveryPanelStyles);
+import styles from './DiscoveryPanel.styles';
 
 // TODO: read this from config.
 const animationDuration = 1000;
@@ -289,24 +276,24 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
     // This ability is added in latest react native 0.46 onwards
     // so we can remove this piece of code once we upgrade.
     return (
-      <View style={panelStyles.panelTitleView}>
-        <Text style={[panelStyles.panelTitleText]}>
+      <View style={styles.panelTitleView}>
+        <Text style={[styles.panelTitleText]}>
           {title}
         </Text>
         <TouchableHighlight accessible accessibilityLabel={BUTTON_NAMES.DISCOVERY}>
           <View>
-            <Text style={panelStyles.panelIcon}>{panelIcon}</Text>
+            <Text style={styles.panelIcon}>{panelIcon}</Text>
           </View>
         </TouchableHighlight>
-        <View style={panelStyles.headerFlexibleSpace} />
+        <View style={styles.headerFlexibleSpace} />
         <TouchableHighlight
           accessible
           accessibilityLabel={BUTTON_NAMES.DISMISS}
           accessibilityComponentType="button"
-          style={[panelStyles.dismissButton]}
+          style={[styles.dismissButton]}
           onPress={this.onDismissPress}
         >
-          <Text style={panelStyles.dismissIcon}>{icons.dismiss.fontString}</Text>
+          <Text style={styles.dismissIcon}>{icons.dismiss.fontString}</Text>
         </TouchableHighlight>
       </View>
     );
@@ -355,7 +342,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
     }
     const animationStyle = { opacity };
     return (
-      <Animated.View style={[panelStyles.panel, animationStyle]}>
+      <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}
         {this.renderList(itemRect, thumbnailStyle, columnContainerStyle)}
         {this.renderError()}

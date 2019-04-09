@@ -1,29 +1,19 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import {
-  Text,
-  View,
-  Animated,
-  PanResponder
+  Animated, PanResponder, Text, View,
 } from 'react-native';
-
-import {
-  BUTTON_NAMES,
-  UI_SIZES,
-  VALUES
-} from '../../constants';
-import CollapsingBarUtils from '../../lib/collapser';
-import Log from '../../lib/log';
-import ProgressBar from '../../shared/ProgressBar';
-import ControlBarWidget from '../../shared/ControlBarWidgets';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
-import * as Utils from '../../lib/utils';
 import timerForSkipButtons from 'react-native-timer';
 
-import audioViewStyles from './AudioView.styles';
-import contBarStyles from '../../shared/BottomOverlay/ControlBar/ControlBar.styles';
-const styles = Utils.getStyles(audioViewStyles);
-const controlBarStyles = Utils.getStyles(contBarStyles);
+import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
+import CollapsingBarUtils from '../../lib/collapser';
+import Log from '../../lib/log';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Utils from '../../lib/utils';
+import ControlBarWidget from '../../shared/ControlBarWidgets';
+import ProgressBar from '../../shared/ProgressBar';
+
+import styles from './AudioView.styles';
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
@@ -197,25 +187,25 @@ export default class AudioView extends Component {
     const widgetOptions = {
       volume: {
         onPress: this.onVolumePress,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.controlBarIcon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: this.props.config.icons.volume,
         iconOff: this.props.config.icons.volumeOff,
-        iconTouchableStyle: controlBarStyles.iconTouchable,
+        iconTouchableStyle: styles.controlBarIconTouchable,
         showVolume: false,
         volume: this.props.volume,
-        scrubberStyle: controlBarStyles.volumeSlider,
+        scrubberStyle: styles.controlBarVolumeSlider,
         volumeControlColor: this.getVolumeControlColor()
       },
       seekBackwards: {
         onPress: this.onSkipPressBackwards,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.controlBarIcon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         seekValue: this.props.config.skipControls.skipBackwardTime,
         icon: this.props.config.icons.replay,
         size: iconFontSize
       },
       playPause: {
         onPress: this.onPlayPausePress,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize, marginLeft: 15, marginRight: 15}, this.props.config.controlBar.iconStyle.active],
+        style: [styles.controlBarIcon, {'fontSize': iconFontSize, marginLeft: 15, marginRight: 15}, this.props.config.controlBar.iconStyle.active],
         playIcon: this.props.config.icons.play,
         pauseIcon: this.props.config.icons.pause,
         replayIcon: this.props.config.icons.replay,
@@ -224,7 +214,7 @@ export default class AudioView extends Component {
       },
       seekForward: {
         onPress: this.onSkipPressForward,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.onPlayComplete ?
+        style: [styles.controlBarIcon, {'fontSize': iconFontSize}, this.props.onPlayComplete ?
           this.props.config.controlBar.iconStyle.inactive :
           this.props.config.controlBar.iconStyle.active],
         opacity: {opacity: this.props.onPlayComplete ? 0.5 : 1.0},
@@ -234,22 +224,22 @@ export default class AudioView extends Component {
       },
       moreOptions: {
         onPress: this.onMorePress,
-        iconTouchableStyle: controlBarStyles.iconTouchable,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        iconTouchableStyle: styles.controlBarIconTouchable,
+        style: [styles.controlBarIcon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.ellipsis,
         enabled: this.props.showMoreOptionsButton
       },
       playbackSpeed: {
         onPress: this.onPlaybackSpeedPress,
-        iconTouchableStyle: controlBarStyles.iconTouchable,
-        style: [controlBarStyles.icon, {'fontSize': labelFontSize}, this.props.config.controlBar.iconStyle.active],
+        iconTouchableStyle: styles.controlBarIconTouchable,
+        style: [styles.controlBarIcon, {'fontSize': labelFontSize}, this.props.config.controlBar.iconStyle.active],
         selectedPlaybackSpeedRate: this.getSelectedPlaybackSpeedRate(),
         enabled: this.props.playbackSpeedEnabled
       },
       share: {
         onPress: this.onSocialSharePress,
-        iconTouchableStyle: controlBarStyles.iconTouchable,
-        style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        iconTouchableStyle: styles.controlBarIconTouchable,
+        style: [styles.controlBarIcon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         icon: this.props.config.icons.share
       }
     };
