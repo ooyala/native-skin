@@ -311,7 +311,7 @@
 			remoteGlobalIDString = 58B511DA1A9E6C8500147676;
 			remoteInfo = RCTNetwork;
 		};
-  		83E7442F22575B0500F15455 /* PBXContainerItemProxy */ = {
+		83E7442F22575B0500F15455 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 39D462C0222E5D78008C9FC7 /* RCTAnimation.xcodeproj */;
 			proxyType = 1;
@@ -781,12 +781,12 @@
 			buildRules = (
 			);
 			dependencies = (
-				83E7443022575B0500F15455 /* PBXTargetDependency */,
 				757A84CF20E11CDB00AC6070 /* PBXTargetDependency */,
 				757A84EB20E11CE200AC6070 /* PBXTargetDependency */,
 				757A84ED20E11CE700AC6070 /* PBXTargetDependency */,
 				757A84EF20E11CEE00AC6070 /* PBXTargetDependency */,
 				757A84F120E11CF300AC6070 /* PBXTargetDependency */,
+				83E7443022575B0500F15455 /* PBXTargetDependency */,
 			);
 			name = OoyalaSkinSDK;
 			productName = OoyalaSkinSDK;
@@ -837,7 +837,6 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 			);
 			mainGroup = 972ED8411AE6EEEB005043DC;
