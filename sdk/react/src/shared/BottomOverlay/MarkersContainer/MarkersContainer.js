@@ -30,6 +30,9 @@ const MarkersContainer = ({
             key={index} // eslint-disable-line react/no-array-index-key
             marker={marker}
             onSeek={onSeek}
+            style={{
+              zIndex: markers.length - index, // The former should overlap the latter.
+            }}
           />
         ))}
       </Animated.View>
