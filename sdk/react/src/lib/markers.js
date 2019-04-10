@@ -21,5 +21,28 @@ export const parseInputArray = (markers: ?Array<string>): Array<Marker> => {
         return null;
       }
     })
-    .filter(marker => Boolean(marker));
+    .filter(marker => Boolean(marker))
+    .sort(({ start: a }, { start: b }) => {
+      if (a === 'start' && b === 'start') {
+        return 0;
+      }
+
+      if (a === 'start') {
+        return -1;
+      }
+
+      if (b === 'start') {
+        return 1;
+      }
+
+      if (a < b) {
+        return -1;
+      }
+
+      if (a > b) {
+        return 1;
+      }
+
+      return 0;
+    });
 };
