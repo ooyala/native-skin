@@ -12,11 +12,12 @@ type Props = {
   duration: number,
   marker: MarkerType,
   onSeek: number => void,
+  onTouch: () => void,
   style?: ViewStyleProp,
 };
 
 const Marker = ({
-  accentColor, duration, marker, onSeek, style,
+  accentColor, duration, marker, onSeek, onTouch, style,
 }: Props) => {
   const start = (marker.start === 'start' ? 0 : marker.start);
   const left = `${start / duration * 100}%`;
@@ -26,6 +27,7 @@ const Marker = ({
       <TextMarker
         backgroundColor={marker.backgroundColor || accentColor}
         onSeek={() => onSeek(start)}
+        onTouch={onTouch}
         style={[
           style,
           { left },
@@ -42,6 +44,7 @@ const Marker = ({
         iconUrl={marker.iconUrl}
         imageUrl={marker.imageUrl}
         onSeek={() => onSeek(start)}
+        onTouch={onTouch}
         style={[
           style,
           { left },

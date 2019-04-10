@@ -11,6 +11,7 @@ type Props = {
   iconUrl: ?string,
   imageUrl: ?string,
   onSeek: () => void,
+  onTouch: () => void,
   style?: ViewStyleProp,
   touchColor?: ?string,
 };
@@ -37,7 +38,9 @@ export default class IconMarker extends React.Component<Props, State> {
   }
 
   handlePress() {
-    this.setState(({ isExpanded }, { imageUrl, onSeek }) => {
+    this.setState(({ isExpanded }, { imageUrl, onSeek, onTouch }) => {
+      onTouch();
+
       // Trigger seek callback if the marker has no image or has been expanded. If there is an image we have to show it
       // first and only after the second click on that image trigger the callback.
       if (!imageUrl || isExpanded) {
