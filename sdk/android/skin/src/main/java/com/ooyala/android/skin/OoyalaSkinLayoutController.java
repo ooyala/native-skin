@@ -531,6 +531,23 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  public void allowScrollForView(View scrollableView) {
+    if (scrollableView != null) {
+      scrollableView.setOnTouchListener((View view, MotionEvent event) -> {
+        if (rootRecyclerView == null) {
+          return false;
+        }
+        rootRecyclerView.requestDisallowInterceptTouchEvent(true);
+        int action = event.getActionMasked();
+        if (action == MotionEvent.ACTION_UP) {
+          rootRecyclerView.requestDisallowInterceptTouchEvent(false);
+          view.performClick();
+        }
+        return false;
+      });
+    }
+  }
+
   @Override
   public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
     if (rootRecyclerView == null) {
@@ -541,20 +558,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
     for (String tag: getTagsForScrollableViews()) {
       View scrollableView = rootRecyclerView.findViewWithTag(tag);
-      if (scrollableView != null) {
-        scrollableView.setOnTouchListener((View view, MotionEvent event) -> {
-          if (rootRecyclerView == null) {
-            return false;
-          }
-          rootRecyclerView.requestDisallowInterceptTouchEvent(true);
-          int action = event.getActionMasked();
-          if (action == MotionEvent.ACTION_UP) {
-            rootRecyclerView.requestDisallowInterceptTouchEvent(false);
-            view.performClick();
-          }
-          return false;
-        });
-      }
+      allowScrollForView(scrollableView);
     }
   }
 
@@ -569,7 +573,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public String[] getTagsForScrollableViews() {
-    String[] tags = {"seekBar", "volumeView"};
+    String[] tags = {"seekBar"};
     return tags;
   }
 
