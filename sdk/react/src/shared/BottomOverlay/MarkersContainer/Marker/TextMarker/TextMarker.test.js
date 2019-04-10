@@ -12,6 +12,7 @@ describe('TextMarker', () => {
       <TextMarker
         text="Hello, world"
         onSeek={() => undefined}
+        onTouch={() => undefined}
       />,
     );
 
@@ -24,6 +25,7 @@ describe('TextMarker', () => {
       <TextMarker
         text="A word"
         onSeek={onSeekMock}
+        onTouch={() => undefined}
       />,
     );
 
@@ -38,6 +40,7 @@ describe('TextMarker', () => {
       <TextMarker
         text="The text long enough to switch to collapsible state"
         onSeek={onSeekMock}
+        onTouch={() => undefined}
       />,
     );
 
@@ -48,5 +51,20 @@ describe('TextMarker', () => {
     wrapper.find(TouchableWithoutFeedback).simulate('press');
 
     expect(onSeekMock).toBeCalled();
+  });
+
+  it('triggers `onTouch` callback every time when pressed', () => {
+    const onTouchMock = jest.fn();
+    const wrapper = shallow(
+      <TextMarker
+        text="A word"
+        onSeek={() => undefined}
+        onTouch={onTouchMock}
+      />,
+    );
+
+    wrapper.find(TouchableWithoutFeedback).simulate('press');
+
+    expect(onTouchMock).toBeCalled();
   });
 });

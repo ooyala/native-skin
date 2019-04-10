@@ -23,6 +23,12 @@ exports[`MarkersContainer renders matching snapshot 1`] = `
       }
     }
     onSeek={[Function]}
+    onTouch={[Function]}
+    style={
+      Object {
+        "zIndex": 2,
+      }
+    }
   />
   <Marker
     duration={60}
@@ -35,6 +41,12 @@ exports[`MarkersContainer renders matching snapshot 1`] = `
       }
     }
     onSeek={[Function]}
+    onTouch={[Function]}
+    style={
+      Object {
+        "zIndex": 1,
+      }
+    }
   />
 </AnimatedComponent>
 `;

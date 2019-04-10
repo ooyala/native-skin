@@ -4,10 +4,14 @@ exports[`Marker renders marker of the icon type matching snapshot 1`] = `
 <IconMarker
   iconUrl="http://example.com/icon.png"
   onSeek={[Function]}
+  onTouch={[Function]}
   style={
-    Object {
-      "left": "0%",
-    }
+    Array [
+      undefined,
+      Object {
+        "left": "0%",
+      },
+    ]
   }
 />
 `;
@@ -15,10 +19,14 @@ exports[`Marker renders marker of the icon type matching snapshot 1`] = `
 exports[`Marker renders marker of the text type matching snapshot 1`] = `
 <TextMarker
   onSeek={[Function]}
+  onTouch={[Function]}
   style={
-    Object {
-      "left": "0%",
-    }
+    Array [
+      undefined,
+      Object {
+        "left": "0%",
+      },
+    ]
   }
   text="Hello, world!"
 />

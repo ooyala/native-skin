@@ -13,6 +13,7 @@ describe('IconMarker', () => {
         iconUrl="http://example.com/icon.png"
         imageUrl="http://example.com/image.png"
         onSeek={() => undefined}
+        onTouch={() => undefined}
       />,
     );
 
@@ -25,6 +26,7 @@ describe('IconMarker', () => {
         iconUrl={undefined}
         imageUrl={undefined}
         onSeek={() => undefined}
+        onTouch={() => undefined}
       />,
     );
 
@@ -38,6 +40,7 @@ describe('IconMarker', () => {
         iconUrl="http://example.com/icon.png"
         imageUrl={undefined}
         onSeek={onSeekMock}
+        onTouch={() => undefined}
       />,
     );
 
@@ -53,6 +56,7 @@ describe('IconMarker', () => {
         iconUrl="http://example.com/icon.png"
         imageUrl="http://example.com/image.png"
         onSeek={onSeekMock}
+        onTouch={() => undefined}
       />,
     );
 
@@ -63,5 +67,21 @@ describe('IconMarker', () => {
     wrapper.find(TouchableWithoutFeedback).simulate('press');
 
     expect(onSeekMock).toBeCalled();
+  });
+
+  it('triggers `onTouch` callback every time when pressed', () => {
+    const onTouchMock = jest.fn();
+    const wrapper = shallow(
+      <IconMarker
+        iconUrl="http://example.com/icon.png"
+        imageUrl={undefined}
+        onSeek={() => undefined}
+        onTouch={onTouchMock}
+      />,
+    );
+
+    wrapper.find(TouchableWithoutFeedback).simulate('press');
+
+    expect(onTouchMock).toBeCalled();
   });
 });
