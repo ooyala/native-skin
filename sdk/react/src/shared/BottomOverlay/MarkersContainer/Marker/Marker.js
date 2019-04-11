@@ -1,6 +1,7 @@
 // @flow
 
 import * as React from 'react';
+import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import IconMarker from './IconMarker';
 import TextMarker from './TextMarker';
@@ -11,10 +12,11 @@ type Props = {
   duration: number,
   marker: MarkerType,
   onSeek: number => void,
+  style?: ViewStyleProp,
 };
 
 const Marker = ({
-  accentColor, duration, marker, onSeek,
+  accentColor, duration, marker, onSeek, style,
 }: Props) => {
   const start = (marker.start === 'start' ? 0 : marker.start);
   const left = `${start / duration * 100}%`;
@@ -24,7 +26,10 @@ const Marker = ({
       <TextMarker
         backgroundColor={marker.backgroundColor || accentColor}
         onSeek={() => onSeek(start)}
-        style={{ left }}
+        style={[
+          style,
+          { left },
+        ]}
         text={marker.text}
       />
     );
@@ -37,7 +42,10 @@ const Marker = ({
         iconUrl={marker.iconUrl}
         imageUrl={marker.imageUrl}
         onSeek={() => onSeek(start)}
-        style={{ left }}
+        style={[
+          style,
+          { left },
+        ]}
         touchColor={marker.markerColor || accentColor}
       />
     );
@@ -48,6 +56,7 @@ const Marker = ({
 
 Marker.defaultProps = {
   accentColor: undefined,
+  style: undefined,
 };
 
 export default Marker;
