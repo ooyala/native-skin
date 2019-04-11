@@ -12,6 +12,7 @@ const TEXT_MARKER_COLLAPSED_LENGTH = 8;
 type Props = {
   backgroundColor?: ?string,
   onSeek: () => void,
+  onTouch: () => void,
   text: string,
   style?: ViewStyleProp,
 };
@@ -37,7 +38,9 @@ export default class TextMarker extends React.Component<Props, State> {
   }
 
   handlePress() {
-    this.setState(({ isExpanded }, { onSeek, text }) => {
+    this.setState(({ isExpanded }, { onSeek, onTouch, text }) => {
+      onTouch();
+
       // Trigger seek callback if the marker text is shorter than maximum or has been expanded. If there the text is
       // longer we have to expand it first and only after the second click on that text trigger the callback.
       if (text.length <= TEXT_MARKER_COLLAPSED_LENGTH || isExpanded) {

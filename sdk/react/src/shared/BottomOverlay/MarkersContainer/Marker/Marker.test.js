@@ -16,6 +16,7 @@ describe('Marker', () => {
           text: 'Hello, world!',
         }}
         onSeek={() => undefined}
+        onTouch={() => undefined}
       />,
     );
 
@@ -32,6 +33,7 @@ describe('Marker', () => {
           type: 'icon',
         }}
         onSeek={() => undefined}
+        onTouch={() => undefined}
       />,
     );
 
