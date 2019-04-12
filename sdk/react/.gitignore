@@ -25,10 +25,10 @@ project.xcworkspace
 # Android/IntelliJ
 #
 build/
-.idea
+# .idea
 .gradle
 local.properties
-*.iml
+# *.iml
 
 # node.js
 #
@@ -55,4 +55,7 @@ buck-out/
 # Bundle artifact
 *.jsbundle
 
+# Project-specific
+.idea/shelf
+.idea/workspace.xml
 dist/
