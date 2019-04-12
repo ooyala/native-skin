@@ -4,7 +4,7 @@ import { NativeModules, Platform, View } from 'react-native';
 
 import { ACCESSIBILITY_ANNOUNCERS, BUTTON_NAMES, UI_SIZES } from '../../../constants';
 import { collapse } from '../../../lib/collapser';
-import Log from '../../../lib/log';
+import * as Log from '../../../lib/log';
 import responsiveMultiplier from '../../../lib/responsiveMultiplier';
 import * as Utils from '../../../lib/utils';
 import ControlBarWidget from '../../ControlBarWidgets';

@@ -17,7 +17,7 @@ import {
   VIEW_NAMES,
 } from '../../constants';
 import ControlBar from './ControlBar';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import styles from './BottomOverlay.styles';
 import MarkersContainer from './MarkersContainer';

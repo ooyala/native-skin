@@ -1,7 +1,7 @@
 import {
   AUTOHIDE_DELAY, BUTTON_NAMES, MAX_DATE_VALUE, OVERLAY_TYPES,
 } from './constants';
-import Log from './lib/log';
+import * as Log from './lib/log';
 import BridgeListener from './BridgeListener';
 import ViewsRenderer from './ViewsRenderer';
 

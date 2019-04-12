@@ -1,7 +1,7 @@
 // @flow
 
 import { VALUES } from '../constants';
-import Log from './log';
+import * as Log from './log';
 
 export const shouldShowLandscape = (width, height) => {
   if (Number.isNaN(width) || Number.isNaN(height) || width === null || height === null || width < 0 || height < 0) {

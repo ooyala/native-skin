@@ -7,7 +7,7 @@ import {
 import {
   AUTOHIDE_DELAY, BUTTON_NAMES, UI_SIZES, VALUES,
 } from '../../constants';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';

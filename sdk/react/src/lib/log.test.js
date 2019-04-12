@@ -1,7 +1,7 @@
 // @flow
 
 import { LOG_LEVEL } from '../constants';
-import Log from './log';
+import * as Log from './log';
 
 describe('Log', () => {
   it('logs everything except verbose by default', () => {

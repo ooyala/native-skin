@@ -4,7 +4,7 @@ import { NativeModules, Platform } from 'react-native';
 import {
   BUTTON_NAMES, DESIRED_STATES, OVERLAY_TYPES, SCREEN_TYPES, UI_SIZES,
 } from './constants';
-import Log from './lib/log';
+import * as Log from './lib/log';
 import * as Utils from './lib/utils';
 
 import AdPlaybackScreen from './views/AdPlaybackScreen';

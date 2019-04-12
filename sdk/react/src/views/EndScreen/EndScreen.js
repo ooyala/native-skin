@@ -6,7 +6,7 @@ import {
 
 import { BUTTON_NAMES, UI_SIZES } from '../../constants';
 import InfoPanel from './InfoPanel';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import BottomOverlay from '../../shared/BottomOverlay';
 

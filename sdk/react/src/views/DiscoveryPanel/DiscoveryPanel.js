@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import { BUTTON_NAMES, SCREEN_TYPES } from '../../constants';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 import ResponsiveList from './ResponsiveList';
 import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';

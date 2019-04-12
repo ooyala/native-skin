@@ -4,7 +4,7 @@ import { Animated, View } from 'react-native';
 
 import { BUTTON_NAMES } from '../../constants';
 import { collapse, collapseForAudioOnly } from '../../lib/collapser';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 import RectangularButton from '../../shared/RectangularButton';
 
 import styles from './MoreOptionScreen.styles';

@@ -1,6 +1,6 @@
 // @flow
 
-import Log from './log';
+import * as Log from './log';
 
 const defaultMultipliers = [0.7, 1, 1.2];
 const defaultThresholds = [320, 860];

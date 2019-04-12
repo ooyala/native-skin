@@ -7,7 +7,7 @@ import timerForSkipButtons from 'react-native-timer';
 
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 import { collapse } from '../../lib/collapser';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import ControlBarWidget from '../../shared/ControlBarWidgets';
