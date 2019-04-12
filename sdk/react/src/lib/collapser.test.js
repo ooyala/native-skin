@@ -51,7 +51,7 @@ const data = {
   },
 };
 
-describe('collapser', () => {
+describe('collapse', () => {
   it('TestOverflow_overflowMoreOptionsDoesntCount', () => {
     const oi = [data.B5_Collapsing1, data.B7_MoreOptions100];
     const results = collapse(100, oi);

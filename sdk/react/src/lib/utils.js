@@ -1,10 +1,10 @@
+// @flow
+
 import { VALUES } from '../constants';
 import Log from './log';
 
 export const shouldShowLandscape = (width, height) => {
-  if (isNaN(width) || isNaN(height)
-    || width === null || height === null
-    || width < 0 || height < 0) {
+  if (Number.isNaN(width) || Number.isNaN(height) || width === null || height === null || width < 0 || height < 0) {
     return false;
   }
 
@@ -12,8 +12,7 @@ export const shouldShowLandscape = (width, height) => {
 };
 
 export const formattedPlaybackSpeedRate = (selectedPlaybackSpeedRate) => {
-  const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(selectedPlaybackSpeedRate))
-    .toFixed(2));
+  const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(selectedPlaybackSpeedRate)).toFixed(2));
   const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
 
   return selectedPlaybackSpeedRateString.concat('x');
@@ -23,9 +22,9 @@ export const getTimerLabel = (timer) => {
   let timerLabel = '';
 
   if (timer < 10) {
-    timerLabel = `00:0${(timer | 0).toString()}`;
+    timerLabel = `00:0${(timer || '0').toString()}`;
   } else if (timer < 60) {
-    timerLabel = `00:${(timer | 0).toString()}`;
+    timerLabel = `00:${(timer || '0').toString()}`;
   } else if (timer < 600) {
     timerLabel = `0${(timer / 60).toString()}:${(timer % 60).toString()}`;
   } else {
@@ -35,32 +34,36 @@ export const getTimerLabel = (timer) => {
   return timerLabel;
 };
 
-export const isPlaying = rate => rate > 0;
-
-export const isPaused = rate => rate == 0;
-
-export const secondsToString = (seconds) => {
+export const secondsToString = (inputSeconds) => {
   let minus = '';
+  let seconds = inputSeconds;
+
   if (seconds < 0) {
     minus = '-';
     seconds = -seconds;
   }
+
   const date = new Date(seconds * 1000);
   const hh = date.getUTCHours();
   let mm = date.getUTCMinutes();
   let ss = date.getSeconds();
+
   if (ss < 10) {
     ss = `0${ss}`;
   }
-  if (mm == 0) {
+
+  if (mm === 0) {
     mm = '00';
   } else if (mm < 10) {
     mm = `0${mm}`;
   }
+
   let t = `${mm}:${ss}`;
+
   if (hh > 0) {
     t = `${hh}:${t}`;
   }
+
   return minus + t;
 };
 
@@ -68,138 +71,191 @@ export const localizedString = (preferredLocale, stringId, localizableStrings) =
   if (typeof stringId !== 'string') {
     return null;
   }
-  if (typeof preferredLocale !== 'string') {
-    preferredLocale = undefined;
-  }
-  if (typeof localizableStrings !== 'object' || localizableStrings === null) {
-    localizableStrings = {};
-  }
 
-  Log.verbose(`preferredLocale: ${preferredLocale}, stringId: ${stringId}, localizableStrings:`);
-  const defaultLocale = localizableStrings.defaultLanguage || 'en';
+  let locale = preferredLocale;
+  let strings = localizableStrings;
 
-  if (preferredLocale
-    && localizableStrings[preferredLocale]
-    && localizableStrings[preferredLocale][stringId]) {
-    return localizableStrings[preferredLocale][stringId];
+  if (typeof locale !== 'string') {
+    locale = undefined;
   }
 
-  if (localizableStrings[defaultLocale] && localizableStrings[defaultLocale][stringId]) {
-    return localizableStrings[defaultLocale][stringId];
+  if (typeof strings !== 'object' || strings === null) {
+    strings = {};
+  }
+
+  Log.verbose(`preferredLocale: ${locale}, stringId: ${stringId}, localizableStrings:`);
+
+  const defaultLocale = strings.defaultLanguage || 'en';
+
+  if (locale && strings[locale] && strings[locale][stringId]) {
+    return strings[locale][stringId];
+  }
+
+  if (strings[defaultLocale] && strings[defaultLocale][stringId]) {
+    return strings[defaultLocale][stringId];
   }
 
   return stringId;
 };
 
-/**
- * Takes an integer error code andd locale
- * Returns the localized error message
- */
 export const stringForErrorCode = (errorCode) => {
   switch (errorCode) {
-    /* Authorization failed - TODO add to language files */
     case 0:
+      // Authorization failed
+      // TODO: Add to language files.
       return 'Authorization failed';
-    /* Authorization response invalid - TODO add to language files */
+
     case 1:
+      // Authorization response invalid
+      // TODO: Add to language files.
       return 'Invalid Authorization Response';
-    /* Authorization heartbeat failed */
+
     case 2:
+      // Authorization heartbeat failed
       return 'Invalid Heartbeat';
-    /* Content tree response invalid - TODO add to language files */
+
     case 3:
+      // Content tree response invalid
+      // TODO: Add to language files.
       return 'Content Tree Response Invalid';
-    /* Authorization signature invalid - TODO add to language files */
+
     case 4:
+      // Authorization signature invalid
+      // TODO: Add to language files.
       return 'The signature of the Authorization Response is invalid';
-    /* Content tree next failed - TODO add to language files */
+
     case 5:
+      // Content tree next failed
+      // TODO: Add to language files.
       return 'Content Tree Next failed';
-    /* Playback failed */
+
     case 6:
+      // Playback failed
       return 'Playback Error';
-    /* The asset is not encoded */
+
     case 7:
+      // The asset is not encoded
       return 'This video is not encoded for your device';
-    /* Internal error - TODO add to language files */
+
     case 8:
+      // Internal error
+      // TODO: Add to language files.
       return 'An internal error occurred';
-    /* Metadata response invalid */
+
     case 9:
+      // Metadata response invalid
       return 'Invalid Metadata';
-    /* Invalid authorization token */
+
     case 10:
+      // Invalid authorization token
       return 'Invalid Player Token';
-    /* Device limit has been reached */
+
     case 11:
+      // Device limit has been reached
       return 'Authorization Error';
-    /* Device binding failed */
+
     case 12:
+      // Device binding failed
       return 'Device binding failed';
-    /* Device id too long */
+
     case 13:
+      // Device id too long
       return 'Device ID is too long';
-    /* General DRM failure */
+
     case 14:
+      // General DRM failure
       return 'General error acquiring license';
-    /* DRM file download failure - TODO add to language files */
+
     case 15:
+      // DRM file download failure
+      // TODO: Add to language files.
       return 'Failed to download a required file during the DRM workflow';
-    /* DRM personalization failure - TODO add to language files */
+
     case 16:
+      // DRM personalization failure
+      // TODO: Add to language files.
       return 'Failed to complete device personalization during the DRM workflow';
-    /*  DRM rights server error - TODO add to language files */
+
     case 17:
+      // DRM rights server error
+      // TODO: Add to language files.
       return 'Failed to get rights for asset during the DRM workflow';
-    /* Invalid discovery parameter - TODO add to language files */
+
     case 18:
+      // Invalid discovery parameter
+      // TODO: Add to language files.
       return 'The expected discovery parameters are not provided';
-    /* Discovery network error - TODO add to language files */
+
     case 19:
+      // Discovery network error
+      // TODO: Add to language files.
       return 'A discovery network error occurred';
-    /* Discovery response failure - TODO add to language files */
+
     case 20:
+      // Discovery response failure
+      // TODO: Add to language files.
       return 'A discovery response error occurred';
-    /* No available streams - TODO add to language files */
+
     case 21:
+      // No available streams
+      // TODO: Add to language files.
       return 'No available streams';
-    /* Pcode mismatch - TODO add to language files */
+
     case 22:
+      // Pcode mismatch
+      // TODO: Add to language files.
       return 'The provided PCode does not match the embed code owner';
-    /* Download error - TODO add to language files */
+
     case 23:
+      // Download error
+      // TODO: Add to language files.
       return 'A download error occurred';
-    /* Conncurrent streams */
+
     case 24:
+      // Concurrent streams
       return 'You have exceeded the maximum number of concurrent streams';
-    /*  Advertising id failure - TODO add to language files */
+
     case 25:
+      //  Advertising id failure
+      // TODO: Add to language files.
       return 'Failed to return the advertising ID';
-    /* Discovery GET failure - TODO add to language files */
+
     case 26:
+      // Discovery GET failure
+      // TODO: Add to language files.
       return 'Failed to get discovery results';
-    /* Discovery POST failure - TODO add to language files */
+
     case 27:
+      // Discovery POST failure
+      // TODO: Add to language files.
       return 'Failed to post discovery pins';
-    /* Player format mismatch - TODO add to language files */
+
     case 28:
+      // Player format mismatch
+      // TODO: Add to language files.
       return 'Player and player content do not correspond';
-    /* Failed to create VR player  - TODO add to language files  */
+
     case 29:
+      // Failed to create VR player
+      // TODO: Add to language files.
       return 'Failed to create VR player';
-    /* Unknown error - TODO add to language files */
+
     case 30:
+      // Unknown error
+      // TODO: Add to language files.
       return 'An unknown error occurred';
-    /* GeoBlocking access denied - TODO add to language files */
+
     case 31:
+      // GeoBlocking access denied
+      // TODO: Add to language files.
       return 'Geo access denied';
-    /* Default to Unknown error */
+
     default:
+      // Default to Unknown error
       return 'An unknown error occurred';
   }
 };
 
-export const restrictSeekValueIfNeeded = (seekValue) => {
-  const value = Math.min(Math.max(VALUES.MIN_SKIP_VALUE, seekValue), VALUES.MAX_SKIP_VALUE);
-  return value;
-};
+export const restrictSeekValueIfNeeded = seekValue => (
+  Math.min(Math.max(VALUES.MIN_SKIP_VALUE, seekValue), VALUES.MAX_SKIP_VALUE)
+);
