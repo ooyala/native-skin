@@ -1,70 +1,44 @@
-jest.dontMock('../log.js');
+// @flow
 
-describe('Log Tests', function () {
+import { LOG_LEVEL } from '../constants';
+import Log from './log';
 
-  let Log;
-
-  import {
-    LOG_LEVEL,
-  } from '../constants';
-
-  beforeEach(function () {
-    Log = require('./log.js');
+describe('Log', () => {
+  it('logs everything except verbose by default', () => {
+    expect(Log.verbose('test')).toBe(false);
+    expect(Log.log('test')).toBe(true);
+    expect(Log.info('test')).toBe(true);
+    expect(Log.warn('test')).toBe(true);
+    expect(Log.error('test')).toBe(true);
   });
 
-  it('Default Log is everything but verbose', function () {
-    expect(Log.verbose('hello log'))
-      .toBe(false);
-    expect(Log.log('hello log'))
-      .toBe(true);
-    expect(Log.info('hello log'))
-      .toBe(true);
-    expect(Log.warn('hello log'))
-      .toBe(true);
-    expect(Log.error('hello log'))
-      .toBe(true);
-  });
-
-  it('VERBOSE Log is everything but verbose', function () {
+  it('logs everything when VERBOSE level set', () => {
     Log.setLogLevel(LOG_LEVEL.VERBOSE);
-    expect(Log.verbose('hello log'))
-      .toBe(true);
-    expect(Log.log('hello log'))
-      .toBe(true);
-    expect(Log.info('hello log'))
-      .toBe(true);
-    expect(Log.warn('hello log'))
-      .toBe(true);
-    expect(Log.error('hello log'))
-      .toBe(true);
+
+    expect(Log.verbose('test')).toBe(true);
+    expect(Log.log('test')).toBe(true);
+    expect(Log.info('test')).toBe(true);
+    expect(Log.warn('test')).toBe(true);
+    expect(Log.error('test')).toBe(true);
   });
 
-  it('ERROR Log is everything but verbose', function () {
+  it('logs only errors when ERROR level set', () => {
     Log.setLogLevel(LOG_LEVEL.ERROR);
-    expect(Log.verbose('hello log'))
-      .toBe(false);
-    expect(Log.log('hello log'))
-      .toBe(false);
-    expect(Log.info('hello log'))
-      .toBe(false);
-    expect(Log.warn('hello log'))
-      .toBe(false);
-    expect(Log.error('hello log'))
-      .toBe(true);
+
+    expect(Log.verbose('test')).toBe(false);
+    expect(Log.log('test')).toBe(false);
+    expect(Log.info('test')).toBe(false);
+    expect(Log.warn('test')).toBe(false);
+    expect(Log.error('test')).toBe(true);
   });
 
-  it('NONE Log is everything but verbose', function () {
+  it('logs nothing when NONE level set', () => {
     Log.setLogLevel(LOG_LEVEL.NONE);
-    expect(Log.verbose('hello log'))
-      .toBe(false);
-    expect(Log.log('hello log'))
-      .toBe(false);
-    expect(Log.info('hello log'))
-      .toBe(false);
-    expect(Log.warn('hello log'))
-      .toBe(false);
-    expect(Log.error('hello log'))
-      .toBe(false);
-  });
 
+    expect(Log.verbose('test')).toBe(false);
+    expect(Log.log('test')).toBe(false);
+    expect(Log.info('test')).toBe(false);
+    expect(Log.warn('test')).toBe(false);
+    expect(Log.error('test')).toBe(false);
+  });
 });

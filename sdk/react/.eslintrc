@@ -20,6 +20,7 @@
         "code": 120
       }
     ],
+    "no-console": "error",
     "react/jsx-filename-extension": [
       1,
       {
