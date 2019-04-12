@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { NativeModules, Platform, View } from 'react-native';
 
 import { ACCESSIBILITY_ANNOUNCERS, BUTTON_NAMES, UI_SIZES } from '../../../constants';
-import CollapsingBarUtils from '../../../lib/collapser';
+import { collapse } from '../../../lib/collapser';
 import Log from '../../../lib/log';
 import ResponsiveDesignManager from '../../../lib/responsiveMultiplier';
 import * as Utils from '../../../lib/utils';
@@ -295,7 +295,7 @@ export default class ControlBar extends Component {
 
     this.props.config.buttons.forEach(_isVisible, this);
 
-    const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
+    const itemCollapsingResults = collapse(this.props.width, this.props.config.buttons);
 
     function pushControl(item) {
       controlBarWidgets.push(item);

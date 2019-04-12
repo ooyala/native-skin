@@ -6,7 +6,7 @@ import {
 import timerForSkipButtons from 'react-native-timer';
 
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
-import CollapsingBarUtils from '../../lib/collapser';
+import { collapse } from '../../lib/collapser';
 import Log from '../../lib/log';
 import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
@@ -255,7 +255,7 @@ export default class AudioView extends Component {
       },
     };
 
-    const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
+    const itemCollapsingResults = collapse(this.props.width, this.props.config.buttons);
     for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
       const item = (
