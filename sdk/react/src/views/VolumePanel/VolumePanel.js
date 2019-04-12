@@ -19,7 +19,7 @@ export default class VolumePanel extends Component {
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    config: PropTypes.object
+    config: PropTypes.object,
   };
 
   state = {
@@ -28,7 +28,7 @@ export default class VolumePanel extends Component {
     touch: false,
     x: 0,
     sliderWidth: 0,
-    sliderHeight: 0
+    sliderHeight: 0,
   };
 
   componentDidMount() {
@@ -38,21 +38,23 @@ export default class VolumePanel extends Component {
         this.state.opacity,
         {
           toValue: 1,
-          duration: constants.animationDuration
-        }),
-    ]).start();
-  };
+          duration: constants.animationDuration,
+        },
+      ),
+    ])
+      .start();
+  }
 
   _onVolumeChange = (volume) => {
     this.props.onVolumeChanged(volume);
     this.setState({
-      volume: volume
+      volume,
     });
   };
 
   _renderVolumeIcon = () => {
     const iconConfig = (this.state.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
-    const fontFamilyStyle = {fontFamily: iconConfig.fontFamilyName};
+    const fontFamilyStyle = { fontFamily: iconConfig.fontFamilyName };
 
     return (
       <View style={styles.volumeIconContainer}>
@@ -61,6 +63,31 @@ export default class VolumePanel extends Component {
         </Text>
       </View>
     );
+  };
+
+  handleTouchStart = (event) => {
+    const volume = this._touchPercent(event.nativeEvent.locationX);
+    this._onVolumeChange(volume);
+    this.setState({
+      touch: true,
+      x: event.nativeEvent.locationX,
+    });
+  };
+
+  handleTouchMove = (event) => {
+    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
+    const volume = this._touchPercent(locationX);
+    this._onVolumeChange(volume);
+    this.setState({
+      x: locationX,
+    });
+  };
+
+  handleTouchEnd = (event) => {
+    this.setState({
+      touch: false,
+      x: null,
+    });
   };
 
   // Actions
@@ -80,33 +107,8 @@ export default class VolumePanel extends Component {
     onPanResponderTerminationRequest: (event, gestureState) => true,
     onPanResponderRelease: (event, gestureState) => {
       this.handleTouchEnd(event);
-    }
+    },
   });
-
-  handleTouchStart = (event) => {
-    const volume = this._touchPercent(event.nativeEvent.locationX);
-    this._onVolumeChange(volume);
-    this.setState({
-      touch: true,
-      x: event.nativeEvent.locationX
-    });
-  };
-
-  handleTouchMove = (event) => {
-    const locationX = event.nativeEvent.pageX - this.locationPageOffset;
-    const volume = this._touchPercent(locationX);
-    this._onVolumeChange(volume);
-    this.setState({
-      x: locationX
-    });
-  };
-
-  handleTouchEnd = (event) => {
-    this.setState({
-      touch: false,
-      x: null
-    });
-  };
 
   onDismissPress = () => {
     this.props.onDismiss();
@@ -124,39 +126,37 @@ export default class VolumePanel extends Component {
     return percent;
   };
 
-  _calculateTopOffset = (componentSize, sliderHeight) => {
-    return sliderHeight / 2 - componentSize / 2;
-  };
+  _calculateTopOffset = (componentSize, sliderHeight) => sliderHeight / 2 - componentSize / 2;
 
-  _calculateLeftOffset = (componentSize, percent, sliderWidth) => {
-    return percent * sliderWidth - componentSize * percent;
-  };
+  _calculateLeftOffset = (componentSize, percent, sliderWidth) => percent * sliderWidth - componentSize * percent;
 
-  _thumbStyle = () => {
-    return {
-      flex: 0,
-      position: 'absolute',
-      backgroundColor: 'white',
-      borderRadius: 100,
-      width: constants.scrubberSize,
-      height: constants.scrubberSize,
-    };
-  };
+  _thumbStyle = () => ({
+    flex: 0,
+    position: 'absolute',
+    backgroundColor: 'white',
+    borderRadius: 100,
+    width: constants.scrubberSize,
+    height: constants.scrubberSize,
+  });
 
   _renderVolumeThumb = (volume) => {
-    const sliderWidth = this.state.sliderWidth;
-    const sliderHeight = this.state.sliderHeight;
+    const { sliderWidth } = this.state;
+    const { sliderHeight } = this.state;
     const topOffset = this._calculateTopOffset(constants.scrubberSize, sliderHeight);
     const leftOffset = this._calculateLeftOffset(constants.scrubberSize, volume, sliderWidth);
-    const positionStyle = {top: topOffset, left: leftOffset};
+    const positionStyle = {
+      top: topOffset,
+      left: leftOffset,
+    };
     const thumbStyle = this._thumbStyle();
 
     return (
-      <View pointerEvents='none'
-        style={[thumbStyle, positionStyle]}>
-      </View>
+      <View
+        pointerEvents="none"
+        style={[thumbStyle, positionStyle]}
+      />
     );
-  }
+  };
 
   _renderVolumeSlider = (volume) => {
     const volumeValue = volume;
@@ -165,8 +165,14 @@ export default class VolumePanel extends Component {
     const filledColor = 'white';
     const backgroundColor = 'rgb(62, 62, 62)';
 
-    const filledStyle = {backgroundColor: filledColor, flex: volumeValue};
-    const backgroundStyle = {backgroundColor: backgroundColor, flex: backgroundValue};
+    const filledStyle = {
+      backgroundColor: filledColor,
+      flex: volumeValue,
+    };
+    const backgroundStyle = {
+      backgroundColor,
+      flex: backgroundValue,
+    };
 
     return (
       <View
@@ -175,35 +181,42 @@ export default class VolumePanel extends Component {
         onLayout={(event) => {
           this.setState({
             sliderWidth: event.nativeEvent.layout.width,
-            sliderHeight: event.nativeEvent.layout.height
+            sliderHeight: event.nativeEvent.layout.height,
           });
-        }}>
-        <View pointerEvents='none' style={styles.slider}>
-          <View style={filledStyle}/>
-          <View style={backgroundStyle}/>
+        }}
+      >
+        <View pointerEvents="none" style={styles.slider}>
+          <View style={filledStyle} />
+          <View style={backgroundStyle} />
         </View>
         {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
       </View>
     );
   };
 
-  _renderDismissButton = () => {
-    return (
-      <TouchableHighlight style={styles.dismissButton}
-        underlayColor='transparent' // Can't move this property to json style file because it doesn't works
-        onPress={this.onDismissPress}>
-          <Text style={styles.dismissIcon}>
-            {this.props.config.icons.dismiss.fontString}
-          </Text>
-      </TouchableHighlight>
-    );
-  }
+  _renderDismissButton = () => (
+    <TouchableHighlight
+      style={styles.dismissButton}
+      underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+      onPress={this.onDismissPress}
+    >
+      <Text style={styles.dismissIcon}>
+        {this.props.config.icons.dismiss.fontString}
+      </Text>
+    </TouchableHighlight>
+  );
 
   render() {
-    const animationStyle = {opacity: this.state.opacity};
+    const animationStyle = { opacity: this.state.opacity };
 
     return (
-      <Animated.View style={[styles.container, animationStyle, {height: this.props.height, width: this.props.width}]}>
+      <Animated.View style={[styles.container,
+        animationStyle,
+        {
+          height: this.props.height,
+          width: this.props.width,
+        }]}
+      >
         {this._renderDismissButton()}
         {this._renderVolumeIcon()}
         {this._renderVolumeSlider(this.state.volume)}

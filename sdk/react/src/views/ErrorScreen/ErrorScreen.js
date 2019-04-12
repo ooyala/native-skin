@@ -14,7 +14,7 @@ export default class ErrorScreen extends Component {
     localizableStrings: PropTypes.object,
     locale: PropTypes.string,
     isAudioOnly: PropTypes.bool,
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
   };
 
   getTitle = () => {
@@ -23,7 +23,8 @@ export default class ErrorScreen extends Component {
       errorCode = this.props.error.code;
     }
     const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings)
+      .toUpperCase();
     return (
       <Text style={styles.title}>
         {localizedTitle}
@@ -33,7 +34,8 @@ export default class ErrorScreen extends Component {
 
   getTitleAudioOnly = () => {
     const title = 'unplayable content error';
-    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings)
+      .toUpperCase();
     return (
       <Text style={styles.titleAudio}>
         {localizedTitle}
@@ -44,11 +46,11 @@ export default class ErrorScreen extends Component {
   getDescription = () => {
     if (this.props.error && this.props.error.description) {
       const userInfo = this.props.error.userInfo || {};
-      const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
+      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
       const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-      Log.warn('ERROR: localized description:' + localizedDescription);
+      Log.warn(`ERROR: localized description:${localizedDescription}`);
       return (
         <Text style={styles.description}>
           {localizedDescription}
@@ -85,13 +87,15 @@ export default class ErrorScreen extends Component {
   };
 
   _renderMoreDetailsButton = () => {
-    if (!this.props.isAudioOnly) { return null };
-
+    if (!this.props.isAudioOnly) {
+      return null;
+    }
     const moreDetailsText = Utils.localizedString(this.props.locale, 'More Details', this.props.localizableStrings);
     return (
       <TouchableHighlight
         onPress={this.onMoreDetails}
-        style={styles.buttonContainer}>
+        style={styles.buttonContainer}
+      >
         <View style={styles.button}>
           <Text style={styles.buttonText}>{moreDetailsText}</Text>
         </View>

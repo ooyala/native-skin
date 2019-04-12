@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-	requireNativeComponent,
-	View,
-  TouchableHighlight
-} from 'react-native';
+import { requireNativeComponent, TouchableHighlight, View } from 'react-native';
 
 const NativeCountdownView = requireNativeComponent('CountdownView', CountdownTimerIos, {
   nativeOnly: {
     onTimerUpdate: true,
     onTimerCompleted: true,
-    canceled: true
-  }
+    canceled: true,
+  },
 });
 
 export default class CountdownTimerIos extends Component {
@@ -29,8 +25,8 @@ export default class CountdownTimerIos extends Component {
 
     onTimerUpdate: PropTypes.func,
     onTimerCompleted: PropTypes.func,
-    onPress: PropTypes.func
-  }
+    onPress: PropTypes.func,
+  };
 
   static defaultProps = {
     time: 10,
@@ -40,29 +36,29 @@ export default class CountdownTimerIos extends Component {
     strokeColor: '#ffffff',
     tapCancel: false,
     automatic: true,
-    timeLeft: 10
-  }
+    timeLeft: 10,
+  };
 
   state = {
-    canceled: false
-  }
+    canceled: false,
+  };
 
   _onTimerUpdate = (event) => {
     this.props.onTimerUpdate && this.props.onTimerUpdate(event.nativeEvent);
-  }
+  };
 
   _onTimerCompleted = (event) => {
     this.props.onTimerCompleted && this.props.onTimerCompleted(event.nativeEvent);
-  }
+  };
 
   _onPress = () => {
-  if (this.props.tapCancel) {
-    this.setState({
-      canceled: true
-    });
-  }
+    if (this.props.tapCancel) {
+      this.setState({
+        canceled: true,
+      });
+    }
     this.props.onPress && this.props.onPress();
-  }
+  };
 
   renderCountdownView() {
     return (
@@ -70,16 +66,17 @@ export default class CountdownTimerIos extends Component {
         {...this.props}
         canceled={this.state.canceled}
         onTimerUpdate={this._onTimerUpdate}
-        onTimerCompleted={this._onTimerCompleted}>
-      </NativeCountdownView>
+        onTimerCompleted={this._onTimerCompleted}
+      />
     );
   }
 
   renderClickableView() {
     return (
       <TouchableHighlight
-        underlayColor='transparent'
-        onPress={() => this._onPress()}>
+        underlayColor="transparent"
+        onPress={() => this._onPress()}
+      >
         {this.renderCountdownView()}
       </TouchableHighlight>
     );
@@ -88,8 +85,7 @@ export default class CountdownTimerIos extends Component {
   render() {
     if (this.props.onPress) {
       return this.renderClickableView();
-    } else {
-      return this.renderCountdownView();
     }
+    return this.renderCountdownView();
   }
-};
+}

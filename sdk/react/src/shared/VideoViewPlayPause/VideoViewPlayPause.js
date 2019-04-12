@@ -38,20 +38,20 @@ export default class VideoViewPlayPause extends Component {
     showSeekButtons: PropTypes.bool,
     playing: PropTypes.bool,
     loading: PropTypes.bool,
-    initialPlay: PropTypes.bool
+    initialPlay: PropTypes.bool,
   };
 
   state = {
     playPause: {
       animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(1)
+      animationOpacity: new Animated.Value(1),
     },
     skipButtons: {
       animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(0)
+      animationOpacity: new Animated.Value(0),
     },
     playing: false,
-    skipCount: 0
+    skipCount: 0,
   };
 
   componentWillMount() {
@@ -67,7 +67,7 @@ export default class VideoViewPlayPause extends Component {
     if (nextProps.playing !== this.props.playing) {
       this.state.playing = nextProps.playing;
     }
-  };
+  }
 
   componentWillUnmount() {
     timerForSkipButtons.clearTimeout(this);
@@ -85,17 +85,17 @@ export default class VideoViewPlayPause extends Component {
     timerForSkipButtons.clearTimeout(this);
     const value = this.state.skipCount + (isForward ? 1 : -1);
     this.setState({
-      skipCount: value
+      skipCount: value,
     }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
         this.props.onSeekPressed(this.state.skipCount);
         this.setState({
-          skipCount: 0
+          skipCount: 0,
         });
       },
-      VALUES.DELAY_BETWEEN_SKIPS_MS
+      VALUES.DELAY_BETWEEN_SKIPS_MS,
     ));
   };
 
@@ -107,24 +107,36 @@ export default class VideoViewPlayPause extends Component {
   };
 
   _renderButton = (name) => {
-    const fontStyle = {fontSize: this.props.fontSize, fontFamily: this.props.icons[name].fontFamily};
-    const opacity = {opacity: this.state.playPause.animationOpacity};
-    const animate = {transform: [{scale: this.state.playPause.animationScale}]};
-    const buttonColor = {color: this.props.buttonColor || 'white'};
-    const sizeStyle = {width: this.props.buttonWidth * 2, height: this.props.buttonHeight * 2};
+    const fontStyle = {
+      fontSize: this.props.fontSize,
+      fontFamily: this.props.icons[name].fontFamily,
+    };
+    const opacity = { opacity: this.state.playPause.animationOpacity };
+    const animate = { transform: [{ scale: this.state.playPause.animationScale }] };
+    const buttonColor = { color: this.props.buttonColor || 'white' };
+    const sizeStyle = {
+      width: this.props.buttonWidth * 2,
+      height: this.props.buttonHeight * 2,
+    };
     const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
 
     return (
       <TouchableHighlight
-        accessible={true}
+        accessible
         accessibilityLabel={label}
         onPress={() => this.onPress()}
-        underlayColor='transparent'
+        underlayColor="transparent"
         activeOpacity={this.props.opacity}
-        importantForAccessibility={'yes'}
-        style={[sizeStyle, {justifyContent: 'center', alignItems: 'center'}]}>
+        importantForAccessibility="yes"
+        style={[sizeStyle,
+          {
+            justifyContent: 'center',
+            alignItems: 'center',
+          }]}
+      >
         <Animated.Text
-          style={[styles.buttonTextStyle, fontStyle, buttonColor, animate, opacity]}>
+          style={[styles.buttonTextStyle, fontStyle, buttonColor, animate, opacity]}
+        >
           {this.props.icons[name].icon}
         </Animated.Text>
       </TouchableHighlight>
@@ -133,18 +145,24 @@ export default class VideoViewPlayPause extends Component {
 
   _renderSeekButton = (name, iconScale, active) => {
     if (!this.props.showSeekButtons || !this.props.seekEnabled) {
-      return <View/>
+      return <View />;
     }
-    const fontStyle = {fontSize: this.props.fontSize * iconScale, fontFamily: this.props.icons[name].fontFamily};
-    const sizeStyle = {width: this.props.buttonWidth, height: this.props.buttonHeight};
-    const opacity = {opacity: this.state.skipButtons.animationOpacity};
-    const animate = {transform: [{scale: this.state.skipButtons.animationScale}]};
+    const fontStyle = {
+      fontSize: this.props.fontSize * iconScale,
+      fontFamily: this.props.icons[name].fontFamily,
+    };
+    const sizeStyle = {
+      width: this.props.buttonWidth,
+      height: this.props.buttonHeight,
+    };
+    const opacity = { opacity: this.state.skipButtons.animationOpacity };
+    const animate = { transform: [{ scale: this.state.skipButtons.animationScale }] };
 
     let color = 'gray';
     if (active) {
       color = this.props.buttonColor || 'white';
     }
-    const buttonColor = {color: color};
+    const buttonColor = { color };
 
     const isForward = name === FORWARD;
     let seekValue = isForward ? this.props.seekForwardValue : this.props.seekBackwardValue;
@@ -152,18 +170,18 @@ export default class VideoViewPlayPause extends Component {
 
     return (
       <SkipButton
-        visible={true}
+        visible
         isForward={isForward}
         timeValue={seekValue}
         sizeStyle={sizeStyle}
         disabled={!active}
-        onSeek={(isForward) => this.onSkipPress(isForward)}
+        onSeek={isForward => this.onSkipPress(isForward)}
         icon={this.props.icons[name].icon}
         fontStyle={fontStyle}
         opacity={opacity}
         animate={animate}
-        buttonColor={buttonColor}>
-      </SkipButton>
+        buttonColor={buttonColor}
+      />
     );
   };
 
@@ -178,7 +196,7 @@ export default class VideoViewPlayPause extends Component {
       flexDirection: 'row',
       flex: 0,
       justifyContent: 'space-between',
-      alignItems: 'center'
+      alignItems: 'center',
     };
 
     const heightScaleFactor = 2;
@@ -200,8 +218,8 @@ export default class VideoViewPlayPause extends Component {
     const positionStyle = {
       position: 'absolute',
       top: topOffset,
-      left: leftOffset
-    }
+      left: leftOffset,
+    };
 
     if (this.props.showButton) {
       return (
@@ -213,8 +231,7 @@ export default class VideoViewPlayPause extends Component {
           </Animated.View>
         </View>
       );
-    } else {
-      return null;
     }
+    return null;
   }
 }

@@ -35,10 +35,13 @@ export default class ControlBar extends Component {
     inCastMode: PropTypes.bool,
   };
 
-  static defaultProps = {playhead: 0, duration: 0};
+  static defaultProps = {
+    playhead: 0,
+    duration: 0,
+  };
 
   state = {
-    showVolume: false
+    showVolume: false,
   };
 
   getPlayHeadTimeString = () => {
@@ -64,21 +67,19 @@ export default class ControlBar extends Component {
     return Utils.secondsToString(duration);
   };
 
-  getSelectedPlaybackSpeedRate = () => {
-    return Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
-  };
+  getSelectedPlaybackSpeedRate = () => Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
 
   getVolumeControlColor = () => {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
-    } else {
-      if (this.props.config.controlBar.volumeControl.color) {
-        return this.props.config.controlBar.volumeControl.color;
-      } else {
-        Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
-        return '#4389FF';
-      }
     }
+    if (this.props.config.controlBar.volumeControl.color) {
+      return this.props.config.controlBar.volumeControl.color;
+    }
+    Log.error(
+      'controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json',
+    );
+    return '#4389FF';
   };
 
   onPlayPausePress = () => {
@@ -87,7 +88,7 @@ export default class ControlBar extends Component {
 
   onVolumePress = () => {
     this.setState({
-      showVolume: !this.state.showVolume
+      showVolume: !this.state.showVolume,
     });
   };
 
@@ -118,7 +119,7 @@ export default class ControlBar extends Component {
     if (Platform.OS === 'android') {
       this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
     } else {
-      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY)
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY);
     }
   };
 
@@ -155,8 +156,10 @@ export default class ControlBar extends Component {
       liveCircle = null;
     }
     const castEnabled = config.castControls.enabled;
-    const color = this.props.inCastMode ? config.castControls.iconStyle.active.color : config.castControls.iconStyle.inactive.color;
-    const castIcon = this.props.inCastMode ? config.icons['chromecast-connected'] : config.icons['chromecast-disconnected'];
+    const color = this.props.inCastMode ? config.castControls.iconStyle.active.color
+      : config.castControls.iconStyle.inactive.color;
+    const castIcon = this.props.inCastMode ? config.icons['chromecast-connected']
+      : config.icons['chromecast-disconnected'];
     const controlBarWidgets = [];
 
 
@@ -171,7 +174,12 @@ export default class ControlBar extends Component {
       },
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ? [styles.icon, { fontSize: iconFontSize }, styles.iconHighlighted, config.controlBar.iconStyle.active] : [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
+        style: this.state.showVolume ? [styles.icon,
+          { fontSize: iconFontSize },
+          styles.iconHighlighted,
+          config.controlBar.iconStyle.active] : [styles.icon,
+          { fontSize: iconFontSize },
+          this.props.config.controlBar.iconStyle.active],
         iconOn: config.icons.volume,
         iconOff: config.icons.volumeOff,
         iconTouchableStyle: styles.iconTouchable,
@@ -279,7 +287,8 @@ export default class ControlBar extends Component {
           visible = this.props.stereoSupported;
           break;
         default:
-          visible = Object.keys(widgetOptions).includes(item.name);
+          visible = Object.keys(widgetOptions)
+            .includes(item.name);
       }
       item.isVisible = visible;
     }
@@ -289,15 +298,18 @@ export default class ControlBar extends Component {
     const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 
     function pushControl(item) {
-      controlBarWidgets.push(item)
+      controlBarWidgets.push(item);
     }
 
     for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
-      const item = <ControlBarWidget
-        key={i}
-        widgetType={widget}
-        options={widgetOptions}/>;
+      const item = (
+        <ControlBarWidget
+          key={i}
+          widgetType={widget}
+          options={widgetOptions}
+        />
+      );
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
         if (this.props.stereoSupported) {

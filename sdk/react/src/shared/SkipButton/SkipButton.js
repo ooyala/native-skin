@@ -19,11 +19,11 @@ export default class SkipButton extends Component {
     sizeStyle: PropTypes.object,
     opacity: PropTypes.object,
     animate: PropTypes.object,
-    buttonColor: PropTypes.object
+    buttonColor: PropTypes.object,
   };
 
   state = {
-    movedPosition: 0
+    movedPosition: 0,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -31,37 +31,54 @@ export default class SkipButton extends Component {
   }
 
   render() {
-    if(!this.props.visible) {
+    if (!this.props.visible) {
       return null;
     }
-    const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward, this.props.timeValue, STRING_CONSTANTS.SECONDS);
+    const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward,
+      this.props.timeValue, STRING_CONSTANTS.SECONDS);
     const position = {
-      position: 'absolute'
+      position: 'absolute',
     };
     return (
       <TouchableHighlight
-        accessible={true}
+        accessible
         accessibilityLabel={accessibilityLabel}
         disabled={this.props.disabled}
         onPress={() => this.onPress()}
-        underlayColor='transparent'
-        importantForAccessibility={'yes'}
-        style={[this.props.sizeStyle]}>
-        <Animated.View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        underlayColor="transparent"
+        importantForAccessibility="yes"
+        style={[this.props.sizeStyle]}
+      >
+        <Animated.View style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        >
           <Animated.Text
             accessible={false}
-            style={[position, styles.buttonTextStyle, this.props.fontStyle, this.props.buttonColor, this.props.animate, this.props.opacity]}>
+            style={[position,
+              styles.buttonTextStyle,
+              this.props.fontStyle,
+              this.props.buttonColor,
+              this.props.animate,
+              this.props.opacity]}
+          >
             {this.props.icon}
           </Animated.Text>
           <Animated.Text
             accessible={false}
-            style={[position, {fontSize: this.props.fontStyle.fontSize * 0.5}, this.props.buttonColor, this.props.opacity]}>
+            style={[position,
+              { fontSize: this.props.fontStyle.fontSize * 0.5 },
+              this.props.buttonColor,
+              this.props.opacity]}
+          >
             {this.props.timeValue}
           </Animated.Text>
         </Animated.View>
       </TouchableHighlight>
     );
-  };
+  }
 
   onPress = () => {
     this.props.onSeek(this.props.isForward);

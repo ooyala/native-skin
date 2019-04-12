@@ -20,14 +20,14 @@ export default class MoreOptionScreen extends Component {
     controlBarWidth: PropTypes.number,
     showAudioAndCCButton: PropTypes.bool,
     isAudioOnly: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.string
+    selectedPlaybackSpeedRate: PropTypes.string,
   };
 
   state = {
     translateY: new Animated.Value(this.props.height),
     opacity: new Animated.Value(0),
     buttonOpacity: new Animated.Value(1),
-    button: ''
+    button: '',
   };
 
   componentDidMount() {
@@ -39,16 +39,19 @@ export default class MoreOptionScreen extends Component {
         {
           toValue: 0,
           duration: 700,
-          delay: 0
-        }),
+          delay: 0,
+        },
+      ),
       Animated.timing(
         this.state.opacity,
         {
           toValue: 1,
           duration: 500,
-          delay: 0
-        }),
-    ]).start();
+          delay: 0,
+        },
+      ),
+    ])
+      .start();
   }
 
   onOptionBtnPressWithPanel = () => {
@@ -60,16 +63,17 @@ export default class MoreOptionScreen extends Component {
       this.props.onOptionButtonPress(buttonName);
     } else {
       this.setState({
-        button: buttonName
+        button: buttonName,
       });
       Animated.timing(
         this.state.buttonOpacity,
         {
           toValue: 0,
           duration: 200,
-          delay: 0
-        }
-      ).start(this.onOptionBtnPressWithPanel);
+          delay: 0,
+        },
+      )
+        .start(this.onOptionBtnPressWithPanel);
     }
   };
 
@@ -83,16 +87,17 @@ export default class MoreOptionScreen extends Component {
       {
         toValue: 0,
         duration: 500,
-        delay: 0
-      }
-    ).start(this.onDismissBtnPress);
+        delay: 0,
+      },
+    )
+      .start(this.onDismissBtnPress);
   };
 
   _renderMoreOptionButtons = (moreOptionButtons) => {
     let itemCollapsingResults;
 
     if (this.props.isAudioOnly) {
-      itemCollapsingResults = CollapsingBarUtils.collapseForAudioOnly(this.props.config.buttons)
+      itemCollapsingResults = CollapsingBarUtils.collapseForAudioOnly(this.props.config.buttons);
     } else {
       itemCollapsingResults = CollapsingBarUtils.collapse(this.props.config.controlBarWidth, this.props.config.buttons);
     }
@@ -102,7 +107,7 @@ export default class MoreOptionScreen extends Component {
 
     for (let i = 0; i < buttons.length; i++) {
       const button = buttons[i];
-      let buttonIcon = this._renderIcon(button.name);
+      const buttonIcon = this._renderIcon(button.name);
 
       // If a color style exists, we remove it as it is applied to a view, which doesn't support
       // text color modification. Color key only applies to Text views.
@@ -113,7 +118,7 @@ export default class MoreOptionScreen extends Component {
 
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if (buttonIcon === undefined || buttonStyle === undefined) {
-        Log.warn('Warning: skipping unsupported More Options button ' + button.name);
+        Log.warn(`Warning: skipping unsupported More Options button ${button.name}`);
         continue;
       }
 
@@ -122,7 +127,7 @@ export default class MoreOptionScreen extends Component {
           continue;
         }
       } else if (button.name === BUTTON_NAMES.AUDIO_AND_CC) {
-        Log.warn('showAudioAndCCButton:' + this.props.showAudioAndCCButton);
+        Log.warn(`showAudioAndCCButton:${this.props.showAudioAndCCButton}`);
         if (!this.props.сlosedCaptionsEnabled && !this.props.multiAudioEnabled && !this.props.showAudioAndCCButton) {
           continue;
         }
@@ -132,11 +137,11 @@ export default class MoreOptionScreen extends Component {
         }
       }
 
-      const onOptionPress = function(buttonName, f) {
-        return function() {
+      const onOptionPress = (function (buttonName, f) {
+        return function () {
           f(buttonName);
         };
-      } (button.name, this.onOptionPress);
+      }(button.name, this.onOptionPress));
 
       moreOptionButtons.push(
         <RectangularButton
@@ -184,7 +189,7 @@ export default class MoreOptionScreen extends Component {
         const fontStr = this.props.selectedPlaybackSpeedRate;
         buttonIcon = {
           fontString: fontStr,
-          fontFamilyName: null
+          fontFamilyName: null,
         };
         break;
       default:
@@ -194,18 +199,19 @@ export default class MoreOptionScreen extends Component {
   };
 
   render() {
-    let moreOptionButtons = [];
+    const moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
     const rowAnimationStyle = {
       transform: [{ translateY: this.state.translateY }],
-      opacity: this.state.buttonOpacity
+      opacity: this.state.buttonOpacity,
     };
 
     const moreOptionRow = (
       <Animated.View
-        ref='moreOptionRow'
-        style={[styles.rowCenter, rowAnimationStyle]}>
-          {moreOptionButtons}
+        ref="moreOptionRow"
+        style={[styles.rowCenter, rowAnimationStyle]}
+      >
+        {moreOptionButtons}
       </Animated.View>
     );
 
@@ -224,7 +230,13 @@ export default class MoreOptionScreen extends Component {
     );
     const animationStyle = { opacity: this.state.opacity };
     const moreOptionScreen = (
-      <Animated.View style={[styles.fullscreenContainer, animationStyle, {height: this.props.height, width: this.props.width}]}>
+      <Animated.View style={[styles.fullscreenContainer,
+        animationStyle,
+        {
+          height: this.props.height,
+          width: this.props.width,
+        }]}
+      >
         <Animated.View style={[styles.rowsContainer, animationStyle]}>
           {moreOptionRow}
         </Animated.View>
@@ -233,5 +245,4 @@ export default class MoreOptionScreen extends Component {
     );
     return moreOptionScreen;
   }
-
 }

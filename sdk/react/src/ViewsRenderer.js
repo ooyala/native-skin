@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Platform, NativeModules } from 'react-native';
+import { NativeModules, Platform } from 'react-native';
 
 import {
   BUTTON_NAMES, DESIRED_STATES, OVERLAY_TYPES, SCREEN_TYPES, UI_SIZES,

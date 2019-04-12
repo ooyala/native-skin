@@ -16,7 +16,8 @@ describe('IconMarker', () => {
       />,
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper)
+      .toMatchSnapshot();
   });
 
   it('does not render anything when URLs are empty', () => {
@@ -28,7 +29,8 @@ describe('IconMarker', () => {
       />,
     );
 
-    expect(wrapper).toEqual({});
+    expect(wrapper)
+      .toEqual({});
   });
 
   it('triggers `onSeek` callback every time when pressed if `imageUrl` is empty', () => {
@@ -41,9 +43,11 @@ describe('IconMarker', () => {
       />,
     );
 
-    wrapper.find(TouchableWithoutFeedback).simulate('press');
+    wrapper.find(TouchableWithoutFeedback)
+      .simulate('press');
 
-    expect(onSeekMock).toBeCalled();
+    expect(onSeekMock)
+      .toBeCalled();
   });
 
   it('triggers `onSeek` callback when pressed being expanded', () => {
@@ -56,12 +60,17 @@ describe('IconMarker', () => {
       />,
     );
 
-    wrapper.find(TouchableWithoutFeedback).simulate('press');
+    wrapper.find(TouchableWithoutFeedback)
+      .simulate('press');
 
-    expect(onSeekMock).not.toBeCalled();
+    expect(onSeekMock)
+      .not
+      .toBeCalled();
 
-    wrapper.find(TouchableWithoutFeedback).simulate('press');
+    wrapper.find(TouchableWithoutFeedback)
+      .simulate('press');
 
-    expect(onSeekMock).toBeCalled();
+    expect(onSeekMock)
+      .toBeCalled();
   });
 });

@@ -57,7 +57,8 @@ export default class TextMarker extends React.Component<Props, State> {
     let shownText = text;
 
     if (!isExpanded && text.length > TEXT_MARKER_COLLAPSED_LENGTH) {
-      shownText = text.slice(0, TEXT_MARKER_COLLAPSED_LENGTH - 3).concat('...'); // 3 is the dots length
+      shownText = text.slice(0, TEXT_MARKER_COLLAPSED_LENGTH - 3)
+        .concat('...'); // 3 is the dots length
     }
 
     return (

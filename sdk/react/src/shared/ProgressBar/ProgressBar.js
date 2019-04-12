@@ -52,7 +52,7 @@ export default class ProgressBar extends Component {
     }
 
     Log.error('controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json. '
-              + ' Please update your skin.json file to the latest provided file, or add these to your skin.json');
+      + ' Please update your skin.json file to the latest provided file, or add these to your skin.json');
     return '#FF3F80';
   };
 
@@ -72,7 +72,7 @@ export default class ProgressBar extends Component {
     }
 
     Log.error('controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json. '
-              + 'Please update your skin.json file to the latest provided file, or add these to your skin.json');
+      + 'Please update your skin.json file to the latest provided file, or add these to your skin.json');
     return '#4389FF';
   };
 
@@ -101,29 +101,41 @@ export default class ProgressBar extends Component {
       buffColor = bufferedColor;
     }
 
-    const playedStyle = { backgroundColor: playedColor, flex: percent };
-    const backgroundStyle = { backgroundColor: bgColor, flex: bufferedPercent };
-    const bufferedStyle = { backgroundColor: buffColor, flex: unbufferedPercent };
+    const playedStyle = {
+      backgroundColor: playedColor,
+      flex: percent,
+    };
+    const backgroundStyle = {
+      backgroundColor: bgColor,
+      flex: bufferedPercent,
+    };
+    const bufferedStyle = {
+      backgroundColor: buffColor,
+      flex: unbufferedPercent,
+    };
 
     return (
       <View
         style={styles.container}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
-        importantForAccessibility='no-hide-descendants'
-        accessibilityLabel=''
+        importantForAccessibility="no-hide-descendants"
+        accessibilityLabel=""
       >
-          <View
-            style={playedStyle}
-            testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
-            accessibilityLabel=""/>
-          <View
-            style={backgroundStyle}
-            testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
-            accessibilityLabel=""/>
-          <View
-            style={bufferedStyle}
-            testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
-            accessibilityLabel=""/>
+        <View
+          style={playedStyle}
+          testID={VIEW_NAMES.TIME_SEEK_BAR_PLAYED}
+          accessibilityLabel=""
+        />
+        <View
+          style={backgroundStyle}
+          testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
+          accessibilityLabel=""
+        />
+        <View
+          style={bufferedStyle}
+          testID={VIEW_NAMES.TIME_SEEK_BAR_BUFFERED}
+          accessibilityLabel=""
+        />
       </View>
     );
   }

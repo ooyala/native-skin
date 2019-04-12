@@ -1,6 +1,4 @@
-import {
-  LOG_LEVEL
-} from '../constants';
+import { LOG_LEVEL } from '../constants';
 
 let level = LOG_LEVEL.INFO;
 
@@ -15,7 +13,7 @@ export default class Log {
         level = l;
         break;
       default:
-        console.error('Invalid Warning Level: ' + l);
+        console.error(`Invalid Warning Level: ${l}`);
         break;
     }
   }
@@ -65,4 +63,4 @@ export default class Log {
       error('ASSERT FAILED: ', msg);
     }
   }
-};
+}

@@ -1,7 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  Animated, DeviceEventEmitter, Image, ImageBackground, Platform, Text, TouchableHighlight, View,
+  Animated,
+  DeviceEventEmitter,
+  Image,
+  ImageBackground,
+  Platform,
+  Text,
+  TouchableHighlight,
+  View,
 } from 'react-native';
 
 import { BUTTON_NAMES, SCREEN_TYPES } from '../../constants';
@@ -47,7 +54,7 @@ export default class DiscoveryPanel extends Component {
     height: 0,
     screenType: SCREEN_TYPES.DISCOVERY_END_SCREEN,
     localizedString: '',
-  }
+  };
 
   state = {
     opacity: new Animated.Value(0),
@@ -76,7 +83,8 @@ export default class DiscoveryPanel extends Component {
           delay: 0,
         },
       ),
-    ]).start();
+    ])
+      .start();
 
     const { screenType, config } = this.props;
     const { showCountDownTimerOnEndScreen, countDownTime } = config.discoveryScreen;
@@ -102,7 +110,11 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
     const { onRowAction } = this.props;
 
     if (onRowAction) {
-      onRowAction({ action: 'click', embedCode: row.embedCode, bucketInfo: row.bucketInfo });
+      onRowAction({
+        action: 'click',
+        embedCode: row.embedCode,
+        bucketInfo: row.bucketInfo,
+      });
       this.setState({
         showCountdownTimer: false,
       });
@@ -115,7 +127,11 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
     const { impressionsFired } = this.state;
 
     if (onRowAction && !impressionsFired) {
-      onRowAction({ action: 'impress', embedCode: row.embedCode, bucketInfo: row.bucketInfo });
+      onRowAction({
+        action: 'impress',
+        embedCode: row.embedCode,
+        bucketInfo: row.bucketInfo,
+      });
     }
   };
 
@@ -182,39 +198,47 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
     const { counterTime } = this.state;
 
     Platform.select({
-      ios:
-  <CountdownViewiOS
-    style={{ width: 44, height: 44 }}
-    automatic
-    time={counterTime}
-    timeLeft={counterTime}
-    radius={22}
-    fillColor="#000000"
-    strokeColor="#ffffff"
-    fillAlpha={0.7}
-    tapCancel
-    onPress={this.onStatusPressed}
-    onTimerCompleted={() => this.onRowSelected(item)}
-  />,
-      android:
-  <CountdownViewAndroid
-    style={{ width: 44, height: 44 }}
-    countdown={{
-      main_color: '#AAffffff',
-      secondary_color: '#AA808080',
-      fill_color: '#AA000000',
-      text_color: '#AAffffff',
-      stroke_width: 10,
-      text_size: 75,
-      max_time: counterTime,
-      progress: 0,
-      automatic: true,
-    }}
-    data={{
-      embedCode: item.embedCode,
-      bucketInfo: item.bucketInfo,
-    }}
-  />,
+      ios: (
+        <CountdownViewiOS
+          style={{
+            width: 44,
+            height: 44,
+          }}
+          automatic
+          time={counterTime}
+          timeLeft={counterTime}
+          radius={22}
+          fillColor="#000000"
+          strokeColor="#ffffff"
+          fillAlpha={0.7}
+          tapCancel
+          onPress={this.onStatusPressed}
+          onTimerCompleted={() => this.onRowSelected(item)}
+        />
+      ),
+      android: (
+        <CountdownViewAndroid
+          style={{
+            width: 44,
+            height: 44,
+          }}
+          countdown={{
+            main_color: '#AAffffff',
+            secondary_color: '#AA808080',
+            fill_color: '#AA000000',
+            text_color: '#AAffffff',
+            stroke_width: 10,
+            text_size: 75,
+            max_time: counterTime,
+            progress: 0,
+            automatic: true,
+          }}
+          data={{
+            embedCode: item.embedCode,
+            bucketInfo: item.bucketInfo,
+          }}
+        />
+      ),
     });
   };
 
@@ -333,7 +357,10 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
     const { impressionsFired, opacity } = this.state;
 
     const numOfRectsInRow = Math.floor(width / rectWidth);
-    const itemRect = { width: width / numOfRectsInRow, height: rectHeight };
+    const itemRect = {
+      width: width / numOfRectsInRow,
+      height: rectHeight,
+    };
     const thumbnailStyle = (width > height) ? styles.thumbnailLandscape : styles.thumbnailPortrait;
     const columnContainerStyle = (width > height) ? styles.columnContainerLandscape : styles.columnContainerPortrait;
 

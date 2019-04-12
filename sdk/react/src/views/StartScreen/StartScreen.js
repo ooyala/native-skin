@@ -18,7 +18,7 @@ export default class StartScreen extends Component {
     playhead: PropTypes.number,
     width: PropTypes.number,
     height: PropTypes.number,
-    screenReaderEnabled: PropTypes.bool
+    screenReaderEnabled: PropTypes.bool,
   };
 
   handleClick = () => {
@@ -27,7 +27,8 @@ export default class StartScreen extends Component {
 
   // Gets the play button based on the current config settings
   getPlayButton = () => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+      UI_SIZES.VIDEOVIEW_PLAYPAUSE);
 
     if (this.props.config.startScreen.showPlayButton) {
       return (
@@ -35,20 +36,20 @@ export default class StartScreen extends Component {
           icons={{
             play: {
               icon: this.props.config.icons.play.fontString,
-              fontFamily: this.props.config.icons.play.fontFamilyName
+              fontFamily: this.props.config.icons.play.fontFamilyName,
             },
             pause: {
               icon: this.props.config.icons.pause.fontString,
-              fontFamily: this.props.config.icons.pause.fontFamilyName
+              fontFamily: this.props.config.icons.pause.fontFamilyName,
             },
             seekForward: {
               icon: this.props.config.icons.forward.fontString,
-              fontFamily: this.props.config.icons.forward.fontFamilyName
+              fontFamily: this.props.config.icons.forward.fontFamilyName,
             },
             seekBackward: {
               icon: this.props.config.icons.replay.fontString,
-              fontFamily: this.props.config.icons.replay.fontFamilyName
-            }
+              fontFamily: this.props.config.icons.replay.fontFamilyName,
+            },
           }}
           position={this.props.config.startScreen.playButtonPosition}
           onPress={this.handleClick}
@@ -61,27 +62,29 @@ export default class StartScreen extends Component {
           fontSize={iconFontSize}
           playing={false}
           showButton={!this.props.screenReaderEnabled}
-          initialPlay={true}>
-        </VideoViewPlayPause>
+          initialPlay
+        />
       );
     }
   };
 
-  //Gets the infoPanel based on the current config settings
+  // Gets the infoPanel based on the current config settings
   getInfoPanel = () => {
     let infoPanelTitle;
     if (this.props.config.startScreen.showTitle) {
       infoPanelTitle = (
         <Text style={[styles.infoPanelTitle, this.props.config.startScreen.titleFont]}>
           {this.props.title}
-        </Text>);
+        </Text>
+      );
     }
     let infoPanelDescription;
     if (this.props.config.startScreen.showDescription) {
       infoPanelDescription = (
         <Text style={[styles.infoPanelDescription, this.props.config.startScreen.descriptionFont]}>
           {this.props.description}
-        </Text>);
+        </Text>
+      );
     }
 
     let infoPanelLocation;
@@ -93,7 +96,7 @@ export default class StartScreen extends Component {
         infoPanelLocation = styles.infoPanelSW;
         break;
       default:
-        throw('Invalid infoPanel location ' + this.props.config.startScreen.infoPanelPosition);
+        throw (`Invalid infoPanel location ${this.props.config.startScreen.infoPanelPosition}`);
     }
 
     return (
@@ -110,12 +113,18 @@ export default class StartScreen extends Component {
 
       return (
         <Image
-          source={{uri: this.props.promoUrl}}
-          style={fullscreen ?
-            {position: 'absolute', top: 0, left: 0, width: this.props.width, height: this.props.height} :
-            styles.promoImageSmall}
-          resizeMode='contain'>
-        </Image>
+          source={{ uri: this.props.promoUrl }}
+          style={fullscreen
+            ? {
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: this.props.width,
+              height: this.props.height,
+            }
+            : styles.promoImageSmall}
+          resizeMode="contain"
+        />
       );
     }
 
@@ -125,10 +134,11 @@ export default class StartScreen extends Component {
   getWaterMark = () => {
     const waterMarkImageLocation = styles.waterMarkImageSE;
     return (
-      <Image style={[styles.waterMarkImage, waterMarkImageLocation]}
-             source={{uri: IMG_URLS.OOYALA_LOGO}}
-             resizeMode='contain'>
-      </Image>
+      <Image
+        style={[styles.waterMarkImage, waterMarkImageLocation]}
+        source={{ uri: IMG_URLS.OOYALA_LOGO }}
+        resizeMode="contain"
+      />
     );
   };
 
@@ -148,10 +158,11 @@ export default class StartScreen extends Component {
     return (
       <View
         reactTag={1}
-        accessible={true}
-        accessibilityLabel={'Video player. Tap twice to play'}
+        accessible
+        accessibilityLabel="Video player. Tap twice to play"
         style={styles.container}
-        onTouchEnd={(event) => this._tapHandler(event)}>
+        onTouchEnd={event => this._tapHandler(event)}
+      >
         {promoImage}
         {waterMarkImage}
         {infoPanel}

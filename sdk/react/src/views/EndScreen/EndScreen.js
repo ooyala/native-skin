@@ -41,7 +41,7 @@ export default class EndScreen extends Component {
   };
 
   handlePress = (name) => {
-    Log.verbose('VideoView Handle Press: ' + name);
+    Log.verbose(`VideoView Handle Press: ${name}`);
     this.setState({
       lastPressedTime: new Date().getTime(),
     });
@@ -59,17 +59,17 @@ export default class EndScreen extends Component {
   renderDefaultScreen = () => {
     const endScreenConfig = this.props.config.endScreen || {};
 
-    const replayMarginBottom = !this.props.config.controlBar.enabled ?
-      ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1;
+    const replayMarginBottom = !this.props.config.controlBar.enabled
+      ? ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1;
 
     const replayButtonLocation = styles.replayButtonCenter;
     let replayButton;
 
     if (endScreenConfig.showReplayButton) {
-      const fontFamilyStyle = {fontFamily: this.props.config.icons.replay.fontFamilyName};
+      const fontFamilyStyle = { fontFamily: this.props.config.icons.replay.fontFamilyName };
       replayButton = (
         <TouchableHighlight
-          accessible={true}
+          accessible
           accessibilityLabel={BUTTON_NAMES.REPLAY}
           accessibilityComponentType="button"
           onPress={() => this.handleClick(BUTTON_NAMES.REPLAY)}
@@ -86,7 +86,12 @@ export default class EndScreen extends Component {
     const infoPanel = (<InfoPanel title={title} description={description} />);
 
     return (
-      <View style={[styles.fullscreenContainer, { width: this.props.width,height: this.props.height }]}>
+      <View style={[styles.fullscreenContainer,
+        {
+          width: this.props.width,
+          height: this.props.height,
+        }]}
+      >
         <Image
           source={{ uri: this.props.promoUrl }}
           style={
@@ -95,11 +100,12 @@ export default class EndScreen extends Component {
               top: 0,
               left: 0,
               width: this.props.width,
-              height: this.props.height}]}
+              height: this.props.height,
+            }]}
           resizeMode="contain"
         />
         {infoPanel}
-        <View style={[replayButtonLocation, {marginBottom: replayMarginBottom}]}>
+        <View style={[replayButtonLocation, { marginBottom: replayMarginBottom }]}>
           {replayButton}
         </View>
         <View style={styles.controlBarPosition}>
@@ -181,5 +187,4 @@ export default class EndScreen extends Component {
       </View>
     );
   }
-
 }

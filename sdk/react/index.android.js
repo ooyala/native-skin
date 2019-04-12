@@ -1,27 +1,23 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
+  AccessibilityInfo,
   ActivityIndicator,
+  AppRegistry,
+  BackHandler,
+  NativeModules,
   StyleSheet,
   Text,
   View,
-  BackHandler,
-  AccessibilityInfo,
-  NativeModules
 } from 'react-native';
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
 
-//calling class layout controller
-const {
-  OoyalaReactBridge
-} = NativeModules;
-
-import {
-  CONTENT_TYPES,
-  SCREEN_TYPES,
-  DESIRED_STATES
-} from './src/constants';
+import { CONTENT_TYPES, DESIRED_STATES, SCREEN_TYPES } from './src/constants';
 import Core from './src/Core';
+
+// calling class layout controller
+const {
+  OoyalaReactBridge,
+} = NativeModules;
 let OoyalaSkinCoreInstance;
 
 class OoyalaSkin extends Component {
@@ -63,7 +59,7 @@ class OoyalaSkin extends Component {
     error: null,
     screenReaderEnabled: false,
     contentType: CONTENT_TYPES.VIDEO,
-    onPlayComplete: false
+    onPlayComplete: false,
   };
 
   componentWillMount() {
@@ -72,19 +68,18 @@ class OoyalaSkin extends Component {
   }
 
   componentDidMount() {
-    BackHandler.addEventListener('hardwareBackPress', function () {
-      return OoyalaSkinCoreInstance.onBackPressed();
-    });
+    BackHandler.addEventListener('hardwareBackPress', () => OoyalaSkinCoreInstance.onBackPressed());
 
     AccessibilityInfo.addEventListener(
       'change',
-      this._handleScreenReaderToggled
+      this._handleScreenReaderToggled,
     );
-    AccessibilityInfo.fetch().done((isEnabled) => {
-      this.setState({
-        screenReaderEnabled: isEnabled
+    AccessibilityInfo.fetch()
+      .done((isEnabled) => {
+        this.setState({
+          screenReaderEnabled: isEnabled,
+        });
       });
-    });
   }
 
   componentWillUnmount() {
@@ -93,32 +88,28 @@ class OoyalaSkin extends Component {
 
     AccessibilityInfo.removeEventListener(
       'change',
-      this._handleScreenReaderToggled
+      this._handleScreenReaderToggled,
     );
   }
 
   _handleScreenReaderToggled = (isEnabled) => {
     this.setState({
-      screenReaderEnabled: isEnabled
+      screenReaderEnabled: isEnabled,
     });
   };
 
-  renderLoadingScreen = () => {
-     return (
-       <ActivityIndicator
-        style={styles.loading}
-        size='large'
-      />
-    );
-  };
+  renderLoadingScreen = () => (
+    <ActivityIndicator
+      style={styles.loading}
+      size="large"
+    />
+  );
 
-  renderVideoView = () => {
-    return (
-      <View style={styles.container}>
-          <Text>{this.state.playerState}</Text>
-      </View>
-    );
-  };
+  renderVideoView = () => (
+    <View style={styles.container}>
+      <Text>{this.state.playerState}</Text>
+    </View>
+  );
 
   render() {
     return OoyalaSkinCoreInstance.renderScreen();
@@ -136,8 +127,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    height: 200
-  }
+    height: 200,
+  },
 });
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

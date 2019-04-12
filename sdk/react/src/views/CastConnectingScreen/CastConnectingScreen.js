@@ -23,6 +23,14 @@ export default class CastConnectingScreen extends Component {
     );
   }
 
+  static renderConnectingText() {
+    return (
+      <Text style={styles.connectingTextStyle}>
+        {'Connecting...'}
+      </Text>
+    );
+  }
+
   renderTouchableCancelText() {
     const { onDisconnect } = this.props;
 
@@ -35,19 +43,16 @@ export default class CastConnectingScreen extends Component {
     );
   }
 
-  static renderConnectingText() {
-    return (
-      <Text style={styles.connectingTextStyle}>
-        {'Connecting...'}
-      </Text>
-    );
-  }
-
   render() {
     const { height, width } = this.props;
 
     return (
-      <Animated.View style={[styles.fullscreenContainer, { height, width }]}>
+      <Animated.View style={[styles.fullscreenContainer,
+        {
+          height,
+          width,
+        }]}
+      >
         {this.constructor.renderCircleIndicator()}
         {this.constructor.renderConnectingText()}
         {this.renderTouchableCancelText()}

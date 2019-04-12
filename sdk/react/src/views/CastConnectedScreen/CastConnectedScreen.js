@@ -51,6 +51,10 @@ export default class CastConnectedScreen extends Component {
     markers: PropTypes.array.isRequired,
   };
 
+  static renderBorder() {
+    return <View style={styles.border} />;
+  }
+
   onSeekPressed(skipCountValue) {
     if (skipCountValue === 0) {
       return;
@@ -158,10 +162,6 @@ export default class CastConnectedScreen extends Component {
         </TouchableOpacity>
       </View>
     );
-  }
-
-  static renderBorder() {
-    return <View style={styles.border} />;
   }
 
   renderDeviceNameLines() {
