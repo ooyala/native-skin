@@ -88,9 +88,12 @@ export default class VideoView extends Component {
   };
 
   onSeekPressed = (skipCountValue) => {
-    if (skipCountValue === 0) { return null; }
+    if (skipCountValue === 0) {
+      return null;
+    }
 
-    let configSeekValue = (skipCountValue > 0) ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
+    let configSeekValue = (skipCountValue > 0) ? this.props.config.skipControls.skipForwardTime
+      : this.props.config.skipControls.skipBackwardTime;
     configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
     const seekValue = configSeekValue * skipCountValue;
 
@@ -113,10 +116,8 @@ export default class VideoView extends Component {
     }
   };
 
-  _createOnIcon = (index, func) => {
-    return function () {
-      func(index);
-    }
+  _createOnIcon = (index, func) => function () {
+    func(index);
   };
 
   _renderBottomOverlay(show) {
@@ -165,24 +166,23 @@ export default class VideoView extends Component {
     );
   }
 
-  _renderPlaceholder = () => {
-    return (
-      <View
-        reactTag={1}
-        accessible={true}
-        accessibilityLabel={'Video player. Tap twice to play or pause'}
-        style={styles.placeholder}
-        importantForAccessibility={'no'}
-        onTouchStart={(event) => this.props.handlers.handleVideoTouchStart(event)}
-        onTouchMove={(event) => this.props.handlers.handleVideoTouchMove(event)}
-        onTouchEnd={(event) => this._placeholderTapHandler(event)}>
-      </View>
-    );
-  };
+  _renderPlaceholder = () => (
+    <View
+      reactTag={1}
+      accessible
+      accessibilityLabel="Video player. Tap twice to play or pause"
+      style={styles.placeholder}
+      importantForAccessibility="no"
+      onTouchStart={event => this.props.handlers.handleVideoTouchStart(event)}
+      onTouchMove={event => this.props.handlers.handleVideoTouchMove(event)}
+      onTouchEnd={event => this._placeholderTapHandler(event)}
+    />
+  );
 
   _renderBottom = () => {
-    const VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
-    let waterMarkName = Platform.select({
+    const VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK,
+      UI_SIZES.VIDEOWATERMARK);
+    const waterMarkName = Platform.select({
       ios: this.props.config.general.watermark.imageResource.iosResource,
       android: this.props.config.general.watermark.imageResource.androidResource,
     });
@@ -194,7 +194,12 @@ export default class VideoView extends Component {
 
     return (
       <View
-        style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'flex-end'}}>
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        }}
+      >
         {watermark}
         {this._renderClosedCaptions()}
       </View>
@@ -203,19 +208,27 @@ export default class VideoView extends Component {
 
   _renderClosedCaptions = () => {
     const containerPadding = 5;
-    let captionWidth = this.props.width - (containerPadding * 4);
+    const captionWidth = this.props.width - (containerPadding * 4);
 
     const ccStyle = {
-      color: this.props.captionStyles.textColor, fontFamily: this.props.captionStyles.fontName,
-      backgroundColor: 'rgba(0,0,0,'+this.props.config.ccBackgroundOpacity+')',
+      color: this.props.captionStyles.textColor,
+      fontFamily: this.props.captionStyles.fontName,
+      backgroundColor: `rgba(0,0,0,${this.props.config.ccBackgroundOpacity})`,
     };
     if (this.props.caption) {
       return (
         <View
           accessible={false}
-          importantForAccessibility='no-hide-descendants'
-          style={[styles.closedCaptionsContainer, {padding: containerPadding, width: captionWidth, backgroundColor: 'transparent', position: 'absolute'}]}
-          onTouchEnd={(event) => this.props.handlers.handleVideoTouchEnd(event)}>
+          importantForAccessibility="no-hide-descendants"
+          style={[styles.closedCaptionsContainer,
+            {
+              padding: containerPadding,
+              width: captionWidth,
+              backgroundColor: 'transparent',
+              position: 'absolute',
+            }]}
+          onTouchEnd={event => this.props.handlers.handleVideoTouchEnd(event)}
+        >
           <Text style={[styles.closedCaptions, ccStyle]}>
             {this.props.caption}
           </Text>
@@ -241,14 +254,15 @@ export default class VideoView extends Component {
         duration={this.props.duration}
         nextVideo={this.props.nextVideo}
         upNextDismissed={this.props.upNextDismissed}
-        onPress={(value) => this.handlePress(value)}
-        width={this.props.width}>
-      </UpNext>
+        onPress={value => this.handlePress(value)}
+        width={this.props.width}
+      />
     );
   };
 
   _renderPlayPause = (show) => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+      UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !this.props.config.live.forceDvrDisabled || !this.props.live;
     const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
     return (
@@ -273,9 +287,9 @@ export default class VideoView extends Component {
         }}
         seekEnabled={seekVisible}
         ffActive={this.props.live ? notInLiveRegion : true}
-        position={'center'}
-        onPress={(name) => this.handlePress(name)}
-        onSeekPressed={(isForward) => this.onSeekPressed(isForward)}
+        position="center"
+        onPress={name => this.handlePress(name)}
+        onSeekPressed={isForward => this.onSeekPressed(isForward)}
         seekForwardValue={this.props.config.skipControls.skipForwardTime}
         seekBackwardValue={this.props.config.skipControls.skipBackwardTime}
         frameWidth={this.props.width}
@@ -289,8 +303,8 @@ export default class VideoView extends Component {
         rate={this.props.rate}
         playing={this.props.playing}
         loading={this.props.loading}
-        initialPlay={this.props.initialPlay}>
-      </VideoViewPlayPause>
+        initialPlay={this.props.initialPlay}
+      />
     );
   };
 
@@ -298,11 +312,17 @@ export default class VideoView extends Component {
     if (waterMarkName) {
       return (
         <View
-          style={{flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end'}}>
+          style={{
+            flex: 1,
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end',
+          }}
+        >
           <VideoWaterMark
             buttonWidth={VideoWaterMarkSize}
             buttonHeight={VideoWaterMarkSize}
-            waterMarkName={waterMarkName}/>
+            waterMarkName={waterMarkName}
+          />
         </View>
       );
     }
@@ -313,11 +333,11 @@ export default class VideoView extends Component {
       return null;
     }
 
-    //width and height of the ad overlay
-    let width = this.props.adOverlay.width;
-    let height = this.props.adOverlay.height;
+    // width and height of the ad overlay
+    let { width } = this.props.adOverlay;
+    let { height } = this.props.adOverlay;
 
-    //if the width of the ad is larger than the player width
+    // if the width of the ad is larger than the player width
     const sidePadding = 10;
     const maxWidth = this.props.width - 2 * sidePadding;
     if (width > maxWidth) {
@@ -326,25 +346,39 @@ export default class VideoView extends Component {
     }
     const left = (this.props.width - width) / 2;
 
-    const overlayStyle = {height: height, width: width, backgroundColor: 'transparent'};
-    const positionStyle = {left: left, bottom: 10, width: width, height: height, backgroundColor: 'transparent'};
+    const overlayStyle = {
+      height,
+      width,
+      backgroundColor: 'transparent',
+    };
+    const positionStyle = {
+      left,
+      bottom: 10,
+      width,
+      height,
+      backgroundColor: 'transparent',
+    };
     return (
       <View
         accesible={false}
-        style={overlayStyle}>
+        style={overlayStyle}
+      >
         <TouchableHighlight
           style={positionStyle}
-          onPress={this.handleOverlayClick}>
+          onPress={this.handleOverlayClick}
+        >
           <View
-            style={styles.container}>
+            style={styles.container}
+          >
             <Image
               style={overlayStyle}
-              source={{uri: this.props.adOverlay.resourceUrl}}
-              resizeMode='contain'>
-            </Image>
+              source={{ uri: this.props.adOverlay.resourceUrl }}
+              resizeMode="contain"
+            />
             <TouchableHighlight
               style={styles.dismissOverlay}
-              onPress={this.props.handlers.onAdOverlayDismiss}>
+              onPress={this.props.handlers.onAdOverlayDismiss}
+            >
               <Text style={styles.dismissIcon}>
                 {this.props.config.icons.dismiss.fontString}
               </Text>
@@ -371,8 +405,8 @@ export default class VideoView extends Component {
       return (
         <ActivityIndicator
           style={loadingStyle}
-          size='large'>
-        </ActivityIndicator>
+          size="large"
+        />
       );
     }
   };
@@ -386,14 +420,15 @@ export default class VideoView extends Component {
   };
 
   render() {
-    const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
+    const isPastAutoHideTime = (new Date()).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
 
     // for renderPlayPause, if the screen reader is enabled, we want to hide the button
     return (
       <View
         accessible={false}
-        style={[styles.container, {'height': this.props.height}, {'width': this.props.width}]}>
+        style={[styles.container, { height: this.props.height }, { width: this.props.width }]}
+      >
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}

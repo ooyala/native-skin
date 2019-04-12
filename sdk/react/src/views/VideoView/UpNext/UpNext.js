@@ -21,7 +21,7 @@ export default class UpNext extends Component {
     nextVideo: PropTypes.object,
     onPress: PropTypes.func,
     upNextDismissed: PropTypes.bool,
-    width: PropTypes.number
+    width: PropTypes.number,
   };
 
   dismissUpNext = () => {
@@ -38,74 +38,79 @@ export default class UpNext extends Component {
     if (typeof upNextConfig.timeToShow === 'string') {
       // Support old version of percentage (e.g. '80%')
       if (upNextConfig.timeToShow.indexOf('%') >= 0) {
-        return (this.props.duration - parseFloat(upNextConfig.timeToShow.slice(0,-1) / 100) * this.props.duration);
-      } else if (isNaN(upNextConfig.timeToShow)) {
+        return (this.props.duration - parseFloat(upNextConfig.timeToShow.slice(0, -1) / 100) * this.props.duration);
+      }
+      if (isNaN(upNextConfig.timeToShow)) {
         // The string is not a valid number
         return defaultCountdownVal;
-      } else {
-        // if we are given a number of seconds from end in which to show the upnext dialog.
-        return parseInt(upNextConfig.timeToShow);
       }
-    } else if (typeof upNextConfig.timeToShow === 'number') {
+      // if we are given a number of seconds from end in which to show the upnext dialog.
+      return parseInt(upNextConfig.timeToShow);
+    }
+    if (typeof upNextConfig.timeToShow === 'number') {
       if (upNextConfig.timeToShow > 0.0 && upNextConfig.timeToShow <= 1.0) {
         // New percentage mode (e.g. 0.8)
         return this.props.duration - upNextConfig.timeToShow * this.props.duration;
-      } else if (upNextConfig.timeToShow > 1.0) {
+      }
+      if (upNextConfig.timeToShow > 1.0) {
         // Normal number (e.g. 15)
         return upNextConfig.timeToShow;
-      } else {
-        // 0 or negative number
-        return defaultCountdownVal;
       }
-    } else {
-      // Not a valid string nor number, return default.
+      // 0 or negative number
       return defaultCountdownVal;
     }
+    // Not a valid string nor number, return default.
+    return defaultCountdownVal;
   };
 
-  isWithinShowUpNextBounds = () => {
-    return parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;
-  };
+  isWithinShowUpNextBounds = () => parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;
 
-  _renderDismissButton = () => {
-    return (
-      <TouchableHighlight
-        accessible={true} accessibilityLabel={BUTTON_NAMES.DISMISS} accessibilityComponentType='button'
-        onPress={this.dismissUpNext}
-        underlayColor='transparent'
-        style={styles.dismissButtonContainer}>
-        <Text style={[
-          styles.dismissButton,
-          {fontFamily: this.props.config.icons.dismiss.fontFamilyName}
-        ]}>{this.props.config.icons.dismiss.fontString}</Text>
-      </TouchableHighlight>
-    );
-  };
+  _renderDismissButton = () => (
+    <TouchableHighlight
+      accessible
+      accessibilityLabel={BUTTON_NAMES.DISMISS}
+      accessibilityComponentType="button"
+      onPress={this.dismissUpNext}
+      underlayColor="transparent"
+      style={styles.dismissButtonContainer}
+    >
+      <Text style={[
+        styles.dismissButton,
+        { fontFamily: this.props.config.icons.dismiss.fontFamilyName },
+      ]}
+      >
+        {this.props.config.icons.dismiss.fontString}
+      </Text>
+    </TouchableHighlight>
+  );
 
   renderCountdownTimer = () => Platform.select({
-    ios:
+    ios: (
       <CountdownView
         style={styles.countdownView}
         automatic={false}
         time={this.upNextDuration()}
         timeLeft={this.props.duration - this.props.playhead}
         radius={9}
-        fillAlpha={0.7} />,
-    android:
+        fillAlpha={0.7}
+      />
+    ),
+    android: (
       <CountdownViewAndroid
         style={styles.countdownView}
         countdown={{
-          main_color:'#AAffffff',
-          secondary_color:'#AA808080',
-          fill_color:'#AA000000',
-          text_color:'#AAffffff',
+          main_color: '#AAffffff',
+          secondary_color: '#AA808080',
+          fill_color: '#AA000000',
+          text_color: '#AAffffff',
           stroke_width: 5,
           text_size: 25,
           max_time: this.upNextDuration(),
           progress: parseInt((this.upNextDuration() - (this.props.duration - this.props.playhead))),
-          automatic: false
-        }}>
-      </CountdownViewAndroid>
+          automatic: false,
+        }}
+      />
+    ),
   });
 
   render() {
@@ -116,20 +121,22 @@ export default class UpNext extends Component {
       && upNextConfig.showUpNext === true
       && !this.props.ad
       && this.props.nextVideo) {
-
       const countdown = this.renderCountdownTimer();
       const upNextImage = (
         <TouchableHighlight
           style={styles.thumbnail}
-          accessible={true}
-          onPress={this.clickUpNext}>
+          accessible
+          onPress={this.clickUpNext}
+        >
           <ImageBackground
             style={styles.thumbnailImage}
-            source={{uri: this.props.nextVideo.imageUrl}}
-            accessible={false}>
+            source={{ uri: this.props.nextVideo.imageUrl }}
+            accessible={false}
+          >
             <Text
               style={styles.thumbnailPlayButton}
-              accessibilityLabel={BUTTON_NAMES.UP_NEXT}>
+              accessibilityLabel={BUTTON_NAMES.UP_NEXT}
+            >
               {this.props.config.icons.play.fontString}
             </Text>
           </ImageBackground>
@@ -140,7 +147,9 @@ export default class UpNext extends Component {
           {countdown}
           <View style={styles.titleContainer}>
             <Text style={styles.title} numberOfLines={1}>
-              Up next: {this.props.nextVideo.name}
+              Up next:
+              {' '}
+              {this.props.nextVideo.name}
             </Text>
             <Text style={styles.description} numberOfLines={2}>
               {this.props.nextVideo.description}
@@ -149,14 +158,14 @@ export default class UpNext extends Component {
         </View>
       );
       const upNextDismissButton = this._renderDismissButton();
-        return (
-          <View style={styles.container}>
-            {upNextImage}
-            {upNextDescription}
-            {upNextDismissButton}
-          </View>
-        );
-      }
+      return (
+        <View style={styles.container}>
+          {upNextImage}
+          {upNextDescription}
+          {upNextDismissButton}
+        </View>
+      );
+    }
     return null;
   }
 }

@@ -49,7 +49,7 @@ export default class CastDevicesScreen extends Component {
 
   static defaultProps = {
     selectedDeviceId: null,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -74,7 +74,8 @@ export default class CastDevicesScreen extends Component {
           delay: 0,
         },
       ),
-    ]).start();
+    ])
+      .start();
   }
 
   onDismissBtnPress = () => {
@@ -91,7 +92,8 @@ export default class CastDevicesScreen extends Component {
         duration: 500,
         delay: 0,
       },
-    ).start(this.onDismissBtnPress);
+    )
+      .start(this.onDismissBtnPress);
   };
 
   onPressButton = (deviceId) => {
@@ -101,7 +103,7 @@ export default class CastDevicesScreen extends Component {
       selectedID: deviceId,
     });
     onDeviceSelected(deviceId);
-  }
+  };
 
   renderCastDevicesScreen(animationStyle, dismissButtonRow) {
     const { height, width, devices } = this.props;
@@ -151,7 +153,7 @@ export default class CastDevicesScreen extends Component {
         castIcon={config.icons['chromecast-disconnected']}
       />
     );
-  }
+  };
 
   render() {
     const { config } = this.props;

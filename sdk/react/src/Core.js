@@ -1,8 +1,5 @@
 import {
-  BUTTON_NAMES,
-  OVERLAY_TYPES,
-  AUTOHIDE_DELAY,
-  MAX_DATE_VALUE,
+  AUTOHIDE_DELAY, BUTTON_NAMES, MAX_DATE_VALUE, OVERLAY_TYPES,
 } from './constants';
 import Log from './lib/log';
 import BridgeListener from './BridgeListener';
@@ -102,9 +99,9 @@ export default class Core {
   }
 
   /**
-  *  When a button is pressed on the control bar
-  *  If it's a 'fast-access' options button, open options menu and perform the options action
-  */
+   *  When a button is pressed on the control bar
+   *  If it's a 'fast-access' options button, open options menu and perform the options action
+   */
   handlePress(buttonName) {
     switch (buttonName) {
       case BUTTON_NAMES.MORE:
@@ -153,11 +150,17 @@ export default class Core {
   }
 
   handleIconPress(index) {
-    this.bridge.onPress({ name: BUTTON_NAMES.AD_ICON, index });
+    this.bridge.onPress({
+      name: BUTTON_NAMES.AD_ICON,
+      index,
+    });
   }
 
   handleAdOverlayPress(clickUrl) {
-    this.bridge.onPress({ name: BUTTON_NAMES.AD_OVERLAY, clickUrl });
+    this.bridge.onPress({
+      name: BUTTON_NAMES.AD_OVERLAY,
+      clickUrl,
+    });
   }
 
   handleAdOverlayDismiss() {

@@ -23,11 +23,11 @@ export default class DeviceListItem extends Component {
         fontFamilyName: PropTypes.string,
       }),
     }).isRequired,
-  }
+  };
 
   static defaultProps = {
     selected: false,
-  }
+  };
 
   onPress = () => {
     const { onPressItem, id } = this.props;

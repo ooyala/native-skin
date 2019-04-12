@@ -15,7 +15,8 @@ describe('TextMarker', () => {
       />,
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper)
+      .toMatchSnapshot();
   });
 
   it('triggers `onSeek` callback every time when pressed if text is short', () => {
@@ -27,9 +28,11 @@ describe('TextMarker', () => {
       />,
     );
 
-    wrapper.find(TouchableWithoutFeedback).simulate('press');
+    wrapper.find(TouchableWithoutFeedback)
+      .simulate('press');
 
-    expect(onSeekMock).toBeCalled();
+    expect(onSeekMock)
+      .toBeCalled();
   });
 
   it('triggers `onSeek` callback when pressed being expanded if text is long', () => {
@@ -41,12 +44,17 @@ describe('TextMarker', () => {
       />,
     );
 
-    wrapper.find(TouchableWithoutFeedback).simulate('press');
+    wrapper.find(TouchableWithoutFeedback)
+      .simulate('press');
 
-    expect(onSeekMock).not.toBeCalled();
+    expect(onSeekMock)
+      .not
+      .toBeCalled();
 
-    wrapper.find(TouchableWithoutFeedback).simulate('press');
+    wrapper.find(TouchableWithoutFeedback)
+      .simulate('press');
 
-    expect(onSeekMock).toBeCalled();
+    expect(onSeekMock)
+      .toBeCalled();
   });
 });

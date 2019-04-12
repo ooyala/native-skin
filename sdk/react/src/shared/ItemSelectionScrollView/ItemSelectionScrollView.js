@@ -16,12 +16,10 @@ export default class ItemSelectionScrollView extends Component {
     width: PropTypes.number,
     height: PropTypes.number,
     config: PropTypes.object,
-    cellType: PropTypes.string
+    cellType: PropTypes.string,
   };
 
-  isSelected = (name) => {
-    return name && name !== '' && name === this.props.selectedItem;
-  };
+  isSelected = name => name && name !== '' && name === this.props.selectedItem;
 
   onSelected = (name) => {
     if (this.props.selectedItem !== name) {
@@ -38,12 +36,13 @@ export default class ItemSelectionScrollView extends Component {
 
     return (
       <TouchableHighlight
-        accessibility={true}
+        accessibility
         accessibilityLabel={accessibilityString}
         key={index}
         style={styles.item}
-        underlayColor='transparent' // Can't move this property to json styles file because it doesn't work
-        onPress={() => this.onSelected(item)}>
+        underlayColor="transparent" // Can't move this property to json styles file because it doesn't work
+        onPress={() => this.onSelected(item)}
+      >
         <View style={buttonStyle}>
           <View style={styles.selectedCheckmarkContainer}>
             <Text style={styles.selectedCheckmarkIcon}>
@@ -64,8 +63,8 @@ export default class ItemSelectionScrollView extends Component {
       <ItemSelectionList
         horizontal={renderHorizontal}
         data={this.props.items}
-        itemRender={this.renderItem}>
-      </ItemSelectionList>
+        itemRender={this.renderItem}
+      />
     );
   }
 }

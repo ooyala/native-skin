@@ -11,7 +11,10 @@ export default {
   padding: MARKERS_SIZES.PADDING,
   position: 'absolute',
   shadowColor: 'black',
-  shadowOffset: { height: 2, width: 0 },
+  shadowOffset: {
+    height: 2,
+    width: 0,
+  },
   shadowOpacity: 0.5,
   shadowRadius: 4,
 };

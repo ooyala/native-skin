@@ -7,7 +7,7 @@ import styles from './InfoPanel.styles';
 export default class InfoPanel extends Component {
   static propTypes = {
     title: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
   };
 
   render() {

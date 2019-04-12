@@ -25,7 +25,7 @@ export default class AdPlaybackScreen extends Component {
     volume: PropTypes.number,
     fullscreen: PropTypes.bool,
     cuePoints: PropTypes.array,
-    handlers:  PropTypes.shape({
+    handlers: PropTypes.shape({
       onPress: PropTypes.func,
       onIcon: PropTypes.func,
       onScrub: PropTypes.func,
@@ -46,14 +46,14 @@ export default class AdPlaybackScreen extends Component {
     markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   };
 
-  state = {
-    showControls: true
-  };
-
   static defaultProps = {
     playhead: 0,
     buffered: 0,
-    duration: 1
+    duration: 1,
+  };
+
+  state = {
+    showControls: true,
   };
 
   generateLiveObject = () => {
@@ -61,9 +61,10 @@ export default class AdPlaybackScreen extends Component {
       const isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_THRESHOLD;
       return ({
         label:
-          isLive ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings) :
-          Utils.localizedString(this.props.locale, 'GO LIVE', this.props.localizableStrings),
-        onGoLive: isLive? null : this.onGoLive});
+          isLive ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings)
+            : Utils.localizedString(this.props.locale, 'GO LIVE', this.props.localizableStrings),
+        onGoLive: isLive ? null : this.onGoLive,
+      });
     }
     return null;
   };
@@ -76,7 +77,7 @@ export default class AdPlaybackScreen extends Component {
   };
 
   handlePress = (name) => {
-    Log.verbose('VideoView Handle Press: ' + name);
+    Log.verbose(`VideoView Handle Press: ${name}`);
     if (this.state.showControls) {
       if (name == 'LIVE') {
         this.props.handlers.onScrub(1);
@@ -88,10 +89,8 @@ export default class AdPlaybackScreen extends Component {
     }
   };
 
-  _createOnIcon = (index, func) => {
-    return function() {
-      func(index);
-    }
+  _createOnIcon = (index, func) => function () {
+    func(index);
   };
 
   _renderBottomOverlay(show) {
@@ -133,54 +132,52 @@ export default class AdPlaybackScreen extends Component {
     );
   }
 
-  _renderAdBar = () => {
-    return (
-      <AdBar
-        ad={this.props.ad}
-        playhead={this.props.playhead}
-        duration={this.props.duration}
-        onPress={this.handlePress}
-        width={this.props.width}
-        localizableStrings={this.props.localizableStrings}
-        locale={this.props.locale}>
-      </AdBar>
-    );
-  };
+  _renderAdBar = () => (
+    <AdBar
+      ad={this.props.ad}
+      playhead={this.props.playhead}
+      duration={this.props.duration}
+      onPress={this.handlePress}
+      width={this.props.width}
+      localizableStrings={this.props.localizableStrings}
+      locale={this.props.locale}
+    />
+  );
 
-  _renderPlaceholder = (adIcons) => {
-    return (
-      <View
-        style={styles.placeholder}
-        onTouchEnd={(event) => this.props.handlers.handleVideoTouch(event)}>
-        {adIcons}
-      </View>
-    );
-  };
+  _renderPlaceholder = adIcons => (
+    <View
+      style={styles.placeholder}
+      onTouchEnd={event => this.props.handlers.handleVideoTouch(event)}
+    >
+      {adIcons}
+    </View>
+  );
 
   _renderPlayPause = (show) => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+      UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     return (
       <VideoViewPlayPause
         icons={{
           play: {
             icon: this.props.config.icons.play.fontString,
-            fontFamily: this.props.config.icons.play.fontFamilyName
+            fontFamily: this.props.config.icons.play.fontFamilyName,
           },
           pause: {
             icon: this.props.config.icons.pause.fontString,
-            fontFamily: this.props.config.icons.pause.fontFamilyName
+            fontFamily: this.props.config.icons.pause.fontFamilyName,
           },
           seekForward: {
             icon: this.props.config.icons.forward.fontString,
-            fontFamily: this.props.config.icons.forward.fontFamilyName
+            fontFamily: this.props.config.icons.forward.fontFamilyName,
           },
           seekBackward: {
             icon: this.props.config.icons.replay.fontString,
-            fontFamily: this.props.config.icons.replay.fontFamilyName
-          }
+            fontFamily: this.props.config.icons.replay.fontFamilyName,
+          },
         }}
-        position={'center'}
-        onPress={(name) => this.handlePress(name)}
+        position="center"
+        onPress={name => this.handlePress(name)}
         frameWidth={this.props.width}
         frameHeight={this.props.height}
         buttonWidth={iconFontSize}
@@ -190,8 +187,8 @@ export default class AdPlaybackScreen extends Component {
         rate={this.props.rate}
         playing={this.props.playing}
         loading={this.props.loading}
-        initialPlay={this.props.initialPlay}>
-      </VideoViewPlayPause>
+        initialPlay={this.props.initialPlay}
+      />
     );
   };
 
@@ -204,45 +201,53 @@ export default class AdPlaybackScreen extends Component {
   };
 
   _renderAdIcons = () => {
-    let iconViews = [];
-    for (let index in this.props.ad.icons) {
+    const iconViews = [];
+    for (const index in this.props.ad.icons) {
       const icon = this.props.ad.icons[index];
-      if (this.props.playhead < icon.offset ||
-          this.props.playhead > icon.offset + icon.duration) {
+      if (this.props.playhead < icon.offset
+        || this.props.playhead > icon.offset + icon.duration) {
         continue;
       }
       const left = icon.x;
       const top = icon.y;
-      const iconStyle = {position: 'absolute', width: icon.width, height: icon.height, backgroundColor: 'transparent'};
+      const iconStyle = {
+        position: 'absolute',
+        width: icon.width,
+        height: icon.height,
+        backgroundColor: 'transparent',
+      };
 
-      const leftStyle = (left < this.props.width - icon.width) ? {left: icon.left} : {right: 0};
-      const topStyle = (top < this.props.height - icon.height) ? {top: icon.top} : {bottom: 0};
+      const leftStyle = (left < this.props.width - icon.width) ? { left: icon.left } : { right: 0 };
+      const topStyle = (top < this.props.height - icon.height) ? { top: icon.top } : { bottom: 0 };
       const clickHandler = this._createOnIcon(index, this.props.handlers.onIcon);
 
       iconViews.push(
         <TouchableHighlight
-          key={'iconTouchable' + index}
+          key={`iconTouchable${index}`}
           style={[iconStyle, leftStyle, topStyle]}
-          onPress={clickHandler}>
-            <Image
-              key={'iconImage' + index}
-              style={{flex: 1}}
-              source={{uri: icon.url}}>
-            </Image>
-        </TouchableHighlight>
+          onPress={clickHandler}
+        >
+          <Image
+            key={`iconImage${index}`}
+            style={{ flex: 1 }}
+            source={{ uri: icon.url }}
+          />
+        </TouchableHighlight>,
       );
     }
     return iconViews;
   };
 
   render() {
-    const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
+    const isPastAutoHideTime = (new Date()).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     const doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
     const isContent = !this.props.ad;
-    const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
+    const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime
+      && (doesAdRequireControls || isContent);
 
-    let adBar, adIcons;
+    let adBar;
+    let adIcons;
 
     if (this.props.ad) {
       adBar = (this.props.ad.requireAdBar && this.props.config.adScreen.showAdMarquee) ? this._renderAdBar() : null;
@@ -270,5 +275,4 @@ export default class AdPlaybackScreen extends Component {
       </View>
     );
   }
-
 }

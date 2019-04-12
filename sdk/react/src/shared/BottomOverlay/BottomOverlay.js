@@ -9,7 +9,12 @@ import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/Animat
 import AccessibilityUtils from '../../lib/accessibility';
 import ProgressBar from '../ProgressBar';
 import {
-  ANNOUNCER_TYPES, MARKERS_SIZES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
+  ANNOUNCER_TYPES,
+  MARKERS_SIZES,
+  UI_SIZES,
+  VALUES,
+  VIEW_ACCESSIBILITY_NAMES,
+  VIEW_NAMES,
 } from '../../constants';
 import ControlBar from './ControlBar';
 import Log from '../../lib/log';
@@ -95,6 +100,26 @@ export default class BottomOverlay extends React.Component<Props, State> {
     showWatermark: undefined,
   };
 
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      accessibilityEnabled: false,
+      cachedPlayhead: -1,
+      height: new Animated.Value(props.isShow
+        ? ResponsiveDesignManager.makeResponsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
+      markersContainerHeight: new Animated.Value(props.isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
+      opacity: new Animated.Value(props.isShow ? 1 : 0),
+      touch: false,
+      x: 0,
+    };
+
+    (this: Object).handleMarkerSeek = this.handleMarkerSeek.bind(this);
+    (this: Object).handleTouchEnd = this.handleTouchEnd.bind(this);
+    (this: Object).handleTouchMove = this.handleTouchMove.bind(this);
+    (this: Object).handleTouchStart = this.handleTouchStart.bind(this);
+  }
+
   static calculateLeftOffset(componentSize: number, percent: number, progressBarWidth: number) {
     return leftMargin + percent * progressBarWidth - componentSize / 2;
   }
@@ -119,30 +144,11 @@ export default class BottomOverlay extends React.Component<Props, State> {
     return percent;
   }
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      accessibilityEnabled: false,
-      cachedPlayhead: -1,
-      height: new Animated.Value(props.isShow
-        ? ResponsiveDesignManager.makeResponsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
-      markersContainerHeight: new Animated.Value(props.isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
-      opacity: new Animated.Value(props.isShow ? 1 : 0),
-      touch: false,
-      x: 0,
-    };
-
-    (this: Object).handleMarkerSeek = this.handleMarkerSeek.bind(this);
-    (this: Object).handleTouchEnd = this.handleTouchEnd.bind(this);
-    (this: Object).handleTouchMove = this.handleTouchMove.bind(this);
-    (this: Object).handleTouchStart = this.handleTouchStart.bind(this);
-  }
-
   componentDidMount() {
-    AccessibilityInfo.fetch().done((isEnabled) => {
-      this.setState({ accessibilityEnabled: isEnabled });
-    });
+    AccessibilityInfo.fetch()
+      .done((isEnabled) => {
+        this.setState({ accessibilityEnabled: isEnabled });
+      });
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -185,7 +191,8 @@ export default class BottomOverlay extends React.Component<Props, State> {
           duration: 500,
           toValue: (isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
         }),
-      ]).start();
+      ])
+        .start();
     }
   }
 
@@ -569,7 +576,11 @@ export default class BottomOverlay extends React.Component<Props, State> {
         accessible={false}
         style={[
           styles.background,
-          { height, opacity, width },
+          {
+            height,
+            opacity,
+            width,
+          },
         ]}
       />
     );
@@ -608,7 +619,11 @@ export default class BottomOverlay extends React.Component<Props, State> {
         accessible={false}
         style={[
           styles.container,
-          { height, opacity, width },
+          {
+            height,
+            opacity,
+            width,
+          },
         ]}
       >
 

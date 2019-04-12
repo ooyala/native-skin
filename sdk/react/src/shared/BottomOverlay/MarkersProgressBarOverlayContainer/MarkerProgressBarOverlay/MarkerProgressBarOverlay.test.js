@@ -18,6 +18,7 @@ describe('MarkerProgressBarOverlay', () => {
       />,
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper)
+      .toMatchSnapshot();
   });
 });

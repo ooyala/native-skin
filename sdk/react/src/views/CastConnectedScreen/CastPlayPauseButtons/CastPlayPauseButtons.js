@@ -45,7 +45,7 @@ export default class CastPlayPauseButtons extends Component {
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     initialPlay: PropTypes.bool.isRequired,
-    config: PropTypes.object.isRequired
+    config: PropTypes.object.isRequired,
   };
 
   state = {

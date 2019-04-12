@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import {
+  AccessibilityInfo,
   ActivityIndicator,
   AppRegistry,
   NativeEventEmitter,
   NativeModules,
   StyleSheet,
-  AccessibilityInfo,
 } from 'react-native';
 
 import Core from './src/Core';
-import {
-  CONTENT_TYPES,
-  SCREEN_TYPES,
-  DESIRED_STATES,
-} from './src/constants';
+import { CONTENT_TYPES, DESIRED_STATES, SCREEN_TYPES } from './src/constants';
 
 const {
   OOReactSkinEventsEmitter,
@@ -75,11 +71,12 @@ class OoyalaSkin extends Component {
       'change',
       this.handleScreenReaderToggled,
     );
-    AccessibilityInfo.fetch().done((isEnabled) => {
-      this.setState({
-        screenReaderEnabled: isEnabled,
+    AccessibilityInfo.fetch()
+      .done((isEnabled) => {
+        this.setState({
+          screenReaderEnabled: isEnabled,
+        });
       });
-    });
 
     // TODO: Figure out how to add setAccessibilityFocus method from the ObjC side
     // AccessibilityInfo.setAccessibilityFocus(1);

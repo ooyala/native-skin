@@ -31,11 +31,11 @@ export default class AudioAndCcSelectionPanel extends Component {
     onDismiss: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    config: PropTypes.object
+    config: PropTypes.object,
   };
 
   state = {
-    opacity: new Animated.Value(0)
+    opacity: new Animated.Value(0),
   };
 
   componentDidMount() {
@@ -46,9 +46,11 @@ export default class AudioAndCcSelectionPanel extends Component {
         {
           toValue: 1,
           duration: animationDuration,
-          delay: 0
-        }),
-    ]).start();
+          delay: 0,
+        },
+      ),
+    ])
+      .start();
   }
 
   onAudioTrackSelected = (name) => {
@@ -58,7 +60,8 @@ export default class AudioAndCcSelectionPanel extends Component {
   };
 
   onClosedCaptionsLanguageSelected = (name) => {
-    const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
+    const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle,
+      this.props.config.localizableStrings);
 
     if (name === offButtonLocalizedTitle) {
       this.props.onSelectClosedCaptions('');
@@ -72,14 +75,17 @@ export default class AudioAndCcSelectionPanel extends Component {
   };
 
   renderHeaderView = (hasMultiAudioTracks, hasClosedCaptions) => {
-    let leftTitle, rightTitle;
+    let leftTitle;
+    let rightTitle;
 
-    const localizedAudioTitle = Utils.localizedString(this.props.config.locale, stringConstants.audioHeaderViewSectionTitle, this.props.config.localizableStrings);
-    const localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale, stringConstants.subtitlesHeaderViewSectionTitle, this.props.config.localizableStrings);
+    const localizedAudioTitle = Utils.localizedString(this.props.config.locale,
+      stringConstants.audioHeaderViewSectionTitle, this.props.config.localizableStrings);
+    const localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale,
+      stringConstants.subtitlesHeaderViewSectionTitle, this.props.config.localizableStrings);
 
     if (hasMultiAudioTracks && hasClosedCaptions) {
-       leftTitle = localizedAudioTitle;
-       rightTitle = localizedSubtitlesTitle;
+      leftTitle = localizedAudioTitle;
+      rightTitle = localizedSubtitlesTitle;
     } else if (hasMultiAudioTracks) {
       leftTitle = localizedAudioTitle;
       rightTitle = '';
@@ -98,12 +104,14 @@ export default class AudioAndCcSelectionPanel extends Component {
         </View>
         <View style={styles.panelHeaderViewRightView}>
           <Text style={[styles.panelHeaderViewRightText]} accessible={isRightTitleAccessible}>{rightTitle}</Text>
-          <TouchableHighlight style={styles.dismissButton}
-            accessible={true}
+          <TouchableHighlight
+            style={styles.dismissButton}
+            accessible
             accessibilityLabel={BUTTON_NAMES.DISMISS}
-            accessibilityComponentType='button'
-            underlayColor='transparent' // Can't move this property to json style file because it doesn't works
-            onPress={this.onDismissPress}>
+            accessibilityComponentType="button"
+            underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+            onPress={this.onDismissPress}
+          >
             <Text style={styles.dismissIcon}>
               {this.props.config.icons.dismiss.fontString}
             </Text>
@@ -113,29 +121,30 @@ export default class AudioAndCcSelectionPanel extends Component {
     );
   };
 
-  renderAudioSelectionScrollView = () => {
-    return (
-      <ItemSelectionScrollView
-        style={styles.panelItemSelectionView}
-        items={this.props.audioTracksTitles}
-        selectedItem={this.props.selectedAudioTrackTitle}
-        onSelect={(item) => this.onAudioTrackSelected(item)}
-        config={this.props.config}
-        cellType={CELL_TYPES.MULTI_AUDIO}>
-      </ItemSelectionScrollView>
-    );
-  };
+  renderAudioSelectionScrollView = () => (
+    <ItemSelectionScrollView
+      style={styles.panelItemSelectionView}
+      items={this.props.audioTracksTitles}
+      selectedItem={this.props.selectedAudioTrackTitle}
+      onSelect={item => this.onAudioTrackSelected(item)}
+      config={this.props.config}
+      cellType={CELL_TYPES.MULTI_AUDIO}
+    />
+  );
 
   renderCCSelectionScrollView = () => {
-    const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle, this.props.config.localizableStrings);
-    let selectedClosedCaptionsLanguage = this.props.selectedClosedCaptionsLanguage;
-    if (typeof(this.props.closedCaptionsLanguages) !== 'undefined') {
+    const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle,
+      this.props.config.localizableStrings);
+    let { selectedClosedCaptionsLanguage } = this.props;
+    if (typeof (this.props.closedCaptionsLanguages) !== 'undefined') {
       if (!this.props.closedCaptionsLanguages || this.props.closedCaptionsLanguages[0] !== offButtonTitle) {
-        this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle)
+        this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle);
       }
     }
 
-    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle || selectedClosedCaptionsLanguage === '' || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
+    if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle
+      || selectedClosedCaptionsLanguage === ''
+      || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
       selectedClosedCaptionsLanguage = offButtonTitle;
     }
 
@@ -144,10 +153,10 @@ export default class AudioAndCcSelectionPanel extends Component {
         style={styles.panelItemSelectionView}
         items={this.props.closedCaptionsLanguages}
         selectedItem={selectedClosedCaptionsLanguage}
-        onSelect={(item) => this.onClosedCaptionsLanguageSelected(item)}
+        onSelect={item => this.onClosedCaptionsLanguageSelected(item)}
         config={this.props.config}
-        cellType={CELL_TYPES.SUBTITLES}>
-      </ItemSelectionScrollView>
+        cellType={CELL_TYPES.SUBTITLES}
+      />
     );
   };
 
@@ -157,25 +166,25 @@ export default class AudioAndCcSelectionPanel extends Component {
       return (
         <View style={styles.panelItemSelectionContainerView}>
           {this.renderAudioSelectionScrollView()}
-          <View style={styles.panelItemSelectionContainerSeparationView}/>
+          <View style={styles.panelItemSelectionContainerSeparationView} />
           {this.renderCCSelectionScrollView()}
         </View>
       );
-    } else if (hasMultiAudioTracks) {
+    }
+    if (hasMultiAudioTracks) {
       // Return only audio panel
       return (
         <View style={styles.panelItemSelectionContainerView}>
           {this.renderAudioSelectionScrollView()}
         </View>
       );
-    } else {
-      // Return only CC panel
-      return (
-        <View style={styles.panelItemSelectionContainerView}>
-          {this.renderCCSelectionScrollView()}
-        </View>
-      );
     }
+    // Return only CC panel
+    return (
+      <View style={styles.panelItemSelectionContainerView}>
+        {this.renderCCSelectionScrollView()}
+      </View>
+    );
   };
 
   render() {

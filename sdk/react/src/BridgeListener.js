@@ -19,41 +19,146 @@ export default class BridgeListener {
     Log.log('SkinBridgeListener Mounted');
     this.listeners = [];
     const listenerDefinitions = [
-      { event: 'timeChanged', action: event => this.onTimeChange(event) },
-      { event: 'seekStarted', action: event => this.onSeekStarted(event) },
-      { event: 'seekCompleted', action: event => this.onSeekComplete(event) },
-      { event: 'ccStylingChanged', action: event => this.onCcStylingChange(event) },
-      { event: 'currentItemChanged', action: event => this.onCurrentItemChange(event) },
-      { event: 'frameChanged', action: event => this.onFrameChange(event) },
-      { event: 'fullscreenToggled', action: event => this.onFullscreenToggle(event) },
-      { event: 'volumeChanged', action: event => this.onVolumeChanged(event) },
-      { event: 'playCompleted', action: event => this.onPlayComplete(event) },
-      { event: 'stateChanged', action: event => this.onStateChange(event) },
-      { event: 'desiredStateChanged', action: event => this.onDesiredStateChange(event) },
-      { event: 'discoveryResultsReceived', action: event => this.onDiscoveryResult(event) },
-      { event: 'onClosedCaptionUpdate', action: event => this.onClosedCaptionUpdate(event) },
-      { event: 'adStarted', action: event => this.onAdStarted(event) },
-      { event: 'adSwitched', action: event => this.onAdSwitched(event) },
-      { event: 'adPodStarted', action: event => this.onAdPodStarted(event) },
-      { event: 'adPodCompleted', action: event => this.onAdPodCompleted(event) },
-      { event: 'adOverlay', action: event => this.onAdOverlay(event) },
-      { event: 'adError', action: event => this.onAdError(event) },
-      { event: 'setNextVideo', action: event => this.onSetNextVideo(event) },
-      { event: 'upNextDismissed', action: event => this.onUpNextDismissed(event) },
-      { event: 'playStarted', action: event => this.onPlayStarted(event) },
-      { event: 'error', action: event => this.onError(event) },
-      { event: 'embedCodeSet', action: event => this.onEmbedCodeSet(event) },
-      { event: 'controllerKeyPressEvent', action: event => this.onControllerKeyPressed(event) },
-      { event: 'vrContentEvent', action: event => this.handleVideoHasVRContent(event) },
-      { event: 'castDevicesAvailable', action: event => this.handleCastDevicesAvailable(event) },
-      { event: 'castConnected', action: event => this.handleCastConnected(event) },
-      { event: 'castDisconnected', action: event => this.handleCastDisconnected(event) },
-      { event: 'castConnecting', action: event => this.handleCastModeConnecting(event) },
-      { event: 'multiAudioEnabled', action: event => this.handleVideoHasMultiAudio(event) },
-      { event: 'audioTrackChanged', action: event => this.handleAudioTrackChanged(event) },
-      { event: 'playbackSpeedEnabled', action: event => this.handlePlaybackSpeedEnabled(event) },
-      { event: 'playbackSpeedRateChanged', action: event => this.handlePlaybackSpeedRateChanged(event)},
-      { event: 'pipChanged', action: event => this.onPipToggle(event) },
+      {
+        event: 'timeChanged',
+        action: event => this.onTimeChange(event),
+      },
+      {
+        event: 'seekStarted',
+        action: event => this.onSeekStarted(event),
+      },
+      {
+        event: 'seekCompleted',
+        action: event => this.onSeekComplete(event),
+      },
+      {
+        event: 'ccStylingChanged',
+        action: event => this.onCcStylingChange(event),
+      },
+      {
+        event: 'currentItemChanged',
+        action: event => this.onCurrentItemChange(event),
+      },
+      {
+        event: 'frameChanged',
+        action: event => this.onFrameChange(event),
+      },
+      {
+        event: 'fullscreenToggled',
+        action: event => this.onFullscreenToggle(event),
+      },
+      {
+        event: 'volumeChanged',
+        action: event => this.onVolumeChanged(event),
+      },
+      {
+        event: 'playCompleted',
+        action: event => this.onPlayComplete(event),
+      },
+      {
+        event: 'stateChanged',
+        action: event => this.onStateChange(event),
+      },
+      {
+        event: 'desiredStateChanged',
+        action: event => this.onDesiredStateChange(event),
+      },
+      {
+        event: 'discoveryResultsReceived',
+        action: event => this.onDiscoveryResult(event),
+      },
+      {
+        event: 'onClosedCaptionUpdate',
+        action: event => this.onClosedCaptionUpdate(event),
+      },
+      {
+        event: 'adStarted',
+        action: event => this.onAdStarted(event),
+      },
+      {
+        event: 'adSwitched',
+        action: event => this.onAdSwitched(event),
+      },
+      {
+        event: 'adPodStarted',
+        action: event => this.onAdPodStarted(event),
+      },
+      {
+        event: 'adPodCompleted',
+        action: event => this.onAdPodCompleted(event),
+      },
+      {
+        event: 'adOverlay',
+        action: event => this.onAdOverlay(event),
+      },
+      {
+        event: 'adError',
+        action: event => this.onAdError(event),
+      },
+      {
+        event: 'setNextVideo',
+        action: event => this.onSetNextVideo(event),
+      },
+      {
+        event: 'upNextDismissed',
+        action: event => this.onUpNextDismissed(event),
+      },
+      {
+        event: 'playStarted',
+        action: event => this.onPlayStarted(event),
+      },
+      {
+        event: 'error',
+        action: event => this.onError(event),
+      },
+      {
+        event: 'embedCodeSet',
+        action: event => this.onEmbedCodeSet(event),
+      },
+      {
+        event: 'controllerKeyPressEvent',
+        action: event => this.onControllerKeyPressed(event),
+      },
+      {
+        event: 'vrContentEvent',
+        action: event => this.handleVideoHasVRContent(event),
+      },
+      {
+        event: 'castDevicesAvailable',
+        action: event => this.handleCastDevicesAvailable(event),
+      },
+      {
+        event: 'castConnected',
+        action: event => this.handleCastConnected(event),
+      },
+      {
+        event: 'castDisconnected',
+        action: event => this.handleCastDisconnected(event),
+      },
+      {
+        event: 'castConnecting',
+        action: event => this.handleCastModeConnecting(event),
+      },
+      {
+        event: 'multiAudioEnabled',
+        action: event => this.handleVideoHasMultiAudio(event),
+      },
+      {
+        event: 'audioTrackChanged',
+        action: event => this.handleAudioTrackChanged(event),
+      },
+      {
+        event: 'playbackSpeedEnabled',
+        action: event => this.handlePlaybackSpeedEnabled(event),
+      },
+      {
+        event: 'playbackSpeedRateChanged',
+        action: event => this.handlePlaybackSpeedRateChanged(event),
+      },
+      {
+        event: 'pipChanged',
+        action: event => this.onPipToggle(event),
+      },
     ];
 
     this.listeners = listenerDefinitions.map(
@@ -104,8 +209,8 @@ export default class BridgeListener {
     });
 
     if (this.skin.state.screenType === SCREEN_TYPES.VIDEO_SCREEN
-        || this.skin.state.screenType === SCREEN_TYPES.AUDIO_SCREEN
-        || this.skin.state.screenType === SCREEN_TYPES.END_SCREEN) {
+      || this.skin.state.screenType === SCREEN_TYPES.AUDIO_SCREEN
+      || this.skin.state.screenType === SCREEN_TYPES.END_SCREEN) {
       this.core.previousScreenType = this.skin.state.screenType;
     }
   }
@@ -406,7 +511,7 @@ export default class BridgeListener {
 
   handlePlaybackSpeedEnabled(e) {
     Log.log(`Video playback speed enabled: ${e.playbackSpeedEnabled}`
-            + `selectedPlaybackSpeedRate: ${e.selectedPlaybackSpeedRate}`);
+      + `selectedPlaybackSpeedRate: ${e.selectedPlaybackSpeedRate}`);
     this.skin.setState({
       playbackSpeedEnabled: e.playbackSpeedEnabled,
       selectedPlaybackSpeedRate: parseFloat(e.selectedPlaybackSpeedRate),

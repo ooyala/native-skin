@@ -19,7 +19,8 @@ describe('Marker', () => {
       />,
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper)
+      .toMatchSnapshot();
   });
 
   it('renders marker of the icon type matching snapshot', () => {
@@ -35,6 +36,7 @@ describe('Marker', () => {
       />,
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper)
+      .toMatchSnapshot();
   });
 });

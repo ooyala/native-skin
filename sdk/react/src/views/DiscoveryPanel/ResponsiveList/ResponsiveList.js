@@ -14,7 +14,7 @@ export default class ResponsiveList extends Component {
     width: PropTypes.number,
     height: PropTypes.number,
     itemWidth: PropTypes.number,
-    itemHeight: PropTypes.number
+    itemHeight: PropTypes.number,
   };
 
   getSlices = () => {
@@ -28,10 +28,10 @@ export default class ResponsiveList extends Component {
     } else if (itemsPerSlice > itemsPerSliceCap) {
       itemsPerSlice = itemsPerSliceCap;
     }
-    let slices = [];
+    const slices = [];
     if (this.props.data) {
       const numberOfSlices = Math.ceil(this.props.data.length / itemsPerSlice);
-      for (let i = 0; i  < numberOfSlices; i++) {
+      for (let i = 0; i < numberOfSlices; i++) {
         slices[i] = [];
         for (let j = 0; j < itemsPerSlice; j++) {
           if (i * itemsPerSlice + j < this.props.data.length) {
@@ -46,15 +46,19 @@ export default class ResponsiveList extends Component {
   };
 
   render() {
-    let slices = this.getSlices();
+    const slices = this.getSlices();
 
     return (
-      <View style={{flex: 1}}>
+      <View style={{ flex: 1 }}>
         <ScrollView
-          style={{ width: this.props.width, flex: 1 }}
+          style={{
+            width: this.props.width,
+            flex: 1,
+          }}
           horizontal={this.props.horizontal}
-          directionalLockEnabled={true}
-          showsHorizontalScrollIndicator={false}>
+          directionalLockEnabled
+          showsHorizontalScrollIndicator={false}
+        >
           {slices.map(this.renderSlice)}
         </ScrollView>
       </View>
@@ -64,15 +68,14 @@ export default class ResponsiveList extends Component {
   renderSlice = (slice, i) => {
     const sliceStyle = this.props.horizontal ? styles.column : styles.row;
 
-    let renderItem = this.renderItem;
-    const renderedItem = slice.map(function(item, idx, arr) {
-      return renderItem(item, idx, i * arr.length + idx);
-    });
+    const { renderItem } = this;
+    const renderedItem = slice.map((item, idx, arr) => renderItem(item, idx, i * arr.length + idx));
 
     return (
       <View
         key={i}
-        style={sliceStyle}>
+        style={sliceStyle}
+      >
         {renderedItem}
       </View>
     );
@@ -83,12 +86,11 @@ export default class ResponsiveList extends Component {
       flex: 1,
       backgroundColor: 'transparent',
       width: this.props.itemWidth,
-      height: this.props.itemHeight
+      height: this.props.itemHeight,
     };
     if (item === placeHolderItem) {
-      return (<View key={sectionId} style={placeHolderStyle}></View>);
-    } else {
-      return this.props.itemRender(item, sectionId, i);
+      return (<View key={sectionId} style={placeHolderStyle} />);
     }
+    return this.props.itemRender(item, sectionId, i);
   };
 }

@@ -26,7 +26,8 @@ describe('MarkersProgressBarOverlayContainer', () => {
       />,
     );
 
-    expect(wrapper).toMatchSnapshot();
+    expect(wrapper)
+      .toMatchSnapshot();
   });
 
   it('does not render anything when markers array is empty', () => {
@@ -38,6 +39,7 @@ describe('MarkersProgressBarOverlayContainer', () => {
       />,
     );
 
-    expect(wrapper).toEqual({});
+    expect(wrapper)
+      .toEqual({});
   });
 });

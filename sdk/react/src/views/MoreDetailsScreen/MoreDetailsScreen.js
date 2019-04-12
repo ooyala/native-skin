@@ -19,14 +19,14 @@ export default class MoreDetailsScreen extends Component {
     width: PropTypes.number,
     onDismiss: PropTypes.func,
     config: PropTypes.object,
-    error: PropTypes.object
+    error: PropTypes.object,
   };
 
   state = {
     translateY: new Animated.Value(this.props.height),
     opacity: new Animated.Value(0),
     buttonOpacity: new Animated.Value(1),
-    button: ''
+    button: '',
   };
 
   componentDidMount() {
@@ -38,16 +38,19 @@ export default class MoreDetailsScreen extends Component {
         {
           toValue: 0,
           duration: 700,
-          delay: 0
-        }),
+          delay: 0,
+        },
+      ),
       Animated.timing(
         this.state.opacity,
         {
           toValue: 1,
           duration: 500,
-          delay: 0
-        }),
-    ]).start();
+          delay: 0,
+        },
+      ),
+    ])
+      .start();
   }
 
   onDismissBtnPress = () => {
@@ -60,9 +63,10 @@ export default class MoreDetailsScreen extends Component {
       {
         toValue: 0,
         duration: 500,
-        delay: 0
-      }
-    ).start(this.onDismissBtnPress);
+        delay: 0,
+      },
+    )
+      .start(this.onDismissBtnPress);
   };
 
   render() {
@@ -72,9 +76,20 @@ export default class MoreDetailsScreen extends Component {
     const animationStyle = { opacity };
 
     return (
-      <Animated.View style={[styles.fullscreenContainer, animationStyle, { height, width }]}>
+      <Animated.View style={[styles.fullscreenContainer,
+        animationStyle,
+        {
+          height,
+          width,
+        }]}
+      >
 
-        <Animated.View style={[animationStyle, { height, width }]}>
+        <Animated.View style={[animationStyle,
+          {
+            height,
+            width,
+          }]}
+        >
           <ScrollView
             style={[styles.column, styles.scrollContainer]}
             indicatorStyle="white"
@@ -106,7 +121,8 @@ export default class MoreDetailsScreen extends Component {
       errorCode = this.props.error.code;
     }
     const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings).toUpperCase();
+    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings)
+      .toUpperCase();
     return (
       <Text style={styles.title}>
         {localizedTitle}
@@ -117,11 +133,11 @@ export default class MoreDetailsScreen extends Component {
   renderErrorDescription = () => {
     if (this.props.error && this.props.error.description) {
       const userInfo = this.props.error.userInfo || {};
-      const errorCode = SAS_ERROR_CODES[userInfo['code']] || '';
+      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
       const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
 
       const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-      Log.warn('ERROR: localized description:' + localizedDescription);
+      Log.warn(`ERROR: localized description:${localizedDescription}`);
       return (
         <Text style={styles.description}>
           {localizedDescription}
@@ -129,5 +145,5 @@ export default class MoreDetailsScreen extends Component {
       );
     }
     return null;
-  }
+  };
 }

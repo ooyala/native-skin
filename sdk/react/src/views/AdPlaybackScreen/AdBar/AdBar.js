@@ -16,7 +16,7 @@ export default class AdBar extends Component {
     onPress: PropTypes.func,
     width: PropTypes.number,
     localizableStrings: PropTypes.object,
-    locale: PropTypes.string
+    locale: PropTypes.string,
   };
 
   onLearnMore = () => {
@@ -36,20 +36,18 @@ export default class AdBar extends Component {
 
     let prefixString = Utils.localizedString(this.props.locale, 'Ad Playing', this.props.localizableStrings);
     if (this.props.ad.title && this.props.ad.title.length > 0) {
-      prefixString = prefixString + ':';
+      prefixString += ':';
     }
 
-    const countString = '(' + (count - unplayed) + '/' + count + ')';
+    const countString = `(${count - unplayed}/${count})`;
 
     let allowedTextLength = this.props.width - 32;
     if (showLearnMore) {
       allowedTextLength -= this.props.ad.measures.learnmore + 32;
     }
 
-    Log.verbose('width: ' + this.props.width + '. allowed: ' + allowedTextLength +
-                '. learnmore: ' + this.props.ad.measures.learnmore);
-    Log.verbose('. duration: ' + this.props.ad.measures.duration + '. count: ' + this.props.ad.measures.count +
-                '. title: ' + this.props.ad.measures.title + '. prefix: ' + this.props.ad.measures.prefix);
+    Log.verbose(`width: ${this.props.width}. allowed: ${allowedTextLength}. learnmore: ${this.props.ad.measures.learnmore}`);
+    Log.verbose(`. duration: ${this.props.ad.measures.duration}. count: ${this.props.ad.measures.count}. title: ${this.props.ad.measures.title}. prefix: ${this.props.ad.measures.prefix}`);
     if (this.props.ad.skipoffset >= 0) {
       if (showSkip) {
         allowedTextLength -= this.props.ad.measures.skipad + 32;
@@ -61,15 +59,15 @@ export default class AdBar extends Component {
     if (this.props.ad.measures.duration <= allowedTextLength) {
       textString = remainingString;
       allowedTextLength -= this.props.ad.measures.duration;
-      Log.verbose('allowedAfterDuration: '+allowedTextLength);
+      Log.verbose(`allowedAfterDuration: ${allowedTextLength}`);
       if (this.props.ad.measures.count <= allowedTextLength) {
         textString = countString + textString;
         allowedTextLength -= this.props.ad.measures.count;
-        Log.verbose('allowedAfterCount: '+allowedTextLength);
+        Log.verbose(`allowedAfterCount: ${allowedTextLength}`);
         if (this.props.ad.measures.title <= allowedTextLength) {
           textString = this.props.ad.title + textString;
           allowedTextLength -= this.props.ad.measures.title;
-          Log.verbose('allowedAfterTitle: '+allowedTextLength);
+          Log.verbose(`allowedAfterTitle: ${allowedTextLength}`);
           if (this.props.ad.measures.prefix <= allowedTextLength) {
             textString = prefixString + textString;
           }
@@ -80,7 +78,9 @@ export default class AdBar extends Component {
   };
 
   render() {
-    let learnMoreButton, skipButton, skipLabel;
+    let learnMoreButton;
+    let skipButton;
+    let skipLabel;
     const showLearnMore = this.props.ad.clickUrl && this.props.ad.clickUrl.length > 0;
     const showSkip = this.props.playhead >= this.props.ad.skipoffset;
     const textString = this.generateResponsiveText(showLearnMore, showSkip);
@@ -92,7 +92,8 @@ export default class AdBar extends Component {
     if (showLearnMore) {
       learnMoreButton = (
         <TouchableHighlight
-          onPress={this.onLearnMore}>
+          onPress={this.onLearnMore}
+        >
           <View style={styles.button}>
             <Text style={styles.buttonText}>{learnMoreText}</Text>
           </View>
@@ -104,7 +105,8 @@ export default class AdBar extends Component {
       if (showSkip) {
         skipButton = (
           <TouchableHighlight
-            onPress={this.onSkip}>
+            onPress={this.onSkip}
+          >
             <View style={styles.button}>
               <Text style={styles.buttonText}>{skipText}</Text>
             </View>
@@ -112,8 +114,8 @@ export default class AdBar extends Component {
         );
       } else {
         skipLabel = (
-          <Text allowFontScaling={true} style={styles.label}>
-          {skipLabelText + Utils.getTimerLabel(this.props.ad.skipoffset - this.props.playhead)}
+          <Text allowFontScaling style={styles.label}>
+            {skipLabelText + Utils.getTimerLabel(this.props.ad.skipoffset - this.props.playhead)}
           </Text>
         );
       }
@@ -121,7 +123,7 @@ export default class AdBar extends Component {
 
     return (
       <View style={styles.container}>
-        <Text allowFontScaling={true} style={styles.label}>{textString}</Text>
+        <Text allowFontScaling style={styles.label}>{textString}</Text>
         <View style={styles.placeholder} />
         {learnMoreButton}
         {skipLabel}

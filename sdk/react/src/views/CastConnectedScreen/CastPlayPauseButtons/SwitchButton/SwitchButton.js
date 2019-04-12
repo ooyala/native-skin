@@ -8,7 +8,6 @@ import AccessibilityUtils from '../../../../lib/accessibility';
 import styles from './SwitchButton.styles';
 
 export default class SwitchButton extends Component {
-
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
