@@ -8,7 +8,7 @@ import {
   AUTOHIDE_DELAY, BUTTON_NAMES, UI_SIZES, VALUES,
 } from '../../constants';
 import Log from '../../lib/log';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
@@ -180,7 +180,7 @@ export default class VideoView extends Component {
   );
 
   _renderBottom = () => {
-    const VideoWaterMarkSize = ResponsiveDesignManager.makeResponsiveMultiplier(UI_SIZES.VIDEOWATERMARK,
+    const VideoWaterMarkSize = responsiveMultiplier(UI_SIZES.VIDEOWATERMARK,
       UI_SIZES.VIDEOWATERMARK);
     const waterMarkName = Platform.select({
       ios: this.props.config.general.watermark.imageResource.iosResource,
@@ -261,7 +261,7 @@ export default class VideoView extends Component {
   };
 
   _renderPlayPause = (show) => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+    const iconFontSize = responsiveMultiplier(this.props.width,
       UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !this.props.config.live.forceDvrDisabled || !this.props.live;
     const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
@@ -390,7 +390,7 @@ export default class VideoView extends Component {
   };
 
   _renderLoading = () => {
-    const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    const loadingSize = responsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
     const scaleMultiplier = Platform.OS === 'android' ? 2 : 1;
     const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
     const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
