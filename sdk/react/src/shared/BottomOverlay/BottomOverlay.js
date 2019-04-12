@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
-import AccessibilityUtils from '../../lib/accessibility';
+import * as Accessibility from '../../lib/accessibility';
 import ProgressBar from '../ProgressBar';
 import {
   ANNOUNCER_TYPES,
@@ -318,7 +318,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     if (Platform.OS === 'android') {
       const playedPercent = this.touchPercent(pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
-      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
+      const announcingLabel = Accessibility.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
       const currentAnnouncing = new Date().getTime();
 
       if (previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityDelay) {
@@ -351,7 +351,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     if (Platform.OS === 'android') {
       const playedPercent = this.touchPercent(pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
-      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
+      const announcingLabel = Accessibility.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
 
       AndroidAccessibility.announce(announcingLabel);
       previousAnnouncing = 0;

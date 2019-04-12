@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
 
 import { STRING_CONSTANTS } from '../../constants';
-import AccessibilityUtils from '../../lib/accessibility';
+import * as Accessibility from '../../lib/accessibility';
 
 import styles from './SkipButton.styles';
 
@@ -34,7 +34,7 @@ export default class SkipButton extends Component {
     if (!this.props.visible) {
       return null;
     }
-    const accessibilityLabel = AccessibilityUtils.createAccessibilityForForwardButton(this.props.isForward,
+    const accessibilityLabel = Accessibility.createAccessibilityForForwardButton(this.props.isForward,
       this.props.timeValue, STRING_CONSTANTS.SECONDS);
     const position = {
       position: 'absolute',

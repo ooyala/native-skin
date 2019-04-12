@@ -6,7 +6,7 @@ import {
 import timerForSkipButtons from 'react-native-timer';
 
 import { BUTTON_NAMES, VALUES } from '../../../constants';
-import AccessibilityUtils from '../../../lib/accessibility';
+import * as Accessibility from '../../../lib/accessibility';
 import * as Utils from '../../../lib/utils';
 import SkipButton from '../../../shared/SkipButton';
 import SwitchButton from './SwitchButton';
@@ -159,7 +159,7 @@ export default class CastPlayPauseButtons extends Component {
       width: buttonWidth * 2,
       height: buttonHeight * 2,
     };
-    const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
+    const label = Accessibility.createAccessibilityForPlayPauseButton(name);
 
     return (
       <TouchableHighlight

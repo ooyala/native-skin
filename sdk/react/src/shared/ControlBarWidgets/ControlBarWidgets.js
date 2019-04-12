@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 
 import { BUTTON_NAMES, STRING_CONSTANTS, VIEW_ACCESSIBILITY_NAMES } from '../../constants';
-import AccessibilityUtils from '../../lib/accessibility';
+import * as Accessibility from '../../lib/accessibility';
 import * as Utils from '../../lib/utils';
 import SkipButton from '../SkipButton';
 import VolumeView from './VolumeView';
@@ -358,7 +358,7 @@ export default class ControlBarWidgets extends Component {
 
     // Create accessibility label for selected playback speed rate button
     const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0, -1);
-    const selectedPlaybackSpeedAccessiblityLabel = AccessibilityUtils.createAccessibilityLabelForSelectedObject(
+    const selectedPlaybackSpeedAccessiblityLabel = Accessibility.createAccessibilityLabelForSelectedObject(
       playbackSpeedRateWithoutPostfix,
     );
     const accessibilityLabel = VIEW_ACCESSIBILITY_NAMES.PLAYBACK_SPEED_BUTTON + selectedPlaybackSpeedAccessiblityLabel;
