@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import ItemSelectionList from './ItemSelectionList';
-import AccessibilityUtils from '../../lib/accessibility';
+import * as Accessibility from '../../lib/accessibility';
 import * as Utils from '../../lib/utils';
 
 import styles from './ItemSelectionScrollView.styles';
@@ -32,7 +32,7 @@ export default class ItemSelectionScrollView extends Component {
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
     const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : '';
-    const accessibilityString = AccessibilityUtils.createAccessibilityLabelForCell(this.props.cellType, item);
+    const accessibilityString = Accessibility.createAccessibilityLabelForCell(this.props.cellType, item);
 
     return (
       <TouchableHighlight

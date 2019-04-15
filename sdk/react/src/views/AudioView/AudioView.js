@@ -6,9 +6,9 @@ import {
 import timerForSkipButtons from 'react-native-timer';
 
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
-import CollapsingBarUtils from '../../lib/collapser';
-import Log from '../../lib/log';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import { collapse } from '../../lib/collapser';
+import * as Log from '../../lib/log';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import ControlBarWidget from '../../shared/ControlBarWidgets';
 import ProgressBar from '../../shared/ProgressBar';
@@ -47,7 +47,7 @@ export default class AudioView extends Component {
     playing: false,
     skipCount: 0,
     height: new Animated.Value(
-      ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT),
+      responsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT),
     ),
     cachedPlayhead: -1,
     progressBarWidth: 0,
@@ -182,9 +182,9 @@ export default class AudioView extends Component {
 
   // MARK: - ControlBar
   _renderControlBar = () => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+    const iconFontSize = responsiveMultiplier(this.props.width,
       UI_SIZES.CONTROLBAR_ICONSIZE);
-    const labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+    const labelFontSize = responsiveMultiplier(this.props.width,
       UI_SIZES.CONTROLBAR_LABELSIZE);
 
     const controlBarWidgets = [];
@@ -255,7 +255,7 @@ export default class AudioView extends Component {
       },
     };
 
-    const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
+    const itemCollapsingResults = collapse(this.props.width, this.props.config.buttons);
     for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
       const item = (
@@ -382,7 +382,7 @@ export default class AudioView extends Component {
 
   handleTouchStart = (event) => {
     this.props.handlers.handleControlsTouch();
-    const touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(this.state.progressBarWidth,
+    const touchableDistance = responsiveMultiplier(this.state.progressBarWidth,
       scrubTouchableDistance);
     if ((this.props.height - event.nativeEvent.locationY) < touchableDistance) {
       return;

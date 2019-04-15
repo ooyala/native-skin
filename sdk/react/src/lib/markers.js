@@ -1,6 +1,6 @@
 // @flow
 
-import Log from './log';
+import * as Log from './log';
 import type { Marker } from '../types/Markers';
 
 // eslint-disable-next-line import/prefer-default-export

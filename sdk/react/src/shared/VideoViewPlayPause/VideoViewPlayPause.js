@@ -4,7 +4,7 @@ import { Animated, TouchableHighlight, View } from 'react-native';
 import timerForSkipButtons from 'react-native-timer';
 
 import { BUTTON_NAMES, VALUES } from '../../constants';
-import AccessibilityUtils from '../../lib/accessibility';
+import * as Accessibility from '../../lib/accessibility';
 import * as Utils from '../../lib/utils';
 import SkipButton from '../SkipButton';
 
@@ -118,7 +118,7 @@ export default class VideoViewPlayPause extends Component {
       width: this.props.buttonWidth * 2,
       height: this.props.buttonHeight * 2,
     };
-    const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
+    const label = Accessibility.createAccessibilityForPlayPauseButton(name);
 
     return (
       <TouchableHighlight

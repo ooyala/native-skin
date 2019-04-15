@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Image, Text, View } from 'react-native';
 
 import { BUTTON_NAMES, IMG_URLS, UI_SIZES } from '../../constants';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 
 import styles from './StartScreen.styles';
@@ -27,7 +27,7 @@ export default class StartScreen extends Component {
 
   // Gets the play button based on the current config settings
   getPlayButton = () => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+    const iconFontSize = responsiveMultiplier(this.props.width,
       UI_SIZES.VIDEOVIEW_PLAYPAUSE);
 
     if (this.props.config.startScreen.showPlayButton) {

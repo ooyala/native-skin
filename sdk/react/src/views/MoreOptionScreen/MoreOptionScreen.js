@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { Animated, View } from 'react-native';
 
 import { BUTTON_NAMES } from '../../constants';
-import CollapsingBarUtils from '../../lib/collapser';
-import Log from '../../lib/log';
+import { collapse, collapseForAudioOnly } from '../../lib/collapser';
+import * as Log from '../../lib/log';
 import RectangularButton from '../../shared/RectangularButton';
 
 import styles from './MoreOptionScreen.styles';
@@ -97,9 +97,9 @@ export default class MoreOptionScreen extends Component {
     let itemCollapsingResults;
 
     if (this.props.isAudioOnly) {
-      itemCollapsingResults = CollapsingBarUtils.collapseForAudioOnly(this.props.config.buttons);
+      itemCollapsingResults = collapseForAudioOnly(this.props.config.buttons);
     } else {
-      itemCollapsingResults = CollapsingBarUtils.collapse(this.props.config.controlBarWidth, this.props.config.buttons);
+      itemCollapsingResults = collapse(this.props.config.controlBarWidth, this.props.config.buttons);
     }
 
     const buttons = itemCollapsingResults.overflow;

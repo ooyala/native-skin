@@ -1,40 +1,33 @@
-jest.dontMock('./responsiveMultiplier.js');
+// @flow
 
-describe('Responsive Design Manager', () => {
-  let ResponsiveDesignManager;
+import responsiveMultiplier from './responsiveMultiplier';
 
-  const data = {
-    thresholds: [320, 860],
-  };
-
-  beforeEach(() => {
-    ResponsiveDesignManager = require('./responsiveMultiplier.js');
+describe('responsiveMultiplier', () => {
+  it('small', () => {
+    expect(responsiveMultiplier(100, 100, [1, 2, 3], [200, 800])).toBe(100);
   });
 
-  it('Get Size should return 0  when below lowest threshold ', () => {
-    expect(ResponsiveDesignManager.getSize(0, data.thresholds))
-      .toBe(0);
-    expect(ResponsiveDesignManager.getSize(1, data.thresholds))
-      .toBe(0);
-    expect(ResponsiveDesignManager.getSize(319, data.thresholds))
-      .toBe(0);
-    expect(ResponsiveDesignManager.getSize(320, data.thresholds))
-      .toBe(0);
+  it('small edge case', () => {
+    expect(responsiveMultiplier(200, 100, [1, 2, 3], [200, 800])).toBe(100);
   });
 
-  it('Get Size should return 1  when above lowest threshold ', () => {
-    expect(ResponsiveDesignManager.getSize(321, data.thresholds))
-      .toBe(1);
-    expect(ResponsiveDesignManager.getSize(859, data.thresholds))
-      .toBe(1);
-    expect(ResponsiveDesignManager.getSize(860, data.thresholds))
-      .toBe(1);
+  it('medium', () => {
+    expect(responsiveMultiplier(500, 100, [1, 2, 3], [200, 800])).toBe(200);
   });
 
-  it('Get Size should return 2  when above next threshold ', () => {
-    expect(ResponsiveDesignManager.getSize(861, data.thresholds))
-      .toBe(2);
-    expect(ResponsiveDesignManager.getSize(100000, data.thresholds))
-      .toBe(2);
+  it('medium default', () => {
+    expect(responsiveMultiplier(500, 100)).toBe(100);
+  });
+
+  it('large edge case', () => {
+    expect(responsiveMultiplier(800, 100, [1, 2, 3], [200, 800])).toBe(200);
+  });
+
+  it('large', () => {
+    expect(responsiveMultiplier(900, 100, [1, 2, 3], [200, 800])).toBe(300);
+  });
+
+  it('overflow', () => {
+    expect(responsiveMultiplier(900, 100, [1], [200, 800])).toBe(100);
   });
 });

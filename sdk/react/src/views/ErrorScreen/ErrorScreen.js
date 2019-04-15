@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import { BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES } from '../../constants';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 
 import styles from './ErrorScreen.styles';

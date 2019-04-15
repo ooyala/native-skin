@@ -4,8 +4,8 @@ import { Image, TouchableHighlight, View } from 'react-native';
 
 import AdBar from './AdBar';
 import { AUTOHIDE_DELAY, UI_SIZES, VALUES } from '../../constants';
-import Log from '../../lib/log';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Log from '../../lib/log';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
@@ -154,7 +154,7 @@ export default class AdPlaybackScreen extends Component {
   );
 
   _renderPlayPause = (show) => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width,
+    const iconFontSize = responsiveMultiplier(this.props.width,
       UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     return (
       <VideoViewPlayPause

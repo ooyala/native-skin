@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View } from 'react-native';
 
 import { VIEW_NAMES } from '../../constants';
-import Log from '../../lib/log';
+import * as Log from '../../lib/log';
 
 import styles from './ProgressBar.styles';
 

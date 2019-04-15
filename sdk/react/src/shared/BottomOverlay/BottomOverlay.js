@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
-import AccessibilityUtils from '../../lib/accessibility';
+import * as Accessibility from '../../lib/accessibility';
 import ProgressBar from '../ProgressBar';
 import {
   ANNOUNCER_TYPES,
@@ -17,8 +17,8 @@ import {
   VIEW_NAMES,
 } from '../../constants';
 import ControlBar from './ControlBar';
-import Log from '../../lib/log';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Log from '../../lib/log';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import styles from './BottomOverlay.styles';
 import MarkersContainer from './MarkersContainer';
 import MarkersProgressBarOverlayContainer from './MarkersProgressBarOverlayContainer';
@@ -107,7 +107,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
       accessibilityEnabled: false,
       cachedPlayhead: -1,
       height: new Animated.Value(props.isShow
-        ? ResponsiveDesignManager.makeResponsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
+        ? responsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
       markersContainerHeight: new Animated.Value(props.isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
       opacity: new Animated.Value(props.isShow ? 1 : 0),
       touch: false,
@@ -166,12 +166,12 @@ export default class BottomOverlay extends React.Component<Props, State> {
     const { height, markersContainerHeight, opacity } = this.state;
 
     if (prevProps.width !== width && isShow) {
-      height.setValue(ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
+      height.setValue(responsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
       markersContainerHeight.setValue(MARKERS_SIZES.CONTAINER_HEIGHT);
     }
 
     if (prevProps.isShow !== isShow) {
-      height.setValue(isShow ? 1 : ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
+      height.setValue(isShow ? 1 : responsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT));
       opacity.setValue(isShow ? 0 : 1);
       markersContainerHeight.setValue(isShow ? 0 : MARKERS_SIZES.CONTAINER_HEIGHT);
 
@@ -184,7 +184,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
         Animated.timing(height, {
           delay: 0,
           duration: 500,
-          toValue: (isShow ? ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT) : 1),
+          toValue: (isShow ? responsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT) : 1),
         }),
         Animated.timing(markersContainerHeight, {
           delay: 0,
@@ -292,7 +292,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
 
     handleControlsTouch();
 
-    const touchableDistance = ResponsiveDesignManager.makeResponsiveMultiplier(width, scrubTouchableDistance);
+    const touchableDistance = responsiveMultiplier(width, scrubTouchableDistance);
 
     // Accessing Animated.Value provides number, so it can be used in arithmetic operations.
     // $FlowFixMe
@@ -318,7 +318,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     if (Platform.OS === 'android') {
       const playedPercent = this.touchPercent(pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
-      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
+      const announcingLabel = Accessibility.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVING, currentPercent);
       const currentAnnouncing = new Date().getTime();
 
       if (previousAnnouncing === 0 || currentAnnouncing - previousAnnouncing > accessibilityDelay) {
@@ -351,7 +351,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     if (Platform.OS === 'android') {
       const playedPercent = this.touchPercent(pageX);
       const currentPercent = parseInt(playedPercent * 100, 10);
-      const announcingLabel = AccessibilityUtils.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
+      const announcingLabel = Accessibility.createAccessibilityAnnouncers(ANNOUNCER_TYPES.MOVED, currentPercent);
 
       AndroidAccessibility.announce(announcingLabel);
       previousAnnouncing = 0;

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
 
 import { STRING_CONSTANTS } from '../../../../constants';
-import AccessibilityUtils from '../../../../lib/accessibility';
+import * as Accessibility from '../../../../lib/accessibility';
 
 import styles from './SwitchButton.styles';
 
@@ -35,7 +35,7 @@ export default class SwitchButton extends Component {
     if (!visible) {
       return null;
     }
-    const accessibilityLabel = AccessibilityUtils
+    const accessibilityLabel = Accessibility
       .createAccessibilityForForwardButton(isForward, timeValue, STRING_CONSTANTS.SECONDS);
     const position = {
       position: 'absolute',

@@ -6,8 +6,8 @@ import {
 
 import { BUTTON_NAMES, UI_SIZES } from '../../constants';
 import InfoPanel from './InfoPanel';
-import Log from '../../lib/log';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import * as Log from '../../lib/log';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import BottomOverlay from '../../shared/BottomOverlay';
 
 import styles from './EndScreen.styles';
@@ -60,7 +60,7 @@ export default class EndScreen extends Component {
     const endScreenConfig = this.props.config.endScreen || {};
 
     const replayMarginBottom = !this.props.config.controlBar.enabled
-      ? ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1;
+      ? responsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1;
 
     const replayButtonLocation = styles.replayButtonCenter;
     let replayButton;
@@ -157,7 +157,7 @@ export default class EndScreen extends Component {
   }
 
   renderLoading() {
-    const loadingSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    const loadingSize = responsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
     const scaleMultiplier = Platform.OS === 'android' ? 2 : 1;
     const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
     const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);

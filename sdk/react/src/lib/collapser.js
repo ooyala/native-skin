@@ -1,4 +1,5 @@
-// MARK: - Constants
+// @flow
+
 const constants = {
   moreOptions: 'moreOptions',
   moveToMoreOptions: 'moveToMoreOptions',
@@ -6,100 +7,93 @@ const constants = {
   keep: 'keep',
 };
 
-export default {
-  // @param barWidth numeric.
-  // @param orderedItems array of left to right ordered items. Each item meets the skin's 'button' schema.
-  // @return {fit:[items that fit in the barWidth], overflow:[items that did not fit]}.
-  // Note: items which do not meet the item spec will be removed and not appear in the results.
-  collapse(barWidth, orderedItems) {
-    if (isNaN(barWidth) || barWidth === undefined) {
-      return {
-        fit: orderedItems,
-        overflow: [],
-      };
-    }
-    if (!orderedItems) {
-      return [];
-    }
-    const validItems = orderedItems.filter(item => this._isValid(item));
-    const result = this._collapse(barWidth, validItems);
-    return result;
-  },
+const isCollapsible = item => (
+  item.location === constants.controlBar && item.whenDoesNotFit && item.whenDoesNotFit !== constants.keep
+);
 
-  collapseForAudioOnly(orderedItems) {
-    if (!orderedItems) {
-      return [];
+const isOnlyInMoreOptions = item => (item.location === constants.moreOptions);
+
+const isValid = item => (
+  (item && item.location === constants.moreOptions)
+  || (item.location === constants.controlBar && item.whenDoesNotFit && item.minWidth !== undefined
+    && item.minWidth >= 0)
+);
+
+const collapseLastItemMatching = (results, item, usedWidth) => {
+  const index = results.fit.lastIndexOf(item);
+  let width = usedWidth;
+
+  if (index > -1) {
+    results.fit.splice(index, 1);
+    results.overflow.unshift(item);
+
+    if (item.minWidth) {
+      width -= item.minWidth;
     }
-    const filteredItems = orderedItems.filter(item => this._isValid(item));
-    const result = {
-      fit: [],
-      overflow: filteredItems,
-    };
-    return result;
-  },
+  }
 
-  _isValid(item) {
-    const valid = (
-      item
-      && item.location == constants.moreOptions
-      || (item.location == constants.controlBar
-        && item.whenDoesNotFit
-        && item.minWidth !== undefined
-        && item.minWidth >= 0)
-    );
-    return valid;
-  },
+  return width;
+};
 
-  _collapse(barWidth, orderedItems) {
-    const result = {
-      fit: orderedItems.slice(),
+// @param barWidth numeric.
+// @param orderedItems array of left to right ordered items. Each item meets the skin's 'button' schema.
+// @return {fit:[items that fit in the barWidth], overflow:[items that did not fit]}.
+// Note: items which do not meet the item spec will be removed and not appear in the results.
+export const collapse = (barWidth, orderedItems) => {
+  if (Number.isNaN(barWidth) || barWidth === undefined) {
+    return {
+      fit: orderedItems,
       overflow: [],
     };
-    let usedWidth = orderedItems.reduce((p, c, i, a) => {
-      if (c.minWidth && c.isVisible) return p + c.minWidth;
-      return p;
-    }, 0);
+  }
 
-    for (let i = orderedItems.length - 1; i >= 0; --i) {
-      const item = orderedItems[i];
-      if (this._isOnlyInMoreOptions(item)) {
-        usedWidth = this._collapseLastItemMatching(result, item, usedWidth);
-      }
+  if (!orderedItems) {
+    return [];
+  }
+
+  const validItems = orderedItems.filter(item => isValid(item));
+
+  const result = {
+    fit: validItems.slice(),
+    overflow: [],
+  };
+
+  let usedWidth = validItems.reduce((p, c) => {
+    if (c.minWidth && c.isVisible) {
+      return p + c.minWidth;
     }
 
-    for (let i = orderedItems.length - 1; i >= 0; --i) {
-      const item = orderedItems[i];
-      if (usedWidth > barWidth && this._isCollapsable(item)) {
-        usedWidth = this._collapseLastItemMatching(result, item, usedWidth);
-      }
+    return p;
+  }, 0);
+
+  for (let i = validItems.length - 1; i >= 0; i -= 1) {
+    const item = validItems[i];
+
+    if (isOnlyInMoreOptions(item)) {
+      usedWidth = collapseLastItemMatching(result, item, usedWidth);
     }
-    return result;
-  },
+  }
 
-  _isOnlyInMoreOptions(item) {
-    return item.location == constants.moreOptions;
-  },
+  for (let i = validItems.length - 1; i >= 0; i -= 1) {
+    const item = validItems[i];
 
-  _isCollapsable(item) {
-    const collapsable = item.location == constants.controlBar
-      && item.whenDoesNotFit
-      && item.whenDoesNotFit != constants.keep;
-    return collapsable;
-  },
-
-  _collapseLastItemMatching(results, item, usedWidth) {
-    const index = results.fit.lastIndexOf(item);
-    if (index > -1) {
-      results.fit.splice(index, 1);
-      results.overflow.unshift(item);
-      if (item.minWidth) {
-        usedWidth -= item.minWidth;
-      }
+    if (usedWidth > barWidth && isCollapsible(item)) {
+      usedWidth = collapseLastItemMatching(result, item, usedWidth);
     }
-    return usedWidth;
-  },
+  }
 
-  _isOverflow(item) {
-    return item.whenDoesNotFit && item.whenDoesNotFit == constants.moveToMoreOptions;
-  },
+  return result;
+};
+
+export const collapseForAudioOnly = (orderedItems) => {
+  if (!orderedItems) {
+    return [];
+  }
+
+  const filteredItems = orderedItems.filter(item => isValid(item));
+
+  return {
+    fit: [],
+    overflow: filteredItems,
+  };
 };

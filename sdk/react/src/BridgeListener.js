@@ -2,7 +2,7 @@
 import { Platform } from 'react-native';
 
 import { CONTENT_TYPES, OVERLAY_TYPES, SCREEN_TYPES } from './constants';
-import Log from './lib/log';
+import * as Log from './lib/log';
 import { parseInputArray as parseMarkersInputArray } from './lib/markers';
 
 /**

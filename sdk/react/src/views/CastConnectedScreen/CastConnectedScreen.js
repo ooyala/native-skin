@@ -6,7 +6,7 @@ import {
 
 import CastPlayPauseButtons from './CastPlayPauseButtons';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';
 
@@ -261,7 +261,7 @@ export default class CastConnectedScreen extends Component {
       play, previous, next, pause, forward, replay,
     } = config.icons;
 
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const iconFontSize = responsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !config.live.forceDvrDisabled || !live;
     const notInLiveRegion = playhead <= duration * VALUES.LIVE_THRESHOLD;
     const icons = {
