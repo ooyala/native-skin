@@ -1,4 +1,4 @@
-﻿//
+//
 //  OOSkinPlayerObserver.m
 //  OoyalaSkinSDK
 //
@@ -304,8 +304,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSNumber *volume                 = @(OOAudioSession.sharedInstance.applicationVolume);
   NSString *contentType            = OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
                                      @"Audio" : @"Video";
-  // TODO: Use self.player.currentItem markersJSONArray instead when Carlos implement it in the core SDK.
-  NSArray *markersStrings          = [NSArray array];
+
+  NSArray *markersStrings          = self.player.currentItem.markersJSONArray;
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
