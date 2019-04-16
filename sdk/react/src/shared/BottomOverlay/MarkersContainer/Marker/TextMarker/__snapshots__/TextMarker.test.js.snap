@@ -23,11 +23,6 @@ exports[`TextMarker renders matching snapshot 1`] = `
           },
           "shadowOpacity": 0.5,
           "shadowRadius": 4,
-          "transform": Array [
-            Object {
-              "translateX": -35,
-            },
-          ],
           "width": 70,
         },
         undefined,

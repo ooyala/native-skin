@@ -11,7 +11,26 @@ export default {
   padding: MARKERS_SIZES.PADDING,
   position: 'absolute',
   shadowColor: 'black',
-  shadowOffset: { height: 2, width: 0 },
+  shadowOffset: {
+    height: 2,
+    width: 0,
+  },
   shadowOpacity: 0.5,
   shadowRadius: 4,
+};
+
+export const restrainLeftPositionWithinContainer = (width: number, leftPosition: number, containerWidth: number) => {
+  let left = leftPosition - width / 2;
+
+  // Restrain left edge.
+  if (left < 0) {
+    left = 0;
+  }
+
+  // Restrain right edge.
+  if (left + width > containerWidth) {
+    left = containerWidth - width;
+  }
+
+  return left;
 };

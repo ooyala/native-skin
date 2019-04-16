@@ -24,11 +24,6 @@ exports[`IconMarker renders matching snapshot 1`] = `
           },
           "shadowOpacity": 0.5,
           "shadowRadius": 4,
-          "transform": Array [
-            Object {
-              "translateX": -16,
-            },
-          ],
           "width": 32,
         },
         undefined,
