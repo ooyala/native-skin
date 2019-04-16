@@ -5,7 +5,7 @@ import { MARKERS_SIZES } from '../../../../../constants';
 export default {
   backgroundColor: 'black',
   borderColor: '#4E4E4E',
-  borderRadius: 2,
+  borderRadius: MARKERS_SIZES.BORDER_RADIUS,
   borderWidth: MARKERS_SIZES.BORDER_WIDTH,
   bottom: MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
   padding: MARKERS_SIZES.PADDING,

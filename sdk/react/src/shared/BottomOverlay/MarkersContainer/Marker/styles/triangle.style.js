@@ -10,10 +10,6 @@ export default {
   borderBottomWidth: 0,
   bottom: -1 * MARKERS_SIZES.DISTANCE_FROM_BOTTOM,
   height: 0,
-  left: '50%',
   position: 'absolute',
-  transform: [
-    { translateX: -0.5 * MARKERS_SIZES.DISTANCE_FROM_BOTTOM },
-  ],
   width: 0,
 };

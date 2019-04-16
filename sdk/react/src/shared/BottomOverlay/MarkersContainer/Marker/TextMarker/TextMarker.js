@@ -90,6 +90,7 @@ export default class TextMarker extends React.Component<Props, State> {
             style={[
               styles.triangle,
               backgroundColor && { borderTopColor: backgroundColor },
+              isExpanded && text.length > TEXT_MARKER_COLLAPSED_LENGTH && styles.triangleExpanded,
             ]}
           />
         </View>
