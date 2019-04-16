@@ -23,6 +23,7 @@ describe('MarkersContainer', () => {
           },
         ]}
         onSeek={() => undefined}
+        width={100}
       />,
     );
 
@@ -35,6 +36,7 @@ describe('MarkersContainer', () => {
         duration={60}
         markers={[]}
         onSeek={() => undefined}
+        width={100}
       />,
     );
 

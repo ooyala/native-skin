@@ -9,6 +9,7 @@ describe('Marker', () => {
   it('renders marker of the text type matching snapshot', () => {
     const wrapper = shallow(
       <Marker
+        containerWidth={100}
         duration={60}
         marker={{
           start: 'start',
@@ -26,6 +27,7 @@ describe('Marker', () => {
   it('renders marker of the icon type matching snapshot', () => {
     const wrapper = shallow(
       <Marker
+        containerWidth={100}
         duration={60}
         marker={{
           iconUrl: 'http://example.com/icon.png',

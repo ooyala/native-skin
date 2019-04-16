@@ -9,6 +9,7 @@ import type { Marker as MarkerType } from '../../../../types/Markers';
 
 type Props = {
   accentColor?: ?string,
+  containerWidth: number,
   duration: number,
   marker: MarkerType,
   onSeek: number => void,
@@ -17,10 +18,10 @@ type Props = {
 };
 
 const Marker = ({
-  accentColor, duration, marker, onSeek, onTouch, style,
+  accentColor, containerWidth, duration, marker, onSeek, onTouch, style,
 }: Props) => {
   const start = (marker.start === 'start' ? 0 : marker.start);
-  const left = `${start / duration * 100}%`;
+  const left = start / duration * containerWidth;
 
   if (marker.type === 'text' && marker.text) {
     return (

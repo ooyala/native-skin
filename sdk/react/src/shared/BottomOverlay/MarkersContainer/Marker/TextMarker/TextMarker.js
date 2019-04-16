@@ -70,7 +70,7 @@ export default class TextMarker extends React.Component<Props, State> {
             styles.root,
             style,
             backgroundColor && { backgroundColor },
-            isExpanded && styles.expanded,
+            isExpanded && text.length > TEXT_MARKER_COLLAPSED_LENGTH && styles.expanded,
           ]}
         >
           <Text
@@ -80,7 +80,12 @@ export default class TextMarker extends React.Component<Props, State> {
           >
             {shownText}
           </Text>
-          <View style={[styles.triangle, backgroundColor && { borderTopColor: backgroundColor }]} />
+          <View
+            style={[
+              styles.triangle,
+              backgroundColor && { borderTopColor: backgroundColor },
+            ]}
+          />
         </View>
       </TouchableWithoutFeedback>
     );

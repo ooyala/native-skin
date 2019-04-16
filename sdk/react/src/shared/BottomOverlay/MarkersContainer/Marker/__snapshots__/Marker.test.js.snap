@@ -9,7 +9,7 @@ exports[`Marker renders marker of the icon type matching snapshot 1`] = `
     Array [
       undefined,
       Object {
-        "left": "0%",
+        "left": 0,
       },
     ]
   }
@@ -24,7 +24,7 @@ exports[`Marker renders marker of the text type matching snapshot 1`] = `
     Array [
       undefined,
       Object {
-        "left": "0%",
+        "left": 0,
       },
     ]
   }
