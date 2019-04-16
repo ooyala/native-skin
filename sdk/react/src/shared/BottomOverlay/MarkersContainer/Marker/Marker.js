@@ -27,12 +27,11 @@ const Marker = ({
     return (
       <TextMarker
         backgroundColor={marker.backgroundColor || accentColor}
+        containerWidth={containerWidth}
+        leftPosition={left}
         onSeek={() => onSeek(start)}
         onTouch={onTouch}
-        style={[
-          style,
-          { left },
-        ]}
+        style={style}
         text={marker.text}
       />
     );
@@ -42,14 +41,13 @@ const Marker = ({
     return (
       <IconMarker
         backgroundColor={marker.backgroundColor}
+        containerWidth={containerWidth}
         iconUrl={marker.iconUrl}
         imageUrl={marker.imageUrl}
+        leftPosition={left}
         onSeek={() => onSeek(start)}
         onTouch={onTouch}
-        style={[
-          style,
-          { left },
-        ]}
+        style={style}
         touchColor={marker.markerColor || accentColor}
       />
     );

@@ -9,7 +9,7 @@ import triangleStyle from '../styles/triangle.style';
 const collapsedWidth = MARKERS_SIZES.TEXT_COLLAPSED_WIDTH + 2 * MARKERS_SIZES.PADDING + 2 * MARKERS_SIZES.BORDER_WIDTH;
 const expandedWidth = MARKERS_SIZES.TEXT_EXPANDED_WIDTH + 2 * MARKERS_SIZES.PADDING + 2 * MARKERS_SIZES.BORDER_WIDTH;
 
-export default StyleSheet.create({
+export default (leftPosition: number, containerWidth: number) => StyleSheet.create({
   expanded: {
     transform: [
       { translateX: expandedWidth / -2 },
@@ -18,6 +18,7 @@ export default StyleSheet.create({
   },
   root: {
     ...commonMarkerStyle,
+    left: leftPosition,
     transform: [
       { translateX: collapsedWidth / -2 },
     ],

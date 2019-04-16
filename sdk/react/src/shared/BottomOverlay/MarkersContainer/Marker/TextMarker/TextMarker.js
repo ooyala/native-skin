@@ -5,12 +5,14 @@ import { Text, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { MARKERS_SIZES } from '../../../../../constants';
-import styles from './TextMarker.styles';
+import createStyles from './TextMarker.styles';
 
 const TEXT_MARKER_COLLAPSED_LENGTH = 8;
 
 type Props = {
   backgroundColor?: ?string,
+  containerWidth: number,
+  leftPosition: number,
   onSeek: () => void,
   onTouch: () => void,
   text: string,
@@ -54,8 +56,12 @@ export default class TextMarker extends React.Component<Props, State> {
   }
 
   render() {
-    const { backgroundColor, style, text } = this.props;
+    const {
+      backgroundColor, containerWidth, leftPosition, style, text,
+    } = this.props;
     const { isExpanded } = this.state;
+
+    const styles = createStyles(leftPosition, containerWidth);
 
     let shownText = text;
 

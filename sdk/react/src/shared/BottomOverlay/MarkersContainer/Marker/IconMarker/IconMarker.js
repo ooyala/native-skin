@@ -4,12 +4,14 @@ import * as React from 'react';
 import { Image, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import styles from './IconMarker.styles';
+import createStyles from './IconMarker.styles';
 
 type Props = {
   backgroundColor?: ?string,
+  containerWidth: number,
   iconUrl: ?string,
   imageUrl: ?string,
+  leftPosition: number,
   onSeek: () => void,
   onTouch: () => void,
   style?: ViewStyleProp,
@@ -55,9 +57,11 @@ export default class IconMarker extends React.Component<Props, State> {
 
   render() {
     const {
-      backgroundColor, iconUrl, imageUrl, style, touchColor,
+      backgroundColor, containerWidth, iconUrl, imageUrl, leftPosition, style, touchColor,
     } = this.props;
     const { isExpanded } = this.state;
+
+    const styles = createStyles(leftPosition, containerWidth);
 
     // If the marker is expanded and there is `imageUrl`, we have to use it.
     const image = (isExpanded && imageUrl ? imageUrl : iconUrl);

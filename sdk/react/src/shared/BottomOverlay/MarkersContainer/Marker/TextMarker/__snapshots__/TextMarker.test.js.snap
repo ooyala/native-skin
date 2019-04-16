@@ -13,6 +13,7 @@ exports[`TextMarker renders matching snapshot 1`] = `
           "borderRadius": 2,
           "borderWidth": 1,
           "bottom": 6,
+          "left": 0,
           "padding": 2,
           "position": "absolute",
           "shadowColor": "black",
