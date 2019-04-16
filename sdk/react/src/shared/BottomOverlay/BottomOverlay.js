@@ -593,8 +593,8 @@ export default class BottomOverlay extends React.Component<Props, State> {
           height: markersContainerHeight,
           left: leftMargin,
           opacity,
-          width: progressBarWidth,
         }}
+        width={progressBarWidth}
       />
     );
   }

@@ -189,6 +189,7 @@ export const MAX_DATE_VALUE = 8640000000000000;
 export const AUTOHIDE_DELAY = 5000;
 
 export const MARKERS_SIZES = {
+  BORDER_RADIUS: 2,
   BORDER_WIDTH: 1,
   // Calculate height based on the biggest possible marker which is TextMarker with max lines. The dimensions of
   // container should cover all markers because touch events are not supported on overflow elements on Android.

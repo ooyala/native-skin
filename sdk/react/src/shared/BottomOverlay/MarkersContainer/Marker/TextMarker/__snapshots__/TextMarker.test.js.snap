@@ -13,6 +13,7 @@ exports[`TextMarker renders matching snapshot 1`] = `
           "borderRadius": 2,
           "borderWidth": 1,
           "bottom": 6,
+          "left": -8,
           "padding": 2,
           "position": "absolute",
           "shadowColor": "black",
@@ -22,11 +23,6 @@ exports[`TextMarker renders matching snapshot 1`] = `
           },
           "shadowOpacity": 0.5,
           "shadowRadius": 4,
-          "transform": Array [
-            Object {
-              "translateX": -35,
-            },
-          ],
           "width": 70,
         },
         undefined,
@@ -59,16 +55,12 @@ exports[`TextMarker renders matching snapshot 1`] = `
             "borderWidth": 6,
             "bottom": -6,
             "height": 0,
-            "left": "50%",
+            "left": 2,
             "position": "absolute",
-            "transform": Array [
-              Object {
-                "translateX": -3,
-              },
-            ],
             "width": 0,
           },
           undefined,
+          false,
         ]
       }
     />

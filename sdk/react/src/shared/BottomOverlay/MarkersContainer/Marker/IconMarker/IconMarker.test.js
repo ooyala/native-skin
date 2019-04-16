@@ -10,8 +10,10 @@ describe('IconMarker', () => {
   it('renders matching snapshot', () => {
     const wrapper = shallow(
       <IconMarker
+        containerWidth={100}
         iconUrl="http://example.com/icon.png"
         imageUrl="http://example.com/image.png"
+        leftPosition={0}
         onSeek={() => undefined}
         onTouch={() => undefined}
       />,
@@ -23,8 +25,10 @@ describe('IconMarker', () => {
   it('does not render anything when URLs are empty', () => {
     const wrapper = shallow(
       <IconMarker
+        containerWidth={100}
         iconUrl={undefined}
         imageUrl={undefined}
+        leftPosition={0}
         onSeek={() => undefined}
         onTouch={() => undefined}
       />,
@@ -37,8 +41,10 @@ describe('IconMarker', () => {
     const onSeekMock = jest.fn();
     const wrapper = shallow(
       <IconMarker
+        containerWidth={100}
         iconUrl="http://example.com/icon.png"
         imageUrl={undefined}
+        leftPosition={0}
         onSeek={onSeekMock}
         onTouch={() => undefined}
       />,
@@ -53,8 +59,10 @@ describe('IconMarker', () => {
     const onSeekMock = jest.fn();
     const wrapper = shallow(
       <IconMarker
+        containerWidth={100}
         iconUrl="http://example.com/icon.png"
         imageUrl="http://example.com/image.png"
+        leftPosition={0}
         onSeek={onSeekMock}
         onTouch={() => undefined}
       />,
@@ -73,8 +81,10 @@ describe('IconMarker', () => {
     const onTouchMock = jest.fn();
     const wrapper = shallow(
       <IconMarker
+        containerWidth={100}
         iconUrl="http://example.com/icon.png"
         imageUrl={undefined}
+        leftPosition={0}
         onSeek={() => undefined}
         onTouch={onTouchMock}
       />,
