@@ -401,7 +401,7 @@ export default class VideoView extends Component {
     this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
   };
 
-  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     const isVisible = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
     if (isVisible !== this.state.shouldShowControls) {
