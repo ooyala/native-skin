@@ -582,7 +582,7 @@ export default class ViewsRenderer {
         if (this.skin.state.inCastMode) {
           return this.renderCastConnectedScreen();
         }
-        return this.renderCastConnectedScreen();
+        return this.renderVideoView();
     }
   }
 }
