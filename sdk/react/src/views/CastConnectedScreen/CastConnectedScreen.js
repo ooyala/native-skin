@@ -61,7 +61,7 @@ export default class CastConnectedScreen extends Component {
     shouldShowControls: true
   };
 
-  componentDidMount(): void {
+  componentDidMount() {
     this.props.handlers.onControlsVisibilityChanged(this.state.shouldShowControls)
   }
 
