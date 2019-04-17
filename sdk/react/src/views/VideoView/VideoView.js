@@ -57,6 +57,7 @@ export default class VideoView extends Component {
       handleVideoTouchEnd: PropTypes.func,
       handleControlsTouch: PropTypes.func,
       showControls: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func,
     }),
     lastPressedTime: PropTypes.any,
     screenReaderEnabled: PropTypes.bool,
@@ -75,6 +76,10 @@ export default class VideoView extends Component {
     loading: PropTypes.bool,
     initialPlay: PropTypes.bool,
     markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  };
+
+  state = {
+    shouldShowControls: true
   };
 
   generateLiveObject = () => {
@@ -396,10 +401,18 @@ export default class VideoView extends Component {
     this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
   };
 
-  render() {
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
     const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
+    const isVisible = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
+    if (isVisible !== this.state.shouldShowControls) {
+      this.setState({
+        shouldShowControls: isVisible
+      });
+      this.props.handlers.onControlsVisibilityChanged(isVisible);
+    }
+  }
 
+  render() {
     // for renderPlayPause, if the screen reader is enabled, we want to hide the button
     return (
       <View
@@ -408,9 +421,9 @@ export default class VideoView extends Component {
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldShowControls)}
+        {this._renderPlayPause(this.state.shouldShowControls)}
         {this._renderUpNext()}
-        {this._renderBottomOverlay(shouldShowControls)}
+        {this._renderBottomOverlay(this.state.shouldShowControls)}
         {this._renderLoading()}
       </View>
     );

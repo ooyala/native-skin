@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
@@ -80,6 +81,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
+  private Consumer<Boolean> onVisibilityControlsChangeListener;
   private FCCTVRatingUI _tvRatingUI;
   DiscoveryOptions discoveryOptions;
 
@@ -726,6 +728,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       queuedEvents.clear();
       queuedEvents = null;
     }
+    onVisibilityControlsChangeListener = null;
 
     deleteObservers();
     removeVideoView();
@@ -774,4 +777,22 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  /**
+   * Provide possibility to handle changing of skin controls visibility.
+   * This listener will be cleaned in {@link #destroy} method
+   * @param onVisibilityControlsChangeListener Consumer that handle changing of visibility skin ui
+   */
+  public void addOnVisibilityControlsChangeListener(Consumer<Boolean> onVisibilityControlsChangeListener) {
+    this.onVisibilityControlsChangeListener = onVisibilityControlsChangeListener;
+  }
+
+  /**
+   * Handles changing of skin controls visibility from {@link OoyalaReactBridge}.
+   * @param isVisible is true if controls visible, is false if controls not visible
+   */
+  void onVisibilityControlsChanged(boolean isVisible) {
+    if (onVisibilityControlsChangeListener != null) {
+      onVisibilityControlsChangeListener.accept(isVisible);
+    }
+  }
 }

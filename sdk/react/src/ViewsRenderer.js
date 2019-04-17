@@ -168,6 +168,7 @@ export default class ViewsRenderer {
           handleVideoTouchEnd: event => this.core.handleVideoTouchEnd(event),
           handleControlsTouch: () => this.core.handleControlsTouch(),
           handleShowControls: () => this.core.showControls(),
+          onControlsVisibilityChanged: isVisible => this.core.onControlsVisibilityChanged(isVisible),
         }}
         screenReaderEnabled={false}
         availableClosedCaptionsLanguages={this.skin.state.availableClosedCaptionsLanguages}
@@ -215,6 +216,7 @@ export default class ViewsRenderer {
           onPress: value => this.core.handlePress(value),
           onScrub: value => this.core.handleScrub(value),
           handleControlsTouch: () => this.core.handleControlsTouch(),
+          onControlsVisibilityChanged: isVisible => this.core.onControlsVisibilityChanged(isVisible),
         }}
         config={{
           controlBar: this.skin.props.controlBar,
@@ -273,6 +275,7 @@ export default class ViewsRenderer {
           handleVideoTouchEnd: event => this.core.handleVideoTouchEnd(event),
           handleControlsTouch: () => this.core.handleControlsTouch(),
           showControls: () => this.core.showControls(),
+          onControlsVisibilityChanged: isVisible => this.core.onControlsVisibilityChanged(isVisible),
         }}
         lastPressedTime={state.lastPressedTime}
         screenReaderEnabled={state.screenReaderEnabled}
@@ -336,6 +339,7 @@ export default class ViewsRenderer {
           onScrub: value => this.core.handleScrub(value),
           handleVideoTouch: event => this.core.handleVideoTouchEnd(event),
           handleControlsTouch: () => this.core.handleControlsTouch(),
+          onControlsVisibilityChanged: isVisible => this.core.onControlsVisibilityChanged(isVisible),
         }}
         lastPressedTime={state.lastPressedTime}
         screenReaderEnabled={state.screenReaderEnabled}
@@ -578,7 +582,7 @@ export default class ViewsRenderer {
         if (this.skin.state.inCastMode) {
           return this.renderCastConnectedScreen();
         }
-        return this.renderVideoView();
+        return this.renderCastConnectedScreen();
     }
   }
 }

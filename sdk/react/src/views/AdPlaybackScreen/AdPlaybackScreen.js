@@ -40,6 +40,7 @@ export default class AdPlaybackScreen extends Component {
       onScrub: PropTypes.func,
       handleVideoTouch: PropTypes.func,
       handleControlsTouch: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func,
     }),
     lastPressedTime: PropTypes.any,
     screenReaderEnabled: PropTypes.bool,
@@ -56,7 +57,8 @@ export default class AdPlaybackScreen extends Component {
   };
 
   state = {
-    showControls: true
+    showControls: true,
+    shouldShowControls: true
   };
 
   static defaultProps = {
@@ -244,13 +246,22 @@ export default class AdPlaybackScreen extends Component {
     return iconViews;
   };
 
-  render() {
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS) {
     const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     const doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
     const isContent = !this.props.ad;
-    const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
+    const isVisible = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
 
+    if (isVisible !== this.state.shouldShowControls) {
+      this.setState({
+        shouldShowControls: isVisible
+      });
+      this.props.handlers.onControlsVisibilityChanged(isVisible);
+    }
+  }
+
+  render() {
     let adBar, adIcons;
 
     if (this.props.ad) {
@@ -265,8 +276,8 @@ export default class AdPlaybackScreen extends Component {
         <View style={styles.adContainer}>
           {adBar}
           {this._renderPlaceholder(adIcons)}
-          {this._renderPlayPause(shouldShowControls)}
-          {this._renderBottomOverlay(shouldShowControls)}
+          {this._renderPlayPause(this.state.shouldShowControls)}
+          {this._renderBottomOverlay(this.state.shouldShowControls)}
         </View>
       );
     }

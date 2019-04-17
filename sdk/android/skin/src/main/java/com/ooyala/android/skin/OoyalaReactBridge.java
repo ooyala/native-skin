@@ -125,4 +125,8 @@ public class OoyalaReactBridge extends ReactContextBaseJavaModule implements Bri
     handler.onVolumeChanged(parameters);
   }
 
+  @ReactMethod
+  public void onVisibilityControlsChanged(ReadableMap parameters) {
+    handler.onVisibilityControlsChanged(parameters);
+  }
 }
