@@ -37,36 +37,45 @@ export default class EndScreen extends Component {
   };
 
   handleClick = (name) => {
-    this.props.onPress(name);
+    const { onPress } = this.props;
+
+    onPress(name);
   };
 
   handlePress = (name) => {
+    const { onPress, onScrub } = this.props;
+    const { showControls } = this.state;
+
     Log.verbose(`VideoView Handle Press: ${name}`);
     this.setState({
       lastPressedTime: new Date().getTime(),
     });
-    if (this.state.showControls) {
+    if (showControls) {
       if (name === 'LIVE') {
-        this.props.onScrub(1);
+        onScrub(1);
       } else {
-        this.props.onPress(name);
+        onPress(name);
       }
     } else {
-      this.props.onPress(name);
+      onPress(name);
     }
   };
 
   renderDefaultScreen = () => {
-    const endScreenConfig = this.props.config.endScreen || {};
+    const {
+      config, description: propsDescription, height, promoUrl, title: propsTitle, width,
+    } = this.props;
 
-    const replayMarginBottom = !this.props.config.controlBar.enabled
-      ? responsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 1;
+    const endScreenConfig = config.endScreen || {};
+
+    const replayMarginBottom = !config.controlBar.enabled
+      ? responsiveMultiplier(width, UI_SIZES.CONTROLBAR_HEIGHT) : 1;
 
     const replayButtonLocation = styles.replayButtonCenter;
     let replayButton;
 
     if (endScreenConfig.showReplayButton) {
-      const fontFamilyStyle = { fontFamily: this.props.config.icons.replay.fontFamilyName };
+      const fontFamilyStyle = { fontFamily: config.icons.replay.fontFamilyName };
       replayButton = (
         <TouchableHighlight
           accessible
@@ -76,31 +85,26 @@ export default class EndScreen extends Component {
           underlayColor="transparent"
           activeOpacity={0.5}
         >
-          <Text style={[styles.replayButton, fontFamilyStyle]}>{this.props.config.icons.replay.fontString}</Text>
+          <Text style={[styles.replayButton, fontFamilyStyle]}>{config.icons.replay.fontString}</Text>
         </TouchableHighlight>
       );
     }
 
-    const title = endScreenConfig.showTitle ? this.props.title : null;
-    const description = endScreenConfig.showDescription ? this.props.description : null;
+    const title = endScreenConfig.showTitle ? propsTitle : null;
+    const description = endScreenConfig.showDescription ? propsDescription : null;
     const infoPanel = (<InfoPanel title={title} description={description} />);
 
     return (
-      <View style={[styles.fullscreenContainer,
-        {
-          width: this.props.width,
-          height: this.props.height,
-        }]}
-      >
+      <View style={[styles.fullscreenContainer, { height, width }]}>
         <Image
-          source={{ uri: this.props.promoUrl }}
+          source={{ uri: promoUrl }}
           style={
             [styles.fullscreenContainer, {
               position: 'absolute',
               top: 0,
               left: 0,
-              width: this.props.width,
-              height: this.props.height,
+              width,
+              height,
             }]}
           resizeMode="contain"
         />
@@ -116,7 +120,9 @@ export default class EndScreen extends Component {
   };
 
   handleScrub = (value) => {
-    this.props.onScrub(value);
+    const { onScrub } = this.props;
+
+    onScrub(value);
     this.handleClick(BUTTON_NAMES.PLAY_PAUSE);
   };
 
@@ -157,10 +163,12 @@ export default class EndScreen extends Component {
   }
 
   renderLoading() {
-    const loadingSize = responsiveMultiplier(this.props.width, UI_SIZES.LOADING_ICON);
+    const { height, loading, width } = this.props;
+
+    const loadingSize = responsiveMultiplier(width, UI_SIZES.LOADING_ICON);
     const scaleMultiplier = Platform.OS === 'android' ? 2 : 1;
-    const topOffset = Math.round((this.props.height - loadingSize * scaleMultiplier) * 0.5);
-    const leftOffset = Math.round((this.props.width - loadingSize * scaleMultiplier) * 0.5);
+    const topOffset = Math.round((height - loadingSize * scaleMultiplier) * 0.5);
+    const leftOffset = Math.round((width - loadingSize * scaleMultiplier) * 0.5);
     const loadingStyle = {
       position: 'absolute',
       top: topOffset,
@@ -168,7 +176,8 @@ export default class EndScreen extends Component {
       width: loadingSize,
       height: loadingSize,
     };
-    if (this.props.loading) {
+
+    if (loading) {
       return (
         <ActivityIndicator
           style={loadingStyle}
@@ -176,6 +185,7 @@ export default class EndScreen extends Component {
         />
       );
     }
+
     return null;
   }
 

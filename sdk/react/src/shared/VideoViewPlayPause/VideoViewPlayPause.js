@@ -56,7 +56,7 @@ export default class VideoViewPlayPause extends Component {
       playing: props.playing,
       skipCount: 0,
     };
-  };
+  }
 
   componentWillReceiveProps(nextProps) {
     const { playing } = this.props;
@@ -138,7 +138,7 @@ export default class VideoViewPlayPause extends Component {
         <Animated.Text
           style={[styles.buttonTextStyle, {
             color: buttonColor || 'white',
-            fontSize: fontSize,
+            fontSize,
             fontFamily: icons[name].fontFamily,
             opacity: playPause.animationOpacity,
             transform: [{ scale: playPause.animationScale }],

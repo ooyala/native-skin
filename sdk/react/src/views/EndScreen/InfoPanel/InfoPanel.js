@@ -11,14 +11,17 @@ export default class InfoPanel extends Component {
   };
 
   render() {
+    const { description, title } = this.props;
+
     let infoPanel;
-    const titleAccessible = this.props.title && this.props.title != '';
-    const descriptionAccessible = this.props.description && this.props.title != '';
+    const titleAccessible = title && title !== '';
+    // TODO: Check if we have to assign title to descriptionAccessible.
+    const descriptionAccessible = description && title !== '';
 
     infoPanel = (
       <View style={styles.infoPanelNW}>
-        <Text accessible={titleAccessible} style={styles.infoPanelTitle}>{this.props.title}</Text>
-        <Text accessible={descriptionAccessible} style={styles.infoPanelDescription}>{this.props.description}</Text>
+        <Text accessible={titleAccessible} style={styles.infoPanelTitle}>{title}</Text>
+        <Text accessible={descriptionAccessible} style={styles.infoPanelDescription}>{description}</Text>
       </View>
     );
 

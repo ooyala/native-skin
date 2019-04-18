@@ -25,20 +25,26 @@ export default class UpNext extends Component {
   };
 
   dismissUpNext = () => {
-    this.props.onPress('upNextDismiss');
+    const { onPress } = this.props;
+
+    onPress('upNextDismiss');
   };
 
   clickUpNext = () => {
-    this.props.onPress('upNextClick');
+    const { onPress } = this.props;
+
+    onPress('upNextClick');
   };
 
   upNextDuration = () => {
-    const upNextConfig = this.props.config.upNext || {};
+    const { config, duration } = this.props;
+
+    const upNextConfig = config.upNext || {};
     // TODO: Unit test this functionality, there're still some edge cases
     if (typeof upNextConfig.timeToShow === 'string') {
       // Support old version of percentage (e.g. '80%')
       if (upNextConfig.timeToShow.indexOf('%') >= 0) {
-        return (this.props.duration - parseFloat(upNextConfig.timeToShow.slice(0, -1) / 100) * this.props.duration);
+        return (duration - parseFloat(upNextConfig.timeToShow.slice(0, -1) / 100) * duration);
       }
       if (isNaN(upNextConfig.timeToShow)) {
         // The string is not a valid number
@@ -50,7 +56,7 @@ export default class UpNext extends Component {
     if (typeof upNextConfig.timeToShow === 'number') {
       if (upNextConfig.timeToShow > 0.0 && upNextConfig.timeToShow <= 1.0) {
         // New percentage mode (e.g. 0.8)
-        return this.props.duration - upNextConfig.timeToShow * this.props.duration;
+        return duration - upNextConfig.timeToShow * duration;
       }
       if (upNextConfig.timeToShow > 1.0) {
         // Normal number (e.g. 15)
@@ -63,65 +69,78 @@ export default class UpNext extends Component {
     return defaultCountdownVal;
   };
 
-  isWithinShowUpNextBounds = () => parseInt(this.upNextDuration()) > this.props.duration - this.props.playhead;
+  isWithinShowUpNextBounds = () => {
+    const { duration, playhead } = this.props;
 
-  _renderDismissButton = () => (
-    <TouchableHighlight
-      accessible
-      accessibilityLabel={BUTTON_NAMES.DISMISS}
-      accessibilityComponentType="button"
-      onPress={this.dismissUpNext}
-      underlayColor="transparent"
-      style={styles.dismissButtonContainer}
-    >
-      <Text style={[
-        styles.dismissButton,
-        { fontFamily: this.props.config.icons.dismiss.fontFamilyName },
-      ]}
+    return parseInt(this.upNextDuration()) > duration - playhead;
+  };
+
+  _renderDismissButton = () => {
+    const { config } = this.props;
+
+    return (
+      <TouchableHighlight
+        accessible
+        accessibilityLabel={BUTTON_NAMES.DISMISS}
+        accessibilityComponentType="button"
+        onPress={this.dismissUpNext}
+        underlayColor="transparent"
+        style={styles.dismissButtonContainer}
       >
-        {this.props.config.icons.dismiss.fontString}
-      </Text>
-    </TouchableHighlight>
-  );
+        <Text style={[
+          styles.dismissButton,
+          { fontFamily: config.icons.dismiss.fontFamilyName },
+        ]}
+        >
+          {config.icons.dismiss.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
+  };
 
-  renderCountdownTimer = () => Platform.select({
-    ios: (
-      <CountdownView
-        style={styles.countdownView}
-        automatic={false}
-        time={this.upNextDuration()}
-        timeLeft={this.props.duration - this.props.playhead}
-        radius={9}
-        fillAlpha={0.7}
-      />
-    ),
-    android: (
-      <CountdownViewAndroid
-        style={styles.countdownView}
-        countdown={{
-          main_color: '#AAffffff',
-          secondary_color: '#AA808080',
-          fill_color: '#AA000000',
-          text_color: '#AAffffff',
-          stroke_width: 5,
-          text_size: 25,
-          max_time: this.upNextDuration(),
-          progress: parseInt((this.upNextDuration() - (this.props.duration - this.props.playhead))),
-          automatic: false,
-        }}
-      />
-    ),
-  });
+  renderCountdownTimer = () => {
+    const { duration, playhead } = this.props;
+
+    return Platform.select({
+      ios: (
+        <CountdownView
+          style={styles.countdownView}
+          automatic={false}
+          time={this.upNextDuration()}
+          timeLeft={duration - playhead}
+          radius={9}
+          fillAlpha={0.7}
+        />
+      ),
+      android: (
+        <CountdownViewAndroid
+          style={styles.countdownView}
+          countdown={{
+            main_color: '#AAffffff',
+            secondary_color: '#AA808080',
+            fill_color: '#AA000000',
+            text_color: '#AAffffff',
+            stroke_width: 5,
+            text_size: 25,
+            max_time: this.upNextDuration(),
+            progress: parseInt((this.upNextDuration() - (duration - playhead))),
+            automatic: false,
+          }}
+        />
+      ),
+    });
+  };
 
   render() {
-    const upNextConfig = this.props.config.upNext || {};
+    const {
+      ad, config, nextVideo, upNextDismissed,
+    } = this.props;
 
-    if (this.isWithinShowUpNextBounds()
-      && !this.props.upNextDismissed
-      && upNextConfig.showUpNext === true
-      && !this.props.ad
-      && this.props.nextVideo) {
+    const upNextConfig = config.upNext || {};
+
+    if (this.isWithinShowUpNextBounds() && !upNextDismissed && upNextConfig.showUpNext === true && !ad && nextVideo) {
       const countdown = this.renderCountdownTimer();
+
       const upNextImage = (
         <TouchableHighlight
           style={styles.thumbnail}
@@ -130,18 +149,19 @@ export default class UpNext extends Component {
         >
           <ImageBackground
             style={styles.thumbnailImage}
-            source={{ uri: this.props.nextVideo.imageUrl }}
+            source={{ uri: nextVideo.imageUrl }}
             accessible={false}
           >
             <Text
               style={styles.thumbnailPlayButton}
               accessibilityLabel={BUTTON_NAMES.UP_NEXT}
             >
-              {this.props.config.icons.play.fontString}
+              {config.icons.play.fontString}
             </Text>
           </ImageBackground>
         </TouchableHighlight>
       );
+
       const upNextDescription = (
         <View style={styles.textContainer}>
           {countdown}
@@ -149,15 +169,17 @@ export default class UpNext extends Component {
             <Text style={styles.title} numberOfLines={1}>
               Up next:
               {' '}
-              {this.props.nextVideo.name}
+              {nextVideo.name}
             </Text>
             <Text style={styles.description} numberOfLines={2}>
-              {this.props.nextVideo.description}
+              {nextVideo.description}
             </Text>
           </View>
         </View>
       );
+
       const upNextDismissButton = this._renderDismissButton();
+
       return (
         <View style={styles.container}>
           {upNextImage}
@@ -166,6 +188,7 @@ export default class UpNext extends Component {
         </View>
       );
     }
+
     return null;
   }
 }

@@ -23,19 +23,23 @@ export default class MoreOptionScreen extends Component {
     selectedPlaybackSpeedRate: PropTypes.string,
   };
 
-  state = {
-    translateY: new Animated.Value(this.props.height),
-    opacity: new Animated.Value(0),
-    buttonOpacity: new Animated.Value(1),
-    button: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      translateY: new Animated.Value(props.height),
+      opacity: new Animated.Value(0),
+      buttonOpacity: new Animated.Value(1),
+      button: '',
+    };
+  }
 
   componentDidMount() {
-    this.state.translateY.setValue(this.props.height);
-    this.state.opacity.setValue(0);
+    const { opacity, translateY } = this.state;
+
     Animated.parallel([
       Animated.timing(
-        this.state.translateY,
+        translateY,
         {
           toValue: 0,
           duration: 700,
@@ -43,7 +47,7 @@ export default class MoreOptionScreen extends Component {
         },
       ),
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: 500,
@@ -55,18 +59,24 @@ export default class MoreOptionScreen extends Component {
   }
 
   onOptionBtnPressWithPanel = () => {
-    this.props.onOptionButtonPress(this.state.button);
+    const { onOptionButtonPress } = this.props;
+    const { button } = this.state;
+
+    onOptionButtonPress(button);
   };
 
   onOptionPress = (buttonName) => {
+    const { onOptionButtonPress } = this.props;
+    const { buttonOpacity } = this.state;
+
     if (BUTTON_NAMES.SHARE === buttonName) {
-      this.props.onOptionButtonPress(buttonName);
+      onOptionButtonPress(buttonName);
     } else {
       this.setState({
         button: buttonName,
       });
       Animated.timing(
-        this.state.buttonOpacity,
+        buttonOpacity,
         {
           toValue: 0,
           duration: 200,
@@ -78,12 +88,16 @@ export default class MoreOptionScreen extends Component {
   };
 
   onDismissBtnPress = () => {
-    this.props.onDismiss();
+    const { onDismiss } = this.props;
+
+    onDismiss();
   };
 
   onDismissPress = () => {
+    const { opacity } = this.state;
+
     Animated.timing(
-      this.state.opacity,
+      opacity,
       {
         toValue: 0,
         duration: 500,
@@ -94,16 +108,20 @@ export default class MoreOptionScreen extends Component {
   };
 
   _renderMoreOptionButtons = (moreOptionButtons) => {
+    const {
+      closedCaptionsEnabled, config, isAudioOnly, multiAudioEnabled, showAudioAndCCButton, stereoSupported,
+    } = this.props;
+
     let itemCollapsingResults;
 
-    if (this.props.isAudioOnly) {
-      itemCollapsingResults = collapseForAudioOnly(this.props.config.buttons);
+    if (isAudioOnly) {
+      itemCollapsingResults = collapseForAudioOnly(config.buttons);
     } else {
-      itemCollapsingResults = collapse(this.props.config.controlBarWidth, this.props.config.buttons);
+      itemCollapsingResults = collapse(config.controlBarWidth, config.buttons);
     }
 
     const buttons = itemCollapsingResults.overflow;
-    const buttonStyle = [styles.icon, this.props.config.moreOptionsScreen.iconStyle.active];
+    const buttonStyle = [styles.icon, config.moreOptionsScreen.iconStyle.active];
 
     for (let i = 0; i < buttons.length; i++) {
       const button = buttons[i];
@@ -123,16 +141,16 @@ export default class MoreOptionScreen extends Component {
       }
 
       if (button.name === BUTTON_NAMES.STEREOSCOPIC) {
-        if (!this.props.stereoSupported) {
+        if (!stereoSupported) {
           continue;
         }
       } else if (button.name === BUTTON_NAMES.AUDIO_AND_CC) {
-        Log.warn(`showAudioAndCCButton:${this.props.showAudioAndCCButton}`);
-        if (!this.props.сlosedCaptionsEnabled && !this.props.multiAudioEnabled && !this.props.showAudioAndCCButton) {
+        Log.warn(`showAudioAndCCButton:${showAudioAndCCButton}`);
+        if (!closedCaptionsEnabled && !multiAudioEnabled && !showAudioAndCCButton) {
           continue;
         }
       } else if (button.name === BUTTON_NAMES.CLOSED_CAPTIONS) {
-        if (!this.props.сlosedCaptionsEnabled) {
+        if (!closedCaptionsEnabled) {
           continue;
         }
       }
@@ -149,8 +167,8 @@ export default class MoreOptionScreen extends Component {
           style={buttonStyle}
           icon={buttonIcon.fontString}
           onPress={onOptionPress}
-          fontSize={this.props.config.moreOptionsScreen.iconSize}
-          buttonColor={this.props.config.moreOptionsScreen.color}
+          fontSize={config.moreOptionsScreen.iconSize}
+          buttonColor={config.moreOptionsScreen.color}
           fontFamily={buttonIcon.fontFamilyName}
           key={i}
         />,
@@ -159,36 +177,37 @@ export default class MoreOptionScreen extends Component {
   };
 
   _renderIcon = (buttonName) => {
+    const { config, selectedPlaybackSpeedRate } = this.props;
+
     let buttonIcon;
     switch (buttonName) {
       case BUTTON_NAMES.DISCOVERY:
-        buttonIcon = this.props.config.icons.discovery;
+        buttonIcon = config.icons.discovery;
         break;
       case BUTTON_NAMES.QUALITY:
-        buttonIcon = this.props.config.icons.quality;
+        buttonIcon = config.icons.quality;
         break;
       case BUTTON_NAMES.CLOSED_CAPTIONS:
-        buttonIcon = this.props.config.icons.cc;
+        buttonIcon = config.icons.cc;
         break;
       case BUTTON_NAMES.AUDIO_AND_CC:
-        buttonIcon = this.props.config.icons.audioAndCC;
+        buttonIcon = config.icons.audioAndCC;
         break;
       case BUTTON_NAMES.SHARE:
-        buttonIcon = this.props.config.icons.share;
+        buttonIcon = config.icons.share;
         break;
       case BUTTON_NAMES.SETTING: // TODO: this doesn't exist in the skin.json?
-        buttonIcon = this.props.config.icons.setting;
+        buttonIcon = config.icons.setting;
         break;
       case BUTTON_NAMES.STEREOSCOPIC:
-        buttonIcon = this.props.config.icons.stereoscopic;
+        buttonIcon = config.icons.stereoscopic;
         break;
       case BUTTON_NAMES.FULLSCREEN:
-        buttonIcon = this.props.config.icons.expand;
+        buttonIcon = config.icons.expand;
         break;
       case BUTTON_NAMES.PLAYBACK_SPEED:
-        const fontStr = this.props.selectedPlaybackSpeedRate;
         buttonIcon = {
-          fontString: fontStr,
+          fontString: selectedPlaybackSpeedRate,
           fontFamilyName: null,
         };
         break;
@@ -199,11 +218,14 @@ export default class MoreOptionScreen extends Component {
   };
 
   render() {
+    const { config, height, width } = this.props;
+    const { buttonOpacity, opacity, translateY } = this.state;
+
     const moreOptionButtons = [];
     this._renderMoreOptionButtons(moreOptionButtons);
     const rowAnimationStyle = {
-      transform: [{ translateY: this.state.translateY }],
-      opacity: this.state.buttonOpacity,
+      transform: [{ translateY }],
+      opacity: buttonOpacity,
     };
 
     const moreOptionRow = (
@@ -220,29 +242,22 @@ export default class MoreOptionScreen extends Component {
         <RectangularButton
           name={BUTTON_NAMES.DISMISS}
           style={styles.iconDismiss}
-          icon={this.props.config.icons.dismiss.fontString}
+          icon={config.icons.dismiss.fontString}
           onPress={this.onDismissPress}
           fontSize={dismissButtonSize}
-          buttonColor={this.props.config.moreOptionsScreen.color}
-          fontFamily={this.props.config.icons.dismiss.fontFamilyName}
+          buttonColor={config.moreOptionsScreen.color}
+          fontFamily={config.icons.dismiss.fontFamilyName}
         />
       </View>
     );
-    const animationStyle = { opacity: this.state.opacity };
-    const moreOptionScreen = (
-      <Animated.View style={[styles.fullscreenContainer,
-        animationStyle,
-        {
-          height: this.props.height,
-          width: this.props.width,
-        }]}
-      >
-        <Animated.View style={[styles.rowsContainer, animationStyle]}>
+
+    return (
+      <Animated.View style={[styles.fullscreenContainer, { height, opacity, width }]}>
+        <Animated.View style={[styles.rowsContainer, { opacity }]}>
           {moreOptionRow}
         </Animated.View>
         {dismissButtonRow}
       </Animated.View>
     );
-    return moreOptionScreen;
   }
 }

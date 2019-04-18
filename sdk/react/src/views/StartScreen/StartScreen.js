@@ -22,46 +22,51 @@ export default class StartScreen extends Component {
   };
 
   handleClick = () => {
-    this.props.onPress(BUTTON_NAMES.PLAY);
+    const { onPress } = this.props;
+
+    onPress(BUTTON_NAMES.PLAY);
   };
 
   // Gets the play button based on the current config settings
   getPlayButton = () => {
-    const iconFontSize = responsiveMultiplier(this.props.width,
-      UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const {
+      config, height, playhead, screenReaderEnabled, width,
+    } = this.props;
 
-    if (this.props.config.startScreen.showPlayButton) {
+    const iconFontSize = responsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+
+    if (config.startScreen.showPlayButton) {
       return (
         <VideoViewPlayPause
           icons={{
             play: {
-              icon: this.props.config.icons.play.fontString,
-              fontFamily: this.props.config.icons.play.fontFamilyName,
+              icon: config.icons.play.fontString,
+              fontFamily: config.icons.play.fontFamilyName,
             },
             pause: {
-              icon: this.props.config.icons.pause.fontString,
-              fontFamily: this.props.config.icons.pause.fontFamilyName,
+              icon: config.icons.pause.fontString,
+              fontFamily: config.icons.pause.fontFamilyName,
             },
             seekForward: {
-              icon: this.props.config.icons.forward.fontString,
-              fontFamily: this.props.config.icons.forward.fontFamilyName,
+              icon: config.icons.forward.fontString,
+              fontFamily: config.icons.forward.fontFamilyName,
             },
             seekBackward: {
-              icon: this.props.config.icons.replay.fontString,
-              fontFamily: this.props.config.icons.replay.fontFamilyName,
+              icon: config.icons.replay.fontString,
+              fontFamily: config.icons.replay.fontFamilyName,
             },
           }}
-          position={this.props.config.startScreen.playButtonPosition}
+          position={config.startScreen.playButtonPosition}
           onPress={this.handleClick}
-          buttonStyle={this.props.config.startScreen.playIconStyle}
-          frameWidth={this.props.width}
-          frameHeight={this.props.height}
-          playhead={this.props.playhead}
+          buttonStyle={config.startScreen.playIconStyle}
+          frameWidth={width}
+          frameHeight={height}
+          playhead={playhead}
           buttonWidth={iconFontSize}
           buttonHeight={iconFontSize}
           fontSize={iconFontSize}
           playing={false}
-          showButton={!this.props.screenReaderEnabled}
+          showButton={!screenReaderEnabled}
           initialPlay
         />
       );
@@ -70,33 +75,39 @@ export default class StartScreen extends Component {
 
   // Gets the infoPanel based on the current config settings
   getInfoPanel = () => {
+    const { config, description, title } = this.props;
+
     let infoPanelTitle;
-    if (this.props.config.startScreen.showTitle) {
-      infoPanelTitle = (
-        <Text style={[styles.infoPanelTitle, this.props.config.startScreen.titleFont]}>
-          {this.props.title}
-        </Text>
-      );
-    }
     let infoPanelDescription;
-    if (this.props.config.startScreen.showDescription) {
-      infoPanelDescription = (
-        <Text style={[styles.infoPanelDescription, this.props.config.startScreen.descriptionFont]}>
-          {this.props.description}
+    let infoPanelLocation;
+
+    if (config.startScreen.showTitle) {
+      infoPanelTitle = (
+        <Text style={[styles.infoPanelTitle, config.startScreen.titleFont]}>
+          {title}
         </Text>
       );
     }
 
-    let infoPanelLocation;
-    switch (this.props.config.startScreen.infoPanelPosition) {
+    if (config.startScreen.showDescription) {
+      infoPanelDescription = (
+        <Text style={[styles.infoPanelDescription, config.startScreen.descriptionFont]}>
+          {description}
+        </Text>
+      );
+    }
+
+    switch (config.startScreen.infoPanelPosition) {
       case 'topLeft':
         infoPanelLocation = styles.infoPanelNW;
         break;
+
       case 'bottomLeft':
         infoPanelLocation = styles.infoPanelSW;
         break;
+
       default:
-        throw (`Invalid infoPanel location ${this.props.config.startScreen.infoPanelPosition}`);
+        throw `Invalid infoPanel location ${config.startScreen.infoPanelPosition}`;
     }
 
     return (
@@ -108,19 +119,23 @@ export default class StartScreen extends Component {
   };
 
   getPromoImage = () => {
-    if (this.props.config.startScreen.showPromo && this.props.promoUrl) {
-      const fullscreen = (this.props.config.startScreen.promoImageSize === 'default');
+    const {
+      config, height, promoUrl, width,
+    } = this.props;
+
+    if (config.startScreen.showPromo && promoUrl) {
+      const fullscreen = (config.startScreen.promoImageSize === 'default');
 
       return (
         <Image
-          source={{ uri: this.props.promoUrl }}
+          source={{ uri: promoUrl }}
           style={fullscreen
             ? {
               position: 'absolute',
               top: 0,
               left: 0,
-              width: this.props.width,
-              height: this.props.height,
+              width,
+              height,
             }
             : styles.promoImageSmall}
           resizeMode="contain"
@@ -143,7 +158,9 @@ export default class StartScreen extends Component {
   };
 
   _tapHandler = (event) => {
-    if (this.props.screenReaderEnabled) {
+    const { screenReaderEnabled } = this.props;
+
+    if (screenReaderEnabled) {
       this.handleClick();
     }
   };
@@ -153,7 +170,6 @@ export default class StartScreen extends Component {
     const playButton = this.getPlayButton();
     const infoPanel = this.getInfoPanel();
     const waterMarkImage = this.getWaterMark();
-
 
     return (
       <View

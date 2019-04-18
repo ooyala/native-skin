@@ -23,7 +23,7 @@ export default class ItemSelectionScrollView extends Component {
     const { selectedItem } = this.props;
 
     return name && name !== '' && name === selectedItem;
-  };
+  }
 
   onSelected(name) {
     const { onSelect, selectedItem } = this.props;
@@ -31,7 +31,7 @@ export default class ItemSelectionScrollView extends Component {
     if (selectedItem !== name) {
       onSelect(name);
     }
-  };
+  }
 
   renderItem = (item, index) => {
     const { cellType, config } = this.props;

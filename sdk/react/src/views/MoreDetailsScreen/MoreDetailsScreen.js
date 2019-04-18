@@ -22,19 +22,23 @@ export default class MoreDetailsScreen extends Component {
     error: PropTypes.object,
   };
 
-  state = {
-    translateY: new Animated.Value(this.props.height),
-    opacity: new Animated.Value(0),
-    buttonOpacity: new Animated.Value(1),
-    button: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      translateY: new Animated.Value(height),
+      opacity: new Animated.Value(0),
+      buttonOpacity: new Animated.Value(1),
+      button: '',
+    };
+  }
 
   componentDidMount() {
-    this.state.translateY.setValue(this.props.height);
-    this.state.opacity.setValue(0);
+    const { opacity, translateY } = this.state;
+
     Animated.parallel([
       Animated.timing(
-        this.state.translateY,
+        translateY,
         {
           toValue: 0,
           duration: 700,
@@ -42,7 +46,7 @@ export default class MoreDetailsScreen extends Component {
         },
       ),
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: 500,
@@ -54,12 +58,16 @@ export default class MoreDetailsScreen extends Component {
   }
 
   onDismissBtnPress = () => {
-    this.props.onDismiss();
+    const { onDismiss } = this.props;
+
+    onDismiss();
   };
 
   onDismissPress = () => {
+    const { opacity } = this.state;
+
     Animated.timing(
-      this.state.opacity,
+      opacity,
       {
         toValue: 0,
         duration: 500,
@@ -116,13 +124,17 @@ export default class MoreDetailsScreen extends Component {
   }
 
   renderErrorTitle = () => {
+    const { error, locale, localizableStrings } = this.props;
+
     let errorCode = -1;
-    if (this.props.error && this.props.error.code) {
-      errorCode = this.props.error.code;
+
+    if (error && error.code) {
+      errorCode = error.code;
     }
+
     const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings)
-      .toUpperCase();
+    const localizedTitle = Utils.localizedString(locale, title, localizableStrings).toUpperCase();
+
     return (
       <Text style={styles.title}>
         {localizedTitle}
@@ -131,19 +143,24 @@ export default class MoreDetailsScreen extends Component {
   };
 
   renderErrorDescription = () => {
-    if (this.props.error && this.props.error.description) {
-      const userInfo = this.props.error.userInfo || {};
-      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
-      const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
+    const { error, locale, localizableStrings } = this.props;
 
-      const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
+    if (error && error.description) {
+      const userInfo = error.userInfo || {};
+      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
+      const description = ERROR_MESSAGE[errorCode] || error.description;
+
+      const localizedDescription = Utils.localizedString(locale, description, localizableStrings);
+
       Log.warn(`ERROR: localized description:${localizedDescription}`);
+
       return (
         <Text style={styles.description}>
           {localizedDescription}
         </Text>
       );
     }
+
     return null;
   };
 }
