@@ -40,7 +40,7 @@ export default class CastConnectedScreen extends Component {
       handleVideoTouchEnd: PropTypes.func,
       handleControlsTouch: PropTypes.func,
       handleShowControls: PropTypes.func,
-      onControlsVisibilityChanged: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }).isRequired,
     screenReaderEnabled: PropTypes.bool.isRequired,
     availableClosedCaptionsLanguages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -57,12 +57,8 @@ export default class CastConnectedScreen extends Component {
     markers: PropTypes.array.isRequired,
   };
 
-  state = {
-    shouldShowControls: true
-  };
-
   componentDidMount() {
-    this.props.handlers.onControlsVisibilityChanged(this.state.shouldShowControls)
+    this.props.handlers.onControlsVisibilityChanged(true);
   }
 
   onSeekPressed(skipCountValue) {
@@ -247,7 +243,7 @@ export default class CastConnectedScreen extends Component {
         handleControlsTouch={() => handleControlsTouch()}
         showAudioAndCCButton={multiAudioEnabled || ccEnabled}
         showPlaybackSpeedButton={playbackSpeedEnabled}
-        isShow={this.state.shouldShowControls}
+        isShow={true}
         screenReaderEnabled={screenReaderEnabled}
         stereoSupported={stereoSupported}
         config={{
