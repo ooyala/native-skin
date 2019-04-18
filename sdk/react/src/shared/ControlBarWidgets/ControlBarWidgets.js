@@ -383,6 +383,8 @@ export default class ControlBarWidgets extends Component {
   };
 
   render() {
+    const { options, widgetType } = this.props;
+
     const widgetsMap = {
       playPause: this.playPauseWidget,
       volume: this.volumeWidget,
@@ -404,10 +406,13 @@ export default class ControlBarWidgets extends Component {
       seekBackwards: this.seekBackwardsWidget,
       seekForward: this.seekForwardWidget,
     };
-    if (this.props.widgetType.name in widgetsMap) {
-      const widgetOptions = this.props.options[this.props.widgetType.name];
-      return widgetsMap[this.props.widgetType.name](widgetOptions);
+
+    if (widgetType.name in widgetsMap) {
+      const widgetOptions = options[widgetType.name];
+
+      return widgetsMap[widgetType.name](widgetOptions);
     }
+
     // Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
     return <View />;
   }

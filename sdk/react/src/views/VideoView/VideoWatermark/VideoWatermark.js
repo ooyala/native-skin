@@ -11,24 +11,17 @@ export default class VideoWatermark extends Component {
     waterMarkName: PropTypes.string.isRequired,
   };
 
-  renderLogo = () => {
-    const { waterMarkName } = this.props;
-    const sizeStyle = {
-      width: this.props.buttonWidth,
-      height: this.props.buttonHeight,
-    };
+  render() {
+    const { buttonHeight: height, buttonWidth: width, waterMarkName } = this.props;
+
     return (
       <View style={[styles.watermarkContainer]}>
         <Image
-          style={sizeStyle}
-          source={{ uri: waterMarkName }}
           resizeMode="contain"
+          source={{ uri: waterMarkName }}
+          style={{ height, width }}
         />
       </View>
     );
-  };
-
-  render() {
-    return this.renderLogo();
   }
 }

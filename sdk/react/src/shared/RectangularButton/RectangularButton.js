@@ -24,17 +24,18 @@ export default class RectangularButton extends Component {
 
   // Gets the play button based on the current config settings
   render() {
-    const fontStyle = {
-      fontSize: this.props.fontSize,
-      fontFamily: this.props.fontFamily,
-    };
-    const buttonColor = { color: this.props.buttonColor || 'white' };
+    const {
+      buttonColor, buttonHeight, buttonStyle, buttonWidth, fontFamily, fontSize, frameHeight, frameWidth, name, onPress,
+      opacity, position, style,
+    } = this.props;
+
     let positionStyle;
-    if (this.props.style) {
-      positionStyle = this.props.style;
-    } else if (this.props.position == 'center') {
-      const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
-      const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
+
+    if (style) {
+      positionStyle = style;
+    } else if (position === 'center') {
+      const topOffset = Math.round((frameHeight - buttonHeight) * 0.5);
+      const leftOffset = Math.round((frameWidth - buttonWidth) * 0.5);
 
       positionStyle = {
         position: 'absolute',
@@ -42,23 +43,32 @@ export default class RectangularButton extends Component {
         left: leftOffset,
       };
     } else {
-      positionStyle = styles[this.props.position];
+      positionStyle = styles[position];
     }
+
     return (
       <TouchableHighlight
         accessible
-        accessibilityLabel={this.props.name}
+        accessibilityLabel={name}
         accessibilityComponentType="button"
         style={positionStyle}
-        onPress={this.props.onPress}
+        onPress={onPress}
         underlayColor="transparent"
-        activeOpacity={this.props.opacity}
+        activeOpacity={opacity}
       >
         <View>
           <Text
-            style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle]}
+            style={[
+              styles.buttonTextStyle,
+              {
+                color: buttonColor || 'white',
+                fontSize,
+                fontFamily,
+              },
+              buttonStyle,
+            ]}
           >
-            {this.props.icon}
+            {icon}
           </Text>
         </View>
       </TouchableHighlight>

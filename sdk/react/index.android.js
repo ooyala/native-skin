@@ -105,11 +105,15 @@ class OoyalaSkin extends Component {
     />
   );
 
-  renderVideoView = () => (
-    <View style={styles.container}>
-      <Text>{this.state.playerState}</Text>
-    </View>
-  );
+  renderVideoView = () => {
+    const { playerState } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <Text>{playerState}</Text>
+      </View>
+    );
+  };
 
   render() {
     return OoyalaSkinCoreInstance.renderScreen();

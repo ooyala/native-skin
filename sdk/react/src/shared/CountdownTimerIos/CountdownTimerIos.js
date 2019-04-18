@@ -44,27 +44,42 @@ export default class CountdownTimerIos extends Component {
   };
 
   _onTimerUpdate = (event) => {
-    this.props.onTimerUpdate && this.props.onTimerUpdate(event.nativeEvent);
+    const { onTimerUpdate } = this.props;
+
+    if (onTimerUpdate) {
+      onTimerUpdate(event.nativeEvent);
+    }
   };
 
   _onTimerCompleted = (event) => {
-    this.props.onTimerCompleted && this.props.onTimerCompleted(event.nativeEvent);
+    const { onTimerCompleted } = this.props;
+
+    if (onTimerCompleted) {
+      onTimerCompleted(event.nativeEvent);
+    }
   };
 
   _onPress = () => {
-    if (this.props.tapCancel) {
+    const { onPress, tapCancel } = this.props;
+
+    if (tapCancel) {
       this.setState({
         canceled: true,
       });
     }
-    this.props.onPress && this.props.onPress();
+
+    if (onPress) {
+      onPress();
+    }
   };
 
   renderCountdownView() {
+    const { canceled } = this.state;
+
     return (
       <NativeCountdownView
         {...this.props}
-        canceled={this.state.canceled}
+        canceled={canceled}
         onTimerUpdate={this._onTimerUpdate}
         onTimerCompleted={this._onTimerCompleted}
       />
@@ -83,9 +98,12 @@ export default class CountdownTimerIos extends Component {
   }
 
   render() {
-    if (this.props.onPress) {
+    const { onPress } = this.props;
+
+    if (onPress) {
       return this.renderClickableView();
     }
+
     return this.renderCountdownView();
   }
 }

@@ -22,20 +22,27 @@ export default class VolumePanel extends Component {
     config: PropTypes.object,
   };
 
-  state = {
-    volume: this.props.volume,
-    opacity: new Animated.Value(0),
-    touch: false,
-    x: 0,
-    sliderWidth: 0,
-    sliderHeight: 0,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      volume: props.volume,
+      opacity: new Animated.Value(0),
+      touch: false,
+      x: 0,
+      sliderWidth: 0,
+      sliderHeight: 0,
+    };
+  }
 
   componentDidMount() {
-    this.state.opacity.setValue(0);
+    const { opacity } = this.state;
+
+    opacity.setValue(0);
+
     Animated.parallel([
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: constants.animationDuration,
@@ -46,14 +53,20 @@ export default class VolumePanel extends Component {
   }
 
   _onVolumeChange = (volume) => {
-    this.props.onVolumeChanged(volume);
+    const { onVolumeChanged } = this.props;
+
+    onVolumeChanged(volume);
+
     this.setState({
       volume,
     });
   };
 
   _renderVolumeIcon = () => {
-    const iconConfig = (this.state.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
+    const { config } = this.props;
+    const { volume } = this.state;
+
+    const iconConfig = (volume > 0) ? config.icons.volume : config.icons.volumeOff;
     const fontFamilyStyle = { fontFamily: iconConfig.fontFamilyName };
 
     return (
@@ -111,18 +124,23 @@ export default class VolumePanel extends Component {
   });
 
   onDismissPress = () => {
-    this.props.onDismiss();
+    const { onDismiss } = this.props;
+
+    onDismiss();
   };
 
   // Volume slider
   _touchPercent = (x) => {
-    let percent = x / (this.state.sliderWidth);
+    const { sliderWidth } = this.state;
+
+    let percent = x / sliderWidth;
 
     if (percent > 1) {
       percent = 1;
     } else if (percent < 0) {
       percent = 0;
     }
+
     return percent;
   };
 
@@ -159,6 +177,8 @@ export default class VolumePanel extends Component {
   };
 
   _renderVolumeSlider = (volume) => {
+    const { touch, volume: stateVolume, x } = this.state;
+
     const volumeValue = volume;
     const backgroundValue = 1 - volumeValue;
 
@@ -189,37 +209,41 @@ export default class VolumePanel extends Component {
           <View style={filledStyle} />
           <View style={backgroundStyle} />
         </View>
-        {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
+        {this._renderVolumeThumb(touch ? this._touchPercent(x) : stateVolume)}
       </View>
     );
   };
 
-  _renderDismissButton = () => (
-    <TouchableHighlight
-      style={styles.dismissButton}
-      underlayColor="transparent" // Can't move this property to json style file because it doesn't works
-      onPress={this.onDismissPress}
-    >
-      <Text style={styles.dismissIcon}>
-        {this.props.config.icons.dismiss.fontString}
-      </Text>
-    </TouchableHighlight>
-  );
-
-  render() {
-    const animationStyle = { opacity: this.state.opacity };
+  _renderDismissButton = () => {
+    const { config } = this.props;
 
     return (
-      <Animated.View style={[styles.container,
-        animationStyle,
-        {
-          height: this.props.height,
-          width: this.props.width,
-        }]}
+      <TouchableHighlight
+        style={styles.dismissButton}
+        underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+        onPress={this.onDismissPress}
+      >
+        <Text style={styles.dismissIcon}>
+          {config.icons.dismiss.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
+  };
+
+  render() {
+    const { height, width } = this.props;
+    const { opacity, volume } = this.state;
+
+    return (
+      <Animated.View
+        style={[
+          styles.container,
+          { height, opacity, width },
+        ]}
       >
         {this._renderDismissButton()}
         {this._renderVolumeIcon()}
-        {this._renderVolumeSlider(this.state.volume)}
+        {this._renderVolumeSlider(volume)}
       </Animated.View>
     );
   }

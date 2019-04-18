@@ -9,24 +9,26 @@ export default class ItemSelectionList extends Component {
     itemRender: PropTypes.func,
   };
 
-  renderItems = (items) => {
-    if (typeof (items) !== 'undefined') {
-      const renderedItems = items.map((item, index) => (
-        this.props.itemRender(item, index)
-      ));
-      return (renderedItems);
+  renderItems = () => {
+    const { data, itemRender } = this.props;
+
+    if (typeof data === 'undefined') {
+      return null;
     }
-    return null;
+
+    return data.map((item, index) => itemRender(item, index));
   };
 
   render() {
+    const { horizontal } = this.props;
+
     return (
       <ScrollView
         indicatorStyle="white" // Can't move this property to json styles file because it doesn't work
-        horizontal={this.props.horizontal}
+        horizontal={horizontal}
         directionalLockEnabled
       >
-        {this.renderItems(this.props.data)}
+        {this.renderItems()}
       </ScrollView>
     );
   }

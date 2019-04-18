@@ -19,20 +19,28 @@ export default class ItemSelectionScrollView extends Component {
     cellType: PropTypes.string,
   };
 
-  isSelected = name => name && name !== '' && name === this.props.selectedItem;
+  isSelected(name) {
+    const { selectedItem } = this.props;
 
-  onSelected = (name) => {
-    if (this.props.selectedItem !== name) {
-      this.props.onSelect(name);
+    return name && name !== '' && name === selectedItem;
+  };
+
+  onSelected(name) {
+    const { onSelect, selectedItem } = this.props;
+
+    if (selectedItem !== name) {
+      onSelect(name);
     }
   };
 
   renderItem = (item, index) => {
+    const { cellType, config } = this.props;
+
     const isSelectedItem = this.isSelected(item);
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
-    const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : '';
-    const accessibilityString = Accessibility.createAccessibilityLabelForCell(this.props.cellType, item);
+    const checkmarkIcon = isSelectedItem ? config.icons.selected.fontString : '';
+    const accessibilityString = Accessibility.createAccessibilityLabelForCell(cellType, item);
 
     return (
       <TouchableHighlight
@@ -58,13 +66,12 @@ export default class ItemSelectionScrollView extends Component {
   };
 
   render() {
-    const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+    const { height, items, width } = this.props;
+
+    const renderHorizontal = Utils.shouldShowLandscape(width, height);
+
     return (
-      <ItemSelectionList
-        horizontal={renderHorizontal}
-        data={this.props.items}
-        itemRender={this.renderItem}
-      />
+      <ItemSelectionList horizontal={renderHorizontal} data={items} itemRender={this.renderItem} />
     );
   }
 }
