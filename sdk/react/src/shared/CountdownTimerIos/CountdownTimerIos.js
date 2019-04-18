@@ -43,7 +43,7 @@ export default class CountdownTimerIos extends Component {
     canceled: false,
   };
 
-  _onTimerUpdate = (event) => {
+  onTimerUpdate = (event) => {
     const { onTimerUpdate } = this.props;
 
     if (onTimerUpdate) {
@@ -51,7 +51,7 @@ export default class CountdownTimerIos extends Component {
     }
   };
 
-  _onTimerCompleted = (event) => {
+  onTimerCompleted = (event) => {
     const { onTimerCompleted } = this.props;
 
     if (onTimerCompleted) {
@@ -59,7 +59,7 @@ export default class CountdownTimerIos extends Component {
     }
   };
 
-  _onPress = () => {
+  onPress = () => {
     const { onPress, tapCancel } = this.props;
 
     if (tapCancel) {
@@ -80,8 +80,8 @@ export default class CountdownTimerIos extends Component {
       <NativeCountdownView
         {...this.props}
         canceled={canceled}
-        onTimerUpdate={this._onTimerUpdate}
-        onTimerCompleted={this._onTimerCompleted}
+        onTimerUpdate={this.onTimerUpdate}
+        onTimerCompleted={this.onTimerCompleted}
       />
     );
   }
@@ -90,7 +90,7 @@ export default class CountdownTimerIos extends Component {
     return (
       <TouchableHighlight
         underlayColor="transparent"
-        onPress={() => this._onPress()}
+        onPress={() => this.onPress()}
       >
         {this.renderCountdownView()}
       </TouchableHighlight>

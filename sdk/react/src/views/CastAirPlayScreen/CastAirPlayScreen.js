@@ -19,7 +19,7 @@ export default class CastAirPlayScreen extends Component {
     config: PropTypes.object.isRequired,
   };
 
-  _renderCastButton = (color) => {
+  renderCastButton = (color) => {
     const { config, height } = this.props;
 
     return (
@@ -40,7 +40,7 @@ export default class CastAirPlayScreen extends Component {
       height, onDismiss, onPress, width,
     } = this.props;
 
-    const castButton = this._renderCastButton('white');
+    const castButton = this.renderCastButton('white');
     const halfHeightWithMargin = height / 2 - 8;
     const textContainerDimensions = {
       height: halfHeightWithMargin,

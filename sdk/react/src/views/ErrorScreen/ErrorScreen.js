@@ -89,7 +89,7 @@ export default class ErrorScreen extends Component {
         <View style={isAudioOnly ? styles.wrapperAudio : styles.wrapper}>
           {isAudioOnly ? this.getTitleAudioOnly() : this.getTitle()}
           {isAudioOnly ? this.getDescriptionAudioOnly() : this.getDescription()}
-          {this._renderMoreDetailsButton()}
+          {this.renderMoreDetailsButton()}
         </View>
       </View>
     );
@@ -101,7 +101,7 @@ export default class ErrorScreen extends Component {
     onPress(BUTTON_NAMES.MORE_DETAILS);
   };
 
-  _renderMoreDetailsButton = () => {
+  renderMoreDetailsButton = () => {
     const { isAudioOnly, locale, localizableStrings } = this.props;
 
     if (!isAudioOnly) {

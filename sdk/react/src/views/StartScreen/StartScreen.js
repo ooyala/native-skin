@@ -157,7 +157,7 @@ export default class StartScreen extends Component {
     );
   };
 
-  _tapHandler = (event) => {
+  tapHandler = (event) => {
     const { screenReaderEnabled } = this.props;
 
     if (screenReaderEnabled) {
@@ -177,7 +177,7 @@ export default class StartScreen extends Component {
         accessible
         accessibilityLabel="Video player. Tap twice to play"
         style={styles.container}
-        onTouchEnd={event => this._tapHandler(event)}
+        onTouchEnd={event => this.tapHandler(event)}
       >
         {promoImage}
         {waterMarkImage}

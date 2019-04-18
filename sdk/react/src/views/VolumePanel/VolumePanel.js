@@ -52,7 +52,7 @@ export default class VolumePanel extends Component {
       .start();
   }
 
-  _onVolumeChange = (volume) => {
+  onVolumeChange = (volume) => {
     const { onVolumeChanged } = this.props;
 
     onVolumeChanged(volume);
@@ -62,7 +62,7 @@ export default class VolumePanel extends Component {
     });
   };
 
-  _renderVolumeIcon = () => {
+  renderVolumeIcon = () => {
     const { config } = this.props;
     const { volume } = this.state;
 
@@ -79,8 +79,8 @@ export default class VolumePanel extends Component {
   };
 
   handleTouchStart = (event) => {
-    const volume = this._touchPercent(event.nativeEvent.locationX);
-    this._onVolumeChange(volume);
+    const volume = this.touchPercent(event.nativeEvent.locationX);
+    this.onVolumeChange(volume);
     this.setState({
       touch: true,
       x: event.nativeEvent.locationX,
@@ -89,8 +89,8 @@ export default class VolumePanel extends Component {
 
   handleTouchMove = (event) => {
     const locationX = event.nativeEvent.pageX - this.locationPageOffset;
-    const volume = this._touchPercent(locationX);
-    this._onVolumeChange(volume);
+    const volume = this.touchPercent(locationX);
+    this.onVolumeChange(volume);
     this.setState({
       x: locationX,
     });
@@ -104,7 +104,7 @@ export default class VolumePanel extends Component {
   };
 
   // Actions
-  _panResponder = PanResponder.create({
+  panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (event, gestureState) => true,
     onStartShouldSetPanResponderCapture: (event, gestureState) => true,
     onMoveShouldSetPanResponder: (event, gestureState) => true,
@@ -130,7 +130,7 @@ export default class VolumePanel extends Component {
   };
 
   // Volume slider
-  _touchPercent = (x) => {
+  touchPercent = (x) => {
     const { sliderWidth } = this.state;
 
     let percent = x / sliderWidth;
@@ -144,11 +144,11 @@ export default class VolumePanel extends Component {
     return percent;
   };
 
-  _calculateTopOffset = (componentSize, sliderHeight) => sliderHeight / 2 - componentSize / 2;
+  calculateTopOffset = (componentSize, sliderHeight) => sliderHeight / 2 - componentSize / 2;
 
-  _calculateLeftOffset = (componentSize, percent, sliderWidth) => percent * sliderWidth - componentSize * percent;
+  calculateLeftOffset = (componentSize, percent, sliderWidth) => percent * sliderWidth - componentSize * percent;
 
-  _thumbStyle = () => ({
+  thumbStyle = () => ({
     flex: 0,
     position: 'absolute',
     backgroundColor: 'white',
@@ -157,16 +157,16 @@ export default class VolumePanel extends Component {
     height: constants.scrubberSize,
   });
 
-  _renderVolumeThumb = (volume) => {
+  renderVolumeThumb = (volume) => {
     const { sliderWidth } = this.state;
     const { sliderHeight } = this.state;
-    const topOffset = this._calculateTopOffset(constants.scrubberSize, sliderHeight);
-    const leftOffset = this._calculateLeftOffset(constants.scrubberSize, volume, sliderWidth);
+    const topOffset = this.calculateTopOffset(constants.scrubberSize, sliderHeight);
+    const leftOffset = this.calculateLeftOffset(constants.scrubberSize, volume, sliderWidth);
     const positionStyle = {
       top: topOffset,
       left: leftOffset,
     };
-    const thumbStyle = this._thumbStyle();
+    const thumbStyle = this.thumbStyle();
 
     return (
       <View
@@ -176,7 +176,7 @@ export default class VolumePanel extends Component {
     );
   };
 
-  _renderVolumeSlider = (volume) => {
+  renderVolumeSlider = (volume) => {
     const { touch, volume: stateVolume, x } = this.state;
 
     const volumeValue = volume;
@@ -197,7 +197,7 @@ export default class VolumePanel extends Component {
     return (
       <View
         style={styles.sliderContainer}
-        {...this._panResponder.panHandlers}
+        {...this.panResponder.panHandlers}
         onLayout={(event) => {
           this.setState({
             sliderWidth: event.nativeEvent.layout.width,
@@ -209,12 +209,12 @@ export default class VolumePanel extends Component {
           <View style={filledStyle} />
           <View style={backgroundStyle} />
         </View>
-        {this._renderVolumeThumb(touch ? this._touchPercent(x) : stateVolume)}
+        {this.renderVolumeThumb(touch ? this.touchPercent(x) : stateVolume)}
       </View>
     );
   };
 
-  _renderDismissButton = () => {
+  renderDismissButton = () => {
     const { config } = this.props;
 
     return (
@@ -241,9 +241,9 @@ export default class VolumePanel extends Component {
           { height, opacity, width },
         ]}
       >
-        {this._renderDismissButton()}
-        {this._renderVolumeIcon()}
-        {this._renderVolumeSlider(volume)}
+        {this.renderDismissButton()}
+        {this.renderVolumeIcon()}
+        {this.renderVolumeSlider(volume)}
       </Animated.View>
     );
   }

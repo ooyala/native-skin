@@ -113,7 +113,7 @@ export default class EndScreen extends Component {
           {replayButton}
         </View>
         <View style={styles.controlBarPosition}>
-          {this._renderBottomOverlay(true)}
+          {this.renderBottomOverlay(true)}
         </View>
       </View>
     );
@@ -126,7 +126,7 @@ export default class EndScreen extends Component {
     this.handleClick(BUTTON_NAMES.PLAY_PAUSE);
   };
 
-  _renderBottomOverlay(show) {
+  renderBottomOverlay(show) {
     const {
       config, duration, fullscreen, handleControlsTouch, height, loading, markers, showAudioAndCCButton, showWatermark,
       volume, width,

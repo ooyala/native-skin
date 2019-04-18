@@ -115,7 +115,7 @@ export default class VideoView extends Component {
     this.handleScrub(resultedPlayheadPercent);
   };
 
-  _placeholderTapHandler = (event) => {
+  placeholderTapHandler = (event) => {
     const { handlers, screenReaderEnabled } = this.props;
 
     if (screenReaderEnabled) {
@@ -125,11 +125,7 @@ export default class VideoView extends Component {
     }
   };
 
-  _createOnIcon = (index, func) => function () {
-    func(index);
-  };
-
-  _renderBottomOverlay(show) {
+  renderBottomOverlay(show) {
     const {
       audioTracksTitles, availableClosedCaptionsLanguages, config, cuePoints, duration, fullscreen, handlers, height,
       isPipActivated, isPipButtonVisible, markers, multiAudioEnabled, playbackSpeedEnabled, playhead, playing,
@@ -175,7 +171,7 @@ export default class VideoView extends Component {
     );
   }
 
-  _renderPlaceholder = () => {
+  renderPlaceholder = () => {
     const { handlers } = this.props;
 
     return (
@@ -187,12 +183,12 @@ export default class VideoView extends Component {
         importantForAccessibility="no"
         onTouchStart={event => handlers.handleVideoTouchStart(event)}
         onTouchMove={event => handlers.handleVideoTouchMove(event)}
-        onTouchEnd={event => this._placeholderTapHandler(event)}
+        onTouchEnd={event => this.placeholderTapHandler(event)}
       />
     );
   };
 
-  _renderBottom = () => {
+  renderBottom = () => {
     const { config } = this.props;
 
     const VideoWaterMarkSize = responsiveMultiplier(UI_SIZES.VIDEOWATERMARK, UI_SIZES.VIDEOWATERMARK);
@@ -203,7 +199,7 @@ export default class VideoView extends Component {
 
     let watermark = null;
     if (waterMarkName) {
-      watermark = this._renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
+      watermark = this.renderVideoWaterMark(waterMarkName, VideoWaterMarkSize);
     }
 
     return (
@@ -215,12 +211,12 @@ export default class VideoView extends Component {
         }}
       >
         {watermark}
-        {this._renderClosedCaptions()}
+        {this.renderClosedCaptions()}
       </View>
     );
   };
 
-  _renderClosedCaptions = () => {
+  renderClosedCaptions = () => {
     const {
       caption, captionStyles, config, handlers, width,
     } = this.props;
@@ -258,7 +254,7 @@ export default class VideoView extends Component {
     return null;
   };
 
-  _renderUpNext = () => {
+  renderUpNext = () => {
     const {
       ad, config, duration, live, nextVideo, playhead, upNextDismissed, width,
     } = this.props;
@@ -284,7 +280,7 @@ export default class VideoView extends Component {
     );
   };
 
-  _renderPlayPause = (show) => {
+  renderPlayPause = (show) => {
     const {
       config, duration, height, initialPlay, live, loading, playhead, playing, rate, width,
     } = this.props;
@@ -336,7 +332,7 @@ export default class VideoView extends Component {
     );
   };
 
-  _renderVideoWaterMark = (waterMarkName, VideoWaterMarkSize) => {
+  renderVideoWaterMark = (waterMarkName, VideoWaterMarkSize) => {
     if (waterMarkName) {
       return (
         <View
@@ -356,7 +352,7 @@ export default class VideoView extends Component {
     }
   };
 
-  _renderAdOverlay = () => {
+  renderAdOverlay = () => {
     const {
       adOverlay, config, handlers, width: propsWidth,
     } = this.props;
@@ -423,7 +419,7 @@ export default class VideoView extends Component {
     );
   };
 
-  _renderLoading = () => {
+  renderLoading = () => {
     const { height, loading, width } = this.props;
 
     const loadingSize = responsiveMultiplier(width, UI_SIZES.LOADING_ICON);
@@ -476,13 +472,13 @@ export default class VideoView extends Component {
         accessible={false}
         style={[styles.container, { height, width }]}
       >
-        {this._renderPlaceholder()}
-        {this._renderBottom()}
-        {this._renderAdOverlay()}
-        {this._renderPlayPause(shouldShowControls)}
-        {this._renderUpNext()}
-        {this._renderBottomOverlay(shouldShowControls)}
-        {this._renderLoading()}
+        {this.renderPlaceholder()}
+        {this.renderBottom()}
+        {this.renderAdOverlay()}
+        {this.renderPlayPause(shouldShowControls)}
+        {this.renderUpNext()}
+        {this.renderBottomOverlay(shouldShowControls)}
+        {this.renderLoading()}
       </View>
     );
   }

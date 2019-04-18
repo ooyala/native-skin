@@ -102,17 +102,17 @@ export default class VideoViewPlayPause extends Component {
     ));
   };
 
-  _renderPlayPauseButton = () => {
+  renderPlayPauseButton = () => {
     const { playing } = this.state;
 
     if (playing) {
-      return this._renderButton(PAUSE);
+      return this.renderButton(PAUSE);
     }
 
-    return this._renderButton(PLAY);
+    return this.renderButton(PLAY);
   };
 
-  _renderButton = (name) => {
+  renderButton = (name) => {
     const {
       buttonColor, buttonHeight, buttonWidth, fontSize, icons, opacity,
     } = this.props;
@@ -150,7 +150,7 @@ export default class VideoViewPlayPause extends Component {
     );
   };
 
-  _renderSeekButton = (name, iconScale, active) => {
+  renderSeekButton = (name, iconScale, active) => {
     const {
       buttonColor, buttonHeight, buttonWidth, fontSize, icons, seekBackwardValue, seekEnabled, seekForwardValue,
       showSeekButtons,
@@ -205,9 +205,9 @@ export default class VideoViewPlayPause extends Component {
     } = this.props;
 
     const seekButtonScale = 0.5;
-    const playPauseButton = this._renderPlayPauseButton();
-    const backwardButton = this._renderSeekButton(BACKWARD, seekButtonScale, true);
-    const forwardButton = this._renderSeekButton(FORWARD, seekButtonScale, ffActive);
+    const playPauseButton = this.renderPlayPauseButton();
+    const backwardButton = this.renderSeekButton(BACKWARD, seekButtonScale, true);
+    const forwardButton = this.renderSeekButton(FORWARD, seekButtonScale, ffActive);
 
     const containerStyle = {
       flexDirection: 'row',

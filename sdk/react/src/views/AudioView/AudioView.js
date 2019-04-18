@@ -197,7 +197,7 @@ export default class AudioView extends Component {
   };
 
   // MARK: - Header view
-  _renderHeaderView = () => {
+  renderHeaderView = () => {
     const { description, title } = this.props;
 
     const titleLabel = <Text style={styles.titleLabel}>{`${title}: `}</Text>;
@@ -216,7 +216,7 @@ export default class AudioView extends Component {
   };
 
   // MARK: - ControlBar
-  _renderControlBar = () => {
+  renderControlBar = () => {
     const {
       config, handlers, onPlayComplete, playbackSpeedEnabled, playing, showMoreOptionsButton, volume, width,
     } = this.props;
@@ -324,21 +324,21 @@ export default class AudioView extends Component {
   };
 
   // MARK: - Progress bar + scrubber
-  _calculateTopOffset = (componentSize, progressBarHeight) => progressBarHeight / 2 - componentSize / 2;
+  calculateTopOffset = (componentSize, progressBarHeight) => progressBarHeight / 2 - componentSize / 2;
 
-  _calculateLeftOffset = (componentSize, percent, progressBarWidth) => percent * progressBarWidth - componentSize
+  calculateLeftOffset = (componentSize, percent, progressBarWidth) => percent * progressBarWidth - componentSize
     * percent;
 
-  _renderProgressScrubber = (percent) => {
+  renderProgressScrubber = (percent) => {
     const { progressBarHeight, progressBarWidth } = this.state;
 
-    const topOffset = this._calculateTopOffset(scrubberSize, progressBarHeight);
-    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, progressBarWidth);
+    const topOffset = this.calculateTopOffset(scrubberSize, progressBarHeight);
+    const leftOffset = this.calculateLeftOffset(scrubberSize, percent, progressBarWidth);
     const positionStyle = {
       top: topOffset,
       left: leftOffset,
     };
-    const scrubberStyle = this._customizeScrubber();
+    const scrubberStyle = this.customizeScrubber();
 
     return (
       <View
@@ -371,7 +371,7 @@ export default class AudioView extends Component {
     return '#4389FF';
   };
 
-  _customizeScrubber = () => {
+  customizeScrubber = () => {
     const { config } = this.props;
 
     let { scrubberHandleBorderColor } = config.controlBar.scrubberBar;
@@ -504,7 +504,7 @@ export default class AudioView extends Component {
     });
   };
 
-  _panResponder = PanResponder.create({
+  panResponder = PanResponder.create({
     onStartShouldSetPanResponder: (event, gestureState) => true,
 
     onStartShouldSetPanResponderCapture: (event, gestureState) => true,
@@ -529,7 +529,7 @@ export default class AudioView extends Component {
     },
   });
 
-  _renderProgressBar = (percent) => {
+  renderProgressBar = (percent) => {
     const { config } = this.props;
 
     return (
@@ -550,7 +550,7 @@ export default class AudioView extends Component {
     );
   };
 
-  _renderLiveCircle = (isLive) => {
+  renderLiveCircle = (isLive) => {
     const { live } = this.props;
 
     if (!live) {
@@ -560,7 +560,7 @@ export default class AudioView extends Component {
     return <View style={isLive ? styles.liveCircleActive : styles.liveCircleNonActive} />;
   };
 
-  _renderCompleteProgressBar = () => {
+  renderCompleteProgressBar = () => {
     const {
       duration, live, locale, localizableStrings, playhead,
     } = this.props;
@@ -582,7 +582,7 @@ export default class AudioView extends Component {
 
     return (
       <View style={styles.progressBar}>
-        {this._renderLiveCircle(isLive)}
+        {this.renderLiveCircle(isLive)}
         <View>
           <Text style={live ? styles.liveLabel : styles.progressBarTimeLabel}>
             {live ? Utils.localizedString(locale, 'LIVE', localizableStrings) : playHeadTime}
@@ -596,10 +596,10 @@ export default class AudioView extends Component {
             });
           }}
           style={styles.progressBarScrubberContainer}
-          {...this._panResponder.panHandlers}
+          {...this.panResponder.panHandlers}
         >
-          {this._renderProgressBar(playedPercent)}
-          {this._renderProgressScrubber(touch ? this.touchPercent(x) : playedPercent)}
+          {this.renderProgressBar(playedPercent)}
+          {this.renderProgressScrubber(touch ? this.touchPercent(x) : playedPercent)}
         </Animated.View>
         <View>
           <Text style={isLive ? styles.progressBarNoTimeLabel : styles.progressBarTimeLabel}>
@@ -611,11 +611,11 @@ export default class AudioView extends Component {
   };
 
   // MARK: - AudioView rendering
-  _renderPlayer = () => (
+  renderPlayer = () => (
     <View style={styles.container}>
-      {this._renderHeaderView()}
-      {this._renderControlBar()}
-      {this._renderCompleteProgressBar()}
+      {this.renderHeaderView()}
+      {this.renderControlBar()}
+      {this.renderCompleteProgressBar()}
     </View>
   );
 
@@ -628,7 +628,7 @@ export default class AudioView extends Component {
         { height, width },
       ]}
       >
-        {this._renderPlayer()}
+        {this.renderPlayer()}
       </View>
     );
   }

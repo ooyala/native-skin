@@ -107,7 +107,7 @@ export default class MoreOptionScreen extends Component {
       .start(this.onDismissBtnPress);
   };
 
-  _renderMoreOptionButtons = (moreOptionButtons) => {
+  renderMoreOptionButtons = (moreOptionButtons) => {
     const {
       closedCaptionsEnabled, config, isAudioOnly, multiAudioEnabled, showAudioAndCCButton, stereoSupported,
     } = this.props;
@@ -125,7 +125,7 @@ export default class MoreOptionScreen extends Component {
 
     for (let i = 0; i < buttons.length; i++) {
       const button = buttons[i];
-      const buttonIcon = this._renderIcon(button.name);
+      const buttonIcon = this.renderIcon(button.name);
 
       // If a color style exists, we remove it as it is applied to a view, which doesn't support
       // text color modification. Color key only applies to Text views.
@@ -176,7 +176,7 @@ export default class MoreOptionScreen extends Component {
     }
   };
 
-  _renderIcon = (buttonName) => {
+  renderIcon = (buttonName) => {
     const { config, selectedPlaybackSpeedRate } = this.props;
 
     let buttonIcon;
@@ -222,7 +222,7 @@ export default class MoreOptionScreen extends Component {
     const { buttonOpacity, opacity, translateY } = this.state;
 
     const moreOptionButtons = [];
-    this._renderMoreOptionButtons(moreOptionButtons);
+    this.renderMoreOptionButtons(moreOptionButtons);
     const rowAnimationStyle = {
       transform: [{ translateY }],
       opacity: buttonOpacity,

@@ -44,11 +44,11 @@ export default class ControlBarWidgets extends Component {
     );
   };
 
-  seekBackwardsWidget = options => this._renderSeekButton(options, false);
+  seekBackwardsWidget = options => this.renderSeekButton(options, false);
 
-  seekForwardWidget = options => this._renderSeekButton(options, true);
+  seekForwardWidget = options => this.renderSeekButton(options, true);
 
-  _renderSeekButton = (options, isForward) => {
+  renderSeekButton = (options, isForward) => {
     const fontStyle = {
       fontSize: options.size,
       fontFamily: options.icon.fontFamilyName,
@@ -118,7 +118,7 @@ export default class ControlBarWidgets extends Component {
     );
   };
 
-  _renderLiveCircle = (options) => {
+  renderLiveCircle = (options) => {
     if (options.liveCircle) {
       return (<View style={options.liveCircle} />);
     }
@@ -147,7 +147,7 @@ export default class ControlBarWidgets extends Component {
         style={options.completeTimeStyle}
         accessible
       >
-        {this._renderLiveCircle(options)}
+        {this.renderLiveCircle(options)}
         {playHead}
         {duration}
       </View>

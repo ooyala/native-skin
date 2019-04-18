@@ -72,7 +72,7 @@ class OoyalaSkin extends Component {
 
     AccessibilityInfo.addEventListener(
       'change',
-      this._handleScreenReaderToggled,
+      this.handleScreenReaderToggled,
     );
     AccessibilityInfo.fetch()
       .done((isEnabled) => {
@@ -88,11 +88,11 @@ class OoyalaSkin extends Component {
 
     AccessibilityInfo.removeEventListener(
       'change',
-      this._handleScreenReaderToggled,
+      this.handleScreenReaderToggled,
     );
   }
 
-  _handleScreenReaderToggled = (isEnabled) => {
+  handleScreenReaderToggled = (isEnabled) => {
     this.setState({
       screenReaderEnabled: isEnabled,
     });

@@ -331,7 +331,7 @@ export default class ControlBar extends Component {
       },
     };
 
-    function _isVisible(item) {
+    function isVisible(item) {
       let visible = true;
 
       switch (item.name) {
@@ -355,7 +355,7 @@ export default class ControlBar extends Component {
       item.isVisible = visible;
     }
 
-    config.buttons.forEach(_isVisible, this);
+    config.buttons.forEach(isVisible, this);
 
     const itemCollapsingResults = collapse(width, config.buttons);
 

@@ -100,11 +100,11 @@ export default class AdPlaybackScreen extends Component {
     }
   };
 
-  _createOnIcon = (index, func) => function () {
+  createOnIcon = (index, func) => () => {
     func(index);
   };
 
-  _renderBottomOverlay(show) {
+  renderBottomOverlay(show) {
     const {
       ad, config, cuePoints, duration, fullscreen, handlers, height, markers, playhead, playing, showWatermark, volume,
       width,
@@ -143,7 +143,7 @@ export default class AdPlaybackScreen extends Component {
     );
   }
 
-  _renderAdBar = () => {
+  renderAdBar = () => {
     const {
       ad, duration, locale, localizableStrings, playhead, width,
     } = this.props;
@@ -161,7 +161,7 @@ export default class AdPlaybackScreen extends Component {
     );
   };
 
-  _renderPlaceholder = (adIcons) => {
+  renderPlaceholder = (adIcons) => {
     const { handlers } = this.props;
 
     return (
@@ -171,7 +171,7 @@ export default class AdPlaybackScreen extends Component {
     );
   };
 
-  _renderPlayPause = (show) => {
+  renderPlayPause = (show) => {
     const {
       config, height, initialPlay, loading, playing, rate, width,
     } = this.props;
@@ -226,7 +226,7 @@ export default class AdPlaybackScreen extends Component {
     handlers.handleVideoTouch();
   };
 
-  _renderAdIcons = () => {
+  renderAdIcons = () => {
     const {
       ad, handlers, height, playhead, width,
     } = this.props;
@@ -251,7 +251,7 @@ export default class AdPlaybackScreen extends Component {
 
       const leftStyle = (left < width - icon.width) ? { left: icon.left } : { right: 0 };
       const topStyle = (top < height - icon.height) ? { top: icon.top } : { bottom: 0 };
-      const clickHandler = this._createOnIcon(index, handlers.onIcon);
+      const clickHandler = this.createOnIcon(index, handlers.onIcon);
 
       iconViews.push(
         <TouchableHighlight
@@ -287,10 +287,10 @@ export default class AdPlaybackScreen extends Component {
     let adIcons;
 
     if (ad) {
-      adBar = (ad.requireAdBar && config.adScreen.showAdMarquee) ? this._renderAdBar() : null;
+      adBar = (ad.requireAdBar && config.adScreen.showAdMarquee) ? this.renderAdBar() : null;
 
       if (ad.icons) {
-        adIcons = this._renderAdIcons();
+        adIcons = this.renderAdIcons();
       }
     }
 
@@ -298,9 +298,9 @@ export default class AdPlaybackScreen extends Component {
       return (
         <View style={styles.adContainer}>
           {adBar}
-          {this._renderPlaceholder(adIcons)}
-          {this._renderPlayPause(shouldShowControls)}
-          {this._renderBottomOverlay(shouldShowControls)}
+          {this.renderPlaceholder(adIcons)}
+          {this.renderPlayPause(shouldShowControls)}
+          {this.renderBottomOverlay(shouldShowControls)}
         </View>
       );
     }
@@ -308,8 +308,8 @@ export default class AdPlaybackScreen extends Component {
     return (
       <View style={styles.adContainer}>
         {adBar}
-        {this._renderPlaceholder(adIcons)}
-        {!playing && this._renderPlayPause(shouldShowControls)}
+        {this.renderPlaceholder(adIcons)}
+        {!playing && this.renderPlayPause(shouldShowControls)}
       </View>
     );
   }

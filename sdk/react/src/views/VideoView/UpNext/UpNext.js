@@ -75,7 +75,7 @@ export default class UpNext extends Component {
     return parseInt(this.upNextDuration()) > duration - playhead;
   };
 
-  _renderDismissButton = () => {
+  renderDismissButton = () => {
     const { config } = this.props;
 
     return (
@@ -178,7 +178,7 @@ export default class UpNext extends Component {
         </View>
       );
 
-      const upNextDismissButton = this._renderDismissButton();
+      const upNextDismissButton = this.renderDismissButton();
 
       return (
         <View style={styles.container}>
