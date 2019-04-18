@@ -402,14 +402,17 @@ export default class VideoView extends Component {
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    const isVisible = this.props.screenReaderEnabled ? true : !isPastAutoHideTime;
-    if (isVisible !== this.state.shouldShowControls) {
-      this.setState({
-        shouldShowControls: isVisible
-      });
-      this.props.handlers.onControlsVisibilityChanged(isVisible);
+    if (prevState.shouldShowControls !== this.state.shouldShowControls) {
+      this.props.handlers.onControlsVisibilityChanged(this.state.shouldShowControls);
     }
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const isPastAutoHideTime = (new Date).getTime() - props.lastPressedTime > AUTOHIDE_DELAY;
+    const isVisible = props.screenReaderEnabled ? true : !isPastAutoHideTime;
+    return ({
+      shouldShowControls: isVisible
+    });
   }
 
   render() {
