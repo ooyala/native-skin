@@ -14,13 +14,18 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
-import com.ooyala.android.*;
+import com.ooyala.android.ClientId;
+import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
+import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
@@ -35,6 +40,7 @@ import com.ooyala.android.skin.util.AssetUtil;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -728,8 +734,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       queuedEvents.clear();
       queuedEvents = null;
     }
-    onVisibilityControlsChangeListener = null;
-
+    removeVisibilityControlsChangeListener();
     deleteObservers();
     removeVideoView();
     setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
@@ -777,17 +782,18 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
-  /**
-   * Provide possibility to handle changing of skin controls visibility.
-   * This listener will be cleaned in {@link #destroy} method
-   * @param onVisibilityControlsChangeListener Consumer that handle changing of visibility skin ui
-   */
   public void addOnVisibilityControlsChangeListener(Consumer<Boolean> onVisibilityControlsChangeListener) {
     this.onVisibilityControlsChangeListener = onVisibilityControlsChangeListener;
   }
 
+  @Override
+  public void removeVisibilityControlsChangeListener() {
+    onVisibilityControlsChangeListener = null;
+  }
+
   /**
    * Handles changing of skin controls visibility from {@link OoyalaReactBridge}.
+   *
    * @param isVisible is true if controls visible, is false if controls not visible
    */
   void onVisibilityControlsChanged(boolean isVisible) {
