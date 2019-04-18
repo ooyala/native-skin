@@ -14,6 +14,7 @@ type Props = {
   markers: Array<MarkerType>,
   onSeek: number => void,
   style?: ViewStyleProp,
+  width: number,
 };
 
 type State = {
@@ -40,7 +41,7 @@ export default class MarkersContainer extends React.Component<Props, State> {
 
   render() {
     const {
-      accentColor, duration, markers, onSeek, style,
+      accentColor, duration, markers, onSeek, style, width,
     } = this.props;
     const { lastTouchedIndex } = this.state;
 
@@ -50,10 +51,11 @@ export default class MarkersContainer extends React.Component<Props, State> {
 
     return (
       // Path pointer events through the View to its children.
-      <Animated.View pointerEvents="box-none" style={[styles.root, style]}>
+      <Animated.View pointerEvents="box-none" style={[styles.root, { width }, style]}>
         {markers.map((marker, index) => (
           <Marker
             accentColor={accentColor}
+            containerWidth={width}
             duration={duration}
             key={index} // eslint-disable-line react/no-array-index-key
             marker={marker}
