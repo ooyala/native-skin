@@ -18,6 +18,20 @@ export default class ControlBarWidgets extends Component {
     options: PropTypes.object,
   };
 
+  static bitrateSelectorWidget() {
+    // TODO: Implement.
+    return null;
+  }
+
+  static flexibleSpaceWidget() {
+    return <View style={{ flex: 1 }} />;
+  }
+
+  static liveWidget() {
+    // TODO: Implement.
+    return null;
+  }
+
   playPauseWidget = (options) => {
     const iconMap = {
       play: options.playIcon,
@@ -153,12 +167,6 @@ export default class ControlBarWidgets extends Component {
       </View>
     );
   };
-
-  flexibleSpaceWidget = options => (
-    <View
-      style={{ flex: 1 }}
-    />
-  );
 
   discoveryWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
@@ -303,16 +311,6 @@ export default class ControlBarWidgets extends Component {
     );
   };
 
-  bitrateSelectorWidget = options =>
-    // TODO implement
-    null
-  ;
-
-  liveWidget = options =>
-    // TODO implement
-    null
-  ;
-
   stereoscopicWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
     return (
@@ -389,7 +387,7 @@ export default class ControlBarWidgets extends Component {
       playPause: this.playPauseWidget,
       volume: this.volumeWidget,
       timeDuration: this.timeDurationWidget,
-      flexibleSpace: this.flexibleSpaceWidget,
+      flexibleSpace: this.constructor.flexibleSpaceWidget,
       rewind: this.rewindWidget,
       discovery: this.discoveryWidget,
       fullscreen: this.fullscreenWidget,
@@ -398,8 +396,8 @@ export default class ControlBarWidgets extends Component {
       moreOptions: this.moreOptionsWidget,
       watermark: this.watermarkWidget,
       share: this.shareWidget,
-      bitrateSelector: this.bitrateSelectorWidget,
-      live: this.liveWidget,
+      bitrateSelector: this.constructor.bitrateSelectorWidget,
+      live: this.constructor.liveWidget,
       stereoscopic: this.stereoscopicWidget,
       audioAndCC: this.audioAndCCWidget,
       playbackSpeed: this.playbackSpeedWidget,

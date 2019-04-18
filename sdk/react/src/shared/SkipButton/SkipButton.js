@@ -22,13 +22,11 @@ export default class SkipButton extends Component {
     buttonColor: PropTypes.object,
   };
 
-  state = {
-    movedPosition: 0,
-  };
+  onPress = () => {
+    const { isForward, onSeek } = this.props;
 
-  componentWillReceiveProps(nextProps) {
-    this.state.movedPosition = nextProps.currentPosition;
-  }
+    onSeek(isForward);
+  };
 
   render() {
     const {
@@ -88,10 +86,4 @@ export default class SkipButton extends Component {
       </TouchableHighlight>
     );
   }
-
-  onPress = () => {
-    const { isForward, onSeek } = this.props;
-
-    onSeek(isForward);
-  };
 }

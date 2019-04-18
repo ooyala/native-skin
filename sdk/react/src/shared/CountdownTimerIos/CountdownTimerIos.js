@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { requireNativeComponent, TouchableHighlight, View } from 'react-native';
 
-const NativeCountdownView = requireNativeComponent('CountdownView', CountdownTimerIos, {
-  nativeOnly: {
-    onTimerUpdate: true,
-    onTimerCompleted: true,
-    canceled: true,
-  },
-});
-
 export default class CountdownTimerIos extends Component {
   static propTypes = {
     ...View.propTypes,
@@ -107,3 +99,11 @@ export default class CountdownTimerIos extends Component {
     return this.renderCountdownView();
   }
 }
+
+const NativeCountdownView = requireNativeComponent('CountdownView', CountdownTimerIos, {
+  nativeOnly: {
+    onTimerUpdate: true,
+    onTimerCompleted: true,
+    canceled: true,
+  },
+});

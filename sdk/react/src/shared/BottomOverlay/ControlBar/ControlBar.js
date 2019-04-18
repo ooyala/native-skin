@@ -82,9 +82,8 @@ export default class ControlBar extends Component {
     if (config.controlBar.volumeControl.color) {
       return config.controlBar.volumeControl.color;
     }
-    Log.error(
-      'controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json',
-    );
+    Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please '
+      + 'update your skin.json file to the latest provided file, or add these to your skin.json');
     return '#4389FF';
   };
 
@@ -348,11 +347,10 @@ export default class ControlBar extends Component {
           visible = stereoSupported;
           break;
         default:
-          visible = Object.keys(widgetOptions)
-            .includes(item.name);
+          visible = Object.keys(widgetOptions).includes(item.name);
       }
 
-      item.isVisible = visible;
+      item.isVisible = visible; // eslint-disable-line no-param-reassign
     }
 
     config.buttons.forEach(isVisible, this);
@@ -363,7 +361,7 @@ export default class ControlBar extends Component {
       controlBarWidgets.push(item);
     }
 
-    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
+    for (let i = 0; i < itemCollapsingResults.fit.length; i += 1) {
       const widget = itemCollapsingResults.fit[i];
       const item = <ControlBarWidget key={i} options={widgetOptions} widgetType={widget} />;
 

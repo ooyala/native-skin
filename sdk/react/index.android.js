@@ -1,3 +1,6 @@
+// Rule disabled because this component state used from Core.
+/* eslint-disable react/no-unused-state */
+
 import React, { Component } from 'react';
 import {
   AccessibilityInfo,
@@ -19,6 +22,21 @@ const {
   OoyalaReactBridge,
 } = NativeModules;
 let OoyalaSkinCoreInstance;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 200,
+  },
+});
 
 class OoyalaSkin extends Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -119,20 +137,5 @@ class OoyalaSkin extends Component {
     return OoyalaSkinCoreInstance.renderScreen();
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 200,
-  },
-});
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

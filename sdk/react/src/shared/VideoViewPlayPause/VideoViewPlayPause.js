@@ -20,7 +20,6 @@ export default class VideoViewPlayPause extends Component {
     seekEnabled: PropTypes.bool,
     ffActive: PropTypes.bool,
     icons: PropTypes.object,
-    position: PropTypes.string,
     onPress: PropTypes.func,
     onSeekPressed: PropTypes.func,
     seekForwardValue: PropTypes.number,
@@ -31,13 +30,10 @@ export default class VideoViewPlayPause extends Component {
     buttonWidth: PropTypes.number,
     buttonHeight: PropTypes.number,
     buttonColor: PropTypes.string,
-    buttonStyle: PropTypes.object,
     fontSize: PropTypes.number,
-    style: PropTypes.object,
     showButton: PropTypes.bool,
     showSeekButtons: PropTypes.bool,
     playing: PropTypes.bool,
-    loading: PropTypes.bool,
     initialPlay: PropTypes.bool,
   };
 
@@ -188,7 +184,7 @@ export default class VideoViewPlayPause extends Component {
         timeValue={seekValue}
         sizeStyle={sizeStyle}
         disabled={!active}
-        onSeek={isForward => this.onSkipPress(isForward)}
+        onSeek={this.onSkipPress}
         icon={icons[name].icon}
         fontStyle={fontStyle}
         opacity={opacity}

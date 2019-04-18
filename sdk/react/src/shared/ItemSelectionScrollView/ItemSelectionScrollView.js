@@ -19,18 +19,18 @@ export default class ItemSelectionScrollView extends Component {
     cellType: PropTypes.string,
   };
 
-  isSelected(name) {
-    const { selectedItem } = this.props;
-
-    return name && name !== '' && name === selectedItem;
-  }
-
   onSelected(name) {
     const { onSelect, selectedItem } = this.props;
 
     if (selectedItem !== name) {
       onSelect(name);
     }
+  }
+
+  isSelected(name) {
+    const { selectedItem } = this.props;
+
+    return name && name !== '' && name === selectedItem;
   }
 
   renderItem = (item, index) => {

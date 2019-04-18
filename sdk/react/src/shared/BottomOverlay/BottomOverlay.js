@@ -100,26 +100,6 @@ export default class BottomOverlay extends React.Component<Props, State> {
     showWatermark: undefined,
   };
 
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      accessibilityEnabled: false,
-      cachedPlayhead: -1,
-      height: new Animated.Value(props.isShow
-        ? responsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
-      markersContainerHeight: new Animated.Value(props.isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
-      opacity: new Animated.Value(props.isShow ? 1 : 0),
-      touch: false,
-      x: 0,
-    };
-
-    (this: Object).handleMarkerSeek = this.handleMarkerSeek.bind(this);
-    (this: Object).handleTouchEnd = this.handleTouchEnd.bind(this);
-    (this: Object).handleTouchMove = this.handleTouchMove.bind(this);
-    (this: Object).handleTouchStart = this.handleTouchStart.bind(this);
-  }
-
   static calculateLeftOffset(componentSize: number, percent: number, progressBarWidth: number) {
     return leftMargin + percent * progressBarWidth - componentSize / 2;
   }
@@ -142,6 +122,26 @@ export default class BottomOverlay extends React.Component<Props, State> {
     }
 
     return percent;
+  }
+
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      accessibilityEnabled: false,
+      cachedPlayhead: -1,
+      height: new Animated.Value(props.isShow
+        ? responsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT) : 0),
+      markersContainerHeight: new Animated.Value(props.isShow ? MARKERS_SIZES.CONTAINER_HEIGHT : 0),
+      opacity: new Animated.Value(props.isShow ? 1 : 0),
+      touch: false,
+      x: 0,
+    };
+
+    (this: Object).handleMarkerSeek = this.handleMarkerSeek.bind(this);
+    (this: Object).handleTouchEnd = this.handleTouchEnd.bind(this);
+    (this: Object).handleTouchMove = this.handleTouchMove.bind(this);
+    (this: Object).handleTouchStart = this.handleTouchStart.bind(this);
   }
 
   componentDidMount() {
