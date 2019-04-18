@@ -794,7 +794,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   /**
    * Handles changing of skin controls visibility from {@link OoyalaReactBridge}.
    *
-   * @param isVisible is true if controls visible, is false if controls not visible
+   * @param isVisible is true if controls are visible, is false if controls are not visible
    */
   void onVisibilityControlsChanged(boolean isVisible) {
     if (onVisibilityControlsChangeListener != null) {
