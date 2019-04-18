@@ -212,7 +212,7 @@ export default class Core {
   }
 
   onControlsVisibilityChanged(isVisible) {
-    this.bridge.onVisibilityControlsChanged({ isVisible: isVisible });
+    this.bridge.onVisibilityControlsChanged({ isVisible });
   }
 
   handleVideoTouchStart(event) {

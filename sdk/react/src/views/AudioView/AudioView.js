@@ -42,7 +42,7 @@ export default class AudioView extends Component {
       onPress: PropTypes.func.isRequired,
       onScrub: PropTypes.func.isRequired,
       handleControlsTouch: PropTypes.func.isRequired,
-      onControlsVisibilityChanged: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }),
     config: PropTypes.object,
     upNextDismissed: PropTypes.bool,

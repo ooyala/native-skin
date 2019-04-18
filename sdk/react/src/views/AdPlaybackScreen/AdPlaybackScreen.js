@@ -40,7 +40,7 @@ export default class AdPlaybackScreen extends Component {
       onScrub: PropTypes.func,
       handleVideoTouch: PropTypes.func,
       handleControlsTouch: PropTypes.func,
-      onControlsVisibilityChanged: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }),
     lastPressedTime: PropTypes.any,
     screenReaderEnabled: PropTypes.bool,

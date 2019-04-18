@@ -57,7 +57,7 @@ export default class VideoView extends Component {
       handleVideoTouchEnd: PropTypes.func,
       handleControlsTouch: PropTypes.func,
       showControls: PropTypes.func,
-      onControlsVisibilityChanged: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }),
     lastPressedTime: PropTypes.any,
     screenReaderEnabled: PropTypes.bool,
@@ -135,7 +135,7 @@ export default class VideoView extends Component {
     }
   };
 
-  _renderBottomOverlay(show) {
+  _renderBottomOverlay() {
     const {
       audioTracksTitles, availableClosedCaptionsLanguages, config, cuePoints, duration, fullscreen, handlers, height,
       isPipActivated, isPipButtonVisible, markers, multiAudioEnabled, playbackSpeedEnabled, playhead, playing,
@@ -163,7 +163,7 @@ export default class VideoView extends Component {
         showAudioAndCCButton={multiAudioEnabled || ccEnabled}
         showPlaybackSpeedButton={playbackSpeedEnabled}
         showWatermark={showWatermark}
-        isShow={show}
+        isShow={this.state.shouldShowControls}
         screenReaderEnabled={screenReaderEnabled}
         stereoSupported={stereoSupported}
         config={{
@@ -263,7 +263,7 @@ export default class VideoView extends Component {
     );
   };
 
-  _renderPlayPause = (show) => {
+  _renderPlayPause = () => {
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !this.props.config.live.forceDvrDisabled || !this.props.live;
     const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
@@ -299,7 +299,7 @@ export default class VideoView extends Component {
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
         fontSize={iconFontSize}
-        showButton={show}
+        showButton={this.state.shouldShowControls}
         isLive={this.props.live}
         showSeekButtons={this.props.config.skipControls.enabled && show}
         rate={this.props.rate}
@@ -424,9 +424,9 @@ export default class VideoView extends Component {
         {this._renderPlaceholder()}
         {this._renderBottom()}
         {this._renderAdOverlay()}
-        {this._renderPlayPause(this.state.shouldShowControls)}
+        {this._renderPlayPause()}
         {this._renderUpNext()}
-        {this._renderBottomOverlay(this.state.shouldShowControls)}
+        {this._renderBottomOverlay()}
         {this._renderLoading()}
       </View>
     );
