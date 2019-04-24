@@ -2,9 +2,7 @@ package com.ooyala.android.skin;
 
 import android.content.Context;
 import android.database.ContentObserver;
-import android.media.AudioManager;
 import android.os.Handler;
-import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
@@ -28,7 +26,7 @@ class OoyalaSkinVolumeObserver {
      */
     public OoyalaSkinVolumeObserver(Context context, OoyalaSkinLayoutController controller) {
         //hardware volume change observer initialization
-        volumeObserver = new VolumeContentObserver(context, new Handler(), controller);
+        volumeObserver = new VolumeContentObserver(new Handler(), controller);
         this.context = context;
         DebugMode.logV(TAG, "Registering VolumeObserver");
         context.getContentResolver().registerContentObserver(android.provider.Settings.System.CONTENT_URI, true, volumeObserver);
@@ -40,13 +38,11 @@ class OoyalaSkinVolumeObserver {
      */
     private class VolumeContentObserver extends ContentObserver {
 
-        private Context context;
         private OoyalaSkinLayoutController controller;
 
-        public VolumeContentObserver(Context context, Handler handler, OoyalaSkinLayoutController controller) {
+        public VolumeContentObserver(Handler handler, OoyalaSkinLayoutController controller) {
             super(handler);
             this.controller = controller;
-            this.context = context;
         }
 
         @Override
@@ -69,5 +65,6 @@ class OoyalaSkinVolumeObserver {
             DebugMode.logV(TAG, "Unregistering VolumeObserver");
             context.getContentResolver().unregisterContentObserver(volumeObserver);
         }
+        context = null;
     }
 }
