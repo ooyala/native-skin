@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Animated, TouchableHighlight, View } from 'react-native';
 import timerForSkipButtons from 'react-native-timer';
 
@@ -15,7 +15,7 @@ const PAUSE = 'pause';
 const FORWARD = 'seekForward';
 const BACKWARD = 'seekBackward';
 
-export default class VideoViewPlayPause extends Component {
+export default class VideoViewPlayPause extends React.Component {
   static propTypes = {
     seekEnabled: PropTypes.bool,
     ffActive: PropTypes.bool,

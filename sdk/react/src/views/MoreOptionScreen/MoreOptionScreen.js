@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Animated, View } from 'react-native';
 
 import { BUTTON_NAMES } from '../../constants';
@@ -11,7 +11,7 @@ import styles from './MoreOptionScreen.styles';
 
 const dismissButtonSize = 20;
 
-export default class MoreOptionScreen extends Component {
+export default class MoreOptionScreen extends React.Component {
   static propTypes = {
     height: PropTypes.number,
     onDismiss: PropTypes.func,

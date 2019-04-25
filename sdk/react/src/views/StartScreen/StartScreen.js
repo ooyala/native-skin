@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 import { BUTTON_NAMES, IMG_URLS, UI_SIZES } from '../../constants';
@@ -8,7 +8,7 @@ import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 
 import styles from './StartScreen.styles';
 
-export default class StartScreen extends Component {
+export default class StartScreen extends React.Component {
   static propTypes = {
     config: PropTypes.object,
     title: PropTypes.string,

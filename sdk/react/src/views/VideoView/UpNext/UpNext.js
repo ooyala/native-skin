@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ImageBackground, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -12,7 +12,7 @@ import styles from './UpNext.styles';
 
 const defaultCountdownVal = 10;
 
-export default class UpNext extends Component {
+export default class UpNext extends React.Component {
   static propTypes = {
     config: PropTypes.object,
     playhead: PropTypes.number,

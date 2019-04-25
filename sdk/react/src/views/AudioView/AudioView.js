@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, PanResponder, Text, View,
 } from 'react-native';
@@ -18,7 +18,7 @@ import styles from './AudioView.styles';
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
-export default class AudioView extends Component {
+export default class AudioView extends React.Component {
   static propTypes = {
     playhead: PropTypes.number,
     duration: PropTypes.number,

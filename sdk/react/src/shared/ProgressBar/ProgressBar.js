@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 
 import { VIEW_NAMES } from '../../constants';
@@ -7,7 +7,7 @@ import * as Log from '../../lib/log';
 
 import styles from './ProgressBar.styles';
 
-export default class ProgressBar extends Component {
+export default class ProgressBar extends React.Component {
   static propTypes = {
     percent: PropTypes.number,
     config: PropTypes.shape({

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { requireNativeComponent, TouchableHighlight, View } from 'react-native';
 
-export default class CountdownTimerIos extends Component {
+export default class CountdownTimerIos extends React.Component {
   static propTypes = {
     ...View.propTypes,
 

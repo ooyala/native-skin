@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, PanResponder, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -12,7 +12,7 @@ const constants = {
   scrubTouchableDistance: 45,
 };
 
-export default class VolumePanel extends Component {
+export default class VolumePanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     onVolumeChanged: PropTypes.func.isRequired,

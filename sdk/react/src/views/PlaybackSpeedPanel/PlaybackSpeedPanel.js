@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -21,7 +21,7 @@ const constants = {
   playbackSpeedRatePostfix: 'x',
 };
 
-export default class PlaybackSpeedPanel extends Component {
+export default class PlaybackSpeedPanel extends React.Component {
   static propTypes = {
     playbackSpeedRates: PropTypes.array,
     selectedPlaybackSpeedRate: PropTypes.number,

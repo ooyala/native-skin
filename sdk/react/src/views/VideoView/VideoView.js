@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ActivityIndicator, Image, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -17,7 +17,7 @@ import VideoWaterMark from './VideoWatermark';
 
 import styles from './VideoView.styles';
 
-export default class VideoView extends Component {
+export default class VideoView extends React.Component {
   static propTypes = {
     ad: PropTypes.object,
     rate: PropTypes.number,

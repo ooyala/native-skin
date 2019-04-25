@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal, Text, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View,
@@ -10,7 +10,7 @@ import RectangularButton from '../../shared/RectangularButton';
 
 import styles from './CastAirPlayScreen.styles';
 
-export default class CastAirPlayScreen extends Component {
+export default class CastAirPlayScreen extends React.Component {
   static propTypes = {
     width: PropTypes.number,
     height: PropTypes.number,

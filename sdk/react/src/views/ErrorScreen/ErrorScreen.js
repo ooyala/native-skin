@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import { BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES } from '../../constants';
@@ -8,7 +8,7 @@ import * as Utils from '../../lib/utils';
 
 import styles from './ErrorScreen.styles';
 
-export default class ErrorScreen extends Component {
+export default class ErrorScreen extends React.Component {
   static propTypes = {
     error: PropTypes.object,
     localizableStrings: PropTypes.object,

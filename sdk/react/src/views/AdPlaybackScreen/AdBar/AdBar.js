@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import { BUTTON_NAMES } from '../../../constants';
@@ -8,7 +8,7 @@ import * as Utils from '../../../lib/utils';
 
 import styles from './AdBar.styles';
 
-export default class AdBar extends Component {
+export default class AdBar extends React.Component {
   static propTypes = {
     ad: PropTypes.object,
     playhead: PropTypes.number,

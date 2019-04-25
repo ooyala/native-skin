@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { ScrollView } from 'react-native';
 
-export default class ItemSelectionList extends Component {
+export default class ItemSelectionList extends React.Component {
   static propTypes = {
     horizontal: PropTypes.bool,
     data: PropTypes.array,

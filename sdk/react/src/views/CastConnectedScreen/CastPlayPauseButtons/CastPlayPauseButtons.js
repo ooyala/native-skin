@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ActivityIndicator, Animated, TouchableHighlight, View,
 } from 'react-native';
@@ -20,7 +20,7 @@ const NEXT = 'next';
 const PREVIOUS = 'previous';
 const BACKWARD = 'seekBackward';
 
-export default class CastPlayPauseButtons extends Component {
+export default class CastPlayPauseButtons extends React.Component {
   static propTypes = {
     icons: PropTypes.object.isRequired,
     onPress: PropTypes.func.isRequired,

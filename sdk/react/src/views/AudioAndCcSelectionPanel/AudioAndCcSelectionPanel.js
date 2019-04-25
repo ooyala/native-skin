@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -20,7 +20,7 @@ const stringConstants = {
   subtitlesHeaderViewSectionTitle: 'Subtitles',
 };
 
-export default class AudioAndCcSelectionPanel extends Component {
+export default class AudioAndCcSelectionPanel extends React.Component {
   static propTypes = {
     audioTracksTitles: PropTypes.array,
     selectedAudioTrackTitle: PropTypes.string,

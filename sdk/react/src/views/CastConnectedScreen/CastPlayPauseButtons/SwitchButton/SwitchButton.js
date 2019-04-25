@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
 
 import { STRING_CONSTANTS } from '../../../../constants';
@@ -7,7 +7,7 @@ import * as Accessibility from '../../../../lib/accessibility';
 
 import styles from './SwitchButton.styles';
 
-export default class SwitchButton extends Component {
+export default class SwitchButton extends React.Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,

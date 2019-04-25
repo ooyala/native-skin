@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, Image, Text, TouchableOpacity, View,
 } from 'react-native';
@@ -12,7 +12,7 @@ import BottomOverlay from '../../shared/BottomOverlay';
 
 import styles from './CastConnectedScreen.styles';
 
-export default class CastConnectedScreen extends Component {
+export default class CastConnectedScreen extends React.Component {
   static propTypes = {
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,

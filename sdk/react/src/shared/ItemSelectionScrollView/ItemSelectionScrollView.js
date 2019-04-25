@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import ItemSelectionList from './ItemSelectionList';
@@ -8,7 +8,7 @@ import * as Utils from '../../lib/utils';
 
 import styles from './ItemSelectionScrollView.styles';
 
-export default class ItemSelectionScrollView extends Component {
+export default class ItemSelectionScrollView extends React.Component {
   static propTypes = {
     items: PropTypes.array,
     selectedItem: PropTypes.string,

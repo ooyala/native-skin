@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { NativeModules, Platform, View } from 'react-native';
 
 import { ACCESSIBILITY_ANNOUNCERS, BUTTON_NAMES, UI_SIZES } from '../../../constants';
@@ -13,7 +13,7 @@ import styles from './ControlBar.styles';
 
 const { AndroidAccessibility } = NativeModules;
 
-export default class ControlBar extends Component {
+export default class ControlBar extends React.Component {
   static propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,

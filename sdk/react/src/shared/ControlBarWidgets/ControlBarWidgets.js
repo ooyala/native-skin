@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Image, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -12,7 +12,7 @@ import VolumeView from './VolumeView';
 
 import styles from './ControlBarWidgets.styles';
 
-export default class ControlBarWidgets extends Component {
+export default class ControlBarWidgets extends React.Component {
   static propTypes = {
     widgetType: PropTypes.object,
     options: PropTypes.object,

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ActivityIndicator, Image, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -12,7 +12,7 @@ import BottomOverlay from '../../shared/BottomOverlay';
 
 import styles from './EndScreen.styles';
 
-export default class EndScreen extends Component {
+export default class EndScreen extends React.Component {
   static propTypes = {
     config: PropTypes.object,
     title: PropTypes.string,

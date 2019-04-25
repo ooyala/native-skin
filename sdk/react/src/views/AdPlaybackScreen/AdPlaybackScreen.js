@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Image, TouchableHighlight, View } from 'react-native';
 
 import AdBar from './AdBar';
@@ -12,7 +12,7 @@ import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 
 import styles from './AdPlaybackScreen.styles';
 
-export default class AdPlaybackScreen extends Component {
+export default class AdPlaybackScreen extends React.Component {
   static propTypes = {
     rate: PropTypes.number,
     playhead: PropTypes.number,

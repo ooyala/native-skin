@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated,
   DeviceEventEmitter,
@@ -29,7 +29,7 @@ const widthThreshold = 300;
 
 let timerListenerAndroid;
 
-export default class DiscoveryPanel extends Component {
+export default class DiscoveryPanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     localizableStrings: PropTypes.object,
