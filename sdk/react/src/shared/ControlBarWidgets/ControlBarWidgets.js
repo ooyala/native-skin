@@ -205,26 +205,30 @@ export default class ControlBarWidgets extends React.Component {
     );
   };
 
-  pipButtonWidget = (options) => {
-    const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
-    const nameLabel = options.isActive ? VIEW_ACCESSIBILITY_NAMES.EXIT_PIP : VIEW_ACCESSIBILITY_NAMES.ACTIVE_PIP;
-    let widget;
-    if (options.enabled) {
-      widget = (
-        <TouchableHighlight
-          testID={nameLabel}
-          accessible
-          accessibilityLabel={nameLabel}
-          style={[options.iconTouchableStyle]}
-          onPress={options.onPress}
-        >
-          <Text style={[options.style, fontFamilyStyle]}>
-            {options.icon.fontString}
-          </Text>
-        </TouchableHighlight>
-      );
+  renderPipButtonWidget = (options) => {
+    if (!options.enabled) {
+      return null;
     }
-    return widget;
+
+    const label = (options.isActive ? VIEW_ACCESSIBILITY_NAMES.EXIT_PIP : VIEW_ACCESSIBILITY_NAMES.ACTIVE_PIP);
+
+    return (
+      <TouchableHighlight
+        accessible
+        accessibilityLabel={label}
+        onPress={options.onPress}
+        style={[options.iconTouchableStyle]}
+        testID={label}
+      >
+        <Text style={[
+          options.style,
+          { fontFamily: options.icon.fontFamilyName },
+        ]}
+        >
+          {options.icon.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
   };
 
   moreOptionsWidget = (options) => {
@@ -392,7 +396,7 @@ export default class ControlBarWidgets extends React.Component {
       discovery: this.discoveryWidget,
       fullscreen: this.fullscreenWidget,
       chromecast: this.castWidget,
-      pipButton: this.pipButtonWidget,
+      pipButton: this.renderPipButtonWidget,
       moreOptions: this.moreOptionsWidget,
       watermark: this.watermarkWidget,
       share: this.shareWidget,
