@@ -17,7 +17,6 @@ export default class MoreOptionScreen extends Component {
     onDismiss: PropTypes.func,
     onOptionButtonPress: PropTypes.func,
     config: PropTypes.object,
-    controlBarWidth: PropTypes.number,
     showAudioAndCCButton: PropTypes.bool,
     isAudioOnly: PropTypes.bool,
     selectedPlaybackSpeedRate: PropTypes.string,
@@ -108,9 +107,7 @@ export default class MoreOptionScreen extends Component {
   };
 
   renderMoreOptionButtons = (moreOptionButtons) => {
-    const {
-      closedCaptionsEnabled, config, isAudioOnly, multiAudioEnabled, showAudioAndCCButton, stereoSupported,
-    } = this.props;
+    const { config, isAudioOnly, showAudioAndCCButton } = this.props;
 
     let itemCollapsingResults;
 
@@ -123,7 +120,7 @@ export default class MoreOptionScreen extends Component {
     const buttons = itemCollapsingResults.overflow;
     const buttonStyle = [styles.icon, config.moreOptionsScreen.iconStyle.active];
 
-    for (let i = 0; i < buttons.length; i++) {
+    for (let i = 0; i < buttons.length; i += 1) {
       const button = buttons[i];
       const buttonIcon = this.renderIcon(button.name);
 
@@ -134,45 +131,44 @@ export default class MoreOptionScreen extends Component {
         delete buttonStyle[1].color;
       }
 
+      let skipping = false;
+
       // Skip unsupported buttons to avoid crashes. But log that they were unexpected.
       if (buttonIcon === undefined || buttonStyle === undefined) {
         Log.warn(`Warning: skipping unsupported More Options button ${button.name}`);
-        continue;
+        skipping = true;
       }
 
       if (button.name === BUTTON_NAMES.STEREOSCOPIC) {
-        if (!stereoSupported) {
-          continue;
-        }
+        skipping = true;
       } else if (button.name === BUTTON_NAMES.AUDIO_AND_CC) {
         Log.warn(`showAudioAndCCButton:${showAudioAndCCButton}`);
-        if (!closedCaptionsEnabled && !multiAudioEnabled && !showAudioAndCCButton) {
-          continue;
+        if (!showAudioAndCCButton) {
+          skipping = true;
         }
       } else if (button.name === BUTTON_NAMES.CLOSED_CAPTIONS) {
-        if (!closedCaptionsEnabled) {
-          continue;
-        }
+        skipping = true;
       }
 
-      const onOptionPress = (function (buttonName, f) {
-        return function () {
+      if (!skipping) {
+        // TODO: Simplify.
+        const onOptionPress = ((buttonName, f) => () => {
           f(buttonName);
-        };
-      }(button.name, this.onOptionPress));
+        })(button.name, this.onOptionPress);
 
-      moreOptionButtons.push(
-        <RectangularButton
-          name={button.name}
-          style={buttonStyle}
-          icon={buttonIcon.fontString}
-          onPress={onOptionPress}
-          fontSize={config.moreOptionsScreen.iconSize}
-          buttonColor={config.moreOptionsScreen.color}
-          fontFamily={buttonIcon.fontFamilyName}
-          key={i}
-        />,
-      );
+        moreOptionButtons.push(
+          <RectangularButton
+            name={button.name}
+            style={buttonStyle}
+            icon={buttonIcon.fontString}
+            onPress={onOptionPress}
+            fontSize={config.moreOptionsScreen.iconSize}
+            buttonColor={config.moreOptionsScreen.color}
+            fontFamily={buttonIcon.fontFamilyName}
+            key={i}
+          />,
+        );
+      }
     }
   };
 
@@ -218,7 +214,7 @@ export default class MoreOptionScreen extends Component {
   };
 
   render() {
-    const { config, height, width } = this.props;
+    const { config, height } = this.props;
     const { buttonOpacity, opacity, translateY } = this.state;
 
     const moreOptionButtons = [];
@@ -230,7 +226,6 @@ export default class MoreOptionScreen extends Component {
 
     const moreOptionRow = (
       <Animated.View
-        ref="moreOptionRow"
         style={[styles.rowCenter, rowAnimationStyle]}
       >
         {moreOptionButtons}
@@ -252,7 +247,7 @@ export default class MoreOptionScreen extends Component {
     );
 
     return (
-      <Animated.View style={[styles.fullscreenContainer, { height, opacity, width }]}>
+      <Animated.View style={[styles.fullscreenContainer, { height, opacity }]}>
         <Animated.View style={[styles.rowsContainer, { opacity }]}>
           {moreOptionRow}
         </Animated.View>

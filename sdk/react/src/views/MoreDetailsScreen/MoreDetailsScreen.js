@@ -20,16 +20,16 @@ export default class MoreDetailsScreen extends Component {
     onDismiss: PropTypes.func,
     config: PropTypes.object,
     error: PropTypes.object,
+    localizableStrings: PropTypes.object.isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      translateY: new Animated.Value(height),
+      translateY: new Animated.Value(props.height),
       opacity: new Animated.Value(0),
-      buttonOpacity: new Animated.Value(1),
-      button: '',
     };
   }
 
@@ -77,6 +77,47 @@ export default class MoreDetailsScreen extends Component {
       .start(this.onDismissBtnPress);
   };
 
+  renderErrorTitle = () => {
+    const { error, locale, localizableStrings } = this.props;
+
+    let errorCode = -1;
+
+    if (error && error.code) {
+      errorCode = error.code;
+    }
+
+    const title = Utils.stringForErrorCode(errorCode);
+    const localizedTitle = Utils.localizedString(locale, title, localizableStrings).toUpperCase();
+
+    return (
+      <Text style={styles.title}>
+        {localizedTitle}
+      </Text>
+    );
+  };
+
+  renderErrorDescription = () => {
+    const { error, locale, localizableStrings } = this.props;
+
+    if (error && error.description) {
+      const userInfo = error.userInfo || {};
+      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
+      const description = ERROR_MESSAGE[errorCode] || error.description;
+
+      const localizedDescription = Utils.localizedString(locale, description, localizableStrings);
+
+      Log.warn(`ERROR: localized description:${localizedDescription}`);
+
+      return (
+        <Text style={styles.description}>
+          {localizedDescription}
+        </Text>
+      );
+    }
+
+    return null;
+  };
+
   render() {
     const { config, height, width } = this.props;
     const { opacity } = this.state;
@@ -122,45 +163,4 @@ export default class MoreDetailsScreen extends Component {
       </Animated.View>
     );
   }
-
-  renderErrorTitle = () => {
-    const { error, locale, localizableStrings } = this.props;
-
-    let errorCode = -1;
-
-    if (error && error.code) {
-      errorCode = error.code;
-    }
-
-    const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle = Utils.localizedString(locale, title, localizableStrings).toUpperCase();
-
-    return (
-      <Text style={styles.title}>
-        {localizedTitle}
-      </Text>
-    );
-  };
-
-  renderErrorDescription = () => {
-    const { error, locale, localizableStrings } = this.props;
-
-    if (error && error.description) {
-      const userInfo = error.userInfo || {};
-      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
-      const description = ERROR_MESSAGE[errorCode] || error.description;
-
-      const localizedDescription = Utils.localizedString(locale, description, localizableStrings);
-
-      Log.warn(`ERROR: localized description:${localizedDescription}`);
-
-      return (
-        <Text style={styles.description}>
-          {localizedDescription}
-        </Text>
-      );
-    }
-
-    return null;
-  };
 }

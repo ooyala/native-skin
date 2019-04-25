@@ -16,7 +16,6 @@ export default class AdPlaybackScreen extends Component {
   static propTypes = {
     rate: PropTypes.number,
     playhead: PropTypes.number,
-    buffered: PropTypes.number,
     duration: PropTypes.number,
     ad: PropTypes.object,
     live: PropTypes.bool,
@@ -36,8 +35,6 @@ export default class AdPlaybackScreen extends Component {
     screenReaderEnabled: PropTypes.bool,
     showWatermark: PropTypes.bool,
     config: PropTypes.object,
-    nextVideo: PropTypes.object,
-    upNextDismissed: PropTypes.bool,
     localizableStrings: PropTypes.object,
     locale: PropTypes.string,
     playing: PropTypes.bool,
@@ -48,7 +45,6 @@ export default class AdPlaybackScreen extends Component {
 
   static defaultProps = {
     playhead: 0,
-    buffered: 0,
     duration: 1,
   };
 
@@ -98,6 +94,18 @@ export default class AdPlaybackScreen extends Component {
     } else {
       handlers.onPress(name);
     }
+  };
+
+  handleScrub = (value) => {
+    const { handlers } = this.props;
+
+    handlers.onScrub(value);
+  };
+
+  handleTouchEnd = () => {
+    const { handlers } = this.props;
+
+    handlers.handleVideoTouch();
   };
 
   createOnIcon = (index, func) => () => {
@@ -214,18 +222,6 @@ export default class AdPlaybackScreen extends Component {
     );
   };
 
-  handleScrub = (value) => {
-    const { handlers } = this.props;
-
-    handlers.onScrub(value);
-  };
-
-  handleTouchEnd = () => {
-    const { handlers } = this.props;
-
-    handlers.handleVideoTouch();
-  };
-
   renderAdIcons = () => {
     const {
       ad, handlers, height, playhead, width,
@@ -233,39 +229,39 @@ export default class AdPlaybackScreen extends Component {
 
     const iconViews = [];
 
-    for (const index in ad.icons) {
-      const icon = ad.icons[index];
+    for (const index in ad.icons) { // eslint-disable-line no-restricted-syntax
+      if (Object.prototype.hasOwnProperty.call(ad.icons, index)) {
+        const icon = ad.icons[index];
 
-      if (playhead < icon.offset || playhead > icon.offset + icon.duration) {
-        continue;
+        if (!(playhead < icon.offset || playhead > icon.offset + icon.duration)) {
+          const left = icon.x;
+          const top = icon.y;
+          const iconStyle = {
+            position: 'absolute',
+            width: icon.width,
+            height: icon.height,
+            backgroundColor: 'transparent',
+          };
+
+          const leftStyle = (left < width - icon.width) ? { left: icon.left } : { right: 0 };
+          const topStyle = (top < height - icon.height) ? { top: icon.top } : { bottom: 0 };
+          const clickHandler = this.createOnIcon(index, handlers.onIcon);
+
+          iconViews.push(
+            <TouchableHighlight
+              key={`iconTouchable${index}`}
+              style={[iconStyle, leftStyle, topStyle]}
+              onPress={clickHandler}
+            >
+              <Image
+                key={`iconImage${index}`}
+                style={{ flex: 1 }}
+                source={{ uri: icon.url }}
+              />
+            </TouchableHighlight>,
+          );
+        }
       }
-
-      const left = icon.x;
-      const top = icon.y;
-      const iconStyle = {
-        position: 'absolute',
-        width: icon.width,
-        height: icon.height,
-        backgroundColor: 'transparent',
-      };
-
-      const leftStyle = (left < width - icon.width) ? { left: icon.left } : { right: 0 };
-      const topStyle = (top < height - icon.height) ? { top: icon.top } : { bottom: 0 };
-      const clickHandler = this.createOnIcon(index, handlers.onIcon);
-
-      iconViews.push(
-        <TouchableHighlight
-          key={`iconTouchable${index}`}
-          style={[iconStyle, leftStyle, topStyle]}
-          onPress={clickHandler}
-        >
-          <Image
-            key={`iconImage${index}`}
-            style={{ flex: 1 }}
-            source={{ uri: icon.url }}
-          />
-        </TouchableHighlight>,
-      );
     }
 
     return iconViews;

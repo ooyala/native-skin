@@ -12,7 +12,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
+// Not clear from where this module imported.
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'; // eslint-disable-line import/no-unresolved
 
 import { CONTENT_TYPES, DESIRED_STATES, SCREEN_TYPES } from './src/constants';
 import Core from './src/Core';

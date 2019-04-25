@@ -19,9 +19,9 @@ import styles from './VideoView.styles';
 
 export default class VideoView extends Component {
   static propTypes = {
+    ad: PropTypes.object,
     rate: PropTypes.number,
     playhead: PropTypes.number,
-    buffered: PropTypes.number,
     duration: PropTypes.number,
     adOverlay: PropTypes.object,
     live: PropTypes.bool,
@@ -49,7 +49,6 @@ export default class VideoView extends Component {
     }),
     lastPressedTime: PropTypes.any,
     screenReaderEnabled: PropTypes.bool,
-    closedCaptionsLanguage: PropTypes.string,
     availableClosedCaptionsLanguages: PropTypes.array,
     audioTracksTitles: PropTypes.array,
     caption: PropTypes.string,
@@ -94,7 +93,7 @@ export default class VideoView extends Component {
     const { config, duration, playhead } = this.props;
 
     if (skipCountValue === 0) {
-      return null;
+      return;
     }
 
     let configSeekValue = (skipCountValue > 0) ? config.skipControls.skipForwardTime
@@ -113,6 +112,18 @@ export default class VideoView extends Component {
     const resultedPlayheadPercent = duration === 0 ? 0 : resultedPlayhead / duration;
 
     this.handleScrub(resultedPlayheadPercent);
+  };
+
+  handleScrub = (value) => {
+    const { handlers } = this.props;
+
+    handlers.onScrub(value);
+  };
+
+  handleOverlayClick = () => {
+    const { adOverlay, handlers } = this.props;
+
+    handlers.onAdOverlay(adOverlay.clickUrl);
   };
 
   placeholderTapHandler = (event) => {
@@ -333,23 +344,25 @@ export default class VideoView extends Component {
   };
 
   renderVideoWaterMark = (waterMarkName, VideoWaterMarkSize) => {
-    if (waterMarkName) {
-      return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'flex-end',
-            alignItems: 'flex-end',
-          }}
-        >
-          <VideoWaterMark
-            buttonWidth={VideoWaterMarkSize}
-            buttonHeight={VideoWaterMarkSize}
-            waterMarkName={waterMarkName}
-          />
-        </View>
-      );
+    if (!waterMarkName) {
+      return null;
     }
+
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'flex-end',
+          alignItems: 'flex-end',
+        }}
+      >
+        <VideoWaterMark
+          buttonWidth={VideoWaterMarkSize}
+          buttonHeight={VideoWaterMarkSize}
+          waterMarkName={waterMarkName}
+        />
+      </View>
+    );
   };
 
   renderAdOverlay = () => {
@@ -444,18 +457,6 @@ export default class VideoView extends Component {
     }
 
     return null;
-  };
-
-  handleScrub = (value) => {
-    const { handlers } = this.props;
-
-    handlers.onScrub(value);
-  };
-
-  handleOverlayClick = () => {
-    const { adOverlay, handlers } = this.props;
-
-    handlers.onAdOverlay(adOverlay.clickUrl);
   };
 
   render() {

@@ -22,6 +22,32 @@ export default class VolumePanel extends Component {
     config: PropTypes.object,
   };
 
+  // Actions
+  panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+
+    onStartShouldSetPanResponderCapture: () => true,
+
+    onMoveShouldSetPanResponder: () => true,
+
+    onMoveShouldSetPanResponderCapture: () => true,
+
+    onPanResponderGrant: (event) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
+      this.handleTouchStart(event);
+    },
+
+    onPanResponderMove: (event) => {
+      this.handleTouchMove(event);
+    },
+
+    onPanResponderTerminationRequest: () => true,
+
+    onPanResponderRelease: (event) => {
+      this.handleTouchEnd(event);
+    },
+  });
+
   constructor(props) {
     super(props);
 
@@ -96,32 +122,12 @@ export default class VolumePanel extends Component {
     });
   };
 
-  handleTouchEnd = (event) => {
+  handleTouchEnd = () => {
     this.setState({
       touch: false,
       x: null,
     });
   };
-
-  // Actions
-  panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: (event, gestureState) => true,
-    onStartShouldSetPanResponderCapture: (event, gestureState) => true,
-    onMoveShouldSetPanResponder: (event, gestureState) => true,
-    onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
-
-    onPanResponderGrant: (event, gestureState) => {
-      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
-      this.handleTouchStart(event);
-    },
-    onPanResponderMove: (event, gestureState) => {
-      this.handleTouchMove(event);
-    },
-    onPanResponderTerminationRequest: (event, gestureState) => true,
-    onPanResponderRelease: (event, gestureState) => {
-      this.handleTouchEnd(event);
-    },
-  });
 
   onDismissPress = () => {
     const { onDismiss } = this.props;

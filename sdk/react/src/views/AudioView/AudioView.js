@@ -43,13 +43,36 @@ export default class AudioView extends Component {
     onPlayComplete: PropTypes.bool,
   };
 
+  panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+
+    onStartShouldSetPanResponderCapture: () => true,
+
+    onMoveShouldSetPanResponder: () => true,
+
+    onMoveShouldSetPanResponderCapture: () => true,
+
+    onPanResponderGrant: (event) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
+      this.handleTouchStart(event);
+    },
+
+    onPanResponderMove: (event) => {
+      this.handleTouchMove(event);
+    },
+
+    onPanResponderTerminationRequest: () => true,
+
+    onPanResponderRelease: (event) => {
+      this.handleTouchEnd(event);
+    },
+  });
+
   constructor(props) {
     super(props);
 
     this.state = {
-      playing: false,
       skipCount: 0,
-      height: new Animated.Value(responsiveMultiplier(props.width, UI_SIZES.CONTROLBAR_HEIGHT)),
       cachedPlayhead: -1,
       progressBarWidth: 0,
       progressBarHeight: 0,
@@ -94,8 +117,8 @@ export default class AudioView extends Component {
       config, duration, onPlayComplete, playhead,
     } = this.props;
 
-    if (onPlayComplete && skipCountValue > 0 || skipCountValue == 0) {
-      return null;
+    if ((onPlayComplete && skipCountValue > 0) || skipCountValue === 0) {
+      return;
     }
 
     let configSeekValue = skipCountValue > 0 ? config.skipControls.skipForwardTime
@@ -131,9 +154,9 @@ export default class AudioView extends Component {
   };
 
   onPlaybackSpeedPress = () => {
-    const { onPress } = this.props;
+    const { handlers } = this.props;
 
-    onPress(BUTTON_NAMES.PLAYBACK_SPEED);
+    handlers.onPress(BUTTON_NAMES.PLAYBACK_SPEED);
   };
 
   onSkipPressBackwards = () => {
@@ -148,7 +171,7 @@ export default class AudioView extends Component {
     const { skipCount } = this.state;
 
     timerForSkipButtons.clearTimeout(this);
-    const value = kipCount + (isForward ? 1 : -1);
+    const value = skipCount + (isForward ? 1 : -1);
     this.setState({
       skipCount: value,
     }, () => timerForSkipButtons.setTimeout(
@@ -189,9 +212,8 @@ export default class AudioView extends Component {
       return config.controlBar.volumeControl.color;
     }
 
-    Log.error(
-      'controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json',
-    );
+    Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json. Please '
+      + 'update your skin.json file to the latest provided file, or add these to your skin.json');
 
     return '#4389FF';
   };
@@ -218,7 +240,7 @@ export default class AudioView extends Component {
   // MARK: - ControlBar
   renderControlBar = () => {
     const {
-      config, handlers, onPlayComplete, playbackSpeedEnabled, playing, showMoreOptionsButton, volume, width,
+      config, handlers, onPlayComplete, playbackSpeedEnabled, playing, volume, width,
     } = this.props;
 
     const iconFontSize = responsiveMultiplier(width, UI_SIZES.CONTROLBAR_ICONSIZE);
@@ -257,7 +279,8 @@ export default class AudioView extends Component {
         playIcon: config.icons.play,
         pauseIcon: config.icons.pause,
         replayIcon: config.icons.replay,
-        primaryActionButton: onPlayComplete ? 'replay' : (playing ? 'pause' : 'play'),
+        // eslint-disable-next-line no-nested-ternary
+        primaryActionButton: (onPlayComplete ? 'replay' : (playing ? 'pause' : 'play')),
         onReplay: this.onReplayPress,
       },
       seekForward: {
@@ -275,7 +298,7 @@ export default class AudioView extends Component {
         iconTouchableStyle: styles.controlBarIconTouchable,
         style: [styles.controlBarIcon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
         icon: config.icons.ellipsis,
-        enabled: showMoreOptionsButton,
+        enabled: false,
       },
       playbackSpeed: {
         onPress: this.onPlaybackSpeedPress,
@@ -293,7 +316,7 @@ export default class AudioView extends Component {
     };
 
     const itemCollapsingResults = collapse(width, config.buttons);
-    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
+    for (let i = 0; i < itemCollapsingResults.fit.length; i += 1) {
       const widget = itemCollapsingResults.fit[i];
       const item = (
         <ControlBarWidget
@@ -364,9 +387,8 @@ export default class AudioView extends Component {
       return config.controlBar.scrubberBar.scrubberHandleColor;
     }
 
-    Log.error(
-      'controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json',
-    );
+    Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json. Please update your '
+      + 'skin.json file to the latest provided file, or add this to your skin.json');
 
     return '#4389FF';
   };
@@ -377,13 +399,12 @@ export default class AudioView extends Component {
     let { scrubberHandleBorderColor } = config.controlBar.scrubberBar;
 
     if (!scrubberHandleBorderColor) {
-      Log.error(
-        'controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json',
-      );
+      Log.error('controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json. Please update '
+        + 'your skin.json file to the latest provided file, or add this to your skin.json');
       scrubberHandleBorderColor = 'white';
     }
 
-    const scrubberStyle = {
+    return {
       flex: 0,
       position: 'absolute',
       backgroundColor: this.getScrubberHandleColor(),
@@ -391,8 +412,6 @@ export default class AudioView extends Component {
       borderWidth: 1.5,
       borderColor: scrubberHandleBorderColor,
     };
-
-    return scrubberStyle;
   };
 
   getPlayHeadTimeString = () => {
@@ -504,31 +523,6 @@ export default class AudioView extends Component {
     });
   };
 
-  panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: (event, gestureState) => true,
-
-    onStartShouldSetPanResponderCapture: (event, gestureState) => true,
-
-    onMoveShouldSetPanResponder: (event, gestureState) => true,
-
-    onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
-
-    onPanResponderGrant: (event, gestureState) => {
-      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
-      this.handleTouchStart(event);
-    },
-
-    onPanResponderMove: (event, gestureState) => {
-      this.handleTouchMove(event);
-    },
-
-    onPanResponderTerminationRequest: (event, gestureState) => true,
-
-    onPanResponderRelease: (event, gestureState) => {
-      this.handleTouchEnd(event);
-    },
-  });
-
   renderProgressBar = (percent) => {
     const { config } = this.props;
 
@@ -540,7 +534,6 @@ export default class AudioView extends Component {
       >
         <ProgressBar
           accessible={false}
-          ref="progressBar"
           percent={percent}
           config={config}
           ad={null}
@@ -603,7 +596,8 @@ export default class AudioView extends Component {
         </Animated.View>
         <View>
           <Text style={isLive ? styles.progressBarNoTimeLabel : styles.progressBarTimeLabel}>
-            {!live ? durationTime : isLive ? '- - : - -' : this.getLiveDurationString()}
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {!live ? durationTime : (isLive ? '- - : - -' : this.getLiveDurationString())}
           </Text>
         </View>
       </View>

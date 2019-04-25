@@ -1,27 +1,23 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Image, View } from 'react-native';
 
 import styles from './VideoWatermark.styles';
 
-export default class VideoWatermark extends Component {
-  static propTypes = {
-    buttonWidth: PropTypes.number.isRequired,
-    buttonHeight: PropTypes.number.isRequired,
-    waterMarkName: PropTypes.string.isRequired,
-  };
+const VideoWatermark = ({ buttonHeight: height, buttonWidth: width, waterMarkName }) => (
+  <View style={[styles.watermarkContainer]}>
+    <Image
+      resizeMode="contain"
+      source={{ uri: waterMarkName }}
+      style={{ height, width }}
+    />
+  </View>
+);
 
-  render() {
-    const { buttonHeight: height, buttonWidth: width, waterMarkName } = this.props;
+VideoWatermark.propTypes = {
+  buttonWidth: PropTypes.number.isRequired,
+  buttonHeight: PropTypes.number.isRequired,
+  waterMarkName: PropTypes.string.isRequired,
+};
 
-    return (
-      <View style={[styles.watermarkContainer]}>
-        <Image
-          resizeMode="contain"
-          source={{ uri: waterMarkName }}
-          style={{ height, width }}
-        />
-      </View>
-    );
-  }
-}
+export default VideoWatermark;

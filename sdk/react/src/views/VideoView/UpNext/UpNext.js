@@ -21,7 +21,6 @@ export default class UpNext extends Component {
     nextVideo: PropTypes.object,
     onPress: PropTypes.func,
     upNextDismissed: PropTypes.bool,
-    width: PropTypes.number,
   };
 
   dismissUpNext = () => {
@@ -46,12 +45,12 @@ export default class UpNext extends Component {
       if (upNextConfig.timeToShow.indexOf('%') >= 0) {
         return (duration - parseFloat(upNextConfig.timeToShow.slice(0, -1) / 100) * duration);
       }
-      if (isNaN(upNextConfig.timeToShow)) {
+      if (Number.isNaN(upNextConfig.timeToShow)) {
         // The string is not a valid number
         return defaultCountdownVal;
       }
       // if we are given a number of seconds from end in which to show the upnext dialog.
-      return parseInt(upNextConfig.timeToShow);
+      return parseInt(upNextConfig.timeToShow, 10);
     }
     if (typeof upNextConfig.timeToShow === 'number') {
       if (upNextConfig.timeToShow > 0.0 && upNextConfig.timeToShow <= 1.0) {
@@ -72,7 +71,7 @@ export default class UpNext extends Component {
   isWithinShowUpNextBounds = () => {
     const { duration, playhead } = this.props;
 
-    return parseInt(this.upNextDuration()) > duration - playhead;
+    return parseInt(this.upNextDuration(), 10) > duration - playhead;
   };
 
   renderDismissButton = () => {
@@ -123,7 +122,7 @@ export default class UpNext extends Component {
             stroke_width: 5,
             text_size: 25,
             max_time: this.upNextDuration(),
-            progress: parseInt((this.upNextDuration() - (duration - playhead))),
+            progress: parseInt((this.upNextDuration() - (duration - playhead)), 10),
             automatic: false,
           }}
         />

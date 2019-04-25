@@ -115,7 +115,7 @@ export default class PlaybackSpeedPanel extends Component {
     // Localize selected item
     let selectedLocalizedItem = selectedPlaybackSpeedRate;
 
-    if (selectedPlaybackSpeedRate == constants.normalPlaybackSpeedRateValue) {
+    if (selectedPlaybackSpeedRate === constants.normalPlaybackSpeedRateValue) {
       selectedLocalizedItem = localizedTitleForNormalPlaybackSpeedRate;
     } else {
       const selectedLocalizedItemNumber = parseFloat(String(selectedLocalizedItem));
@@ -130,7 +130,7 @@ export default class PlaybackSpeedPanel extends Component {
     const validatedPlaybackSpeedRates = playbackSpeedRates.reduce((result, item) => {
       const number = parseFloat(String(item));
 
-      if (!isNaN(number) && number >= constants.minPlaybackSpeedRateValue && number
+      if (!Number.isNaN(number) && number >= constants.minPlaybackSpeedRateValue && number
         <= constants.maxPlaybackSpeedRateValue) {
         result.push(parseFloat(number.toFixed(2)));
       }

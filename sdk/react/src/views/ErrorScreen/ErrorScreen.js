@@ -81,20 +81,6 @@ export default class ErrorScreen extends Component {
     );
   };
 
-  render() {
-    const { isAudioOnly } = this.props;
-
-    return (
-      <View style={isAudioOnly ? styles.containerAudio : styles.container}>
-        <View style={isAudioOnly ? styles.wrapperAudio : styles.wrapper}>
-          {isAudioOnly ? this.getTitleAudioOnly() : this.getTitle()}
-          {isAudioOnly ? this.getDescriptionAudioOnly() : this.getDescription()}
-          {this.renderMoreDetailsButton()}
-        </View>
-      </View>
-    );
-  }
-
   onMoreDetails = () => {
     const { onPress } = this.props;
 
@@ -121,4 +107,18 @@ export default class ErrorScreen extends Component {
       </TouchableHighlight>
     );
   };
+
+  render() {
+    const { isAudioOnly } = this.props;
+
+    return (
+      <View style={isAudioOnly ? styles.containerAudio : styles.container}>
+        <View style={isAudioOnly ? styles.wrapperAudio : styles.wrapper}>
+          {isAudioOnly ? this.getTitleAudioOnly() : this.getTitle()}
+          {isAudioOnly ? this.getDescriptionAudioOnly() : this.getDescription()}
+          {this.renderMoreDetailsButton()}
+        </View>
+      </View>
+    );
+  }
 }

@@ -29,8 +29,6 @@ export default class AudioAndCcSelectionPanel extends Component {
     onSelectAudioTrack: PropTypes.func,
     onSelectClosedCaptions: PropTypes.func,
     onDismiss: PropTypes.func,
-    width: PropTypes.number,
-    height: PropTypes.number,
     config: PropTypes.object,
   };
 

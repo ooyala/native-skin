@@ -22,10 +22,7 @@ const BACKWARD = 'seekBackward';
 
 export default class CastPlayPauseButtons extends Component {
   static propTypes = {
-    seekEnabled: PropTypes.bool.isRequired,
-    ffActive: PropTypes.bool.isRequired,
     icons: PropTypes.object.isRequired,
-    position: PropTypes.string.isRequired,
     onPress: PropTypes.func.isRequired,
     onSeekPressed: PropTypes.func.isRequired,
     onSwitchPressed: PropTypes.func.isRequired,
@@ -37,14 +34,10 @@ export default class CastPlayPauseButtons extends Component {
     buttonWidth: PropTypes.number.isRequired,
     buttonHeight: PropTypes.number.isRequired,
     buttonColor: PropTypes.string.isRequired,
-    buttonStyle: PropTypes.object.isRequired,
     fontSize: PropTypes.number.isRequired,
-    style: PropTypes.object.isRequired,
     showButton: PropTypes.bool.isRequired,
-    showSeekButtons: PropTypes.bool.isRequired,
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
-    initialPlay: PropTypes.bool.isRequired,
     config: PropTypes.object.isRequired,
   };
 

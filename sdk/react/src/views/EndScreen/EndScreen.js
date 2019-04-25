@@ -23,13 +23,13 @@ export default class EndScreen extends Component {
     width: PropTypes.number,
     height: PropTypes.number,
     volume: PropTypes.number,
-    upNextDismissed: PropTypes.bool,
     fullscreen: PropTypes.bool,
     handleControlsTouch: PropTypes.func,
     loading: PropTypes.bool,
     onScrub: PropTypes.func,
     showAudioAndCCButton: PropTypes.bool,
     markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+    showWatermark: PropTypes.bool,
   };
 
   state = {
@@ -47,9 +47,7 @@ export default class EndScreen extends Component {
     const { showControls } = this.state;
 
     Log.verbose(`VideoView Handle Press: ${name}`);
-    this.setState({
-      lastPressedTime: new Date().getTime(),
-    });
+
     if (showControls) {
       if (name === 'LIVE') {
         onScrub(1);

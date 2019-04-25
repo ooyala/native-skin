@@ -35,9 +35,9 @@ export default class ResponsiveList extends Component {
     const slices = [];
     if (data) {
       const numberOfSlices = Math.ceil(data.length / itemsPerSlice);
-      for (let i = 0; i < numberOfSlices; i++) {
+      for (let i = 0; i < numberOfSlices; i += 1) {
         slices[i] = [];
-        for (let j = 0; j < itemsPerSlice; j++) {
+        for (let j = 0; j < itemsPerSlice; j += 1) {
           if (i * itemsPerSlice + j < data.length) {
             slices[i][j] = data[i * itemsPerSlice + j];
           } else {
@@ -48,27 +48,6 @@ export default class ResponsiveList extends Component {
     }
     return slices;
   };
-
-  render() {
-    const { horizontal, width } = this.props;
-    const slices = this.getSlices();
-
-    return (
-      <View style={{ flex: 1 }}>
-        <ScrollView
-          style={{
-            width,
-            flex: 1,
-          }}
-          horizontal={horizontal}
-          directionalLockEnabled
-          showsHorizontalScrollIndicator={false}
-        >
-          {slices.map(this.renderSlice)}
-        </ScrollView>
-      </View>
-    );
-  }
 
   renderSlice = (slice, i) => {
     const { horizontal } = this.props;
@@ -103,4 +82,25 @@ export default class ResponsiveList extends Component {
 
     return itemRender(item, sectionId, i);
   };
+
+  render() {
+    const { horizontal, width } = this.props;
+    const slices = this.getSlices();
+
+    return (
+      <View style={{ flex: 1 }}>
+        <ScrollView
+          style={{
+            width,
+            flex: 1,
+          }}
+          horizontal={horizontal}
+          directionalLockEnabled
+          showsHorizontalScrollIndicator={false}
+        >
+          {slices.map(this.renderSlice)}
+        </ScrollView>
+      </View>
+    );
+  }
 }

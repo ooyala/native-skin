@@ -22,21 +22,22 @@ export default class SwitchButton extends Component {
   };
 
   onPress = () => {
-    const { props } = this;
-    const { onSwitch, isForward } = props;
+    const { onSwitch, isForward } = this.props;
+
     onSwitch(isForward);
   };
 
   render() {
-    const { props } = this;
     const {
-      visible, isForward, timeValue, sizeStyle, disabled, icon, fontStyle, buttonColor, animate, opacity,
-    } = props;
+      visible, isForward, sizeStyle, disabled, icon, fontStyle, buttonColor, animate, opacity,
+    } = this.props;
+
     if (!visible) {
       return null;
     }
+
     const accessibilityLabel = Accessibility
-      .createAccessibilityForForwardButton(isForward, timeValue, STRING_CONSTANTS.SECONDS);
+      .createAccessibilityForForwardButton(isForward, undefined, STRING_CONSTANTS.SECONDS);
     const position = {
       position: 'absolute',
     };

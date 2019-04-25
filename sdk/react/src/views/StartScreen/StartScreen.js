@@ -71,6 +71,8 @@ export default class StartScreen extends Component {
         />
       );
     }
+
+    return null;
   };
 
   // Gets the infoPanel based on the current config settings
@@ -107,7 +109,7 @@ export default class StartScreen extends Component {
         break;
 
       default:
-        throw `Invalid infoPanel location ${config.startScreen.infoPanelPosition}`;
+        throw new Error(`Invalid infoPanel location ${config.startScreen.infoPanelPosition}`);
     }
 
     return (
@@ -157,7 +159,7 @@ export default class StartScreen extends Component {
     );
   };
 
-  tapHandler = (event) => {
+  tapHandler = () => {
     const { screenReaderEnabled } = this.props;
 
     if (screenReaderEnabled) {
