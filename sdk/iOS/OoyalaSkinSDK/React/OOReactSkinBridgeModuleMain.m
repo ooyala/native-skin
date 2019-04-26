@@ -69,6 +69,7 @@ static NSString *clickUrlKey          = @"clickUrl";
 static NSString *eventNameKey         = @"eventName";
 static NSString *playbackSpeedRateKey = @"playbackSpeedRate";
 static NSString *volumeKey            = @"volume";
+static NSString *directionKey         = @"direction";
 static NSString *isVisibleKey         = @"isVisible";
 
 #pragma mark Values
@@ -144,6 +145,15 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
     [self.skinModelDelegate toggleStereoMode];
   } else if ([buttonName isEqualToString:airPlayButtonName]) {
     [self.skinModelDelegate handleAirPlay];
+  }
+}
+
+RCT_EXPORT_METHOD(onSwitch:(NSDictionary *)params) {
+  BOOL isForward = [params[directionKey] boolValue];
+  if (isForward) {
+    [self.skinModelDelegate handleSwitchNext];
+  } else {
+    [self.skinModelDelegate handleSwitchPrevious];
   }
 }
 
