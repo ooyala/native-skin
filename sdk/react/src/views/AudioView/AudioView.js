@@ -41,7 +41,8 @@ export default class AudioView extends Component {
     handlers: PropTypes.shape({
       onPress: PropTypes.func.isRequired,
       onScrub: PropTypes.func.isRequired,
-      handleControlsTouch: PropTypes.func.isRequired
+      handleControlsTouch: PropTypes.func.isRequired,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }),
     config: PropTypes.object,
     upNextDismissed: PropTypes.bool,
@@ -52,6 +53,10 @@ export default class AudioView extends Component {
     description: PropTypes.string,
     onPlayComplete: PropTypes.bool
   };
+
+  componentDidMount() {
+    this.props.handlers.onControlsVisibilityChanged(true)
+  }
 
   state = {
     playing: false,

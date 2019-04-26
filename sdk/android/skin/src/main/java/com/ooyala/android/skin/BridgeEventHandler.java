@@ -39,4 +39,6 @@ public interface BridgeEventHandler {
   void onPlaybackSpeedRateSelected(ReadableMap parameters);
 
   void onVolumeChanged(ReadableMap parameters);
+
+  void onVisibilityControlsChanged(ReadableMap parameters);
 }

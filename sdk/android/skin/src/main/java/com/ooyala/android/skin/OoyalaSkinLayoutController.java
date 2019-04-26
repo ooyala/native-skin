@@ -14,13 +14,18 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.LifecycleState;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
-import com.ooyala.android.*;
+import com.ooyala.android.ClientId;
+import com.ooyala.android.OoyalaException;
+import com.ooyala.android.OoyalaNotification;
+import com.ooyala.android.OoyalaPlayer;
+import com.ooyala.android.OoyalaPlayerLayout;
 import com.ooyala.android.captions.ClosedCaptionsStyle;
 import com.ooyala.android.discovery.DiscoveryManager;
 import com.ooyala.android.discovery.DiscoveryOptions;
@@ -35,6 +40,7 @@ import com.ooyala.android.skin.util.AssetUtil;
 import com.ooyala.android.skin.util.ReactUtil;
 import com.ooyala.android.ui.LayoutController;
 import com.ooyala.android.util.DebugMode;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import androidx.core.util.Consumer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
@@ -80,6 +87,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
+  private Consumer<Boolean> onVisibilityControlsChangeListener;
   private FCCTVRatingUI _tvRatingUI;
   DiscoveryOptions discoveryOptions;
 
@@ -728,7 +736,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       queuedEvents.clear();
       queuedEvents = null;
     }
-
+    removeVisibilityControlsChangeListener();
     deleteObservers();
     removeVideoView();
     setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
@@ -778,4 +786,23 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  public void addOnVisibilityControlsChangeListener(Consumer<Boolean> onVisibilityControlsChangeListener) {
+    this.onVisibilityControlsChangeListener = onVisibilityControlsChangeListener;
+  }
+
+  @Override
+  public void removeVisibilityControlsChangeListener() {
+    onVisibilityControlsChangeListener = null;
+  }
+
+  /**
+   * Handles changing of skin controls visibility from {@link OoyalaReactBridge}.
+   *
+   * @param isVisible is true if controls are visible, is false if controls are not visible
+   */
+  void onVisibilityControlsChanged(boolean isVisible) {
+    if (onVisibilityControlsChangeListener != null) {
+      onVisibilityControlsChangeListener.accept(isVisible);
+    }
+  }
 }

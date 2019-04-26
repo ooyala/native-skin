@@ -40,6 +40,7 @@ export default class AdPlaybackScreen extends Component {
       onScrub: PropTypes.func,
       handleVideoTouch: PropTypes.func,
       handleControlsTouch: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }),
     lastPressedTime: PropTypes.any,
     screenReaderEnabled: PropTypes.bool,
@@ -56,7 +57,7 @@ export default class AdPlaybackScreen extends Component {
   };
 
   state = {
-    showControls: true
+    shouldShowControls: true
   };
 
   static defaultProps = {
@@ -86,12 +87,8 @@ export default class AdPlaybackScreen extends Component {
 
   handlePress = (name) => {
     Log.verbose('VideoView Handle Press: ' + name);
-    if (this.state.showControls) {
-      if (name == 'LIVE') {
-        this.props.handlers.onScrub(1);
-      } else {
-        this.props.handlers.onPress(name);
-      }
+    if (name == 'LIVE') {
+      this.props.handlers.onScrub(1);
     } else {
       this.props.handlers.onPress(name);
     }
@@ -103,7 +100,7 @@ export default class AdPlaybackScreen extends Component {
     }
   };
 
-  _renderBottomOverlay(show) {
+  _renderBottomOverlay() {
     const {
       ad, config, cuePoints, duration, fullscreen, handlers, height, markers, playhead, playing, showWatermark, volume,
       width,
@@ -126,7 +123,7 @@ export default class AdPlaybackScreen extends Component {
         handleControlsTouch={() => handlers.handleControlsTouch()}
         showClosedCaptionsButton={false}
         showWatermark={showWatermark}
-        isShow={show}
+        isShow={this.state.shouldShowControls}
         config={{
           controlBar: config.controlBar,
           buttons: config.buttons,
@@ -166,7 +163,7 @@ export default class AdPlaybackScreen extends Component {
     );
   };
 
-  _renderPlayPause = (show) => {
+  _renderPlayPause = () => {
     const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     return (
       <VideoViewPlayPause
@@ -195,7 +192,7 @@ export default class AdPlaybackScreen extends Component {
         buttonWidth={iconFontSize}
         buttonHeight={iconFontSize}
         fontSize={iconFontSize}
-        showButton={show}
+        showButton={this.state.shouldShowControls}
         rate={this.props.rate}
         playing={this.props.playing}
         loading={this.props.loading}
@@ -244,13 +241,25 @@ export default class AdPlaybackScreen extends Component {
     return iconViews;
   };
 
-  render() {
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.shouldShowControls !== this.state.shouldShowControls) {
+      this.props.handlers.onControlsVisibilityChanged(this.state.shouldShowControls);
+    }
+  }
+
+  static getDerivedStateFromProps(props, state) {
     const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
     const doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
     const isContent = !this.props.ad;
-    const shouldShowControls = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
+    const isVisible = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
 
+    return ({
+      shouldShowControls: isVisible
+    });
+  }
+
+  render() {
     let adBar, adIcons;
 
     if (this.props.ad) {
@@ -265,8 +274,8 @@ export default class AdPlaybackScreen extends Component {
         <View style={styles.adContainer}>
           {adBar}
           {this._renderPlaceholder(adIcons)}
-          {this._renderPlayPause(shouldShowControls)}
-          {this._renderBottomOverlay(shouldShowControls)}
+          {this._renderPlayPause()}
+          {this._renderBottomOverlay()}
         </View>
       );
     }
@@ -275,7 +284,7 @@ export default class AdPlaybackScreen extends Component {
       <View style={styles.adContainer}>
         {adBar}
         {this._renderPlaceholder(adIcons)}
-        {!this.props.playing && this._renderPlayPause(shouldShowControls)}
+        {!this.props.playing && this._renderPlayPause()}
       </View>
     );
   }

@@ -219,6 +219,12 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
     _layoutController.setVolume(volume);
   }
 
+  @Override
+  public void onVisibilityControlsChanged(ReadableMap parameters) {
+    boolean isVisible =  parameters.getBoolean("isVisible");
+    _layoutController.onVisibilityControlsChanged(isVisible);
+  }
+
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {
     final boolean isClicked = params.getBoolean("isClicked");
     final float xLocation = (float) params.getDouble("x_location");

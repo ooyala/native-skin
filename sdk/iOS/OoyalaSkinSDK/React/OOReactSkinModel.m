@@ -418,6 +418,8 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   [self.player nextVideo];
 }
 
+- (void)onVisibilityControlsChanged:(BOOL)isVisible {}
+
 #pragma mark - OOAudioSessionDelegate
 
 - (void)volumeChanged:(float)volume {
