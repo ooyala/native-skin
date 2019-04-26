@@ -261,6 +261,13 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
   NSNumber *playheadNumber  = self.adjustedPlayhead;
+  
+  if (self.player.currentItem.live) {
+    NSLog(@"✅ bridgeTimeChangedNotification. adjustedPlayhead: %f", playheadNumber.floatValue);
+    //TODO: add logic for keeping timer as constant if playback was rewinded
+    
+  }
+  
   NSNumber *durationNumber  = self.totalDuration;
   NSNumber *rateNumber      = @(self.player.playbackRate);
   NSArray *cuePoints = [NSArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
