@@ -410,6 +410,8 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   [self.castManageableHandler castDisconnectCurrentDevice];
 }
 
+- (void)onVisibilityControlsChanged:(BOOL)isVisible {}
+
 #pragma mark - OOAudioSessionDelegate
 
 - (void)volumeChanged:(float)volume {

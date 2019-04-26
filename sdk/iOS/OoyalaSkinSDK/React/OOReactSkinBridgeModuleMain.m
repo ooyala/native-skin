@@ -69,6 +69,7 @@ static NSString *clickUrlKey          = @"clickUrl";
 static NSString *eventNameKey         = @"eventName";
 static NSString *playbackSpeedRateKey = @"playbackSpeedRate";
 static NSString *volumeKey            = @"volume";
+static NSString *isVisibleKey         = @"isVisible";
 
 #pragma mark Values
 static NSString *startValue   = @"start";
@@ -184,6 +185,11 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
   } else if ([action isEqualToString:impressValue]) {
     [self.skinModelDelegate handleDiscoveryImpress:bucketInfo];
   }
+}
+
+RCT_EXPORT_METHOD(onVisibilityControlsChanged:(NSDictionary *)parameters) {
+  BOOL isVisible = parameters[isVisibleKey];
+  [self.skinModelDelegate onVisibilityControlsChanged:isVisible];
 }
 
 @end
