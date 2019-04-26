@@ -408,7 +408,7 @@ export default class VideoView extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const isPastAutoHideTime = (new Date).getTime() - props.lastPressedTime > AUTOHIDE_DELAY;
+    const isPastAutoHideTime = (new Date()).getTime() - props.lastPressedTime > AUTOHIDE_DELAY;
     const isVisible = props.screenReaderEnabled ? true : !isPastAutoHideTime;
     return ({
       shouldShowControls: isVisible
