@@ -108,8 +108,7 @@ static NSString *castManagerIsConnectingDevice  = @"castConnecting";
 static NSString *castManagerDidConnectDevice    = @"castConnected";
 static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
-#pragma mark - Methods
-
+#pragma mark - Initialization/deint
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
               ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel {
   if (self = [super init]) {
@@ -124,6 +123,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   LOG(@"OOSkinPlayerObserver dealloc");
 }
 
+#pragma mark - NSNotification
 - (void)addSelfAsObserverToPlayer:(OOOoyalaPlayer *)player {
   [NSNotificationCenter.defaultCenter removeObserver:self];
   if (self.player) {
@@ -170,6 +170,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   }];
 }
 
+#pragma mark - Calculation helpers (private)
 // PBA-4831 Return total duration calculated from the seekable range
 - (NSNumber *)totalDuration {
   CMTimeRange seekableRange = self.player.seekableTimeRange;
@@ -192,6 +193,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   return @(adjustedPlayhead);
 }
 
+#pragma mark - Sending events to bridge
 - (void)bridgeSeekStartedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
   OOSeekInfo *seekInfo                   = seekInfoDictionaryObject[seekInfoKey];
@@ -509,6 +511,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
                                        body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
+#pragma mark - OOCastNotifiable
 - (void)castManagerDidUpdateDeviceList:(NSDictionary *)deviceList {
   [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:deviceList];
 }
