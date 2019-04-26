@@ -11,15 +11,22 @@ export const parseInputArray = (markers: ?Array<string>): Array<Marker> => {
 
   return markers
     .map((serializedJson) => {
+      let marker = null;
+
       try {
-        return JSON.parse(serializedJson);
+        marker = JSON.parse(serializedJson);
       } catch (error) {
         Log.error('Error caught trying parse serialized marker JSON', error);
-        // Flow doesn't match input type for the map call and output of the function here. We filter out `null` values,
-        // so we never get it in the result array.
-        // $FlowFixMe
-        return null;
       }
+
+      if (marker && ['text', 'icon'].indexOf(marker.type) === -1) {
+        marker = null;
+      }
+
+      // Flow doesn't match input type for the map call and output of the function here. We filter out `null` values,
+      // so we never get it in the result array.
+      // $FlowFixMe
+      return marker;
     })
     .filter(marker => Boolean(marker));
 };
