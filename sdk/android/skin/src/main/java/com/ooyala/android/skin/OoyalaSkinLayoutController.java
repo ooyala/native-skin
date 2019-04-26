@@ -193,7 +193,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   private void initSkinViews(Application app, OoyalaSkinLayout l, SkinOptions skinOptions) {
     _package = new OoyalaReactPackage(this);
-    rootView = new ReactRootView(l.getContext());
+    rootView = new ReactRootView(l.getContext().getApplicationContext());
     _reactInstanceManager = ReactInstanceManager.builder()
         .setApplication(app)
         .setBundleAssetName(skinOptions.getBundleAssetName())
@@ -718,16 +718,18 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       volumeObserver.destroy();
     }
 
-    if (_reactInstanceManager != null) {
-      _reactInstanceManager.destroy();
-    }
-
     if (rootRecyclerView != null) {
       rootRecyclerView.removeOnLayoutChangeListener(this);
+      rootRecyclerView = null;
     }
 
     if (rootView != null) {
       rootView.unmountReactApplication();
+      rootView = null;
+    }
+
+    if (_reactInstanceManager != null) {
+      _reactInstanceManager.destroy();
     }
 
     if (queuedEvents != null) {
@@ -738,6 +740,8 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     deleteObservers();
     removeVideoView();
     setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+
+    _layout = null;
 
     DebugMode.logV(TAG, "SkinLayoutController Destroy");
   }
