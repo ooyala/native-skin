@@ -248,11 +248,11 @@ export default class AdPlaybackScreen extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const isPastAutoHideTime = (new Date).getTime() - this.props.lastPressedTime > AUTOHIDE_DELAY;
-    const doesAdRequireControls = this.props.ad && this.props.ad.requireControls;
+    const isPastAutoHideTime = (new Date()).getTime() - props.lastPressedTime > AUTOHIDE_DELAY;
+    const doesAdRequireControls = props.ad && props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
-    const isContent = !this.props.ad;
-    const isVisible = this.props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
+    const isContent = !props.ad;
+    const isVisible = props.screenReaderEnabled ? true : !isPastAutoHideTime && (doesAdRequireControls || isContent);
 
     return ({
       shouldShowControls: isVisible
