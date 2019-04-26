@@ -147,8 +147,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 }
 
 RCT_EXPORT_METHOD(onSwitch:(NSDictionary *)params) {
-  NSMutableDictionary *result = [[NSMutableDictionary alloc] initWithDictionary:params];
-  BOOL isForward = [result[@"direction"] boolValue];
+  BOOL isForward = [params[@"direction"] boolValue];
   if (isForward) {
     [self.skinModelDelegate handleSwitchNext];
   } else {
