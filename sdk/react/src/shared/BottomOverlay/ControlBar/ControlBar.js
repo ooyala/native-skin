@@ -162,7 +162,7 @@ export default class ControlBar extends Component {
     } else {
       liveCircle = null;
     }
-    const castEnabled = config.castControls.enabled;
+    const castEnabled = config.castControls ? config.castControls.enabled : false;
     const color = this.props.inCastMode ? config.castControls.iconStyle.active.color : config.castControls.iconStyle.inactive.color;
     const castIcon = this.props.inCastMode ? config.icons['chromecast-connected'] : config.icons['chromecast-disconnected'];
     const controlBarWidgets = [];
