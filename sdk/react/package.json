@@ -54,7 +54,6 @@
     "eslint-plugin-jsx-a11y": "~6.2.1",
     "eslint-plugin-react": "~7.12.4",
     "flow-bin": "~0.92.0",
-    "fsevents": "~2.0.6",
     "jest": "~24.7.1",
     "metro-react-native-babel-preset": "~0.53.1",
     "react-dom": "16.8.3"
