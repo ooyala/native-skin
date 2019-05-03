@@ -67,7 +67,6 @@ export default class ControlBarWidgets extends Component {
     const buttonColor = {color: 'white'};
 
     let seekValue = Utils.restrictSeekValueIfNeeded(options.seekValue);
-
     return (
       <SkipButton
         disabled={false}
@@ -79,7 +78,8 @@ export default class ControlBarWidgets extends Component {
         sizeStyle={sizeStyle}
         opacity={isForward ? options.opacity : opacity}
         animate={animate}
-        buttonColor={buttonColor}>
+        buttonColor={buttonColor}
+        visible={options.visible}>
       </SkipButton>
     );
   };
