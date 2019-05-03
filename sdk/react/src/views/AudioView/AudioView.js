@@ -198,7 +198,6 @@ export default class AudioView extends Component {
     const labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_LABELSIZE);
 
     let controlBarWidgets = [];
-
     const widgetOptions = {
       volume: {
         onPress: this.onVolumePress,
@@ -216,7 +215,8 @@ export default class AudioView extends Component {
         style: [controlBarStyles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         seekValue: this.props.config.skipControls.skipBackwardTime,
         icon: this.props.config.icons.replay,
-        size: iconFontSize
+        size: iconFontSize,
+        visible: true
       },
       playPause: {
         onPress: this.onPlayPausePress,
@@ -235,7 +235,8 @@ export default class AudioView extends Component {
         opacity: {opacity: this.props.onPlayComplete ? 0.5 : 1.0},
         seekValue: this.props.config.skipControls.skipForwardTime,
         icon: this.props.config.icons.forward,
-        size: iconFontSize
+        size: iconFontSize,
+        visible: true
       },
       moreOptions: {
         onPress: this.onMorePress,
@@ -271,7 +272,6 @@ export default class AudioView extends Component {
 
       controlBarWidgets.push(item);
     }
-
     // Add flexible spaces for first and last widget
     const flexibleSpace1 = <View style={styles.flexibleSpace} key='flexibleSpace1'/>
     const flexibleSpace2 = <View style={styles.flexibleSpace} key='flexibleSpace2' />
