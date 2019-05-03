@@ -301,7 +301,7 @@ export default class VideoView extends Component {
         fontSize={iconFontSize}
         showButton={this.state.shouldShowControls}
         isLive={this.props.live}
-        showSeekButtons={this.props.config.skipControls.enabled && show}
+        showSeekButtons={this.props.config.skipControls.enabled && this.state.shouldShowControls}
         rate={this.props.rate}
         playing={this.props.playing}
         loading={this.props.loading}

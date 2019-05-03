@@ -226,10 +226,10 @@ export default class ControlBarWidgets extends Component {
   };
 
   castWidget = (options) => {
-    const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
-    if (!options.enabled || options.enabled === undefined) {
+    if (!options || !options.enabled || options.enabled === undefined) {
       return null;
     }
+    const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.CAST}

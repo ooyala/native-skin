@@ -47,9 +47,10 @@
 
 #pragma mark - Constants
 #pragma mark Events
-static NSString *discoveryResultsReceived = @"discoveryResultsReceived";
-static NSString *ccStylingChanged         = @"ccStylingChanged";
-static NSString *pipEventKey              = @"pipChanged";
+static NSString *discoveryResultsReceived  = @"discoveryResultsReceived";
+static NSString *ccStylingChanged          = @"ccStylingChanged";
+static NSString *pipEventKey               = @"pipChanged";
+static NSString *visibilityControlsChanged = @"visibilityControlsChanged";
 
 #pragma mark Private keys
 static NSString *upNextKey              = @"upNext";
@@ -76,6 +77,7 @@ static NSString *resultsKey             = @"results";
 static NSString *volumePropertyKey      = @"outputVolume";
 static NSString *isPipActivatedKey      = @"isPipActivated";
 static NSString *volumeChangeKey        = @"volumeChanged";
+static NSString *visibilityControlsKey  = @"visibilityControls";
 
 #pragma mark Public keys
 NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
@@ -414,11 +416,10 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   [self.player previousVideo];
 }
 
-- (void)handleSwitchNext {
-  [self.player nextVideo];
+- (void)onVisibilityControlsChanged:(BOOL)isVisible {
+  [self sendEventWithName:visibilityControlsChanged
+                     body:@{visibilityControlsKey: @(isVisible)}];
 }
-
-- (void)onVisibilityControlsChanged:(BOOL)isVisible {}
 
 #pragma mark - OOAudioSessionDelegate
 

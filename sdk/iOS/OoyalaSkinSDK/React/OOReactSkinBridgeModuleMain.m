@@ -151,7 +151,7 @@ RCT_EXPORT_METHOD(onPress:(NSDictionary *)parameters) {
 RCT_EXPORT_METHOD(onSwitch:(NSDictionary *)params) {
   BOOL isForward = [params[directionKey] boolValue];
   if (isForward) {
-    [self.skinModelDelegate handleSwitchNext];
+    [self.skinModelDelegate handleUpNextClick];
   } else {
     [self.skinModelDelegate handleSwitchPrevious];
   }
