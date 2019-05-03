@@ -47,7 +47,8 @@ export default class CastPlayPauseButtons extends React.Component {
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     initialPlay: PropTypes.bool.isRequired,
-    config: PropTypes.object.isRequired
+    config: PropTypes.object.isRequired,
+    hasNextVideo: PropTypes.bool.isRequired
   };
 
   state = {
@@ -273,7 +274,7 @@ export default class CastPlayPauseButtons extends React.Component {
   // Gets the play button based on the current config settings
   render() {
     const {
-      frameHeight, buttonHeight, frameWidth, buttonWidth, showButton, config,
+      frameHeight, buttonHeight, frameWidth, buttonWidth, showButton, config, hasNextVideo
     } = this.props;
     const {
       previousVideo, nextVideo, skipBackward, skipForward,
@@ -281,7 +282,7 @@ export default class CastPlayPauseButtons extends React.Component {
     const seekButtonScale = 0.5;
     const playPauseButton = this.renderPlayPauseButton();
     const previousButton = this.renderSwitchButton(PREVIOUS, seekButtonScale, previousVideo.enabled);
-    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, nextVideo.enabled);
+    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, (nextVideo.enabled && hasNextVideo));
     const backwardButton = this.renderSeekButton(BACKWARD, seekButtonScale, skipBackward.enabled);
     const forwardButton = this.renderSeekButton(FORWARD, seekButtonScale, skipForward.enabled);
 
