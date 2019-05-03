@@ -55,6 +55,7 @@ export default class CastConnectedScreen extends Component {
     inCastMode: PropTypes.bool.isRequired,
     previewUrl: PropTypes.string.isRequired,
     markers: PropTypes.array.isRequired,
+    hasNextVideo: PropTypes.bool.isRequired,
   };
 
   componentDidMount() {
@@ -264,7 +265,7 @@ export default class CastConnectedScreen extends Component {
   renderCastPlayPause() {
     const { props } = this;
     const {
-      width, height, config, live, playhead, duration, rate, playing, loading,
+      width, height, config, live, playhead, duration, rate, playing, loading, hasNextVideo
     } = props;
     const {
       play, previous, next, pause, forward, replay,
@@ -325,6 +326,7 @@ export default class CastConnectedScreen extends Component {
         rate={rate}
         playing={playing}
         loading={loading}
+        hasNextVideo={hasNextVideo}
       />
     );
   }

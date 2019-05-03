@@ -416,10 +416,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   [self.player previousVideo];
 }
 
-- (void)handleSwitchNext {
-  [self.player nextVideo];
-}
-
 - (void)onVisibilityControlsChanged:(BOOL)isVisible {
   [self sendEventWithName:visibilityControlsChanged
                      body:@{visibilityControlsKey: @(isVisible)}];

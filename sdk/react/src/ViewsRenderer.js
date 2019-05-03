@@ -192,6 +192,7 @@ export default class ViewsRenderer {
         inCastMode={this.skin.state.inCastMode}
         previewUrl={this.skin.state.previewUrl}
         markers={this.skin.state.markers}
+        hasNextVideo={this.core.shouldShowDiscoveryEndscreen()}
       />
     );
   }
