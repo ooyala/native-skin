@@ -446,7 +446,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderDefaultProgressBar(playedPercent: number, scrubberBarAccessibilityLabel: string) {
-    const { ad, cuePoints } = this.props;
+    const { ad, cuePoints, markers } = this.props;
     const { accessibilityEnabled, touch, x } = this.state;
 
     return (
@@ -462,7 +462,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
       >
         {this.renderProgressBar(playedPercent)}
         {this.renderMarkersProgressBarOverlayContainer()}
-        {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
+        {this.renderProgressScrubber(!ad && touch && markers.length > 0 ? this.touchPercent(x) : playedPercent)}
         {this.renderCuePoints(cuePoints)}
       </Animated.View>
     );
