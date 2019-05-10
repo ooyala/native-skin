@@ -42,6 +42,8 @@
 		2F12F8727CAA720AF04A4451 /* OOUpNextManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F12F9253B74765509247EF1 /* OOUpNextManager.h */; };
 		334A2B63222D5F440001881E /* OOPiPViewManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 334A2B61222D5F440001881E /* OOPiPViewManager.h */; };
 		334A2B64222D5F440001881E /* OOPiPViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 334A2B62222D5F440001881E /* OOPiPViewManager.m */; };
+		33BFCF5A2285A71800084F9E /* OOLiveVideoManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 33BFCF582285A71800084F9E /* OOLiveVideoManager.h */; };
+		33BFCF5B2285A71800084F9E /* OOLiveVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 33BFCF592285A71800084F9E /* OOLiveVideoManager.m */; };
 		391346C921257B9F0044D42D /* OOQueuedEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 391346B221257B9E0044D42D /* OOQueuedEvent.h */; };
 		391346CA21257B9F0044D42D /* OOQueuedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 391346C821257B9E0044D42D /* OOQueuedEvent.m */; };
 		39B612F12158D04B00E2277C /* UIColor+Utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 39B612EF2158D04B00E2277C /* UIColor+Utils.h */; };
@@ -364,6 +366,8 @@
 		2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOUpNextManager.m; sourceTree = "<group>"; };
 		334A2B61222D5F440001881E /* OOPiPViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOPiPViewManager.h; sourceTree = "<group>"; };
 		334A2B62222D5F440001881E /* OOPiPViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOPiPViewManager.m; sourceTree = "<group>"; };
+		33BFCF582285A71800084F9E /* OOLiveVideoManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OOLiveVideoManager.h; sourceTree = "<group>"; };
+		33BFCF592285A71800084F9E /* OOLiveVideoManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OOLiveVideoManager.m; sourceTree = "<group>"; };
 		391346B221257B9E0044D42D /* OOQueuedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OOQueuedEvent.h; sourceTree = "<group>"; };
 		391346C821257B9E0044D42D /* OOQueuedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OOQueuedEvent.m; sourceTree = "<group>"; };
 		39B612EF2158D04B00E2277C /* UIColor+Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Utils.h"; sourceTree = "<group>"; };
@@ -622,6 +626,8 @@
 				976922781B8E37F300A61ACF /* OOSkinOptions.m */,
 				0BCABDA31C7F781200989005 /* OOSkinPlayerObserver.h */,
 				0BCABDA41C7F781200989005 /* OOSkinPlayerObserver.m */,
+				33BFCF582285A71800084F9E /* OOLiveVideoManager.h */,
+				33BFCF592285A71800084F9E /* OOLiveVideoManager.m */,
 				2F12F9253B74765509247EF1 /* OOUpNextManager.h */,
 				2F12FC7D85581BAFCB6ED3C2 /* OOUpNextManager.m */,
 				0BCABD8A1C7F77A900989005 /* Views */,
@@ -729,6 +735,7 @@
 				0BCABD9F1C7F77A900989005 /* OOGradientViewManager.h in Headers */,
 				0BCABD991C7F77A900989005 /* CountdownViewManager.h in Headers */,
 				9769227E1B8E37F300A61ACF /* OoyalaSkinSDK.h in Headers */,
+				33BFCF5A2285A71800084F9E /* OOLiveVideoManager.h in Headers */,
 				CA742B621BE27C3A0056784E /* NSMutableDictionary+Utils.h in Headers */,
 				39EEE0ED2122DEDF00377DB3 /* OOReactSkinBridgeModuleMain.h in Headers */,
 				523E3F1E1F548B2900C29D8D /* NSDictionary+Utils.h in Headers */,
@@ -1164,6 +1171,7 @@
 				CA742B5B1BE279040056784E /* NSString+Utils.m in Sources */,
 				97CF8A011B5076CC008E0470 /* OOLocaleHelper.m in Sources */,
 				0BCABD981C7F77A900989005 /* CountdownView.m in Sources */,
+				33BFCF5B2285A71800084F9E /* OOLiveVideoManager.m in Sources */,
 				52A0A01F1F6C3BCA00884D90 /* OOSkinFullScreenViewController.m in Sources */,
 				39EEE0EF2122F6A200377DB3 /* OOReactSkinBridgeModuleMain.m in Sources */,
 				754CBCDB203DE7CF0086CE53 /* FullscreenStateController.m in Sources */,
