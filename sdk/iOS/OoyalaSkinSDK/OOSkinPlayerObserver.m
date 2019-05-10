@@ -8,7 +8,6 @@
 
 #import "OOSkinPlayerObserver.h"
 #import "OOReactSkinModel.h"
-#import "OOLiveVideoManager.h"
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
