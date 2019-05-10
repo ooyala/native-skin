@@ -34,6 +34,7 @@
 
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
+@property (nonatomic) NSNumber *frozenTime;
 
 @end
 
@@ -231,7 +232,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
       seekStart = 0;
     }
   }
-  
+  self.frozenTime = self.adjustedPlayhead;
+  NSLog(@"❌ bridgeSeekCompletedNotification");
   NSDictionary *eventBody = @{seekStartKey:  @(seekStart),
                               seekEndKey:    @(seekEnd),
                               durationKey:   @(seekableDuration),
@@ -261,14 +263,16 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
   NSNumber *playheadNumber  = self.adjustedPlayhead;
+  NSNumber *durationNumber  = self.totalDuration;
   
-  if (self.player.currentItem.live) {
-    NSLog(@"✅ bridgeTimeChangedNotification. adjustedPlayhead: %f", playheadNumber.floatValue);
+  if (self.player.currentItem.live && self.frozenTime) {
     //TODO: add logic for keeping timer as constant if playback was rewinded
-    
+    NSLog(@"✅ Time Changed: playhead: [%.2f], duration: [%.2f]", playheadNumber.floatValue, durationNumber.floatValue);
+    NSLog(@"self.frozenTime: %.2f. playhead time will be replaced", self.frozenTime.floatValue);
+    playheadNumber = self.frozenTime;
+    NSLog(@"replaced playhead: [%.2f]", playheadNumber.floatValue);
   }
   
-  NSNumber *durationNumber  = self.totalDuration;
   NSNumber *rateNumber      = @(self.player.playbackRate);
   NSArray *cuePoints = [NSArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
@@ -335,6 +339,12 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayerStateConverter playerStateToString:self.player.state];
+  
+  //OS: for live assets need to update frozen time, because playhead that based on current live position was changed since player was paused
+  if (self.player.currentItem.live && self.player.state == OOOoyalaPlayerStatePlaying) {
+    NSLog(@"⚠️ State Changed to OOOoyalaPlayerStatePlaying. frozenTime [%.2f] will be replaced on playhead time [%.2f]", self.frozenTime, self.adjustedPlayhead);
+    self.frozenTime = self.adjustedPlayhead;
+  }
   OOClosedCaptionsStyle *newClosedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
   if ([self.ooReactSkinModel.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
     [self.ooReactSkinModel ccStyleChanged:nil];
