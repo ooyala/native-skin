@@ -189,8 +189,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     }
   }
 
-  onValueChange(value: number) {
-    const { duration, onScrub, playhead } = this.props;
+  onValueChange(value: number, duration: number, onScrub: object, playhead: number) {
 
     let newPlayhead = playhead - value;
 
@@ -446,7 +445,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderDefaultProgressBar(playedPercent: number, scrubberBarAccessibilityLabel: string) {
-    const { ad, cuePoints } = this.props;
+    const { ad, cuePoints, markers } = this.props;
     const { accessibilityEnabled, touch, x } = this.state;
 
     return (
@@ -462,7 +461,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
       >
         {this.renderProgressBar(playedPercent)}
         {this.renderMarkersProgressBarOverlayContainer()}
-        {this.renderProgressScrubber(!ad && touch ? this.touchPercent(x) : playedPercent)}
+        {this.renderProgressScrubber(!ad && touch && markers.length > 0 ? this.touchPercent(x) : playedPercent)}
         {this.renderCuePoints(cuePoints)}
       </Animated.View>
     );
@@ -470,7 +469,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
 
   renderCompleteProgressBar() {
     const {
-      config, duration, playhead, screenReaderEnabled, shouldShowProgressBar,
+      config, duration, playhead, screenReaderEnabled, shouldShowProgressBar, onScrub
     } = this.props;
     const { cachedPlayhead } = this.state;
 
@@ -497,7 +496,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
           maximumTrackTintColor={maximumTrackTintColor}
           minimumTrackTintColor={minimumTrackTintColor}
           maximumValue={duration}
-          onValueChange={this.onValueChange}
+          onValueChange={(value) => this.onValueChange(value, duration, onScrub, playhead)}
           step={1.0}
           style={{
             flexDirection: 'row',
