@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface OOLiveVideoManager : NSObject
 
+@property (nonatomic) NSNumber *frozenSeekBackTime;
+
 @end
 
 NS_ASSUME_NONNULL_END

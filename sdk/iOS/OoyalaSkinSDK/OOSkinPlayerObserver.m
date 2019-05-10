@@ -8,6 +8,7 @@
 
 #import "OOSkinPlayerObserver.h"
 #import "OOReactSkinModel.h"
+#import "OOLiveVideoManager.h"
 
 #import "NSString+Utils.h"
 #import "NSDictionary+Utils.h"
@@ -34,7 +35,9 @@
 
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
-@property (nonatomic) NSNumber *frozenTime;
+//@property (nonatomic) NSNumber *frozenTime;
+///OS: Instance must be created or set to nil, if current asset has new is live status
+@property (nonatomic) OOLiveVideoManager *liveStatusManager;
 
 @end
 
@@ -232,8 +235,12 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
       seekStart = 0;
     }
   }
-  self.frozenTime = self.adjustedPlayhead;
-  NSLog(@"❌ bridgeSeekCompletedNotification");
+  //OS: to keep playhead time static, because playhead and live go forward simultaneously (PLAYER-5491)
+  if (self.liveStatusManager) {
+    self.liveStatusManager.frozenSeekBackTime = self.adjustedPlayhead;
+    NSLog(@"❌ bridgeSeekCompletedNotification");
+  }
+  
   NSDictionary *eventBody = @{seekStartKey:  @(seekStart),
                               seekEndKey:    @(seekEnd),
                               durationKey:   @(seekableDuration),
@@ -264,12 +271,12 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
   NSNumber *playheadNumber  = self.adjustedPlayhead;
   NSNumber *durationNumber  = self.totalDuration;
-  
-  if (self.player.currentItem.live && self.frozenTime) {
-    //TODO: add logic for keeping timer as constant if playback was rewinded
-    NSLog(@"✅ Time Changed: playhead: [%.2f], duration: [%.2f]", playheadNumber.floatValue, durationNumber.floatValue);
-    NSLog(@"self.frozenTime: %.2f. playhead time will be replaced", self.frozenTime.floatValue);
-    playheadNumber = self.frozenTime;
+
+  //OS: pass to JS static playhead time, because playhead and live go forward simultaneously (PLAYER-5491)
+  if (self.player.currentItem.live && self.liveStatusManager && self.liveStatusManager.frozenSeekBackTime) {
+
+    NSLog(@"self.frozenTime: %.2f. playhead time will be replaced", self.liveStatusManager.frozenSeekBackTime.floatValue);
+    playheadNumber = self.liveStatusManager.frozenSeekBackTime;
     NSLog(@"replaced playhead: [%.2f]", playheadNumber.floatValue);
   }
   
@@ -337,10 +344,11 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
   
   if (self.player.currentItem.live) {
-    NSLog(@"\n\n\n✅  we are LIVE asset\n\n\n");
-    //OOLiveVideoManager initialization should be here
+    NSLog(@"\n\n\n✅ we are LIVE asset\n\n\n");
+    self.liveStatusManager = [OOLiveVideoManager new];
   } else {
-    self.frozenTime = nil;
+    self.liveStatusManager = nil;
+    //self.frozenTime = nil;
   }
 }
 
@@ -348,9 +356,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSString *stateString = [OOOoyalaPlayerStateConverter playerStateToString:self.player.state];
   
   //OS: for live assets need to update frozen time, because playhead that based on current live position was changed since player was paused
-  if (self.player.currentItem.live && self.player.state == OOOoyalaPlayerStatePlaying) {
-    NSLog(@"⚠️ State Changed to OOOoyalaPlayerStatePlaying. frozenTime [%.2f] will be replaced on playhead time [%.2f]", self.frozenTime, self.adjustedPlayhead);
-    self.frozenTime = self.adjustedPlayhead;
+  if (self.player.currentItem.live && self.liveStatusManager && self.player.state == OOOoyalaPlayerStatePlaying) {
+    self.liveStatusManager.frozenSeekBackTime = self.adjustedPlayhead;
   }
   OOClosedCaptionsStyle *newClosedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
   if ([self.ooReactSkinModel.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
