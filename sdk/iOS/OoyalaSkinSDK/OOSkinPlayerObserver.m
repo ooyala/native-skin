@@ -335,6 +335,13 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
                               };
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
+  
+  if (self.player.currentItem.live) {
+    NSLog(@"\n\n\n✅  we are LIVE asset\n\n\n");
+    //OOLiveVideoManager initialization should be here
+  } else {
+    self.frozenTime = nil;
+  }
 }
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
