@@ -2,24 +2,20 @@
 
 exports[`Marker renders marker of the icon type matching snapshot 1`] = `
 <IconMarker
+  containerWidth={100}
   iconUrl="http://example.com/icon.png"
+  leftPosition={0}
   onSeek={[Function]}
-  style={
-    Object {
-      "left": "0%",
-    }
-  }
+  onTouch={[Function]}
 />
 `;
 
 exports[`Marker renders marker of the text type matching snapshot 1`] = `
 <TextMarker
+  containerWidth={100}
+  leftPosition={0}
   onSeek={[Function]}
-  style={
-    Object {
-      "left": "0%",
-    }
-  }
+  onTouch={[Function]}
   text="Hello, world!"
 />
 `;

@@ -10,8 +10,11 @@ describe('TextMarker', () => {
   it('renders matching snapshot', () => {
     const wrapper = shallow(
       <TextMarker
+        containerWidth={100}
+        leftPosition={0}
         text="Hello, world"
         onSeek={() => undefined}
+        onTouch={() => undefined}
       />,
     );
 
@@ -23,8 +26,11 @@ describe('TextMarker', () => {
     const onSeekMock = jest.fn();
     const wrapper = shallow(
       <TextMarker
+        containerWidth={100}
+        leftPosition={0}
         text="A word"
         onSeek={onSeekMock}
+        onTouch={() => undefined}
       />,
     );
 
@@ -39,8 +45,11 @@ describe('TextMarker', () => {
     const onSeekMock = jest.fn();
     const wrapper = shallow(
       <TextMarker
+        containerWidth={100}
+        leftPosition={0}
         text="The text long enough to switch to collapsible state"
         onSeek={onSeekMock}
+        onTouch={() => undefined}
       />,
     );
 
@@ -56,5 +65,22 @@ describe('TextMarker', () => {
 
     expect(onSeekMock)
       .toBeCalled();
+  });
+
+  it('triggers `onTouch` callback every time when pressed', () => {
+    const onTouchMock = jest.fn();
+    const wrapper = shallow(
+      <TextMarker
+        containerWidth={100}
+        leftPosition={0}
+        text="A word"
+        onSeek={() => undefined}
+        onTouch={onTouchMock}
+      />,
+    );
+
+    wrapper.find(TouchableWithoutFeedback).simulate('press');
+
+    expect(onTouchMock).toBeCalled();
   });
 });

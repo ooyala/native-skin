@@ -180,7 +180,7 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
    * Stretch OoyalaSkinLayout to dimensions of the display window.
    * Handle system UI visibility.
    */
-  void setFullscreen(boolean fullscreen) {
+  public void setFullscreen(boolean fullscreen) {
     // do nothing if window manager isn't set. This is considering an unexpected case, that is
     // why I'm omitting the whole method, since it really depends on windowManager
     if (null == windowManager) {

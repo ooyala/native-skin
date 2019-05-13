@@ -6,10 +6,17 @@ import android.graphics.PorterDuff;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.ooyala.android.skin.OoyalaSkinLayoutController;
 import com.ooyala.android.util.DebugMode;
 
 public class VolumeViewManager extends SimpleViewManager<VolumeView> {
   public static final String REACT_CLASS = "OOVolumeView";
+  OoyalaSkinLayoutController skinController;
+
+  public VolumeViewManager(OoyalaSkinLayoutController lc) {
+    super();
+    skinController = lc;
+  }
 
   @Override
   public String getName() {
@@ -18,7 +25,9 @@ public class VolumeViewManager extends SimpleViewManager<VolumeView> {
 
   @Override
   protected VolumeView createViewInstance(ThemedReactContext context) {
-    return new VolumeView(context);
+    VolumeView view = new VolumeView(context);
+    skinController.allowScrollForView(view);
+    return view;
   }
 
   @ReactProp(name = "color")
@@ -40,9 +49,7 @@ public class VolumeViewManager extends SimpleViewManager<VolumeView> {
     if (volume > 1) {
       volume = 1;
     }
-
     view.setProgress((int)(volume*view.getMax()));
     view.invalidate();
-    view.setTag("volumeView"); //that label is for LayoutController.getTagsForScrollableViews impl
   }
 }

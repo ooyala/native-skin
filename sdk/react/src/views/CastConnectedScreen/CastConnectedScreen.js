@@ -1,16 +1,21 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import {
-  Animated, Image, Text, TouchableOpacity, View,
-} from 'react-native';
+import PropTypes from 'prop-types';
 
-import CastPlayPauseButtons from './CastPlayPauseButtons';
+import {
+  Animated,
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+} from 'react-native';
 import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
-import responsiveMultiplier from '../../lib/responsiveMultiplier';
+import CastPlayPauseButtons from './CastPlayPauseButtons';
 import * as Utils from '../../lib/utils';
+import castConnectedStyles from './CastConnectedScreen.styles';
+import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import BottomOverlay from '../../shared/BottomOverlay';
 
-import styles from './CastConnectedScreen.styles';
+const styles = Utils.getStyles(castConnectedStyles);
 
 export default class CastConnectedScreen extends Component {
   static propTypes = {
@@ -35,6 +40,7 @@ export default class CastConnectedScreen extends Component {
       handleVideoTouchEnd: PropTypes.func,
       handleControlsTouch: PropTypes.func,
       handleShowControls: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }).isRequired,
     screenReaderEnabled: PropTypes.bool.isRequired,
     availableClosedCaptionsLanguages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -49,10 +55,11 @@ export default class CastConnectedScreen extends Component {
     inCastMode: PropTypes.bool.isRequired,
     previewUrl: PropTypes.string.isRequired,
     markers: PropTypes.array.isRequired,
+    hasNextVideo: PropTypes.bool.isRequired,
   };
 
-  static renderBorder() {
-    return <View style={styles.border} />;
+  componentDidMount() {
+    this.props.handlers.onControlsVisibilityChanged(true);
   }
 
   onSeekPressed(skipCountValue) {
@@ -164,6 +171,10 @@ export default class CastConnectedScreen extends Component {
     );
   }
 
+  static renderBorder() {
+    return <View style={styles.border} />;
+  }
+
   renderDeviceNameLines() {
     const { deviceName } = this.props;
 
@@ -216,7 +227,6 @@ export default class CastConnectedScreen extends Component {
 
 
     const ccEnabled = availableClosedCaptionsLanguages && availableClosedCaptionsLanguages.length > 0;
-    const isShown = true;
 
     return (
       <BottomOverlay
@@ -234,7 +244,7 @@ export default class CastConnectedScreen extends Component {
         handleControlsTouch={() => handleControlsTouch()}
         showAudioAndCCButton={multiAudioEnabled || ccEnabled}
         showPlaybackSpeedButton={playbackSpeedEnabled}
-        isShow={isShown}
+        isShow={true}
         screenReaderEnabled={screenReaderEnabled}
         stereoSupported={stereoSupported}
         config={{
@@ -255,13 +265,13 @@ export default class CastConnectedScreen extends Component {
   renderCastPlayPause() {
     const { props } = this;
     const {
-      width, height, config, live, playhead, duration, rate, playing, loading,
+      width, height, config, live, playhead, duration, rate, playing, loading, hasNextVideo
     } = props;
     const {
       play, previous, next, pause, forward, replay,
     } = config.icons;
 
-    const iconFontSize = responsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !config.live.forceDvrDisabled || !live;
     const notInLiveRegion = playhead <= duration * VALUES.LIVE_THRESHOLD;
     const icons = {
@@ -316,6 +326,7 @@ export default class CastConnectedScreen extends Component {
         rate={rate}
         playing={playing}
         loading={loading}
+        hasNextVideo={hasNextVideo}
       />
     );
   }

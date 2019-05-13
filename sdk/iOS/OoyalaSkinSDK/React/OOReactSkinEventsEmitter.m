@@ -72,7 +72,8 @@ RCT_EXPORT_MODULE(OOReactSkinEventsEmitter);
            @"castDevicesAvailable",
            @"castConnected",
            @"castDisconnected",
-           @"castConnecting"];
+           @"castConnecting",
+           @"visibilityControlsChanged"];
 }
 
 - (void)sendDeviceEventWithName:(NSString *)eventName body:(id)body {

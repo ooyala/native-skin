@@ -1,17 +1,25 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { NativeModules, Platform, View } from 'react-native';
+import PropTypes from 'prop-types';
+import {
+  View,
+  Platform,
+  NativeModules
+} from 'react-native';
 
-import { ACCESSIBILITY_ANNOUNCERS, BUTTON_NAMES, UI_SIZES } from '../../../constants';
-import { collapse } from '../../../lib/collapser';
-import * as Log from '../../../lib/log';
-import responsiveMultiplier from '../../../lib/responsiveMultiplier';
+import {
+  BUTTON_NAMES,
+  ACCESSIBILITY_ANNOUNCERS,
+  UI_SIZES
+} from '../../../constants';
+import CollapsingBarUtils from '../../../lib/collapser';
+import Log from '../../../lib/log';
 import * as Utils from '../../../lib/utils';
 import ControlBarWidget from '../../ControlBarWidgets';
+import ResponsiveDesignManager from '../../../lib/responsiveMultiplier';
 
-import styles from './ControlBar.styles';
-
-const { AndroidAccessibility } = NativeModules;
+import controlBarStyles from './ControlBar.styles';
+const styles = Utils.getStyles(controlBarStyles);
+const AndroidAccessibility = NativeModules.AndroidAccessibility;
 
 export default class ControlBar extends Component {
   static propTypes = {
@@ -35,13 +43,10 @@ export default class ControlBar extends Component {
     inCastMode: PropTypes.bool,
   };
 
-  static defaultProps = {
-    playhead: 0,
-    duration: 0,
-  };
+  static defaultProps = {playhead: 0, duration: 0};
 
   state = {
-    showVolume: false,
+    showVolume: false
   };
 
   getPlayHeadTimeString = () => {
@@ -67,19 +72,21 @@ export default class ControlBar extends Component {
     return Utils.secondsToString(duration);
   };
 
-  getSelectedPlaybackSpeedRate = () => Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
+  getSelectedPlaybackSpeedRate = () => {
+    return Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
+  };
 
   getVolumeControlColor = () => {
     if (this.props.config.general.accentColor) {
       return this.props.config.general.accentColor;
+    } else {
+      if (this.props.config.controlBar.volumeControl.color) {
+        return this.props.config.controlBar.volumeControl.color;
+      } else {
+        Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json');
+        return '#4389FF';
+      }
     }
-    if (this.props.config.controlBar.volumeControl.color) {
-      return this.props.config.controlBar.volumeControl.color;
-    }
-    Log.error(
-      'controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json',
-    );
-    return '#4389FF';
   };
 
   onPlayPausePress = () => {
@@ -88,7 +95,7 @@ export default class ControlBar extends Component {
 
   onVolumePress = () => {
     this.setState({
-      showVolume: !this.state.showVolume,
+      showVolume: !this.state.showVolume
     });
   };
 
@@ -119,7 +126,7 @@ export default class ControlBar extends Component {
     if (Platform.OS === 'android') {
       this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
     } else {
-      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY);
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY)
     }
   };
 
@@ -143,8 +150,8 @@ export default class ControlBar extends Component {
     const {
       config, live, width, height, showAudioAndCCButton,
     } = this.props;
-    const iconFontSize = responsiveMultiplier(width, UI_SIZES.CONTROLBAR_ICONSIZE);
-    const labelFontSize = responsiveMultiplier(width, UI_SIZES.CONTROLBAR_LABELSIZE);
+    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_ICONSIZE);
+    const labelFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.CONTROLBAR_LABELSIZE);
     const waterMarkName = Platform.select({
       ios: config.controlBar.logo.imageResource.iosResource,
       android: config.controlBar.logo.imageResource.androidResource,
@@ -155,15 +162,10 @@ export default class ControlBar extends Component {
     } else {
       liveCircle = null;
     }
-    const castEnabled = config.castControls.enabled;
-    const color = this.props.inCastMode ? config.castControls.iconStyle.active.color
-      : config.castControls.iconStyle.inactive.color;
-    const castIcon = this.props.inCastMode ? config.icons['chromecast-connected']
-      : config.icons['chromecast-disconnected'];
+
     const controlBarWidgets = [];
 
-
-    const widgetOptions = {
+    let widgetOptions = {
       playPause: {
         onPress: this.onPlayPausePress,
         style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
@@ -174,12 +176,7 @@ export default class ControlBar extends Component {
       },
       volume: {
         onPress: this.onVolumePress,
-        style: this.state.showVolume ? [styles.icon,
-          { fontSize: iconFontSize },
-          styles.iconHighlighted,
-          config.controlBar.iconStyle.active] : [styles.icon,
-          { fontSize: iconFontSize },
-          this.props.config.controlBar.iconStyle.active],
+        style: this.state.showVolume ? [styles.icon, { fontSize: iconFontSize }, styles.iconHighlighted, config.controlBar.iconStyle.active] : [styles.icon, {'fontSize': iconFontSize}, this.props.config.controlBar.iconStyle.active],
         iconOn: config.icons.volume,
         iconOff: config.icons.volumeOff,
         iconTouchableStyle: styles.iconTouchable,
@@ -224,13 +221,6 @@ export default class ControlBar extends Component {
         style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
         icon: config.icons.ellipsis,
       },
-      chromecast: {
-        onPress: this.onCastPress,
-        iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active, { color }],
-        icon: castIcon,
-        enabled: castEnabled,
-      },
       discovery: {
         onPress: this.onDiscoveryPress,
         iconTouchableStyle: styles.iconTouchable,
@@ -271,6 +261,25 @@ export default class ControlBar extends Component {
       },
     };
 
+    // Adding castControls validation because we don't use chromecast in admode
+    // When instantiated from BottomOverlay/AdPlaybackScreen castControls object is not available
+    if (config.castControls) {
+      const castEnabled = config.castControls.enabled;
+      const color = this.props.inCastMode ? config.castControls.iconStyle.active.color : config.castControls.iconStyle.inactive.color;
+      const castIcon = this.props.inCastMode ? config.icons['chromecast-connected'] : config.icons['chromecast-disconnected'];
+
+      const chromecast = {
+        chromecast: {
+          onPress: this.onCastPress,
+          iconTouchableStyle: styles.iconTouchable,
+          style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active, { color }],
+          icon: castIcon,
+          enabled: castEnabled
+        }
+      };
+      Object.assign(widgetOptions, chromecast);
+    }
+
     function _isVisible(item) {
       let visible = true;
       switch (item.name) {
@@ -287,29 +296,25 @@ export default class ControlBar extends Component {
           visible = this.props.stereoSupported;
           break;
         default:
-          visible = Object.keys(widgetOptions)
-            .includes(item.name);
+          visible = Object.keys(widgetOptions).includes(item.name);
       }
       item.isVisible = visible;
     }
 
     this.props.config.buttons.forEach(_isVisible, this);
 
-    const itemCollapsingResults = collapse(this.props.width, this.props.config.buttons);
+    const itemCollapsingResults = CollapsingBarUtils.collapse(this.props.width, this.props.config.buttons);
 
     function pushControl(item) {
-      controlBarWidgets.push(item);
+      controlBarWidgets.push(item)
     }
 
     for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
-      const item = (
-        <ControlBarWidget
-          key={i}
-          widgetType={widget}
-          options={widgetOptions}
-        />
-      );
+      const item = <ControlBarWidget
+        key={i}
+        widgetType={widget}
+        options={widgetOptions}/>;
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
         if (this.props.stereoSupported) {

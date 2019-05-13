@@ -304,8 +304,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSNumber *volume                 = @(OOAudioSession.sharedInstance.applicationVolume);
   NSString *contentType            = OOStreamPlayer.defaultPlayerInfo.isAudioOnly ?
                                      @"Audio" : @"Video";
-  // TODO: Use self.player.currentItem markersJSONArray instead when Carlos implement it in the core SDK.
-  NSArray *markersStrings          = [NSArray array];
+
+  NSArray *markersStrings          = self.player.currentItem.markersJSONArray;
 
   NSDictionary *eventBody = @{titleKey:       title,
                               descriptionKey: itemDescription,
@@ -510,8 +510,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 }
 
 - (void)castManagerDidUpdateDeviceList:(NSDictionary *)deviceList {
-  NSArray *devices = deviceList[deviceKey];
-  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:devices];
+  [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:deviceList];
 }
 
 - (void)castManagerIsConnectingToDevice {
