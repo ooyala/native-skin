@@ -341,11 +341,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
   
   //OS: Flag must be changed depends on if current asset has new is-live-status
-  if (self.player.currentItem.live) {
-    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, YES};
-  } else {
-    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, NO};
-  }
+  self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, self.player.currentItem.live};
 }
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
