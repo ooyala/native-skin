@@ -1,19 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   ActivityIndicator, Animated, TouchableHighlight, View,
 } from 'react-native';
-
 import timerForSkipButtons from 'react-native-timer';
+
+import { BUTTON_NAMES, VALUES } from '../../../constants';
+import * as Accessibility from '../../../lib/accessibility';
+import * as Utils from '../../../lib/utils';
 import SkipButton from '../../../shared/SkipButton';
 import SwitchButton from './SwitchButton';
-import { BUTTON_NAMES, VALUES } from '../../../constants';
-import * as Utils from '../../../lib/utils';
-import AccessibilityUtils from '../../../lib/accessibility';
-import rectButtonStyles from '../../../shared/styles/rectangularButton.styles';
 
-// Uses the rectbutton styles
-const styles = Utils.getStyles(rectButtonStyles);
+import styles from './CastPlayPauseButtons.styles';
 
 const PLAY = 'play';
 const PAUSE = 'pause';
@@ -22,7 +20,7 @@ const NEXT = 'next';
 const PREVIOUS = 'previous';
 const BACKWARD = 'seekBackward';
 
-export default class CastPlayPauseButtons extends React.Component {
+export default class CastPlayPauseButtons extends Component {
   static propTypes = {
     seekEnabled: PropTypes.bool.isRequired,
     ffActive: PropTypes.bool.isRequired,
@@ -48,7 +46,7 @@ export default class CastPlayPauseButtons extends React.Component {
     loading: PropTypes.bool.isRequired,
     initialPlay: PropTypes.bool.isRequired,
     config: PropTypes.object.isRequired,
-    hasNextVideo: PropTypes.bool.isRequired
+    hasNextVideo: PropTypes.bool.isRequired,
   };
 
   state = {
@@ -162,7 +160,7 @@ export default class CastPlayPauseButtons extends React.Component {
       width: buttonWidth * 2,
       height: buttonHeight * 2,
     };
-    const label = AccessibilityUtils.createAccessibilityForPlayPauseButton(name);
+    const label = Accessibility.createAccessibilityForPlayPauseButton(name);
 
     return (
       <TouchableHighlight
@@ -274,7 +272,7 @@ export default class CastPlayPauseButtons extends React.Component {
   // Gets the play button based on the current config settings
   render() {
     const {
-      frameHeight, buttonHeight, frameWidth, buttonWidth, showButton, config, hasNextVideo
+      frameHeight, buttonHeight, frameWidth, buttonWidth, showButton, config, hasNextVideo,
     } = this.props;
     const {
       previousVideo, nextVideo, skipBackward, skipForward,

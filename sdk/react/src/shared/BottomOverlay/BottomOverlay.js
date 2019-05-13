@@ -196,8 +196,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     }
   }
 
-  onValueChange(value: number, duration: number, onScrub: object, playhead: number) {
-
+  onValueChange(value: number, duration: number, onScrub: Object, playhead: number) {
     let newPlayhead = playhead - value;
 
     if (newPlayhead >= 0) {
@@ -477,7 +476,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
 
   renderCompleteProgressBar() {
     const {
-      config, duration, playhead, screenReaderEnabled, shouldShowProgressBar, onScrub
+      config, duration, playhead, screenReaderEnabled, shouldShowProgressBar, onScrub,
     } = this.props;
     const { cachedPlayhead } = this.state;
 
@@ -504,7 +503,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
           maximumTrackTintColor={maximumTrackTintColor}
           minimumTrackTintColor={minimumTrackTintColor}
           maximumValue={duration}
-          onValueChange={(value) => this.onValueChange(value, duration, onScrub, playhead)}
+          onValueChange={value => this.onValueChange(value, duration, onScrub, playhead)}
           step={1.0}
           style={{
             flexDirection: 'row',

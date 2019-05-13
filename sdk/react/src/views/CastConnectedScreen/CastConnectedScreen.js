@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import React, { Component } from 'react';
 import {
-  Animated,
-  Text,
-  TouchableOpacity,
-  View,
-  Image,
+  Animated, Image, Text, TouchableOpacity, View,
 } from 'react-native';
-import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
+
 import CastPlayPauseButtons from './CastPlayPauseButtons';
+import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
+import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
-import castConnectedStyles from './CastConnectedScreen.styles';
-import ResponsiveDesignManager from '../../lib/responsiveMultiplier';
 import BottomOverlay from '../../shared/BottomOverlay';
 
-const styles = Utils.getStyles(castConnectedStyles);
+import styles from './CastConnectedScreen.styles';
 
 export default class CastConnectedScreen extends Component {
   static propTypes = {
@@ -57,6 +52,10 @@ export default class CastConnectedScreen extends Component {
     markers: PropTypes.array.isRequired,
     hasNextVideo: PropTypes.bool.isRequired,
   };
+
+  static renderBorder() {
+    return <View style={styles.border} />;
+  }
 
   componentDidMount() {
     this.props.handlers.onControlsVisibilityChanged(true);
@@ -171,10 +170,6 @@ export default class CastConnectedScreen extends Component {
     );
   }
 
-  static renderBorder() {
-    return <View style={styles.border} />;
-  }
-
   renderDeviceNameLines() {
     const { deviceName } = this.props;
 
@@ -244,7 +239,7 @@ export default class CastConnectedScreen extends Component {
         handleControlsTouch={() => handleControlsTouch()}
         showAudioAndCCButton={multiAudioEnabled || ccEnabled}
         showPlaybackSpeedButton={playbackSpeedEnabled}
-        isShow={true}
+        isShow
         screenReaderEnabled={screenReaderEnabled}
         stereoSupported={stereoSupported}
         config={{
@@ -265,13 +260,13 @@ export default class CastConnectedScreen extends Component {
   renderCastPlayPause() {
     const { props } = this;
     const {
-      width, height, config, live, playhead, duration, rate, playing, loading, hasNextVideo
+      width, height, config, live, playhead, duration, rate, playing, loading, hasNextVideo,
     } = props;
     const {
       play, previous, next, pause, forward, replay,
     } = config.icons;
 
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const iconFontSize = responsiveMultiplier(width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !config.live.forceDvrDisabled || !live;
     const notInLiveRegion = playhead <= duration * VALUES.LIVE_THRESHOLD;
     const icons = {

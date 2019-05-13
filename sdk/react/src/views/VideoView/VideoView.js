@@ -68,7 +68,7 @@ export default class VideoView extends Component {
   };
 
   state = {
-    shouldShowControls: true
+    shouldShowControls: true,
   };
 
   generateLiveObject = () => {
@@ -266,7 +266,8 @@ export default class VideoView extends Component {
   };
 
   _renderPlayPause = () => {
-    const iconFontSize = ResponsiveDesignManager.makeResponsiveMultiplier(this.props.width, UI_SIZES.VIDEOVIEW_PLAYPAUSE);
+    const iconFontSize = responsiveMultiplier(this.props.width,
+      UI_SIZES.VIDEOVIEW_PLAYPAUSE);
     const seekVisible = !this.props.config.live.forceDvrDisabled || !this.props.live;
     const notInLiveRegion = this.props.playhead <= this.props.duration * VALUES.LIVE_THRESHOLD;
     return (
@@ -423,18 +424,19 @@ export default class VideoView extends Component {
     this.props.handlers.onAdOverlay(this.props.adOverlay.clickUrl);
   };
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.shouldShowControls !== this.state.shouldShowControls) {
       this.props.handlers.onControlsVisibilityChanged(this.state.shouldShowControls);
     }
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props) {
     const isPastAutoHideTime = (new Date()).getTime() - props.lastPressedTime > AUTOHIDE_DELAY;
     const isVisible = props.screenReaderEnabled ? true : !isPastAutoHideTime;
-    return ({
-      shouldShowControls: isVisible
-    });
+
+    return {
+      shouldShowControls: isVisible,
+    };
   }
 
   render() {
