@@ -34,11 +34,11 @@
 
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
-@property (nonatomic) struct LiveAssetSupport liveAssetHelper;
+@property (nonatomic) struct LiveAssetHelper liveHelper;
 
 @end
 
-struct LiveAssetSupport { //OS: no need to use Obj-C class until there is no logic required for calculations or so on
+struct LiveAssetHelper { //OS: no need to use Obj-C class until there is no logic required for calculations or so on
   NSNumber *frozenSeekBackTime;
   BOOL isOnGuard;
 };
@@ -238,7 +238,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   }
   //OS: to keep playhead time static, because playhead and live go forward simultaneously (PLAYER-5491)
   if (self.player.currentItem.live) {
-    self.liveAssetHelper = (struct LiveAssetSupport) {self.adjustedPlayhead, YES};
+    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, YES};
   }
   
   NSDictionary *eventBody = @{seekStartKey:  @(seekStart),
@@ -273,8 +273,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSNumber *durationNumber  = self.totalDuration;
 
   //OS: pass to JS static playhead time, because playhead and live go forward simultaneously (PLAYER-5491)
-  if (self.player.currentItem.live && self.liveAssetHelper.isOnGuard) {
-    playheadNumber = self.liveAssetHelper.frozenSeekBackTime;
+  if (self.player.currentItem.live && self.liveHelper.isOnGuard) {
+    playheadNumber = self.liveHelper.frozenSeekBackTime;
   }
   
   NSNumber *rateNumber      = @(self.player.playbackRate);
@@ -342,9 +342,9 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   
   //OS: Flag must be changed depends on if current asset has new is-live-status
   if (self.player.currentItem.live) {
-    self.liveAssetHelper = (struct LiveAssetSupport) {self.adjustedPlayhead, YES};
+    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, YES};
   } else {
-    self.liveAssetHelper = (struct LiveAssetSupport) {self.adjustedPlayhead, NO};
+    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, NO};
   }
 }
 
@@ -353,7 +353,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   
   //OS: for live assets need to update frozen time, because playhead that based on current live position was changed since player was paused
   if (self.player.currentItem.live && self.player.state == OOOoyalaPlayerStatePlaying) {
-    self.liveAssetHelper = (struct LiveAssetSupport) {self.adjustedPlayhead, YES};
+    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, YES};
   }
   OOClosedCaptionsStyle *newClosedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
   if ([self.ooReactSkinModel.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
