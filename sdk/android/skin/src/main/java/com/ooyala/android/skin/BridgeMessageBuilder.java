@@ -358,35 +358,38 @@ public class BridgeMessageBuilder {
    */
   public static WritableMap buildCastDeviceListParams(Object castMediaRoutes) {
     WritableMap params = Arguments.createMap();
-    WritableArray castDeviceNames = Arguments.createArray();
-    WritableArray castDeviceIds = Arguments.createArray();
+    WritableArray castDevices = Arguments.createArray();
 
     if (castMediaRoutes instanceof Set) {
       Set<CastDevice> castDevicesSet = (Set<CastDevice>) castMediaRoutes;
       for (CastDevice device : castDevicesSet) {
-        castDeviceIds.pushString(device.getId());
-        castDeviceNames.pushString(device.getName());
+        WritableMap castDevice = Arguments.createMap();
+        castDevice.putString("id", device.getId());
+        castDevice.putString("title",   device.getName());
+        castDevices.pushMap(castDevice);
       }
     }
-    params.putArray("castDeviceIds", castDeviceIds);
-    params.putArray("castDeviceNames", castDeviceNames);
+    params.putArray("devices", castDevices);
     return params;
   }
 
   /**
    * Use it to build Writable map with necessary params as:
    *
-   * @param connectedDeviceName the name of connected device that will shown on cast control screen
+   * @param connectedDevice the connected device that will shown on cast control screen
    * @param state               the start state of player
    * @param url                 with video preview, to show black background simple keep empty or config skin.json
    * @return WritableMap with device name
    */
-  public static WritableMap buildConnectedDeviceNameParams(Object connectedDeviceName, OoyalaPlayer.State state, String url) {
+  public static WritableMap buildConnectedDeviceNameParams(Object connectedDevice, OoyalaPlayer.State state, String url) {
     WritableMap params = Arguments.createMap();
+    WritableMap device = Arguments.createMap();
 
-    params.putString("connectedDeviceName", (String) connectedDeviceName);
-    params.putString("state", state.name());
-    params.putString("previewUrl", url);
+    device.putString("id", ((CastDevice)connectedDevice).getId());
+    device.putString("title", ((CastDevice)connectedDevice).getName());
+    params.putMap("connectedDevice", device);
+    params.putBoolean("isPlaying", state == OoyalaPlayer.State.PLAYING);
+    params.putString("previewURL", url);
     return params;
   }
 

@@ -155,13 +155,8 @@ export default class ControlBar extends Component {
     } else {
       liveCircle = null;
     }
-    const castEnabled = config.castControls.enabled;
-    const color = this.props.inCastMode ? config.castControls.iconStyle.active.color
-      : config.castControls.iconStyle.inactive.color;
-    const castIcon = this.props.inCastMode ? config.icons['chromecast-connected']
-      : config.icons['chromecast-disconnected'];
-    const controlBarWidgets = [];
 
+    const controlBarWidgets = [];
 
     const widgetOptions = {
       playPause: {
@@ -224,13 +219,6 @@ export default class ControlBar extends Component {
         style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
         icon: config.icons.ellipsis,
       },
-      chromecast: {
-        onPress: this.onCastPress,
-        iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active, { color }],
-        icon: castIcon,
-        enabled: castEnabled,
-      },
       discovery: {
         onPress: this.onDiscoveryPress,
         iconTouchableStyle: styles.iconTouchable,
@@ -270,6 +258,26 @@ export default class ControlBar extends Component {
         enabled: this.props.showPlaybackSpeedButton,
       },
     };
+
+    // Adding castControls validation because we don't use chromecast in admode
+    // When instantiated from BottomOverlay/AdPlaybackScreen castControls object is not available
+    if (config.castControls) {
+      const castEnabled = config.castControls.enabled;
+      const color = this.props.inCastMode ? config.castControls.iconStyle.active.color
+        : config.castControls.iconStyle.inactive.color;
+      const castIcon = this.props.inCastMode ? config.icons['chromecast-connected']
+        : config.icons['chromecast-disconnected'];
+
+      Object.assign(widgetOptions, {
+        chromecast: {
+          onPress: this.onCastPress,
+          iconTouchableStyle: styles.iconTouchable,
+          style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active, { color }],
+          icon: castIcon,
+          enabled: castEnabled,
+        },
+      });
+    }
 
     function _isVisible(item) {
       let visible = true;

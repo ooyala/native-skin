@@ -32,6 +32,7 @@ export default class AudioView extends Component {
       onPress: PropTypes.func.isRequired,
       onScrub: PropTypes.func.isRequired,
       handleControlsTouch: PropTypes.func.isRequired,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }),
     config: PropTypes.object,
     upNextDismissed: PropTypes.bool,
@@ -42,6 +43,10 @@ export default class AudioView extends Component {
     description: PropTypes.string,
     onPlayComplete: PropTypes.bool,
   };
+
+  componentDidMount() {
+    this.props.handlers.onControlsVisibilityChanged(true);
+  }
 
   state = {
     playing: false,
@@ -207,6 +212,7 @@ export default class AudioView extends Component {
         seekValue: this.props.config.skipControls.skipBackwardTime,
         icon: this.props.config.icons.replay,
         size: iconFontSize,
+        visible: true,
       },
       playPause: {
         onPress: this.onPlayPausePress,
@@ -232,6 +238,7 @@ export default class AudioView extends Component {
         seekValue: this.props.config.skipControls.skipForwardTime,
         icon: this.props.config.icons.forward,
         size: iconFontSize,
+        visible: true,
       },
       moreOptions: {
         onPress: this.onMorePress,

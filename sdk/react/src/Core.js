@@ -214,6 +214,10 @@ export default class Core {
     }
   }
 
+  onControlsVisibilityChanged(isVisible) {
+    this.bridge.onVisibilityControlsChanged({ isVisible });
+  }
+
   handleVideoTouchStart(event) {
     if (this.skin.state.vrContent) {
       startedClickX = event.nativeEvent.pageX;

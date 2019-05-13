@@ -24,7 +24,7 @@ public interface BridgeEventHandler {
 
   void onLanguageSelected(ReadableMap parameters);
 
-  void onCastDeviceSelected(ReadableMap parameters);
+  void onCastDeviceSelected(String id);
 
   void onCastDisconnectPressed();
 
@@ -39,4 +39,6 @@ public interface BridgeEventHandler {
   void onPlaybackSpeedRateSelected(ReadableMap parameters);
 
   void onVolumeChanged(ReadableMap parameters);
+
+  void onVisibilityControlsChanged(ReadableMap parameters);
 }

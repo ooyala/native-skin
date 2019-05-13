@@ -4,13 +4,16 @@ import * as React from 'react';
 import { Image, TouchableWithoutFeedback, View } from 'react-native';
 import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
-import styles from './IconMarker.styles';
+import createStyles from './IconMarker.styles';
 
 type Props = {
   backgroundColor?: ?string,
+  containerWidth: number,
   iconUrl: ?string,
   imageUrl: ?string,
+  leftPosition: number,
   onSeek: () => void,
+  onTouch: () => void,
   style?: ViewStyleProp,
   touchColor?: ?string,
 };
@@ -37,7 +40,9 @@ export default class IconMarker extends React.Component<Props, State> {
   }
 
   handlePress() {
-    this.setState(({ isExpanded }, { imageUrl, onSeek }) => {
+    this.setState(({ isExpanded }, { imageUrl, onSeek, onTouch }) => {
+      onTouch();
+
       // Trigger seek callback if the marker has no image or has been expanded. If there is an image we have to show it
       // first and only after the second click on that image trigger the callback.
       if (!imageUrl || isExpanded) {
@@ -52,9 +57,11 @@ export default class IconMarker extends React.Component<Props, State> {
 
   render() {
     const {
-      backgroundColor, iconUrl, imageUrl, style, touchColor,
+      backgroundColor, containerWidth, iconUrl, imageUrl, leftPosition, style, touchColor,
     } = this.props;
     const { isExpanded } = this.state;
+
+    const styles = createStyles(leftPosition, containerWidth);
 
     // If the marker is expanded and there is `imageUrl`, we have to use it.
     const image = (isExpanded && imageUrl ? imageUrl : iconUrl);
@@ -91,6 +98,7 @@ export default class IconMarker extends React.Component<Props, State> {
               styles.triangle,
               // Apply expanded style only if the larger image is present.
               isExpanded && imageUrl && touchColor && { borderTopColor: touchColor },
+              isExpanded && imageUrl && styles.triangleExpanded,
             ]}
           />
         </View>

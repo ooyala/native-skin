@@ -61,7 +61,7 @@ class OoyalaReactPackage extends MainReactPackage {
     managers.addAll(super.createViewManagers(reactContext));
     managers.add(new ClosedCaptionsViewManager());
     managers.add(new CountdownViewManager());
-    managers.add(new VolumeViewManager());
+    managers.add(new VolumeViewManager(_layoutcontroller));
     return managers;
   }
 
