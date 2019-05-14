@@ -8,11 +8,15 @@ exports[`MarkersContainer renders matching snapshot 1`] = `
       Object {
         "height": 64,
       },
+      Object {
+        "width": 100,
+      },
       undefined,
     ]
   }
 >
   <Marker
+    containerWidth={100}
     duration={60}
     key="0"
     marker={
@@ -23,8 +27,15 @@ exports[`MarkersContainer renders matching snapshot 1`] = `
       }
     }
     onSeek={[Function]}
+    onTouch={[Function]}
+    style={
+      Object {
+        "zIndex": 2,
+      }
+    }
   />
   <Marker
+    containerWidth={100}
     duration={60}
     key="1"
     marker={
@@ -35,6 +46,12 @@ exports[`MarkersContainer renders matching snapshot 1`] = `
       }
     }
     onSeek={[Function]}
+    onTouch={[Function]}
+    style={
+      Object {
+        "zIndex": 1,
+      }
+    }
   />
 </AnimatedComponent>
 `;

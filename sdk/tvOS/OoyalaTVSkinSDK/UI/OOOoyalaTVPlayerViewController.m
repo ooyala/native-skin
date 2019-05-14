@@ -262,6 +262,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
     switch (self.player.state) {
       case OOOoyalaPlayerStateLoading:
         [self startActivityIndicator];
+        [self updateTimeWithDuration:0
+                            playhead:0];
         break;
       case OOOoyalaPlayerStatePaused:
         break;
@@ -269,6 +271,9 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
         [self.playPauseButton changePlayingState:self.player.isPlaying];
         break;
       case OOOoyalaPlayerStateReady:
+        [self stopActivityIndicator];
+        [self updateTimeWithDuration:self.player.duration
+                            playhead:self.player.playheadTime];
         break;
       case OOOoyalaPlayerStatePlaying:
         if (!self.isBufferingAsked) {

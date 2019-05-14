@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import { NativeModules, Platform, View } from 'react-native';
 
 import { ACCESSIBILITY_ANNOUNCERS, BUTTON_NAMES, UI_SIZES } from '../../../constants';
@@ -13,7 +13,7 @@ import styles from './ControlBar.styles';
 
 const { AndroidAccessibility } = NativeModules;
 
-export default class ControlBar extends React.Component {
+export default class ControlBar extends Component {
   static propTypes = {
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
@@ -67,138 +67,82 @@ export default class ControlBar extends React.Component {
     return Utils.secondsToString(duration);
   };
 
-  getSelectedPlaybackSpeedRate = () => {
-    const { config } = this.props;
-
-    return Utils.formattedPlaybackSpeedRate(config.selectedPlaybackSpeedRate);
-  };
+  getSelectedPlaybackSpeedRate = () => Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
 
   getVolumeControlColor = () => {
-    const { config } = this.props;
-
-    if (config.general.accentColor) {
-      return config.general.accentColor;
+    if (this.props.config.general.accentColor) {
+      return this.props.config.general.accentColor;
     }
-    if (config.controlBar.volumeControl.color) {
-      return config.controlBar.volumeControl.color;
+    if (this.props.config.controlBar.volumeControl.color) {
+      return this.props.config.controlBar.volumeControl.color;
     }
-    Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please '
-      + 'update your skin.json file to the latest provided file, or add these to your skin.json');
+    Log.error(
+      'controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json',
+    );
     return '#4389FF';
   };
 
   onPlayPausePress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.PLAY_PAUSE);
-    }
+    this.props.onPress(BUTTON_NAMES.PLAY_PAUSE);
   };
 
   onVolumePress = () => {
-    const { showVolume } = this.state;
-
     this.setState({
-      showVolume: !showVolume,
+      showVolume: !this.state.showVolume,
     });
   };
 
   onSocialSharePress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.SHARE);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.SHARE);
   };
 
   onDiscoveryPress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.DISCOVERY);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.DISCOVERY);
   };
 
   onFullscreenPress = () => {
-    const { onPress } = this.props;
-
     if (Platform.OS === 'android') {
       AndroidAccessibility.announce(ACCESSIBILITY_ANNOUNCERS.SCREEN_MODE_CHANGED);
     }
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.FULLSCREEN);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.FULLSCREEN);
   };
 
   onPipButtonPress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.PIP);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.PIP);
   };
 
   onMorePress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.MORE);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.MORE);
   };
 
   onCastPress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      if (Platform.OS === 'android') {
-        onPress(BUTTON_NAMES.CAST);
-      } else {
-        onPress(BUTTON_NAMES.CAST_AIRPLAY);
-      }
+    if (Platform.OS === 'android') {
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST);
+    } else {
+      this.props.onPress && this.props.onPress(BUTTON_NAMES.CAST_AIRPLAY);
     }
   };
 
   onRewindPress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.REWIND);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.REWIND);
   };
 
   onStereoscopicPress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.STEREOSCOPIC);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.STEREOSCOPIC);
   };
 
   onAudioAndCCPress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.AUDIO_AND_CC);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.AUDIO_AND_CC);
   };
 
   onPlaybackSpeedPress = () => {
-    const { onPress } = this.props;
-
-    if (onPress) {
-      onPress(BUTTON_NAMES.PLAYBACK_SPEED);
-    }
+    this.props.onPress && this.props.onPress(BUTTON_NAMES.PLAYBACK_SPEED);
   };
 
   render() {
     const {
-      config, fullscreen, handleControlsTouch, height, inCastMode, isPipActivated, isPipButtonVisible, live,
-      primaryButton, showAudioAndCCButton, showMoreOptionsButton, showPlaybackSpeedButton, stereoSupported, volume,
-      width,
+      config, live, width, height, showAudioAndCCButton,
     } = this.props;
-    const { showVolume } = this.state;
-
     const iconFontSize = responsiveMultiplier(width, UI_SIZES.CONTROLBAR_ICONSIZE);
     const labelFontSize = responsiveMultiplier(width, UI_SIZES.CONTROLBAR_LABELSIZE);
     const waterMarkName = Platform.select({
@@ -211,12 +155,8 @@ export default class ControlBar extends React.Component {
     } else {
       liveCircle = null;
     }
-    const castEnabled = config.castControls.enabled;
-    const color = inCastMode ? config.castControls.iconStyle.active.color
-      : config.castControls.iconStyle.inactive.color;
-    const castIcon = inCastMode ? config.icons['chromecast-connected'] : config.icons['chromecast-disconnected'];
-    const controlBarWidgets = [];
 
+    const controlBarWidgets = [];
 
     const widgetOptions = {
       playPause: {
@@ -225,25 +165,21 @@ export default class ControlBar extends React.Component {
         playIcon: config.icons.play,
         pauseIcon: config.icons.pause,
         replayIcon: config.icons.replay,
-        primaryActionButton: primaryButton,
+        primaryActionButton: this.props.primaryButton,
       },
       volume: {
         onPress: this.onVolumePress,
-        style: (showVolume ? [
-          styles.icon,
+        style: this.state.showVolume ? [styles.icon,
           { fontSize: iconFontSize },
           styles.iconHighlighted,
-          config.controlBar.iconStyle.active,
-        ] : [
-          styles.icon,
+          config.controlBar.iconStyle.active] : [styles.icon,
           { fontSize: iconFontSize },
-          config.controlBar.iconStyle.active,
-        ]),
+          this.props.config.controlBar.iconStyle.active],
         iconOn: config.icons.volume,
         iconOff: config.icons.volumeOff,
         iconTouchableStyle: styles.iconTouchable,
-        showVolume,
-        volume,
+        showVolume: this.state.showVolume,
+        volume: this.props.volume,
         scrubberStyle: styles.volumeSlider,
         volumeControlColor: this.getVolumeControlColor(),
       },
@@ -260,16 +196,16 @@ export default class ControlBar extends React.Component {
         onPress: this.onFullscreenPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
-        icon: fullscreen ? config.icons.compress : config.icons.expand,
-        fullscreen, // do we want to do this way ??
+        icon: this.props.fullscreen ? config.icons.compress : config.icons.expand,
+        fullscreen: this.props.fullscreen, // do we want to do this way ??
       },
       pipButton: {
         onPress: this.onPipButtonPress,
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
-        icon: isPipActivated ? config.icons.pipInButton : config.icons.pipOutButton,
-        isActive: isPipActivated,
-        enabled: isPipButtonVisible,
+        icon: this.props.isPipActivated ? config.icons.pipInButton : config.icons.pipOutButton,
+        isActive: this.props.isPipActivated,
+        enabled: this.props.isPipButtonVisible,
       },
       rewind: {
         onPress: this.onRewindPress,
@@ -282,13 +218,6 @@ export default class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
         icon: config.icons.ellipsis,
-      },
-      chromecast: {
-        onPress: this.onCastPress,
-        iconTouchableStyle: styles.iconTouchable,
-        style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active, { color }],
-        icon: castIcon,
-        enabled: castEnabled,
       },
       discovery: {
         onPress: this.onDiscoveryPress,
@@ -326,60 +255,85 @@ export default class ControlBar extends React.Component {
         iconTouchableStyle: styles.iconTouchable,
         style: [styles.icon, { fontSize: labelFontSize }, config.controlBar.iconStyle.active],
         selectedPlaybackSpeedRate: this.getSelectedPlaybackSpeedRate(),
-        enabled: showPlaybackSpeedButton,
+        enabled: this.props.showPlaybackSpeedButton,
       },
     };
 
-    function isVisible(item) {
-      let visible = true;
+    // Adding castControls validation because we don't use chromecast in admode
+    // When instantiated from BottomOverlay/AdPlaybackScreen castControls object is not available
+    if (config.castControls) {
+      const castEnabled = config.castControls.enabled;
+      const color = this.props.inCastMode ? config.castControls.iconStyle.active.color
+        : config.castControls.iconStyle.inactive.color;
+      const castIcon = this.props.inCastMode ? config.icons['chromecast-connected']
+        : config.icons['chromecast-disconnected'];
 
-      switch (item.name) {
-        case BUTTON_NAMES.MORE:
-          visible = showMoreOptionsButton;
-          break;
-        case BUTTON_NAMES.AUDIO_AND_CC:
-          visible = showAudioAndCCButton;
-          break;
-        case BUTTON_NAMES.PLAYBACK_SPEED:
-          visible = showPlaybackSpeedButton;
-          break;
-        case BUTTON_NAMES.STEREOSCOPIC:
-          visible = stereoSupported;
-          break;
-        default:
-          visible = Object.keys(widgetOptions).includes(item.name);
-      }
-
-      item.isVisible = visible; // eslint-disable-line no-param-reassign
+      Object.assign(widgetOptions, {
+        chromecast: {
+          onPress: this.onCastPress,
+          iconTouchableStyle: styles.iconTouchable,
+          style: [styles.icon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active, { color }],
+          icon: castIcon,
+          enabled: castEnabled,
+        },
+      });
     }
 
-    config.buttons.forEach(isVisible, this);
+    function _isVisible(item) {
+      let visible = true;
+      switch (item.name) {
+        case BUTTON_NAMES.MORE:
+          visible = this.props.showMoreOptionsButton;
+          break;
+        case BUTTON_NAMES.AUDIO_AND_CC:
+          visible = this.props.showAudioAndCCButton;
+          break;
+        case BUTTON_NAMES.PLAYBACK_SPEED:
+          visible = this.props.showPlaybackSpeedButton;
+          break;
+        case BUTTON_NAMES.STEREOSCOPIC:
+          visible = this.props.stereoSupported;
+          break;
+        default:
+          visible = Object.keys(widgetOptions)
+            .includes(item.name);
+      }
+      item.isVisible = visible;
+    }
 
-    const itemCollapsingResults = collapse(width, config.buttons);
+    this.props.config.buttons.forEach(_isVisible, this);
+
+    const itemCollapsingResults = collapse(this.props.width, this.props.config.buttons);
 
     function pushControl(item) {
       controlBarWidgets.push(item);
     }
 
-    for (let i = 0; i < itemCollapsingResults.fit.length; i += 1) {
+    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
       const widget = itemCollapsingResults.fit[i];
-      const item = <ControlBarWidget key={i} options={widgetOptions} widgetType={widget} />;
+      const item = (
+        <ControlBarWidget
+          key={i}
+          widgetType={widget}
+          options={widgetOptions}
+        />
+      );
 
       if (widget.name === BUTTON_NAMES.STEREOSCOPIC) {
-        if (stereoSupported) {
+        if (this.props.stereoSupported) {
           pushControl(item);
         }
       } else if (widget.name === BUTTON_NAMES.AUDIO_AND_CC) {
-        if (showAudioAndCCButton) {
+        if (this.props.showAudioAndCCButton) {
           pushControl(item);
         }
       } else {
         pushControl(item);
       }
     }
-
+    const widthStyle = { width: this.props.width };
     return (
-      <View style={[styles.controlBarContainer, { width }]} onTouchEnd={handleControlsTouch}>
+      <View style={[styles.controlBarContainer, widthStyle]} onTouchEnd={this.props.handleControlsTouch}>
         {controlBarWidgets}
       </View>
     );

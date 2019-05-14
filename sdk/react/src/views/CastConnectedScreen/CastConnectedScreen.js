@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Animated, Image, Text, TouchableOpacity, View,
 } from 'react-native';
@@ -12,7 +12,7 @@ import BottomOverlay from '../../shared/BottomOverlay';
 
 import styles from './CastConnectedScreen.styles';
 
-export default class CastConnectedScreen extends React.Component {
+export default class CastConnectedScreen extends Component {
   static propTypes = {
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
@@ -35,6 +35,7 @@ export default class CastConnectedScreen extends React.Component {
       handleVideoTouchEnd: PropTypes.func,
       handleControlsTouch: PropTypes.func,
       handleShowControls: PropTypes.func,
+      onControlsVisibilityChanged: PropTypes.func.isRequired,
     }).isRequired,
     screenReaderEnabled: PropTypes.bool.isRequired,
     availableClosedCaptionsLanguages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
@@ -43,24 +44,30 @@ export default class CastConnectedScreen extends React.Component {
     locale: PropTypes.string.isRequired,
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
+    initialPlay: PropTypes.bool.isRequired,
     onDisconnect: PropTypes.func.isRequired,
     deviceName: PropTypes.string.isRequired,
     inCastMode: PropTypes.bool.isRequired,
     previewUrl: PropTypes.string.isRequired,
     markers: PropTypes.array.isRequired,
+    hasNextVideo: PropTypes.bool.isRequired,
   };
 
   static renderBorder() {
     return <View style={styles.border} />;
   }
 
+  componentDidMount() {
+    this.props.handlers.onControlsVisibilityChanged(true);
+  }
+
   onSeekPressed(skipCountValue) {
     if (skipCountValue === 0) {
       return;
     }
-
-    const { config, playhead, duration } = this.props;
-    const { skipForwardTime, skipBackwardTime } = config.castControls;
+    const { props } = this;
+    const { playhead, duration } = props;
+    const { skipForwardTime, skipBackwardTime } = props.config.castControls;
 
     let configSeekValue = (skipCountValue > 0) ? skipForwardTime : skipBackwardTime;
 
@@ -78,9 +85,9 @@ export default class CastConnectedScreen extends React.Component {
   }
 
   onSwitchPressed(isForwardSwitch) {
-    const { handlers } = this.props;
-
-    handlers.onSwitch(isForwardSwitch);
+    const { props } = this;
+    const { onSwitch } = props.handlers;
+    onSwitch(isForwardSwitch);
   }
 
   handlePress = (name) => {
@@ -91,9 +98,9 @@ export default class CastConnectedScreen extends React.Component {
   };
 
   handleScrub(value) {
-    const { handlers } = this.props;
-
-    handlers.onScrub(value);
+    const { props } = this;
+    const { onScrub } = props.handlers;
+    onScrub(value);
   }
 
   placeholderTapHandler(event) {
@@ -123,8 +130,8 @@ export default class CastConnectedScreen extends React.Component {
   }
 
   renderCastIcon() {
-    const { config } = this.props;
-    const { fontString, fontFamilyName } = config.icons.play;
+    const { props } = this;
+    const { fontString, fontFamilyName } = props.config.icons.play;
 
     return (
       <Animated.Text
@@ -179,8 +186,8 @@ export default class CastConnectedScreen extends React.Component {
   }
 
   renderPlaceholder() {
-    const { handlers, previewUrl } = this.props;
-    const { handleVideoTouchStart, handleVideoTouchMove } = handlers;
+    const { props } = this;
+    const { handleVideoTouchStart, handleVideoTouchMove } = props.handlers;
 
     return (
       <View
@@ -195,7 +202,7 @@ export default class CastConnectedScreen extends React.Component {
         <Image
           style={styles.imagePreview}
           blurRadius={5}
-          source={{ uri: previewUrl }}
+          source={{ uri: props.previewUrl }}
         />
       </View>
     );
@@ -215,7 +222,6 @@ export default class CastConnectedScreen extends React.Component {
 
 
     const ccEnabled = availableClosedCaptionsLanguages && availableClosedCaptionsLanguages.length > 0;
-    const isShown = true;
 
     return (
       <BottomOverlay
@@ -233,7 +239,7 @@ export default class CastConnectedScreen extends React.Component {
         handleControlsTouch={() => handleControlsTouch()}
         showAudioAndCCButton={multiAudioEnabled || ccEnabled}
         showPlaybackSpeedButton={playbackSpeedEnabled}
-        isShow={isShown}
+        isShow
         screenReaderEnabled={screenReaderEnabled}
         stereoSupported={stereoSupported}
         config={{
@@ -252,9 +258,10 @@ export default class CastConnectedScreen extends React.Component {
   }
 
   renderCastPlayPause() {
+    const { props } = this;
     const {
-      width, height, config, live, playhead, duration, playing, loading,
-    } = this.props;
+      width, height, config, live, playhead, duration, rate, playing, loading, hasNextVideo,
+    } = props;
     const {
       play, previous, next, pause, forward, replay,
     } = config.icons;
@@ -311,8 +318,10 @@ export default class CastConnectedScreen extends React.Component {
         showButton={showButtons}
         isLive={live}
         showSeekButtons={showSeekButtons}
+        rate={rate}
         playing={playing}
         loading={loading}
+        hasNextVideo={hasNextVideo}
       />
     );
   }

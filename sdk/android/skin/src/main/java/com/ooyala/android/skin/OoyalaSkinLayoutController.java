@@ -14,6 +14,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import androidx.core.util.Consumer;
+import androidx.recyclerview.widget.RecyclerView;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactRootView;
 import com.facebook.react.bridge.Arguments;
@@ -42,8 +44,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.ooyala.android.util.TvHelper.isTargetDeviceTV;
 
@@ -80,6 +80,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   private OoyalaSkinLayout _layout;
   private OoyalaReactPackage _package;
   private OoyalaPlayer _player;
+  private Consumer<Boolean> onVisibilityControlsChangeListener;
   private FCCTVRatingUI _tvRatingUI;
   DiscoveryOptions discoveryOptions;
 
@@ -321,11 +322,6 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     return _layout.getPlayerLayout();
   }
 
-  @Override
-  public FrameLayout getControlLayout() {
-    return rootView;
-  }
-
   public float getCurrentVolume() {
     AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
     return (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)/(float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
@@ -536,6 +532,23 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  public void allowScrollForView(View scrollableView) {
+    if (scrollableView != null) {
+      scrollableView.setOnTouchListener((View view, MotionEvent event) -> {
+        if (rootRecyclerView == null) {
+          return false;
+        }
+        rootRecyclerView.requestDisallowInterceptTouchEvent(true);
+        int action = event.getActionMasked();
+        if (action == MotionEvent.ACTION_UP) {
+          rootRecyclerView.requestDisallowInterceptTouchEvent(false);
+          view.performClick();
+        }
+        return false;
+      });
+    }
+  }
+
   @Override
   public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
     if (rootRecyclerView == null) {
@@ -546,20 +559,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
     for (String tag: getTagsForScrollableViews()) {
       View scrollableView = rootRecyclerView.findViewWithTag(tag);
-      if (scrollableView != null) {
-        scrollableView.setOnTouchListener((View view, MotionEvent event) -> {
-          if (rootRecyclerView == null) {
-            return false;
-          }
-          rootRecyclerView.requestDisallowInterceptTouchEvent(true);
-          int action = event.getActionMasked();
-          if (action == MotionEvent.ACTION_UP) {
-            rootRecyclerView.requestDisallowInterceptTouchEvent(false);
-            view.performClick();
-          }
-          return false;
-        });
-      }
+      allowScrollForView(scrollableView);
     }
   }
 
@@ -574,7 +574,7 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
 
   @Override
   public String[] getTagsForScrollableViews() {
-    String[] tags = {"seekBar", "volumeView"};
+    String[] tags = {"seekBar"};
     return tags;
   }
 
@@ -711,26 +711,30 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
       volumeObserver.destroy();
     }
 
-    if (_reactInstanceManager != null) {
-      _reactInstanceManager.destroy();
-    }
-
     if (rootRecyclerView != null) {
       rootRecyclerView.removeOnLayoutChangeListener(this);
+      rootRecyclerView = null;
     }
 
     if (rootView != null) {
       rootView.unmountReactApplication();
+      rootView = null;
+    }
+
+    if (_reactInstanceManager != null) {
+      _reactInstanceManager.destroy();
     }
 
     if (queuedEvents != null) {
       queuedEvents.clear();
       queuedEvents = null;
     }
-
+    removeVisibilityControlsChangeListener();
     deleteObservers();
     removeVideoView();
     setOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+
+    _layout = null;
 
     DebugMode.logV(TAG, "SkinLayoutController Destroy");
   }
@@ -775,4 +779,23 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
     }
   }
 
+  public void addOnVisibilityControlsChangeListener(Consumer<Boolean> onVisibilityControlsChangeListener) {
+    this.onVisibilityControlsChangeListener = onVisibilityControlsChangeListener;
+  }
+
+  @Override
+  public void removeVisibilityControlsChangeListener() {
+    onVisibilityControlsChangeListener = null;
+  }
+
+  /**
+   * Handles changing of skin controls visibility from {@link OoyalaReactBridge}.
+   *
+   * @param isVisible is true if controls are visible, is false if controls are not visible
+   */
+  void onVisibilityControlsChanged(boolean isVisible) {
+    if (onVisibilityControlsChangeListener != null) {
+      onVisibilityControlsChangeListener.accept(isVisible);
+    }
+  }
 }

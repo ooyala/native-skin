@@ -173,12 +173,10 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   }
 
   @Override
-  public void onCastDeviceSelected(ReadableMap parameters) {
-    final String castDeviceName = parameters.getString("castDeviceName");
-    final String castDeviceId = parameters.getString("castDeviceId");
+  public void onCastDeviceSelected(String id) {
     runOnUiThread(() -> {
       if (_player != null && _player.getCurrentItem() != null) {
-        _player.connectDevice(new CastDevice(castDeviceId, castDeviceName));
+        _player.connectDevice(id);
       }
     });
   }
@@ -219,6 +217,12 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onVolumeChanged(ReadableMap parameters) {
     float volume = (float) parameters.getDouble("volume");
     _layoutController.setVolume(volume);
+  }
+
+  @Override
+  public void onVisibilityControlsChanged(ReadableMap parameters) {
+    boolean isVisible =  parameters.getBoolean("isVisible");
+    _layoutController.onVisibilityControlsChanged(isVisible);
   }
 
   private void createMotionEventAndPassThrough(ReadableMap params, int action) {

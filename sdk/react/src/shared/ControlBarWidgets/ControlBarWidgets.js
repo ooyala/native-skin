@@ -89,6 +89,7 @@ export default class ControlBarWidgets extends React.Component {
         opacity={isForward ? options.opacity : opacity}
         animate={animate}
         buttonColor={buttonColor}
+        visible={options.visible}
       />
     );
   };
@@ -249,10 +250,12 @@ export default class ControlBarWidgets extends React.Component {
   };
 
   castWidget = (options) => {
-    const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
-    if (!options.enabled || options.enabled === undefined) {
+    if (!options || !options.enabled) {
       return null;
     }
+
+    const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.CAST}
