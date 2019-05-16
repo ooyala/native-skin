@@ -319,17 +319,30 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
   /****** LayoutController Interface **********/
 
   public FrameLayout getLayout() {
-    return _layout.getPlayerLayout();
+    return _layout == null ? null : _layout.getPlayerLayout();
+  }
+
+  @Override
+  public FrameLayout getControlLayout() {
+    return rootView;
   }
 
   public float getCurrentVolume() {
+    float volume = 0;
     AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
-    return (float)audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)/(float)audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    if (audioManager != null) {
+      volume = (float) audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
+          / (float) audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+    }
+    return volume;
   }
 
   public void setVolume(float volume) {
     AudioManager audioManager = (AudioManager) _layout.getContext().getSystemService(Context.AUDIO_SERVICE);
-    audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, (int)(volume*audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)), 0);
+    if (audioManager != null) {
+      audioManager.setStreamVolume(AudioManager.STREAM_MUSIC,
+          (int) (volume * audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC)), 0);
+    }
   }
 
   @Override
@@ -707,6 +720,10 @@ public class OoyalaSkinLayoutController extends Observable implements LayoutCont
    * Call this if you plan on destroying this instance of the OoyalaSkinLayoutController
    */
   public void destroy() {
+    if (playerObserver != null) {
+      playerObserver.destroy();
+    }
+
     if (volumeObserver != null) {
       volumeObserver.destroy();
     }

@@ -3,14 +3,8 @@ package com.ooyala.android.skin;
 import com.ooyala.android.OoyalaNotification;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.skin.notification.OoyalaNotificationHandler;
-import com.ooyala.android.skin.notification.audio.AudioPlayCompletedNotificationHandler;
-import com.ooyala.android.skin.notification.audio.AudioPlayStartedNotificationHandler;
-import com.ooyala.android.skin.notification.audio.AudioTimeChangedNotificationHandler;
-import com.ooyala.android.skin.notification.common.*;
 import com.ooyala.android.skin.notification.provider.NotificationHandlersProvider;
-import com.ooyala.android.skin.notification.video.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,6 +21,10 @@ public class OoyalaSkinPlayerObserver implements Observer {
   public OoyalaSkinPlayerObserver( OoyalaPlayer player, NotificationHandlersProvider handlersProvider) {
     player.addObserver(this);
     this.handlers = handlersProvider.get();
+  }
+
+  public void destroy() {
+    handlers.clear();
   }
 
   @Override
