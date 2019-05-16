@@ -24,14 +24,14 @@ const stringConstants = {
 
 export default class AudioAndCcSelectionPanel extends React.Component {
   static propTypes = {
-    audioTracksTitles: PropTypes.array,
+    audioTracksTitles: PropTypes.arrayOf(),
     selectedAudioTrackTitle: PropTypes.string,
-    closedCaptionsLanguages: PropTypes.array,
+    closedCaptionsLanguages: PropTypes.arrayOf(),
     selectedClosedCaptionsLanguage: PropTypes.string,
     onSelectAudioTrack: PropTypes.func,
     onSelectClosedCaptions: PropTypes.func,
     onDismiss: PropTypes.func,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
   };
 
   constructor(props) {

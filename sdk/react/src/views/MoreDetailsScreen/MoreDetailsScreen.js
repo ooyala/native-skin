@@ -20,9 +20,9 @@ export default class MoreDetailsScreen extends React.Component {
     height: PropTypes.number,
     width: PropTypes.number,
     onDismiss: PropTypes.func,
-    config: PropTypes.object,
-    error: PropTypes.object,
-    localizableStrings: PropTypes.object.isRequired,
+    config: PropTypes.shape({}),
+    error: PropTypes.shape({}),
+    localizableStrings: PropTypes.shape({}).isRequired,
     locale: PropTypes.string.isRequired,
   };
 

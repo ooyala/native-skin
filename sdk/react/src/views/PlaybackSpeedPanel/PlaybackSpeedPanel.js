@@ -25,13 +25,13 @@ const constants = {
 
 export default class PlaybackSpeedPanel extends React.Component {
   static propTypes = {
-    playbackSpeedRates: PropTypes.array,
+    playbackSpeedRates: PropTypes.arrayOf(),
     selectedPlaybackSpeedRate: PropTypes.number,
     onSelectPlaybackSpeedRate: PropTypes.func,
     onDismiss: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
   };
 
   constructor(props) {

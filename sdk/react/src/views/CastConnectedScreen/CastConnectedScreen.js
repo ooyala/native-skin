@@ -23,7 +23,7 @@ export default class CastConnectedScreen extends React.Component {
     height: PropTypes.number.isRequired,
     volume: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool.isRequired,
-    cuePoints: PropTypes.arrayOf(PropTypes.double).isRequired,
+    cuePoints: PropTypes.arrayOf(PropTypes.number).isRequired,
     stereoSupported: PropTypes.bool.isRequired,
     multiAudioEnabled: PropTypes.bool.isRequired,
     playbackSpeedEnabled: PropTypes.bool.isRequired,
@@ -41,8 +41,8 @@ export default class CastConnectedScreen extends React.Component {
     }).isRequired,
     screenReaderEnabled: PropTypes.bool.isRequired,
     availableClosedCaptionsLanguages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    config: PropTypes.object.isRequired,
-    localizableStrings: PropTypes.object.isRequired,
+    config: PropTypes.shape({}).isRequired,
+    localizableStrings: PropTypes.shape({}).isRequired,
     locale: PropTypes.string.isRequired,
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
@@ -50,7 +50,7 @@ export default class CastConnectedScreen extends React.Component {
     deviceName: PropTypes.string.isRequired,
     inCastMode: PropTypes.bool.isRequired,
     previewUrl: PropTypes.string.isRequired,
-    markers: PropTypes.array.isRequired,
+    markers: PropTypes.arrayOf().isRequired,
     hasNextVideo: PropTypes.bool.isRequired,
   };
 

@@ -18,7 +18,7 @@ export default class MoreOptionScreen extends React.Component {
     height: PropTypes.number,
     onDismiss: PropTypes.func,
     onOptionButtonPress: PropTypes.func,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     showAudioAndCCButton: PropTypes.bool,
     isAudioOnly: PropTypes.bool,
     selectedPlaybackSpeedRate: PropTypes.string,

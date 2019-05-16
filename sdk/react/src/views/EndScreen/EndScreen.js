@@ -16,7 +16,7 @@ import styles from './EndScreen.styles';
 
 export default class EndScreen extends React.Component {
   static propTypes = {
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     title: PropTypes.string,
     duration: PropTypes.number,
     description: PropTypes.string,

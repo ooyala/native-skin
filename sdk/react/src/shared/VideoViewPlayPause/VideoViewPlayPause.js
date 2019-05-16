@@ -21,7 +21,7 @@ export default class VideoViewPlayPause extends React.Component {
   static propTypes = {
     seekEnabled: PropTypes.bool,
     ffActive: PropTypes.bool,
-    icons: PropTypes.object,
+    icons: PropTypes.shape({}),
     onPress: PropTypes.func,
     onSeekPressed: PropTypes.func,
     seekForwardValue: PropTypes.number,

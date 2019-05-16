@@ -7,8 +7,8 @@ const iface = {
   name: 'CountdownView',
   propTypes: {
     ...ViewPropTypes,
-    countdown: PropTypes.object,
-    data: PropTypes.object,
+    countdown: PropTypes.shape({}),
+    data: PropTypes.shape({}),
   },
 };
 

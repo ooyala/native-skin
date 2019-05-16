@@ -17,11 +17,11 @@ export default class SkipButton extends React.Component {
     timeValue: PropTypes.number.isRequired,
     onSeek: PropTypes.func.isRequired,
     icon: PropTypes.string.isRequired,
-    fontStyle: PropTypes.object,
-    sizeStyle: PropTypes.object,
-    opacity: PropTypes.object,
-    animate: PropTypes.object,
-    buttonColor: PropTypes.object,
+    fontStyle: PropTypes.shape({}),
+    sizeStyle: PropTypes.shape({}),
+    opacity: PropTypes.shape({}),
+    animate: PropTypes.shape({}),
+    buttonColor: PropTypes.shape({}),
   };
 
   onPress = () => {

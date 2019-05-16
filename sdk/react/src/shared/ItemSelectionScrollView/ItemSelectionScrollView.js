@@ -12,12 +12,12 @@ import styles from './ItemSelectionScrollView.styles';
 
 export default class ItemSelectionScrollView extends React.Component {
   static propTypes = {
-    items: PropTypes.array,
+    items: PropTypes.arrayOf(),
     selectedItem: PropTypes.string,
     onSelect: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     cellType: PropTypes.string,
   };
 

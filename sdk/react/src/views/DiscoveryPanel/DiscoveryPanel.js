@@ -34,11 +34,11 @@ let timerListenerAndroid;
 export default class DiscoveryPanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
-    localizableStrings: PropTypes.object,
+    localizableStrings: PropTypes.shape({}),
     locale: PropTypes.string,
-    dataSource: PropTypes.array,
+    dataSource: PropTypes.arrayOf(),
     onRowAction: PropTypes.func,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     width: PropTypes.number,
     height: PropTypes.number,
     screenType: PropTypes.string,

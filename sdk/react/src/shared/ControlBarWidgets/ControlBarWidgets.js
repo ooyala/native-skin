@@ -16,8 +16,8 @@ import styles from './ControlBarWidgets.styles';
 
 export default class ControlBarWidgets extends React.Component {
   static propTypes = {
-    widgetType: PropTypes.object,
-    options: PropTypes.object,
+    widgetType: PropTypes.shape({}),
+    options: PropTypes.shape({}),
   };
 
   static bitrateSelectorWidget() {

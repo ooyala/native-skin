@@ -16,11 +16,11 @@ export default class SwitchButton extends React.Component {
     isForward: PropTypes.bool.isRequired,
     onSwitch: PropTypes.func.isRequired,
     icon: PropTypes.string.isRequired,
-    fontStyle: PropTypes.object,
-    sizeStyle: PropTypes.object,
-    opacity: PropTypes.object,
-    animate: PropTypes.object,
-    buttonColor: PropTypes.object,
+    fontStyle: PropTypes.shape({}),
+    sizeStyle: PropTypes.shape({}),
+    opacity: PropTypes.shape({}),
+    animate: PropTypes.shape({}),
+    buttonColor: PropTypes.shape({}),
   };
 
   onPress = () => {

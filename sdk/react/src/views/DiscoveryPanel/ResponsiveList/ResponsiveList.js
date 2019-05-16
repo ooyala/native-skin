@@ -11,7 +11,7 @@ const placeHolderItem = 'ResponsiveListPlaceHolder';
 export default class ResponsiveList extends React.Component {
   static propTypes = {
     horizontal: PropTypes.bool,
-    data: PropTypes.array,
+    data: PropTypes.arrayOf(),
     itemRender: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,

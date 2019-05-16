@@ -12,12 +12,12 @@ import styles from './AdBar.styles';
 
 export default class AdBar extends React.Component {
   static propTypes = {
-    ad: PropTypes.object,
+    ad: PropTypes.shape({}),
     playhead: PropTypes.number,
     duration: PropTypes.number,
     onPress: PropTypes.func,
     width: PropTypes.number,
-    localizableStrings: PropTypes.object,
+    localizableStrings: PropTypes.shape({}),
     locale: PropTypes.string,
   };
 

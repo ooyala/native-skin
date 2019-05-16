@@ -24,7 +24,7 @@ const BACKWARD = 'seekBackward';
 
 export default class CastPlayPauseButtons extends React.Component {
   static propTypes = {
-    icons: PropTypes.object.isRequired,
+    icons: PropTypes.shape({}).isRequired,
     onPress: PropTypes.func.isRequired,
     onSeekPressed: PropTypes.func.isRequired,
     onSwitchPressed: PropTypes.func.isRequired,
@@ -40,7 +40,7 @@ export default class CastPlayPauseButtons extends React.Component {
     showButton: PropTypes.bool.isRequired,
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
-    config: PropTypes.object.isRequired,
+    config: PropTypes.shape({}).isRequired,
     hasNextVideo: PropTypes.bool.isRequired,
   };
 

@@ -12,8 +12,8 @@ import styles from './ErrorScreen.styles';
 
 export default class ErrorScreen extends React.Component {
   static propTypes = {
-    error: PropTypes.object,
-    localizableStrings: PropTypes.object,
+    error: PropTypes.shape({}),
+    localizableStrings: PropTypes.shape({}),
     locale: PropTypes.string,
     isAudioOnly: PropTypes.bool,
     onPress: PropTypes.func,

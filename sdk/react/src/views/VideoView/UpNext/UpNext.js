@@ -16,11 +16,11 @@ const defaultCountdownVal = 10;
 
 export default class UpNext extends React.Component {
   static propTypes = {
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     playhead: PropTypes.number,
     duration: PropTypes.number,
-    ad: PropTypes.object,
-    nextVideo: PropTypes.object,
+    ad: PropTypes.shape({}),
+    nextVideo: PropTypes.shape({}),
     onPress: PropTypes.func,
     upNextDismissed: PropTypes.bool,
   };

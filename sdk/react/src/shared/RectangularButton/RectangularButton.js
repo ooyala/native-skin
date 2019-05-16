@@ -67,7 +67,7 @@ RectangularButton.propTypes = {
   buttonWidth: PropTypes.number,
   buttonHeight: PropTypes.number,
   buttonColor: PropTypes.string,
-  buttonStyle: PropTypes.object,
+  buttonStyle: PropTypes.shape({}),
   fontSize: PropTypes.number,
   fontFamily: PropTypes.string,
   style: Text.propTypes.style,

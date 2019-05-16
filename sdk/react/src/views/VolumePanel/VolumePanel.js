@@ -21,7 +21,7 @@ export default class VolumePanel extends React.Component {
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
   };
 
   // Actions

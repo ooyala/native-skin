@@ -18,7 +18,7 @@ export default class CastAirPlayScreen extends React.Component {
     height: PropTypes.number,
     onDismiss: PropTypes.func,
     onPress: PropTypes.func.isRequired,
-    config: PropTypes.object.isRequired,
+    config: PropTypes.shape({}).isRequired,
   };
 
   renderCastButton = (color) => {

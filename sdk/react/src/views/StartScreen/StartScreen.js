@@ -12,7 +12,7 @@ import styles from './StartScreen.styles';
 
 export default class StartScreen extends React.Component {
   static propTypes = {
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     title: PropTypes.string,
     description: PropTypes.string,
     promoUrl: PropTypes.string,

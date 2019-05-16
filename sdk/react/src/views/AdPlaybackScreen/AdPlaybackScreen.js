@@ -19,13 +19,13 @@ export default class AdPlaybackScreen extends React.Component {
     rate: PropTypes.number,
     playhead: PropTypes.number,
     duration: PropTypes.number,
-    ad: PropTypes.object,
+    ad: PropTypes.shape({}),
     live: PropTypes.bool,
     width: PropTypes.number,
     height: PropTypes.number,
     volume: PropTypes.number,
     fullscreen: PropTypes.bool,
-    cuePoints: PropTypes.array,
+    cuePoints: PropTypes.arrayOf(),
     handlers: PropTypes.shape({
       onPress: PropTypes.func,
       onIcon: PropTypes.func,
@@ -36,11 +36,11 @@ export default class AdPlaybackScreen extends React.Component {
     }),
     // The following props are used in static `getDerivedStateFromProps` only, that's why they are considered unused by
     // ESLint. Should be fixed by ESLint team.
-    lastPressedTime: PropTypes.any, // eslint-disable-line react/no-unused-prop-types
+    lastPressedTime: PropTypes.instanceOf(Date), // eslint-disable-line react/no-unused-prop-types
     screenReaderEnabled: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
     showWatermark: PropTypes.bool,
-    config: PropTypes.object,
-    localizableStrings: PropTypes.object,
+    config: PropTypes.shape({}),
+    localizableStrings: PropTypes.shape({}),
     locale: PropTypes.string,
     playing: PropTypes.bool,
     loading: PropTypes.bool,

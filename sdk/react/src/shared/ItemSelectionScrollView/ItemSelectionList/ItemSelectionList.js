@@ -7,7 +7,7 @@ import { ScrollView } from 'react-native';
 export default class ItemSelectionList extends React.Component {
   static propTypes = {
     horizontal: PropTypes.bool,
-    data: PropTypes.array,
+    data: PropTypes.arrayOf(),
     itemRender: PropTypes.func,
   };
 
