@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, PanResponder, Text, View,
 } from 'react-native';
@@ -18,7 +18,7 @@ import styles from './AudioView.styles';
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
-export default class AudioView extends Component {
+export default class AudioView extends React.Component {
   static propTypes = {
     playhead: PropTypes.number,
     duration: PropTypes.number,
@@ -44,23 +44,52 @@ export default class AudioView extends Component {
     onPlayComplete: PropTypes.bool,
   };
 
-  componentDidMount() {
-    this.props.handlers.onControlsVisibilityChanged(true);
+  panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+
+    onStartShouldSetPanResponderCapture: () => true,
+
+    onMoveShouldSetPanResponder: () => true,
+
+    onMoveShouldSetPanResponderCapture: () => true,
+
+    onPanResponderGrant: (event) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
+      this.handleTouchStart(event);
+    },
+
+    onPanResponderMove: (event) => {
+      this.handleTouchMove(event);
+    },
+
+    onPanResponderTerminationRequest: () => true,
+
+    onPanResponderRelease: (event) => {
+      this.handleTouchEnd(event);
+    },
+  });
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      skipCount: 0,
+      cachedPlayhead: -1,
+      progressBarWidth: 0,
+      progressBarHeight: 0,
+    };
   }
 
-  state = {
-    playing: false,
-    skipCount: 0,
-    height: new Animated.Value(
-      responsiveMultiplier(this.props.width, UI_SIZES.CONTROLBAR_HEIGHT),
-    ),
-    cachedPlayhead: -1,
-    progressBarWidth: 0,
-    progressBarHeight: 0,
-  };
+  componentDidMount() {
+    const { handlers } = this.props;
+
+    handlers.onControlsVisibilityChanged(true);
+  }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.playhead !== nextProps.playhead) {
+    const { playhead } = this.props;
+
+    if (playhead !== nextProps.playhead) {
       this.setState({
         cachedPlayhead: -1.0,
       });
@@ -71,52 +100,70 @@ export default class AudioView extends Component {
     timerForSkipButtons.clearTimeout(this);
   }
 
-  getSelectedPlaybackSpeedRate = () => Utils.formattedPlaybackSpeedRate(this.props.config.selectedPlaybackSpeedRate);
+  getSelectedPlaybackSpeedRate = () => {
+    const { config } = this.props;
+
+    return Utils.formattedPlaybackSpeedRate(config.selectedPlaybackSpeedRate);
+  };
 
   // MARK: - Actions
   onPlayPausePress = () => {
-    this.props.handlers.onPress(BUTTON_NAMES.PLAY_PAUSE);
+    const { handlers } = this.props;
+
+    handlers.onPress(BUTTON_NAMES.PLAY_PAUSE);
   };
 
   onVolumePress = () => {
-    this.props.handlers.onPress(BUTTON_NAMES.VOLUME);
+    const { handlers } = this.props;
+
+    handlers.onPress(BUTTON_NAMES.VOLUME);
   };
 
   onSeekPressed = (skipCountValue) => {
-    if (this.props.onPlayComplete && skipCountValue > 0 || skipCountValue == 0) {
-      return null;
+    const {
+      config, duration, onPlayComplete, playhead,
+    } = this.props;
+
+    if ((onPlayComplete && skipCountValue > 0) || skipCountValue === 0) {
+      return;
     }
 
-    let configSeekValue = skipCountValue > 0
-      ? this.props.config.skipControls.skipForwardTime : this.props.config.skipControls.skipBackwardTime;
+    let configSeekValue = skipCountValue > 0 ? config.skipControls.skipForwardTime
+      : config.skipControls.skipBackwardTime;
     configSeekValue = Utils.restrictSeekValueIfNeeded(configSeekValue);
     const seekValue = configSeekValue * skipCountValue;
 
-    const currentPlayhead = this.props.playhead;
+    const currentPlayhead = playhead;
     let resultedPlayhead = currentPlayhead + seekValue;
     if (resultedPlayhead < 0) {
       resultedPlayhead = 0;
-    } else if (resultedPlayhead > this.props.duration) {
-      resultedPlayhead = this.props.duration;
+    } else if (resultedPlayhead > duration) {
+      resultedPlayhead = duration;
     }
-    const resultedPlayheadPercent = this.props.duration === 0 ? 0 : resultedPlayhead / this.props.duration;
+    const resultedPlayheadPercent = duration === 0 ? 0 : resultedPlayhead / duration;
     this.handleScrub(resultedPlayheadPercent);
 
-    if (this.props.onPlayComplete && skipCountValue < 0) {
+    if (onPlayComplete && skipCountValue < 0) {
       this.onPlayPausePress();
     }
   };
 
   onMorePress = () => {
-    this.props.handlers.onPress(BUTTON_NAMES.MORE);
+    const { handlers } = this.props;
+
+    handlers.onPress(BUTTON_NAMES.MORE);
   };
 
   onReplayPress = () => {
-    this.props.handlers.onPress(BUTTON_NAMES.REPLAY);
+    const { handlers } = this.props;
+
+    handlers.onPress(BUTTON_NAMES.REPLAY);
   };
 
   onPlaybackSpeedPress = () => {
-    this.props.onPress(BUTTON_NAMES.PLAYBACK_SPEED);
+    const { handlers } = this.props;
+
+    handlers.onPress(BUTTON_NAMES.PLAYBACK_SPEED);
   };
 
   onSkipPressBackwards = () => {
@@ -128,15 +175,17 @@ export default class AudioView extends Component {
   };
 
   onSkipPress = (isForward) => {
+    const { skipCount } = this.state;
+
     timerForSkipButtons.clearTimeout(this);
-    const value = this.state.skipCount + (isForward ? 1 : -1);
+    const value = skipCount + (isForward ? 1 : -1);
     this.setState({
       skipCount: value,
     }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
-        this.onSeekPressed(this.state.skipCount);
+        this.onSeekPressed(skipCount);
         this.setState({
           skipCount: 0,
         });
@@ -146,32 +195,42 @@ export default class AudioView extends Component {
   };
 
   handleScrub = (value) => {
-    this.props.handlers.onScrub(value);
+    const { handlers } = this.props;
+
+    handlers.onScrub(value);
   };
 
   handlePress = (name) => {
+    const { handlers } = this.props;
+
     Log.verbose(`AudioView Handle Press: ${name}`);
-    this.props.handlers.onPress(name);
+    handlers.onPress(name);
   };
 
   // MARK: - Volume
   getVolumeControlColor = () => {
-    if (this.props.config.general.accentColor) {
-      return this.props.config.general.accentColor;
+    const { config } = this.props;
+
+    if (config.general.accentColor) {
+      return config.general.accentColor;
     }
-    if (this.props.config.controlBar.volumeControl.color) {
-      return this.props.config.controlBar.volumeControl.color;
+
+    if (config.controlBar.volumeControl.color) {
+      return config.controlBar.volumeControl.color;
     }
-    Log.error(
-      'controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add these to your skin.json',
-    );
+
+    Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json. Please '
+      + 'update your skin.json file to the latest provided file, or add these to your skin.json');
+
     return '#4389FF';
   };
 
   // MARK: - Header view
-  _renderHeaderView = () => {
-    const titleLabel = <Text style={styles.titleLabel}>{`${this.props.title}: `}</Text>;
-    const subtitleLabel = <Text style={styles.subtitleLabel}>{this.props.description}</Text>;
+  renderHeaderView = () => {
+    const { description, title } = this.props;
+
+    const titleLabel = <Text style={styles.titleLabel}>{`${title}: `}</Text>;
+    const subtitleLabel = <Text style={styles.subtitleLabel}>{description}</Text>;
     return (
       <View style={styles.headerView}>
         <Text
@@ -186,31 +245,33 @@ export default class AudioView extends Component {
   };
 
   // MARK: - ControlBar
-  _renderControlBar = () => {
-    const iconFontSize = responsiveMultiplier(this.props.width,
-      UI_SIZES.CONTROLBAR_ICONSIZE);
-    const labelFontSize = responsiveMultiplier(this.props.width,
-      UI_SIZES.CONTROLBAR_LABELSIZE);
+  renderControlBar = () => {
+    const {
+      config, handlers, onPlayComplete, playbackSpeedEnabled, playing, volume, width,
+    } = this.props;
+
+    const iconFontSize = responsiveMultiplier(width, UI_SIZES.CONTROLBAR_ICONSIZE);
+    const labelFontSize = responsiveMultiplier(width, UI_SIZES.CONTROLBAR_LABELSIZE);
 
     const controlBarWidgets = [];
 
     const widgetOptions = {
       volume: {
         onPress: this.onVolumePress,
-        style: [styles.controlBarIcon, { fontSize: iconFontSize }, this.props.config.controlBar.iconStyle.active],
-        iconOn: this.props.config.icons.volume,
-        iconOff: this.props.config.icons.volumeOff,
+        style: [styles.controlBarIcon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
+        iconOn: config.icons.volume,
+        iconOff: config.icons.volumeOff,
         iconTouchableStyle: styles.controlBarIconTouchable,
         showVolume: false,
-        volume: this.props.volume,
+        volume,
         scrubberStyle: styles.controlBarVolumeSlider,
         volumeControlColor: this.getVolumeControlColor(),
       },
       seekBackwards: {
         onPress: this.onSkipPressBackwards,
-        style: [styles.controlBarIcon, { fontSize: iconFontSize }, this.props.config.controlBar.iconStyle.active],
-        seekValue: this.props.config.skipControls.skipBackwardTime,
-        icon: this.props.config.icons.replay,
+        style: [styles.controlBarIcon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
+        seekValue: config.skipControls.skipBackwardTime,
+        icon: config.icons.replay,
         size: iconFontSize,
         visible: true,
       },
@@ -222,48 +283,49 @@ export default class AudioView extends Component {
             marginLeft: 15,
             marginRight: 15,
           },
-          this.props.config.controlBar.iconStyle.active],
-        playIcon: this.props.config.icons.play,
-        pauseIcon: this.props.config.icons.pause,
-        replayIcon: this.props.config.icons.replay,
-        primaryActionButton: this.props.onPlayComplete ? 'replay' : (this.props.playing ? 'pause' : 'play'),
+          config.controlBar.iconStyle.active],
+        playIcon: config.icons.play,
+        pauseIcon: config.icons.pause,
+        replayIcon: config.icons.replay,
+        // eslint-disable-next-line no-nested-ternary
+        primaryActionButton: (onPlayComplete ? 'replay' : (playing ? 'pause' : 'play')),
         onReplay: this.onReplayPress,
       },
       seekForward: {
         onPress: this.onSkipPressForward,
-        style: [styles.controlBarIcon, { fontSize: iconFontSize }, this.props.onPlayComplete
-          ? this.props.config.controlBar.iconStyle.inactive
-          : this.props.config.controlBar.iconStyle.active],
-        opacity: { opacity: this.props.onPlayComplete ? 0.5 : 1.0 },
-        seekValue: this.props.config.skipControls.skipForwardTime,
-        icon: this.props.config.icons.forward,
+        style: [styles.controlBarIcon, { fontSize: iconFontSize }, onPlayComplete
+          ? config.controlBar.iconStyle.inactive
+          : config.controlBar.iconStyle.active],
+        opacity: { opacity: onPlayComplete ? 0.5 : 1.0 },
+        seekValue: config.skipControls.skipForwardTime,
+        icon: config.icons.forward,
         size: iconFontSize,
         visible: true,
       },
       moreOptions: {
         onPress: this.onMorePress,
         iconTouchableStyle: styles.controlBarIconTouchable,
-        style: [styles.controlBarIcon, { fontSize: iconFontSize }, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.config.icons.ellipsis,
-        enabled: this.props.showMoreOptionsButton,
+        style: [styles.controlBarIcon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
+        icon: config.icons.ellipsis,
+        enabled: false,
       },
       playbackSpeed: {
         onPress: this.onPlaybackSpeedPress,
         iconTouchableStyle: styles.controlBarIconTouchable,
-        style: [styles.controlBarIcon, { fontSize: labelFontSize }, this.props.config.controlBar.iconStyle.active],
+        style: [styles.controlBarIcon, { fontSize: labelFontSize }, config.controlBar.iconStyle.active],
         selectedPlaybackSpeedRate: this.getSelectedPlaybackSpeedRate(),
-        enabled: this.props.playbackSpeedEnabled,
+        enabled: playbackSpeedEnabled,
       },
       share: {
         onPress: this.onSocialSharePress,
         iconTouchableStyle: styles.controlBarIconTouchable,
-        style: [styles.controlBarIcon, { fontSize: iconFontSize }, this.props.config.controlBar.iconStyle.active],
-        icon: this.props.config.icons.share,
+        style: [styles.controlBarIcon, { fontSize: iconFontSize }, config.controlBar.iconStyle.active],
+        icon: config.icons.share,
       },
     };
 
-    const itemCollapsingResults = collapse(this.props.width, this.props.config.buttons);
-    for (let i = 0; i < itemCollapsingResults.fit.length; i++) {
+    const itemCollapsingResults = collapse(width, config.buttons);
+    for (let i = 0; i < itemCollapsingResults.fit.length; i += 1) {
       const widget = itemCollapsingResults.fit[i];
       const item = (
         <ControlBarWidget
@@ -286,7 +348,7 @@ export default class AudioView extends Component {
     return (
       <View
         style={styles.controlBar}
-        onTouchEnd={this.props.handlers.handleControlsTouch}
+        onTouchEnd={handlers.handleControlsTouch}
       >
         {controlBarWidgets}
       </View>
@@ -294,19 +356,21 @@ export default class AudioView extends Component {
   };
 
   // MARK: - Progress bar + scrubber
-  _calculateTopOffset = (componentSize, progressBarHeight) => progressBarHeight / 2 - componentSize / 2;
+  calculateTopOffset = (componentSize, progressBarHeight) => progressBarHeight / 2 - componentSize / 2;
 
-  _calculateLeftOffset = (componentSize, percent, progressBarWidth) => percent * progressBarWidth - componentSize
+  calculateLeftOffset = (componentSize, percent, progressBarWidth) => percent * progressBarWidth - componentSize
     * percent;
 
-  _renderProgressScrubber = (percent) => {
-    const topOffset = this._calculateTopOffset(scrubberSize, this.state.progressBarHeight);
-    const leftOffset = this._calculateLeftOffset(scrubberSize, percent, this.state.progressBarWidth);
+  renderProgressScrubber = (percent) => {
+    const { progressBarHeight, progressBarWidth } = this.state;
+
+    const topOffset = this.calculateTopOffset(scrubberSize, progressBarHeight);
+    const leftOffset = this.calculateLeftOffset(scrubberSize, percent, progressBarWidth);
     const positionStyle = {
       top: topOffset,
       left: leftOffset,
     };
-    const scrubberStyle = this._customizeScrubber();
+    const scrubberStyle = this.customizeScrubber();
 
     return (
       <View
@@ -322,27 +386,34 @@ export default class AudioView extends Component {
   };
 
   getScrubberHandleColor = () => {
-    if (this.props.config.general.accentColor) {
-      return this.props.config.general.accentColor;
+    const { config } = this.props;
+
+    if (config.general.accentColor) {
+      return config.general.accentColor;
     }
-    if (this.props.config.controlBar.scrubberBar.scrubberHandleColor) {
-      return this.props.config.controlBar.scrubberBar.scrubberHandleColor;
+
+    if (config.controlBar.scrubberBar.scrubberHandleColor) {
+      return config.controlBar.scrubberBar.scrubberHandleColor;
     }
-    Log.error(
-      'controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json',
-    );
+
+    Log.error('controlBar.scrubberBar.scrubberHandleColor is not defined in your skin.json. Please update your '
+      + 'skin.json file to the latest provided file, or add this to your skin.json');
+
     return '#4389FF';
   };
 
-  _customizeScrubber = () => {
-    let { scrubberHandleBorderColor } = this.props.config.controlBar.scrubberBar;
+  customizeScrubber = () => {
+    const { config } = this.props;
+
+    let { scrubberHandleBorderColor } = config.controlBar.scrubberBar;
+
     if (!scrubberHandleBorderColor) {
-      Log.error(
-        'controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json.  Please update your skin.json file to the latest provided file, or add this to your skin.json',
-      );
+      Log.error('controlBar.scrubberBar.scrubberHandleBorderColor is not defined in your skin.json. Please update '
+        + 'your skin.json file to the latest provided file, or add this to your skin.json');
       scrubberHandleBorderColor = 'white';
     }
-    const scrubberStyle = {
+
+    return {
       flex: 0,
       position: 'absolute',
       backgroundColor: this.getScrubberHandleColor(),
@@ -350,50 +421,73 @@ export default class AudioView extends Component {
       borderWidth: 1.5,
       borderColor: scrubberHandleBorderColor,
     };
-    return scrubberStyle;
   };
 
-  getPlayHeadTimeString = () => Utils.secondsToString(this.props.playhead);
+  getPlayHeadTimeString = () => {
+    const { playhead } = this.props;
 
-  getDurationString = () => Utils.secondsToString(this.props.duration);
+    return Utils.secondsToString(playhead);
+  };
+
+  getDurationString = () => {
+    const { duration } = this.props;
+
+    return Utils.secondsToString(duration);
+  };
 
   getLiveDurationString = () => {
-    let diff = this.props.playhead - this.props.duration;
+    const { duration, playhead } = this.props;
+
+    let diff = playhead - duration;
+
     if (diff > -1 && diff < 0) diff = 0;
+
     return Utils.secondsToString(diff);
   };
 
   playedPercent = (playhead, duration) => {
-    if (this.props.duration === 0) {
+    const { duration: propsDuration } = this.props;
+
+    if (propsDuration === 0) {
       return 0;
     }
+
     let percent = playhead / duration;
+
     if (percent > 1) {
       percent = 1;
     } else if (percent < 0) {
       percent = 0;
     }
+
     return percent;
   };
 
   touchPercent = (x) => {
-    let percent = x / (this.state.progressBarWidth);
+    const { progressBarWidth } = this.state;
+
+    let percent = x / progressBarWidth;
 
     if (percent > 1) {
       percent = 1;
     } else if (percent < 0) {
       percent = 0;
     }
+
     return percent;
   };
 
   handleTouchStart = (event) => {
-    this.props.handlers.handleControlsTouch();
-    const touchableDistance = responsiveMultiplier(this.state.progressBarWidth,
-      scrubTouchableDistance);
-    if ((this.props.height - event.nativeEvent.locationY) < touchableDistance) {
+    const { handlers, height } = this.props;
+    const { progressBarWidth } = this.state;
+
+    handlers.handleControlsTouch();
+    const touchableDistance = responsiveMultiplier(progressBarWidth, scrubTouchableDistance);
+
+    if ((height - event.nativeEvent.locationY) < touchableDistance) {
       return;
     }
+
     this.setState({
       touch: true,
       x: event.nativeEvent.locationX,
@@ -401,96 +495,99 @@ export default class AudioView extends Component {
   };
 
   handleTouchMove = (event) => {
+    const { handlers } = this.props;
+
     const locationX = event.nativeEvent.pageX - this.locationPageOffset;
-    this.props.handlers.handleControlsTouch();
+
+    handlers.handleControlsTouch();
+
     this.setState({
       x: locationX,
     });
   };
 
   handleTouchEnd = (event) => {
+    const { duration, handlers, onPlayComplete } = this.props;
+    const { touch } = this.state;
+
     const locationX = event.nativeEvent.pageX - this.locationPageOffset;
-    this.props.handlers.handleControlsTouch();
-    if (this.state.touch && this.props.handlers.onScrub) {
-      if (this.props.onPlayComplete) {
+
+    handlers.handleControlsTouch();
+
+    if (touch && handlers.onScrub) {
+      if (onPlayComplete) {
         this.onPlayPausePress();
       }
-      this.props.handlers.onScrub(this.touchPercent(locationX));
+
+      handlers.onScrub(this.touchPercent(locationX));
+
       this.setState({
-        cachedPlayhead: this.touchPercent(locationX) * this.props.duration,
+        cachedPlayhead: this.touchPercent(locationX) * duration,
       });
     }
+
     this.setState({
       touch: false,
       x: null,
     });
   };
 
-  _panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: (event, gestureState) => true,
-    onStartShouldSetPanResponderCapture: (event, gestureState) => true,
-    onMoveShouldSetPanResponder: (event, gestureState) => true,
-    onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
+  renderProgressBar = (percent) => {
+    const { config } = this.props;
 
-    onPanResponderGrant: (event, gestureState) => {
-      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
-      this.handleTouchStart(event);
-    },
-    onPanResponderMove: (event, gestureState) => {
-      this.handleTouchMove(event);
-    },
-    onPanResponderTerminationRequest: (event, gestureState) => true,
-    onPanResponderRelease: (event, gestureState) => {
-      this.handleTouchEnd(event);
-    },
-  });
-
-  _renderProgressBar = percent => (
-    <View
-      style={styles.progressBarContainer}
-      accessible={false}
-      pointerEvents="none"
-    >
-      <ProgressBar
+    return (
+      <View
+        style={styles.progressBarContainer}
         accessible={false}
-        ref="progressBar"
-        percent={percent}
-        config={this.props.config}
-        ad={null}
-        renderDuration
-      />
-    </View>
-  );
-
-  _renderLiveCircle = (isLive) => {
-    if (this.props.live) {
-      return (<View style={isLive ? styles.liveCircleActive : styles.liveCircleNonActive} />);
-    }
-    return null;
+        pointerEvents="none"
+      >
+        <ProgressBar
+          accessible={false}
+          percent={percent}
+          config={config}
+          ad={null}
+          renderDuration
+        />
+      </View>
+    );
   };
 
-  _renderCompleteProgressBar = () => {
-    let playedPercent = this.playedPercent(this.props.playhead, this.props.duration);
-    if (this.state.cachedPlayhead >= 0.0) {
-      playedPercent = this.playedPercent(this.state.cachedPlayhead, this.props.duration);
+  renderLiveCircle = (isLive) => {
+    const { live } = this.props;
+
+    if (!live) {
+      return null;
+    }
+
+    return <View style={isLive ? styles.liveCircleActive : styles.liveCircleNonActive} />;
+  };
+
+  renderCompleteProgressBar = () => {
+    const {
+      duration, live, locale, localizableStrings, playhead,
+    } = this.props;
+    const { cachedPlayhead, touch, x } = this.state;
+
+    let playedPercent = this.playedPercent(playhead, duration);
+
+    if (cachedPlayhead >= 0.0) {
+      playedPercent = this.playedPercent(cachedPlayhead, duration);
     }
 
     const playHeadTime = this.getPlayHeadTimeString();
     const durationTime = this.getDurationString();
 
-
     let isLive = false;
-    if (this.props.live) {
-      isLive = this.props.playhead >= this.props.duration * VALUES.LIVE_AUDIO_THRESHOLD;
+    if (live) {
+      isLive = playhead >= duration * VALUES.LIVE_AUDIO_THRESHOLD;
     }
 
     return (
       <View style={styles.progressBar}>
-        {this._renderLiveCircle(isLive)}
+        {this.renderLiveCircle(isLive)}
         <View>
-          <Text style={this.props.live ? styles.liveLabel : styles.progressBarTimeLabel}>
-            {this.props.live ? Utils.localizedString(this.props.locale, 'LIVE', this.props.localizableStrings)
-              : playHeadTime}
+          <Text style={live ? styles.liveLabel : styles.progressBarTimeLabel}>
+            {live ? Utils.localizedString(locale, 'LIVE', localizableStrings) : playHeadTime}
           </Text>
         </View>
         <Animated.View
@@ -501,14 +598,15 @@ export default class AudioView extends Component {
             });
           }}
           style={styles.progressBarScrubberContainer}
-          {...this._panResponder.panHandlers}
+          {...this.panResponder.panHandlers}
         >
-          {this._renderProgressBar(playedPercent)}
-          {this._renderProgressScrubber(this.state.touch ? this.touchPercent(this.state.x) : playedPercent)}
+          {this.renderProgressBar(playedPercent)}
+          {this.renderProgressScrubber(touch ? this.touchPercent(x) : playedPercent)}
         </Animated.View>
         <View>
           <Text style={isLive ? styles.progressBarNoTimeLabel : styles.progressBarTimeLabel}>
-            {!this.props.live ? durationTime : isLive ? '- - : - -' : this.getLiveDurationString()}
+            {/* eslint-disable-next-line no-nested-ternary */}
+            {!live ? durationTime : (isLive ? '- - : - -' : this.getLiveDurationString())}
           </Text>
         </View>
       </View>
@@ -516,23 +614,24 @@ export default class AudioView extends Component {
   };
 
   // MARK: - AudioView rendering
-  _renderPlayer = () => (
+  renderPlayer = () => (
     <View style={styles.container}>
-      {this._renderHeaderView()}
-      {this._renderControlBar()}
-      {this._renderCompleteProgressBar()}
+      {this.renderHeaderView()}
+      {this.renderControlBar()}
+      {this.renderCompleteProgressBar()}
     </View>
   );
 
   render() {
+    const { height, width } = this.props;
+
     return (
-      <View style={[styles.backgroundView,
-        {
-          height: this.props.height,
-          width: this.props.width,
-        }]}
+      <View style={[
+        styles.backgroundView,
+        { height, width },
+      ]}
       >
-        {this._renderPlayer()}
+        {this.renderPlayer()}
       </View>
     );
   }
