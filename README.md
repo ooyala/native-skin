@@ -56,6 +56,15 @@ Navigate to the `sdk/react` directory and start with installing dependencies:
 npm install
 ```
 
+### Before Push
+
+**When touching JavaScript or updating npm dependencies, please ensure all checks are passing (no errors and the exit
+code is 0) by running the following command:**
+
+```sh
+npm run ci
+```
+
 ### Tasks
 
 The following tasks relate to the JavaScript project only, what means you have to be in the `sdk/react` directory to run
