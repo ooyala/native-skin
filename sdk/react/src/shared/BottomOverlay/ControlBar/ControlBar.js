@@ -37,11 +37,6 @@ export default class ControlBar extends React.Component {
     inCastMode: PropTypes.bool,
   };
 
-  static defaultProps = {
-    playhead: 0,
-    duration: 0,
-  };
-
   constructor(props) {
     super(props);
 
