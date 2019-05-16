@@ -56,12 +56,16 @@ export default class DiscoveryPanel extends React.Component {
     localizedString: '',
   };
 
-  state = {
-    opacity: new Animated.Value(0),
-    showCountdownTimer: false,
-    counterTime: 0,
-    impressionsFired: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opacity: new Animated.Value(0),
+      showCountdownTimer: false,
+      counterTime: 0,
+      impressionsFired: false,
+    };
+  }
 
   componentWillMount() {
     timerListenerAndroid = DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted);

@@ -32,9 +32,13 @@ export default class EndScreen extends React.Component {
     showWatermark: PropTypes.bool,
   };
 
-  state = {
-    showControls: true,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showControls: true,
+    };
+  }
 
   handleClick = (name) => {
     const { onPress } = this.props;

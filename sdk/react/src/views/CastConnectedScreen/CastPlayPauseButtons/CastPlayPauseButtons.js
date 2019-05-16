@@ -42,17 +42,21 @@ export default class CastPlayPauseButtons extends React.Component {
     hasNextVideo: PropTypes.bool.isRequired,
   };
 
-  state = {
-    playPause: {
-      animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(1),
-    },
-    skipButtons: {
-      animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(1),
-    },
-    skipCount: 0,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      playPause: {
+        animationScale: new Animated.Value(1),
+        animationOpacity: new Animated.Value(1),
+      },
+      skipButtons: {
+        animationScale: new Animated.Value(1),
+        animationOpacity: new Animated.Value(1),
+      },
+      skipCount: 0,
+    };
+  }
 
   componentWillUnmount() {
     timerForSkipButtons.clearTimeout(this);
@@ -275,7 +279,7 @@ export default class CastPlayPauseButtons extends React.Component {
     const seekButtonScale = 0.5;
     const playPauseButton = this.renderPlayPauseButton();
     const previousButton = this.renderSwitchButton(PREVIOUS, seekButtonScale, previousVideo.enabled);
-    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, (nextVideo.enabled && hasNextVideo));
+    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, nextVideo.enabled && hasNextVideo);
     const backwardButton = this.renderSeekButton(BACKWARD, seekButtonScale, skipBackward.enabled);
     const forwardButton = this.renderSeekButton(FORWARD, seekButtonScale, skipForward.enabled);
 

@@ -31,9 +31,13 @@ export default class CountdownTimerIos extends React.Component {
     timeLeft: 10,
   };
 
-  state = {
-    canceled: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      canceled: false,
+    };
+  }
 
   onTimerUpdate = (event) => {
     const { onTimerUpdate } = this.props;

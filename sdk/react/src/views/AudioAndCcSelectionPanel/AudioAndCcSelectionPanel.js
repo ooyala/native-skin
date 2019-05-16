@@ -32,9 +32,13 @@ export default class AudioAndCcSelectionPanel extends React.Component {
     config: PropTypes.object,
   };
 
-  state = {
-    opacity: new Animated.Value(0),
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opacity: new Animated.Value(0),
+    };
+  }
 
   componentDidMount() {
     const { opacity } = this.state;
