@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Animated, View } from 'react-native';
@@ -210,6 +212,7 @@ export default class MoreOptionScreen extends React.Component {
       default:
         break;
     }
+
     return buttonIcon;
   };
 

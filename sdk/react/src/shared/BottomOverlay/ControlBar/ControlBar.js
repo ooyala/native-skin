@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { NativeModules, Platform, View } from 'react-native';
@@ -55,6 +57,7 @@ export default class ControlBar extends React.Component {
     if (live) {
       return live.label;
     }
+
     return (`${Utils.secondsToString(playhead)} - `);
   };
 
@@ -66,8 +69,10 @@ export default class ControlBar extends React.Component {
       if (live.isLive) {
         return null;
       }
+
       return (` -${Utils.secondsToString(duration - playhead)}`);
     }
+
     return Utils.secondsToString(duration);
   };
 
@@ -88,6 +93,7 @@ export default class ControlBar extends React.Component {
     }
     Log.error('controlBar.volumeControl.color and general.accentColor are not defined in your skin.json.  Please '
       + 'update your skin.json file to the latest provided file, or add these to your skin.json');
+
     return '#4389FF';
   };
 

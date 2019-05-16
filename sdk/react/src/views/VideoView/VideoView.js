@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -99,11 +101,13 @@ export default class VideoView extends React.Component {
     } = this.props;
     if (live) {
       const isLive = playhead >= duration * VALUES.LIVE_THRESHOLD;
+
       return ({
         label: Utils.localizedString(locale, 'LIVE', localizableStrings),
         isLive,
       });
     }
+
     return null;
   };
 

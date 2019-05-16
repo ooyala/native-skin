@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -138,6 +140,7 @@ export default class PlaybackSpeedPanel extends React.Component {
         <= constants.maxPlaybackSpeedRateValue) {
         result.push(parseFloat(number.toFixed(2)));
       }
+
       return result;
     }, []);
 
@@ -154,8 +157,8 @@ export default class PlaybackSpeedPanel extends React.Component {
       if (item === constants.normalPlaybackSpeedRateValue) {
         return localizedTitleForNormalPlaybackSpeedRate;
       }
-      return item.toString()
-        .concat(constants.playbackSpeedRatePostfix);
+
+      return item.toString().concat(constants.playbackSpeedRatePostfix);
     });
 
     return (

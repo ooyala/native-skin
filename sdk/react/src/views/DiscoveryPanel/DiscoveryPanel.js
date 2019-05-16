@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -165,6 +167,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
 
   isDiscoveryError = () => {
     const { dataSource } = this.props;
+
     return dataSource === null || dataSource.length === 0;
   };
 
@@ -185,6 +188,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
         />
       );
     }
+
     return (
       <ResponsiveList
         horizontal={renderHorizontal}
@@ -353,6 +357,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
         </View>
       );
     }
+
     return null;
   };
 
@@ -372,6 +377,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
       Log.log(`Firing Impressions for all ${dataSource.length} discovery entries`);
     }
     const animationStyle = { opacity };
+
     return (
       <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}

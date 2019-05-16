@@ -1,6 +1,6 @@
 // @flow
-/* eslint-disable max-len */
 // `max-len` rule disabled because sometimes strings can be huge.
+/* eslint-disable max-len */
 
 export const CONTENT_TYPES = {
   CHANNEL_SET: 'MultiChannel',

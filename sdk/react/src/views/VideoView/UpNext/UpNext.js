@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -39,31 +41,38 @@ export default class UpNext extends React.Component {
     const { config, duration } = this.props;
 
     const upNextConfig = config.upNext || {};
+
     // TODO: Unit test this functionality, there're still some edge cases
     if (typeof upNextConfig.timeToShow === 'string') {
       // Support old version of percentage (e.g. '80%')
       if (upNextConfig.timeToShow.indexOf('%') >= 0) {
         return (duration - parseFloat(upNextConfig.timeToShow.slice(0, -1) / 100) * duration);
       }
+
       if (Number.isNaN(upNextConfig.timeToShow)) {
         // The string is not a valid number
         return defaultCountdownVal;
       }
+
       // if we are given a number of seconds from end in which to show the upnext dialog.
       return parseInt(upNextConfig.timeToShow, 10);
     }
+
     if (typeof upNextConfig.timeToShow === 'number') {
       if (upNextConfig.timeToShow > 0.0 && upNextConfig.timeToShow <= 1.0) {
         // New percentage mode (e.g. 0.8)
         return duration - upNextConfig.timeToShow * duration;
       }
+
       if (upNextConfig.timeToShow > 1.0) {
         // Normal number (e.g. 15)
         return upNextConfig.timeToShow;
       }
+
       // 0 or negative number
       return defaultCountdownVal;
     }
+
     // Not a valid string nor number, return default.
     return defaultCountdownVal;
   };

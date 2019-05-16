@@ -21,6 +21,7 @@
         "ignoreTemplateLiterals": true
       }
     ],
+    "newline-before-return": "error",
     "no-console": "error",
     "react/jsx-filename-extension": [
       1,

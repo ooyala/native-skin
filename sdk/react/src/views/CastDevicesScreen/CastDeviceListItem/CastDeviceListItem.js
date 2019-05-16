@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
@@ -62,6 +64,7 @@ export default class DeviceListItem extends React.Component {
 
     const textColor = selected ? activeColor : inactiveColor;
     const textStyle = selected ? styles.textSelected : styles.text;
+
     return (
       <TouchableHighlight
         style={{ flex: 1 }}

@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -42,6 +44,7 @@ export default class ControlBarWidgets extends React.Component {
     const fontFamilyStyle = { fontFamily: iconMap[options.primaryActionButton].fontFamilyName };
     const onPressF = options.primaryActionButton === 'replay'
       ? options.onReplay : options.onPress;
+
     return (
       <TouchableHighlight
         onPress={onPressF}
@@ -113,6 +116,7 @@ export default class ControlBarWidgets extends React.Component {
 
     const iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
     const fontFamilyStyle = { fontFamily: iconConfig.fontFamilyName };
+
     return (
       <View
         style={[{ flexDirection: 'row' }]}
@@ -137,6 +141,7 @@ export default class ControlBarWidgets extends React.Component {
     if (options.liveCircle) {
       return (<View style={options.liveCircle} />);
     }
+
     return null;
   };
 
@@ -157,6 +162,7 @@ export default class ControlBarWidgets extends React.Component {
         {options.durationString}
       </Text>
     );
+
     return (
       <View
         style={options.completeTimeStyle}
@@ -171,6 +177,7 @@ export default class ControlBarWidgets extends React.Component {
 
   discoveryWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.DISCOVERY}
@@ -191,6 +198,7 @@ export default class ControlBarWidgets extends React.Component {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
     const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN
       : VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
+
     return (
       <TouchableHighlight
         testID={nameLabel}
@@ -234,6 +242,7 @@ export default class ControlBarWidgets extends React.Component {
 
   moreOptionsWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.MORE}
@@ -273,6 +282,7 @@ export default class ControlBarWidgets extends React.Component {
 
   rewindWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         style={[options.iconTouchableStyle]}
@@ -297,11 +307,13 @@ export default class ControlBarWidgets extends React.Component {
         </View>
       );
     }
+
     return null;
   };
 
   shareWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.SHARE}
@@ -320,6 +332,7 @@ export default class ControlBarWidgets extends React.Component {
 
   stereoscopicWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.STEREOSCOPIC}
@@ -355,6 +368,7 @@ export default class ControlBarWidgets extends React.Component {
         </TouchableHighlight>
       );
     }
+
     return widget;
   };
 
@@ -384,6 +398,7 @@ export default class ControlBarWidgets extends React.Component {
         </TouchableHighlight>
       );
     }
+
     return widget;
   };
 

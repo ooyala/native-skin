@@ -1,4 +1,5 @@
 // @flow
+
 import { Platform } from 'react-native';
 
 import { CONTENT_TYPES, OVERLAY_TYPES, SCREEN_TYPES } from './constants';

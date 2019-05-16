@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -108,6 +110,7 @@ export default class CastDevicesScreen extends React.Component {
   renderCastDevicesScreen(animationStyle, dismissButtonRow) {
     const { height, width, devices } = this.props;
     const { selectedID } = this.state;
+
     return (
       <Animated.View
         style={[styles.fullscreenContainer, animationStyle, {
@@ -142,6 +145,7 @@ export default class CastDevicesScreen extends React.Component {
     const { selectedID } = this.state;
     const { config, selectedDeviceId } = this.props;
     const { iconStyle } = config.castControls;
+
     return (
       <CastDeviceListItem
         id={item.id}
@@ -174,6 +178,7 @@ export default class CastDevicesScreen extends React.Component {
     );
 
     const animationStyle = { opacity };
+
     return this.renderCastDevicesScreen(animationStyle, dismissButtonRow);
   }
 }

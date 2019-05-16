@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
@@ -65,6 +67,7 @@ export default class ErrorScreen extends React.Component {
         </Text>
       );
     }
+
     return null;
   };
 

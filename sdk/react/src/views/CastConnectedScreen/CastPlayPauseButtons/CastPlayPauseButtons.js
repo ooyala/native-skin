@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -108,6 +110,7 @@ export default class CastPlayPauseButtons extends React.Component {
     if (loading === true) {
       return this.renderLoadingButton();
     }
+
     return playing ? this.renderButton(PAUSE) : this.renderButton(PLAY);
   }
 
@@ -329,6 +332,7 @@ export default class CastPlayPauseButtons extends React.Component {
         </View>
       );
     }
+
     return null;
   }
 }

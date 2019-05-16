@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -121,12 +123,14 @@ export default class CastConnectedScreen extends React.Component {
     } = this.props;
     if (live) {
       const isLive = playhead >= duration * VALUES.LIVE_THRESHOLD;
+
       return ({
         label: isLive ? Utils.localizedString(locale, 'LIVE', localizableStrings)
           : Utils.localizedString(locale, 'GO LIVE', localizableStrings),
         onGoLive: isLive ? null : this.onGoLive,
       });
     }
+
     return null;
   }
 
@@ -160,6 +164,7 @@ export default class CastConnectedScreen extends React.Component {
   renderDisconnectButton() {
     const { onDisconnect, config } = this.props;
     const { color } = config.castControls.iconStyle.active;
+
     return (
       <View style={styles.disconnectView}>
         <TouchableOpacity onPress={() => onDisconnect()}>

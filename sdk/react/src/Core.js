@@ -1,3 +1,5 @@
+// @flow
+
 import {
   AUTOHIDE_DELAY, BUTTON_NAMES, MAX_DATE_VALUE, OVERLAY_TYPES,
 } from './constants';
@@ -36,8 +38,7 @@ export default class Core {
   }
 
   onBackPressed() {
-    const retVal = this.popFromOverlayStackAndMaybeResume();
-    return retVal;
+    return this.popFromOverlayStackAndMaybeResume();
   }
 
   handleLanguageSelection(e) {
@@ -305,6 +306,7 @@ export default class Core {
   pushToOverlayStack(overlay) {
     const retVal = this.skin.state.overlayStack.push(overlay);
     this.skin.forceUpdate();
+
     return retVal;
   }
 
@@ -324,6 +326,7 @@ export default class Core {
       this.bridge.onPress({ name: BUTTON_NAMES.PLAY_PAUSE });
     }
     this.skin.forceUpdate();
+
     return retVal;
   }
 

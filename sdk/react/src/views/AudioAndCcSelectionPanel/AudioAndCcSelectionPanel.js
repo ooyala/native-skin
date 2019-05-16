@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -189,6 +191,7 @@ export default class AudioAndCcSelectionPanel extends React.Component {
         </View>
       );
     }
+
     if (hasMultiAudioTracks) {
       // Return only audio panel
       return (
@@ -197,6 +200,7 @@ export default class AudioAndCcSelectionPanel extends React.Component {
         </View>
       );
     }
+
     // Return only CC panel
     return (
       <View style={styles.panelItemSelectionContainerView}>

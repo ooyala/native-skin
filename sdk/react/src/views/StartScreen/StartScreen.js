@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, Text, View } from 'react-native';
@@ -150,6 +152,7 @@ export default class StartScreen extends React.Component {
 
   getWaterMark = () => {
     const waterMarkImageLocation = styles.waterMarkImageSE;
+
     return (
       <Image
         style={[styles.waterMarkImage, waterMarkImageLocation]}

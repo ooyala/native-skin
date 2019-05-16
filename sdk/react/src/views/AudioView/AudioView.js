@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -231,6 +233,7 @@ export default class AudioView extends React.Component {
 
     const titleLabel = <Text style={styles.titleLabel}>{`${title}: `}</Text>;
     const subtitleLabel = <Text style={styles.subtitleLabel}>{description}</Text>;
+
     return (
       <View style={styles.headerView}>
         <Text

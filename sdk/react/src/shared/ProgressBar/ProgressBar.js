@@ -1,3 +1,5 @@
+// @flow
+
 import PropTypes from 'prop-types';
 import React from 'react';
 import { View } from 'react-native';
@@ -53,6 +55,7 @@ export default class ProgressBar extends React.Component {
 
     Log.error('controlBar.adScrubberBar.playedColor and general.accentColor are not defined in your skin.json. '
       + ' Please update your skin.json file to the latest provided file, or add these to your skin.json');
+
     return '#FF3F80';
   };
 
@@ -73,6 +76,7 @@ export default class ProgressBar extends React.Component {
 
     Log.error('controlBar.scrubberBar.playedColor and general.accentColor are not defined in your skin.json. '
       + 'Please update your skin.json file to the latest provided file, or add these to your skin.json');
+
     return '#4389FF';
   };
 

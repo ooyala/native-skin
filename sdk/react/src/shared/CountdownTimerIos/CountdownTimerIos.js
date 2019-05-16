@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { requireNativeComponent, TouchableHighlight, View } from 'react-native';
