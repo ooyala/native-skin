@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ActivityIndicator, Animated, TouchableHighlight, View,
 } from 'react-native';
@@ -20,12 +22,9 @@ const NEXT = 'next';
 const PREVIOUS = 'previous';
 const BACKWARD = 'seekBackward';
 
-export default class CastPlayPauseButtons extends Component {
+export default class CastPlayPauseButtons extends React.Component {
   static propTypes = {
-    seekEnabled: PropTypes.bool.isRequired,
-    ffActive: PropTypes.bool.isRequired,
-    icons: PropTypes.object.isRequired,
-    position: PropTypes.string.isRequired,
+    icons: PropTypes.shape({}).isRequired,
     onPress: PropTypes.func.isRequired,
     onSeekPressed: PropTypes.func.isRequired,
     onSwitchPressed: PropTypes.func.isRequired,
@@ -37,29 +36,29 @@ export default class CastPlayPauseButtons extends Component {
     buttonWidth: PropTypes.number.isRequired,
     buttonHeight: PropTypes.number.isRequired,
     buttonColor: PropTypes.string.isRequired,
-    buttonStyle: PropTypes.object.isRequired,
     fontSize: PropTypes.number.isRequired,
-    style: PropTypes.object.isRequired,
     showButton: PropTypes.bool.isRequired,
-    showSeekButtons: PropTypes.bool.isRequired,
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
-    initialPlay: PropTypes.bool.isRequired,
-    config: PropTypes.object.isRequired,
+    config: PropTypes.shape({}).isRequired,
     hasNextVideo: PropTypes.bool.isRequired,
   };
 
-  state = {
-    playPause: {
-      animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(1),
-    },
-    skipButtons: {
-      animationScale: new Animated.Value(1),
-      animationOpacity: new Animated.Value(1),
-    },
-    skipCount: 0,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      playPause: {
+        animationScale: new Animated.Value(1),
+        animationOpacity: new Animated.Value(1),
+      },
+      skipButtons: {
+        animationScale: new Animated.Value(1),
+        animationOpacity: new Animated.Value(1),
+      },
+      skipCount: 0,
+    };
+  }
 
   componentWillUnmount() {
     timerForSkipButtons.clearTimeout(this);
@@ -83,14 +82,16 @@ export default class CastPlayPauseButtons extends Component {
    * @param isForward direction of seeking
    */
   onSkipPress(isForward) {
+    const { skipCount } = this.state;
+
     const { onSeekPressed } = this.props;
     timerForSkipButtons.clearTimeout(this);
-    const value = this.state.skipCount + (isForward ? 1 : -1);
+    const value = skipCount + (isForward ? 1 : -1);
     this.setState({ skipCount: value }, () => timerForSkipButtons.setTimeout(
       this,
       'sendSummedSkip',
       () => {
-        onSeekPressed(this.state.skipCount);
+        onSeekPressed(skipCount);
         this.setState({ skipCount: 0 });
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS,
@@ -109,6 +110,7 @@ export default class CastPlayPauseButtons extends Component {
     if (loading === true) {
       return this.renderLoadingButton();
     }
+
     return playing ? this.renderButton(PAUSE) : this.renderButton(PLAY);
   }
 
@@ -280,7 +282,7 @@ export default class CastPlayPauseButtons extends Component {
     const seekButtonScale = 0.5;
     const playPauseButton = this.renderPlayPauseButton();
     const previousButton = this.renderSwitchButton(PREVIOUS, seekButtonScale, previousVideo.enabled);
-    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, (nextVideo.enabled && hasNextVideo));
+    const nextButton = this.renderSwitchButton(NEXT, seekButtonScale, nextVideo.enabled && hasNextVideo);
     const backwardButton = this.renderSeekButton(BACKWARD, seekButtonScale, skipBackward.enabled);
     const forwardButton = this.renderSeekButton(FORWARD, seekButtonScale, skipForward.enabled);
 
@@ -330,6 +332,7 @@ export default class CastPlayPauseButtons extends Component {
         </View>
       );
     }
+
     return null;
   }
 }

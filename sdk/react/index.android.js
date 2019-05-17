@@ -1,3 +1,6 @@
+// Rule disabled because this component state used from Core.
+/* eslint-disable react/no-unused-state */
+
 import React, { Component } from 'react';
 import {
   AccessibilityInfo,
@@ -9,7 +12,8 @@ import {
   Text,
   View,
 } from 'react-native';
-import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter';
+// Not clear from where this module imported.
+import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'; // eslint-disable-line import/no-unresolved
 
 import { CONTENT_TYPES, DESIRED_STATES, SCREEN_TYPES } from './src/constants';
 import Core from './src/Core';
@@ -19,6 +23,21 @@ const {
   OoyalaReactBridge,
 } = NativeModules;
 let OoyalaSkinCoreInstance;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+  },
+  loading: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 200,
+  },
+});
 
 class OoyalaSkin extends Component {
   // note/todo: some of these are more like props, expected to be over-ridden/updated
@@ -72,7 +91,7 @@ class OoyalaSkin extends Component {
 
     AccessibilityInfo.addEventListener(
       'change',
-      this._handleScreenReaderToggled,
+      this.handleScreenReaderToggled,
     );
     AccessibilityInfo.fetch()
       .done((isEnabled) => {
@@ -88,11 +107,11 @@ class OoyalaSkin extends Component {
 
     AccessibilityInfo.removeEventListener(
       'change',
-      this._handleScreenReaderToggled,
+      this.handleScreenReaderToggled,
     );
   }
 
-  _handleScreenReaderToggled = (isEnabled) => {
+  handleScreenReaderToggled = (isEnabled) => {
     this.setState({
       screenReaderEnabled: isEnabled,
     });
@@ -105,30 +124,19 @@ class OoyalaSkin extends Component {
     />
   );
 
-  renderVideoView = () => (
-    <View style={styles.container}>
-      <Text>{this.state.playerState}</Text>
-    </View>
-  );
+  renderVideoView = () => {
+    const { playerState } = this.state;
+
+    return (
+      <View style={styles.container}>
+        <Text>{playerState}</Text>
+      </View>
+    );
+  };
 
   render() {
     return OoyalaSkinCoreInstance.renderScreen();
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-  },
-  loading: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 200,
-  },
-});
 
 AppRegistry.registerComponent('OoyalaSkin', () => OoyalaSkin);

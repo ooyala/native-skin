@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
 
 import { STRING_CONSTANTS } from '../../constants';
@@ -7,7 +9,7 @@ import * as Accessibility from '../../lib/accessibility';
 
 import styles from './SkipButton.styles';
 
-export default class SkipButton extends Component {
+export default class SkipButton extends React.Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
@@ -15,39 +17,40 @@ export default class SkipButton extends Component {
     timeValue: PropTypes.number.isRequired,
     onSeek: PropTypes.func.isRequired,
     icon: PropTypes.string.isRequired,
-    fontStyle: PropTypes.object,
-    sizeStyle: PropTypes.object,
-    opacity: PropTypes.object,
-    animate: PropTypes.object,
-    buttonColor: PropTypes.object,
+    fontStyle: PropTypes.shape({}),
+    sizeStyle: PropTypes.shape({}),
+    opacity: PropTypes.shape({}),
+    animate: PropTypes.shape({}),
+    buttonColor: PropTypes.shape({}),
   };
 
-  state = {
-    movedPosition: 0,
-  };
+  onPress = () => {
+    const { isForward, onSeek } = this.props;
 
-  componentWillReceiveProps(nextProps) {
-    this.state.movedPosition = nextProps.currentPosition;
-  }
+    onSeek(isForward);
+  };
 
   render() {
-    if (!this.props.visible) {
+    const {
+      animate, buttonColor, disabled, fontStyle, icon, isForward, opacity, sizeStyle, timeValue, visible,
+    } = this.props;
+
+    if (!visible) {
       return null;
     }
-    const accessibilityLabel = Accessibility.createAccessibilityForForwardButton(this.props.isForward,
-      this.props.timeValue, STRING_CONSTANTS.SECONDS);
-    const position = {
-      position: 'absolute',
-    };
+
+    const accessibilityLabel = Accessibility.createAccessibilityForForwardButton(isForward, timeValue,
+      STRING_CONSTANTS.SECONDS);
+
     return (
       <TouchableHighlight
         accessible
         accessibilityLabel={accessibilityLabel}
-        disabled={this.props.disabled}
+        disabled={disabled}
         onPress={() => this.onPress()}
         underlayColor="transparent"
         importantForAccessibility="yes"
-        style={[this.props.sizeStyle]}
+        style={sizeStyle}
       >
         <Animated.View style={{
           flex: 1,
@@ -57,30 +60,32 @@ export default class SkipButton extends Component {
         >
           <Animated.Text
             accessible={false}
-            style={[position,
+            style={[
+              { position: 'absolute' },
               styles.buttonTextStyle,
-              this.props.fontStyle,
-              this.props.buttonColor,
-              this.props.animate,
-              this.props.opacity]}
+              fontStyle,
+              buttonColor,
+              animate,
+              opacity,
+            ]}
           >
-            {this.props.icon}
+            {icon}
           </Animated.Text>
           <Animated.Text
             accessible={false}
-            style={[position,
-              { fontSize: this.props.fontStyle.fontSize * 0.5 },
-              this.props.buttonColor,
-              this.props.opacity]}
+            style={[
+              {
+                fontSize: fontStyle.fontSize * 0.5,
+                position: 'absolute',
+              },
+              buttonColor,
+              opacity,
+            ]}
           >
-            {this.props.timeValue}
+            {timeValue}
           </Animated.Text>
         </Animated.View>
       </TouchableHighlight>
     );
   }
-
-  onPress = () => {
-    this.props.onSeek(this.props.isForward);
-  };
 }

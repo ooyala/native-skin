@@ -1,4 +1,6 @@
-import * as React from 'react';
+// @flow
+
+import React from 'react';
 import { NativeModules, Platform } from 'react-native';
 
 import {
@@ -101,6 +103,7 @@ export default class ViewsRenderer {
 
   renderCastAirPlayScreen() {
     const castAirPlayerOffset = 40;
+
     return (
       <CastAirPlayScreen
         width={this.skin.state.width - castAirPlayerOffset}
@@ -143,6 +146,7 @@ export default class ViewsRenderer {
 
   renderCastConnectedScreen() {
     const playbackSpeedEnabled = false;
+
     return (
       <CastConnectedScreen
         playhead={this.skin.state.playhead}
@@ -192,7 +196,7 @@ export default class ViewsRenderer {
         inCastMode={this.skin.state.inCastMode}
         previewUrl={this.skin.state.previewUrl}
         markers={this.skin.state.markers}
-        hasNextVideo={this.skin.state.nextVideo ? true : false}
+        hasNextVideo={Boolean(this.skin.state.nextVideo)}
       />
     );
   }
@@ -562,6 +566,7 @@ export default class ViewsRenderer {
         if (this.skin.state.desiredState !== DESIRED_STATES.DESIRED_PLAY) {
           return this.renderStartScreen();
         }
+
         return this.skin.renderLoadingScreen();
 
       case SCREEN_TYPES.END_SCREEN:
@@ -583,6 +588,7 @@ export default class ViewsRenderer {
         if (this.skin.state.inCastMode) {
           return this.renderCastConnectedScreen();
         }
+
         return this.renderVideoView();
     }
   }

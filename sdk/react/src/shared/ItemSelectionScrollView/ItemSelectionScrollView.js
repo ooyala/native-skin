@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import ItemSelectionList from './ItemSelectionList';
@@ -8,31 +10,39 @@ import * as Utils from '../../lib/utils';
 
 import styles from './ItemSelectionScrollView.styles';
 
-export default class ItemSelectionScrollView extends Component {
+export default class ItemSelectionScrollView extends React.Component {
   static propTypes = {
-    items: PropTypes.array,
+    items: PropTypes.arrayOf(),
     selectedItem: PropTypes.string,
     onSelect: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     cellType: PropTypes.string,
   };
 
-  isSelected = name => name && name !== '' && name === this.props.selectedItem;
+  onSelected(name) {
+    const { onSelect, selectedItem } = this.props;
 
-  onSelected = (name) => {
-    if (this.props.selectedItem !== name) {
-      this.props.onSelect(name);
+    if (selectedItem !== name) {
+      onSelect(name);
     }
-  };
+  }
+
+  isSelected(name) {
+    const { selectedItem } = this.props;
+
+    return name && name !== '' && name === selectedItem;
+  }
 
   renderItem = (item, index) => {
+    const { cellType, config } = this.props;
+
     const isSelectedItem = this.isSelected(item);
     const buttonStyle = isSelectedItem ? styles.selectedButton : styles.button;
     const textStyle = isSelectedItem ? styles.selectedButtonText : styles.buttonText;
-    const checkmarkIcon = isSelectedItem ? this.props.config.icons.selected.fontString : '';
-    const accessibilityString = Accessibility.createAccessibilityLabelForCell(this.props.cellType, item);
+    const checkmarkIcon = isSelectedItem ? config.icons.selected.fontString : '';
+    const accessibilityString = Accessibility.createAccessibilityLabelForCell(cellType, item);
 
     return (
       <TouchableHighlight
@@ -58,13 +68,12 @@ export default class ItemSelectionScrollView extends Component {
   };
 
   render() {
-    const renderHorizontal = Utils.shouldShowLandscape(this.props.width, this.props.height);
+    const { height, items, width } = this.props;
+
+    const renderHorizontal = Utils.shouldShowLandscape(width, height);
+
     return (
-      <ItemSelectionList
-        horizontal={renderHorizontal}
-        data={this.props.items}
-        itemRender={this.renderItem}
-      />
+      <ItemSelectionList horizontal={renderHorizontal} data={items} itemRender={this.renderItem} />
     );
   }
 }

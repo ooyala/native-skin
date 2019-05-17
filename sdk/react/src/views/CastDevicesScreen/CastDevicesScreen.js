@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, FlatList, Text, View,
 } from 'react-native';
@@ -12,7 +14,7 @@ import styles from './CastDevicesScreen.styles';
 
 const dismissButtonSize = 20;
 
-export default class CastDevicesScreen extends Component {
+export default class CastDevicesScreen extends React.Component {
   static propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
@@ -108,6 +110,7 @@ export default class CastDevicesScreen extends Component {
   renderCastDevicesScreen(animationStyle, dismissButtonRow) {
     const { height, width, devices } = this.props;
     const { selectedID } = this.state;
+
     return (
       <Animated.View
         style={[styles.fullscreenContainer, animationStyle, {
@@ -142,6 +145,7 @@ export default class CastDevicesScreen extends Component {
     const { selectedID } = this.state;
     const { config, selectedDeviceId } = this.props;
     const { iconStyle } = config.castControls;
+
     return (
       <CastDeviceListItem
         id={item.id}
@@ -174,6 +178,7 @@ export default class CastDevicesScreen extends Component {
     );
 
     const animationStyle = { opacity };
+
     return this.renderCastDevicesScreen(animationStyle, dismissButtonRow);
   }
 }

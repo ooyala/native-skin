@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
 
 import { STRING_CONSTANTS } from '../../../../constants';
@@ -7,36 +9,37 @@ import * as Accessibility from '../../../../lib/accessibility';
 
 import styles from './SwitchButton.styles';
 
-export default class SwitchButton extends Component {
+export default class SwitchButton extends React.Component {
   static propTypes = {
     visible: PropTypes.bool.isRequired,
     disabled: PropTypes.bool.isRequired,
     isForward: PropTypes.bool.isRequired,
     onSwitch: PropTypes.func.isRequired,
     icon: PropTypes.string.isRequired,
-    fontStyle: PropTypes.object,
-    sizeStyle: PropTypes.object,
-    opacity: PropTypes.object,
-    animate: PropTypes.object,
-    buttonColor: PropTypes.object,
+    fontStyle: PropTypes.shape({}),
+    sizeStyle: PropTypes.shape({}),
+    opacity: PropTypes.shape({}),
+    animate: PropTypes.shape({}),
+    buttonColor: PropTypes.shape({}),
   };
 
   onPress = () => {
-    const { props } = this;
-    const { onSwitch, isForward } = props;
+    const { onSwitch, isForward } = this.props;
+
     onSwitch(isForward);
   };
 
   render() {
-    const { props } = this;
     const {
-      visible, isForward, timeValue, sizeStyle, disabled, icon, fontStyle, buttonColor, animate, opacity,
-    } = props;
+      visible, isForward, sizeStyle, disabled, icon, fontStyle, buttonColor, animate, opacity,
+    } = this.props;
+
     if (!visible) {
       return null;
     }
+
     const accessibilityLabel = Accessibility
-      .createAccessibilityForForwardButton(isForward, timeValue, STRING_CONSTANTS.SECONDS);
+      .createAccessibilityForForwardButton(isForward, undefined, STRING_CONSTANTS.SECONDS);
     const position = {
       position: 'absolute',
     };

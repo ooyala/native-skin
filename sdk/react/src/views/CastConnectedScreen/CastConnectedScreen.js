@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, Image, Text, TouchableOpacity, View,
 } from 'react-native';
@@ -12,7 +14,7 @@ import BottomOverlay from '../../shared/BottomOverlay';
 
 import styles from './CastConnectedScreen.styles';
 
-export default class CastConnectedScreen extends Component {
+export default class CastConnectedScreen extends React.Component {
   static propTypes = {
     playhead: PropTypes.number.isRequired,
     duration: PropTypes.number.isRequired,
@@ -21,7 +23,7 @@ export default class CastConnectedScreen extends Component {
     height: PropTypes.number.isRequired,
     volume: PropTypes.number.isRequired,
     fullscreen: PropTypes.bool.isRequired,
-    cuePoints: PropTypes.arrayOf(PropTypes.double).isRequired,
+    cuePoints: PropTypes.arrayOf(PropTypes.number).isRequired,
     stereoSupported: PropTypes.bool.isRequired,
     multiAudioEnabled: PropTypes.bool.isRequired,
     playbackSpeedEnabled: PropTypes.bool.isRequired,
@@ -39,17 +41,16 @@ export default class CastConnectedScreen extends Component {
     }).isRequired,
     screenReaderEnabled: PropTypes.bool.isRequired,
     availableClosedCaptionsLanguages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    config: PropTypes.object.isRequired,
-    localizableStrings: PropTypes.object.isRequired,
+    config: PropTypes.shape({}).isRequired,
+    localizableStrings: PropTypes.shape({}).isRequired,
     locale: PropTypes.string.isRequired,
     playing: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
-    initialPlay: PropTypes.bool.isRequired,
     onDisconnect: PropTypes.func.isRequired,
     deviceName: PropTypes.string.isRequired,
     inCastMode: PropTypes.bool.isRequired,
     previewUrl: PropTypes.string.isRequired,
-    markers: PropTypes.array.isRequired,
+    markers: PropTypes.arrayOf().isRequired,
     hasNextVideo: PropTypes.bool.isRequired,
   };
 
@@ -58,16 +59,18 @@ export default class CastConnectedScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.handlers.onControlsVisibilityChanged(true);
+    const { handlers } = this.props;
+
+    handlers.onControlsVisibilityChanged(true);
   }
 
   onSeekPressed(skipCountValue) {
     if (skipCountValue === 0) {
       return;
     }
-    const { props } = this;
-    const { playhead, duration } = props;
-    const { skipForwardTime, skipBackwardTime } = props.config.castControls;
+
+    const { config, playhead, duration } = this.props;
+    const { skipForwardTime, skipBackwardTime } = config.castControls;
 
     let configSeekValue = (skipCountValue > 0) ? skipForwardTime : skipBackwardTime;
 
@@ -85,9 +88,9 @@ export default class CastConnectedScreen extends Component {
   }
 
   onSwitchPressed(isForwardSwitch) {
-    const { props } = this;
-    const { onSwitch } = props.handlers;
-    onSwitch(isForwardSwitch);
+    const { handlers } = this.props;
+
+    handlers.onSwitch(isForwardSwitch);
   }
 
   handlePress = (name) => {
@@ -98,9 +101,9 @@ export default class CastConnectedScreen extends Component {
   };
 
   handleScrub(value) {
-    const { props } = this;
-    const { onScrub } = props.handlers;
-    onScrub(value);
+    const { handlers } = this.props;
+
+    handlers.onScrub(value);
   }
 
   placeholderTapHandler(event) {
@@ -120,18 +123,20 @@ export default class CastConnectedScreen extends Component {
     } = this.props;
     if (live) {
       const isLive = playhead >= duration * VALUES.LIVE_THRESHOLD;
+
       return ({
         label: isLive ? Utils.localizedString(locale, 'LIVE', localizableStrings)
           : Utils.localizedString(locale, 'GO LIVE', localizableStrings),
         onGoLive: isLive ? null : this.onGoLive,
       });
     }
+
     return null;
   }
 
   renderCastIcon() {
-    const { props } = this;
-    const { fontString, fontFamilyName } = props.config.icons.play;
+    const { config } = this.props;
+    const { fontString, fontFamilyName } = config.icons.play;
 
     return (
       <Animated.Text
@@ -159,6 +164,7 @@ export default class CastConnectedScreen extends Component {
   renderDisconnectButton() {
     const { onDisconnect, config } = this.props;
     const { color } = config.castControls.iconStyle.active;
+
     return (
       <View style={styles.disconnectView}>
         <TouchableOpacity onPress={() => onDisconnect()}>
@@ -186,8 +192,8 @@ export default class CastConnectedScreen extends Component {
   }
 
   renderPlaceholder() {
-    const { props } = this;
-    const { handleVideoTouchStart, handleVideoTouchMove } = props.handlers;
+    const { handlers, previewUrl } = this.props;
+    const { handleVideoTouchStart, handleVideoTouchMove } = handlers;
 
     return (
       <View
@@ -202,7 +208,7 @@ export default class CastConnectedScreen extends Component {
         <Image
           style={styles.imagePreview}
           blurRadius={5}
-          source={{ uri: props.previewUrl }}
+          source={{ uri: previewUrl }}
         />
       </View>
     );
@@ -258,10 +264,9 @@ export default class CastConnectedScreen extends Component {
   }
 
   renderCastPlayPause() {
-    const { props } = this;
     const {
-      width, height, config, live, playhead, duration, rate, playing, loading, hasNextVideo,
-    } = props;
+      width, height, config, live, playhead, duration, playing, loading, hasNextVideo,
+    } = this.props;
     const {
       play, previous, next, pause, forward, replay,
     } = config.icons;
@@ -318,7 +323,6 @@ export default class CastConnectedScreen extends Component {
         showButton={showButtons}
         isLive={live}
         showSeekButtons={showSeekButtons}
-        rate={rate}
         playing={playing}
         loading={loading}
         hasNextVideo={hasNextVideo}

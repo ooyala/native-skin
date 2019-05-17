@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, PanResponder, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -12,30 +14,63 @@ const constants = {
   scrubTouchableDistance: 45,
 };
 
-export default class VolumePanel extends Component {
+export default class VolumePanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
     onVolumeChanged: PropTypes.func.isRequired,
     volume: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
   };
 
-  state = {
-    volume: this.props.volume,
-    opacity: new Animated.Value(0),
-    touch: false,
-    x: 0,
-    sliderWidth: 0,
-    sliderHeight: 0,
-  };
+  // Actions
+  panResponder = PanResponder.create({
+    onStartShouldSetPanResponder: () => true,
+
+    onStartShouldSetPanResponderCapture: () => true,
+
+    onMoveShouldSetPanResponder: () => true,
+
+    onMoveShouldSetPanResponderCapture: () => true,
+
+    onPanResponderGrant: (event) => {
+      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
+      this.handleTouchStart(event);
+    },
+
+    onPanResponderMove: (event) => {
+      this.handleTouchMove(event);
+    },
+
+    onPanResponderTerminationRequest: () => true,
+
+    onPanResponderRelease: (event) => {
+      this.handleTouchEnd(event);
+    },
+  });
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      volume: props.volume,
+      opacity: new Animated.Value(0),
+      touch: false,
+      x: 0,
+      sliderWidth: 0,
+      sliderHeight: 0,
+    };
+  }
 
   componentDidMount() {
-    this.state.opacity.setValue(0);
+    const { opacity } = this.state;
+
+    opacity.setValue(0);
+
     Animated.parallel([
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: constants.animationDuration,
@@ -45,15 +80,21 @@ export default class VolumePanel extends Component {
       .start();
   }
 
-  _onVolumeChange = (volume) => {
-    this.props.onVolumeChanged(volume);
+  onVolumeChange = (volume) => {
+    const { onVolumeChanged } = this.props;
+
+    onVolumeChanged(volume);
+
     this.setState({
       volume,
     });
   };
 
-  _renderVolumeIcon = () => {
-    const iconConfig = (this.state.volume > 0) ? this.props.config.icons.volume : this.props.config.icons.volumeOff;
+  renderVolumeIcon = () => {
+    const { config } = this.props;
+    const { volume } = this.state;
+
+    const iconConfig = (volume > 0) ? config.icons.volume : config.icons.volumeOff;
     const fontFamilyStyle = { fontFamily: iconConfig.fontFamilyName };
 
     return (
@@ -66,8 +107,8 @@ export default class VolumePanel extends Component {
   };
 
   handleTouchStart = (event) => {
-    const volume = this._touchPercent(event.nativeEvent.locationX);
-    this._onVolumeChange(volume);
+    const volume = this.touchPercent(event.nativeEvent.locationX);
+    this.onVolumeChange(volume);
     this.setState({
       touch: true,
       x: event.nativeEvent.locationX,
@@ -76,61 +117,46 @@ export default class VolumePanel extends Component {
 
   handleTouchMove = (event) => {
     const locationX = event.nativeEvent.pageX - this.locationPageOffset;
-    const volume = this._touchPercent(locationX);
-    this._onVolumeChange(volume);
+    const volume = this.touchPercent(locationX);
+    this.onVolumeChange(volume);
     this.setState({
       x: locationX,
     });
   };
 
-  handleTouchEnd = (event) => {
+  handleTouchEnd = () => {
     this.setState({
       touch: false,
       x: null,
     });
   };
 
-  // Actions
-  _panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: (event, gestureState) => true,
-    onStartShouldSetPanResponderCapture: (event, gestureState) => true,
-    onMoveShouldSetPanResponder: (event, gestureState) => true,
-    onMoveShouldSetPanResponderCapture: (event, gestureState) => true,
-
-    onPanResponderGrant: (event, gestureState) => {
-      this.locationPageOffset = event.nativeEvent.pageX - event.nativeEvent.locationX;
-      this.handleTouchStart(event);
-    },
-    onPanResponderMove: (event, gestureState) => {
-      this.handleTouchMove(event);
-    },
-    onPanResponderTerminationRequest: (event, gestureState) => true,
-    onPanResponderRelease: (event, gestureState) => {
-      this.handleTouchEnd(event);
-    },
-  });
-
   onDismissPress = () => {
-    this.props.onDismiss();
+    const { onDismiss } = this.props;
+
+    onDismiss();
   };
 
   // Volume slider
-  _touchPercent = (x) => {
-    let percent = x / (this.state.sliderWidth);
+  touchPercent = (x) => {
+    const { sliderWidth } = this.state;
+
+    let percent = x / sliderWidth;
 
     if (percent > 1) {
       percent = 1;
     } else if (percent < 0) {
       percent = 0;
     }
+
     return percent;
   };
 
-  _calculateTopOffset = (componentSize, sliderHeight) => sliderHeight / 2 - componentSize / 2;
+  calculateTopOffset = (componentSize, sliderHeight) => sliderHeight / 2 - componentSize / 2;
 
-  _calculateLeftOffset = (componentSize, percent, sliderWidth) => percent * sliderWidth - componentSize * percent;
+  calculateLeftOffset = (componentSize, percent, sliderWidth) => percent * sliderWidth - componentSize * percent;
 
-  _thumbStyle = () => ({
+  thumbStyle = () => ({
     flex: 0,
     position: 'absolute',
     backgroundColor: 'white',
@@ -139,16 +165,16 @@ export default class VolumePanel extends Component {
     height: constants.scrubberSize,
   });
 
-  _renderVolumeThumb = (volume) => {
+  renderVolumeThumb = (volume) => {
     const { sliderWidth } = this.state;
     const { sliderHeight } = this.state;
-    const topOffset = this._calculateTopOffset(constants.scrubberSize, sliderHeight);
-    const leftOffset = this._calculateLeftOffset(constants.scrubberSize, volume, sliderWidth);
+    const topOffset = this.calculateTopOffset(constants.scrubberSize, sliderHeight);
+    const leftOffset = this.calculateLeftOffset(constants.scrubberSize, volume, sliderWidth);
     const positionStyle = {
       top: topOffset,
       left: leftOffset,
     };
-    const thumbStyle = this._thumbStyle();
+    const thumbStyle = this.thumbStyle();
 
     return (
       <View
@@ -158,7 +184,9 @@ export default class VolumePanel extends Component {
     );
   };
 
-  _renderVolumeSlider = (volume) => {
+  renderVolumeSlider = (volume) => {
+    const { touch, volume: stateVolume, x } = this.state;
+
     const volumeValue = volume;
     const backgroundValue = 1 - volumeValue;
 
@@ -177,7 +205,7 @@ export default class VolumePanel extends Component {
     return (
       <View
         style={styles.sliderContainer}
-        {...this._panResponder.panHandlers}
+        {...this.panResponder.panHandlers}
         onLayout={(event) => {
           this.setState({
             sliderWidth: event.nativeEvent.layout.width,
@@ -189,37 +217,41 @@ export default class VolumePanel extends Component {
           <View style={filledStyle} />
           <View style={backgroundStyle} />
         </View>
-        {this._renderVolumeThumb(this.state.touch ? this._touchPercent(this.state.x) : this.state.volume)}
+        {this.renderVolumeThumb(touch ? this.touchPercent(x) : stateVolume)}
       </View>
     );
   };
 
-  _renderDismissButton = () => (
-    <TouchableHighlight
-      style={styles.dismissButton}
-      underlayColor="transparent" // Can't move this property to json style file because it doesn't works
-      onPress={this.onDismissPress}
-    >
-      <Text style={styles.dismissIcon}>
-        {this.props.config.icons.dismiss.fontString}
-      </Text>
-    </TouchableHighlight>
-  );
-
-  render() {
-    const animationStyle = { opacity: this.state.opacity };
+  renderDismissButton = () => {
+    const { config } = this.props;
 
     return (
-      <Animated.View style={[styles.container,
-        animationStyle,
-        {
-          height: this.props.height,
-          width: this.props.width,
-        }]}
+      <TouchableHighlight
+        style={styles.dismissButton}
+        underlayColor="transparent" // Can't move this property to json style file because it doesn't works
+        onPress={this.onDismissPress}
       >
-        {this._renderDismissButton()}
-        {this._renderVolumeIcon()}
-        {this._renderVolumeSlider(this.state.volume)}
+        <Text style={styles.dismissIcon}>
+          {config.icons.dismiss.fontString}
+        </Text>
+      </TouchableHighlight>
+    );
+  };
+
+  render() {
+    const { height, width } = this.props;
+    const { opacity, volume } = this.state;
+
+    return (
+      <Animated.View
+        style={[
+          styles.container,
+          { height, opacity, width },
+        ]}
+      >
+        {this.renderDismissButton()}
+        {this.renderVolumeIcon()}
+        {this.renderVolumeSlider(volume)}
       </Animated.View>
     );
   }

@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated,
   DeviceEventEmitter,
@@ -29,14 +31,14 @@ const widthThreshold = 300;
 
 let timerListenerAndroid;
 
-export default class DiscoveryPanel extends Component {
+export default class DiscoveryPanel extends React.Component {
   static propTypes = {
     onDismiss: PropTypes.func,
-    localizableStrings: PropTypes.object,
+    localizableStrings: PropTypes.shape({}),
     locale: PropTypes.string,
-    dataSource: PropTypes.array,
+    dataSource: PropTypes.arrayOf(),
     onRowAction: PropTypes.func,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
     width: PropTypes.number,
     height: PropTypes.number,
     screenType: PropTypes.string,
@@ -56,12 +58,16 @@ export default class DiscoveryPanel extends Component {
     localizedString: '',
   };
 
-  state = {
-    opacity: new Animated.Value(0),
-    showCountdownTimer: false,
-    counterTime: 0,
-    impressionsFired: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opacity: new Animated.Value(0),
+      showCountdownTimer: false,
+      counterTime: 0,
+      impressionsFired: false,
+    };
+  }
 
   componentWillMount() {
     timerListenerAndroid = DeviceEventEmitter.addListener('onTimerCompleted', this.onTimerCompleted);
@@ -161,6 +167,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
 
   isDiscoveryError = () => {
     const { dataSource } = this.props;
+
     return dataSource === null || dataSource.length === 0;
   };
 
@@ -181,6 +188,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
         />
       );
     }
+
     return (
       <ResponsiveList
         horizontal={renderHorizontal}
@@ -349,6 +357,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
         </View>
       );
     }
+
     return null;
   };
 
@@ -368,6 +377,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
       Log.log(`Firing Impressions for all ${dataSource.length} discovery entries`);
     }
     const animationStyle = { opacity };
+
     return (
       <Animated.View style={[styles.panel, animationStyle]}>
         {this.renderHeader()}

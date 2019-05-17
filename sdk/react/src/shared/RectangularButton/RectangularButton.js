@@ -1,67 +1,76 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import styles from './RectangularButton.styles';
 
-export default class RectangularButton extends Component {
-  static propTypes = {
-    icon: PropTypes.string,
-    name: PropTypes.string,
-    position: PropTypes.string,
-    onPress: PropTypes.func,
-    opacity: PropTypes.number,
-    frameWidth: PropTypes.number,
-    frameHeight: PropTypes.number,
-    buttonWidth: PropTypes.number,
-    buttonHeight: PropTypes.number,
-    buttonColor: PropTypes.string,
-    buttonStyle: PropTypes.object,
-    fontSize: PropTypes.number,
-    fontFamily: PropTypes.string,
-    style: Text.propTypes.style,
-  };
+const RectangularButton = ({
+  buttonColor, buttonHeight, buttonStyle, buttonWidth, fontFamily, fontSize, frameHeight, frameWidth, icon, name,
+  onPress, opacity, position, style,
+}) => {
+  let positionStyle;
 
-  // Gets the play button based on the current config settings
-  render() {
-    const fontStyle = {
-      fontSize: this.props.fontSize,
-      fontFamily: this.props.fontFamily,
+  if (style) {
+    positionStyle = style;
+  } else if (position === 'center') {
+    const topOffset = Math.round((frameHeight - buttonHeight) * 0.5);
+    const leftOffset = Math.round((frameWidth - buttonWidth) * 0.5);
+
+    positionStyle = {
+      position: 'absolute',
+      top: topOffset,
+      left: leftOffset,
     };
-    const buttonColor = { color: this.props.buttonColor || 'white' };
-    let positionStyle;
-    if (this.props.style) {
-      positionStyle = this.props.style;
-    } else if (this.props.position == 'center') {
-      const topOffset = Math.round((this.props.frameHeight - this.props.buttonHeight) * 0.5);
-      const leftOffset = Math.round((this.props.frameWidth - this.props.buttonWidth) * 0.5);
-
-      positionStyle = {
-        position: 'absolute',
-        top: topOffset,
-        left: leftOffset,
-      };
-    } else {
-      positionStyle = styles[this.props.position];
-    }
-    return (
-      <TouchableHighlight
-        accessible
-        accessibilityLabel={this.props.name}
-        accessibilityComponentType="button"
-        style={positionStyle}
-        onPress={this.props.onPress}
-        underlayColor="transparent"
-        activeOpacity={this.props.opacity}
-      >
-        <View>
-          <Text
-            style={[styles.buttonTextStyle, fontStyle, buttonColor, this.props.buttonStyle]}
-          >
-            {this.props.icon}
-          </Text>
-        </View>
-      </TouchableHighlight>
-    );
+  } else {
+    positionStyle = styles[position];
   }
-}
+
+  return (
+    <TouchableHighlight
+      accessible
+      accessibilityLabel={name}
+      accessibilityComponentType="button"
+      style={positionStyle}
+      onPress={onPress}
+      underlayColor="transparent"
+      activeOpacity={opacity}
+    >
+      <View>
+        <Text
+          style={[
+            styles.buttonTextStyle,
+            {
+              color: buttonColor || 'white',
+              fontSize,
+              fontFamily,
+            },
+            buttonStyle,
+          ]}
+        >
+          {icon}
+        </Text>
+      </View>
+    </TouchableHighlight>
+  );
+};
+
+RectangularButton.propTypes = {
+  icon: PropTypes.string,
+  name: PropTypes.string,
+  position: PropTypes.string,
+  onPress: PropTypes.func,
+  opacity: PropTypes.number,
+  frameWidth: PropTypes.number,
+  frameHeight: PropTypes.number,
+  buttonWidth: PropTypes.number,
+  buttonHeight: PropTypes.number,
+  buttonColor: PropTypes.string,
+  buttonStyle: PropTypes.shape({}),
+  fontSize: PropTypes.number,
+  fontFamily: PropTypes.string,
+  style: Text.propTypes.style,
+};
+
+export default RectangularButton;

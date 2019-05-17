@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, ScrollView, Text, View,
 } from 'react-native';
@@ -13,28 +15,32 @@ import styles from './MoreDetailsScreen.styles';
 
 const dismissButtonSize = 20;
 
-export default class MoreDetailsScreen extends Component {
+export default class MoreDetailsScreen extends React.Component {
   static propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
     onDismiss: PropTypes.func,
-    config: PropTypes.object,
-    error: PropTypes.object,
+    config: PropTypes.shape({}),
+    error: PropTypes.shape({}),
+    localizableStrings: PropTypes.shape({}).isRequired,
+    locale: PropTypes.string.isRequired,
   };
 
-  state = {
-    translateY: new Animated.Value(this.props.height),
-    opacity: new Animated.Value(0),
-    buttonOpacity: new Animated.Value(1),
-    button: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      translateY: new Animated.Value(props.height),
+      opacity: new Animated.Value(0),
+    };
+  }
 
   componentDidMount() {
-    this.state.translateY.setValue(this.props.height);
-    this.state.opacity.setValue(0);
+    const { opacity, translateY } = this.state;
+
     Animated.parallel([
       Animated.timing(
-        this.state.translateY,
+        translateY,
         {
           toValue: 0,
           duration: 700,
@@ -42,7 +48,7 @@ export default class MoreDetailsScreen extends Component {
         },
       ),
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: 500,
@@ -54,12 +60,16 @@ export default class MoreDetailsScreen extends Component {
   }
 
   onDismissBtnPress = () => {
-    this.props.onDismiss();
+    const { onDismiss } = this.props;
+
+    onDismiss();
   };
 
   onDismissPress = () => {
+    const { opacity } = this.state;
+
     Animated.timing(
-      this.state.opacity,
+      opacity,
       {
         toValue: 0,
         duration: 500,
@@ -67,6 +77,47 @@ export default class MoreDetailsScreen extends Component {
       },
     )
       .start(this.onDismissBtnPress);
+  };
+
+  renderErrorTitle = () => {
+    const { error, locale, localizableStrings } = this.props;
+
+    let errorCode = -1;
+
+    if (error && error.code) {
+      errorCode = error.code;
+    }
+
+    const title = Utils.stringForErrorCode(errorCode);
+    const localizedTitle = Utils.localizedString(locale, title, localizableStrings).toUpperCase();
+
+    return (
+      <Text style={styles.title}>
+        {localizedTitle}
+      </Text>
+    );
+  };
+
+  renderErrorDescription = () => {
+    const { error, locale, localizableStrings } = this.props;
+
+    if (error && error.description) {
+      const userInfo = error.userInfo || {};
+      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
+      const description = ERROR_MESSAGE[errorCode] || error.description;
+
+      const localizedDescription = Utils.localizedString(locale, description, localizableStrings);
+
+      Log.warn(`ERROR: localized description:${localizedDescription}`);
+
+      return (
+        <Text style={styles.description}>
+          {localizedDescription}
+        </Text>
+      );
+    }
+
+    return null;
   };
 
   render() {
@@ -114,36 +165,4 @@ export default class MoreDetailsScreen extends Component {
       </Animated.View>
     );
   }
-
-  renderErrorTitle = () => {
-    let errorCode = -1;
-    if (this.props.error && this.props.error.code) {
-      errorCode = this.props.error.code;
-    }
-    const title = Utils.stringForErrorCode(errorCode);
-    const localizedTitle = Utils.localizedString(this.props.locale, title, this.props.localizableStrings)
-      .toUpperCase();
-    return (
-      <Text style={styles.title}>
-        {localizedTitle}
-      </Text>
-    );
-  };
-
-  renderErrorDescription = () => {
-    if (this.props.error && this.props.error.description) {
-      const userInfo = this.props.error.userInfo || {};
-      const errorCode = SAS_ERROR_CODES[userInfo.code] || '';
-      const description = ERROR_MESSAGE[errorCode] || this.props.error.description;
-
-      const localizedDescription = Utils.localizedString(this.props.locale, description, this.props.localizableStrings);
-      Log.warn(`ERROR: localized description:${localizedDescription}`);
-      return (
-        <Text style={styles.description}>
-          {localizedDescription}
-        </Text>
-      );
-    }
-    return null;
-  };
 }

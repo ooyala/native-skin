@@ -1,31 +1,29 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
 import styles from './InfoPanel.styles';
 
-export default class InfoPanel extends Component {
-  static propTypes = {
-    title: PropTypes.string,
-    description: PropTypes.string,
-  };
+const InfoPanel = ({ description, title }) => {
+  const titleAccessible = title && title !== '';
+  // TODO: Check if we have to assign title to descriptionAccessible.
+  const descriptionAccessible = description && title !== '';
 
-  render() {
-    let infoPanel;
-    const titleAccessible = this.props.title && this.props.title != '';
-    const descriptionAccessible = this.props.description && this.props.title != '';
-
-    infoPanel = (
+  return (
+    <View style={styles.container}>
       <View style={styles.infoPanelNW}>
-        <Text accessible={titleAccessible} style={styles.infoPanelTitle}>{this.props.title}</Text>
-        <Text accessible={descriptionAccessible} style={styles.infoPanelDescription}>{this.props.description}</Text>
+        <Text accessible={titleAccessible} style={styles.infoPanelTitle}>{title}</Text>
+        <Text accessible={descriptionAccessible} style={styles.infoPanelDescription}>{description}</Text>
       </View>
-    );
+    </View>
+  );
+};
 
-    return (
-      <View style={styles.container}>
-        {infoPanel}
-      </View>
-    );
-  }
-}
+InfoPanel.propTypes = {
+  title: PropTypes.string,
+  description: PropTypes.string,
+};
+
+export default InfoPanel;

@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Image, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -12,11 +14,25 @@ import VolumeView from './VolumeView';
 
 import styles from './ControlBarWidgets.styles';
 
-export default class ControlBarWidgets extends Component {
+export default class ControlBarWidgets extends React.Component {
   static propTypes = {
-    widgetType: PropTypes.object,
-    options: PropTypes.object,
+    widgetType: PropTypes.shape({}),
+    options: PropTypes.shape({}),
   };
+
+  static bitrateSelectorWidget() {
+    // TODO: Implement.
+    return null;
+  }
+
+  static flexibleSpaceWidget() {
+    return <View style={{ flex: 1 }} />;
+  }
+
+  static liveWidget() {
+    // TODO: Implement.
+    return null;
+  }
 
   playPauseWidget = (options) => {
     const iconMap = {
@@ -28,6 +44,7 @@ export default class ControlBarWidgets extends Component {
     const fontFamilyStyle = { fontFamily: iconMap[options.primaryActionButton].fontFamilyName };
     const onPressF = options.primaryActionButton === 'replay'
       ? options.onReplay : options.onPress;
+
     return (
       <TouchableHighlight
         onPress={onPressF}
@@ -44,11 +61,11 @@ export default class ControlBarWidgets extends Component {
     );
   };
 
-  seekBackwardsWidget = options => this._renderSeekButton(options, false);
+  seekBackwardsWidget = options => this.renderSeekButton(options, false);
 
-  seekForwardWidget = options => this._renderSeekButton(options, true);
+  seekForwardWidget = options => this.renderSeekButton(options, true);
 
-  _renderSeekButton = (options, isForward) => {
+  renderSeekButton = (options, isForward) => {
     const fontStyle = {
       fontSize: options.size,
       fontFamily: options.icon.fontFamilyName,
@@ -99,6 +116,7 @@ export default class ControlBarWidgets extends Component {
 
     const iconConfig = (options.volume > 0) ? options.iconOn : options.iconOff;
     const fontFamilyStyle = { fontFamily: iconConfig.fontFamilyName };
+
     return (
       <View
         style={[{ flexDirection: 'row' }]}
@@ -119,10 +137,11 @@ export default class ControlBarWidgets extends Component {
     );
   };
 
-  _renderLiveCircle = (options) => {
+  renderLiveCircle = (options) => {
     if (options.liveCircle) {
       return (<View style={options.liveCircle} />);
     }
+
     return null;
   };
 
@@ -143,26 +162,22 @@ export default class ControlBarWidgets extends Component {
         {options.durationString}
       </Text>
     );
+
     return (
       <View
         style={options.completeTimeStyle}
         accessible
       >
-        {this._renderLiveCircle(options)}
+        {this.renderLiveCircle(options)}
         {playHead}
         {duration}
       </View>
     );
   };
 
-  flexibleSpaceWidget = options => (
-    <View
-      style={{ flex: 1 }}
-    />
-  );
-
   discoveryWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.DISCOVERY}
@@ -183,6 +198,7 @@ export default class ControlBarWidgets extends Component {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
     const nameLabel = options.fullscreen ? VIEW_ACCESSIBILITY_NAMES.EXIT_FULLSCREEN
       : VIEW_ACCESSIBILITY_NAMES.ENTER_FULLSCREEN;
+
     return (
       <TouchableHighlight
         testID={nameLabel}
@@ -226,6 +242,7 @@ export default class ControlBarWidgets extends Component {
 
   moreOptionsWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.MORE}
@@ -265,6 +282,7 @@ export default class ControlBarWidgets extends Component {
 
   rewindWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         style={[options.iconTouchableStyle]}
@@ -289,11 +307,13 @@ export default class ControlBarWidgets extends Component {
         </View>
       );
     }
+
     return null;
   };
 
   shareWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.SHARE}
@@ -310,18 +330,9 @@ export default class ControlBarWidgets extends Component {
     );
   };
 
-  bitrateSelectorWidget = options =>
-    // TODO implement
-    null
-  ;
-
-  liveWidget = options =>
-    // TODO implement
-    null
-  ;
-
   stereoscopicWidget = (options) => {
     const fontFamilyStyle = { fontFamily: options.icon.fontFamilyName };
+
     return (
       <TouchableHighlight
         testID={BUTTON_NAMES.STEREOSCOPIC}
@@ -357,6 +368,7 @@ export default class ControlBarWidgets extends Component {
         </TouchableHighlight>
       );
     }
+
     return widget;
   };
 
@@ -386,15 +398,18 @@ export default class ControlBarWidgets extends Component {
         </TouchableHighlight>
       );
     }
+
     return widget;
   };
 
   render() {
+    const { options, widgetType } = this.props;
+
     const widgetsMap = {
       playPause: this.playPauseWidget,
       volume: this.volumeWidget,
       timeDuration: this.timeDurationWidget,
-      flexibleSpace: this.flexibleSpaceWidget,
+      flexibleSpace: this.constructor.flexibleSpaceWidget,
       rewind: this.rewindWidget,
       discovery: this.discoveryWidget,
       fullscreen: this.fullscreenWidget,
@@ -403,18 +418,21 @@ export default class ControlBarWidgets extends Component {
       moreOptions: this.moreOptionsWidget,
       watermark: this.watermarkWidget,
       share: this.shareWidget,
-      bitrateSelector: this.bitrateSelectorWidget,
-      live: this.liveWidget,
+      bitrateSelector: this.constructor.bitrateSelectorWidget,
+      live: this.constructor.liveWidget,
       stereoscopic: this.stereoscopicWidget,
       audioAndCC: this.audioAndCCWidget,
       playbackSpeed: this.playbackSpeedWidget,
       seekBackwards: this.seekBackwardsWidget,
       seekForward: this.seekForwardWidget,
     };
-    if (this.props.widgetType.name in widgetsMap) {
-      const widgetOptions = this.props.options[this.props.widgetType.name];
-      return widgetsMap[this.props.widgetType.name](widgetOptions);
+
+    if (widgetType.name in widgetsMap) {
+      const widgetOptions = options[widgetType.name];
+
+      return widgetsMap[widgetType.name](widgetOptions);
     }
+
     // Log.warn('WARNING: unsupported widget name: ' + this.props.widgetType.name);
     return <View />;
   }

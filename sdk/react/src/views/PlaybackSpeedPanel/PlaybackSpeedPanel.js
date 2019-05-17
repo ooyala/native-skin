@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -21,26 +23,31 @@ const constants = {
   playbackSpeedRatePostfix: 'x',
 };
 
-export default class PlaybackSpeedPanel extends Component {
+export default class PlaybackSpeedPanel extends React.Component {
   static propTypes = {
-    playbackSpeedRates: PropTypes.array,
+    playbackSpeedRates: PropTypes.arrayOf(),
     selectedPlaybackSpeedRate: PropTypes.number,
     onSelectPlaybackSpeedRate: PropTypes.func,
     onDismiss: PropTypes.func,
     width: PropTypes.number,
     height: PropTypes.number,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
   };
 
-  state = {
-    opacity: new Animated.Value(0),
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opacity: new Animated.Value(0),
+    };
+  }
 
   componentDidMount() {
-    this.state.opacity.setValue(0);
+    const { opacity } = this.state;
+
     Animated.parallel([
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: animationDuration,
@@ -52,9 +59,10 @@ export default class PlaybackSpeedPanel extends Component {
   }
 
   onPlaybackSpeedRateSelected = (playbackSpeedRate) => {
-    const localizedTitleForNormalPlaybackSpeedRate = Utils.localizedString(
-      this.props.config.locale, constants.normalPlaybackSpeedRateTitle, this.props.config.localizableStrings,
-    );
+    const { config, onSelectPlaybackSpeedRate, selectedPlaybackSpeedRate } = this.props;
+
+    const localizedTitleForNormalPlaybackSpeedRate = Utils.localizedString(config.locale,
+      constants.normalPlaybackSpeedRateTitle, config.localizableStrings);
     let originalPlaybackSpeedRate = playbackSpeedRate;
 
     if (playbackSpeedRate === localizedTitleForNormalPlaybackSpeedRate) {
@@ -66,19 +74,22 @@ export default class PlaybackSpeedPanel extends Component {
         .substring(0, playbackSpeedRate.toString().length - 1);
     }
 
-    if (this.props.selectedPlaybackSpeedRate !== originalPlaybackSpeedRate) {
-      this.props.onSelectPlaybackSpeedRate(originalPlaybackSpeedRate);
+    if (selectedPlaybackSpeedRate !== originalPlaybackSpeedRate) {
+      onSelectPlaybackSpeedRate(originalPlaybackSpeedRate);
     }
   };
 
   onDismissPress = () => {
-    this.props.onDismiss();
+    const { onDismiss } = this.props;
+
+    onDismiss();
   };
 
   renderHeaderView = () => {
-    const localizedTitle = Utils.localizedString(
-      this.props.config.locale, constants.headerViewSectionTitle, this.props.config.localizableStrings,
-    );
+    const { config } = this.props;
+
+    const localizedTitle = Utils.localizedString(config.locale, constants.headerViewSectionTitle,
+      config.localizableStrings);
 
     return (
       <View style={styles.panelHeaderView}>
@@ -92,7 +103,7 @@ export default class PlaybackSpeedPanel extends Component {
           onPress={this.onDismissPress}
         >
           <Text style={styles.dismissIcon}>
-            {this.props.config.icons.dismiss.fontString}
+            {config.icons.dismiss.fontString}
           </Text>
         </TouchableHighlight>
       </View>
@@ -100,14 +111,17 @@ export default class PlaybackSpeedPanel extends Component {
   };
 
   renderSelectionScrollView = () => {
-    const localizedTitleForNormalPlaybackSpeedRate = Utils.localizedString(
-      this.props.config.locale, constants.normalPlaybackSpeedRateTitle, this.props.config.localizableStrings,
-    );
+    const {
+      config, height, width, playbackSpeedRates, selectedPlaybackSpeedRate,
+    } = this.props;
+
+    const localizedTitleForNormalPlaybackSpeedRate = Utils.localizedString(config.locale,
+      constants.normalPlaybackSpeedRateTitle, config.localizableStrings);
 
     // Localize selected item
-    let selectedLocalizedItem = this.props.selectedPlaybackSpeedRate;
+    let selectedLocalizedItem = selectedPlaybackSpeedRate;
 
-    if (this.props.selectedPlaybackSpeedRate == constants.normalPlaybackSpeedRateValue) {
+    if (selectedPlaybackSpeedRate === constants.normalPlaybackSpeedRateValue) {
       selectedLocalizedItem = localizedTitleForNormalPlaybackSpeedRate;
     } else {
       const selectedLocalizedItemNumber = parseFloat(String(selectedLocalizedItem));
@@ -119,13 +133,14 @@ export default class PlaybackSpeedPanel extends Component {
     }
 
     // Validate playback speed rates
-    const validatedPlaybackSpeedRates = this.props.playbackSpeedRates.reduce((result, item) => {
+    const validatedPlaybackSpeedRates = playbackSpeedRates.reduce((result, item) => {
       const number = parseFloat(String(item));
 
-      if (!isNaN(number) && number >= constants.minPlaybackSpeedRateValue && number
+      if (!Number.isNaN(number) && number >= constants.minPlaybackSpeedRateValue && number
         <= constants.maxPlaybackSpeedRateValue) {
         result.push(parseFloat(number.toFixed(2)));
       }
+
       return result;
     }, []);
 
@@ -142,19 +157,19 @@ export default class PlaybackSpeedPanel extends Component {
       if (item === constants.normalPlaybackSpeedRateValue) {
         return localizedTitleForNormalPlaybackSpeedRate;
       }
-      return item.toString()
-        .concat(constants.playbackSpeedRatePostfix);
+
+      return item.toString().concat(constants.playbackSpeedRatePostfix);
     });
 
     return (
       <ItemSelectionScrollView
-        width={this.props.width}
-        height={this.props.height}
+        width={width}
+        height={height}
         style={styles.panelItemSelectionView}
         items={convertedPlaybackSpeedRates}
         selectedItem={selectedLocalizedItem}
         onSelect={item => this.onPlaybackSpeedRateSelected(item)}
-        config={this.props.config}
+        config={config}
         cellType={CELL_TYPES.PLAYBACK_SPEED_RATE}
       />
     );
@@ -167,16 +182,19 @@ export default class PlaybackSpeedPanel extends Component {
   );
 
   render() {
-    const animationStyle = { opacity: this.state.opacity };
+    const { height, width } = this.props;
+    const { opacity } = this.state;
 
     return (
-      <Animated.View style={[styles.panelContainer,
+      <Animated.View style={[
+        styles.panelContainer,
         styles.panel,
-        animationStyle,
         {
-          height: this.props.height,
-          width: this.props.width,
-        }]}
+          height,
+          opacity,
+          width,
+        },
+      ]}
       >
         {this.renderHeaderView()}
         {this.renderPanelsContainerView()}

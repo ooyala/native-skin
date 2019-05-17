@@ -1,12 +1,14 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import { requireNativeComponent, View } from 'react-native';
+import { requireNativeComponent, ViewPropTypes } from 'react-native';
 
 const iface = {
   name: 'CountdownView',
   propTypes: {
-    ...View.propTypes,
-    countdown: PropTypes.object,
-    data: PropTypes.object,
+    ...ViewPropTypes,
+    countdown: PropTypes.shape({}),
+    data: PropTypes.shape({}),
   },
 };
 

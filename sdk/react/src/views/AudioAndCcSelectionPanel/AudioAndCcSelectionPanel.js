@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Animated, Text, TouchableHighlight, View,
 } from 'react-native';
@@ -20,29 +22,32 @@ const stringConstants = {
   subtitlesHeaderViewSectionTitle: 'Subtitles',
 };
 
-export default class AudioAndCcSelectionPanel extends Component {
+export default class AudioAndCcSelectionPanel extends React.Component {
   static propTypes = {
-    audioTracksTitles: PropTypes.array,
+    audioTracksTitles: PropTypes.arrayOf(),
     selectedAudioTrackTitle: PropTypes.string,
-    closedCaptionsLanguages: PropTypes.array,
+    closedCaptionsLanguages: PropTypes.arrayOf(),
     selectedClosedCaptionsLanguage: PropTypes.string,
     onSelectAudioTrack: PropTypes.func,
     onSelectClosedCaptions: PropTypes.func,
     onDismiss: PropTypes.func,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    config: PropTypes.object,
+    config: PropTypes.shape({}),
   };
 
-  state = {
-    opacity: new Animated.Value(0),
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      opacity: new Animated.Value(0),
+    };
+  }
 
   componentDidMount() {
-    this.state.opacity.setValue(0);
+    const { opacity } = this.state;
+
     Animated.parallel([
       Animated.timing(
-        this.state.opacity,
+        opacity,
         {
           toValue: 1,
           duration: animationDuration,
@@ -54,34 +59,42 @@ export default class AudioAndCcSelectionPanel extends Component {
   }
 
   onAudioTrackSelected = (name) => {
-    if (this.props.selectedAudioTrackTitle !== name) {
-      this.props.onSelectAudioTrack(name);
+    const { onSelectAudioTrack, selectedAudioTrackTitle } = this.props;
+
+    if (selectedAudioTrackTitle !== name) {
+      onSelectAudioTrack(name);
     }
   };
 
   onClosedCaptionsLanguageSelected = (name) => {
-    const offButtonLocalizedTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle,
-      this.props.config.localizableStrings);
+    const { config, selectedClosedCaptionsLanguage, onSelectClosedCaptions } = this.props;
+
+    const offButtonLocalizedTitle = Utils.localizedString(config.locale, stringConstants.offButtonTitle,
+      config.localizableStrings);
 
     if (name === offButtonLocalizedTitle) {
-      this.props.onSelectClosedCaptions('');
-    } else if (this.props.selectedClosedCaptionsLanguage !== name) {
-      this.props.onSelectClosedCaptions(name);
+      onSelectClosedCaptions('');
+    } else if (selectedClosedCaptionsLanguage !== name) {
+      onSelectClosedCaptions(name);
     }
   };
 
   onDismissPress = () => {
-    this.props.onDismiss();
+    const { onDismiss } = this.props;
+
+    onDismiss();
   };
 
   renderHeaderView = (hasMultiAudioTracks, hasClosedCaptions) => {
+    const { config } = this.props;
+
     let leftTitle;
     let rightTitle;
 
-    const localizedAudioTitle = Utils.localizedString(this.props.config.locale,
-      stringConstants.audioHeaderViewSectionTitle, this.props.config.localizableStrings);
-    const localizedSubtitlesTitle = Utils.localizedString(this.props.config.locale,
-      stringConstants.subtitlesHeaderViewSectionTitle, this.props.config.localizableStrings);
+    const localizedAudioTitle = Utils.localizedString(config.locale,
+      stringConstants.audioHeaderViewSectionTitle, config.localizableStrings);
+    const localizedSubtitlesTitle = Utils.localizedString(config.locale,
+      stringConstants.subtitlesHeaderViewSectionTitle, config.localizableStrings);
 
     if (hasMultiAudioTracks && hasClosedCaptions) {
       leftTitle = localizedAudioTitle;
@@ -113,7 +126,7 @@ export default class AudioAndCcSelectionPanel extends Component {
             onPress={this.onDismissPress}
           >
             <Text style={styles.dismissIcon}>
-              {this.props.config.icons.dismiss.fontString}
+              {config.icons.dismiss.fontString}
             </Text>
           </TouchableHighlight>
         </View>
@@ -121,40 +134,47 @@ export default class AudioAndCcSelectionPanel extends Component {
     );
   };
 
-  renderAudioSelectionScrollView = () => (
-    <ItemSelectionScrollView
-      style={styles.panelItemSelectionView}
-      items={this.props.audioTracksTitles}
-      selectedItem={this.props.selectedAudioTrackTitle}
-      onSelect={item => this.onAudioTrackSelected(item)}
-      config={this.props.config}
-      cellType={CELL_TYPES.MULTI_AUDIO}
-    />
-  );
+  renderAudioSelectionScrollView = () => {
+    const { audioTracksTitles, config, selectedAudioTrackTitle } = this.props;
+
+    return (
+      <ItemSelectionScrollView
+        style={styles.panelItemSelectionView}
+        items={audioTracksTitles}
+        selectedItem={selectedAudioTrackTitle}
+        onSelect={item => this.onAudioTrackSelected(item)}
+        config={config}
+        cellType={CELL_TYPES.MULTI_AUDIO}
+      />
+    );
+  };
 
   renderCCSelectionScrollView = () => {
-    const offButtonTitle = Utils.localizedString(this.props.config.locale, stringConstants.offButtonTitle,
-      this.props.config.localizableStrings);
+    const { closedCaptionsLanguages, config } = this.props;
+
+    const offButtonTitle = Utils.localizedString(config.locale, stringConstants.offButtonTitle,
+      config.localizableStrings);
     let { selectedClosedCaptionsLanguage } = this.props;
-    if (typeof (this.props.closedCaptionsLanguages) !== 'undefined') {
-      if (!this.props.closedCaptionsLanguages || this.props.closedCaptionsLanguages[0] !== offButtonTitle) {
-        this.props.closedCaptionsLanguages.splice(0, 0, offButtonTitle);
+
+    if (typeof closedCaptionsLanguages !== 'undefined') {
+      if (!closedCaptionsLanguages || closedCaptionsLanguages[0] !== offButtonTitle) {
+        closedCaptionsLanguages.splice(0, 0, offButtonTitle);
       }
     }
 
     if (!selectedClosedCaptionsLanguage || selectedClosedCaptionsLanguage === offButtonTitle
       || selectedClosedCaptionsLanguage === ''
-      || !this.props.closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
+      || !closedCaptionsLanguages.includes(selectedClosedCaptionsLanguage, 0)) {
       selectedClosedCaptionsLanguage = offButtonTitle;
     }
 
     return (
       <ItemSelectionScrollView
         style={styles.panelItemSelectionView}
-        items={this.props.closedCaptionsLanguages}
+        items={closedCaptionsLanguages}
         selectedItem={selectedClosedCaptionsLanguage}
         onSelect={item => this.onClosedCaptionsLanguageSelected(item)}
-        config={this.props.config}
+        config={config}
         cellType={CELL_TYPES.SUBTITLES}
       />
     );
@@ -171,6 +191,7 @@ export default class AudioAndCcSelectionPanel extends Component {
         </View>
       );
     }
+
     if (hasMultiAudioTracks) {
       // Return only audio panel
       return (
@@ -179,6 +200,7 @@ export default class AudioAndCcSelectionPanel extends Component {
         </View>
       );
     }
+
     // Return only CC panel
     return (
       <View style={styles.panelItemSelectionContainerView}>
@@ -188,12 +210,14 @@ export default class AudioAndCcSelectionPanel extends Component {
   };
 
   render() {
-    const hasMultiAudioTracks = this.props.audioTracksTitles && this.props.audioTracksTitles.length > 1;
-    const hasClosedCaptions = this.props.closedCaptionsLanguages && this.props.closedCaptionsLanguages.length > 0;
-    const animationStyle = { opacity: this.state.opacity };
+    const { audioTracksTitles, closedCaptionsLanguages } = this.props;
+    const { opacity } = this.state;
+
+    const hasMultiAudioTracks = audioTracksTitles && audioTracksTitles.length > 1;
+    const hasClosedCaptions = closedCaptionsLanguages && closedCaptionsLanguages.length > 0;
 
     return (
-      <Animated.View style={[styles.panelContainer, styles.panel, animationStyle]}>
+      <Animated.View style={[styles.panelContainer, styles.panel, { opacity }]}>
         {this.renderHeaderView(hasMultiAudioTracks, hasClosedCaptions)}
         {this.renderPanelsContainerView(hasMultiAudioTracks, hasClosedCaptions)}
       </Animated.View>

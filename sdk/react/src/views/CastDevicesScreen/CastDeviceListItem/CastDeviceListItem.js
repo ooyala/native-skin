@@ -1,5 +1,7 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
 import { BUTTON_NAMES } from '../../../constants';
@@ -9,7 +11,7 @@ import styles from './CastDeviceListItem.styles';
 
 const castButtonSize = 35;
 
-export default class DeviceListItem extends Component {
+export default class DeviceListItem extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -62,6 +64,7 @@ export default class DeviceListItem extends Component {
 
     const textColor = selected ? activeColor : inactiveColor;
     const textStyle = selected ? styles.textSelected : styles.text;
+
     return (
       <TouchableHighlight
         style={{ flex: 1 }}

@@ -1,12 +1,14 @@
+// @flow
+
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
+import React from 'react';
 import {
   ActivityIndicator, Animated, Text, TouchableOpacity,
 } from 'react-native';
 
 import styles from './CastConnectingScreen.styles';
 
-export default class CastConnectingScreen extends Component {
+export default class CastConnectingScreen extends React.Component {
   static propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
