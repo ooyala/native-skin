@@ -228,7 +228,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification    = @"fullScr
                                      completion:^{
     dispatch_async(dispatch_get_main_queue(), ^{
       // Notify observers what screen state changed
-      [weakSelf notifyFullScreenDidChangeTo:fullscreen];
+      [weakSelf notifyFullscreenDidChangeTo:fullscreen];
       
       // Notify what fullscreen did changed
       if (completion) {
