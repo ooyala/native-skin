@@ -52,13 +52,15 @@
 
 #pragma mark - Constants
 
-static NSString *kFrameChangeContext = @"frameChanged";
-static NSString *kViewChangeKey =      @"frame";
-static NSString *fullscreenKey =       @"fullscreen";
-static NSString *widthKey =            @"width";
-static NSString *heightKey =           @"height";
+static NSString *kFrameChangeContext             = @"frameChanged";
+static NSString *kViewChangeKey                  = @"frame";
+static NSString *fullscreenKey                   = @"fullscreen";
+static NSString *playerWillChangeToFullscreenKey = @"playerWillChangeToFullscreen";
+static NSString *widthKey                        = @"width";
+static NSString *heightKey                       = @"height";
 
-NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreenChanged";
+NSString *const OOSkinViewControllerFullscreenWillChangeNotification = @"fullScreenWillChange";
+NSString *const OOSkinViewControllerFullscreenChangedNotification    = @"fullScreenChanged";
 
 @synthesize reactViewInteractionEnabled;
 
@@ -207,6 +209,10 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
     }
     return;
   }
+
+  dispatch_async(dispatch_get_main_queue(), ^{
+    [self notifyFullscreenWillChangeTo:fullscreen];
+  });
   
   self.fullscreen = fullscreen;
   
@@ -222,7 +228,7 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
                                      completion:^{
     dispatch_async(dispatch_get_main_queue(), ^{
       // Notify observers what screen state changed
-      [weakSelf notifyFullScreenChange:fullscreen];
+      [weakSelf notifyFullScreenDidChangeTo:fullscreen];
       
       // Notify what fullscreen did changed
       if (completion) {
@@ -234,7 +240,13 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification = @"fullScreen
   }];
 }
 
-- (void)notifyFullScreenChange:(BOOL)isFullscreen {
+- (void)notifyFullscreenWillChangeTo:(BOOL)isFullscreen {
+  [NSNotificationCenter.defaultCenter postNotificationName:OOSkinViewControllerFullscreenWillChangeNotification
+                                                    object:self
+                                                  userInfo:@{playerWillChangeToFullscreenKey: @(isFullscreen)}];
+}
+
+- (void)notifyFullscreenDidChangeTo:(BOOL)isFullscreen {
   [NSNotificationCenter.defaultCenter postNotificationName:OOSkinViewControllerFullscreenChangedNotification
                                                     object:self
                                                   userInfo:@{fullscreenKey: @(isFullscreen)}];
