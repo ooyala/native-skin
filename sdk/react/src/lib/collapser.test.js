@@ -88,35 +88,11 @@ describe('collapse', () => {
     expect(results.overflow.length).toBe(0);
   });
 
-  it('TestOverflow_overflowAliasOnlyOnce', () => {
-    const oi = [data.B5_Collapsing1, data.B6_Collapsing1, data.B5_Collapsing1];
-    const results = collapse(2, oi);
-
-    expect(results.overflow.length).toBe(1);
-    expect(results.overflow[0]).toBe(data.B5_Collapsing1);
-  });
-
-  it('TestOverflow_overflowFixedMixed', () => {
-    const oi = [data.B1_Fixed100, data.B5_Collapsing1];
-    const results = collapse(1, oi);
-
-    expect(results.overflow.length).toBe(1);
-    expect(results.overflow[0]).toBe(data.B5_Collapsing1);
-  });
-
   it('TestOverflow_overflowFixedSingle', () => {
     const oi = [data.B1_Fixed100];
     const results = collapse(1, oi);
 
     expect(results.overflow.length).toBe(0);
-  });
-
-  it('TestFit_fixedPreferred', () => {
-    const oi = [data.B2_Fixed1, data.B5_Collapsing1, data.B3_Fixed1];
-    const results = collapse(2, oi);
-
-    expect(results.fit.length).toBe(2);
-    expect(results.fit.indexOf(data.B5_Collapsing1)).toBe(-1);
   });
 
   it('TestFit_merging', () => {
@@ -125,34 +101,6 @@ describe('collapse', () => {
 
     expect(results.fit.length).toBe(3);
     expect(results.fit.toString()).toBe(oi.toString());
-  });
-
-  it('TestFit_revKeepFixed', () => {
-    const results = collapse(100, [data.B4_Collapsing100, data.B1_Fixed100]);
-
-    expect(results.fit.length).toBe(1);
-    expect(results.fit[0]).toBe(data.B1_Fixed100);
-  });
-
-  it('TestFit_keepFixed', () => {
-    const results = collapse(100, [data.B1_Fixed100, data.B4_Collapsing100]);
-
-    expect(results.fit.length).toBe(1);
-    expect(results.fit[0]).toBe(data.B1_Fixed100);
-  });
-
-  it('TestFit_revOneCollapsableFits', () => {
-    const results = collapse(100, [data.B5_Collapsing1, data.B4_Collapsing100]);
-
-    expect(results.fit.length).toBe(1);
-    expect(results.fit[0]).toBe(data.B5_Collapsing1);
-  });
-
-  it('TestFit_oneCollapsableFits', () => {
-    const results = collapse(100, [data.B4_Collapsing100, data.B5_Collapsing1]);
-
-    expect(results.fit.length).toBe(1);
-    expect(results.fit[0]).toBe(data.B4_Collapsing100);
   });
 
   it('TestFit_collapsableFits', () => {
