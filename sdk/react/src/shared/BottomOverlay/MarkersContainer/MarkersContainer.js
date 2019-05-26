@@ -9,7 +9,7 @@ import styles from './MarkersContainer.styles';
 import type { Marker as MarkerType } from '../../../types/Markers';
 
 type Props = {
-  accentColor?: ?string,
+  accentColor?: string,
   duration: number,
   markers: Array<MarkerType>,
   onSeek: number => void,

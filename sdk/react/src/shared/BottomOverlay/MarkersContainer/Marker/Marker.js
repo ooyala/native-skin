@@ -8,7 +8,7 @@ import TextMarker from './TextMarker';
 import type { Marker as MarkerType } from '../../../../types/Markers';
 
 type Props = {
-  accentColor?: ?string,
+  accentColor?: string,
   containerWidth: number,
   duration: number,
   marker: MarkerType,

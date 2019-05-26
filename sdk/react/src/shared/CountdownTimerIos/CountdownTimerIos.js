@@ -1,27 +1,27 @@
 // @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { requireNativeComponent, TouchableHighlight, View } from 'react-native';
+import { requireNativeComponent, TouchableHighlight } from 'react-native';
 
-export default class CountdownTimerIos extends React.Component {
-  static propTypes = {
-    ...View.propTypes,
+type Props = {
+  time?: number,
+  timeLeft?: number,
+  radius?: number,
+  fillColor?: string,
+  fillAlpha?: number,
+  strokeColor?: string,
+  tapCancel?: boolean,
+  automatic?: boolean,
+  onTimerUpdate?: () => void,
+  onTimerCompleted?: () => void,
+  onPress?: () => void,
+};
 
-    time: PropTypes.number,
-    timeLeft: PropTypes.number,
-    radius: PropTypes.number,
-    fillColor: PropTypes.string,
-    fillAlpha: PropTypes.number,
-    strokeColor: PropTypes.string,
-    tapCancel: PropTypes.bool,
-    automatic: PropTypes.bool,
+type State = {
+  canceled: boolean,
+};
 
-    onTimerUpdate: PropTypes.func,
-    onTimerCompleted: PropTypes.func,
-    onPress: PropTypes.func,
-  };
-
+export default class CountdownTimerIos extends React.Component<Props, State> {
   static defaultProps = {
     time: 10,
     radius: 20,
@@ -31,9 +31,12 @@ export default class CountdownTimerIos extends React.Component {
     tapCancel: false,
     automatic: true,
     timeLeft: 10,
+    onTimerUpdate: undefined,
+    onTimerCompleted: undefined,
+    onPress: undefined,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

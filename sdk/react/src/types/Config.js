@@ -2,7 +2,13 @@
 
 export type Config = {
   controlBar: {
+    adScrubberBar: {
+      backgroundColor?: ?string,
+      bufferedColor?: ?string,
+      playedColor?: ?string,
+    },
     scrubberBar: {
+      backgroundColor?: ?string,
       bufferedColor?: ?string,
       playedColor?: ?string,
       scrubberHandleBorderColor?: ?string,

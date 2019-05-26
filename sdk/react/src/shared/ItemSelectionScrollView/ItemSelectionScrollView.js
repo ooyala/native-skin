@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
@@ -10,17 +9,17 @@ import * as Utils from '../../lib/utils';
 
 import styles from './ItemSelectionScrollView.styles';
 
-export default class ItemSelectionScrollView extends React.Component {
-  static propTypes = {
-    items: PropTypes.arrayOf(),
-    selectedItem: PropTypes.string,
-    onSelect: PropTypes.func,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    config: PropTypes.shape({}),
-    cellType: PropTypes.string,
-  };
+type Props = {
+  items: Array<any>,
+  selectedItem: string,
+  onSelect: () => void,
+  width: number,
+  height: number,
+  config: {},
+  cellType: string,
+};
 
+export default class ItemSelectionScrollView extends React.Component<Props> {
   onSelected(name) {
     const { onSelect, selectedItem } = this.props;
 
@@ -35,7 +34,7 @@ export default class ItemSelectionScrollView extends React.Component {
     return name && name !== '' && name === selectedItem;
   }
 
-  renderItem = (item, index) => {
+  renderItem = (item: any, index: number) => {
     const { cellType, config } = this.props;
 
     const isSelectedItem = this.isSelected(item);

@@ -1,14 +1,17 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { ScrollView } from 'react-native';
 
-export default class ItemSelectionList extends React.Component {
-  static propTypes = {
-    horizontal: PropTypes.bool,
-    data: PropTypes.arrayOf(),
-    itemRender: PropTypes.func,
+type Props = {
+  data?: Array<any>,
+  horizontal: boolean,
+  itemRender: (any, number) => React$Element<any>,
+};
+
+export default class ItemSelectionList extends React.Component<Props> {
+  static defaultProps = {
+    data: undefined,
   };
 
   renderItems = () => {
@@ -18,18 +21,14 @@ export default class ItemSelectionList extends React.Component {
       return null;
     }
 
-    return data.map((item, index) => itemRender(item, index));
+    return data.map<any>((item, index) => itemRender(item, index));
   };
 
   render() {
     const { horizontal } = this.props;
 
     return (
-      <ScrollView
-        indicatorStyle="white" // Can't move this property to json styles file because it doesn't work
-        horizontal={horizontal}
-        directionalLockEnabled
-      >
+      <ScrollView directionalLockEnabled horizontal={horizontal} indicatorStyle="white">
         {this.renderItems()}
       </ScrollView>
     );
