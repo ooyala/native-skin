@@ -31,8 +31,7 @@
           ".jsx"
         ]
       }
-    ],
-    "react/require-default-props": "off"
+    ]
   },
   "settings": {
     "flowtype": {
