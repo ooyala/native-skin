@@ -82,7 +82,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
                                              alpha:1.0];
   }
 
-  [self setupViewController];
   if (!self.gestureManager) {
     self.gestureManager = [[OOTVGestureManager alloc] initWithController:self];
   }
@@ -169,7 +168,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [self removeObservers];
   _player = player;
   if (_player) {
-    [self setupViewController];
+    [self setupViewController]; //OS: single palce
   }
   [self addObservers];
 }
