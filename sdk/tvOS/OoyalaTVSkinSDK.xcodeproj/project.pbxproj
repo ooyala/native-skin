@@ -155,6 +155,7 @@
 		0B28486D1D40014A006F4AF8 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				33756D5022A1228300322B79 /* ClosedCaptions */,
 				0B2848601D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.h */,
 				0B2848611D3EEA2F006F4AF8 /* OOOoyalaTVGradientView.m */,
 				0B2848691D400139006F4AF8 /* OOOoyalaTVLabel.h */,
@@ -169,6 +170,13 @@
 				C1C5BEB71F1E9CC60041D71E /* OOOoyalaTVTopBar.m */,
 				C13A47431F1FEEB0000B8A6B /* OOOoyalaTVOptionCell.h */,
 				C13A47411F1FEEA5000B8A6B /* OOOoyalaTVOptionCell.m */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
+		33756D5022A1228300322B79 /* ClosedCaptions */ = {
+			isa = PBXGroup;
+			children = (
 				C11CC87C1F21986D007D1F71 /* OOOoyalaTVClosedCaptionsView.h */,
 				C11CC87A1F21985C007D1F71 /* OOOoyalaTVClosedCaptionsView.m */,
 				C11CC8801F219D03007D1F71 /* OOOoyalaTVClosedCaptionsLabel.h */,
@@ -178,7 +186,7 @@
 				7531A7F11F9F5692000832F7 /* OOTVClosedCaptionsTextView.h */,
 				7531A7F21F9F5692000832F7 /* OOTVClosedCaptionsTextView.m */,
 			);
-			path = Widgets;
+			path = ClosedCaptions;
 			sourceTree = "<group>";
 		};
 		393A453E21CA338A005860F3 /* VendorLibraries */ = {
@@ -347,6 +355,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 97C8DD071CE14CA2007F3F54;
