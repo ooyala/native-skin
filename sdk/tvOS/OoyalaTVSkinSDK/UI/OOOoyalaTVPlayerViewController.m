@@ -62,6 +62,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
   self.playbackControlsEnabled = YES;
   self.bufferingAsked = NO;
     
@@ -168,7 +169,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [self removeObservers];
   _player = player;
   if (_player) {
-    [self setupViewController]; //OS: single palce
+    [self setupViewController]; //OS: single place for setup VC
   }
   [self addObservers];
 }
@@ -199,6 +200,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [self setupUI];
 }
 
+#pragma mark NSNotification
 - (void)addObservers {
   [NSNotificationCenter.defaultCenter addObserver:self
                                          selector:@selector(stateChangedNotification)
@@ -383,6 +385,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   return self.optionsViewController.view;
 }
 
+#pragma mark Methods of class
 + (NSDictionary *)currentLanguageSettings {
   if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
     [self loadDefaultLocale];
@@ -403,22 +406,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 + (void)setAvailableLocalizations:(NSDictionary *)translations {
   //LOG(@"Available Localizations manually set");
   OOOoyalaPlayerViewControllerAvailableLocalizations = translations;
-}
-
-- (void)changeLanguage:(NSString *)language {
-  if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
-    [OOOoyalaTVPlayerViewController loadDefaultLocale];
-  }
-
-  if (!language) {
-    [OOOoyalaTVPlayerViewController loadDeviceLanguage];
-  } else if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
-    [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:language]];
-  } else {
-    [OOOoyalaTVPlayerViewController chooseBackupLanguage:language];
-  }
-
-  [self refreshClosedCaptionsView];
 }
 
 + (void)loadDefaultLocale {
@@ -478,6 +465,23 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (!matched) {
     [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:@"en"]];
   }
+}
+
+#pragma mark Private methods
+- (void)changeLanguage:(NSString *)language {
+  if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+    [OOOoyalaTVPlayerViewController loadDefaultLocale];
+  }
+  
+  if (!language) {
+    [OOOoyalaTVPlayerViewController loadDeviceLanguage];
+  } else if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
+    [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:language]];
+  } else {
+    [OOOoyalaTVPlayerViewController chooseBackupLanguage:language];
+  }
+  
+  [self refreshClosedCaptionsView];
 }
 
 - (void)refreshClosedCaptionsView {
