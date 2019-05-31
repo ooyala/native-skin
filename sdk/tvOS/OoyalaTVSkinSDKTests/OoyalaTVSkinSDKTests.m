@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "OOOoyalaTVPlayerViewController.h"
+#import "OOOoyalaTVButton.h"
 
 @interface OoyalaTVSkinSDKTests : XCTestCase
 
@@ -23,6 +24,7 @@
 }
 
 - (void)tearDown {
+  self.tvPlayerViewController = nil;
   [super tearDown];
 }
 
@@ -30,5 +32,20 @@
   XCTAssertNotNil(self.tvPlayerViewController, @"The ViewController is not nil");
 }
 
+
+- (void)testButtonIconChanged {
+  
+  // 1. given
+  OOOoyalaTVButton *button = [[OOOoyalaTVButton alloc] initWithFrame:CGRectZero];
+  
+  // 2. when
+  [button showReplayIcon];
+  
+  // 3. then
+  NSString *title = [button titleForState:UIControlStateNormal];
+  BOOL flag = [title isEqualToString:@"("];
+  
+  XCTAssertTrue(flag, @"❌  The OOOoyalaTVButton has title that not corresponding for replay icon in ooyala-slick-type.ttf");
+}
 
 @end
