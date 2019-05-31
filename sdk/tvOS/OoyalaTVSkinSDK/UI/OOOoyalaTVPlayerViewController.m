@@ -270,6 +270,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
         break;
       case OOOoyalaPlayerStateCompleted:
         [self.playPauseButton showReplayIcon];
+        [self showProgressBar];
         break;
       case OOOoyalaPlayerStateReady:
         [self stopActivityIndicator];
