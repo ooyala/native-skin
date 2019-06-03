@@ -13,5 +13,6 @@
 @property (nonatomic) CGFloat OOFontSize;
 
 - (void)changePlayingState:(BOOL)isPlay;
+- (void)showReplayIcon;
 
 @end
