@@ -1,12 +1,16 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, View } from 'react-native';
 
 import styles from './InfoPanel.styles';
 
-const InfoPanel = ({ description, title }) => {
+type Props = {
+  description?: ?string,
+  title?: ?string,
+};
+
+const InfoPanel = ({ description, title }: Props) => {
   const titleAccessible = title && title !== '';
   // TODO: Check if we have to assign title to descriptionAccessible.
   const descriptionAccessible = description && title !== '';
@@ -21,9 +25,9 @@ const InfoPanel = ({ description, title }) => {
   );
 };
 
-InfoPanel.propTypes = {
-  title: PropTypes.string,
-  description: PropTypes.string,
+InfoPanel.defaultProps = {
+  description: undefined,
+  title: undefined,
 };
 
 export default InfoPanel;
