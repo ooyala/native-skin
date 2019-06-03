@@ -1,17 +1,10 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  Animated,
-  DeviceEventEmitter,
-  Image,
-  ImageBackground,
-  Platform,
-  Text,
-  TouchableHighlight,
-  View,
+  Animated, DeviceEventEmitter, Image, ImageBackground, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import { BUTTON_NAMES, SCREEN_TYPES } from '../../constants';
 import * as Log from '../../lib/log';
@@ -19,6 +12,7 @@ import * as Utils from '../../lib/utils';
 import ResponsiveList from './ResponsiveList';
 import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
 import CountdownViewiOS from '../../shared/CountdownTimerIos';
+import type { Config } from '../../types/Config';
 
 import styles from './DiscoveryPanel.styles';
 
@@ -31,20 +25,27 @@ const widthThreshold = 300;
 
 let timerListenerAndroid;
 
-export default class DiscoveryPanel extends React.Component {
-  static propTypes = {
-    onDismiss: PropTypes.func,
-    localizableStrings: PropTypes.shape({}),
-    locale: PropTypes.string,
-    dataSource: PropTypes.arrayOf(),
-    onRowAction: PropTypes.func,
-    config: PropTypes.shape({}),
-    width: PropTypes.number,
-    height: PropTypes.number,
-    screenType: PropTypes.string,
-    localizedString: PropTypes.string,
-  };
+type Props = {
+  onDismiss?: () => void,
+  localizableStrings?: {},
+  locale?: string,
+  dataSource?: Array<{}>,
+  onRowAction?: () => void,
+  config?: Config,
+  width?: number,
+  height?: number,
+  screenType?: string,
+  localizedString?: string,
+};
 
+type State = {
+  opacity: AnimatedValue,
+  showCountdownTimer: boolean,
+  counterTime: number,
+  impressionsFired: boolean,
+};
+
+export default class DiscoveryPanel extends React.Component<Props, State> {
   static defaultProps = {
     onDismiss: null,
     localizableStrings: [],
@@ -58,7 +59,7 @@ export default class DiscoveryPanel extends React.Component {
     localizedString: '',
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

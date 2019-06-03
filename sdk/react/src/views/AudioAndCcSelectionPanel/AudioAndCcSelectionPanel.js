@@ -1,14 +1,15 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated, Text, TouchableHighlight, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import { BUTTON_NAMES, CELL_TYPES } from '../../constants';
 import * as Utils from '../../lib/utils';
 import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView';
+import type { Config } from '../../types/Config';
 
 import styles from './AudioAndCcSelectionPanel.styles';
 
@@ -22,19 +23,23 @@ const stringConstants = {
   subtitlesHeaderViewSectionTitle: 'Subtitles',
 };
 
-export default class AudioAndCcSelectionPanel extends React.Component {
-  static propTypes = {
-    audioTracksTitles: PropTypes.arrayOf(),
-    selectedAudioTrackTitle: PropTypes.string,
-    closedCaptionsLanguages: PropTypes.arrayOf(),
-    selectedClosedCaptionsLanguage: PropTypes.string,
-    onSelectAudioTrack: PropTypes.func,
-    onSelectClosedCaptions: PropTypes.func,
-    onDismiss: PropTypes.func,
-    config: PropTypes.shape({}),
-  };
+type Props = {
+  audioTracksTitles: Array<string>,
+  selectedAudioTrackTitle: string,
+  closedCaptionsLanguages: Array<string>,
+  selectedClosedCaptionsLanguage: string,
+  onSelectAudioTrack: () => void,
+  onSelectClosedCaptions: () => void,
+  onDismiss: () => void,
+  config: Config,
+};
 
-  constructor(props) {
+type State = {
+  opacity: AnimatedValue,
+};
+
+export default class AudioAndCcSelectionPanel extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

@@ -1,6 +1,16 @@
 // @flow
 
 export type Config = {
+  castControls: {
+    iconStyle: {
+      active: {
+        color: string,
+      },
+      inactive: {
+        color: string,
+      },
+    },
+  },
   controlBar: {
     adScrubberBar: {
       backgroundColor?: ?string,
@@ -17,6 +27,16 @@ export type Config = {
   },
   general: {
     accentColor?: ?string,
+  },
+  icons: {
+    'chromecast-disconnected': {
+      fontString: string,
+      fontFamilyName: string,
+    },
+    dismiss: {
+      fontString: string,
+      fontFamilyName: string,
+    },
   },
   live?: {
     forceDvrDisabled?: ?boolean,

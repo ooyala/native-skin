@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Modal, Text, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback, View,
 } from 'react-native';
@@ -9,18 +8,19 @@ import {
 import { BUTTON_NAMES } from '../../constants';
 import AirPlayView from './AirPlayView';
 import RectangularButton from '../../shared/RectangularButton';
+import type { Config } from '../../types/Config';
 
 import styles from './CastAirPlayScreen.styles';
 
-export default class CastAirPlayScreen extends React.Component {
-  static propTypes = {
-    width: PropTypes.number,
-    height: PropTypes.number,
-    onDismiss: PropTypes.func,
-    onPress: PropTypes.func.isRequired,
-    config: PropTypes.shape({}).isRequired,
-  };
+type Props = {
+  width: number,
+  height: number,
+  onDismiss: () => void,
+  onPress: () => void,
+  config: Config,
+};
 
+export default class CastAirPlayScreen extends React.Component<Props> {
   renderCastButton = (color) => {
     const { config, height } = this.props;
 

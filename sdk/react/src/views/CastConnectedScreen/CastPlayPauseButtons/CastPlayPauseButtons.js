@@ -1,10 +1,10 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   ActivityIndicator, Animated, TouchableHighlight, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 import timerForSkipButtons from 'react-native-timer';
 
 import { BUTTON_NAMES, VALUES } from '../../../constants';
@@ -12,6 +12,7 @@ import * as Accessibility from '../../../lib/accessibility';
 import * as Utils from '../../../lib/utils';
 import SkipButton from '../../../shared/SkipButton';
 import SwitchButton from './SwitchButton';
+import type { Config } from '../../../types/Config';
 
 import styles from './CastPlayPauseButtons.styles';
 
@@ -22,29 +23,41 @@ const NEXT = 'next';
 const PREVIOUS = 'previous';
 const BACKWARD = 'seekBackward';
 
-export default class CastPlayPauseButtons extends React.Component {
-  static propTypes = {
-    icons: PropTypes.shape({}).isRequired,
-    onPress: PropTypes.func.isRequired,
-    onSeekPressed: PropTypes.func.isRequired,
-    onSwitchPressed: PropTypes.func.isRequired,
-    seekForwardValue: PropTypes.number.isRequired,
-    seekBackwardValue: PropTypes.number.isRequired,
-    opacity: PropTypes.number.isRequired,
-    frameWidth: PropTypes.number.isRequired,
-    frameHeight: PropTypes.number.isRequired,
-    buttonWidth: PropTypes.number.isRequired,
-    buttonHeight: PropTypes.number.isRequired,
-    buttonColor: PropTypes.string.isRequired,
-    fontSize: PropTypes.number.isRequired,
-    showButton: PropTypes.bool.isRequired,
-    playing: PropTypes.bool.isRequired,
-    loading: PropTypes.bool.isRequired,
-    config: PropTypes.shape({}).isRequired,
-    hasNextVideo: PropTypes.bool.isRequired,
-  };
+type Props = {
+  icons: {},
+  onPress: () => void,
+  onSeekPressed: () => void,
+  onSwitchPressed: () => void,
+  seekForwardValue: number,
+  seekBackwardValue: number,
+  opacity: number,
+  frameWidth: number,
+  frameHeight: number,
+  buttonWidth: number,
+  buttonHeight: number,
+  buttonColor: string,
+  fontSize: number,
+  showButton: boolean,
+  playing: boolean,
+  loading: boolean,
+  config: Config,
+  hasNextVideo: boolean,
+};
 
-  constructor(props) {
+type State = {
+  playPause: {
+    animationScale: AnimatedValue,
+    animationOpacity: AnimatedValue,
+  },
+  skipButtons: {
+    animationScale: AnimatedValue,
+    animationOpacity: AnimatedValue,
+  },
+  skipCount: number,
+};
+
+export default class CastPlayPauseButtons extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, TouchableHighlight, View } from 'react-native';
 
@@ -11,49 +10,55 @@ import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
+import type { Config } from '../../types/Config';
+import type { Marker } from '../../types/Markers';
 
 import styles from './AdPlaybackScreen.styles';
 
-export default class AdPlaybackScreen extends React.Component {
-  static propTypes = {
-    rate: PropTypes.number,
-    playhead: PropTypes.number,
-    duration: PropTypes.number,
-    ad: PropTypes.shape({}),
-    live: PropTypes.bool,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    volume: PropTypes.number,
-    fullscreen: PropTypes.bool,
-    cuePoints: PropTypes.arrayOf(),
-    handlers: PropTypes.shape({
-      onPress: PropTypes.func,
-      onIcon: PropTypes.func,
-      onScrub: PropTypes.func,
-      handleVideoTouch: PropTypes.func,
-      handleControlsTouch: PropTypes.func,
-      onControlsVisibilityChanged: PropTypes.func.isRequired,
-    }),
-    // The following props are used in static `getDerivedStateFromProps` only, that's why they are considered unused by
-    // ESLint. Should be fixed by ESLint team.
-    lastPressedTime: PropTypes.instanceOf(Date), // eslint-disable-line react/no-unused-prop-types
-    screenReaderEnabled: PropTypes.bool, // eslint-disable-line react/no-unused-prop-types
-    showWatermark: PropTypes.bool,
-    config: PropTypes.shape({}),
-    localizableStrings: PropTypes.shape({}),
-    locale: PropTypes.string,
-    playing: PropTypes.bool,
-    loading: PropTypes.bool,
-    initialPlay: PropTypes.bool,
-    markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  };
+type Props = {
+  rate: number,
+  playhead?: number,
+  duration?: number,
+  ad: {},
+  live: boolean,
+  width: number,
+  height: number,
+  volume: number,
+  fullscreen: boolean,
+  cuePoints: Array<number>,
+  handlers: {
+    onPress: () => void,
+    onIcon: () => void,
+    onScrub: number => void,
+    handleVideoTouch: () => void,
+    handleControlsTouch: () => void,
+    onControlsVisibilityChanged: boolean => void,
+  },
+  // The following props are used in static `getDerivedStateFromProps` only, that's why they are considered unused by
+  // ESLint. Should be fixed by ESLint team.
+  lastPressedTime: Date, // eslint-disable-line react/no-unused-prop-types
+  screenReaderEnabled: boolean, // eslint-disable-line react/no-unused-prop-types
+  showWatermark: boolean,
+  config: Config,
+  localizableStrings: {},
+  locale: string,
+  playing: boolean,
+  loading: boolean,
+  initialPlay: boolean,
+  markers: Array<Marker>,
+};
 
+type State = {
+  shouldShowControls: boolean,
+};
+
+export default class AdPlaybackScreen extends React.Component<Props, State> {
   static defaultProps = {
     playhead: 0,
     duration: 1,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -61,7 +66,7 @@ export default class AdPlaybackScreen extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props: Props) {
     const isPastAutoHideTime = (new Date()).getTime() - props.lastPressedTime > AUTOHIDE_DELAY;
     const doesAdRequireControls = props.ad && props.ad.requireControls;
     // TODO: IMA Ads UI is still not supported - No way to show UI while allowing Learn More in a clean way
@@ -73,7 +78,7 @@ export default class AdPlaybackScreen extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const { handlers } = this.props;
     const { shouldShowControls } = this.state;
 
