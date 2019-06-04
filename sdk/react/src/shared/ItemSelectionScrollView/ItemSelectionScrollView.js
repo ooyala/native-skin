@@ -11,7 +11,7 @@ import type { Config } from '../../types/Config';
 import styles from './ItemSelectionScrollView.styles';
 
 type Props = {
-  items: Array<any>,
+  items: Array<string>,
   selectedItem: string,
   onSelect: () => void,
   width: number,
@@ -35,7 +35,7 @@ export default class ItemSelectionScrollView extends React.Component<Props> {
     return name && name !== '' && name === selectedItem;
   }
 
-  renderItem = (item: any, index: number) => {
+  renderItem = (item: string, index: number) => {
     const { cellType, config } = this.props;
 
     const isSelectedItem = this.isSelected(item);

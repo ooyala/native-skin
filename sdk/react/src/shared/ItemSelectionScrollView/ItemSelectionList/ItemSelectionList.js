@@ -1,12 +1,12 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 import { ScrollView } from 'react-native';
 
 type Props = {
-  data?: Array<any>,
+  data?: Array<string>,
   horizontal: boolean,
-  itemRender: (any, number) => React$Element<any>,
+  itemRender: (string, number) => Node,
 };
 
 export default class ItemSelectionList extends React.Component<Props> {
@@ -21,7 +21,7 @@ export default class ItemSelectionList extends React.Component<Props> {
       return null;
     }
 
-    return data.map<any>((item, index) => itemRender(item, index));
+    return data.map<Node>((item, index) => itemRender(item, index));
   };
 
   render() {
