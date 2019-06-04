@@ -6,6 +6,7 @@ import { Text, TouchableHighlight, View } from 'react-native';
 import ItemSelectionList from './ItemSelectionList';
 import * as Accessibility from '../../lib/accessibility';
 import * as Utils from '../../lib/utils';
+import type { Config } from '../../types/Config';
 
 import styles from './ItemSelectionScrollView.styles';
 
@@ -15,7 +16,7 @@ type Props = {
   onSelect: () => void,
   width: number,
   height: number,
-  config: {},
+  config: Config,
   cellType: string,
 };
 

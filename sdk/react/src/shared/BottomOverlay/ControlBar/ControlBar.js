@@ -9,6 +9,7 @@ import * as Log from '../../../lib/log';
 import responsiveMultiplier from '../../../lib/responsiveMultiplier';
 import * as Utils from '../../../lib/utils';
 import ControlBarWidget from '../../ControlBarWidgets';
+import type { Config } from '../../../types/Config';
 
 import styles from './ControlBar.styles';
 
@@ -27,7 +28,7 @@ type Props = {
   onPress: () => void,
   handleControlsTouch: () => void,
   live?: {},
-  config: {},
+  config: Config,
   stereoSupported?: boolean,
   showMoreOptionsButton?: boolean,
   showAudioAndCCButton?: boolean,
