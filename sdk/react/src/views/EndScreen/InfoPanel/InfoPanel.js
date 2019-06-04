@@ -6,8 +6,8 @@ import { Text, View } from 'react-native';
 import styles from './InfoPanel.styles';
 
 type Props = {
-  description?: ?string,
-  title?: ?string,
+  description: ?string,
+  title: ?string,
 };
 
 const InfoPanel = ({ description, title }: Props) => {
@@ -23,11 +23,6 @@ const InfoPanel = ({ description, title }: Props) => {
       </View>
     </View>
   );
-};
-
-InfoPanel.defaultProps = {
-  description: undefined,
-  title: undefined,
 };
 
 export default InfoPanel;
