@@ -6,8 +6,8 @@ import {
 } from 'react-native';
 
 import { BUTTON_NAMES } from '../../../constants';
-import CountdownViewAndroid from '../../../shared/CountdownTimerAndroid';
-import CountdownView from '../../../shared/CountdownTimerIos';
+import CountdownTimerAndroid from '../../../shared/CountdownTimerAndroid';
+import CountdownTimerIos from '../../../shared/CountdownTimerIos';
 import type { Config } from '../../../types/Config';
 
 import styles from './UpNext.styles';
@@ -111,7 +111,7 @@ export default class UpNext extends React.Component<Props> {
 
     return Platform.select({
       ios: (
-        <CountdownView
+        <CountdownTimerIos
           style={styles.countdownView}
           automatic={false}
           time={this.upNextDuration()}
@@ -121,7 +121,7 @@ export default class UpNext extends React.Component<Props> {
         />
       ),
       android: (
-        <CountdownViewAndroid
+        <CountdownTimerAndroid
           style={styles.countdownView}
           countdown={{
             main_color: '#AAffffff',

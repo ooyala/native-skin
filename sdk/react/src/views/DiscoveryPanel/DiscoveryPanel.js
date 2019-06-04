@@ -10,8 +10,8 @@ import { BUTTON_NAMES, SCREEN_TYPES } from '../../constants';
 import * as Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 import ResponsiveList from './ResponsiveList';
-import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
-import CountdownViewiOS from '../../shared/CountdownTimerIos';
+import CountdownTimerAndroid from '../../shared/CountdownTimerAndroid';
+import CountdownTimerIos from '../../shared/CountdownTimerIos';
 import type { Config } from '../../types/Config';
 
 import styles from './DiscoveryPanel.styles';
@@ -208,7 +208,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
 
     Platform.select({
       ios: (
-        <CountdownViewiOS
+        <CountdownTimerIos
           style={{
             width: 44,
             height: 44,
@@ -226,7 +226,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
         />
       ),
       android: (
-        <CountdownViewAndroid
+        <CountdownTimerAndroid
           style={{
             width: 44,
             height: 44,
