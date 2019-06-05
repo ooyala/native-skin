@@ -118,10 +118,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
                                                                             self.progressBarBackground.bounds.size.height - playPauseButtonHeight - 38,
                                                                             headDistance,
                                                                             playPauseButtonHeight)];
-  [self.playPauseButton addTarget:self
-                           action:@selector(togglePlay:)
-                 forControlEvents:UIControlEventTouchUpInside];
-  
+
   // icon
   [self.playPauseButton changePlayingState:self.player.isPlaying];
   
@@ -329,7 +326,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)showProgressBar {
-  self.lastTriggerTime = self.player.playheadTime;
+  Float64 playheadTime = self.player.playheadTime;
+  BOOL isInvokedByReplay = self.lastTriggerTime == playheadTime; //OS: in my experience values are equal only if lastTriggerTime was set from event 'PlayerStateCompleted' and then event play (indeed replay) from OOTVGestureManager. In this time player still has previous 'playheadTime' that close to player.duration
+  self.lastTriggerTime = isInvokedByReplay ? 0.0 : playheadTime; //OS: if isInvokedByReplay should be set to zero for enabling autohide
+  
   if (self.progressBarBackground.frame.origin.y == self.view.bounds.size.height) {
     [UIView animateWithDuration:0.5
                           delay:0.0
