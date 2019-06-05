@@ -326,7 +326,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)showProgressBar {
-  
   Float64 playheadTime = self.player.playheadTime;
   BOOL isInvokedByReplay = self.lastTriggerTime == playheadTime; //OS: in my experience values are equal only if lastTriggerTime was set from event 'PlayerStateCompleted' and then event play (indeed replay) from OOTVGestureManager. In this time player still has previous 'playheadTime' that close to player.duration
   self.lastTriggerTime = isInvokedByReplay ? 0.0 : playheadTime; //OS: if isInvokedByReplay should be set to zero for enabling autohide
