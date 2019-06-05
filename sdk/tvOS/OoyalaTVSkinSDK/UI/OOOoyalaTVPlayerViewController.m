@@ -118,10 +118,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
                                                                             self.progressBarBackground.bounds.size.height - playPauseButtonHeight - 38,
                                                                             headDistance,
                                                                             playPauseButtonHeight)];
-  [self.playPauseButton addTarget:self
-                           action:@selector(togglePlay:)
-                 forControlEvents:UIControlEventTouchUpInside];
-  
+
   // icon
   [self.playPauseButton changePlayingState:self.player.isPlaying];
   
