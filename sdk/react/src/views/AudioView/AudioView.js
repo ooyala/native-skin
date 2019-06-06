@@ -187,7 +187,7 @@ export default class AudioView extends React.Component {
       this,
       'sendSummedSkip',
       () => {
-        this.onSeekPressed(skipCount);
+        this.onSeekPressed(value);
         this.setState({
           skipCount: 0,
         });
