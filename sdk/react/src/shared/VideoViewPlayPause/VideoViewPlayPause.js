@@ -125,7 +125,7 @@ export default class VideoViewPlayPause extends React.Component<Props, State> {
       this,
       'sendSummedSkip',
       () => {
-        onSeekPressed(skipCount);
+        onSeekPressed(value);
         this.setState({
           skipCount: 0,
         });

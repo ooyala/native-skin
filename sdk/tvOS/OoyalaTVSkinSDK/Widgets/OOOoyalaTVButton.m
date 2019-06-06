@@ -30,4 +30,9 @@
   [self setTitle:self.fontString forState:UIControlStateNormal];
 }
 
+- (void)showReplayIcon {
+  self.fontString = @"("; // unicode 0028
+  [self setTitle:self.fontString forState:UIControlStateNormal];
+}
+
 @end

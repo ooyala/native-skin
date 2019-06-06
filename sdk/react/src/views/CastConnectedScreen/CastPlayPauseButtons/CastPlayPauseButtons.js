@@ -104,7 +104,7 @@ export default class CastPlayPauseButtons extends React.Component<Props, State> 
       this,
       'sendSummedSkip',
       () => {
-        onSeekPressed(skipCount);
+        onSeekPressed(value);
         this.setState({ skipCount: 0 });
       },
       VALUES.DELAY_BETWEEN_SKIPS_MS,

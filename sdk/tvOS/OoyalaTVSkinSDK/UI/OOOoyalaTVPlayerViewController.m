@@ -62,6 +62,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
   self.playbackControlsEnabled = YES;
   self.bufferingAsked = NO;
     
@@ -82,7 +83,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
                                              alpha:1.0];
   }
 
-  [self setupViewController];
   if (!self.gestureManager) {
     self.gestureManager = [[OOTVGestureManager alloc] initWithController:self];
   }
@@ -118,10 +118,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
                                                                             self.progressBarBackground.bounds.size.height - playPauseButtonHeight - 38,
                                                                             headDistance,
                                                                             playPauseButtonHeight)];
-  [self.playPauseButton addTarget:self
-                           action:@selector(togglePlay:)
-                 forControlEvents:UIControlEventTouchUpInside];
-  
+
   // icon
   [self.playPauseButton changePlayingState:self.player.isPlaying];
   
@@ -169,7 +166,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [self removeObservers];
   _player = player;
   if (_player) {
-    [self setupViewController];
+    [self setupViewController]; //OS: single place for setup VC
   }
   [self addObservers];
 }
@@ -200,6 +197,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   [self setupUI];
 }
 
+#pragma mark NSNotification
 - (void)addObservers {
   [NSNotificationCenter.defaultCenter addObserver:self
                                          selector:@selector(stateChangedNotification)
@@ -268,7 +266,8 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       case OOOoyalaPlayerStatePaused:
         break;
       case OOOoyalaPlayerStateCompleted:
-        [self.playPauseButton changePlayingState:self.player.isPlaying];
+        [self.playPauseButton showReplayIcon];
+        [self showProgressBar];
         break;
       case OOOoyalaPlayerStateReady:
         [self stopActivityIndicator];
@@ -327,7 +326,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)showProgressBar {
-  self.lastTriggerTime = self.player.playheadTime;
+  Float64 playheadTime = self.player.playheadTime;
+  BOOL isInvokedByReplay = self.lastTriggerTime == playheadTime; //OS: in my experience values are equal only if lastTriggerTime was set from event 'PlayerStateCompleted' and then event play (indeed replay) from OOTVGestureManager. In this time player still has previous 'playheadTime' that close to player.duration
+  self.lastTriggerTime = isInvokedByReplay ? 0.0 : playheadTime; //OS: if isInvokedByReplay should be set to zero for enabling autohide
+  
   if (self.progressBarBackground.frame.origin.y == self.view.bounds.size.height) {
     [UIView animateWithDuration:0.5
                           delay:0.0
@@ -384,6 +386,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   return self.optionsViewController.view;
 }
 
+#pragma mark Methods of class
 + (NSDictionary *)currentLanguageSettings {
   if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
     [self loadDefaultLocale];
@@ -404,22 +407,6 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 + (void)setAvailableLocalizations:(NSDictionary *)translations {
   //LOG(@"Available Localizations manually set");
   OOOoyalaPlayerViewControllerAvailableLocalizations = translations;
-}
-
-- (void)changeLanguage:(NSString *)language {
-  if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
-    [OOOoyalaTVPlayerViewController loadDefaultLocale];
-  }
-
-  if (!language) {
-    [OOOoyalaTVPlayerViewController loadDeviceLanguage];
-  } else if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
-    [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:language]];
-  } else {
-    [OOOoyalaTVPlayerViewController chooseBackupLanguage:language];
-  }
-
-  [self refreshClosedCaptionsView];
 }
 
 + (void)loadDefaultLocale {
@@ -479,6 +466,23 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   if (!matched) {
     [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:@"en"]];
   }
+}
+
+#pragma mark Private methods
+- (void)changeLanguage:(NSString *)language {
+  if (!OOOoyalaPlayerViewControllerAvailableLocalizations) {
+    [OOOoyalaTVPlayerViewController loadDefaultLocale];
+  }
+  
+  if (!language) {
+    [OOOoyalaTVPlayerViewController loadDeviceLanguage];
+  } else if (OOOoyalaPlayerViewControllerAvailableLocalizations[language]) {
+    [OOOoyalaTVPlayerViewController useLanguageStrings:[OOOoyalaTVPlayerViewController getLanguageSettings:language]];
+  } else {
+    [OOOoyalaTVPlayerViewController chooseBackupLanguage:language];
+  }
+  
+  [self refreshClosedCaptionsView];
 }
 
 - (void)refreshClosedCaptionsView {
