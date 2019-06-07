@@ -34,9 +34,14 @@
 
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
+@property (nonatomic) struct LiveAssetHelper liveHelper;
 
 @end
 
+struct LiveAssetHelper { //OS: no need to use Obj-C class until there is no logic required for calculations or so on
+  NSNumber *frozenSeekBackTime;
+  BOOL isOnGuard;
+};
 
 @implementation OOSkinPlayerObserver
 
@@ -108,8 +113,7 @@ static NSString *castManagerIsConnectingDevice  = @"castConnecting";
 static NSString *castManagerDidConnectDevice    = @"castConnected";
 static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
-#pragma mark - Methods
-
+#pragma mark - Initialization/deint
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player
               ooReactSkinModel:(OOReactSkinModel *)ooReactSkinModel {
   if (self = [super init]) {
@@ -124,6 +128,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   LOG(@"OOSkinPlayerObserver dealloc");
 }
 
+#pragma mark - NSNotification
 - (void)addSelfAsObserverToPlayer:(OOOoyalaPlayer *)player {
   [NSNotificationCenter.defaultCenter removeObserver:self];
   if (self.player) {
@@ -170,6 +175,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   }];
 }
 
+#pragma mark - Calculation helpers (private)
 // PBA-4831 Return total duration calculated from the seekable range
 - (NSNumber *)totalDuration {
   CMTimeRange seekableRange = self.player.seekableTimeRange;
@@ -192,6 +198,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   return @(adjustedPlayhead);
 }
 
+#pragma mark - Sending events to bridge
 - (void)bridgeSeekStartedNotification:(NSNotification *)notification {
   NSDictionary *seekInfoDictionaryObject = notification.userInfo;
   OOSeekInfo *seekInfo                   = seekInfoDictionaryObject[seekInfoKey];
@@ -229,6 +236,10 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
       seekStart = 0;
     }
   }
+  //OS: to keep playhead time static, because playhead and live go forward simultaneously (PLAYER-5491)
+  if (self.player.currentItem.live) {
+    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, YES};
+  }
   
   NSDictionary *eventBody = @{seekStartKey:  @(seekStart),
                               seekEndKey:    @(seekEnd),
@@ -260,6 +271,12 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)bridgeTimeChangedNotification:(NSNotification *)notification {
   NSNumber *playheadNumber  = self.adjustedPlayhead;
   NSNumber *durationNumber  = self.totalDuration;
+
+  //OS: pass to JS static playhead time, because playhead and live go forward simultaneously (PLAYER-5491)
+  if (self.player.currentItem.live && self.liveHelper.isOnGuard) {
+    playheadNumber = self.liveHelper.frozenSeekBackTime;
+  }
+  
   NSNumber *rateNumber      = @(self.player.playbackRate);
   NSArray *cuePoints = [NSArray arrayWithArray:[self.player getCuePointsAtSecondsForCurrentPlayer].allObjects];
 
@@ -322,10 +339,18 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
                               };
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
+  
+  //OS: Flag must be changed depends on if current asset has new is-live-status
+  self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, self.player.currentItem.live};
 }
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayerStateConverter playerStateToString:self.player.state];
+  
+  //OS: for live assets need to update frozen time, because playhead that based on current live position was changed since player was paused
+  if (self.player.currentItem.live && self.player.state == OOOoyalaPlayerStatePlaying) {
+    self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, YES};
+  }
   OOClosedCaptionsStyle *newClosedCaptionsDeviceStyle = [OOClosedCaptionsStyle new];
   if ([self.ooReactSkinModel.closedCaptionsDeviceStyle compare:newClosedCaptionsDeviceStyle] != NSOrderedSame) {
     [self.ooReactSkinModel ccStyleChanged:nil];
@@ -509,6 +534,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
                                        body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
+#pragma mark - OOCastNotifiable
 - (void)castManagerDidUpdateDeviceList:(NSDictionary *)deviceList {
   [self.ooReactSkinModel sendEventWithName:castManagerDidUpdateDevices body:deviceList];
 }
