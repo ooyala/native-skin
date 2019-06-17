@@ -18,20 +18,15 @@ export const formattedPlaybackSpeedRate = (selectedPlaybackSpeedRate) => {
   return selectedPlaybackSpeedRateString.concat('x');
 };
 
-export const getTimerLabel = (timer) => {
-  let timerLabel = '';
+export const getTimerLabel = (secondsLeft: number) => {
+  const secondsRounded = Math.floor(secondsLeft);
+  const minutes = Math.floor(secondsRounded / 60);
+  const seconds = secondsRounded - minutes * 60;
 
-  if (timer < 10) {
-    timerLabel = `00:0${(timer || '0').toString()}`;
-  } else if (timer < 60) {
-    timerLabel = `00:${(timer || '0').toString()}`;
-  } else if (timer < 600) {
-    timerLabel = `0${(timer / 60).toString()}:${(timer % 60).toString()}`;
-  } else {
-    timerLabel = `${(timer / 60).toString()}:${(timer % 60).toString()}`;
-  }
+  const minutesString = (minutes < 10 ? `0${minutes}` : minutes);
+  const secondsString = (seconds < 10 ? `0${seconds}` : seconds);
 
-  return timerLabel;
+  return `${minutesString}:${secondsString}`;
 };
 
 export const secondsToString = (inputSeconds) => {
