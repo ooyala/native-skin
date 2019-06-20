@@ -118,7 +118,7 @@ repositories {
 task copyLibs(type: Copy) {
     from new File(projectDir, '../../../vendor/')
     from new File(projectDir, '../../../vendor/Ooyala/OoyalaSDK-Android/OoyalaSDK.aar')
-    from new File(projectDir, '../../../vendor/Facebook/react-native-0.59.4.aar')
+    from new File(projectDir, '../../../vendor/Facebook/react-native-0.59.9.aar')
     into new File(projectDir, './libs')
     doLast {
         println "Libs updated."
