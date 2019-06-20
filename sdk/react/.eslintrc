@@ -31,7 +31,9 @@
           ".jsx"
         ]
       }
-    ]
+    ],
+    "flowtype/array-style-complex-type": "error",
+    "flowtype/array-style-simple-type": "error"
   },
   "settings": {
     "flowtype": {

@@ -1,5 +1,12 @@
 // @flow
 
+import type { ControlBarButton, Button } from '../types/Buttons';
+
+type CollapsedItems = {
+  fit: Array<Button>,
+  overflow: Array<Button>,
+};
+
 const constants = {
   moreOptions: 'moreOptions',
   moveToMoreOptions: 'moveToMoreOptions',
@@ -7,19 +14,19 @@ const constants = {
   keep: 'keep',
 };
 
-const isCollapsible = item => (
+const isCollapsible = (item: Button): boolean => (
   item.location === constants.controlBar && item.whenDoesNotFit && item.whenDoesNotFit !== constants.keep
 );
 
-const isOnlyInMoreOptions = item => (item.location === constants.moreOptions);
+const isOnlyInMoreOptions = (item: Button): boolean => (item.location === constants.moreOptions);
 
-const isValid = item => (
+const isValid = (item: Button): boolean => (
   (item && item.location === constants.moreOptions)
   || (item.location === constants.controlBar && item.whenDoesNotFit && item.minWidth !== undefined
     && item.minWidth >= 0)
 );
 
-const collapseLastItemMatching = (results, item, usedWidth) => {
+const collapseLastItemMatching = (results: CollapsedItems, item: Button, usedWidth: number): number => {
   const index = results.fit.lastIndexOf(item);
   let width = usedWidth;
 
@@ -27,8 +34,9 @@ const collapseLastItemMatching = (results, item, usedWidth) => {
     results.fit.splice(index, 1);
     results.overflow.unshift(item);
 
+    // `minWidth` property available only if the item of the ControlBarButton type.
     if (item.minWidth) {
-      width -= item.minWidth;
+      width -= ((item: any): ControlBarButton).minWidth;
     }
   }
 
@@ -39,7 +47,7 @@ const collapseLastItemMatching = (results, item, usedWidth) => {
 // @param orderedItems array of left to right ordered items. Each item meets the skin's 'button' schema.
 // @return {fit:[items that fit in the barWidth], overflow:[items that did not fit]}.
 // Note: items which do not meet the item spec will be removed and not appear in the results.
-export const collapse = (barWidth, orderedItems) => {
+export const collapse = (barWidth: number, orderedItems: Array<Button>): CollapsedItems => {
   if (Number.isNaN(barWidth) || barWidth === undefined) {
     return {
       fit: orderedItems,
@@ -48,7 +56,7 @@ export const collapse = (barWidth, orderedItems) => {
   }
 
   if (!orderedItems) {
-    return [];
+    return { fit: [], overflow: [] };
   }
 
   const validItems = orderedItems.filter(item => isValid(item));
@@ -59,8 +67,10 @@ export const collapse = (barWidth, orderedItems) => {
   };
 
   let usedWidth = validItems.reduce((p, c) => {
-    if (c.minWidth && c.isVisible) {
-      return p + c.minWidth;
+    // `minWidth` property available only if the item of the ControlBarButton type, `isVisible` property could be added
+    // dynamically.
+    if (c.minWidth && (c: any).isVisible) {
+      return p + ((c: any): ControlBarButton).minWidth;
     }
 
     return p;
@@ -85,9 +95,9 @@ export const collapse = (barWidth, orderedItems) => {
   return result;
 };
 
-export const collapseForAudioOnly = (orderedItems) => {
+export const collapseForAudioOnly = (orderedItems: Array<Button>): CollapsedItems => {
   if (!orderedItems) {
-    return [];
+    return { fit: [], overflow: [] };
   }
 
   const filteredItems = orderedItems.filter(item => isValid(item));

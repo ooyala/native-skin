@@ -2,8 +2,9 @@
 
 import { VALUES } from '../constants';
 import * as Log from './log';
+import type { Localization } from '../types/Localization';
 
-export const shouldShowLandscape = (width, height) => {
+export const shouldShowLandscape = (width: number, height: number): boolean => {
   if (Number.isNaN(width) || Number.isNaN(height) || width === null || height === null || width < 0 || height < 0) {
     return false;
   }
@@ -11,14 +12,14 @@ export const shouldShowLandscape = (width, height) => {
   return width > height;
 };
 
-export const formattedPlaybackSpeedRate = (selectedPlaybackSpeedRate) => {
+export const formattedPlaybackSpeedRate = (selectedPlaybackSpeedRate: number): string => {
   const selectedPlaybackSpeedRateFloat = parseFloat(parseFloat(String(selectedPlaybackSpeedRate)).toFixed(2));
   const selectedPlaybackSpeedRateString = selectedPlaybackSpeedRateFloat.toString();
 
   return selectedPlaybackSpeedRateString.concat('x');
 };
 
-export const getTimerLabel = (secondsLeft: number) => {
+export const getTimerLabel = (secondsLeft: number): string => {
   const secondsRounded = Math.floor(secondsLeft);
   const minutes = Math.floor(secondsRounded / 60);
   const seconds = secondsRounded - minutes * 60;
@@ -29,7 +30,7 @@ export const getTimerLabel = (secondsLeft: number) => {
   return `${minutesString}:${secondsString}`;
 };
 
-export const secondsToString = (inputSeconds) => {
+export const secondsToString = (inputSeconds: number): string => {
   let minus = '';
   let seconds = inputSeconds;
 
@@ -62,16 +63,18 @@ export const secondsToString = (inputSeconds) => {
   return minus + t;
 };
 
-export const localizedString = (preferredLocale, stringId, localizableStrings) => {
+export const localizedString = (
+  preferredLocale: string, stringId: string, localizableStrings: Localization,
+): string => {
   if (typeof stringId !== 'string') {
-    return null;
+    return '';
   }
 
   let locale = preferredLocale;
   let strings = localizableStrings;
 
   if (typeof locale !== 'string') {
-    locale = undefined;
+    locale = '';
   }
 
   if (typeof strings !== 'object' || strings === null) {
@@ -93,7 +96,7 @@ export const localizedString = (preferredLocale, stringId, localizableStrings) =
   return stringId;
 };
 
-export const stringForErrorCode = (errorCode) => {
+export const stringForErrorCode = (errorCode: number): string => {
   switch (errorCode) {
     case 0:
       // Authorization failed
@@ -251,6 +254,6 @@ export const stringForErrorCode = (errorCode) => {
   }
 };
 
-export const restrictSeekValueIfNeeded = seekValue => (
+export const restrictSeekValueIfNeeded = (seekValue: number): number => (
   Math.min(Math.max(VALUES.MIN_SKIP_VALUE, seekValue), VALUES.MAX_SKIP_VALUE)
 );

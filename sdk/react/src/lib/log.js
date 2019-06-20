@@ -3,9 +3,9 @@
 
 import { LOG_LEVEL } from '../constants';
 
-let globalLevel = LOG_LEVEL.INFO;
+let globalLevel: number = LOG_LEVEL.INFO;
 
-export const setLogLevel = (level) => {
+export const setLogLevel = (level: number): void => {
   switch (level) {
     case LOG_LEVEL.VERBOSE:
     case LOG_LEVEL.INFO:
@@ -21,58 +21,58 @@ export const setLogLevel = (level) => {
   }
 };
 
-export const warn = (msg) => {
-  if (globalLevel >= LOG_LEVEL.WARN) {
-    console.warn(msg);
-
-    return true;
+export const warn = (...msg: Array<any>): boolean => {
+  if (globalLevel < LOG_LEVEL.WARN) {
+    return false;
   }
 
-  return false;
+  console.warn(...msg);
+
+  return true;
 };
 
-export const info = (msg) => {
-  if (globalLevel >= LOG_LEVEL.INFO) {
-    console.info(msg);
-
-    return true;
+export const info = (...msg: Array<any>): boolean => {
+  if (globalLevel < LOG_LEVEL.INFO) {
+    return false;
   }
 
-  return false;
+  console.info(...msg);
+
+  return true;
 };
 
-export const error = (msg) => {
-  if (globalLevel >= LOG_LEVEL.ERROR) {
-    console.error(msg);
-
-    return true;
+export const error = (...msg: Array<any>): boolean => {
+  if (globalLevel < LOG_LEVEL.ERROR) {
+    return false;
   }
 
-  return false;
+  console.error(...msg);
+
+  return true;
 };
 
-export const log = (msg) => {
-  if (globalLevel >= LOG_LEVEL.INFO) {
-    console.log(msg);
-
-    return true;
+export const log = (...msg: Array<any>): boolean => {
+  if (globalLevel < LOG_LEVEL.INFO) {
+    return false;
   }
 
-  return false;
+  console.log(...msg);
+
+  return true;
 };
 
-export const verbose = (msg) => {
-  if (globalLevel >= LOG_LEVEL.VERBOSE) {
-    console.log(msg);
-
-    return true;
+export const verbose = (...msg: Array<any>): boolean => {
+  if (globalLevel < LOG_LEVEL.VERBOSE) {
+    return false;
   }
 
-  return false;
+  console.log(...msg);
+
+  return true;
 };
 
-export const assertTrue = (condition, msg) => {
+export const assertTrue = (condition: boolean, ...msg: Array<any>): void => {
   if (condition) {
-    this.error('ASSERT FAILED: ', msg);
+    error('ASSERT FAILED: ', ...msg);
   }
 };

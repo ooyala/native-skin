@@ -1,7 +1,7 @@
 // @flow
 
 import * as Utils from './utils';
-import localizableData from './__fixtures__/localizableData';
+import localizationFixture from './__fixtures__/localization';
 
 describe('getTimerLabel', () => {
   it('returns correct string representation of the seconds left', () => {
@@ -26,70 +26,82 @@ describe('getTimerLabel', () => {
 describe('localizedString', () => {
   it('tests localizedString() with edge cases', () => {
     const cases = [
+      // $FlowFixMe
       [null, null, null],
+      // $FlowFixMe
       [undefined, undefined, undefined],
+      // $FlowFixMe
       [[], undefined, undefined],
+      // $FlowFixMe
       [-12.12, null, {}],
+      // $FlowFixMe
       [{}, undefined, []],
     ];
 
     for (let i = 0; i < cases.length; i += 1) {
-      const result = Utils.localizedString(null, cases[i]);
+      const result = Utils.localizedString.apply(null, cases[i]);
 
-      expect(result).toBeNull();
+      expect(result).toBe('');
     }
   });
 
   it('tests localizedString() with not found preferredLocale', () => {
-    let result = Utils.localizedString('not found', 'On', localizableData);
+    let result = Utils.localizedString('not found', 'On', localizationFixture);
     expect(result).toBe('On');
 
-    result = Utils.localizedString('not found', 'NotFound', localizableData);
+    result = Utils.localizedString('not found', 'NotFound', localizationFixture);
     expect(result).toBe('NotFound');
 
-    result = Utils.localizedString(null, 'NotFound', localizableData);
+    // $FlowFixMe
+    result = Utils.localizedString(null, 'NotFound', localizationFixture);
     expect(result).toBe('NotFound');
 
-    result = Utils.localizedString(undefined, 'NotFound', localizableData);
+    // $FlowFixMe
+    result = Utils.localizedString(undefined, 'NotFound', localizationFixture);
     expect(result).toBe('NotFound');
   });
 
   it('tests localizedString() with not found stringId', () => {
-    let result = Utils.localizedString('es', 'I do not have a key', localizableData);
+    let result = Utils.localizedString('es', 'I do not have a key', localizationFixture);
     expect(result).toBe('I do not have a key');
 
-    result = Utils.localizedString('es', null, localizableData);
-    expect(result).toBeNull();
+    // $FlowFixMe
+    result = Utils.localizedString('es', null, localizationFixture);
+    expect(result).toBe('');
 
-    result = Utils.localizedString('es', undefined, localizableData);
-    expect(result).toBeNull();
+    // $FlowFixMe
+    result = Utils.localizedString('es', undefined, localizationFixture);
+    expect(result).toBe('');
   });
 
   it('tests localizedString() without localizableStrings', () => {
+    // $FlowFixMe
     let result = Utils.localizedString('es', 'LIVE', {});
     expect(result).toBe('LIVE');
 
+    // $FlowFixMe
     result = Utils.localizedString('es', 'LIVE', null);
     expect(result).toBe('LIVE');
 
+    // $FlowFixMe
     result = Utils.localizedString('es', 'LIVE', undefined);
     expect(result).toBe('LIVE');
   });
 
   it('tests localizedString() uses preferredLocale', () => {
-    let result = Utils.localizedString('es', 'Sample Text', localizableData);
+    let result = Utils.localizedString('es', 'Sample Text', localizationFixture);
     expect(result).toBe('Texto de muestra');
 
-    result = Utils.localizedString('en', 'Sample Text', localizableData);
+    result = Utils.localizedString('en', 'Sample Text', localizationFixture);
     expect(result).toBe('Sample Text');
   });
 
-  it('tests localizedString() uses localizableData defaultLanguage', () => {
-    let result = Utils.localizedString('fr', 'Ad', localizableData);
+  it('tests localizedString() uses localizationFixture defaultLanguage', () => {
+    let result = Utils.localizedString('fr', 'Ad', localizationFixture);
     expect(result).toBe('Ad');
 
-    localizableData.defaultLanguage = 'es';
-    result = Utils.localizedString('kr', 'Ad', localizableData);
+    localizationFixture.defaultLanguage = 'es';
+    result = Utils.localizedString('kr', 'Ad', localizationFixture);
     expect(result).toBe('Anuncio');
   });
 });
@@ -97,15 +109,20 @@ describe('localizedString', () => {
 describe('shouldShowLandscape', () => {
   it('tests shouldShowLandscape() with invalid arguments', () => {
     const cases = [
+      // $FlowFixMe
       [null, null],
+      // $FlowFixMe
       [undefined, undefined],
+      // $FlowFixMe
       [[], undefined],
+      // $FlowFixMe
       [-12.12, {}],
+      // $FlowFixMe
       ['number', ['x']],
     ];
 
     for (let i = 0; i < cases.length; i += 1) {
-      const result = Utils.shouldShowLandscape(null, cases[i]);
+      const result = Utils.shouldShowLandscape.apply(null, cases[i]);
 
       expect(result).toBeFalsy();
     }
