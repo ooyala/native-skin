@@ -347,6 +347,12 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
   NSString *stateString = [OOOoyalaPlayerStateConverter playerStateToString:self.player.state];
   
+  NSNumber *stateObject = notification.userInfo[@"newState"];
+  if (stateObject) {
+    NSString * stateStringFromUserInfo = [OOOoyalaPlayerStateConverter playerStateToString:stateObject.intValue];
+    stateString = stateStringFromUserInfo;
+  }
+  
   //OS: for live assets need to update frozen time, because playhead that based on current live position was changed since player was paused
   if (self.player.currentItem.live && self.player.state == OOOoyalaPlayerStatePlaying) {
     self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, YES};
