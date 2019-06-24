@@ -97,12 +97,10 @@ export const stringForErrorCode = (errorCode) => {
   switch (errorCode) {
     case 0:
       // Authorization failed
-      // TODO: Add to language files.
       return 'Authorization failed';
 
     case 1:
       // Authorization response invalid
-      // TODO: Add to language files.
       return 'Invalid Authorization Response';
 
     case 2:
@@ -111,17 +109,14 @@ export const stringForErrorCode = (errorCode) => {
 
     case 3:
       // Content tree response invalid
-      // TODO: Add to language files.
       return 'Content Tree Response Invalid';
 
     case 4:
       // Authorization signature invalid
-      // TODO: Add to language files.
       return 'The signature of the Authorization Response is invalid';
 
     case 5:
       // Content tree next failed
-      // TODO: Add to language files.
       return 'Content Tree Next failed';
 
     case 6:
@@ -134,7 +129,6 @@ export const stringForErrorCode = (errorCode) => {
 
     case 8:
       // Internal error
-      // TODO: Add to language files.
       return 'An internal error occurred';
 
     case 9:
@@ -163,47 +157,38 @@ export const stringForErrorCode = (errorCode) => {
 
     case 15:
       // DRM file download failure
-      // TODO: Add to language files.
       return 'Failed to download a required file during the DRM workflow';
 
     case 16:
       // DRM personalization failure
-      // TODO: Add to language files.
       return 'Failed to complete device personalization during the DRM workflow';
 
     case 17:
       // DRM rights server error
-      // TODO: Add to language files.
       return 'Failed to get rights for asset during the DRM workflow';
 
     case 18:
       // Invalid discovery parameter
-      // TODO: Add to language files.
       return 'The expected discovery parameters are not provided';
 
     case 19:
       // Discovery network error
-      // TODO: Add to language files.
       return 'A discovery network error occurred';
 
     case 20:
       // Discovery response failure
-      // TODO: Add to language files.
       return 'A discovery response error occurred';
 
     case 21:
       // No available streams
-      // TODO: Add to language files.
       return 'No available streams';
 
     case 22:
       // Pcode mismatch
-      // TODO: Add to language files.
       return 'The provided PCode does not match the embed code owner';
 
     case 23:
       // Download error
-      // TODO: Add to language files.
       return 'A download error occurred';
 
     case 24:
@@ -212,37 +197,30 @@ export const stringForErrorCode = (errorCode) => {
 
     case 25:
       //  Advertising id failure
-      // TODO: Add to language files.
       return 'Failed to return the advertising ID';
 
     case 26:
       // Discovery GET failure
-      // TODO: Add to language files.
       return 'Failed to get discovery results';
 
     case 27:
       // Discovery POST failure
-      // TODO: Add to language files.
       return 'Failed to post discovery pins';
 
     case 28:
       // Player format mismatch
-      // TODO: Add to language files.
       return 'Player and player content do not correspond';
 
     case 29:
       // Failed to create VR player
-      // TODO: Add to language files.
       return 'Failed to create VR player';
 
     case 30:
       // Unknown error
-      // TODO: Add to language files.
       return 'An unknown error occurred';
 
     case 31:
       // GeoBlocking access denied
-      // TODO: Add to language files.
       return 'Geo access denied';
 
     default:

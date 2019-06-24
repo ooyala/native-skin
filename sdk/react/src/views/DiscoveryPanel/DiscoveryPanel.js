@@ -22,7 +22,7 @@ import CountdownViewiOS from '../../shared/CountdownTimerIos';
 
 import styles from './DiscoveryPanel.styles';
 
-// TODO: read this from config.
+// TODO: Read this from config.
 const animationDuration = 1000;
 
 const rectWidth = 176;
