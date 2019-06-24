@@ -42,7 +42,7 @@ export default class UpNext extends React.Component<Props> {
 
     const upNextConfig = config.upNext || {};
 
-    // TODO: Unit test this functionality, there're still some edge cases
+    // TODO: Unit test this functionality, there're still some edge cases.
     if (typeof upNextConfig.timeToShow === 'string') {
       // Support old version of percentage (e.g. '80%')
       if (upNextConfig.timeToShow.indexOf('%') >= 0) {

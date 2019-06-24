@@ -202,7 +202,8 @@ export default class MoreOptionScreen extends React.Component<Props, State> {
       case BUTTON_NAMES.SHARE:
         buttonIcon = config.icons.share;
         break;
-      case BUTTON_NAMES.SETTING: // TODO: this doesn't exist in the skin.json?
+      // TODO: This doesn't exist in the skin.json?
+      case BUTTON_NAMES.SETTING:
         buttonIcon = config.icons.setting;
         break;
       case BUTTON_NAMES.STEREOSCOPIC:

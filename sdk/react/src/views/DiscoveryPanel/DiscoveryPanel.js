@@ -16,7 +16,7 @@ import type { Config } from '../../types/Config';
 
 import styles from './DiscoveryPanel.styles';
 
-// TODO: read this from config.
+// TODO: Read this from config.
 const animationDuration = 1000;
 
 const rectWidth = 176;

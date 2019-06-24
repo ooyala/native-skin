@@ -285,7 +285,7 @@ export default class ViewsRenderer {
         lastPressedTime={state.lastPressedTime}
         screenReaderEnabled={state.screenReaderEnabled}
         closedCaptionsLanguage={state.selectedLanguage}
-        // todo: change to boolean showCCButton.
+        // TODO: Change to boolean showCCButton.
         availableClosedCaptionsLanguages={state.availableClosedCaptionsLanguages}
         audioTracksTitles={this.skin.state.audioTracksTitles}
         caption={state.caption}
@@ -500,7 +500,7 @@ export default class ViewsRenderer {
           moreOptionsScreen: this.skin.props.moreOptionsScreen,
           buttons,
           icons: this.skin.props.icons,
-          // TODO: assumes this is how control bar width is calculated everywhere.
+          // TODO: Assumes this is how control bar width is calculated everywhere.
           controlBarWidth: this.skin.state.width - 2 * leftMargin,
         }}
       />
