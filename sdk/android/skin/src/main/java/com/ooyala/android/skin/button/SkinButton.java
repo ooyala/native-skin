@@ -15,7 +15,7 @@ public enum SkinButton {
   MORE("More"),
   CAST("Cast"),
   UP_NEXT_DISMISS("upNextDismiss"),
-  UN_NEXT_CLICK("upNextClick"),
+  UP_NEXT_CLICK("upNextClick"),
   BUTTON_SKIP("Skip"),
   BUTTON_AD_ICON("Icon"),
   BUTTON_ADD_OVERLAY("Overlay"),
