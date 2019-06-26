@@ -49,7 +49,7 @@ type Props = {
   cuePoints?: ?Array<number>,
   playhead: number,
   duration: number,
-  ad?: ?{},
+  ad?: ?boolean,
   volume: number,
   onPress?: ?(() => void),
   onScrub: (number) => void,
@@ -536,7 +536,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
 
   renderControlBar() {
     const {
-      duration, primaryButton, playhead, volume, live, width, height, fullscreen, isPipActivated, isPipButtonVisible,
+      ad, duration, primaryButton, playhead, volume, live, width, height, fullscreen, isPipActivated, isPipButtonVisible,
       onPress, handleControlsTouch, showWatermark, config, stereoSupported, showMoreOptionsButton, showAudioAndCCButton,
       showPlaybackSpeedButton, inCastMode,
     } = this.props;
@@ -547,6 +547,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
         playhead={playhead}
         duration={duration}
         volume={volume}
+        ad={ad}
         live={live}
         width={width - 2 * leftMargin}
         height={height}

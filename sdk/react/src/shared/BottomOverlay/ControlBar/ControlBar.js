@@ -28,6 +28,7 @@ export default class ControlBar extends React.Component {
     volume: PropTypes.number.isRequired,
     onPress: PropTypes.func.isRequired,
     handleControlsTouch: PropTypes.func.isRequired,
+    ad: PropTypes.bool,
     live: PropTypes.shape({}),
     config: PropTypes.shape({}).isRequired,
     stereoSupported: PropTypes.bool,
@@ -47,9 +48,9 @@ export default class ControlBar extends React.Component {
 
   getPlayHeadTimeString = () => {
     const {
-      live, playhead,
+      ad, live, playhead,
     } = this.props;
-    if (live) {
+    if (live && !ad) {
       return live.label;
     }
 
@@ -58,9 +59,9 @@ export default class ControlBar extends React.Component {
 
   getDurationString = () => {
     const {
-      live, duration, playhead,
+      ad, live, duration, playhead,
     } = this.props;
-    if (live) {
+    if (live && !ad) {
       if (live.isLive) {
         return null;
       }
@@ -198,7 +199,7 @@ export default class ControlBar extends React.Component {
 
   render() {
     const {
-      config, fullscreen, handleControlsTouch, height, inCastMode, isPipActivated, isPipButtonVisible, live,
+      ad, config, fullscreen, handleControlsTouch, height, inCastMode, isPipActivated, isPipButtonVisible, live,
       primaryButton, showAudioAndCCButton, showMoreOptionsButton, showPlaybackSpeedButton, stereoSupported, volume,
       width,
     } = this.props;
@@ -211,7 +212,7 @@ export default class ControlBar extends React.Component {
       android: config.controlBar.logo.imageResource.androidResource,
     });
     let liveCircle;
-    if (live) {
+    if (live && !ad) {
       liveCircle = live.isLive ? styles.liveCircleActive : styles.liveCircleNonActive;
     } else {
       liveCircle = null;
