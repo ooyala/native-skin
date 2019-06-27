@@ -462,12 +462,12 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 }
 
 - (void)bridgeAdPodStartedNotification:(NSNotification *)notification {
-  _isAdPlaying = YES;
+  self.isAdPlaying = YES;
   [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
 }
 
 - (void)bridgeAdPodCompleteNotification:(NSNotification *)notification {
-  _isAdPlaying = NO;
+  self.isAdPlaying = NO;
   NSNumber *playheadNumber  = self.adjustedPlayhead;
   NSNumber *durationNumber  = self.totalDuration;
   
