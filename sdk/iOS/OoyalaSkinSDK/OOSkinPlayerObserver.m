@@ -35,6 +35,7 @@
 @property (nonatomic, weak) OOOoyalaPlayer *player;
 @property (nonatomic, weak) OOReactSkinModel *ooReactSkinModel;
 @property (nonatomic) struct LiveAssetHelper liveHelper;
+@property (nonatomic) BOOL isAdPlaying;
 
 @end
 
@@ -119,6 +120,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   if (self = [super init]) {
     _ooReactSkinModel = ooReactSkinModel;
     _player = player;
+    _isAdPlaying = NO;
     [self addSelfAsObserverToPlayer:player];
   }
   return self;
@@ -273,7 +275,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSNumber *durationNumber  = self.totalDuration;
 
   //OS: pass to JS static playhead time, because playhead and live go forward simultaneously (PLAYER-5491)
-  if (self.player.currentItem.live && self.liveHelper.isOnGuard) {
+  if (self.player.currentItem.live && self.liveHelper.isOnGuard && !self.isAdPlaying) {
     playheadNumber = self.liveHelper.frozenSeekBackTime;
   }
   
@@ -460,15 +462,22 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 }
 
 - (void)bridgeAdPodStartedNotification:(NSNotification *)notification {
+  self.isAdPlaying = YES;
   [self.ooReactSkinModel sendEventWithName:notification.name body:nil];
 }
 
 - (void)bridgeAdPodCompleteNotification:(NSNotification *)notification {
-  Float64 duration = self.player.duration;
-  Float64 playhead = self.player.playheadTime;
+  self.isAdPlaying = NO;
+  NSNumber *playheadNumber  = self.adjustedPlayhead;
+  NSNumber *durationNumber  = self.totalDuration;
   
-  NSDictionary *eventBody = @{durationKey: @(duration),
-                              playheadKey: @(playhead)};
+  //OS: pass to JS static playhead time, because playhead and live go forward simultaneously (PLAYER-5491)
+  if (self.player.currentItem.live && self.liveHelper.isOnGuard) {
+    playheadNumber = self.liveHelper.frozenSeekBackTime;
+  }
+  
+  NSDictionary *eventBody = @{durationKey: durationNumber,
+                              playheadKey: playheadNumber};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel setReactViewInteractionEnabled:YES];
 }
