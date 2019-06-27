@@ -152,7 +152,7 @@ export default class AdPlaybackScreen extends React.Component {
         cuePoints={cuePoints}
         playhead={playhead}
         duration={duration}
-        ad={true}
+        ad={ad}
         volume={volume}
         live={this.generateLiveObject()}
         onPress={name => this.handlePress(name)}
