@@ -16,6 +16,7 @@ import styles from './ControlBar.styles';
 const { AndroidAccessibility } = NativeModules;
 
 type Props = {
+  isAdPlaying: boolean,
   width: number,
   height: number,
   primaryButton: string,
@@ -61,9 +62,10 @@ export default class ControlBar extends React.Component<Props, State> {
 
   getPlayHeadTimeString = () => {
     const {
-      live, playhead,
+      isAdPlaying, live, playhead,
     } = this.props;
-    if (live) {
+
+    if (live && !isAdPlaying) {
       return live.label;
     }
 
@@ -72,9 +74,10 @@ export default class ControlBar extends React.Component<Props, State> {
 
   getDurationString = () => {
     const {
-      live, duration, playhead,
+      isAdPlaying, live, duration, playhead,
     } = this.props;
-    if (live) {
+
+    if (live && !isAdPlaying) {
       if (live.isLive) {
         return null;
       }
@@ -212,9 +215,9 @@ export default class ControlBar extends React.Component<Props, State> {
 
   render() {
     const {
-      config, fullscreen, handleControlsTouch, height, inCastMode, isPipActivated, isPipButtonVisible, live,
-      primaryButton, showAudioAndCCButton, showMoreOptionsButton, showPlaybackSpeedButton, stereoSupported, volume,
-      width,
+      config, fullscreen, handleControlsTouch, height, inCastMode, isAdPlaying, isPipActivated, isPipButtonVisible,
+      live, primaryButton, showAudioAndCCButton, showMoreOptionsButton, showPlaybackSpeedButton, stereoSupported,
+      volume, width,
     } = this.props;
     const { showVolume } = this.state;
 
@@ -224,8 +227,10 @@ export default class ControlBar extends React.Component<Props, State> {
       ios: config.controlBar.logo.imageResource.iosResource,
       android: config.controlBar.logo.imageResource.androidResource,
     });
+
     let liveCircle;
-    if (live) {
+
+    if (live && !isAdPlaying) {
       liveCircle = live.isLive ? styles.liveCircleActive : styles.liveCircleNonActive;
     } else {
       liveCircle = null;
