@@ -3,6 +3,26 @@
 import * as Utils from './utils';
 import localizableData from './__fixtures__/localizableData';
 
+describe('getTimerLabel', () => {
+  it('returns correct string representation of the seconds left', () => {
+    expect(Utils.getTimerLabel(0)).toBe('00:00');
+    expect(Utils.getTimerLabel(5)).toBe('00:05');
+    expect(Utils.getTimerLabel(6.66)).toBe('00:06');
+    expect(Utils.getTimerLabel(10)).toBe('00:10');
+    expect(Utils.getTimerLabel(12)).toBe('00:12');
+    expect(Utils.getTimerLabel(33.3333)).toBe('00:33');
+    expect(Utils.getTimerLabel(60)).toBe('01:00');
+    expect(Utils.getTimerLabel(61)).toBe('01:01');
+    expect(Utils.getTimerLabel(77)).toBe('01:17');
+    expect(Utils.getTimerLabel(600)).toBe('10:00');
+    expect(Utils.getTimerLabel(601)).toBe('10:01');
+    expect(Utils.getTimerLabel(616)).toBe('10:16');
+    expect(Utils.getTimerLabel(660)).toBe('11:00');
+    expect(Utils.getTimerLabel(666)).toBe('11:06');
+    expect(Utils.getTimerLabel(777.777)).toBe('12:57');
+  });
+});
+
 describe('localizedString', () => {
   it('tests localizedString() with edge cases', () => {
     const cases = [
