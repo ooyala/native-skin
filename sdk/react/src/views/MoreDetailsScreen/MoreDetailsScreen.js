@@ -1,32 +1,38 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated, ScrollView, Text, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import { BUTTON_NAMES, ERROR_MESSAGE, SAS_ERROR_CODES } from '../../constants';
 import * as Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 import RectangularButton from '../../shared/RectangularButton';
+import type { Config } from '../../types/Config';
 
 import styles from './MoreDetailsScreen.styles';
 
 const dismissButtonSize = 20;
 
-export default class MoreDetailsScreen extends React.Component {
-  static propTypes = {
-    height: PropTypes.number,
-    width: PropTypes.number,
-    onDismiss: PropTypes.func,
-    config: PropTypes.shape({}),
-    error: PropTypes.shape({}),
-    localizableStrings: PropTypes.shape({}).isRequired,
-    locale: PropTypes.string.isRequired,
-  };
+type Props = {
+  height: number,
+  width: number,
+  onDismiss: () => void,
+  config: Config,
+  error: {},
+  localizableStrings: {},
+  locale: string,
+};
 
-  constructor(props) {
+type State = {
+  opacity: AnimatedValue,
+  translateY: AnimatedValue,
+};
+
+export default class MoreDetailsScreen extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

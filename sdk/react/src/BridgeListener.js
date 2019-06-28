@@ -200,7 +200,8 @@ export default class BridgeListener {
     }
   }
 
-  onTimeChange(e) { // todo: naming consistency? playheadUpdate vs. onTimeChange vs. ...
+  // TODO: Naming consistency? playheadUpdate vs. onTimeChange vs. ...
+  onTimeChange(e) {
     this.skin.setState({
       playhead: e.playhead,
       duration: e.duration,

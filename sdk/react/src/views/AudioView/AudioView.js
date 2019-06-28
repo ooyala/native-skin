@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated, PanResponder, Text, View,
@@ -14,38 +13,46 @@ import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import ControlBarWidget from '../../shared/ControlBarWidgets';
 import ProgressBar from '../../shared/ProgressBar';
+import type { Config } from '../../types/Config';
 
 import styles from './AudioView.styles';
 
 const scrubberSize = 14;
 const scrubTouchableDistance = 45;
 
-export default class AudioView extends React.Component {
-  static propTypes = {
-    playhead: PropTypes.number,
-    duration: PropTypes.number,
-    live: PropTypes.bool,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    volume: PropTypes.number,
-    playbackSpeedEnabled: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.number,
-    handlers: PropTypes.shape({
-      onPress: PropTypes.func.isRequired,
-      onScrub: PropTypes.func.isRequired,
-      handleControlsTouch: PropTypes.func.isRequired,
-      onControlsVisibilityChanged: PropTypes.func.isRequired,
-    }),
-    config: PropTypes.shape({}),
-    upNextDismissed: PropTypes.bool,
-    localizableStrings: PropTypes.shape({}),
-    locale: PropTypes.string,
-    playing: PropTypes.bool,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    onPlayComplete: PropTypes.bool,
-  };
+type Props = {
+  playhead: number,
+  duration: number,
+  live: boolean,
+  width: number,
+  height: number,
+  volume: number,
+  playbackSpeedEnabled: boolean,
+  selectedPlaybackSpeedRate: number,
+  handlers: {
+    onPress: () => void,
+    onScrub: () => void,
+    handleControlsTouch: () => void,
+    onControlsVisibilityChanged: boolean => void,
+  },
+  config: Config,
+  upNextDismissed: boolean,
+  localizableStrings: {},
+  locale: string,
+  playing: boolean,
+  title: string,
+  description: string,
+  onPlayComplete: boolean,
+};
 
+type State = {
+  skipCount: number,
+  cachedPlayhead: number,
+  progressBarWidth: number,
+  progressBarHeight: number,
+};
+
+export default class AudioView extends React.Component<Props, State> {
   panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
 
@@ -71,7 +78,7 @@ export default class AudioView extends React.Component {
     },
   });
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -88,7 +95,7 @@ export default class AudioView extends React.Component {
     handlers.onControlsVisibilityChanged(true);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const { playhead } = this.props;
 
     if (playhead !== nextProps.playhead) {
@@ -187,7 +194,7 @@ export default class AudioView extends React.Component {
       this,
       'sendSummedSkip',
       () => {
-        this.onSeekPressed(skipCount);
+        this.onSeekPressed(value);
         this.setState({
           skipCount: 0,
         });

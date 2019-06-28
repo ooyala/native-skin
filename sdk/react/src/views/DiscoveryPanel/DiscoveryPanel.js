@@ -1,28 +1,22 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  Animated,
-  DeviceEventEmitter,
-  Image,
-  ImageBackground,
-  Platform,
-  Text,
-  TouchableHighlight,
-  View,
+  Animated, DeviceEventEmitter, Image, ImageBackground, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import { BUTTON_NAMES, SCREEN_TYPES } from '../../constants';
 import * as Log from '../../lib/log';
 import * as Utils from '../../lib/utils';
 import ResponsiveList from './ResponsiveList';
-import CountdownViewAndroid from '../../shared/CountdownTimerAndroid';
-import CountdownViewiOS from '../../shared/CountdownTimerIos';
+import CountdownTimerAndroid from '../../shared/CountdownTimerAndroid';
+import CountdownTimerIos from '../../shared/CountdownTimerIos';
+import type { Config } from '../../types/Config';
 
 import styles from './DiscoveryPanel.styles';
 
-// TODO: read this from config.
+// TODO: Read this from config.
 const animationDuration = 1000;
 
 const rectWidth = 176;
@@ -31,20 +25,27 @@ const widthThreshold = 300;
 
 let timerListenerAndroid;
 
-export default class DiscoveryPanel extends React.Component {
-  static propTypes = {
-    onDismiss: PropTypes.func,
-    localizableStrings: PropTypes.shape({}),
-    locale: PropTypes.string,
-    dataSource: PropTypes.arrayOf(),
-    onRowAction: PropTypes.func,
-    config: PropTypes.shape({}),
-    width: PropTypes.number,
-    height: PropTypes.number,
-    screenType: PropTypes.string,
-    localizedString: PropTypes.string,
-  };
+type Props = {
+  onDismiss?: () => void,
+  localizableStrings?: {},
+  locale?: string,
+  dataSource?: Array<{}>,
+  onRowAction?: () => void,
+  config?: Config,
+  width?: number,
+  height?: number,
+  screenType?: string,
+  localizedString?: string,
+};
 
+type State = {
+  opacity: AnimatedValue,
+  showCountdownTimer: boolean,
+  counterTime: number,
+  impressionsFired: boolean,
+};
+
+export default class DiscoveryPanel extends React.Component<Props, State> {
   static defaultProps = {
     onDismiss: null,
     localizableStrings: [],
@@ -58,7 +59,7 @@ export default class DiscoveryPanel extends React.Component {
     localizedString: '',
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -207,7 +208,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
 
     Platform.select({
       ios: (
-        <CountdownViewiOS
+        <CountdownTimerIos
           style={{
             width: 44,
             height: 44,
@@ -225,7 +226,7 @@ Regular CountdownView uses onTimerCompleted callback defined in jsx
         />
       ),
       android: (
-        <CountdownViewAndroid
+        <CountdownTimerAndroid
           style={{
             width: 44,
             height: 44,

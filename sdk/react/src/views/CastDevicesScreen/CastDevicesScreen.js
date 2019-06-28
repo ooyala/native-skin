@@ -1,59 +1,44 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated, FlatList, Text, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import CastDeviceListItem from './CastDeviceListItem';
 import { BUTTON_NAMES } from '../../constants';
 import RectangularButton from '../../shared/RectangularButton';
+import type { Config } from '../../types/Config';
 
 import styles from './CastDevicesScreen.styles';
 
 const dismissButtonSize = 20;
 
-export default class CastDevicesScreen extends React.Component {
-  static propTypes = {
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    onDismiss: PropTypes.func.isRequired,
-    onDeviceSelected: PropTypes.func.isRequired,
-    config: PropTypes.shape({
-      castControls: PropTypes.shape({
-        iconStyle: PropTypes.shape({
-          active: PropTypes.shape({
-            color: PropTypes.string,
-          }),
-          inactive: PropTypes.shape({
-            color: PropTypes.string,
-          }),
-        }),
-      }),
-      icons: PropTypes.shape({
-        'chromecast-disconnected': PropTypes.shape({
-          fontString: PropTypes.string,
-          fontFamilyName: PropTypes.string,
-        }),
-        dismiss: PropTypes.shape({
-          fontString: PropTypes.string,
-          fontFamilyName: PropTypes.string,
-        }),
-      }),
-    }).isRequired,
-    devices: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      title: PropTypes.string,
-    })).isRequired,
-    selectedDeviceId: PropTypes.string,
-  };
+type Props = {
+  height: number,
+  width: number,
+  onDismiss: () => void,
+  onDeviceSelected: () => void,
+  config: Config,
+  devices: Array<{
+    id: string,
+    title: string,
+  }>,
+  selectedDeviceId?: string,
+};
 
+type State = {
+  opacity: AnimatedValue,
+  selectedID: number,
+};
+
+export default class CastDevicesScreen extends React.Component<Props, State> {
   static defaultProps = {
     selectedDeviceId: null,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

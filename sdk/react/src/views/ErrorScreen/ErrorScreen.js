@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
@@ -10,15 +9,18 @@ import * as Utils from '../../lib/utils';
 
 import styles from './ErrorScreen.styles';
 
-export default class ErrorScreen extends React.Component {
-  static propTypes = {
-    error: PropTypes.shape({}),
-    localizableStrings: PropTypes.shape({}),
-    locale: PropTypes.string,
-    isAudioOnly: PropTypes.bool,
-    onPress: PropTypes.func,
-  };
+type Props = {
+  error: {
+    code?: string,
+    description?: string,
+  },
+  localizableStrings: {},
+  locale: string,
+  isAudioOnly: boolean,
+  onPress: () => void,
+};
 
+export default class ErrorScreen extends React.Component<Props> {
   getTitle = () => {
     const { error, locale, localizableStrings } = this.props;
 

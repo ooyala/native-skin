@@ -10,7 +10,7 @@ import createStyles from './TextMarker.styles';
 const TEXT_MARKER_COLLAPSED_LENGTH = 8;
 
 type Props = {
-  backgroundColor?: ?string,
+  backgroundColor?: string,
   containerWidth: number,
   leftPosition: number,
   onSeek: () => void,

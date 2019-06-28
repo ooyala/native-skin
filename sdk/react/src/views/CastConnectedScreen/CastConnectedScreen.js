@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated, Image, Text, TouchableOpacity, View,
@@ -11,49 +10,51 @@ import { BUTTON_NAMES, UI_SIZES, VALUES } from '../../constants';
 import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import * as Utils from '../../lib/utils';
 import BottomOverlay from '../../shared/BottomOverlay';
+import type { Config } from '../../types/Config';
+import type { Marker } from '../../types/Markers';
 
 import styles from './CastConnectedScreen.styles';
 
-export default class CastConnectedScreen extends React.Component {
-  static propTypes = {
-    playhead: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
-    live: PropTypes.bool.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    volume: PropTypes.number.isRequired,
-    fullscreen: PropTypes.bool.isRequired,
-    cuePoints: PropTypes.arrayOf(PropTypes.number).isRequired,
-    stereoSupported: PropTypes.bool.isRequired,
-    multiAudioEnabled: PropTypes.bool.isRequired,
-    playbackSpeedEnabled: PropTypes.bool.isRequired,
-    selectedPlaybackSpeedRate: PropTypes.string.isRequired,
-    handlers: PropTypes.shape({
-      onSwitch: PropTypes.func,
-      onPress: PropTypes.func,
-      onScrub: PropTypes.func,
-      handleVideoTouchStart: PropTypes.func,
-      handleVideoTouchMove: PropTypes.func,
-      handleVideoTouchEnd: PropTypes.func,
-      handleControlsTouch: PropTypes.func,
-      handleShowControls: PropTypes.func,
-      onControlsVisibilityChanged: PropTypes.func.isRequired,
-    }).isRequired,
-    screenReaderEnabled: PropTypes.bool.isRequired,
-    availableClosedCaptionsLanguages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    config: PropTypes.shape({}).isRequired,
-    localizableStrings: PropTypes.shape({}).isRequired,
-    locale: PropTypes.string.isRequired,
-    playing: PropTypes.bool.isRequired,
-    loading: PropTypes.bool.isRequired,
-    onDisconnect: PropTypes.func.isRequired,
-    deviceName: PropTypes.string.isRequired,
-    inCastMode: PropTypes.bool.isRequired,
-    previewUrl: PropTypes.string.isRequired,
-    markers: PropTypes.arrayOf().isRequired,
-    hasNextVideo: PropTypes.bool.isRequired,
-  };
+type Props = {
+  playhead: number,
+  duration: number,
+  live: boolean,
+  width: number,
+  height: number,
+  volume: number,
+  fullscreen: boolean,
+  cuePoints: Array<number>,
+  stereoSupported: boolean,
+  multiAudioEnabled: boolean,
+  playbackSpeedEnabled: boolean,
+  selectedPlaybackSpeedRate: string,
+  handlers: {
+    onSwitch: () => void,
+    onPress: () => void,
+    onScrub: () => void,
+    handleVideoTouchStart: () => void,
+    handleVideoTouchMove: () => void,
+    handleVideoTouchEnd: () => void,
+    handleControlsTouch: () => void,
+    handleShowControls: () => void,
+    onControlsVisibilityChanged: () => void,
+  },
+  screenReaderEnabled: boolean,
+  availableClosedCaptionsLanguages: Array<{}>,
+  config: Config,
+  localizableStrings: {},
+  locale: string,
+  playing: boolean,
+  loading: boolean,
+  onDisconnect: () => void,
+  deviceName: string,
+  inCastMode: boolean,
+  previewUrl: string,
+  markers: Array<Marker>,
+  hasNextVideo: boolean,
+};
 
+export default class CastConnectedScreen extends React.Component<Props> {
   static renderBorder() {
     return <View style={styles.border} />;
   }

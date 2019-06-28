@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   ActivityIndicator, Animated, Text, TouchableOpacity,
@@ -8,13 +7,13 @@ import {
 
 import styles from './CastConnectingScreen.styles';
 
-export default class CastConnectingScreen extends React.Component {
-  static propTypes = {
-    height: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    onDisconnect: PropTypes.func.isRequired,
-  };
+type Props = {
+  height: number,
+  width: number,
+  onDisconnect: () => void,
+};
 
+export default class CastConnectingScreen extends React.Component<Props> {
   static renderCircleIndicator() {
     return (
       <ActivityIndicator

@@ -1,30 +1,30 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   ImageBackground, Platform, Text, TouchableHighlight, View,
 } from 'react-native';
 
 import { BUTTON_NAMES } from '../../../constants';
-import CountdownViewAndroid from '../../../shared/CountdownTimerAndroid';
-import CountdownView from '../../../shared/CountdownTimerIos';
+import CountdownTimerAndroid from '../../../shared/CountdownTimerAndroid';
+import CountdownTimerIos from '../../../shared/CountdownTimerIos';
+import type { Config } from '../../../types/Config';
 
 import styles from './UpNext.styles';
 
 const defaultCountdownVal = 10;
 
-export default class UpNext extends React.Component {
-  static propTypes = {
-    config: PropTypes.shape({}),
-    playhead: PropTypes.number,
-    duration: PropTypes.number,
-    ad: PropTypes.shape({}),
-    nextVideo: PropTypes.shape({}),
-    onPress: PropTypes.func,
-    upNextDismissed: PropTypes.bool,
-  };
+type Props = {
+  config: Config,
+  playhead: number,
+  duration: number,
+  ad: {},
+  nextVideo: {},
+  onPress: string => void,
+  upNextDismissed: boolean,
+};
 
+export default class UpNext extends React.Component<Props> {
   dismissUpNext = () => {
     const { onPress } = this.props;
 
@@ -42,7 +42,7 @@ export default class UpNext extends React.Component {
 
     const upNextConfig = config.upNext || {};
 
-    // TODO: Unit test this functionality, there're still some edge cases
+    // TODO: Unit test this functionality, there're still some edge cases.
     if (typeof upNextConfig.timeToShow === 'string') {
       // Support old version of percentage (e.g. '80%')
       if (upNextConfig.timeToShow.indexOf('%') >= 0) {
@@ -111,7 +111,7 @@ export default class UpNext extends React.Component {
 
     return Platform.select({
       ios: (
-        <CountdownView
+        <CountdownTimerIos
           style={styles.countdownView}
           automatic={false}
           time={this.upNextDuration()}
@@ -121,7 +121,7 @@ export default class UpNext extends React.Component {
         />
       ),
       android: (
-        <CountdownViewAndroid
+        <CountdownTimerAndroid
           style={styles.countdownView}
           countdown={{
             main_color: '#AAffffff',

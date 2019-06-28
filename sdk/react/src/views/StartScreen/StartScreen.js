@@ -1,28 +1,28 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 import { BUTTON_NAMES, IMG_URLS, UI_SIZES } from '../../constants';
 import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
+import type { Config } from '../../types/Config';
 
 import styles from './StartScreen.styles';
 
-export default class StartScreen extends React.Component {
-  static propTypes = {
-    config: PropTypes.shape({}),
-    title: PropTypes.string,
-    description: PropTypes.string,
-    promoUrl: PropTypes.string,
-    onPress: PropTypes.func,
-    playhead: PropTypes.number,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    screenReaderEnabled: PropTypes.bool,
-  };
+type Props = {
+  config: Config,
+  title: string,
+  description: string,
+  promoUrl: string,
+  onPress: string => void,
+  playhead: number,
+  width: number,
+  height: number,
+  screenReaderEnabled: boolean,
+};
 
+export default class StartScreen extends React.Component<Props> {
   handleClick = () => {
     const { onPress } = this.props;
 

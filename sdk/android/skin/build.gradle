@@ -96,6 +96,7 @@ bintray {
         name = bintrayName
         desc = libraryDescription
         publish = true
+        override = true
         publicDownloadNumbers = true
         version {
             desc = libraryDescription

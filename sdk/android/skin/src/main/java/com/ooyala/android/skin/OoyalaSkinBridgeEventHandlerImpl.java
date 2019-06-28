@@ -10,7 +10,6 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.SystemClock;
 import com.ooyala.android.OoyalaPlayer;
 import com.ooyala.android.discovery.DiscoveryManager;
-import com.ooyala.android.item.CastDevice;
 import com.ooyala.android.skin.button.SkinButton;
 import com.ooyala.android.util.DebugMode;
 
@@ -67,7 +66,7 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
               case UP_NEXT_DISMISS:
                 _layoutController.handleUpNextDismissed();
                 break;
-              case UN_NEXT_CLICK:
+              case UP_NEXT_CLICK:
                 _layoutController.maybeStartUpNext();
                 break;
               case BUTTON_SKIP:
@@ -132,13 +131,28 @@ class OoyalaSkinBridgeEventHandlerImpl implements BridgeEventHandler {
   public void onSwitch(ReadableMap isForward) {
     final boolean forward = isForward.getBoolean("direction");
     runOnUiThread(() -> {
-      if (forward) {
-        _player.nextVideo(OoyalaPlayer.DO_PLAY);
+      if (_player.isInCastMode()) {
+        handleSwitchInCastMode(forward);
       } else {
-        _player.previousVideo(OoyalaPlayer.DO_PLAY);
+        handleSwitch(forward);
       }
     });
+  }
 
+  private void handleSwitchInCastMode(boolean forward) {
+    if (forward) {
+      _layoutController.maybeStartUpNext();
+    } else {
+      _player.seek(0);
+    }
+  }
+
+  private void handleSwitch(boolean forward) {
+    if (forward) {
+      _player.nextVideo(OoyalaPlayer.DO_PLAY);
+    } else {
+      _player.previousVideo(OoyalaPlayer.DO_PLAY);
+    }
   }
 
   public void onDiscoveryRow(ReadableMap parameters) {

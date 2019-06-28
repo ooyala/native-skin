@@ -1,15 +1,32 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
+import type { TextStyleProp, ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import styles from './RectangularButton.styles';
+
+type Props = {
+  icon?: string,
+  name?: string,
+  position?: string,
+  onPress?: () => void,
+  opacity?: number,
+  frameWidth?: number,
+  frameHeight?: number,
+  buttonWidth?: number,
+  buttonHeight?: number,
+  buttonColor?: string,
+  buttonStyle?: TextStyleProp,
+  fontSize?: number,
+  fontFamily?: string,
+  style?: ViewStyleProp,
+};
 
 const RectangularButton = ({
   buttonColor, buttonHeight, buttonStyle, buttonWidth, fontFamily, fontSize, frameHeight, frameWidth, icon, name,
   onPress, opacity, position, style,
-}) => {
+}: Props) => {
   let positionStyle;
 
   if (style) {
@@ -56,21 +73,21 @@ const RectangularButton = ({
   );
 };
 
-RectangularButton.propTypes = {
-  icon: PropTypes.string,
-  name: PropTypes.string,
-  position: PropTypes.string,
-  onPress: PropTypes.func,
-  opacity: PropTypes.number,
-  frameWidth: PropTypes.number,
-  frameHeight: PropTypes.number,
-  buttonWidth: PropTypes.number,
-  buttonHeight: PropTypes.number,
-  buttonColor: PropTypes.string,
-  buttonStyle: PropTypes.shape({}),
-  fontSize: PropTypes.number,
-  fontFamily: PropTypes.string,
-  style: Text.propTypes.style,
+RectangularButton.defaultProps = {
+  icon: undefined,
+  name: undefined,
+  position: undefined,
+  onPress: undefined,
+  opacity: undefined,
+  frameWidth: undefined,
+  frameHeight: undefined,
+  buttonWidth: undefined,
+  buttonHeight: undefined,
+  buttonColor: undefined,
+  buttonStyle: undefined,
+  fontSize: undefined,
+  fontFamily: undefined,
+  style: undefined,
 };
 
 export default RectangularButton;

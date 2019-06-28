@@ -1,30 +1,38 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Animated, View } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import { BUTTON_NAMES } from '../../constants';
 import { collapse, collapseForAudioOnly } from '../../lib/collapser';
 import * as Log from '../../lib/log';
 import RectangularButton from '../../shared/RectangularButton';
+import type { Config } from '../../types/Config';
 
 import styles from './MoreOptionScreen.styles';
 
 const dismissButtonSize = 20;
 
-export default class MoreOptionScreen extends React.Component {
-  static propTypes = {
-    height: PropTypes.number,
-    onDismiss: PropTypes.func,
-    onOptionButtonPress: PropTypes.func,
-    config: PropTypes.shape({}),
-    showAudioAndCCButton: PropTypes.bool,
-    isAudioOnly: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.string,
-  };
+type Props = {
+  height: number,
+  onDismiss: () => void,
+  onOptionButtonPress: () => void,
+  config: Config,
+  showAudioAndCCButton: boolean,
+  isAudioOnly: boolean,
+  selectedPlaybackSpeedRate: string,
+};
 
-  constructor(props) {
+type State = {
+  button: string,
+  buttonOpacity: AnimatedValue,
+  opacity: AnimatedValue,
+  translateY: AnimatedValue,
+};
+
+export default class MoreOptionScreen extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -194,7 +202,8 @@ export default class MoreOptionScreen extends React.Component {
       case BUTTON_NAMES.SHARE:
         buttonIcon = config.icons.share;
         break;
-      case BUTTON_NAMES.SETTING: // TODO: this doesn't exist in the skin.json?
+      // TODO: This doesn't exist in the skin.json?
+      case BUTTON_NAMES.SETTING:
         buttonIcon = config.icons.setting;
         break;
       case BUTTON_NAMES.STEREOSCOPIC:

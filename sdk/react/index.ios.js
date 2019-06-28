@@ -1,39 +1,36 @@
+// @flow
 // Rule disabled because this component state used from Core.
 /* eslint-disable react/no-unused-state */
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  AccessibilityInfo,
-  ActivityIndicator,
-  AppRegistry,
-  NativeEventEmitter,
-  NativeModules,
-  StyleSheet,
+  AccessibilityInfo, ActivityIndicator, AppRegistry, NativeEventEmitter, NativeModules, StyleSheet,
 } from 'react-native';
 
-import Core from './src/Core';
 import { CONTENT_TYPES, DESIRED_STATES, SCREEN_TYPES } from './src/constants';
+import Core from './src/Core';
 
-const {
-  OOReactSkinEventsEmitter,
-  OOReactSkinBridgeModuleMain,
-} = NativeModules;
+const { OOReactSkinEventsEmitter, OOReactSkinBridgeModuleMain } = NativeModules;
 const eventBridgeEmitter = new NativeEventEmitter(OOReactSkinEventsEmitter);
+
 let OoyalaSkinCoreInstance;
 
 const styles = StyleSheet.create({
   loading: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
     height: 200,
+    justifyContent: 'center',
   },
 });
 
-class OoyalaSkin extends Component {
-  // note/todo: some of these are more like props, expected to be over-ridden/updated
-  // by the native bridge, and others are used purely on the non-native side.
-  // consider using a leading underscore, or something?
+type Props = {};
+
+type State = {};
+
+class OoyalaSkin extends React.Component<Props, State> {
+  // TODO: Some of these are more like props, expected to be over-ridden/updated by the native bridge, and others are
+  // used purely on the non-native side. Consider using a leading underscore, or something?
   state = {
     // states from react
     screenType: SCREEN_TYPES.LOADING_SCREEN,
@@ -90,7 +87,7 @@ class OoyalaSkin extends Component {
         });
       });
 
-    // TODO: Figure out how to add setAccessibilityFocus method from the ObjC side
+    // TODO: Figure out how to add setAccessibilityFocus method from the ObjC side.
     // AccessibilityInfo.setAccessibilityFocus(1);
   }
 

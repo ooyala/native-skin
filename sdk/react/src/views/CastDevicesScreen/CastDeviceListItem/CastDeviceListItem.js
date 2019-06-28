@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
@@ -11,28 +10,29 @@ import styles from './CastDeviceListItem.styles';
 
 const castButtonSize = 35;
 
-export default class DeviceListItem extends React.Component {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    onPressItem: PropTypes.func.isRequired,
-    selected: PropTypes.bool,
-    activeColor: PropTypes.string.isRequired,
-    inactiveColor: PropTypes.string.isRequired,
-    castIcon: PropTypes.shape({
-      'chromecast-disconnected': PropTypes.shape({
-        fontString: PropTypes.string,
-        fontFamilyName: PropTypes.string,
-      }),
-    }).isRequired,
-  };
+type Props = {
+  id: string,
+  title: string,
+  onPressItem: () => void,
+  selected?: boolean,
+  activeColor: string,
+  inactiveColor: string,
+  castIcon: {
+    'chromecast-disconnected': {
+      fontString: string,
+      fontFamilyName: string,
+    },
+  },
+};
 
+export default class DeviceListItem extends React.Component<Props> {
   static defaultProps = {
     selected: false,
   };
 
   onPress = () => {
     const { onPressItem, id } = this.props;
+
     onPressItem(id);
   };
 

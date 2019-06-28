@@ -1,8 +1,8 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Animated, TouchableHighlight, View } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 import timerForSkipButtons from 'react-native-timer';
 
 import { BUTTON_NAMES, VALUES } from '../../constants';
@@ -17,29 +17,63 @@ const PAUSE = 'pause';
 const FORWARD = 'seekForward';
 const BACKWARD = 'seekBackward';
 
-export default class VideoViewPlayPause extends React.Component {
-  static propTypes = {
-    seekEnabled: PropTypes.bool,
-    ffActive: PropTypes.bool,
-    icons: PropTypes.shape({}),
-    onPress: PropTypes.func,
-    onSeekPressed: PropTypes.func,
-    seekForwardValue: PropTypes.number,
-    seekBackwardValue: PropTypes.number,
-    opacity: PropTypes.number,
-    frameWidth: PropTypes.number,
-    frameHeight: PropTypes.number,
-    buttonWidth: PropTypes.number,
-    buttonHeight: PropTypes.number,
-    buttonColor: PropTypes.string,
-    fontSize: PropTypes.number,
-    showButton: PropTypes.bool,
-    showSeekButtons: PropTypes.bool,
-    playing: PropTypes.bool,
-    initialPlay: PropTypes.bool,
+type Props = {
+  seekEnabled?: boolean,
+  ffActive?: boolean,
+  icons?: {},
+  onPress?: () => void,
+  onSeekPressed?: () => void,
+  seekForwardValue?: number,
+  seekBackwardValue?: number,
+  opacity?: number,
+  frameWidth?: number,
+  frameHeight?: number,
+  buttonWidth?: number,
+  buttonHeight?: number,
+  buttonColor?: string,
+  fontSize?: number,
+  showButton?: boolean,
+  showSeekButtons?: boolean,
+  playing?: boolean,
+  initialPlay?: boolean,
+};
+
+type State = {
+  playing: boolean,
+  playPause: {
+    animationOpacity: AnimatedValue,
+    animationScale: AnimatedValue,
+  },
+  skipButtons: {
+    animationOpacity: AnimatedValue,
+    animationScale: AnimatedValue,
+  },
+  skipCount: number,
+};
+
+export default class VideoViewPlayPause extends React.Component<Props, State> {
+  static defaultProps = {
+    seekEnabled: undefined,
+    ffActive: undefined,
+    icons: undefined,
+    onPress: undefined,
+    onSeekPressed: undefined,
+    seekForwardValue: undefined,
+    seekBackwardValue: undefined,
+    opacity: undefined,
+    frameWidth: undefined,
+    frameHeight: undefined,
+    buttonWidth: undefined,
+    buttonHeight: undefined,
+    buttonColor: undefined,
+    fontSize: undefined,
+    showButton: undefined,
+    showSeekButtons: undefined,
+    playing: undefined,
+    initialPlay: undefined,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -56,7 +90,7 @@ export default class VideoViewPlayPause extends React.Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     const { playing } = this.props;
 
     if (nextProps.playing !== playing) {
@@ -91,7 +125,7 @@ export default class VideoViewPlayPause extends React.Component {
       this,
       'sendSummedSkip',
       () => {
-        onSeekPressed(skipCount);
+        onSeekPressed(value);
         this.setState({
           skipCount: 0,
         });

@@ -285,7 +285,7 @@ export default class ViewsRenderer {
         lastPressedTime={state.lastPressedTime}
         screenReaderEnabled={state.screenReaderEnabled}
         closedCaptionsLanguage={state.selectedLanguage}
-        // todo: change to boolean showCCButton.
+        // TODO: Change to boolean showCCButton.
         availableClosedCaptionsLanguages={state.availableClosedCaptionsLanguages}
         audioTracksTitles={this.skin.state.audioTracksTitles}
         caption={state.caption}
@@ -500,7 +500,7 @@ export default class ViewsRenderer {
           moreOptionsScreen: this.skin.props.moreOptionsScreen,
           buttons,
           icons: this.skin.props.icons,
-          // TODO: assumes this is how control bar width is calculated everywhere.
+          // TODO: Assumes this is how control bar width is calculated everywhere.
           controlBarWidth: this.skin.state.width - 2 * leftMargin,
         }}
       />
@@ -522,7 +522,8 @@ export default class ViewsRenderer {
     );
   }
 
-  renderScreen(overlayType, inAdPod, screenType) {
+  renderScreen(overlayType: ?string, inAdPod: ?boolean, screenType: ?string) {
+    // Render overlay view.
     if (overlayType) {
       switch (overlayType) {
         case OVERLAY_TYPES.MOREOPTION_SCREEN:
@@ -557,10 +558,21 @@ export default class ViewsRenderer {
       }
     }
 
+    // Render ad view.
     if (inAdPod) {
       return this.renderAdPlaybackScreen();
     }
 
+    // Render cast view instead of not listed screens.
+    if (this.skin.state.inCastMode
+      && screenType !== SCREEN_TYPES.END_SCREEN
+      && screenType !== SCREEN_TYPES.ERROR_SCREEN
+      && screenType !== SCREEN_TYPES.ERROR_SCREEN_AUDIO
+      && screenType !== SCREEN_TYPES.AUDIO_SCREEN) {
+      return this.renderCastConnectedScreen();
+    }
+
+    // Render basic view eventually.
     switch (screenType) {
       case SCREEN_TYPES.START_SCREEN:
         if (this.skin.state.desiredState !== DESIRED_STATES.DESIRED_PLAY) {
@@ -585,10 +597,6 @@ export default class ViewsRenderer {
         return this.renderAudioView();
 
       default:
-        if (this.skin.state.inCastMode) {
-          return this.renderCastConnectedScreen();
-        }
-
         return this.renderVideoView();
     }
   }

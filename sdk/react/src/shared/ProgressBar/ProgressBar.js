@@ -1,43 +1,21 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { View } from 'react-native';
 
 import { VIEW_NAMES } from '../../constants';
 import * as Log from '../../lib/log';
+import type { Config } from '../../types/Config';
 
 import styles from './ProgressBar.styles';
 
-export default class ProgressBar extends React.Component {
-  static propTypes = {
-    percent: PropTypes.number,
-    config: PropTypes.shape({
-      general: PropTypes.shape({
-        accentColor: PropTypes.string,
-      }),
-      controlBar: PropTypes.shape({
-        adScrubberBar: PropTypes.shape({
-          playedColor: PropTypes.string,
-          backgroundColor: PropTypes.string,
-          bufferedColor: PropTypes.string,
-        }),
-        scrubberBar: PropTypes.shape({
-          playedColor: PropTypes.string,
-          backgroundColor: PropTypes.string,
-          bufferedColor: PropTypes.string,
-        }),
-      }),
-    }),
-    ad: PropTypes.bool,
-  };
+type Props = {
+  ad: boolean,
+  config: Config,
+  percent: number,
+};
 
-  static defaultProps = {
-    percent: 0,
-    config: {},
-    ad: false,
-  };
-
+export default class ProgressBar extends React.Component<Props> {
   getAdScrubberBarPlayedColor = () => {
     const { config } = this.props;
     const { general, controlBar } = config;
@@ -132,7 +110,7 @@ export default class ProgressBar extends React.Component {
         />
         <View
           style={backgroundStyle}
-          testId={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
+          testID={VIEW_NAMES.TIME_SEEK_BAR_BACKGROUND}
           accessibilityLabel=""
         />
         <View

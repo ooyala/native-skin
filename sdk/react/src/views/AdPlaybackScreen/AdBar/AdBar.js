@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableHighlight, View } from 'react-native';
 
@@ -10,17 +9,17 @@ import * as Utils from '../../../lib/utils';
 
 import styles from './AdBar.styles';
 
-export default class AdBar extends React.Component {
-  static propTypes = {
-    ad: PropTypes.shape({}),
-    playhead: PropTypes.number,
-    duration: PropTypes.number,
-    onPress: PropTypes.func,
-    width: PropTypes.number,
-    localizableStrings: PropTypes.shape({}),
-    locale: PropTypes.string,
-  };
+type Props = {
+  ad: {},
+  playhead: number,
+  duration: number,
+  onPress: () => void,
+  width: number,
+  localizableStrings: {},
+  locale: string,
+};
 
+export default class AdBar extends React.Component<Props> {
   onLearnMore = () => {
     const { onPress } = this.props;
 

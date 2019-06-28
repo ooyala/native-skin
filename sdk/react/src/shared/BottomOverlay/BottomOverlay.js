@@ -9,12 +9,7 @@ import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/Animat
 import * as Accessibility from '../../lib/accessibility';
 import ProgressBar from '../ProgressBar';
 import {
-  ANNOUNCER_TYPES,
-  MARKERS_SIZES,
-  UI_SIZES,
-  VALUES,
-  VIEW_ACCESSIBILITY_NAMES,
-  VIEW_NAMES,
+  ANNOUNCER_TYPES, MARKERS_SIZES, UI_SIZES, VALUES, VIEW_ACCESSIBILITY_NAMES, VIEW_NAMES,
 } from '../../constants';
 import ControlBar from './ControlBar';
 import * as Log from '../../lib/log';
@@ -41,30 +36,30 @@ const accessibilityProgressDelay = 5000; // Workaround for accessibility announc
 
 type Props = {
   width: number,
-  height?: ?number,
-  primaryButton?: ?string,
-  fullscreen?: ?boolean,
-  isPipActivated?: ?boolean,
-  isPipButtonVisible?: ?boolean,
-  cuePoints?: ?Array<number>,
+  height?: number,
+  primaryButton?: string,
+  fullscreen?: boolean,
+  isPipActivated?: boolean,
+  isPipButtonVisible?: boolean,
+  cuePoints?: Array<number>,
   playhead: number,
   duration: number,
-  ad?: ?{},
+  ad?: {},
   volume: number,
-  onPress?: ?(() => void),
-  onScrub: (number) => void,
+  onPress?: () => void,
+  onScrub: number => void,
   handleControlsTouch: () => void,
-  isShow?: ?boolean,
-  shouldShowProgressBar?: ?boolean,
-  live?: ?{},
-  screenReaderEnabled?: ?boolean,
+  isShow?: boolean,
+  shouldShowProgressBar?: boolean,
+  live?: {},
+  screenReaderEnabled?: boolean,
   config: Config,
-  stereoSupported?: ?boolean,
-  showMoreOptionsButton?: ?boolean,
-  showAudioAndCCButton?: ?boolean,
-  showPlaybackSpeedButton?: ?boolean,
-  inCastMode?: ?boolean,
-  showWatermark?: ?boolean,
+  stereoSupported?: boolean,
+  showMoreOptionsButton?: boolean,
+  showAudioAndCCButton?: boolean,
+  showPlaybackSpeedButton?: boolean,
+  inCastMode?: boolean,
+  showWatermark?: boolean,
   markers: Array<Marker>,
 };
 
@@ -536,13 +531,14 @@ export default class BottomOverlay extends React.Component<Props, State> {
 
   renderControlBar() {
     const {
-      duration, primaryButton, playhead, volume, live, width, height, fullscreen, isPipActivated, isPipButtonVisible,
-      onPress, handleControlsTouch, showWatermark, config, stereoSupported, showMoreOptionsButton, showAudioAndCCButton,
-      showPlaybackSpeedButton, inCastMode,
+      ad, duration, primaryButton, playhead, volume, live, width, height, fullscreen, isPipActivated,
+      isPipButtonVisible, onPress, handleControlsTouch, showWatermark, config, stereoSupported, showMoreOptionsButton,
+      showAudioAndCCButton, showPlaybackSpeedButton, inCastMode,
     } = this.props;
 
     return (
       <ControlBar
+        isAdPlaying={!!ad}
         primaryButton={primaryButton}
         playhead={playhead}
         duration={duration}

@@ -1,10 +1,12 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated, PanResponder, Text, TouchableHighlight, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
+
+import type { Config } from '../../types/Config';
 
 import styles from './VolumePanel.styles';
 
@@ -14,16 +16,25 @@ const constants = {
   scrubTouchableDistance: 45,
 };
 
-export default class VolumePanel extends React.Component {
-  static propTypes = {
-    onDismiss: PropTypes.func,
-    onVolumeChanged: PropTypes.func.isRequired,
-    volume: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    config: PropTypes.shape({}),
-  };
+type Props = {
+  onDismiss: () => void,
+  onVolumeChanged: () => void,
+  volume: number,
+  width: number,
+  height: number,
+  config: Config,
+};
 
+type State = {
+  volume: number,
+  opacity: AnimatedValue,
+  touch: boolean,
+  x: number,
+  sliderWidth: number,
+  sliderHeight: number,
+};
+
+export default class VolumePanel extends React.Component<Props, State> {
   // Actions
   panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -50,7 +61,7 @@ export default class VolumePanel extends React.Component {
     },
   });
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
