@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   ActivityIndicator, Image, Platform, Text, TouchableHighlight, View,
@@ -11,30 +10,36 @@ import InfoPanel from './InfoPanel';
 import * as Log from '../../lib/log';
 import responsiveMultiplier from '../../lib/responsiveMultiplier';
 import BottomOverlay from '../../shared/BottomOverlay';
+import type { Config } from '../../types/Config';
+import type { Marker } from '../../types/Markers';
 
 import styles from './EndScreen.styles';
 
-export default class EndScreen extends React.Component {
-  static propTypes = {
-    config: PropTypes.shape({}),
-    title: PropTypes.string,
-    duration: PropTypes.number,
-    description: PropTypes.string,
-    promoUrl: PropTypes.string,
-    onPress: PropTypes.func,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    volume: PropTypes.number,
-    fullscreen: PropTypes.bool,
-    handleControlsTouch: PropTypes.func,
-    loading: PropTypes.bool,
-    onScrub: PropTypes.func,
-    showAudioAndCCButton: PropTypes.bool,
-    markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-    showWatermark: PropTypes.bool,
-  };
+type Props = {
+  config: Config,
+  title: string,
+  duration: number,
+  description: string,
+  promoUrl: string,
+  onPress: () => void,
+  width: number,
+  height: number,
+  volume: number,
+  fullscreen: boolean,
+  handleControlsTouch: () => void,
+  loading: boolean,
+  onScrub: () => void,
+  showAudioAndCCButton: boolean,
+  markers: Array<Marker>,
+  showWatermark: boolean,
+};
 
-  constructor(props) {
+type State = {
+  showControls: boolean,
+};
+
+export default class EndScreen extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

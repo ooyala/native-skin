@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   ActivityIndicator, Image, Platform, Text, TouchableHighlight, View,
@@ -16,60 +15,66 @@ import BottomOverlay from '../../shared/BottomOverlay';
 import VideoViewPlayPause from '../../shared/VideoViewPlayPause';
 import UpNext from './UpNext';
 import VideoWaterMark from './VideoWatermark';
+import type { Config } from '../../types/Config';
+import type { Marker } from '../../types/Markers';
 
 import styles from './VideoView.styles';
 
-export default class VideoView extends React.Component {
-  static propTypes = {
-    rate: PropTypes.number,
-    playhead: PropTypes.number,
-    duration: PropTypes.number,
-    adOverlay: PropTypes.shape({}),
-    live: PropTypes.bool,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    volume: PropTypes.number,
-    fullscreen: PropTypes.bool,
-    isPipActivated: PropTypes.bool,
-    isPipButtonVisible: PropTypes.bool,
-    cuePoints: PropTypes.arrayOf(),
-    stereoSupported: PropTypes.bool,
-    multiAudioEnabled: PropTypes.bool,
-    playbackSpeedEnabled: PropTypes.bool,
-    selectedPlaybackSpeedRate: PropTypes.number,
-    handlers: PropTypes.shape({
-      onPress: PropTypes.func,
-      onAdOverlay: PropTypes.func,
-      onAdOverlayDismiss: PropTypes.func,
-      onScrub: PropTypes.func,
-      handleVideoTouchStart: PropTypes.func,
-      handleVideoTouchMove: PropTypes.func,
-      handleVideoTouchEnd: PropTypes.func,
-      handleControlsTouch: PropTypes.func,
-      showControls: PropTypes.func,
-      onControlsVisibilityChanged: PropTypes.func.isRequired,
-    }),
-    // The following prop is used in static `getDerivedStateFromProps` only, that's why it is considered unused by
-    // ESLint. Should be fixed by ESLint team.
-    lastPressedTime: PropTypes.instanceOf(Date), // eslint-disable-line react/no-unused-prop-types
-    screenReaderEnabled: PropTypes.bool,
-    availableClosedCaptionsLanguages: PropTypes.arrayOf(),
-    audioTracksTitles: PropTypes.arrayOf(),
-    caption: PropTypes.string,
-    captionStyles: PropTypes.shape({}),
-    showWatermark: PropTypes.bool,
-    config: PropTypes.shape({}),
-    nextVideo: PropTypes.shape({}),
-    upNextDismissed: PropTypes.bool,
-    localizableStrings: PropTypes.shape({}),
-    locale: PropTypes.string,
-    playing: PropTypes.bool,
-    loading: PropTypes.bool,
-    initialPlay: PropTypes.bool,
-    markers: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  };
+type Props = {
+  rate: number,
+  playhead: number,
+  duration: number,
+  adOverlay: {},
+  live: boolean,
+  width: number,
+  height: number,
+  volume: number,
+  fullscreen: boolean,
+  isPipActivated: boolean,
+  isPipButtonVisible: boolean,
+  cuePoints: Array<number>,
+  stereoSupported: boolean,
+  multiAudioEnabled: boolean,
+  playbackSpeedEnabled: boolean,
+  selectedPlaybackSpeedRate: number,
+  handlers: {
+    onPress: () => void,
+    onAdOverlay: () => void,
+    onAdOverlayDismiss: () => void,
+    onScrub: () => void,
+    handleVideoTouchStart: () => void,
+    handleVideoTouchMove: () => void,
+    handleVideoTouchEnd: () => void,
+    handleControlsTouch: () => void,
+    showControls: () => void,
+    onControlsVisibilityChanged: () => void,
+  },
+  // The following prop is used in static `getDerivedStateFromProps` only, that's why it is considered unused by
+  // ESLint. Should be fixed by ESLint team.
+  lastPressedTime: Date, // eslint-disable-line react/no-unused-prop-types
+  screenReaderEnabled: boolean,
+  availableClosedCaptionsLanguages: Array<{}>,
+  audioTracksTitles: Array<string>,
+  caption: string,
+  captionStyles: {},
+  showWatermark: boolean,
+  config: Config,
+  nextVideo: {},
+  upNextDismissed: boolean,
+  localizableStrings: {},
+  locale: string,
+  playing: boolean,
+  loading: boolean,
+  initialPlay: boolean,
+  markers: Array<Marker>,
+};
 
-  constructor(props) {
+type State = {
+  shouldShowControls: boolean,
+};
+
+export default class VideoView extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -77,7 +82,7 @@ export default class VideoView extends React.Component {
     };
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: Props, prevState: State) {
     const { handlers } = this.props;
     const { shouldShowControls } = this.state;
 
@@ -86,7 +91,7 @@ export default class VideoView extends React.Component {
     }
   }
 
-  static getDerivedStateFromProps(props) {
+  static getDerivedStateFromProps(props: Props) {
     const isPastAutoHideTime = (new Date()).getTime() - props.lastPressedTime > AUTOHIDE_DELAY;
     const isVisible = props.screenReaderEnabled ? true : !isPastAutoHideTime;
 

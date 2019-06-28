@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
 
@@ -9,20 +8,20 @@ import * as Accessibility from '../../../../lib/accessibility';
 
 import styles from './SwitchButton.styles';
 
-export default class SwitchButton extends React.Component {
-  static propTypes = {
-    visible: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool.isRequired,
-    isForward: PropTypes.bool.isRequired,
-    onSwitch: PropTypes.func.isRequired,
-    icon: PropTypes.string.isRequired,
-    fontStyle: PropTypes.shape({}),
-    sizeStyle: PropTypes.shape({}),
-    opacity: PropTypes.shape({}),
-    animate: PropTypes.shape({}),
-    buttonColor: PropTypes.shape({}),
-  };
+type Props = {
+  visible: boolean,
+  disabled: boolean,
+  isForward: boolean,
+  onSwitch: boolean => void,
+  icon: string,
+  fontStyle: {},
+  sizeStyle: {},
+  opacity: {},
+  animate: {},
+  buttonColor: {},
+};
 
+export default class SwitchButton extends React.Component<Props> {
   onPress = () => {
     const { onSwitch, isForward } = this.props;
 

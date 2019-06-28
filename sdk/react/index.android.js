@@ -1,16 +1,10 @@
+// @flow
 // Rule disabled because this component state used from Core.
 /* eslint-disable react/no-unused-state */
 
-import React, { Component } from 'react';
+import React from 'react';
 import {
-  AccessibilityInfo,
-  ActivityIndicator,
-  AppRegistry,
-  BackHandler,
-  NativeModules,
-  StyleSheet,
-  Text,
-  View,
+  AccessibilityInfo, ActivityIndicator, AppRegistry, BackHandler, NativeModules, StyleSheet, Text, View,
 } from 'react-native';
 // Not clear from where this module imported.
 import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'; // eslint-disable-line import/no-unresolved
@@ -18,28 +12,30 @@ import RCTDeviceEventEmitter from 'RCTDeviceEventEmitter'; // eslint-disable-lin
 import { CONTENT_TYPES, DESIRED_STATES, SCREEN_TYPES } from './src/constants';
 import Core from './src/Core';
 
-// calling class layout controller
-const {
-  OoyalaReactBridge,
-} = NativeModules;
+const { OoyalaReactBridge } = NativeModules;
+
 let OoyalaSkinCoreInstance;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
+    flex: 1,
+    justifyContent: 'center',
   },
   loading: {
-    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    flex: 1,
     height: 200,
+    justifyContent: 'center',
   },
 });
 
-class OoyalaSkin extends Component {
+type Props = {};
+
+type State = {};
+
+class OoyalaSkin extends React.Component<Props, State> {
   // TODO: Some of these are more like props, expected to be over-ridden/updated by the native bridge, and others are
   // used purely on the non-native side. Consider using a leading underscore, or something?
   state = {

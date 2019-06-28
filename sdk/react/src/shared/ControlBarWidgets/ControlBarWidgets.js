@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Image, Platform, Text, TouchableHighlight, View,
@@ -14,12 +13,12 @@ import VolumeView from './VolumeView';
 
 import styles from './ControlBarWidgets.styles';
 
-export default class ControlBarWidgets extends React.Component {
-  static propTypes = {
-    widgetType: PropTypes.shape({}),
-    options: PropTypes.shape({}),
-  };
+type Props = {
+  options: {},
+  widgetType: {},
+};
 
+export default class ControlBarWidgets extends React.Component<Props> {
   static bitrateSelectorWidget() {
     // TODO: Implement.
     return null;

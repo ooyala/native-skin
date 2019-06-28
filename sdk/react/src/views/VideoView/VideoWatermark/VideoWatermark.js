@@ -1,12 +1,17 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Image, View } from 'react-native';
 
 import styles from './VideoWatermark.styles';
 
-const VideoWatermark = ({ buttonHeight: height, buttonWidth: width, waterMarkName }) => (
+type Props = {
+  buttonHeight: number,
+  buttonWidth: number,
+  waterMarkName: string,
+};
+
+const VideoWatermark = ({ buttonHeight: height, buttonWidth: width, waterMarkName }: Props) => (
   <View style={[styles.watermarkContainer]}>
     <Image
       resizeMode="contain"
@@ -15,11 +20,5 @@ const VideoWatermark = ({ buttonHeight: height, buttonWidth: width, waterMarkNam
     />
   </View>
 );
-
-VideoWatermark.propTypes = {
-  buttonWidth: PropTypes.number.isRequired,
-  buttonHeight: PropTypes.number.isRequired,
-  waterMarkName: PropTypes.string.isRequired,
-};
 
 export default VideoWatermark;

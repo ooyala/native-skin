@@ -9,11 +9,11 @@ const defaultThresholds = [320, 860];
  * Takes the width and the threshold and returns an integer that represents which threshold the player width currently
  * lies in.
  *
- * @param width
- * @param thresholds
+ * @param {number} width
+ * @param {Array<number>} [thresholds]
  * @returns {number}
  */
-const getSize = (width, thresholds) => {
+const getSize = (width: number, thresholds?: Array<number>): number => {
   const usedThresholds = thresholds || defaultThresholds;
 
   for (let i = 0; i < usedThresholds.length; i += 1) {
@@ -29,21 +29,21 @@ const getSize = (width, thresholds) => {
  * Calculates the responsive value by multiplying a constant to the current size of an element based on how big the
  * screen is.
  *
- * @param width
- * @param thresholds
- * @param multipliers
- * @param baseSize
+ * @param {number} width
+ * @param {number} baseSize
+ * @param {Array<number>} [multipliers]
+ * @param {Array<number>} [thresholds]
  * @returns {number}
  */
-export default (width, baseSize, multipliers, thresholds) => {
+export default (width: number, baseSize: number, multipliers?: Array<number>, thresholds?: Array<number>): number => {
   const size = getSize(width, thresholds);
   const usedMultipliers = multipliers || defaultMultipliers;
 
   if (typeof baseSize === 'number' && typeof usedMultipliers === 'object' && usedMultipliers.length > 0) {
     if (size >= usedMultipliers.length) {
-      Log.warn(
-        `Warning: No multiplier value available for size ${size} in multiplier array [${usedMultipliers}], falling back to the largest multiplier value available. Length of multiplier array should be one more than the length of the threshold array.`,
-      );
+      Log.warn(`Warning: No multiplier value available for size ${size} in multiplier array `
+        + `[${usedMultipliers.join(', ')}], falling back to the largest multiplier value available. Length of `
+        + 'multiplier array should be one more than the length of the threshold array.');
 
       return baseSize * usedMultipliers[usedMultipliers.length - 1];
     }

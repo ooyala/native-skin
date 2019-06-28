@@ -76,6 +76,8 @@ describe('collapse', () => {
 
   it('TestOverflow_overflowAppearanceNoneFits', () => {
     const oi = [data.B8_None100];
+    // Intended error in the `location` property.
+    // $FlowFixMe
     const results = collapse(100, oi);
 
     expect(results.overflow.length).toBe(0);
@@ -83,6 +85,8 @@ describe('collapse', () => {
 
   it('TestOverflow_overflowAppearanceNoneDoesNotFit', () => {
     const oi = [data.B8_None100];
+    // Intended error in the `location` property.
+    // $FlowFixMe
     const results = collapse(1, oi);
 
     expect(results.overflow.length).toBe(0);
@@ -141,6 +145,8 @@ describe('collapse', () => {
   });
 
   it('TestFit_discardInvalidItem_overflow', () => {
+    // Intended error.
+    // $FlowFixMe
     const results = collapse(100, [
       {
         name: 'b1',
@@ -152,6 +158,8 @@ describe('collapse', () => {
   });
 
   it('TestFit_discardInvalidItem_fit', () => {
+    // Intended error.
+    // $FlowFixMe
     const results = collapse(100, [
       {
         name: 'b1',
@@ -163,6 +171,8 @@ describe('collapse', () => {
   });
 
   it('TestFit_discardInvalidItemsInZeroSpace', () => {
+    // Intended error.
+    // $FlowFixMe
     const results = collapse(0, [
       data.B2_Fixed1,
       {
@@ -180,7 +190,8 @@ describe('collapse', () => {
 
     for (let si = 0; si < sizes.length; si += 1) {
       for (let ii = 0; ii < items.length; ii += 1) {
-        // Not saying it returns anything sane, just doesn't die.
+        // Intended error. Not saying it returns anything sane, just doesn't die.
+        // $FlowFixMe
         collapse(sizes[si], items[ii]);
       }
     }

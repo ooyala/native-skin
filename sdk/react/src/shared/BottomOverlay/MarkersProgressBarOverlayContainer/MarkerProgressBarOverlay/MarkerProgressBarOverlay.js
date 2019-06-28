@@ -7,7 +7,7 @@ import styles from './MarkerProgressBarOverlay.styles';
 import type { Marker as MarkerType } from '../../../../types/Markers';
 
 type Props = {
-  accentColor?: ?string,
+  accentColor?: string,
   duration: number,
   marker: MarkerType,
 };

@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { NativeModules, Platform, View } from 'react-native';
 
@@ -10,35 +9,50 @@ import * as Log from '../../../lib/log';
 import responsiveMultiplier from '../../../lib/responsiveMultiplier';
 import * as Utils from '../../../lib/utils';
 import ControlBarWidget from '../../ControlBarWidgets';
+import type { Config } from '../../../types/Config';
 
 import styles from './ControlBar.styles';
 
 const { AndroidAccessibility } = NativeModules;
 
-export default class ControlBar extends React.Component {
-  static propTypes = {
-    isAdPlaying: PropTypes.bool.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-    primaryButton: PropTypes.string.isRequired,
-    fullscreen: PropTypes.bool.isRequired,
-    isPipActivated: PropTypes.bool.isRequired,
-    isPipButtonVisible: PropTypes.bool,
-    playhead: PropTypes.number.isRequired,
-    duration: PropTypes.number.isRequired,
-    volume: PropTypes.number.isRequired,
-    onPress: PropTypes.func.isRequired,
-    handleControlsTouch: PropTypes.func.isRequired,
-    live: PropTypes.shape({}),
-    config: PropTypes.shape({}).isRequired,
-    stereoSupported: PropTypes.bool,
-    showMoreOptionsButton: PropTypes.bool,
-    showAudioAndCCButton: PropTypes.bool,
-    showPlaybackSpeedButton: PropTypes.bool,
-    inCastMode: PropTypes.bool,
+type Props = {
+  isAdPlaying: boolean,
+  width: number,
+  height: number,
+  primaryButton: string,
+  fullscreen: boolean,
+  isPipActivated: boolean,
+  isPipButtonVisible?: boolean,
+  playhead: number,
+  duration: number,
+  volume: number,
+  onPress: () => void,
+  handleControlsTouch: () => void,
+  live?: {},
+  config: Config,
+  stereoSupported?: boolean,
+  showMoreOptionsButton?: boolean,
+  showAudioAndCCButton?: boolean,
+  showPlaybackSpeedButton?: boolean,
+  inCastMode?: boolean,
+};
+
+type State = {
+  showVolume: boolean,
+};
+
+export default class ControlBar extends React.Component<Props, State> {
+  static defaultProps = {
+    isPipButtonVisible: undefined,
+    live: undefined,
+    stereoSupported: undefined,
+    showMoreOptionsButton: undefined,
+    showAudioAndCCButton: undefined,
+    showPlaybackSpeedButton: undefined,
+    inCastMode: undefined,
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

@@ -1,14 +1,15 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {
   Animated, Text, TouchableHighlight, View,
 } from 'react-native';
+import type AnimatedValue from 'react-native/Libraries/Animated/src/nodes/AnimatedValue';
 
 import { BUTTON_NAMES, CELL_TYPES } from '../../constants';
 import * as Utils from '../../lib/utils';
 import ItemSelectionScrollView from '../../shared/ItemSelectionScrollView';
+import type { Config } from '../../types/Config';
 
 import styles from './PlaybackSpeedPanel.styles';
 
@@ -23,18 +24,22 @@ const constants = {
   playbackSpeedRatePostfix: 'x',
 };
 
-export default class PlaybackSpeedPanel extends React.Component {
-  static propTypes = {
-    playbackSpeedRates: PropTypes.arrayOf(),
-    selectedPlaybackSpeedRate: PropTypes.number,
-    onSelectPlaybackSpeedRate: PropTypes.func,
-    onDismiss: PropTypes.func,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    config: PropTypes.shape({}),
-  };
+type Props = {
+  playbackSpeedRates: Array<string>,
+  selectedPlaybackSpeedRate: number,
+  onSelectPlaybackSpeedRate: () => void,
+  onDismiss: () => void,
+  width: number,
+  height: number,
+  config: Config,
+};
 
-  constructor(props) {
+type State = {
+  opacity: AnimatedValue,
+};
+
+export default class PlaybackSpeedPanel extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

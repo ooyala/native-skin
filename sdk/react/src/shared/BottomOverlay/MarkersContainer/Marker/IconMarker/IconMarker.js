@@ -7,15 +7,15 @@ import type { ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet
 import createStyles from './IconMarker.styles';
 
 type Props = {
-  backgroundColor?: ?string,
+  backgroundColor?: string,
   containerWidth: number,
-  iconUrl: ?string,
-  imageUrl: ?string,
+  iconUrl?: string,
+  imageUrl?: string,
   leftPosition: number,
   onSeek: () => void,
   onTouch: () => void,
   style?: ViewStyleProp,
-  touchColor?: ?string,
+  touchColor?: string,
 };
 
 type State = {
@@ -25,6 +25,8 @@ type State = {
 export default class IconMarker extends React.Component<Props, State> {
   static defaultProps = {
     backgroundColor: undefined,
+    iconUrl: undefined,
+    imageUrl: undefined,
     style: undefined,
     touchColor: undefined,
   };

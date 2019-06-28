@@ -1,6 +1,5 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 
@@ -8,17 +7,17 @@ import styles from './ResponsiveList.styles';
 
 const placeHolderItem = 'ResponsiveListPlaceHolder';
 
-export default class ResponsiveList extends React.Component {
-  static propTypes = {
-    horizontal: PropTypes.bool,
-    data: PropTypes.arrayOf(),
-    itemRender: PropTypes.func,
-    width: PropTypes.number,
-    height: PropTypes.number,
-    itemWidth: PropTypes.number,
-    itemHeight: PropTypes.number,
-  };
+type Props = {
+  horizontal: boolean,
+  data: ?Array<{}>,
+  itemRender: () => void,
+  width: number,
+  height: number,
+  itemWidth: number,
+  itemHeight: number,
+};
 
+export default class ResponsiveList extends React.Component<Props> {
   getSlices = () => {
     const {
       data, height, horizontal, itemHeight, itemWidth, width,

@@ -1,27 +1,35 @@
 // @flow
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Animated, TouchableHighlight } from 'react-native';
+import type { TextStyleProp, ViewStyleProp } from 'react-native/Libraries/StyleSheet/StyleSheet';
 
 import { STRING_CONSTANTS } from '../../constants';
 import * as Accessibility from '../../lib/accessibility';
 
 import styles from './SkipButton.styles';
 
-export default class SkipButton extends React.Component {
-  static propTypes = {
-    visible: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool.isRequired,
-    isForward: PropTypes.bool.isRequired,
-    timeValue: PropTypes.number.isRequired,
-    onSeek: PropTypes.func.isRequired,
-    icon: PropTypes.string.isRequired,
-    fontStyle: PropTypes.shape({}),
-    sizeStyle: PropTypes.shape({}),
-    opacity: PropTypes.shape({}),
-    animate: PropTypes.shape({}),
-    buttonColor: PropTypes.shape({}),
+type Props = {
+  visible: boolean,
+  disabled: boolean,
+  isForward: boolean,
+  timeValue: number,
+  onSeek: boolean => void,
+  icon: string,
+  fontStyle?: TextStyleProp,
+  sizeStyle?: ViewStyleProp,
+  opacity?: TextStyleProp,
+  animate?: TextStyleProp,
+  buttonColor?: TextStyleProp,
+};
+
+export default class SkipButton extends React.Component<Props> {
+  static defaultProps = {
+    fontStyle: undefined,
+    sizeStyle: undefined,
+    opacity: undefined,
+    animate: undefined,
+    buttonColor: undefined,
   };
 
   onPress = () => {

@@ -1,18 +1,44 @@
 // @flow
 
 export type Config = {
+  castControls: {
+    iconStyle: {
+      active: {
+        color: string,
+      },
+      inactive: {
+        color: string,
+      },
+    },
+  },
   controlBar: {
+    adScrubberBar: {
+      backgroundColor: string,
+      bufferedColor: string,
+      playedColor: string,
+    },
     scrubberBar: {
-      bufferedColor?: ?string,
-      playedColor?: ?string,
-      scrubberHandleBorderColor?: ?string,
-      scrubberHandleColor?: ?string,
+      backgroundColor: string,
+      bufferedColor: string,
+      playedColor: string,
+      scrubberHandleBorderColor: string,
+      scrubberHandleColor: string,
     },
   },
   general: {
-    accentColor?: ?string,
+    accentColor: string,
   },
-  live?: {
-    forceDvrDisabled?: ?boolean,
+  icons: {
+    'chromecast-disconnected': {
+      fontString: string,
+      fontFamilyName: string,
+    },
+    dismiss: {
+      fontString: string,
+      fontFamilyName: string,
+    },
+  },
+  live: {
+    forceDvrDisabled: boolean,
   }
 };
