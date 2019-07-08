@@ -223,6 +223,8 @@ export default class BridgeListener {
     Log.log(e);
     this.skin.setState({
       ad: e,
+      duration: 1,
+      playhead: 0,
       screenType: this.skin.state.contentType === CONTENT_TYPES.AUDIO
         ? SCREEN_TYPES.AUDIO_SCREEN : SCREEN_TYPES.VIDEO_SCREEN,
       adOverlay: null,
