@@ -93,6 +93,7 @@ export default class ViewsRenderer {
     return (
       <ErrorScreen
         error={this.skin.state.error}
+        fullscreen={this.skin.state.fullscreen}
         localizableStrings={this.skin.props.localization}
         locale={this.skin.props.locale}
         isAudioOnly={this.skin.state.screenType === SCREEN_TYPES.ERROR_SCREEN_AUDIO}
