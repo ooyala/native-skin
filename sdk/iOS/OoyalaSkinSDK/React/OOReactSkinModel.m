@@ -29,6 +29,7 @@
 #import <OoyalaSDK/OOAudioSession.h>
 #import <OoyalaSDK/OOClosedCaptionsStyle.h>
 #import <OoyalaSDK/OOVideo.h>
+#import <OoyalaSDK/OOOoyalaError.h>
 
 @interface OOReactSkinModel () <OOReactSkinBridgeDelegate, OOReactSkinModelDelegate, OOAudioSessionDelegate>
 

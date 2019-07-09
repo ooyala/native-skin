@@ -48,8 +48,6 @@ struct LiveAssetHelper { //OS: no need to use Obj-C class until there is no logi
 
 #pragma mark - Constants
 #pragma mark Keys
-static NSString *disableAdLearnMoreButton = @"disableAdLearnMoreButton";
-
 static NSString *codeKey         = @"code";
 static NSString *stateKey        = @"state";
 static NSString *desiredStateKey = @"desiredState";
@@ -134,10 +132,6 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)addSelfAsObserverToPlayer:(OOOoyalaPlayer *)player {
   [NSNotificationCenter.defaultCenter removeObserver:self];
   if (self.player) {
-    SEL selector = NSSelectorFromString(disableAdLearnMoreButton);
-    if ([player respondsToSelector:selector]) {
-      [player performSelector:selector];
-    }
     NSDictionary *notificationsSelectors = @{
                                              OOOoyalaPlayerStateChangedNotification: @"bridgeStateChangedNotification:",
                                              OOOoyalaPlayerDesiredStateChangedNotification: @"bridgeDesiredStateChangedNotification:",
@@ -227,7 +221,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   Float64 seekableDuration = self.player.duration;
 
   // Check seekable range
-  if (CMTIMERANGE_IS_VALID(seekableRange)) {
+  if CMTIMERANGE_IS_VALID(seekableRange) {
     Float64 seekableStart = CMTimeGetSeconds(seekableRange.start);
     seekableDuration      = CMTimeGetSeconds(seekableRange.duration);
 
