@@ -14,6 +14,7 @@ type Props = {
     code?: string,
     description?: string,
   },
+  fullscreen: boolean,
   localizableStrings: {},
   locale: string,
   isAudioOnly: boolean,
@@ -21,6 +22,14 @@ type Props = {
 };
 
 export default class ErrorScreen extends React.Component<Props> {
+  componentDidMount() {
+    const { fullscreen, onPress } = this.props;
+
+    if (fullscreen) {
+      onPress(BUTTON_NAMES.FULLSCREEN);
+    }
+  }
+
   getTitle = () => {
     const { error, locale, localizableStrings } = this.props;
 
