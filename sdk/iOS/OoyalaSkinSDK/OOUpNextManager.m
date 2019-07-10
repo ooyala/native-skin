@@ -83,7 +83,6 @@ static NSString *embedCodeKey       = @"embedCode";
   LOG(@"Going to next video based on Up Next");
   if (!self.isDismissed && self.nextVideo) {
     [self.player setEmbedCode:self.nextVideo[embedCodeKey]];
-    [self.player play];
   }
 }
 
