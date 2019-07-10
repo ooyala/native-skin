@@ -269,7 +269,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
                           pcode:self.player.pcode
                      parameters:nil];
   [self.player setEmbedCode:embedCode];
-  [self.player play];
 }
 
 - (void)handleDiscoveryImpress:(NSString *)bucketInfo {
@@ -387,10 +386,9 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
     volumeViewSlider.value = volume;
   });
 }
-
+//OS: called only by OOReactSkinBridgeModuleMain
 - (void)setEmbedCode:(NSString *)embedCode {
   [self.player setEmbedCode:embedCode];
-  [self.player play];
 }
 
 - (void)toggleFullscreen {

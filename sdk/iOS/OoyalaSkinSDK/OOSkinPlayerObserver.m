@@ -338,6 +338,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   
   //OS: Flag must be changed depends on if current asset has new is-live-status
   self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, self.player.currentItem.live};
+  
+  [self playForJustChangedItem];
 }
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
@@ -554,6 +556,11 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
 - (void)castManagerDidDisconnectFromCurrentDevice {
   [self.ooReactSkinModel sendEventWithName:castManagerDidDisconnectDevice body:nil];
+}
+
+#pragma mark - Interaction with OOOoyalaPlayer
+- (void)playForJustChangedItem {
+  [self.player play];
 }
 
 @end
