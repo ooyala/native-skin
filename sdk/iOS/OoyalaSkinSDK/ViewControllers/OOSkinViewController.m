@@ -74,7 +74,9 @@ NSString *const OOSkinViewControllerFullscreenChangedNotification    = @"fullScr
 
     _player = player;
     _skinOptions = skinOptions;
-    _player.options.showAdLearnMoreButton = NO;
+    // TODO: - Uncomment this
+#warning - Uncomment when distribute first RC after 4.46.0_GA
+    //_player.options.showAdLearnMoreButton = NO;
     _skinModel = [[OOReactSkinModel alloc] initWithWithPlayer:player
                                                   skinOptions:self.skinOptions
                                        skinControllerDelegate:self];
