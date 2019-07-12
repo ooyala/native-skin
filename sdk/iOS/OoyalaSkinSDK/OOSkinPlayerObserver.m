@@ -153,8 +153,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
                                              OOOoyalaPlayerAudioTrackChangedNotification: @"bridgeAudioTrackChangedNotification:",
                                              OOOoyalaPlayerCCManifestChangedNotification: @"bridgeCCManifestChangedNotification:",
                                              OOOoyalaPlayerPlaybackSpeedEnabledNotification: @"bridgePlaybackSpeedEnabledNotification:",
-                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:",
-                                             OOOoyalaPlayerApplicationVolumeChangedNotification: @"bridgeApplicationVolumeChangedNotification:"
+                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:"
                                              };
     [self addNotificationsObservers:notificationsSelectors];
   }
@@ -531,11 +530,6 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSDictionary *eventBody          = @{languagesKey: closedCaptionsLanguages};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
-}
-
-- (void)bridgeApplicationVolumeChangedNotification:(NSNotification *)notification {
-   [self.ooReactSkinModel sendEventWithName:@"volumeChanged"
-                                       body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
 #pragma mark - OOCastNotifiable
