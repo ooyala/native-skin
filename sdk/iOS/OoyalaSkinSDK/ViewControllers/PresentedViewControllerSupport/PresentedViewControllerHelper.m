@@ -84,7 +84,7 @@
 - (void)dismissViewControllerAndStoreIt:(nonnull UIViewController *)viewController
                     withCompletionBlock:(nullable void (^)(void))completion {
   if ([viewController presentingViewController]) {
-    UIViewController* presentedVC = viewController.presentedViewController;
+    UIViewController *presentedVC = viewController.presentedViewController;
     [viewController dismissViewControllerAnimated:NO completion:^{
       [self.storedPresentedViewControllers addObject:viewController];
       if ([presentedVC presentingViewController]) {

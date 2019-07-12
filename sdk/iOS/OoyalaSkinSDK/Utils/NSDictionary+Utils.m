@@ -51,8 +51,10 @@ static NSString *jsonKey                  = @"json";
   NSString *filePath = [[NSBundle mainBundle] pathForResource:filename ofType:jsonKey];
   NSData *data       = [NSData dataWithContentsOfFile:filePath];
   if (data) {
-    NSError* error = nil;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    NSError *error = nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data
+                                                         options:kNilOptions
+                                                           error:&error];
     if (!error) {
       return dict;
     }
