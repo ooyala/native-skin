@@ -8,6 +8,7 @@
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODebugMode.h>
+#import <OoyalaSDK/OOOoyalaError.h>
 
 @interface OOUpNextManager ()
 
@@ -82,7 +83,20 @@ static NSString *embedCodeKey       = @"embedCode";
   // if upnext has not been dismissed and there is a next video, play the next video.
   LOG(@"Going to next video based on Up Next");
   if (!self.isDismissed && self.nextVideo) {
-    [self.player setEmbedCode:self.nextVideo[embedCodeKey]];
+    
+#warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
+    //[self.player setEmbedCode:self.nextVideo[embedCodeKey]];
+    
+    //new API from OOyalaSDK. Available > 4.46.0_GA
+    __weak OOUpNextManager *weakSelf = self;
+    [self.player setEmbedCode:self.nextVideo[embedCodeKey] withCallback:^(OOOoyalaError *error) {
+      NSLog(@"✅ Got callback. Is setEmbedCode successfull: [%d]", (error == nil));
+       if (weakSelf && !error) {
+         [weakSelf.player play];
+       } else {
+         NSLog(@"❌ error: %@", error.debugDescription);
+       }
+    }];
   }
 }
 

@@ -268,7 +268,20 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
                      bucketInfo:bucketInfo
                           pcode:self.player.pcode
                      parameters:nil];
-  [self.player setEmbedCode:embedCode];
+  
+#warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
+  //[self.player setEmbedCode:embedCode];
+  
+  //new API from OOyalaSDK. Available > 4.46.0_GA
+  __weak OOReactSkinModel *weakSelf = self;
+  [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
+    NSLog(@"✅ Got callback. Is setEmbedCode successfull: [%d]", (error == nil));
+    if (weakSelf && !error) {
+      [weakSelf.player play];
+    } else {
+      NSLog(@"❌ error: %@", error.debugDescription);
+    }
+  }];
 }
 
 - (void)handleDiscoveryImpress:(NSString *)bucketInfo {
@@ -388,7 +401,20 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 }
 //OS: called only by OOReactSkinBridgeModuleMain
 - (void)setEmbedCode:(NSString *)embedCode {
-  [self.player setEmbedCode:embedCode];
+  
+#warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
+  //[self.player setEmbedCode:embedCode];
+  
+  //new API from OOyalaSDK. Available > 4.46.0_GA
+  __weak OOReactSkinModel *weakSelf = self;
+  [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
+    NSLog(@"✅ Got callback. Is setEmbedCode successfull: [%d]", (error == nil));
+    if (weakSelf && !error) {
+      [weakSelf.player play];
+    } else {
+      NSLog(@"❌ error: %@", error.debugDescription);
+    }
+  }];
 }
 
 - (void)toggleFullscreen {
