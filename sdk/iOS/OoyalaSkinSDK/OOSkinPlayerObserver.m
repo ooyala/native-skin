@@ -153,8 +153,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
                                              OOOoyalaPlayerAudioTrackChangedNotification: @"bridgeAudioTrackChangedNotification:",
                                              OOOoyalaPlayerCCManifestChangedNotification: @"bridgeCCManifestChangedNotification:",
                                              OOOoyalaPlayerPlaybackSpeedEnabledNotification: @"bridgePlaybackSpeedEnabledNotification:",
-                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:",
-                                             OOOoyalaPlayerApplicationVolumeChangedNotification: @"bridgeApplicationVolumeChangedNotification:"
+                                             OOOoyalaPlayerPlaybackSpeedRateChangedChangedNotification: @"bridgePlaybackSpeedRateChangedNotification:"
                                              };
     [self addNotificationsObservers:notificationsSelectors];
   }
@@ -253,7 +252,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSInteger expandedWidth  = [overlayInfo[expandedWidthKey] integerValue];
   NSInteger expandedHeight = [overlayInfo[expandedHeightKey] integerValue];
   NSString *resourceUrl    = overlayInfo[resourceUrlKey];
-  NSString *clickUrl       = overlayInfo[clickUrlKey] ? overlayInfo[clickUrlKey] : @"";
+  NSString *clickUrl       = overlayInfo[clickUrlKey] ?: @"";
 
   NSDictionary *eventBody = @{widthKey:          @(width),
                               heigthKey:         @(height),
@@ -296,7 +295,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
   OOCaption *caption = [self.player.currentItem.closedCaptions captionForLanguage:self.player.closedCaptionsLanguage
                                                                              time:self.player.playheadTime];
-  NSString *captionText = caption.text ? caption.text : @"";
+  NSString *captionText = caption.text ?: @"";
   
   NSDictionary *eventBody = @{textKey: captionText};
   [self.ooReactSkinModel sendEventWithName:OO_CLOSED_CAPTIONS_UPDATE_EVENT body:eventBody];
@@ -305,10 +304,10 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)bridgeCurrentItemChangedNotification:(NSNotification *)notification {
   [self.ooReactSkinModel forceUpdateCast];
   
-  NSString *title                  = self.player.currentItem.title ? self.player.currentItem.title : @"";
-  NSString *itemDescription        = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
-  NSString *promoUrl               = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
-  NSString *hostedAtUrl            = self.player.currentItem.hostedAtURL ? self.player.currentItem.hostedAtURL : @"";
+  NSString *title                  = self.player.currentItem.title ?: @"";
+  NSString *itemDescription        = self.player.currentItem.itemDescription ?: @"";
+  NSString *promoUrl               = self.player.currentItem.promoImageURL ?: @"";
+  NSString *hostedAtUrl            = self.player.currentItem.hostedAtURL ?: @"";
   NSNumber *durationNumber         = @(self.player.currentItem.duration);
   NSNumber *frameWidth             = @(CGRectGetWidth(self.ooReactSkinModel.videoViewFrame));
   NSNumber *frameHeight            = @(CGRectGetHeight(self.ooReactSkinModel.videoViewFrame));
@@ -343,9 +342,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 }
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
-  
   NSNumber *stateObject = notification.userInfo[@"newState"] ?: @(self.player.state);
-  NSString * stateString = [OOOoyalaPlayerStateConverter playerStateToString:stateObject.integerValue];
+  NSString *stateString = [OOOoyalaPlayerStateConverter playerStateToString:stateObject.integerValue];
   
   //OS: for live assets need to update frozen time, because playhead that based on current live position was changed since player was paused
   if (self.player.currentItem.live && self.player.state == OOOoyalaPlayerStatePlaying) {
@@ -370,8 +368,8 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   OOOoyalaError *error = self.player.error;
   int errorCode = error ? error.code : -1;
   NSNumber *code         = @(errorCode);
-  NSString *detail       = self.player.error.description ? self.player.error.description : @"";
-  NSDictionary *userInfo = self.player.error.userInfo ? self.player.error.userInfo : @{};
+  NSString *detail       = self.player.error.description ?: @"";
+  NSDictionary *userInfo = self.player.error.userInfo ?: @{};
 
   NSDictionary *eventBody = @{codeKey:        code,
                               descriptionKey: detail,
@@ -382,9 +380,9 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 }
 
 - (void)bridgePlayCompletedNotification:(NSNotification *)notification {
-  NSString *title           = self.player.currentItem.title ? self.player.currentItem.title : @"";
-  NSString *itemDescription = self.player.currentItem.itemDescription ? self.player.currentItem.itemDescription : @"";
-  NSString *promoUrl        = self.player.currentItem.promoImageURL ? self.player.currentItem.promoImageURL : @"";
+  NSString *title           = self.player.currentItem.title ?: @"";
+  NSString *itemDescription = self.player.currentItem.itemDescription ?: @"";
+  NSString *promoUrl        = self.player.currentItem.promoImageURL ?: @"";
   NSNumber *durationNumber  = @(self.player.currentItem.duration);
 
   NSDictionary *eventBody = @{titleKey:       title,
@@ -492,13 +490,11 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)bridgePlaybackSpeedEnabledNotification:(NSNotification *)notification {
   NSDictionary *eventBody = @{playbackSpeedEnabledKey: @(self.player.isPlaybackSpeedEnabled),
                               selectedPlaybackSpeedRateKey: @(self.player.selectedPlaybackSpeedRate)};
-
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
 - (void)bridgePlaybackSpeedRateChangedNotification:(NSNotification *)notification {
   NSDictionary *eventBody = @{selectedPlaybackSpeedRateKey: @(self.player.selectedPlaybackSpeedRate)};
-
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
 }
 
@@ -534,11 +530,6 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   NSDictionary *eventBody          = @{languagesKey: closedCaptionsLanguages};
   [self.ooReactSkinModel sendEventWithName:notification.name body:eventBody];
   [self.ooReactSkinModel maybeLoadDiscovery:self.player.currentItem.embedCode];
-}
-
-- (void)bridgeApplicationVolumeChangedNotification:(NSNotification *)notification {
-   [self.ooReactSkinModel sendEventWithName:@"volumeChanged"
-                                       body:@{volumeKey: @(OOAudioSession.sharedInstance.applicationVolume)}];
 }
 
 #pragma mark - OOCastNotifiable
