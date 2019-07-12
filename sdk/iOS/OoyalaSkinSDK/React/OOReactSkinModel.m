@@ -76,7 +76,6 @@ static NSString *descriptionKey         = @"description";
 static NSString *imageUrlKey            = @"imageUrl";
 static NSString *resultsKey             = @"results";
 static NSString *isPipActivatedKey      = @"isPipActivated";
-static NSString *volumeChangeKey        = @"volumeChanged";
 static NSString *visibilityControlsKey  = @"visibilityControls";
 
 #pragma mark Public keys
