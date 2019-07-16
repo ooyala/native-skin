@@ -88,13 +88,13 @@ static NSString *embedCodeKey       = @"embedCode";
     //[self.player setEmbedCode:self.nextVideo[embedCodeKey]];
     
     //new API from OOyalaSDK. Available > 4.46.0_GA
-    __weak OOUpNextManager *weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     [self.player setEmbedCode:self.nextVideo[embedCodeKey] withCallback:^(OOOoyalaError *error) {
-      NSLog(@"✅ Got callback. Is setEmbedCode successfull: [%d]", (error == nil));
+      LOG(@"✅ Got callback. Is setEmbedCode successfull: [%@]", (error == nil) ? @"YES" : @"NO");
        if (weakSelf && !error) {
          [weakSelf.player play];
        } else {
-         NSLog(@"❌ error: %@", error.debugDescription);
+         LOG(@"❌ error: %@", error.debugDescription);
        }
     }];
   }

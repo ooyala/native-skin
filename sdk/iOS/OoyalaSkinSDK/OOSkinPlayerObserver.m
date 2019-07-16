@@ -337,7 +337,7 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   
   //OS: Flag must be changed depends on if current asset has new is-live-status
   self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, self.player.currentItem.live};
-  #warning: Required for cases of using old API [self.player setEmbedCode:embedCode]. Remove when SDK version > 4.46.0_GA. Also method '-playForJustChangedItem'  itself
+  #warning: Required for cases of using old API [self.player setEmbedCode:embedCode]. Remove when SDK version > 4.46.0_GA. Also remove  method '-playForJustChangedItem'  itself
   //[self playForJustChangedItem];
 }
 

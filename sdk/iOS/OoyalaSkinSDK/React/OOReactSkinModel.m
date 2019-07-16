@@ -272,13 +272,13 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   //[self.player setEmbedCode:embedCode];
   
   //new API from OOyalaSDK. Available > 4.46.0_GA
-  __weak OOReactSkinModel *weakSelf = self;
+  __weak typeof(self) weakSelf = self;
   [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
-    NSLog(@"✅ Got callback. Is setEmbedCode successfull: [%d]", (error == nil));
+    LOG(@"✅ DiscoveryClick Got callback. Is setEmbedCode [%@] successfull: [%@]", weakSelf.player.currentItem.embedCode, (error == nil) ? @"YES" : @"NO");
     if (weakSelf && !error) {
       [weakSelf.player play];
     } else {
-      NSLog(@"❌ error: %@", error.debugDescription);
+      LOG(@"❌ error: %@", error.debugDescription);
     }
   }];
 }
@@ -405,13 +405,13 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   //[self.player setEmbedCode:embedCode];
   
   //new API from OOyalaSDK. Available > 4.46.0_GA
-  __weak OOReactSkinModel *weakSelf = self;
+  __weak typeof(self) weakSelf = self;
   [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
-    NSLog(@"✅ Got callback. Is setEmbedCode successfull: [%d]", (error == nil));
+    LOG(@"✅ Got callback. Is setEmbedCode successfull: [%@]", (error == nil) ? @"YES" : @"NO");
     if (weakSelf && !error) {
       [weakSelf.player play];
     } else {
-      NSLog(@"❌ error: %@", error.debugDescription);
+      LOG(@"❌ error: %@", error.debugDescription);
     }
   }];
 }
