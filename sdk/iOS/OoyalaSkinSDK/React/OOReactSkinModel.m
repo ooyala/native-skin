@@ -413,6 +413,22 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
     volumeViewSlider.value = volume;
   });
 }
+
+- (void)handleAirPlay {
+}
+
+- (void)handleCastDeviceSelected:(NSString *)deviceId {
+  [self.castManageableHandler castDeviceSelected:deviceId];
+}
+
+- (void)handleCastDisconnect {
+  [self.castManageableHandler castDisconnectCurrentDevice];
+}
+
+- (void)handleSwitchPrevious {
+  [self.player previousVideo];
+}
+
 //OS: called only by OOReactSkinBridgeModuleMain
 - (void)setEmbedCode:(NSString *)embedCode {
   
@@ -431,21 +447,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 
 - (void)toggleStereoMode {
   [self.skinControllerDelegate toggleStereoMode];
-}
-
-- (void)handleAirPlay {
-}
-
-- (void)handleCastDeviceSelected:(NSString *)deviceId {
-  [self.castManageableHandler castDeviceSelected:deviceId];
-}
-
-- (void)handleCastDisconnect {
-  [self.castManageableHandler castDisconnectCurrentDevice];
-}
-
-- (void)handleSwitchPrevious {
-  [self.player previousVideo];
 }
 
 - (void)onVisibilityControlsChanged:(BOOL)isVisible {
