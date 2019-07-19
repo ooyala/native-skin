@@ -272,8 +272,15 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   //[self.player setEmbedCode:embedCode];
   
   //new API from OOyalaSDK. Available > 4.46.0_GA
-  __weak typeof(self) weakSelf = self;
+  [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
+    LOG(@"DiscoveryClick setEmbedCode got callback");
+    if (error) {
+      LOG(@"❌ Is setEmbedCode is NOT successfull. Error: %@", error.debugDescription);
+    }
+  }];
   
+  __weak typeof(self) weakSelf = self;
+
   void (^expectedBlock) (OOVideo *currentItem); //params of OOCurrentItemChangedCallback
   expectedBlock = ^ (OOVideo *currentItem) {
     LOG(@"Method  -handleDiscoveryClick got expectedBlock");
@@ -285,17 +292,10 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
       NSLog(@"❌ player with embed code [%@] that is not expected", arrivedCode);
     }
     //OS: must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
-    self.player.currentItemChangedCallback = nil;
+    weakSelf.player.currentItemChangedCallback = nil;
   };
   
   self.player.currentItemChangedCallback = expectedBlock;
-  
-  [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
-    LOG(@"DiscoveryClick setEmbedCode got callback");
-    if (error) {
-      LOG(@"❌ Is setEmbedCode is NOT successfull. Error: %@", error.debugDescription);
-    }
-  }];
 }
 
 - (void)handleDiscoveryImpress:(NSString *)bucketInfo {
