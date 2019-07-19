@@ -3,6 +3,7 @@ package com.ooyala.android.skin;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -89,8 +90,23 @@ public class OoyalaSkinLayout extends FrameLayout implements View.OnSystemUiVisi
       this.windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
     }
 
-    final View decorView = ((Activity)getContext()).getWindow().getDecorView();
-    decorView.setOnSystemUiVisibilityChangeListener(this);
+    Activity activity = getActivity(this);
+    if (activity != null) {
+      final View decorView = activity.getWindow().getDecorView();
+      decorView.setOnSystemUiVisibilityChangeListener(this);
+    }
+
+  }
+
+  public static Activity getActivity(View view) {
+    Context context = view.getContext();
+    while (context instanceof ContextWrapper) {
+      if (context instanceof Activity) {
+        return (Activity)context;
+      }
+      context = ((ContextWrapper)context).getBaseContext();
+    }
+    return null;
   }
 
   /**
