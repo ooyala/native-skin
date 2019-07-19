@@ -8,6 +8,7 @@
 
 #import <OoyalaSDK/OOOoyalaPlayer.h>
 #import <OoyalaSDK/OODebugMode.h>
+#import <OoyalaSDK/OOVideo.h>
 #import <OoyalaSDK/OOOoyalaError.h>
 
 @interface OOUpNextManager ()
@@ -88,13 +89,27 @@ static NSString *embedCodeKey       = @"embedCode";
     //[self.player setEmbedCode:self.nextVideo[embedCodeKey]];
     
     //new API from OOyalaSDK. Available > 4.46.0_GA
+    NSString *expectedEmbedCode = self.nextVideo[embedCodeKey];
     __weak typeof(self) weakSelf = self;
+    void (^expectedBlock) (OOVideo *currentItem); //params of OOCurrentItemChangedCallback
+    expectedBlock = ^ (OOVideo *currentItem) {
+      LOG(@"Method -goToNextVideo got expectedBlock");
+      NSString *arrivedCode = currentItem.embedCode;
+      if ([arrivedCode isEqualToString:expectedEmbedCode]) { //OS: must be checked, because OOBaseStreamPlayer observes 'AVPlayerItemStatusReadyToPlay' two times: when asset just attached and when asset is completed. If success - block must be removed after '[weakSelf.player play]', to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
+        NSLog(@"✅ SUCCESS: asset with EXPECTED embed code %@ ", arrivedCode);
+        [weakSelf.player play];
+        self.player.currentItemChangedCallback = nil;
+      } else {
+        NSLog(@"❌ player with embed code [%@] that is not expected", arrivedCode);
+      }
+    };
+    
+    self.player.currentItemChangedCallback = expectedBlock;
+    
     [self.player setEmbedCode:self.nextVideo[embedCodeKey] withCallback:^(OOOoyalaError *error) {
-      LOG(@"✅ Got callback. Is setEmbedCode successfull: [%@]", (error == nil) ? @"YES" : @"NO");
-       if (weakSelf && !error) {
-         [weakSelf.player play];
-       } else {
-         LOG(@"❌ error: %@", error.debugDescription);
+      LOG(@"goToNextVideo setEmbedCode got callback");
+       if (error) {
+         LOG(@"❌ Is setEmbedCode is NOT successfull. Error: %@", error.debugDescription);
        }
     }];
   }

@@ -273,12 +273,27 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   
   //new API from OOyalaSDK. Available > 4.46.0_GA
   __weak typeof(self) weakSelf = self;
-  [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
-    LOG(@"✅ DiscoveryClick Got callback. Is setEmbedCode [%@] successfull: [%@]", weakSelf.player.currentItem.embedCode, (error == nil) ? @"YES" : @"NO");
-    if (weakSelf && !error) {
+  
+  void (^expectedBlock) (OOVideo *currentItem); //params of OOCurrentItemChangedCallback
+  expectedBlock = ^ (OOVideo *currentItem) {
+    LOG(@"Method  -handleDiscoveryClick got expectedBlock");
+    NSString *arrivedCode = currentItem.embedCode;
+    if ([arrivedCode isEqualToString:embedCode]) {
+      NSLog(@"✅ SUCCESS: asset with EXPECTED embed code %@ ", arrivedCode);
       [weakSelf.player play];
     } else {
-      LOG(@"❌ error: %@", error.debugDescription);
+      NSLog(@"❌ player with embed code [%@] that is not expected", arrivedCode);
+    }
+    //OS: must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
+    self.player.currentItemChangedCallback = nil;
+  };
+  
+  self.player.currentItemChangedCallback = expectedBlock;
+  
+  [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
+    LOG(@"DiscoveryClick setEmbedCode got callback");
+    if (error) {
+      LOG(@"❌ Is setEmbedCode is NOT successfull. Error: %@", error.debugDescription);
     }
   }];
 }
@@ -405,14 +420,8 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   //[self.player setEmbedCode:embedCode];
   
   //new API from OOyalaSDK. Available > 4.46.0_GA
-  __weak typeof(self) weakSelf = self;
   [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
     LOG(@"✅ Got callback. Is setEmbedCode successfull: [%@]", (error == nil) ? @"YES" : @"NO");
-    if (weakSelf && !error) {
-      [weakSelf.player play];
-    } else {
-      LOG(@"❌ error: %@", error.debugDescription);
-    }
   }];
 }
 
