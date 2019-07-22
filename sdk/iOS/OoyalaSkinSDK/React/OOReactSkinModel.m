@@ -267,6 +267,22 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
                      bucketInfo:bucketInfo
                           pcode:self.player.pcode
                      parameters:nil];
+
+  __weak typeof(self) weakSelf = self;
+  void (^expectedBlock) (OOVideo *currentItem); //params of OOCurrentItemChangedCallback
+  expectedBlock = ^(OOVideo *currentItem) {
+    LOG(@"Method  -handleDiscoveryClick got expectedBlock");
+    NSString *arrivedCode = currentItem.embedCode;
+    if ([arrivedCode isEqualToString:embedCode]) {
+      LOG(@"SUCCESS: asset with expected embed code [%@] ", arrivedCode);
+      [weakSelf.player play];
+    } else {
+      LOG(@"❌ player with embed code [%@] that is not expected", arrivedCode);
+    }
+    //OS: 'currentItemChangedCallback' must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
+    weakSelf.player.currentItemChangedCallback = nil;
+  };
+  self.player.currentItemChangedCallback = expectedBlock;
   
 #warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
   //[self.player setEmbedCode:embedCode];
@@ -278,24 +294,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
       LOG(@"❌ Is setEmbedCode is NOT successfull. Error: %@", error.debugDescription);
     }
   }];
-  
-  __weak typeof(self) weakSelf = self;
-
-  void (^expectedBlock) (OOVideo *currentItem); //params of OOCurrentItemChangedCallback
-  expectedBlock = ^ (OOVideo *currentItem) {
-    LOG(@"Method  -handleDiscoveryClick got expectedBlock");
-    NSString *arrivedCode = currentItem.embedCode;
-    if ([arrivedCode isEqualToString:embedCode]) {
-      NSLog(@"SUCCESS: asset with expected embed code [%@] ", arrivedCode);
-      [weakSelf.player play];
-    } else {
-      NSLog(@"❌ player with embed code [%@] that is not expected", arrivedCode);
-    }
-    //OS: 'currentItemChangedCallback' must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
-    weakSelf.player.currentItemChangedCallback = nil;
-  };
-  
-  self.player.currentItemChangedCallback = expectedBlock;
 }
 
 - (void)handleDiscoveryImpress:(NSString *)bucketInfo {
