@@ -102,9 +102,12 @@ static NSString *embedCodeKey       = @"embedCode";
     expectedBlock = ^ (OOVideo *currentItem) {
       LOG(@"Method -goToNextVideo got expectedBlock");
       NSString *arrivedCode = currentItem.embedCode;
-      if ([arrivedCode isEqualToString:expectedEmbedCode]) { //OS: must be checked, because OOBaseStreamPlayer observes 'AVPlayerItemStatusReadyToPlay' two times: when asset just attached and when asset is completed. If success - block must be removed after '[weakSelf.player play]', to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
-        NSLog(@"✅ SUCCESS: asset with EXPECTED embed code %@ ", arrivedCode);
+      
+      //OS: must be checked, because OOBaseStreamPlayer observes 'AVPlayerItemStatusReadyToPlay' two times: when asset just attached and when asset is completed.
+      if ([arrivedCode isEqualToString:expectedEmbedCode]) {
+        NSLog(@"SUCCESS: asset with expected embed code [%@] ", arrivedCode);
         [weakSelf.player play];
+        // If success - block 'currentItemChangedCallback' must be removed after '[weakSelf.player play]', to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
         weakSelf.player.currentItemChangedCallback = nil;
       } else {
         NSLog(@"❌ player with embed code [%@] that is not expected", arrivedCode);

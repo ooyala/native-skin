@@ -286,12 +286,12 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
     LOG(@"Method  -handleDiscoveryClick got expectedBlock");
     NSString *arrivedCode = currentItem.embedCode;
     if ([arrivedCode isEqualToString:embedCode]) {
-      NSLog(@"✅ SUCCESS: asset with EXPECTED embed code %@ ", arrivedCode);
+      NSLog(@"SUCCESS: asset with expected embed code [%@] ", arrivedCode);
       [weakSelf.player play];
     } else {
       NSLog(@"❌ player with embed code [%@] that is not expected", arrivedCode);
     }
-    //OS: must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
+    //OS: 'currentItemChangedCallback' must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
     weakSelf.player.currentItemChangedCallback = nil;
   };
   
