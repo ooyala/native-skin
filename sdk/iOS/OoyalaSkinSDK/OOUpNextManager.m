@@ -98,8 +98,6 @@ static NSString *embedCodeKey       = @"embedCode";
         [weakSelf.player play];
         // If success - block 'currentItemChangedCallback' must be removed after '[weakSelf.player play]', to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
         weakSelf.player.currentItemChangedCallback = nil;
-      } else {
-        LOG(@"❌ player with embed code [%@] that is not expected", arrivedCode);
       }
     };
     self.player.currentItemChangedCallback = expectedBlock;
@@ -111,9 +109,6 @@ static NSString *embedCodeKey       = @"embedCode";
     //new API from OOyalaSDK. Available > 4.46.0_GA
     [self.player setEmbedCode:self.nextVideo[embedCodeKey] withCallback:^(OOOoyalaError *error) {
       LOG(@"goToNextVideo setEmbedCode got callback");
-      if (error) {
-        LOG(@"❌ SetEmbedCode is NOT successfull. Error: %@", error.debugDescription);
-      }
     }];
 }
 

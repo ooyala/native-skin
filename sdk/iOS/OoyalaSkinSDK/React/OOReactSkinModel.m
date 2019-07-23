@@ -276,8 +276,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
     if ([arrivedCode isEqualToString:embedCode]) {
       LOG(@"SUCCESS: asset with expected embed code [%@] ", arrivedCode);
       [weakSelf.player play];
-    } else {
-      LOG(@"❌ player with embed code [%@] that is not expected", arrivedCode);
     }
     //OS: 'currentItemChangedCallback' must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
     weakSelf.player.currentItemChangedCallback = nil;
@@ -290,9 +288,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
   //new API from OOyalaSDK. Available > 4.46.0_GA
   [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
     LOG(@"DiscoveryClick setEmbedCode got callback");
-    if (error) {
-      LOG(@"❌ Is setEmbedCode is NOT successfull. Error: %@", error.debugDescription);
-    }
   }];
 }
 
