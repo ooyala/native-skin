@@ -268,27 +268,13 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
                           pcode:self.player.pcode
                      parameters:nil];
 
-  __weak typeof(self) weakSelf = self;
-  void (^expectedBlock) (OOVideo *currentItem); //params of OOCurrentItemChangedCallback
-  expectedBlock = ^(OOVideo *currentItem) {
-    LOG(@"Method  -handleDiscoveryClick got expectedBlock");
-    NSString *arrivedCode = currentItem.embedCode;
-    if ([arrivedCode isEqualToString:embedCode]) {
-      LOG(@"SUCCESS: asset with expected embed code [%@] ", arrivedCode);
-      [weakSelf.player play];
-    }
-    //OS: 'currentItemChangedCallback' must be removed anyway, to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
-    weakSelf.player.currentItemChangedCallback = nil;
-  };
-  self.player.currentItemChangedCallback = expectedBlock;
-  
+  [self.player activateDelayedPlaybackWhenReadyForEmbedCode:embedCode];
+
 #warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
   //[self.player setEmbedCode:embedCode];
   
   //new API from OOyalaSDK. Available > 4.46.0_GA
-  [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
-    LOG(@"DiscoveryClick setEmbedCode got callback");
-  }];
+  [self.player setEmbedCode:embedCode withCallback:nil];
 }
 
 - (void)handleDiscoveryImpress:(NSString *)bucketInfo {

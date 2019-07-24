@@ -85,31 +85,14 @@ static NSString *embedCodeKey       = @"embedCode";
   LOG(@"Going to next video based on Up Next");
   if (!self.isDismissed && self.nextVideo) {
     
-    __weak typeof(self) weakSelf = self;
-    NSString *expectedEmbedCode = weakSelf.nextVideo[embedCodeKey];
-    void (^expectedBlock) (OOVideo *currentItem); //params of OOCurrentItemChangedCallback
-    expectedBlock = ^(OOVideo *currentItem) {
-      LOG(@"Method -goToNextVideo got expectedBlock");
-      NSString *arrivedCode = currentItem.embedCode;
-      
-      //OS: must be checked, because OOBaseStreamPlayer observes 'AVPlayerItemStatusReadyToPlay' two times: when asset just attached and when asset is completed.
-      if ([arrivedCode isEqualToString:expectedEmbedCode]) {
-        LOG(@"SUCCESS: asset with expected embed code [%@] ", arrivedCode);
-        [weakSelf.player play];
-        // If success - block 'currentItemChangedCallback' must be removed after '[weakSelf.player play]', to prevent ignition from OOBaseStreamPlayer's KVO 'AVPlayerItemStatusReadyToPlay'
-        weakSelf.player.currentItemChangedCallback = nil;
-      }
-    };
-    self.player.currentItemChangedCallback = expectedBlock;
-  }
-  
+    [self.player activateDelayedPlaybackWhenReadyForEmbedCode:self.nextVideo[embedCodeKey]];
+
 #warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
     //[self.player setEmbedCode:self.nextVideo[embedCodeKey]];
     
     //new API from OOyalaSDK. Available > 4.46.0_GA
-    [self.player setEmbedCode:self.nextVideo[embedCodeKey] withCallback:^(OOOoyalaError *error) {
-      LOG(@"goToNextVideo setEmbedCode got callback");
-    }];
+    [self.player setEmbedCode:self.nextVideo[embedCodeKey] withCallback:nil];
+  }
 }
 
 - (void)currentItemChangedNotification:(NSNotification *)notification {
