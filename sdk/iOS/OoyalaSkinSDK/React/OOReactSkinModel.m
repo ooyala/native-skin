@@ -268,13 +268,11 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
                           pcode:self.player.pcode
                      parameters:nil];
 
-  [self.player activateDelayedPlaybackWhenReadyForEmbedCode:embedCode];
-
 #warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
   //[self.player setEmbedCode:embedCode];
   
   //new API from OOyalaSDK. Available > 4.46.0_GA
-  [self.player setEmbedCode:embedCode withCallback:nil];
+  [self.player setEmbedCode:embedCode shouldAutoPlay:YES withCallback:nil];
 }
 
 - (void)handleDiscoveryImpress:(NSString *)bucketInfo {
