@@ -659,7 +659,11 @@ export default class BottomOverlay extends React.Component<Props, State> {
   render() {
     const { config, live } = this.props;
 
-    if (live && (config.live && config.live.forceDvrDisabled)) {
+    if (config.controlBar.enabled === false) {
+      return null;
+    }
+
+    if (live && config.live && config.live.forceDvrDisabled) {
       return this.renderLiveWithoutDVR();
     }
 

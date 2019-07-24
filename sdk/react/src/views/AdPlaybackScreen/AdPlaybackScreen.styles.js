@@ -3,15 +3,18 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
-  adContainer: {
+  placeholder: {
+    flex: 1,
+    alignItems: 'stretch',
+    backgroundColor: 'transparent',
+  },
+  root: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'transparent',
     overflow: 'hidden',
   },
-  placeholder: {
+  safeArea: {
     flex: 1,
-    alignItems: 'stretch',
-    backgroundColor: 'transparent',
   },
 });
