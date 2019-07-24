@@ -35,10 +35,9 @@ public class BridgeMessageBuilder {
   public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
     int playerDuration = player.getDuration();
     WritableArray cuePoints = Arguments.createArray();
-    Set<Integer> cuePointsPercentValues = player.getCuePointsInPercentage();
+    Set<Integer> cuePointsPercentValues = player.getCuePointsInMilliSeconds();
     for (Integer cuePoint : cuePointsPercentValues) {
-      Double cuePointLocation = ((cuePoint / 100.0) * playerDuration) / 1000.0;
-      cuePoints.pushDouble(cuePointLocation);
+      cuePoints.pushDouble(cuePoint * 0.001);
     }
 
     WritableArray languages = Arguments.createArray();
@@ -47,8 +46,8 @@ public class BridgeMessageBuilder {
       languages.pushString(languageItem);
     }
 
-    Double duration = playerDuration / 1000.0;
-    Double playhead = player.getPlayheadTime() / 1000.0;
+    double duration = playerDuration / 1000.0;
+    double playhead = player.getPlayheadTime() / 1000.0;
 
     WritableMap params = Arguments.createMap();
     params.putDouble("duration", duration);
@@ -73,7 +72,7 @@ public class BridgeMessageBuilder {
       String promoUrl = currentItem.getPromoImageURL();
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
       //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : "";
-      Double duration = currentItem.getDuration() / 1000.0;
+      double duration = currentItem.getDuration() / 1000.0;
       params.putDouble("duration", duration);
     }
     return params;
@@ -95,7 +94,7 @@ public class BridgeMessageBuilder {
       String hostedAtUrl = player.getCurrentItem().getHostedAtUrl();
       params.putString("hostedAtUrl", hostedAtUrl != null ? hostedAtUrl : "");
 
-      Double duration = currentItem.getDuration() / 1000.0;
+      double duration = currentItem.getDuration() / 1000.0;
       params.putDouble("duration", duration);
       params.putBoolean("live", currentItem.isLive());
       params.putInt("width", width);
@@ -192,13 +191,13 @@ public class BridgeMessageBuilder {
       int unplayedCount = ad.getUnplayedCount();
       params.putInt("unplayedCount", unplayedCount);
 
-      Boolean adBar = ad.isAdbar();
+      boolean adBar = ad.isAdbar();
       params.putBoolean("requireAdBar", adBar);
 
-      Boolean controls = ad.isControls();
+      boolean controls = ad.isControls();
       params.putBoolean("requireControls", controls);
 
-      Double skipoffset = ad.getSkipOffset();
+      double skipoffset = ad.getSkipOffset();
       params.putDouble("skipoffset", skipoffset);
 
       if (ad.getIcons() != null && ad.getIcons().size() > 0) {
@@ -302,8 +301,8 @@ public class BridgeMessageBuilder {
 
   public static WritableMap buildAdPodCompleteParams(OoyalaPlayer player) {
     WritableMap params = Arguments.createMap();
-    Double duration = player.getDuration() / 1000.0;
-    Double playhead = player.getPlayheadTime() / 1000.0;
+    double duration = player.getDuration() / 1000.0;
+    double playhead = player.getPlayheadTime() / 1000.0;
     params.putDouble("duration", duration);
     params.putDouble("playhead", playhead);
     return params;
@@ -365,7 +364,7 @@ public class BridgeMessageBuilder {
       for (CastDevice device : castDevicesSet) {
         WritableMap castDevice = Arguments.createMap();
         castDevice.putString("id", device.getId());
-        castDevice.putString("title",   device.getName());
+        castDevice.putString("title", device.getName());
         castDevices.pushMap(castDevice);
       }
     }
@@ -377,16 +376,16 @@ public class BridgeMessageBuilder {
    * Use it to build Writable map with necessary params as:
    *
    * @param connectedDevice the connected device that will shown on cast control screen
-   * @param state               the start state of player
-   * @param url                 with video preview, to show black background simple keep empty or config skin.json
+   * @param state           the start state of player
+   * @param url             with video preview, to show black background simple keep empty or config skin.json
    * @return WritableMap with device name
    */
   public static WritableMap buildConnectedDeviceNameParams(Object connectedDevice, OoyalaPlayer.State state, String url) {
     WritableMap params = Arguments.createMap();
     WritableMap device = Arguments.createMap();
 
-    device.putString("id", ((CastDevice)connectedDevice).getId());
-    device.putString("title", ((CastDevice)connectedDevice).getName());
+    device.putString("id", ((CastDevice) connectedDevice).getId());
+    device.putString("title", ((CastDevice) connectedDevice).getName());
     params.putMap("connectedDevice", device);
     params.putBoolean("isPlaying", state == OoyalaPlayer.State.PLAYING);
     params.putString("previewURL", url);
