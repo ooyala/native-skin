@@ -547,9 +547,4 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   [self.ooReactSkinModel sendEventWithName:castManagerDidDisconnectDevice body:nil];
 }
 
-#pragma mark - Interaction with OOOoyalaPlayer
-- (void)playForJustChangedItem {
-  [self.player play];
-}
-
 @end
