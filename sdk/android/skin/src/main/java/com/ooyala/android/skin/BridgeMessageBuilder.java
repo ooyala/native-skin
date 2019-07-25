@@ -35,8 +35,7 @@ public class BridgeMessageBuilder {
   public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
     int playerDuration = player.getDuration();
     WritableArray cuePoints = Arguments.createArray();
-    Set<Integer> cuePointsPercentValues = player.getCuePointsInMilliSeconds();
-    for (Integer cuePoint : cuePointsPercentValues) {
+    for (Integer cuePoint : player.getCuePointsInMilliSeconds()) {
       cuePoints.pushDouble(cuePoint * 0.001);
     }
 
