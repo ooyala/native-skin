@@ -267,11 +267,6 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
                      bucketInfo:bucketInfo
                           pcode:self.player.pcode
                      parameters:nil];
-
-#warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
-  //[self.player setEmbedCode:embedCode];
-  
-  //new API from OOyalaSDK. Available > 4.46.0_GA
   [self.player setEmbedCode:embedCode shouldAutoPlay:YES withCallback:nil];
 }
 
@@ -407,12 +402,7 @@ NSString *const isPipButtonVisibleKey  = @"isPipButtonVisible";
 }
 
 //OS: called only by OOReactSkinBridgeModuleMain
-- (void)setEmbedCode:(NSString *)embedCode {
-  
-#warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
-  //[self.player setEmbedCode:embedCode];
-  
-  //new API from OOyalaSDK. Available > 4.46.0_GA
+- (void)setEmbedCode:(NSString *)embedCode {  
   [self.player setEmbedCode:embedCode withCallback:^(OOOoyalaError *error) {
     LOG(@"✅ Got callback. Is setEmbedCode successfull: [%@]", (error == nil) ? @"YES" : @"NO");
   }];

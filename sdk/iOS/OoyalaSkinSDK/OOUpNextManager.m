@@ -84,10 +84,6 @@ static NSString *embedCodeKey       = @"embedCode";
   // if upnext has not been dismissed and there is a next video, play the next video.
   LOG(@"Going to next video based on Up Next");
   if (!self.isDismissed && self.nextVideo) {
-#warning: old API. Remove when SDK version > 4.46.0_GA. If you need to use old API, uncomment -playForJustChangedItem in -bridgeCurrentItemChangedNotification: of 'OOSkinPlayerObserver'
-    //[self.player setEmbedCode:self.nextVideo[embedCodeKey]];
-    
-    //new API from OOyalaSDK. Available > 4.46.0_GA
     [self.player setEmbedCode:self.nextVideo[embedCodeKey] shouldAutoPlay:YES withCallback:nil];
   }
 }
