@@ -31,12 +31,13 @@ import java.util.Set;
 
 public class BridgeMessageBuilder {
   private static final String TAG = BridgeMessageBuilder.class.getSimpleName();
+  private static final float MILLISECONDS_IN_SECOND = 1000.0f;
 
   public static WritableMap buildTimeChangedEvent(OoyalaPlayer player) {
     int playerDuration = player.getDuration();
     WritableArray cuePoints = Arguments.createArray();
     for (Integer cuePoint : player.getCuePointsInMilliSeconds()) {
-      cuePoints.pushDouble(cuePoint * 0.001);
+      cuePoints.pushDouble(cuePoint / MILLISECONDS_IN_SECOND);
     }
 
     WritableArray languages = Arguments.createArray();
@@ -45,8 +46,8 @@ public class BridgeMessageBuilder {
       languages.pushString(languageItem);
     }
 
-    double duration = playerDuration / 1000.0;
-    double playhead = player.getPlayheadTime() / 1000.0;
+    double duration = playerDuration / MILLISECONDS_IN_SECOND;
+    double playhead = player.getPlayheadTime() / MILLISECONDS_IN_SECOND;
 
     WritableMap params = Arguments.createMap();
     params.putDouble("duration", duration);
@@ -71,7 +72,7 @@ public class BridgeMessageBuilder {
       String promoUrl = currentItem.getPromoImageURL();
       params.putString("promoUrl", promoUrl != null ? promoUrl : "");
       //String hostedAtUrl = _player.currentItem.hostedAtURL ? _player.currentItem.hostedAtURL : "";
-      double duration = currentItem.getDuration() / 1000.0;
+      double duration = currentItem.getDuration() / MILLISECONDS_IN_SECOND;
       params.putDouble("duration", duration);
     }
     return params;
@@ -93,7 +94,7 @@ public class BridgeMessageBuilder {
       String hostedAtUrl = player.getCurrentItem().getHostedAtUrl();
       params.putString("hostedAtUrl", hostedAtUrl != null ? hostedAtUrl : "");
 
-      double duration = currentItem.getDuration() / 1000.0;
+      double duration = currentItem.getDuration() / MILLISECONDS_IN_SECOND;
       params.putDouble("duration", duration);
       params.putBoolean("live", currentItem.isLive());
       params.putInt("width", width);
@@ -300,8 +301,8 @@ public class BridgeMessageBuilder {
 
   public static WritableMap buildAdPodCompleteParams(OoyalaPlayer player) {
     WritableMap params = Arguments.createMap();
-    double duration = player.getDuration() / 1000.0;
-    double playhead = player.getPlayheadTime() / 1000.0;
+    double duration = player.getDuration() / MILLISECONDS_IN_SECOND;
+    double playhead = player.getPlayheadTime() / MILLISECONDS_IN_SECOND;
     params.putDouble("duration", duration);
     params.putDouble("playhead", playhead);
     return params;
@@ -312,13 +313,13 @@ public class BridgeMessageBuilder {
     if (data != null) {
       SeekInfo seekInfo = (SeekInfo) data;
 
-      double seekStart = seekInfo.getSeekStart() / 1000.0;
+      double seekStart = seekInfo.getSeekStart() / MILLISECONDS_IN_SECOND;
       params.putDouble("seekstart", seekStart);
 
-      double seekEnd = seekInfo.getSeekEnd() / 1000.0;
+      double seekEnd = seekInfo.getSeekEnd() / MILLISECONDS_IN_SECOND;
       params.putDouble("seekend", seekEnd);
 
-      double totalDuration = seekInfo.getTotalDuration() / 1000.0;
+      double totalDuration = seekInfo.getTotalDuration() / MILLISECONDS_IN_SECOND;
       params.putDouble("duration", totalDuration);
     }
     return params;
