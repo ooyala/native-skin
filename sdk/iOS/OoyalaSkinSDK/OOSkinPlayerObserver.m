@@ -365,9 +365,14 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)bridgeErrorNotification:(NSNotification *)notification {
   OOOoyalaError *error = self.player.error;
   int errorCode = error ? error.code : -1;
-  NSNumber *code         = @(errorCode);
-  NSString *detail       = self.player.error.description ?: @"";
-  NSDictionary *userInfo = self.player.error.userInfo ?: @{};
+  NSNumber *code          = @(errorCode);
+  NSString *detailRaw     = self.player.error.description ?: @"";
+  NSMutableString *detail = [NSMutableString stringWithString:detailRaw];
+  NSDictionary *userInfo  = self.player.error.userInfo ?: @{};
+
+  if (self.player.currentItem.haEnabled && self.player.currentItem.retryCount > 0) {
+    [detail appendString:@"\n\nWe are trying to reconnect"];
+  }
 
   NSDictionary *eventBody = @{codeKey:        code,
                               descriptionKey: detail,
