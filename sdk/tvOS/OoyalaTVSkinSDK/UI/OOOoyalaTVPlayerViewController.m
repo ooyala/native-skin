@@ -273,6 +273,11 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       case OOOoyalaPlayerStateCompleted:
         [self.playPauseButton showReplayIcon];
         [self showProgressBar];
+        //OS: PLAYER-4160. When playback completed, 'playheadTime' is not equal to 'duration' (duration is rounded to higher digit). It's drawed as progress bar is not matches end of track and playheadTime not equal to duration.
+        Float64 duration = self.player.duration;
+        self.dateformatter.dateFormat = (duration < 3600) ? @"mm:ss" : @"H:mm:ss";
+        self.playheadLabel.text = [NSString stringWithFormat:@"%@", [self.dateformatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
+        [self updateBottomBarsWithPlayheadTime:duration];
         break;
       case OOOoyalaPlayerStateReady:
         [self stopActivityIndicator];
@@ -303,9 +308,9 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 #pragma mark - Private functions
 
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
-  self.dateformatter = (duration < 3600) ? @"mm:ss" : @"H:mm:ss";
-  self.playheadLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
-  self.durationLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
+  self.dateformatter.dateFormat = (duration < 3600) ? @"mm:ss" : @"H:mm:ss";
+  self.playheadLabel.text = [NSString stringWithFormat:@"%@", [self.dateformatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
+  self.durationLabel.text = [NSString stringWithFormat:@"%@", [self.dateformatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
   
   [self.playPauseButton changePlayingState:self.player.isPlaying];
   
