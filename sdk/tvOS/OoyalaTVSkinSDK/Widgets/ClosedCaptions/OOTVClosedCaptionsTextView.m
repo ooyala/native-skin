@@ -35,7 +35,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
     self.userInteractionEnabled = NO;
     // This is important!!!! make sure shadow can be shown
     self.backgroundColor = UIColor.clearColor;
-    if (style.presentation != OOClosedCaptionPaintOn) {
+    if (style.presentation != OOClosedCaptionPresentationPaintOn) {
       self.textAlignment = NSTextAlignmentCenter;
     }
     if (&MACaptionAppearanceCopyForegroundColor) {
