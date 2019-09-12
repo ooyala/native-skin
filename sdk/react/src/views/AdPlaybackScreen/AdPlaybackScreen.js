@@ -1,7 +1,9 @@
 // @flow
 
 import React from 'react';
-import { Image, TouchableHighlight, View } from 'react-native';
+import {
+  Image, SafeAreaView, TouchableHighlight, View,
+} from 'react-native';
 
 import AdBar from './AdBar';
 import { AUTOHIDE_DELAY, UI_SIZES, VALUES } from '../../constants';
@@ -312,23 +314,27 @@ export default class AdPlaybackScreen extends React.Component<Props, State> {
       }
     }
 
+    let children = null;
+
     if (config.adScreen.showControlBar) {
-      return (
-        <View style={styles.adContainer}>
-          {adBar}
-          {this.renderPlaceholder(adIcons)}
+      children = (
+        <React.Fragment>
           {this.renderPlayPause()}
           {this.renderBottomOverlay()}
-        </View>
+        </React.Fragment>
       );
+    } else if (!playing) {
+      children = this.renderPlayPause();
     }
 
     return (
-      <View style={styles.adContainer}>
-        {adBar}
-        {this.renderPlaceholder(adIcons)}
-        {!playing && this.renderPlayPause()}
-      </View>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.root}>
+          {adBar}
+          {this.renderPlaceholder(adIcons)}
+          {children}
+        </View>
+      </SafeAreaView>
     );
   }
 }

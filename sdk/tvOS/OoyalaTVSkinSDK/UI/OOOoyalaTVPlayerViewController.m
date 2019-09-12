@@ -39,6 +39,7 @@
 @property (nonatomic) NSMutableArray *tableList;
 @property (nonatomic) OOOoyalaTVClosedCaptionsView *closedCaptionsView;
 @property (nonatomic, getter=isBufferingAsked) BOOL bufferingAsked;
+@property (nonatomic) NSDateFormatter *dateformatter;
 
 @end
 
@@ -72,6 +73,10 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
   _closedCaptionsStyle.textFontName = @"Helvetica";
   _closedCaptionsStyle.backgroundOpacity = 0.4;
   self.optionsViewController = [[OOTVOptionsCollectionViewController alloc] initWithViewController:self];
+  
+  self.dateformatter = [NSDateFormatter new];
+  self.dateformatter.locale = NSLocale.systemLocale;
+  self.dateformatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -268,6 +273,11 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
       case OOOoyalaPlayerStateCompleted:
         [self.playPauseButton showReplayIcon];
         [self showProgressBar];
+        //OS: PLAYER-4160. When playback completed, 'playheadTime' is not equal to 'duration' (duration is rounded to higher digit). It's drawed as progress bar is not matches end of track and playheadTime not equal to duration.
+        Float64 duration = self.player.duration;
+        self.dateformatter.dateFormat = (duration < 3600) ? @"mm:ss" : @"H:mm:ss";
+        self.playheadLabel.text = [NSString stringWithFormat:@"%@", [self.dateformatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
+        [self updateBottomBarsWithPlayheadTime:duration];
         break;
       case OOOoyalaPlayerStateReady:
         [self stopActivityIndicator];
@@ -288,9 +298,7 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 }
 
 - (void)timeChangedNotification {
-  [self updateTimeWithDuration:self.player.duration
-                      playhead:self.player.playheadTime];
-  
+  [self updateTimeWithDuration:self.player.duration playhead:self.player.playheadTime];
   [self updateBottomBarsWithPlayheadTime:self.player.playheadTime];
   
   // We refresh CC view everytime player change state
@@ -300,12 +308,9 @@ static OOClosedCaptionsStyle *_closedCaptionsStyle;
 #pragma mark - Private functions
 
 - (void)updateTimeWithDuration:(CGFloat)duration playhead:(CGFloat)playhead {
-  NSDateFormatter *dateformat = [NSDateFormatter new];
-  dateformat.dateFormat = duration < 3600 ? @"mm:ss" : @"H:mm:ss";
-  dateformat.locale = NSLocale.systemLocale;
-  dateformat.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
-  self.playheadLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
-  self.durationLabel.text = [NSString stringWithFormat:@"%@", [dateformat stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
+  self.dateformatter.dateFormat = (duration < 3600) ? @"mm:ss" : @"H:mm:ss";
+  self.playheadLabel.text = [NSString stringWithFormat:@"%@", [self.dateformatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:playhead]]];
+  self.durationLabel.text = [NSString stringWithFormat:@"%@", [self.dateformatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:duration]]];
   
   [self.playPauseButton changePlayingState:self.player.isPlaying];
   

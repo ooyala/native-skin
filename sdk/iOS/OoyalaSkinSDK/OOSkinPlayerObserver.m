@@ -337,8 +337,6 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
   
   //OS: Flag must be changed depends on if current asset has new is-live-status
   self.liveHelper = (struct LiveAssetHelper) {self.adjustedPlayhead, self.player.currentItem.live};
-  #warning: Required for cases of using old API [self.player setEmbedCode:embedCode]. Remove when SDK version > 4.46.0_GA. Also remove  method '-playForJustChangedItem'  itself
-  //[self playForJustChangedItem];
 }
 
 - (void)bridgeStateChangedNotification:(NSNotification *)notification {
@@ -367,9 +365,14 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 - (void)bridgeErrorNotification:(NSNotification *)notification {
   OOOoyalaError *error = self.player.error;
   int errorCode = error ? error.code : -1;
-  NSNumber *code         = @(errorCode);
-  NSString *detail       = self.player.error.description ?: @"";
-  NSDictionary *userInfo = self.player.error.userInfo ?: @{};
+  NSNumber *code          = @(errorCode);
+  NSString *detailRaw     = self.player.error.description ?: @"";
+  NSMutableString *detail = [NSMutableString stringWithString:detailRaw];
+  NSDictionary *userInfo  = self.player.error.userInfo ?: @{};
+
+  if (self.player.currentItem.haEnabled && self.player.currentItem.retryCount > 0) {
+    [detail appendString:@"\n\nWe are trying to reconnect"];
+  }
 
   NSDictionary *eventBody = @{codeKey:        code,
                               descriptionKey: detail,
@@ -547,11 +550,6 @@ static NSString *castManagerDidDisconnectDevice = @"castDisconnected";
 
 - (void)castManagerDidDisconnectFromCurrentDevice {
   [self.ooReactSkinModel sendEventWithName:castManagerDidDisconnectDevice body:nil];
-}
-
-#pragma mark - Interaction with OOOoyalaPlayer
-- (void)playForJustChangedItem {
-  [self.player play];
 }
 
 @end

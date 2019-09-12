@@ -198,7 +198,7 @@ RCT_EXPORT_METHOD(onDiscoveryRow:(NSDictionary *)parameters) {
 }
 
 RCT_EXPORT_METHOD(onVisibilityControlsChanged:(NSDictionary *)parameters) {
-  BOOL isVisible = parameters[isVisibleKey];
+  BOOL isVisible = [parameters[isVisibleKey] boolValue];
   [self.skinModelDelegate onVisibilityControlsChanged:isVisible];
 }
 

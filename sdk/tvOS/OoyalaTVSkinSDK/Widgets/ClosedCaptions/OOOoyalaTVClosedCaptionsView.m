@@ -199,7 +199,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
     }
   }
   // If the presentation is PaintOn then the text should be added one by one later in different threads.
-  if (self.style.presentation != OOClosedCaptionPaintOn) {
+  if (self.style.presentation != OOClosedCaptionPresentationPaintOn) {
     self.textView.text = resultText;
   } else {
     self.textView.text = @""; // clean the layer before next text
@@ -220,7 +220,7 @@ static CGFloat arbitraryScalingFactor = 1.2;
                                    frameWidth,
                                    linePadding * 2 + maxLineSize.height * lineCount);
 
-  if (self.style.presentation == OOClosedCaptionPopOn) {
+  if (self.style.presentation == OOClosedCaptionPresentationPopOn) {
     self.textView.textAlignment = NSTextAlignmentCenter;
   }
   self.backgroundView.frame = self.textView.frame;

@@ -372,7 +372,7 @@ export default class ControlBarWidgets extends React.Component<Props> {
   };
 
   playbackSpeedWidget = (options) => {
-    let widget;
+    let widget = null;
 
     // Create accessibility label for selected playback speed rate button
     const playbackSpeedRateWithoutPostfix = options.selectedPlaybackSpeedRate.slice(0, -1);
