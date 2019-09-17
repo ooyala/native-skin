@@ -61,6 +61,7 @@ type Props = {
   inCastMode?: boolean,
   showWatermark?: boolean,
   markers: Array<Marker>,
+  inAdPod?: boolean,
 };
 
 type State = {
@@ -93,6 +94,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
     showPlaybackSpeedButton: undefined,
     inCastMode: undefined,
     showWatermark: undefined,
+    inAdPod: false,
   };
 
   static calculateLeftOffset(componentSize: number, percent: number, progressBarWidth: number) {
@@ -446,7 +448,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
   }
 
   renderDefaultProgressBar(playedPercent: number, scrubberBarAccessibilityLabel: string) {
-    const { ad, cuePoints } = this.props;
+    const { ad, cuePoints, inAdPod } = this.props;
     const { accessibilityEnabled, touch, x } = this.state;
 
     return (
@@ -454,10 +456,10 @@ export default class BottomOverlay extends React.Component<Props, State> {
         accessibilityLabel={scrubberBarAccessibilityLabel}
         accessible={accessibilityEnabled}
         importantForAccessibility="yes"
-        onTouchEnd={this.handleTouchEnd}
-        onTouchMove={this.handleTouchMove}
-        onTouchStart={this.handleTouchStart}
-        onTouchCancel={this.handleTouchEnd}
+        onTouchEnd={inAdPod ? null : this.handleTouchEnd}
+        onTouchMove={inAdPod ? null : this.handleTouchMove}
+        onTouchStart={inAdPod ? null : this.handleTouchStart}
+        onTouchCancel={inAdPod ? null : this.handleTouchEnd}
         style={styles.progressBarStyle}
         testID={VIEW_NAMES.TIME_SEEK_BAR}
       >
@@ -471,7 +473,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
 
   renderCompleteProgressBar() {
     const {
-      config, duration, playhead, screenReaderEnabled, shouldShowProgressBar, onScrub,
+      config, duration, playhead, screenReaderEnabled, shouldShowProgressBar, onScrub, inAdPod,
     } = this.props;
     const { cachedPlayhead } = this.state;
 
@@ -497,6 +499,7 @@ export default class BottomOverlay extends React.Component<Props, State> {
           accessibilityLabel={scrubberBarAccessibilityLabel}
           maximumTrackTintColor={maximumTrackTintColor}
           minimumTrackTintColor={minimumTrackTintColor}
+          disabled={inAdPod}
           maximumValue={duration}
           onValueChange={value => this.onValueChange(value, duration, onScrub, playhead)}
           step={1.0}

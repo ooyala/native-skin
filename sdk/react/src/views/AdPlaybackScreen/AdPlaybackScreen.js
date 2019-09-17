@@ -179,6 +179,7 @@ export default class AdPlaybackScreen extends React.Component<Props, State> {
         showAudioAndCCButton={false}
         showPlaybackSpeedButton={false}
         markers={markers}
+        inAdPod
       />
     );
   }
