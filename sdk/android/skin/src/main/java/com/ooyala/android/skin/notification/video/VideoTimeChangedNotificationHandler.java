@@ -39,11 +39,11 @@ public class VideoTimeChangedNotificationHandler extends BaseTimeChangedNotifica
       Caption caption = cc.getCaption(language, currentTime);
       if (caption != null) {
         captionText = caption.getText();
+
+        WritableMap params = Arguments.createMap();
+        params.putString("text", captionText);
+        layoutController.sendEvent(OoyalaSkinPlayerObserver.CLOSED_CAPTIONS_UPDATE_EVENT, params);
       }
     }
-
-    WritableMap params = Arguments.createMap();
-    params.putString("text", captionText);
-    layoutController.sendEvent(OoyalaSkinPlayerObserver.CLOSED_CAPTIONS_UPDATE_EVENT, params);
   }
 }
