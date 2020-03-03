@@ -52,7 +52,7 @@ allprojects {
     }
 }
 
-project.ext.libraryVersion = 'v4.50.0_RC1'
+project.ext.libraryVersion = 'v4.51.0_RC1'
 project.ext.publishedGroupId = 'com.ooyala.android'
 project.ext.bintrayRepo = "maven"
 
